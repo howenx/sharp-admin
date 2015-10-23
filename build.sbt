@@ -1,4 +1,4 @@
-name := """style-adbk"""
+name := """style-admin"""
 
 version := "1.0-SNAPSHOT"
 
