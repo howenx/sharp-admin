@@ -1,0 +1,399 @@
+@(language:String, brandsList:List[entity.Brands], catesParentList:List[entity.Cates])
+
+@headopts = {
+<style type="text/css">
+#gallery .thumbnail {
+    display: table;
+    width: 150px;
+    height: 150px;
+    float: left;
+    margin: 10px;
+    }
+    #gallery .thumbnail img {
+    width: 200px;
+    }
+
+    .orangellow.button {
+    background-color: #ffb515;
+    }
+    .orangellow.button:hover {
+    text-decoration: none;
+    background-color: #fc9200;
+    }
+
+    .large.button {
+    font-size: 14px;
+    padding: 8px 19px 9px;
+    }
+
+</style>
+}
+
+@body = {
+
+<input id="lang-input" type="hidden" value="@language">
+
+<form method="post" action="/insertProducts" id="insertProducts" enctype="multipart/form-data">
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">@Messages("item.add.title")</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="language">@Messages("item.add.language")</label>
+
+    <div class="controls">
+        <select name="language" id="language" onchange="changeLang()">
+            <option value=></option>
+            <option value="cn">Chinese</option>
+            <option value="en">English</option>
+            <option value="kr">Korea</option>
+        </select>
+    </div>
+</div>
+
+<label class="control-label" for="categorySelect">@Messages("item.add.cate")</label>
+<select
+        id="categorySelect" placeholder="请选择一个类别...">
+    <option value=""></option>
+    @for(cates <- catesParentList) {
+    <option value="@cates.getCateId()">@cates.getCateNameCn()
+    </option>
+    }
+
+</select>
+
+<div id="divDynamicSubCates">
+    <select id='categorySubSelect' placeholder='请选择一个类别...' class='chosen-select' name="cateId">
+        <option value=''></option>
+    </select>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="cateName">@Messages("item.add.addCate")</label>
+
+    <div class="controls">
+        <input class="input-xlarge focused" id="cateName" name="cateName" type="text">
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="bandSelect">@Messages("item.add.brand")</label>
+
+    <div class="controls">
+        <select id="bandSelect" placeholder="请选择一个品牌..." class="chosen-select" name="brandId">
+            <option value=""></option>
+            @for(b <- brandsList) {
+            <option value="@b.getBrandId()">@b.getBrandNmCn()
+            </option>
+            }
+        </select>
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="brandName">@Messages("item.add.addBrand")</label>
+
+    <div class="controls">
+        <input class="input-xlarge focused" id="brandName" name="brandName" type="text">
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="merchName">供应商</label>
+
+    <div class="controls">
+        <input class="input-xlarge focused" id="merchName" name="merchName" type="text">
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="productName">商品名称</label>
+
+    <div class="controls">
+        <input class="input-xlarge focused" id="productName" name="productName" type="text">
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="productColor">商品颜色</label>
+
+    <div class="controls">
+        <input class="input-xlarge focused" id="productColor" name="productColor" type="text">
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="productSize">商品尺寸</label>
+
+    <div class="controls">
+        <input class="input-xlarge focused" id="productSize" name="productSize" type="text">
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="productDesc">商品详情</label>
+
+    <div class="controls">
+        <textarea class="input-xlarge focused" id="productDesc" name="productDesc"></textarea>
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="sourceArea">原产地</label>
+
+    <div class="controls">
+        <input class="input-xlarge focused" id="sourceArea" name="sourceArea" type="text">
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="storeArea">库存地</label>
+
+    <div class="controls">
+        <input class="input-xlarge focused" id="storeArea" name="storeArea" type="text">
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="productAmount">库存量</label>
+
+    <div class="controls">
+        <input class="input-xlarge focused" id="productAmount" name="productAmount" type="text">
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="productPrice">价格</label>
+
+    <div class="controls">
+        <input class="input-xlarge focused" id="productPrice" name="productPrice" type="text">
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="recommendPrice">建议销售价</label>
+
+    <div class="controls">
+        <input class="input-xlarge focused" id="recommendPrice" name="recommendPrice" type="text">
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label">销售期限</label>
+
+    <div class="controls">
+        <input class="input-xlarge focused" id="sellOnDate" name="sellOnDate" type="text"> ~
+        <input class="input-xlarge focused" id="sellOffDate" name="sellOffDate" type="text">
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="features">商品参数</label>
+
+    <div class="controls">
+        <textarea class="input-xlarge focused" id="features" name="features"></textarea>
+    </div>
+</div>
+
+<div class="control-group">
+
+    <label class="control-label">商品主图片</label><br/><br/>
+
+    <div id="dropbox">
+        <a class="large orangellow button" style="margin-bottom:10px;position:relative;" id='upbn'>Upload</a>
+        <input type="hidden" id="masterImg" name="masterImg" />
+        <input style="display:none;" type="file" id="fileinput" name="displayImage" accept="image/gif, image/jpeg, image/webp, image/png" />
+        <div id="gallery" style="display: table;border: 1px solid #ddd;"></div>
+        <h3>压缩后图片</h3>
+        <div id='gpicnm' style="position:relative;margin-top:10px;width:750px;border: 1px solid #ddd;"></div>
+    </div>
+</div>
+
+<br/>
+
+</form>
+
+<div>
+    <button type="button" id="submitProducts" onclick="submitProducts()">添加</button>
+</div>
+
+
+}
+
+@admin("添加商品", headopts){
+@body
+}
+
+<script type="text/javascript">
+ $(function()  {
+    $("#language").val($('#lang-input').val());
+   // $("#language :selected").text('Chinese')
+    /* 一级类别改变重新加载二级类别*/
+    $('#categorySelect').change(function() {
+        var pcid = $("#categorySelect").val();
+        $.ajax({
+            type: "get",
+            data: "pcid="+ pcid,
+            url: "/getSubcates",
+            success: function(data) {
+                if (typeof data != undefined && data.length > 0 && data != null) {
+                    $('#categorySubSelect').empty();
+                    $('#categorySubSelect').append('<option value=""></option>');
+                    $.each(data, function (i, item) {
+                        $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNameCn + "</option>");
+                    });
+                }
+                else {
+                    $("#categorySubSelect").empty();
+                }
+            }
+        });
+    });
+ })
+
+ function changeLang() {
+    location.replace('/itemCreate?lang='+$("#language").val());
+ }
+
+<!--function masterUpload() {-->
+   <!--//alert("请选择图片");-->
+    <!--var formdata = new FormData();-->
+    <!--var file = $('#masterImg')[0];-->
+    <!--var params ="minify";-->
+    <!--formdata.append("photo", file);-->
+    <!--formdata.append("params", params);-->
+    <!--var http = new XMLHttpRequest();-->
+    <!--if (window.XMLHttpRequest) {-->
+        <!--http = new XMLHttpRequest();-->
+    <!--}-->
+    <!--var url = "http://172.28.3.18:3008/upload";-->
+    <!--http.open("POST",url,true);-->
+    <!--http.onreadystatechange = function() {-->
+        <!--if (http.readyState == 4 && http.status == 200) {-->
+            <!--var data = JSON.parse(http.responseText);-->
+            <!--alert(data.message);-->
+        <!--}-->
+    <!--}-->
+    <!--http.send(formdata);-->
+<!--}-->
+
+
+var uploadfiles = document.querySelector('#fileinput');
+
+uploadfiles.addEventListener('change', function() {
+    var files = this.files;
+    for (var i = 0; i < files.length; i++) {
+        previewImage(this.files[i]);
+        //upload(this.files[i]);
+    }
+
+}, false);
+
+    $('#upbn').on("click", function() {
+        $('#fileinput').click();
+  	});
+
+  	function previewImage(file) {
+  		var galleryId = "gallery";
+
+  		var gallery = document.getElementById(galleryId);
+  		var imageType = /image.*/;
+
+  		if (!file.type.match(imageType)) {
+  			throw "File Type must be an image";
+  		}
+
+  		var thumb = document.createElement("div");
+  		thumb.classList.add('thumbnail');
+  		var img = document.createElement("img");
+  		img.file = file;
+  		thumb.appendChild(img);
+
+  		gallery.appendChild(thumb);
+
+  		// Using FileReader to display the image content
+  		var reader = new FileReader();
+  		reader.onload = (function(aImg) {
+  			return function(e) {
+  				aImg.src = e.target.result;
+  			};
+  		})(img);
+  		reader.readAsDataURL(file);
+  		upload(thumb, file);
+  	}
+
+
+  	var masterImg = "";
+
+function upload(thumb, file) {
+
+    var formdata = new FormData();
+    formdata.append("photo", file);
+    formdata.append("params", "minify");
+    var http = new XMLHttpRequest();
+    var url = "http://172.28.3.18:3008/upload";
+    http.open("POST", url, true);
+    http.onreadystatechange = function() {
+        if (http.readyState == 4 && http.status == 200) {
+            var data = JSON.parse(http.responseText);
+            alert(data.message);
+            var input= document.createElement("input");
+            thumb.appendChild(input);
+            input.id = $('#gallery').children().length;
+            input.type="hidden";
+            input.name=data.imgid;
+            input.value=data.path;
+            //alert($("#"+input.id).val());
+            masterImg = masterImg + $("#"+input.id).val() + ", ";
+            $('#masterImg').val(masterImg);
+            //alert($('#masterImg').val());
+            if (typeof data.compress != 'undefined' && data.compress != null) {
+                $('#gpicnm').append('<span style="display:block;margin:10px;width:100%;">第' + ($('#gallery').children().length)
+                + '张图片名称：<b>' + data.imgid + '</b><br>图片URL：<b>'
+                +data.minify_url+'</b><br><b>压缩前大小:'
+                + data.compress.before + ' 压缩后大小:' + data.compress.after + ' 用时:' + data.compress.time + ' 压缩率:' + data.compress.rate + ' 图片path:' + data.path  + '</b></span>'  );
+            }
+            $(':radio[name=select-minify]').each(function(index, element) {
+                $(this).prop('checked', false);
+            })
+        }
+    }
+    http.send(formdata);
+  	}
+
+
+
+function submitProducts() {
+    var isPost = true;
+    var numberReg =  /[0-9]+/igm;
+    if ($("#categorySubSelect").val()=="" && $("#cateName").val()=="") {
+        isPost=false;
+    }
+    if ($("#bandSelect").val()=="" && $("#brandName").val()=="") {
+        isPost=false;
+    }
+    if ($("#language").val=="" || $("#merchName").val=="" || $("#productName").val=="" || $("#productColor").val==""
+        || $("#productSize").val=="" || $("#productDesc").val=="" || $("#sourceArea").val=="" || $("#storeArea").val==""
+        || $("#features").val=="" || $("#sellOnDate").val=="" || $("#sellOffDate").val=="") {
+        isPost=false;
+    }
+    if (!numberReg.test($("#productAmount").val())) {
+        alert("库存量为正整数!");
+        isPost=false;
+    }
+    if (!numberReg.test($("#productPrice").val()) && !numberReg.test($("#recommendPrice").val())) {
+        alert("价格为整数或小数!");
+        isPost=false;
+    }
+    if (isPost) {
+       $("#insertProducts").submit();
+    }
+}
+
+</script>
+
+

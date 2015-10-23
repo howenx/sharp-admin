@@ -1,0 +1,509 @@
+@(language:String, brandsList:List[entity.Brands], catesParentList:List[entity.Cates])
+
+@headopts = {
+
+<link rel="stylesheet" href="/assets/css/xspsc.css"/>
+<script src="/assets/js/xspsc.js"></script>
+
+<!-- 日历-->
+<link href="/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+
+<!-- edit -->
+<script type="text/javascript" charset="utf-8" src="/assets/editorphp/ueditor.config.js"></script>
+<!--<script type="text/javascript" charset="utf-8" src="/assets/editorphp/ueditor.all.js"></script>-->
+<!--建议手动加载语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<!--<script type="text/javascript" charset="utf-8" src="/assets/editorphp/lang/zh-cn/zh-cn.js"></script>-->
+
+<!--<script type="text/javascript" charset="utf-8" src="/assets/editorphp/ueditor.create.js"></script>-->
+
+}
+
+@body = {
+
+<!-- nav-->
+
+<div class="contentA">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Kakao Seller admin</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="cur"><a href="#">公告管理</a></li>
+                <li><a href="#">活动管理</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        表情管理
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">jmeter</a></li>
+                        <li><a href="#">EJB</a></li>
+                        <li><a href="#">Jasper Report</a></li>
+
+                    </ul>
+                </li>
+
+                <li><a href="#">主体管理</a></li>
+                <li><a href="#">应用信息管理</a></li>
+
+            </ul>
+        </div>
+        <div class="info1 r">
+            <span class="l">用户名</span>
+            <a class="r" href="#">退出</a>
+        </div>
+    </nav>
+</div>
+
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <input id="lang-input" type="hidden" value="@language">
+            <form class="form-horizontal" method="post" action="/insertProducts" id="insertProducts" enctype="multipart/form-data">
+                <h1 class="tit1">商品基本信息</h1>
+
+                <div class="upinfo">
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages("item.add.language")</div></label>
+                        <div class="col-sm-3">
+                            <select class="form-control" id="language" name="language" onchange="changeLang()">
+                                <option value="">请选择</option>
+                                <option value="cn">Chinese</option>
+                                <option value="en">English</option>
+                                <option value="kr">Korea</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages("item.add.cate")</div></label>
+                        <div class="col-sm-3">
+                            <select class="form-control" id="categorySelect">
+                                <option value="">请选择</option>
+                                @for(cates <- catesParentList) {
+                                <option value="@cates.getCateId()">@cates.getCateNameCn()
+                                </option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-sm-3" id="divDynamicSubCates">
+                            <select class="form-control" id='categorySubSelect' name="cateId">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages("item.add.brand")</div></label>
+
+                        <div class="col-sm-3">
+                            <select class="form-control" id="bandSelect" name="brandId">
+                                <option value="">请选择</option>
+                                @for(b <- brandsList) {
+                                <option value="@b.getBrandId()">@b.getBrandNmCn()
+                                </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">商品名称</div></label>
+
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="productName" name="productName">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ><div class="r">商品颜色</div></label>
+
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="productColor" name="productColor">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ><div class="r">商品规格</div></label>
+
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="productSize" name="productSize">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ><div class="r">供货商</div></label>
+
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="merchName" name="merchName">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">市场价</div></label>
+
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="productPrice" name="productPrice">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">销售价</div></label>
+
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="recommendPrice" name="recommendPrice">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">原产地</div></label>
+
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="sourceArea" name="sourceArea">
+                        </div>
+                    </div>
+
+                    <!-- 商品销售信息-->
+                    <h1 class="tit1">商品销售信息</h1>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">销售期限</div></label>
+
+                        <div class="col-sm-3">
+                            <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy" data-link-field="dtp_input1">
+                                <input class="form-control" size="16" type="text" value="" readonly id="sellOnDate" name="sellOnDate">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+                        <div class="to l">~</div>
+                        <div class="col-sm-3">
+                            <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy" data-link-field="dtp_input1">
+                                <input class="form-control" size="16" type="text" value="" readonly id="sellOffDate" name="sellOffDate">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ><div class="r">库存量</div></label>
+
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="productAmount" name="productAmount">
+                        </div>
+                    </div>
+
+                    <!-- 商品详细信息-->
+                    <h1 class="tit1">商品详细信息</h1>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">上传商品主图片</div><div class="r" style="padding:20px 30px 20px;">(一张)</div></label>
+
+                        <div class="col-sm-10">
+                            <div class="sctp" style="width:350px">
+                                <div class="sctp1 l">
+                                    <a href="#" id="masterImgAdd">添加图片</a>
+                                    <input type="hidden" id="masterImg" name="masterImg" value=""/>
+                                    <input type="file" id="fileinput1" name="image" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png" />
+                                </div>
+                                <div class="imgk l" id="gallery1" style="width:150px">
+                                    <!--<div class="imgyl" >-->
+                                        <!--<button type="button" class="close"><span>&times;</span></button>-->
+                                    <!--</div>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">上传商品预览图</div><div class="r" style="padding:20px;">(最多六张)</div></label>
+
+                        <div class="col-sm-10">
+                            <div class="sctp">
+                                <div class="sctp1 l">
+                                    <a href="#">添加图片</a>
+                                    <input type="hidden" id="previewImgs" name="previewImgs" />
+                                    <input type="file" id="fileinput2"  name="image" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                                </div>
+                                <div class="imgk l" id="gallery2" name="gallery2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">上传商品详细图</label>
+
+                        <div class="col-sm-10">
+                            <div class="sctp">
+                                <div class="sctp1 l">
+                                    <a href="#">添加图片</a>
+                                    <input type="hidden" id="detailImgs" name="detailImgs" />
+                                    <input type="file" id="fileinput3" name="image" class="hidden1" value=""/>
+                                </div>
+                                <div class="imgk l" id="gallery3">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">商品详情</label>
+
+                        <div class="col-sm-10">
+                            <!--<script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>-->
+                            <input type="text" class="form-control" id="productDesc" name="productDesc">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">属性信息</label>
+
+                        <div class="col-sm-7" id="tabFea">
+                            <input type="hidden" class="form-control" id="features" name="features">
+                            <table class="table table-bordered qubian">
+                                <tr>
+                                    <td >属性名</td>
+                                    <td width=350px>属性值</td>
+                                    <td class="add">
+                                        <a id="add">添加</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" name="attrN"/></td>
+                                    <td><input type="text" name="attrV"/></td>
+                                    <td class="del">删除</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="mybtns">
+                        <a href="#" class="btn btn-primary btn-lg active btncl" role="button" id="submitProducts" onclick="submitProducts()">添加</a>
+                        <a href="#" class="btn btn-primary btn-lg active btncl" role="button">取消</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+}
+
+@admin("kakao seller admin", headopts){
+
+@body
+
+}
+
+<script type="text/javascript">
+ $(function()  {
+    //$("#language").val($('#lang-input').val());
+    /* 一级类别改变重新加载二级类别*/
+    $('#categorySelect').change(function() {
+        var pcid = $("#categorySelect").val();
+        $.ajax({
+            type: "get",
+            data: "pcid="+ pcid,
+            url: "/getSubcates",
+            success: function(data) {
+                if (typeof data != undefined && data.length > 0 && data != null) {
+                    $('#categorySubSelect').empty();
+                    $('#categorySubSelect').append('<option value=""></option>');
+                    $.each(data, function (i, item) {
+                        $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNameCn + "</option>");
+                    });
+                }
+                else {
+                    $("#categorySubSelect").empty();
+                }
+            }
+        });
+    });
+ })
+
+function changeLang() {
+    location.replace('/itemCreate?lang='+$("#language").val());
+ }
+
+//表单数据提交
+
+function submitProducts() {
+    var isPost = true;
+    var numberReg =  /[0-9]+/igm;
+    if ($("#categorySubSelect").val()=="" && $("#cateName").val()=="") {
+        isPost=false;
+    }
+    if ($("#bandSelect").val()=="" && $("#brandName").val()=="") {
+        isPost=false;
+    }
+    if ($("#language").val=="" || $("#merchName").val=="" || $("#productName").val=="" || $("#productColor").val==""
+        || $("#productSize").val=="" || $("#productDesc").val=="" || $("#sourceArea").val=="" || $("#storeArea").val==""
+        || $("#features").val=="" || $("#sellOnDate").val=="" || $("#sellOffDate").val=="") {
+        alert("必填项不能为空");
+        isPost=false;
+    }
+    if (!numberReg.test($("#productAmount").val())) {
+        alert("库存量为正整数!");
+        isPost=false;
+    }
+    if (!numberReg.test($("#productPrice").val()) && !numberReg.test($("#recommendPrice").val())) {
+        alert("价格为整数或小数!");
+        isPost=false;
+    }
+     //遍历所有属性及属性值累加到隐藏域features中且属性名或值不能为空
+    var features = "";
+    var tabFea = document.getElementById("tabFea");
+    var attrN = document.getElementsByName("attrN");
+    var attrV = document.getElementsByName("attrV");
+    for(i=0; i<attrN.length; i++) {
+        if (attrN[i].value=="" || attrV[i].value=="") {
+            alert("属性名或值不能有空!");
+            isPost=false;
+        }
+        features = features + attrN[i].value + ":" + attrV[i].value+",";
+    }
+    $('#features').val(features);
+    if (isPost) {
+       $("#insertProducts").submit();
+    }
+}
+
+//上传图片
+
+var uploadfiles1 = document.querySelector('#fileinput1');
+var uploadfiles2 = document.querySelector('#fileinput2');
+var uploadfiles3 = document.querySelector('#fileinput3');
+
+//商品主图
+
+uploadfiles1.addEventListener('change', function() {
+
+    var files = this.files;
+    var id = 1;
+    for (var i = 0; i < files.length; i++) {
+        previewImage(this.files[i], id);
+    }
+}, false);
+
+//商品预览图
+
+uploadfiles2.addEventListener('change', function() {
+    var files = this.files;
+    var id = 2;
+    for (var i = 0; i < files.length; i++) {
+        previewImage(this.files[i], id);
+    }
+}, false);
+
+//商品详细图
+
+uploadfiles3.addEventListener('change', function() {
+    var files = this.files;
+    var id = 3;
+    for (var i = 0; i < files.length; i++) {
+        previewImage(this.files[i], id);
+    }
+}, false);
+
+function previewImage(file, id) {
+    var galleryId = "gallery" + id;
+  	var gallery = document.getElementById(galleryId);
+    var imageType = /image.*/;
+
+    if (!file.type.match(imageType)) {
+        throw "File Type must be an image";
+    }
+
+    var thumb = document.createElement("div");
+    thumb.classList.add('imgyl');
+    var button = document.createElement("button");
+    button.classList.add('close');
+    var span = document.createElement("span");
+    $(button).append('<span>&times;</span>');
+    var img = document.createElement("img");
+    img.file = file;
+    gallery.appendChild(thumb);
+    thumb.appendChild(button);
+    thumb.appendChild(img);
+
+
+     upload(thumb, file, id);
+
+    // Using FileReader to display the image content
+    var reader = new FileReader();
+    reader.onload = (function(aImg) {
+        return function(e) {
+            aImg.src = e.target.result;
+        };
+    })(img);
+    reader.readAsDataURL(file);
+}
+
+
+function upload(thumb, file, id) {
+    var formdata = new FormData();
+    formdata.append("photo", file);
+    formdata.append("params", "minify");
+    var http = new XMLHttpRequest();
+    var url = "http://172.28.3.18:3008/upload";
+    http.open("POST", url, true);
+    http.onreadystatechange = function() {
+        if (http.readyState == 4 && http.status == 200) {
+            var data = JSON.parse(http.responseText);
+
+            var input= document.createElement("input");
+            thumb.appendChild(input);
+            imgName = data.imgid;
+            input.id = imgName.substr(0,imgName.lastIndexOf("."));
+            input.type="hidden";
+            input.name=data.imgid;
+            input.value=data.path;
+
+            alert(data.message);
+            if (id==1) {
+                //添加商品主图片遍历所有input标签,其值累加到隐藏域masterImg中
+                var masterImg = "";
+                divs1 = document.getElementById("gallery1");
+                inps1 = divs1.getElementsByTagName("input");
+                for(i=0; i<inps1.length; i++) {
+                    masterImg = masterImg + inps1[i].value + ",";
+                }
+                $('#masterImg').val(masterImg);
+            } else if (id==2) {
+                //每次添加商品预览图遍历所有input标签,其值累加到隐藏域previewImgs中
+                var previewImgs = "";
+                divs2 = document.getElementById("gallery2");
+                inps2 = divs2.getElementsByTagName("input");
+                for(i=0; i<inps2.length; i++) {
+                    previewImgs = previewImgs + inps2[i].value + ",";
+                }
+                $('#previewImgs').val(previewImgs);
+            } else if (id==3) {
+                //每次添加商品详细图片遍历所有input标签,其值累加到隐藏域detailImgs中
+                var detailImgs = "";
+                divs3 = document.getElementById("gallery3");
+                inps3 = divs3.getElementsByTagName("input");
+                for(i=0; i<inps3.length; i++) {
+                    detailImgs = detailImgs + inps3[i].value + ",";
+                }
+                $('#detailImgs').val(detailImgs);
+            }
+
+            if ($('#masterImg').val() != "") {
+                 //上传商品主图主图后,上传按钮置为不可点击
+                 $("#fileinput1").attr({"disabled":true});
+                 document.getElementById('masterImgAdd').style.background="#ccc";
+            }
+        }
+    }
+    http.send(formdata);
+}
+
+
+</script>

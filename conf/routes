@@ -1,0 +1,18 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+
+GET				/itemCreate              	  controllers.Item.itemCreate
+GET             /getSubcates                  controllers.Item.getSubCategory
+POST            /insertProducts               controllers.Item.insertProducts
+GET             /changeLanguage               controllers.Item.changeLanguage
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+#editor
+#GET     /editorController			controllers.EditorApplication.editorController()
+#POST    /editorController			controllers.EditorApplication.editorController()
+
