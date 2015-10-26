@@ -100,4 +100,13 @@ $(function(){
 
     });
 
+    $(document).on('click','.yanse .close,.size .close',function() {
+        $(this).parent().remove();
+    })
+    $(document).on('click','.yanse .add,.size .add',function() {
+        $("<li>").html('<span><input type="text"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
+    })
+    $(document).on('click','.fdel .close',function() {
+        $(this).parents(".fdel").remove();
+    })
 });

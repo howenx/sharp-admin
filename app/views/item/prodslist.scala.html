@@ -1,0 +1,124 @@
+@(prodsList:List[entity.Products])
+
+@headopts = {
+
+
+    <!-- 日历-->
+    <link rel="stylesheet" href="/assets/css/bootstrap-datepicker.min.css"/>
+    <script src="/assets/js/bootstrap-datepicker.min.js"></script>
+    <script src="/assets/js/bootstrap-datepicker.fr.js"></script>
+
+    <link rel="stylesheet" href="/assets/css/xspsc.css"/>
+    <link rel="stylesheet" href="/assets/css/list.css">
+    <script src="/assets/js/list.js"></script>
+
+}
+
+@body = {
+
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>商品管理</h3>
+                <table class="table table-bordered tbone">
+                    <tr>
+                        <th>
+                            <span>状态</span>
+                        </th>
+                        <td>
+                            <select class="form-control">
+                                <option value="">全部</option>
+                                <option value="Y">正常</option>
+                                <option value="D">到期商品</option>
+                                <option value="N">删除</option>
+                                <option value="K">售空</option>
+                            </select>
+                        </td>
+                        <th>
+                            <span>销售起止日期</span>
+                        </th>
+                        <td>
+                            <div class="input-daterange input-group" id="datepicker">
+                                <input type="text" class="input-sm form-control" name="start"/>
+                                <span class="input-group-addon">to</span>
+                                <input type="text" class="input-sm form-control" name="end"/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>商品名称</th>
+                        <td>
+                            <input type="text" class="form-control">
+                        </td>
+                        <th>登录人</th>
+                        <td>
+                            <input type="text" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <a href="#">搜索</a>
+                            <input type="reset" value="初始化"/>
+                        </td>
+                    </tr>
+                </table>
+                <button type="button" class="btn btn-primary btn-xs r">同步购物车商品</button>
+                <div class="bgk">
+                    <table class="table table-bordered tbtwo l">
+                        <tr class="trone">
+                            <td>商品ID</td>
+                            <td>供货商</td>
+                            <td>品牌名称</td>
+                            <td>商品名称</td>
+                            <td>商品类别</td>
+                            <td>商品主图</td>
+                            <td>颜色</td>
+                            <td>尺寸</td>
+                            <td >销售开始日期</td>
+                            <td>销售结束日期</td>
+                            <td>市场价</td>
+                            <td>销售价</td>
+                            <td>原产地</td>
+                            <td>库存量</td>
+                            <td>商品详情</td>
+                            <td>属性信息</td>
+                            <td>修改人</td>
+                            <td>修改时间</td>
+                        </tr>
+                        @for(p <- prodsList) {
+                            <tr>
+                                <td>@p.getId()</td>
+                                <td>@p.getMerchName()</td>
+                                <td>@p.getBrandId()</td>
+                                <td>@p.getProductName()</td>
+                                <td>@p.getCateId()</td>
+                                <td><img src="http://172.28.3.18:3008@p.getMasterImg()" alt="" width="40" height="40"/></td>
+                                <td>@p.getProductColor()</td>
+                                <td>@p.getProductSize()</td>
+                                <td>@p.getSellOnDate()</td>
+                                <td>@p.getSellOffDate()</td>
+                                <td>@p.getProductPrice()</td>
+                                <td>@p.getRecommendPrice()</td>
+                                <td>@p.getSourceArea()</td>
+                                <td>@p.getProductAmount()</td>
+                                <td>@p.getProductDesc()</td>
+                                <td>@p.getFeatures()</td>
+                                <td>@p.getDestoryUid()</td>
+                                <td>@p.getUpdateDate()</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
+
+@admin("Products Management", headopts){
+
+@body
+
+}

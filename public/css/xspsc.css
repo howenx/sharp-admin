@@ -167,7 +167,8 @@ ul,li{
     border: 1px solid #ccc;overflow: hidden;padding: 20px 30px;
 }
 .mybtns .btncl{
-    background: #00B7EE;border: 1px solid #00B7EE;
+    background: #00B7EE;border: 1px solid #00B7EE;border-radius: 3px;
+    height: 36px;line-height: 16px;margin-left: 10px;
 }
 .imgyl{
     width: 100px;height: 100px;border: 1px solid #ccc;
@@ -180,13 +181,58 @@ ul,li{
 .imgyl img {
     width: 98px;
     height: 87px;
-    }
+}
 
 .imgyl .close{
     padding-right: 5px;
 }
 
 
+.yanse{
+    width: 100%;height: 100%;border: 1px solid #ccc;overflow: hidden;
+    padding-bottom: 10px;
+}
+.yanse li,.size li{
+    width: auto;height: 34px;padding: 6px 8px;float: left;border: 1px solid #ccc;
+    margin-left: 10px;margin-top: 10px;position: relative;text-align: center;
+}
+.yanse .close,.size .close{
+    position: absolute;top: 0;right: 0;font-size: 12px;margin-right: 2px;
+}
+.yanse .add,.size .add{
+    margin: 0;width: auto;height: 32px;line-height: 20px;padding: 0 7px;
+}
+.yanse input,.size input{
+    width: 40px;height: 22px;border: 0;outline: none;padding: 0;
+}
+
+.size{
+    border: 1px solid #ccc;padding-bottom: 10px;
+}
+.size>div{
+    width: 100%;height: 100%;overflow: hidden;
+}
+.size>div>span{
+    margin-left: 10px;padding-top: 15px;
+}
+.table>tbody>tr>td{
+    vertical-align: middle;white-space:nowrap;
+}
+.ysfont{
+    position: absolute;top: -25px;left: 32px;color: #00B7EE;
+}
+.magrad{
+    margin-top: 60px;
+}
+.magrad input{
+    margin-left: 55px;margin-bottom: 10px;
+}
+.magrad p{
+    text-align: center;
+}
+.smallf{
+    font-size: 12px;
+}
 
 
 

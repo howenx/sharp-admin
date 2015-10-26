@@ -36,7 +36,7 @@
         <result property="detailImgs" column="prod_detail_imgs" javaType="String" jdbcType="VARCHAR"/>
         <result property="features" column="prod_features" javaType="String" jdbcType="VARCHAR"/>
         <result property="productState" column="state" javaType="String" jdbcType="VARCHAR"/>
-        <result property="isDestory" column="is_destory" javaType="boolean" jdbcType="BOOLEAN"/>
+        <result property="destory" column="is_destory" javaType="boolean" jdbcType="BOOLEAN"/>
         <result property="destoryUid" column="destory_uid" javaType="Integer" jdbcType="INTEGER"/>
         <result property="updateDate" column="update_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
         <result property="updateUid" column="update_uid" javaType="Integer" jdbcType="INTEGER"/>

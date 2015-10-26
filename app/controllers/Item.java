@@ -42,18 +42,18 @@ public class Item extends Controller {
      *
      * @return Result
      */
-    public Result itemCreate() {
-        String language = request().getQueryString("lang");
+    public Result itemCreate(String lang) {
+//        String lang = request().getQueryString("lang");
 //        Logger.debug(request().getQueryString("lang"));
 //        System.out.println(language);
         Logger.debug(oss_provider.get().toString());
-        if (null ==language || "".equals(language)) {
+        if (null ==lang || "".equals(lang)) {
             ctx().changeLang("cn");
         } else {
-            ctx().changeLang(language);
+            ctx().changeLang(lang);
         }
 
-        return ok(prodsadd.render(language,itemService.getAllBrands(), itemService.getParentCates()));
+        return ok(prodsadd.render(lang,itemService.getAllBrands(), itemService.getParentCates()));
     }
 
     /**
@@ -78,6 +78,11 @@ public class Item extends Controller {
         String language = form.get("language");
         ctx().changeLang(language);
         return ok(language);
+    }
+
+    public Result prodsList() {
+
+        return ok(prodslist.render(itemService.getAllProducts()));
     }
 
     /**
