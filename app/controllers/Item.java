@@ -123,8 +123,8 @@ public class Item extends Controller {
             products.setStoreArea(form.get("storeArea"));
             products.setSourceArea(form.get("sourceArea"));
             try {
-                products.setSellOnDate(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(form.get("sellOnDate")).getTime()));
-                products.setSellOffDate(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(form.get("sellOffDate")).getTime()));
+                products.setSellOnDate(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(form.get("sellOnDate")).getTime()));
+                products.setSellOffDate(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(form.get("sellOffDate")).getTime()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -143,7 +143,7 @@ public class Item extends Controller {
             //updateUid
             //createUid
             if (products.getLanguage().isEmpty()||products.getProductName().isEmpty()||products.getProductColor().isEmpty()||products.getMasterImg().isEmpty()
-                    ||products.getProductSize().isEmpty()||products.getProductDesc().isEmpty()||products.getSourceArea().isEmpty()
+                    ||products.getProductSize().isEmpty()||products.getSourceArea().isEmpty()
                     ||products.getProductAmount().toString().isEmpty()||products.getProductPrice().toString().isEmpty()||products.getRecommendPrice().toString().isEmpty()
                     ||products.getSellOnDate().toString().isEmpty()||products.getSellOffDate().toString().isEmpty()) {
                 result.put("error", "必填项不能为空!");

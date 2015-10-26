@@ -175,7 +175,7 @@
                         <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">销售期限</div></label>
 
                         <div class="col-sm-3">
-                            <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy" data-link-field="dtp_input1">
+                            <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:" data-link-field="dtp_input1">
                                 <input class="form-control" size="16" type="text" value="" readonly id="sellOnDate" name="sellOnDate">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -183,7 +183,7 @@
                         </div>
                         <div class="to l">~</div>
                         <div class="col-sm-3">
-                            <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy" data-link-field="dtp_input1">
+                            <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:ii" data-link-field="dtp_input1">
                                 <input class="form-control" size="16" type="text" value="" readonly id="sellOffDate" name="sellOffDate">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -213,9 +213,6 @@
                                     <input type="file" id="fileinput1" name="image" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png" />
                                 </div>
                                 <div class="imgk l" id="gallery1" style="width:150px">
-                                    <!--<div class="imgyl" >-->
-                                        <!--<button type="button" class="close"><span>&times;</span></button>-->
-                                    <!--</div>-->
                                 </div>
                             </div>
                         </div>
@@ -227,7 +224,7 @@
                         <div class="col-sm-10">
                             <div class="sctp">
                                 <div class="sctp1 l">
-                                    <a href="#">添加图片</a>
+                                    <a href="#" id="preImgAdd">添加图片</a>
                                     <input type="hidden" id="previewImgs" name="previewImgs" />
                                     <input type="file" id="fileinput2"  name="image" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                                 </div>
@@ -270,9 +267,7 @@
                                 <tr>
                                     <td >属性名</td>
                                     <td width=350px>属性值</td>
-                                    <td class="add">
-                                        <a id="add">添加</a>
-                                    </td>
+                                    <td class="add">添加</td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" name="attrN"/></td>
@@ -303,7 +298,7 @@
 
 <script type="text/javascript">
  $(function()  {
-    //$("#language").val($('#lang-input').val());
+    $("#language").val($('#lang-input').val());
     /* 一级类别改变重新加载二级类别*/
     $('#categorySelect').change(function() {
         var pcid = $("#categorySelect").val();
@@ -343,7 +338,7 @@ function submitProducts() {
         isPost=false;
     }
     if ($("#language").val=="" || $("#merchName").val=="" || $("#productName").val=="" || $("#productColor").val==""
-        || $("#productSize").val=="" || $("#productDesc").val=="" || $("#sourceArea").val=="" || $("#storeArea").val==""
+        || $("#productSize").val=="" || $("#sourceArea").val=="" || $("#storeArea").val==""
         || $("#features").val=="" || $("#sellOnDate").val=="" || $("#sellOffDate").val=="") {
         alert("必填项不能为空");
         isPost=false;
@@ -357,7 +352,7 @@ function submitProducts() {
         isPost=false;
     }
      //遍历所有属性及属性值累加到隐藏域features中且属性名或值不能为空
-    var features = "";
+    var features = "{";
     var tabFea = document.getElementById("tabFea");
     var attrN = document.getElementsByName("attrN");
     var attrV = document.getElementsByName("attrV");
@@ -366,8 +361,9 @@ function submitProducts() {
             alert("属性名或值不能有空!");
             isPost=false;
         }
-        features = features + attrN[i].value + ":" + attrV[i].value+",";
+        features = features + '\"' + attrN[i].value + '\"' + ":" + '\"' + attrV[i].value + '\"' +",";
     }
+    features = features.substring(0,features.length - 1) + "}";
     $('#features').val(features);
     if (isPost) {
        $("#insertProducts").submit();
@@ -432,6 +428,17 @@ function previewImage(file, id) {
     thumb.appendChild(button);
     thumb.appendChild(img);
 
+     //添加商品主图主图后,添加图片按钮置为不可点击且颜色变为灰色
+     if (document.getElementById("gallery1").getElementsByTagName("div").length>0) {
+         $("#fileinput1").attr({"disabled":true});
+         document.getElementById('masterImgAdd').style.background="#ccc";
+     }
+
+     //商品预览图最多为6张
+     if (document.getElementById("gallery2").getElementsByTagName("div").length==6) {
+         $("#fileinput2").attr({"disabled":true});
+         document.getElementById('preImgAdd').style.background="#ccc";
+     }
 
      upload(thumb, file, id);
 
@@ -472,33 +479,29 @@ function upload(thumb, file, id) {
                 divs1 = document.getElementById("gallery1");
                 inps1 = divs1.getElementsByTagName("input");
                 for(i=0; i<inps1.length; i++) {
-                    masterImg = masterImg + inps1[i].value + ",";
+                    masterImg = masterImg + inps1[i].value;
                 }
                 $('#masterImg').val(masterImg);
             } else if (id==2) {
                 //每次添加商品预览图遍历所有input标签,其值累加到隐藏域previewImgs中
-                var previewImgs = "";
+                var previewImgs = "[";
                 divs2 = document.getElementById("gallery2");
                 inps2 = divs2.getElementsByTagName("input");
                 for(i=0; i<inps2.length; i++) {
-                    previewImgs = previewImgs + inps2[i].value + ",";
+                    previewImgs = previewImgs + '\"' + inps2[i].value + '\"' + ",";
                 }
+                previewImgs = previewImgs.substring(0,previewImgs.length - 1) + "]";
                 $('#previewImgs').val(previewImgs);
             } else if (id==3) {
                 //每次添加商品详细图片遍历所有input标签,其值累加到隐藏域detailImgs中
-                var detailImgs = "";
+                var detailImgs = "[";
                 divs3 = document.getElementById("gallery3");
                 inps3 = divs3.getElementsByTagName("input");
                 for(i=0; i<inps3.length; i++) {
-                    detailImgs = detailImgs + inps3[i].value + ",";
+                    detailImgs = detailImgs + '\"' + inps3[i].value + '\"' + ",";
                 }
+                 detailImgs = detailImgs.substring(0,detailImgs.length - 1) + "]";
                 $('#detailImgs').val(detailImgs);
-            }
-
-            if ($('#masterImg').val() != "") {
-                 //上传商品主图主图后,上传按钮置为不可点击
-                 $("#fileinput1").attr({"disabled":true});
-                 document.getElementById('masterImgAdd').style.background="#ccc";
             }
         }
     }
