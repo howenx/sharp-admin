@@ -1,9 +1,6 @@
-<<<<<<< HEAD
+
 import play.routes.compiler.InjectedRoutesGenerator
 import play.sbt.PlayJava
-
-=======
->>>>>>> e235dc042bdb561c194431ff731d046e2afca45e
 name := """style-admin"""
 
 version := "1.0-SNAPSHOT"
