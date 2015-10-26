@@ -6,8 +6,8 @@ import entity.Products;
 import mapper.BrandsMapper;
 import mapper.CatesMapper;
 import mapper.ProductsMapper;
-import org.mybatis.guice.transactional.Isolation;
-import org.mybatis.guice.transactional.Transactional;
+import play.Logger;
+
 
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -33,7 +33,7 @@ public class ItemServiceImpl implements ItemService {
      * @param brandId Integer
      * @return entity.Brands
      */
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+
     @Override
     public Brands getBrands(Integer brandId) {
 
@@ -45,7 +45,7 @@ public class ItemServiceImpl implements ItemService {
      *
      * @return List of entity.Brands
      */
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+
     @Override
     public List<Brands> getAllBrands() {
 
@@ -57,7 +57,7 @@ public class ItemServiceImpl implements ItemService {
      *
      * @return List of Cates
      */
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+
     @Override
     public List<Cates> getParentCates() {
 
@@ -70,7 +70,7 @@ public class ItemServiceImpl implements ItemService {
      * @param hashMap HashMap
      * @return List of Cates
      */
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+
     @Override
     public List<Cates> getSubCates(HashMap<String, Integer> hashMap) {
 
@@ -83,7 +83,7 @@ public class ItemServiceImpl implements ItemService {
      * @param productId
      * @return entity.Products
      */
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+
     @Override
     public Products getProducts(Integer productId) {
 
@@ -95,7 +95,7 @@ public class ItemServiceImpl implements ItemService {
      *
      * @return List of entity.Products
      */
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+
     @Override
     public List<Products> getAllProducts() {
 
@@ -108,7 +108,7 @@ public class ItemServiceImpl implements ItemService {
      * @param products
      * @return boolean
      */
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+
     @Override
     public Integer insertProducts(Products products) {
         return this.productsMapper.insertProducts(products);

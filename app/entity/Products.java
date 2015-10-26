@@ -1,5 +1,6 @@
 package entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
@@ -8,7 +9,7 @@ import java.sql.Timestamp;
  *
  * Created by Sunny Wu.
  */
-public class Products {
+public class Products implements Serializable{
 
     /**
      * 主键 id

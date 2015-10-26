@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * CatesMapping.xml for CatesMapper interface.
+ * CatesMapper.xml for CatesMapper interface.
  *
  * <p>
  *

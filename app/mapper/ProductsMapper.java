@@ -5,7 +5,7 @@ import entity.Products;
 import java.util.List;
 
 /**
- * ProductsMapping.xml for ProductsMapper interface.
+ * ProductsMapper.xml for ProductsMapper interface.
  *
  * Created by Sunny Wu.
  */

@@ -5,7 +5,7 @@ import entity.Brands;
 import java.util.List;
 
 /**
- * BrandsMapping.xml for BrandsMapper interface.
+ * BrandsMapper.xml for BrandsMapper interface.
  *
  * <p>
  *

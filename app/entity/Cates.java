@@ -1,5 +1,7 @@
 package entity;
 
+import java.io.Serializable;
+
 /**
  * A entity for commodity categories.
  *
@@ -7,7 +9,7 @@ package entity;
  *
  * @author Sunny Wu
  */
-public class Cates {
+public class Cates implements Serializable{
 
 		/**
 		 * * cateId primary key.

@@ -3,6 +3,8 @@ package controllers;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
 import entity.Products;
+import modules.OSSClientProvider;
+import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
@@ -12,6 +14,7 @@ import play.mvc.Result;
 import service.ItemService;
 import views.html.item.*;
 
+import javax.inject.Singleton;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -22,6 +25,7 @@ import java.util.HashMap;
  *
  * @author Sunny Wu
  */
+@Singleton
 public class Item extends Controller {
 
     /**
@@ -29,6 +33,9 @@ public class Item extends Controller {
      */
     @Inject
     private ItemService itemService;
+
+    @Inject
+    private OSSClientProvider oss_provider;
 
     /**
      * Item create page controller.
@@ -39,11 +46,13 @@ public class Item extends Controller {
         String language = request().getQueryString("lang");
 //        Logger.debug(request().getQueryString("lang"));
 //        System.out.println(language);
+        Logger.debug(oss_provider.get().toString());
         if (null ==language || "".equals(language)) {
             ctx().changeLang("cn");
         } else {
             ctx().changeLang(language);
         }
+
         return ok(prodsadd.render(language,itemService.getAllBrands(), itemService.getParentCates()));
     }
 

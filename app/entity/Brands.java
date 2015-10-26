@@ -1,5 +1,6 @@
 package entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -9,7 +10,7 @@ import java.sql.Timestamp;
  *
  * @author Sunny Wu
  */
-public class Brands {
+public class Brands implements Serializable {
 
 		/**
 		 * brand id.
