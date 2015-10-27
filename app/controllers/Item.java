@@ -1,7 +1,6 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.inject.Inject;
 import entity.Products;
 import modules.OSSClientProvider;
 import play.Logger;
@@ -14,6 +13,7 @@ import play.mvc.Result;
 import service.ItemService;
 import views.html.item.*;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
