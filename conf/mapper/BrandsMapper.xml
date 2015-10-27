@@ -23,7 +23,7 @@
         <result property="createDate" column="create_date" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
         <result property="brandNmCn" column="brand_nm_cn" javaType="String" jdbcType="VARCHAR"/>
         <result property="brandNmEn" column="brand_nm_en" javaType="String" jdbcType="VARCHAR"/>
-        <result property="brandNmKo" column="brand_nm_kr" javaType="String" jdbcType="VARCHAR"/>
+        <result property="brandNmKr" column="brand_nm_kr" javaType="String" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="brandsColumns">

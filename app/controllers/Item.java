@@ -47,12 +47,6 @@ public class Item extends Controller {
 //        Logger.debug(request().getQueryString("lang"));
 //        System.out.println(language);
         Logger.debug(oss_provider.get().toString());
-        if (null ==lang || "".equals(lang)) {
-            ctx().changeLang("cn");
-        } else {
-            ctx().changeLang(lang);
-        }
-
         return ok(prodsadd.render(lang,itemService.getAllBrands(), itemService.getParentCates()));
     }
 

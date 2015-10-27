@@ -51,8 +51,18 @@
                             <select class="form-control" id="categorySelect">
                                 <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
                                 @for(cates <- catesParentList) {
-                                <option value="@cates.getCateId()">@cates.getCateNameCn()
-                                </option>
+                                    @if(lang=="cn") {
+                                        <option value="@cates.getCateId()">@cates.getCateNameCn()
+                                        </option>
+                                    }
+                                    @if(lang=="en") {
+                                        <option value="@cates.getCateId()">@cates.getCateNameEn()
+                                        </option>
+                                    }
+                                    @if(lang=="kr") {
+                                        <option value="@cates.getCateId()">@cates.getCateNameKr()
+                                        </option>
+                                    }
                                 }
                             </select>
                         </div>
@@ -70,8 +80,18 @@
                             <select class="form-control" id="bandSelect" name="brandId">
                                 <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
                                 @for(b <- brandsList) {
-                                <option value="@b.getBrandId()">@b.getBrandNmCn()
-                                </option>
+                                    @if(lang=="cn") {
+                                        <option value="@b.getBrandId()">@b.getBrandNmCn()
+                                        </option>
+                                    }
+                                    @if(lang=="en") {
+                                        <option value="@b.getBrandId()">@b.getBrandNmEn()
+                                        </option>
+                                    }
+                                    @if(lang=="kr") {
+                                        <option value="@b.getBrandId()">@b.getBrandNmKr()
+                                        </option>
+                                    }
                                 }
                             </select>
                         </div>
@@ -88,16 +108,41 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productColor")</div></label>
 
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="productColor" name="productColor">
+                        <input type="hidden" id="productColor" name="productColor"/>
+                        <div class="col-sm-3" id="addColor">
+                            <div class="yanse">
+                                <ul>
+                                    <li>
+                                        <span><input type="text"/></span>
+                                        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </li>
+                                    <li style="border:0px;">
+                                        <span class="add" >＋</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productSize")</div></label>
 
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="productSize" name="productSize">
+                        <input type="hidden" id="productSize" name="productSize"/>
+                        <div class="col-sm-6">
+                            <div class="size" id="addSize">
+                                <!--<div>-->
+                                    <!--<span class="l">美白</span><br/><br/>-->
+                                    <!--<ul class="l">-->
+                                        <!--<li>-->
+                                            <!--<span><input type="text"/></span>-->
+                                            <!--<button type="button" class="close" aria-label="Close"><span>&times;</span></button>-->
+                                        <!--</li>-->
+                                        <!--<li style="border:0px;">-->
+                                            <!--<span class="add">＋</span>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
+                            </div>
                         </div>
                     </div>
 
@@ -223,11 +268,14 @@
                         </div>
                     </div>
 
+
+
                     <div class="form-group">
                         <label class="col-sm-3 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.features")</label>
 
                         <div class="col-sm-9" id="tabFea">
                             <input type="hidden" class="form-control" id="features" name="features">
+                            <input type="hidden" id="del" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")'>
                             <table class="table table-bordered qubian">
                                 <tr>
                                     <td >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureName")</td>
@@ -237,7 +285,7 @@
                                 <tr>
                                     <td><input type="text" name="attrN"/></td>
                                     <td><input type="text" name="attrV"/></td>
-                                    <td class="del">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")</td>
+                                    <td class="del" >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")</td>
                                 </tr>
                             </table>
                         </div>
@@ -263,7 +311,8 @@
 
 <script type="text/javascript">
  $(function()  {
-    $("#language").val($('#lang-input').val());
+    var language = $('#lang-input').val();
+    $("#language").val(language);
     /* 一级类别改变重新加载二级类别*/
     $('#categorySelect').change(function() {
         var pcid = $("#categorySelect").val();
@@ -276,7 +325,13 @@
                     $('#categorySubSelect').empty();
                     $('#categorySubSelect').append('<option value=""></option>');
                     $.each(data, function (i, item) {
-                        $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNameCn + "</option>");
+                        if (language == 'cn') {
+                             $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNameCn + "</option>");
+                        } else if (language == 'en') {
+                             $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNameEn + "</option>");
+                        } else if (language == 'kr') {
+                             $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNameKr + "</option>");
+                        }
                     });
                 }
                 else {
@@ -288,7 +343,7 @@
  })
 
 function changeLang() {
-    location.href='/'+$("#language").val()+'/itemCreate';
+    location.href='/itemCreate'+$("#language").val();
  }
 
 //表单数据提交

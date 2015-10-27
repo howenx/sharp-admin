@@ -65,7 +65,7 @@ public class Brands implements Serializable {
 		/**
 		 * brand korean name.
 		 */
-		private String brandNmKo;
+		private String brandNmKr;
 
 		public Integer getBrandId() {
 			return brandId;
@@ -147,11 +147,11 @@ public class Brands implements Serializable {
 			this.brandNmEn = brandNmEn;
 		}
 
-		public String getBrandNmKo() {
-			return brandNmKo;
+		public String getBrandNmKr() {
+			return brandNmKr;
 		}
 
-		public void setBrandNmKo(String brandNmKo) {
-			this.brandNmKo = brandNmKo;
+		public void setBrandNmKr(String brandNmKr) {
+			this.brandNmKr = brandNmKr;
 		}
 }
