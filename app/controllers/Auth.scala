@@ -83,10 +83,10 @@ class Auth extends Controller with Secured{
 
   }
 
-  def welcome = isAuthenticated { user => {
+  def logout = isAuthenticated { user => {
     implicit  request => {
-
-      Ok(views.html.login())
+      val bind_form = login_form.bind(Map("name"->"","passwd"->""))
+      Ok(views.html.login(bind_form)).withSession(request.session - ("username"))
     }
   }
   }

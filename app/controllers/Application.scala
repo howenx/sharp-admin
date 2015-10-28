@@ -15,6 +15,5 @@ class Application extends Controller with Secured{
         }
     }
     }
-
-
+    
 }
