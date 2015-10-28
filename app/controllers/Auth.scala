@@ -8,7 +8,7 @@ import play.api.Play.current
 import entity.User
 import play.api.data._
 import play.api.data.Forms._
-import play.api.mvc.{Action, Controller}
+import play.api.mvc.{Results, Action, Controller}
 import play.api.Logger
 case class LoginInfo(name:String, passwd: String)
 
@@ -85,8 +85,7 @@ class Auth extends Controller with Secured{
 
   def logout = isAuthenticated { user => {
     implicit  request => {
-      val bind_form = login_form.bind(Map("name"->"","passwd"->""))
-      Ok(views.html.login(bind_form)).withSession(request.session - ("username"))
+      Results.Redirect(routes.Auth.login).withSession(request.session - ("username"))
     }
   }
   }
