@@ -34,16 +34,14 @@ public class ApplicationTest {
         assertEquals(2, a);
     }
 
-<<<<<<< HEAD
+
     @Test
     public void renderTemplate() {
 //        Content html = views.html.index.render("Your new application is ready.");
 //        assertEquals("text/html", contentType(html));
 //        assertTrue(contentAsString(html).contains("Your new application is ready."));
     }
-=======
 
->>>>>>> 61dc407af47a92de415248313623a93c269b1273
 
 
 }

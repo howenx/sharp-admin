@@ -32,6 +32,7 @@ libraryDependencies += "com.google.inject.extensions" % "guice-multibindings" % 
 // libraryDependencies += "com.github.mumoshu" %% "play2-memcached" % "0.6.0" withSources() withJavadoc()
 
 libraryDependencies += "com.aliyun.oss" % "aliyun-sdk-oss" % "2.0.1" withSources() withJavadoc()
+libraryDependencies += "com.typesafe.play" %% "anorm" % "2.5.0" withSources() withJavadoc()
 
 
 

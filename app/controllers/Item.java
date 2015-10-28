@@ -1,7 +1,6 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.inject.Inject;
 import entity.Products;
 import modules.OSSClientProvider;
 import play.Logger;
@@ -14,6 +13,7 @@ import play.mvc.Result;
 import service.ItemService;
 import views.html.item.*;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -43,9 +43,6 @@ public class Item extends Controller {
      * @return Result
      */
     public Result itemCreate(String lang) {
-//        String lang = request().getQueryString("lang");
-//        Logger.debug(request().getQueryString("lang"));
-//        System.out.println(language);
         Logger.debug(oss_provider.get().toString());
         return ok(prodsadd.render(lang,itemService.getAllBrands(), itemService.getParentCates()));
     }
@@ -57,13 +54,10 @@ public class Item extends Controller {
      *
      */
     public Result getSubCategory() {
-
         DynamicForm form = Form.form().bindFromRequest();
         Integer pcid = Integer.parseInt(form.get("pcid"));
-
         HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
         hashMap.put("parentCateId", pcid);
-
         return ok(Json.toJson(itemService.getSubCates(hashMap)));
     }
 
@@ -137,10 +131,6 @@ public class Item extends Controller {
             products.setProductState(form.get("productState"));
             products.setProductState("Y");  //商品状态 'Y' 正常
             products.setDestory(false);
-            //destoryUid
-            //updateDate
-            //updateUid
-            //createUid
             if (products.getLanguage().isEmpty()||products.getProductName().isEmpty()||products.getProductColor().isEmpty()||products.getMasterImg().isEmpty()
                     ||products.getProductSize().isEmpty()||products.getSourceArea().isEmpty()
                     ||products.getProductAmount().toString().isEmpty()||products.getProductPrice().toString().isEmpty()||products.getRecommendPrice().toString().isEmpty()
