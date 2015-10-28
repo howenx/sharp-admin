@@ -18,7 +18,7 @@ case class LoginInfo(name:String, passwd: String)
  * kakao china
  */
 @Singleton
-class Auth extends Controller {
+class Auth extends Controller with Secured{
 
   var login_form = Form(mapping(
   "name" -> nonEmptyText(minLength = 3),
@@ -81,6 +81,14 @@ class Auth extends Controller {
       }
     )
 
+  }
+
+  def welcome = isAuthenticated { user => {
+    implicit  request => {
+
+      Ok(views.html.login())
+    }
+  }
   }
 
 }
