@@ -5,6 +5,7 @@ item.add.cate=          cate
 item.add.brand= brand
 item.add.productName=   products name
 item.add.productColor=  products color
+item.add.complete=      complete
 item.add.productSize=   products size
 item.add.merchName=     merch name
 item.add.productPrice=  price

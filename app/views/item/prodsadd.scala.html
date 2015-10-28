@@ -119,6 +119,9 @@
                                     <li style="border:0px;">
                                         <span class="add" >＋</span>
                                     </li>
+                                    <li style="border:0px;">
+                                        <span class="complete">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.complete")</span>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -130,18 +133,21 @@
                         <input type="hidden" id="productSize" name="productSize"/>
                         <div class="col-sm-6">
                             <div class="size" id="addSize">
-                                <!--<div>-->
-                                    <!--<span class="l">美白</span><br/><br/>-->
-                                    <!--<ul class="l">-->
-                                        <!--<li>-->
-                                            <!--<span><input type="text"/></span>-->
-                                            <!--<button type="button" class="close" aria-label="Close"><span>&times;</span></button>-->
-                                        <!--</li>-->
-                                        <!--<li style="border:0px;">-->
-                                            <!--<span class="add">＋</span>-->
-                                        <!--</li>-->
-                                    <!--</ul>-->
-                                <!--</div>-->
+                                <div>
+                                    <span class="l">颜色项</span><br/><br/>
+                                    <ul class="l">
+                                        <li>
+                                            <span><input type="text"/></span>
+                                            <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
+                                        </li>
+                                        <li style="border:0px;">
+                                            <span class="add">＋</span>
+                                        </li>
+                                        <li style="border:0px;">
+                                            <span class="complete">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.complete")</span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -151,22 +157,6 @@
 
                         <div class="col-sm-3">
                             <input type="text" class="form-control" id="merchName" name="merchName">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")</div></label>
-
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="productPrice" name="productPrice">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")</div></label>
-
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="recommendPrice" name="recommendPrice">
                         </div>
                     </div>
 
@@ -201,11 +191,77 @@
                         </div>
                     </div>
 
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")</div></label>-->
+
+                        <!--<div class="col-sm-3">-->
+                            <!--<input type="text" class="form-control" id="productPrice" name="productPrice">-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")</div></label>-->
+
+                        <!--<div class="col-sm-3">-->
+                            <!--<input type="text" class="form-control" id="recommendPrice" name="recommendPrice">-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productAmount")</div></label>-->
+
+                        <!--<div class="col-sm-3">-->
+                            <!--<input type="text" class="form-control" id="productAmount" name="productAmount">-->
+                        <!--</div>-->
+                    <!--</div>-->
+
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productAmount")</div></label>
+                        <label class="col-sm-3 control-label" ><div class="r">数量价格</div></label>
 
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" id="productAmount" name="productAmount">
+                            <table class="table table-bordered spsl">
+                                <tr >
+                                    <td rowspan="2">\</td>
+                                    <td colspan="3">颜色1</td>
+                                    <td colspan="1">颜色2</td>
+                                    <td colspan="2">颜色3</td>
+                                </tr>
+                                <tr>
+                                    <td>颜色1尺寸1</td>
+                                    <td>颜色1尺寸2</td>
+                                    <td>颜色1尺寸3</td>
+                                    <td>颜色2尺寸1</td>
+                                    <td>颜色3尺寸1</td>
+                                    <td>颜色3尺寸2</td>
+                                </tr>
+                                <tr>
+                                    <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productAmount")</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
 
@@ -371,7 +427,18 @@ function submitProducts() {
         alert("价格为整数或小数!");
         isPost=false;
     }
-     //遍历所有属性及属性值累加到隐藏域features中且属性名或值不能为空
+    //取得输入的所有颜色,保存在productColor字段中
+    var productColor = "[";
+    var addColor = document.getElementById("addColor");
+    var colors = addColor.getElementsByTagName("input");
+    var len = colors.length;
+    for(i=0; i<len; i++) {
+        productColor = productColor + '\"' + colors[i].value + '\"' + ",";
+    }
+    productColor = productColor.substring(0,productColor.length - 1) + "]";
+    $('#productColor').val(productColor);
+    alert($('#productColor').val());
+    //遍历所有属性及属性值累加到隐藏域features中且属性名或值不能为空
     var features = "{";
     var tabFea = document.getElementById("tabFea");
     var attrN = document.getElementsByName("attrN");
