@@ -6,7 +6,7 @@ import play.api.Logger
 
 
 @Singleton
-class Application extends Controller with Secured{
+class dApplication extends Controller with Secured{
 
     def welcome = isAuthenticated { user => {
         implicit  request => {
