@@ -11,8 +11,8 @@ GET             /getSubcates                  controllers.Item.getSubCategory
 POST            /insertProducts               controllers.Item.insertProducts
 GET             /changeLanguage               controllers.Item.changeLanguage
 GET             /prodsList                    controllers.Item.prodsList
- mo
-GET             /                            controllers.Auth.login
+
+GET             /                             controllers.Auth.login
 POST            /login                        controllers.Auth.login
 
 # Map static resources from the /public folder to the /assets URL path

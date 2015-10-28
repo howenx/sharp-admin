@@ -201,6 +201,11 @@ ul,li{
 .yanse .add,.size .add{
     margin: 0;width: auto;height: 32px;line-height: 20px;padding: 0 7px;
 }
+.yanse .complete,.size .complete{
+    background: #00B7EE;color: #fff;cursor: pointer;border-radius: 2px;text-align: center;
+    margin: 0;width: auto;height: 32px;line-height: 20px;padding: 0 7px; font-size:14px;
+}
+
 .yanse input,.size input{
     width: 50px;height: 22px;border: 0;outline: none;padding: 0;
 }

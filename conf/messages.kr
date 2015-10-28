@@ -5,6 +5,7 @@ item.add.cate=商品类别_kr
 item.add.brand=品牌名称_kr
 item.add.productName=商品名称_kr
 item.add.productColor=颜色_kr
+item.add.complete=完成_kr
 item.add.productSize=尺寸_kr
 item.add.merchName=供货商_kr
 item.add.productPrice=市场价_kr

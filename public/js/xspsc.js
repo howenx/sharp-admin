@@ -20,103 +20,96 @@ $(function(){
 
     //添加颜色
     $(document).on('click','.yanse .add',function() {
-        var addColor = document.getElementById("addColor");
-        var colors = addColor.getElementsByTagName("input");
-        var len = colors.length;
-        if (addColor.getElementsByTagName("li").length>1) {
-            if (colors[len-1].value == "") {
-                $('.yanse .add').click(function(){});
-            } else {
-                //取得输入的所有颜色,保存在productColor字段中
-                var productColor = "[";
-                var addSize = document.getElementById("addSize");
-                addSize.innerHTML = "";
-                for(i=0; i<len; i++) {
-                    //每次添加一项颜色值,则添加一项对应的尺寸
-                    var div = document.createElement("div");
-                    var spancn = document.createElement("span");
-                    var br = document.createElement("br");
-                    spancn.innerText = colors[i].value;
-                    var ul = document.createElement("ul");
-                    ul.classList.add('l');
-                    var li1 = document.createElement("li");
-                    var spansn = document.createElement("span");
-                    var input = document.createElement("input");
-                    var button = document.createElement("button");
-                    button.classList.add('close');
-                    $(button).append('<span>&times;</span>');
-                    var li2 = document.createElement("li");
-                    li2.style.border="0px";
-                    var spanadd = document.createElement("span");
-                    spanadd.classList.add('add');
-                    spanadd.innerText = "+";
-
-                    addSize.appendChild(br);
-                    addSize.appendChild(div);
-                    div.appendChild(spancn);
-                    div.appendChild(br);
-                    div.appendChild(ul);
-                    ul.appendChild(li1);
-                    li1.appendChild(spansn);
-                    spansn.appendChild(input);
-                    li1.appendChild(button);
-                    ul.appendChild(li2);
-                    li2.appendChild(spanadd);
-
-                    productColor = productColor + '\"' + colors[i].value + '\"' + ",";
-                }
-                productColor = productColor.substring(0,productColor.length - 1) + "]";
-                $('#productColor').val(productColor);
-                $("<li>").html('<span><input type="text"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
-
-            }
-        } else { //如果全部删除完,点击直接添加
+        var color = $(this).parent().prev().children().first().children().first().val();
+        //如果最后一项内容为空则不能添加
+        if (color == "") {
+            $('.yanse .add').click(function(){});
+        } else
             $("<li>").html('<span><input type="text"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
-        }
+    });
 
-    })
+    //颜色全部添加完成的操作
+    $(document).on('click','.yanse .complete',function() {
+        //最后一项颜色为空点击操作无效
+        var color = $(this).parent().prev().prev().children().first().children().first().val();
+        if (color == "") {
+            alert("颜色不能有空值!");
+            $('.yanse .complete').click(function(){});
+        } else {
+            var addColor = document.getElementById("addColor");
+            var colors = addColor.getElementsByTagName("input");
+            var len = colors.length;
+            var addSize = document.getElementById("addSize");
+            addSize.innerHTML = "";
+            for(i=0; i<len; i++) {
+                //每一项颜色值,添加一项对应的尺寸列表
+                var div = document.createElement("div");
+                var spancn = document.createElement("span");
+                spancn.classList.add('l');
+                var br1 = document.createElement("br");
+                var br2 = document.createElement("br");
+                spancn.innerText = colors[i].value;
+                var ul = document.createElement("ul");
+                ul.classList.add('l');
+                var li1 = document.createElement("li");
+                var spansn = document.createElement("span");
+                var input = document.createElement("input");
+                var button = document.createElement("button");
+                button.classList.add('close');
+                $(button).append('<span>&times;</span>');
+                var li2 = document.createElement("li");
+                li2.style.border="0px";
+                var spanadd = document.createElement("span");
+                spanadd.classList.add('add');
+                spanadd.innerText = "+";
+                var li3 = document.createElement("li");
+                li3.style.border="0px";
+                var spancomp = document.createElement("span");
+                spancomp.classList.add('complete');
+                spancomp.innerText = "";
 
-    //删除颜色
-    $(document).on('click','.yanse .close',function() {
-        $(this).parent().remove();
-        var color = $(this).prev().children().first().val();
-        var colors = document.getElementById("addColor").getElementsByTagName("input");
-        var productColor = "[";
-        var sico;
-        for(i=0; i<colors.length; i++) {
-            //把与颜色对应的尺寸同时删除
-            sico = document.getElementById("addSize").getElementsByTagName("div")[i].getElementsByTagName("span")[0].innerText;
-            if (color == sico) {
-                document.getElementById("addSize").getElementsByTagName("div")[i].remove();
+                addSize.appendChild(div);
+                div.appendChild(spancn);
+                div.appendChild(br1);
+                div.appendChild(br2);
+                div.appendChild(ul);
+                ul.appendChild(li1);
+                li1.appendChild(spansn);
+                spansn.appendChild(input);
+                li1.appendChild(button);
+                ul.appendChild(li2);
+                li2.appendChild(spanadd);
+                ul.appendChild(li3);
+                li3.appendChild(spancomp);
             }
-            productColor = productColor + '\"' + colors[i].value + '\"' + ",";
 
-        }
-        productColor = productColor.substring(0,productColor.length - 1) + "]";
-        $('#productColor').val(productColor);
-    })
+         }
+    });
+
+    //删除颜色,尺寸
+    $(document).on('click','.yanse .close,.size .close',function() {
+        $(this).parent().remove();
+    });
+
+    //颜色输入完成的操作,点击后添加到尺寸域内
+    $(document).on('click','.yanse .complete',function() {
+
+    });
 
     //添加尺寸
     $(document).on('click','.size .add',function() {
-        $("<li>").html('<span><input type="text"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
-    })
-
-
-
-
-
-    //删除尺寸
-    $(document).on('click','.size .close',function() {
-        $(this).parent().remove();
-    })
-
-
-
+        var size = $(this).parent().prev().children().first().children().first().val();
+        //如果最后一项内容为空则不能添加
+        if (size == "") {
+            $('.size .add').click(function(){});
+        } else
+            $("<li>").html('<span><input type="text"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
+    });
 
 
     $(document).on('click','.fdel .close',function() {
         $(this).parents(".fdel").remove();
-    })
+    });
 
 
     //上传图片操作,对动态添加的标签元素,点击移除的操作
@@ -186,8 +179,7 @@ $(function(){
     $(".table").delegate(".del","click",function(){
         //当只有一行属性时不能删除
 //        if (document.getElementById("tabFea").getElementsByTagName("tr").length==2) {
-//             $(".del").click(function(){
-//             });
+//             $(".del").click(function(){});
 //        } else {
              $(this).parent().remove();
 //        }
