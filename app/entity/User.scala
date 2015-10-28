@@ -2,6 +2,7 @@ package entity
 
 import anorm.{~, SQL}
 import anorm.SqlParser._
+import play.api.cache.Cache
 import play.api.db.DB
 import play.api.Play.current
 
