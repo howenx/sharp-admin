@@ -1,11 +1,15 @@
+@import play.i18n._
+@(lang:String="cn")
 
 @scripts = {
     <script src="/assets/js/slider.js"></script>
 }
 
-@layout(level="theme",title="滚动条管理")(scripts) {
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.title")
 
-    <h3>滚动条管理</h3>
+@layout(lang=lang,level="themes",title=title)(scripts) {
+
+    <h3>@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.title")</h3>
     <hr/>
     <ul>
         <li>
@@ -51,7 +55,7 @@
             <img src="/assets/images/103I14306-0.jpg" alt="">
         </li>
         <li class="addtu">
-            <a href="">选择照片</a>
+            <a href="">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.upload")</a>
         </li>
     </ul>
 }

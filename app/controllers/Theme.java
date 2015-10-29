@@ -12,6 +12,6 @@ public class Theme extends Controller {
 
     public Result slider(String lang) {
 
-        return ok(views.html.theme.slider.render());
+        return ok(views.html.theme.slider.render(lang));
     }
 }

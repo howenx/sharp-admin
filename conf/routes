@@ -1,29 +1,71 @@
 # Routes
-# This file defines all application routes (Higher priority routes first)
-# ~~~~
+# 为了减少merge请覆盖空白行进行添加
 
 # Home page
+GET				/front                              controllers.Application.welcome
+GET				/$lang<(cn|en|kr)>/front            controllers.Application.welcomeLang(lang)
+GET				/itemCreate              	        controllers.Item.itemCreate(lang = "cn")
+GET				/itemCreate$lang<(cn|en|kr)>        controllers.Item.itemCreate(lang)
+GET             /getSubcates                        controllers.Item.getSubCategory
+POST            /insertProducts                     controllers.Item.insertProducts
+GET             /changeLanguage                     controllers.Item.changeLanguage
+GET             /prodsList                          controllers.Item.prodsList
 
-GET				/front                        controllers.Application.welcome
-GET				/itemCreate              	  controllers.Item.itemCreate(lang = "cn")
-GET				/itemCreate$lang<(cn|en|kr)> controllers.Item.itemCreate(lang)
-GET             /getSubcates                  controllers.Item.getSubCategory
-POST            /insertProducts               controllers.Item.insertProducts
-GET             /changeLanguage               controllers.Item.changeLanguage
-GET             /prodsList                    controllers.Item.prodsList
+
+
+
+
+
+
+
+
+
+
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET             /assets/*file                 controllers.Assets.versioned(path="/public", file: Asset)
 
-#editor
-#GET     /editorController			controllers.EditorApplication.editorController()
-#POST    /editorController			controllers.EditorApplication.editorController()
+
+
+
 
 # Theme
-GET             /slider                       controllers.Theme.slider(lang = "cn")
-GET             /$lang<(cn|en|kr)>/slider     controllers.Theme.slider(lang)
+GET             /slider                             controllers.Theme.slider(lang = "cn")
+GET             /$lang<(cn|en|kr)>/slider           controllers.Theme.slider(lang)
 
-GET             /                            controllers.Auth.login
-POST            /authenticate                controllers.Auth.authenticate
-GET             /logout                            controllers.Auth.logout
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GET             /                                   controllers.Auth.login
+POST            /authenticate                       controllers.Auth.authenticate
+GET             /logout                             controllers.Auth.logout
+
+
+
+
+
+
+
+
+
+
+
