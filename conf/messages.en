@@ -28,3 +28,30 @@ item.add.featureValue=  feature value
 item.add.add=           add
 item.add.delete=        delete
 item.add.cancel=        cancel
+
+#nav
+nav.home = HOME
+nav.products = Products
+nav.products.menu1 = Products Management
+nav.products.menu2 = Products Create
+nav.themes = Themes
+nav.themes.menu1 = Slider
+nav.themes.menu2 = Theme Create
+nav.themes.menu3 = Theme List
+nav.users = Users
+nav.users.menu1 = Users Application
+nav.users.menu2 = Users Search
+nav.app = App
+nav.notice = Notice
+nav.promotion = Promotion
+
+#login
+login.user = Welcome,{0}
+login.quit = Quit
+
+#themes
+themes.slider.title = Slider Management
+themes.slider.upload = Upload Images
+
+#welcome
+welcome.title = Homepage

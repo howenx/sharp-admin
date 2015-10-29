@@ -11,10 +11,20 @@ import play.api.Logger
 @Singleton
 class Application extends Controller with Secured{
 
-  def welcome = isAuthenticated { user => {
+  def welcome()  = isAuthenticated { user => {
     implicit  request => {
       Logger.debug(s" user is $user")
-      Ok(views.html.welcome())
+
+      Ok(views.html.welcome("cn",request.session.get("username").getOrElse("")))
+    }
+  }
+  }
+
+  def welcomeLang(lang:String)  = isAuthenticated { user => {
+    implicit  request => {
+      Logger.debug(s" user is $user")
+
+      Ok(views.html.welcome(lang,request.session.get("username").getOrElse("")))
     }
   }
   }

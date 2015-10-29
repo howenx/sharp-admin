@@ -28,3 +28,32 @@ item.add.featureValue=属性值
 item.add.add=添加
 item.add.delete=删除
 item.add.cancel=删除
+
+#nav
+nav.home = 首页
+nav.products = 商品管理
+nav.products.menu1 = 商品管理
+nav.products.menu2 = 商品添加
+nav.themes = 主题管理
+nav.themes.menu1 = 滚动条管理
+nav.themes.menu2 = 主题创建
+nav.themes.menu3 = 主题列表
+nav.users = 用户管理
+nav.users.menu1 = 用户申请
+nav.users.menu2 = 用户查询
+nav.app = 应用管理
+nav.notice = 公告管理
+nav.promotion = 活动管理
+
+#login
+login.user = 欢迎你,{0}
+login.quit = 退出
+
+
+#themes
+themes.slider.title = 滚动条管理
+themes.slider.upload = 选择照片
+
+#welcome
+welcome.title = 首页
+
