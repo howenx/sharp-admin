@@ -131,11 +131,31 @@
                         <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productSize")</div></label>
 
                         <input type="hidden" id="productSize" name="productSize"/>
+                        <input type="hidden" id="complete" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.complete")'/>
                         <div class="col-sm-6">
                             <div class="size" id="addSize">
                                 <div>
-                                    <span class="l">颜色项</span><br/><br/>
-                                    <input type="hidden" id="complete" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.complete")'/>
+                                    <span class="l">颜色项1</span><br/><br/>
+                                    <ul class="l">
+                                        <li>
+                                            <span><input type="text"/></span>
+                                            <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
+                                        </li>
+                                        <li>
+                                            <span><input type="text"/></span>
+                                            <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
+                                        </li>
+                                        <li>
+                                            <span><input type="text"/></span>
+                                            <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
+                                        </li>
+                                        <li style="border:0px;">
+                                            <span class="add">＋</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <span class="l">颜色2</span><br/><br/>
                                     <ul class="l">
                                         <li>
                                             <span><input type="text"/></span>
@@ -144,9 +164,25 @@
                                         <li style="border:0px;">
                                             <span class="add">＋</span>
                                         </li>
-                                        <li style="border:0px;">
-                                            <span class="complete">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.complete")</span>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <span class="l">颜色3</span><br/><br/>
+                                    <ul class="l">
+                                        <li>
+                                            <span><input type="text"/></span>
+                                            <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
                                         </li>
+                                        <li>
+                                            <span><input type="text"/></span>
+                                            <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
+                                        </li>
+                                        <li style="border:0px;">
+                                            <span class="add">＋</span>
+                                        </li>
+                                        <p style="margin-top:55px;margin-left:10px">
+                                            <span class="complete" >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.complete")</span>
+                                        </p>
                                     </ul>
                                 </div>
                             </div>
@@ -219,9 +255,12 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label" ><div class="r">数量价格</div></label>
 
-                        <div class="col-sm-3">
-                            <table class="table table-bordered spsl">
-                                <tr >
+                        <div class="col-sm-6">
+                            <input type="hidden" id ="amount" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productAmount")'/>
+                            <input type="hidden" id ="pri" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")'/>
+                            <input type="hidden" id ="spri" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")'/>
+                            <table class="table table-bordered spsl" id="numpri" border="2px">
+                                <tr>
                                     <td rowspan="2">\</td>
                                     <td colspan="3">颜色1</td>
                                     <td colspan="1">颜色2</td>
@@ -237,30 +276,30 @@
                                 </tr>
                                 <tr>
                                     <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productAmount")</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
                                 </tr>
                                 <tr>
                                     <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
                                 </tr>
                                 <tr>
                                     <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
                                 </tr>
                             </table>
                         </div>
@@ -400,7 +439,13 @@
  })
 
 function changeLang() {
-    location.href='/itemCreate'+$("#language").val();
+    var lang = $("#language").val();
+    if (lang == "") {
+        location.href='/itemCreate';
+    } else {
+        location.href='/'+lang+'/itemCreate';
+    }
+
  }
 
 //表单数据提交

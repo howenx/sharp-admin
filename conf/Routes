@@ -6,7 +6,7 @@
 
 GET				/front                        controllers.Application.welcome
 GET				/itemCreate              	  controllers.Item.itemCreate(lang = "cn")
-GET				/itemCreate$lang<(cn|en|kr)> controllers.Item.itemCreate(lang)
+GET				/$lang<(cn|en|kr)>/itemCreate controllers.Item.itemCreate(lang)
 GET             /getSubcates                  controllers.Item.getSubCategory
 POST            /insertProducts               controllers.Item.insertProducts
 GET             /changeLanguage               controllers.Item.changeLanguage
