@@ -20,6 +20,9 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 #GET     /editorController			controllers.EditorApplication.editorController()
 #POST    /editorController			controllers.EditorApplication.editorController()
 
+# Theme
+GET             /slider                       controllers.Theme.slider(lang = "cn")
+GET             /$lang<(cn|en|kr)>/slider     controllers.Theme.slider(lang)
 
 GET             /                            controllers.Auth.login
 POST            /authenticate                controllers.Auth.authenticate
