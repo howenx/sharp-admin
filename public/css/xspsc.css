@@ -54,7 +54,7 @@ ul,li{
     color: #fff;
 }
 
-.navbar-default .navbar-brand:hover{
+.navbar-default .navbar-brand:hover,.navbar-default .navbar-brand:visited{
     color: #fff;
 }
 

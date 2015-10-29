@@ -66,7 +66,9 @@ $(function(){
                 li3.style.border="0px";
                 var spancomp = document.createElement("span");
                 spancomp.classList.add('complete');
-                spancomp.innerText = "";
+                spancomp.innerText = "完成";
+//                spancomp.innerText  = document.getElementById('complete').value;
+//                spancomp.innerText = $('#complete').val();
 
                 addSize.appendChild(div);
                 div.appendChild(spancn);
@@ -168,10 +170,10 @@ $(function(){
             if (attrN[len-1].value=="" || attrV[len-1].value=="") {
                 $(".table .add").click(function(){});
             } else {
-              $("<tr>").html('<td><input type="text" name="attrN"/></td><td><input type="text" name="attrV"/></td><td class="del">'+document.getElementById("del").value+'</td>').appendTo($(".table"));
+              $("<tr>").html('<td><input type="text" name="attrN"/></td><td><input type="text" name="attrV"/></td><td class="del">'+$('#del').val()+'</td>').appendTo($(".table"));
             }
         } else { //如果全部删除完,点击直接添加
-             $("<tr>").html('<td><input type="text" name="attrN"/></td><td><input type="text" name="attrV"/></td><td class="del">'+document.getElementById("del").value+'</td>').appendTo($(".table"));
+             $("<tr>").html('<td><input type="text" name="attrN"/></td><td><input type="text" name="attrV"/></td><td class="del">'+$('#del').val()+'</td>').appendTo($(".table"));
         }
     });
 
