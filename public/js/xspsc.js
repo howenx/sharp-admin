@@ -28,7 +28,7 @@ $(function(){
             $("<li>").html('<span><input type="text"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
     });
 
-    //颜色全部添加完成的操作,点击后添加到尺寸域内
+    //颜色全部添加完成的操作,点击后添加到尺寸域,和预览图域内
     $(document).on('click','.yanse .complete',function() {
         //最后一项颜色为空点击操作无效
         var color = $(this).parent().prev().prev().children().first().children().first().val();
@@ -36,11 +36,14 @@ $(function(){
             alert("颜色不能有空值!");
             $('.yanse .complete').click(function(){});
         } else {
+            /** 添加尺寸**/
             var addColor = document.getElementById("addColor");
             var colors = addColor.getElementsByTagName("input");
             var len = colors.length;
             var addSize = document.getElementById("addSize");
             addSize.innerHTML = "";
+            var preImgs = document.getElementById("preImgs");
+            preImgs.innerHTML="";
             for(i=0; i<len; i++) {
                 //每一项颜色值,添加一项对应的尺寸列表
                 var div = document.createElement("div");
@@ -62,7 +65,6 @@ $(function(){
                 var spanadd = document.createElement("span");
                 spanadd.classList.add('add');
                 spanadd.innerText = "+";
-
                 addSize.appendChild(div);
                 div.appendChild(spancn);
                 div.appendChild(br1);
@@ -74,11 +76,10 @@ $(function(){
                 li1.appendChild(button);
                 ul.appendChild(li2);
                 li2.appendChild(spanadd);
-
                 //在最后一项增加完成按钮
                 if (i== len -1) {
                     var p = document.createElement("p");
-                    p.style.marginTop="55px";
+                    p.style.marginTop="60px";
                     p.style.marginLeft="10px";
                     var spancomp = document.createElement("span");
                     spancomp.classList.add('complete');
@@ -86,6 +87,64 @@ $(function(){
                     ul.appendChild(p);
                     p.appendChild(spancomp);
                 }
+
+                /** 添加预览图 **/
+                var divpre= document.createElement("div");
+                divpre.classList.add('form-group');
+                divpre.classList.add('fdel');
+                var label = document.createElement("label");
+                label.classList.add('col-sm-3');
+                label.classList.add('control-label');
+                var divx = document.createElement("div");
+                divx.classList.add('r');
+                divx.innerText=$('#preIms').val();
+                var divn = document.createElement("div");
+                divn.classList.add('r');
+                divn.style.paddingTop="20px";
+                divn.style.paddingLeft="100px";
+                divn.innerText= "("+$('#mostS').val()+")";
+                label.appendChild(divx);
+                label.appendChild(divn);
+                var divcol = document.createElement("div");
+                divcol.classList.add("col-sm-9");
+                var divsctp = document.createElement("div");
+                divsctp.classList.add("sctp");
+                var buttonpre = document.createElement("button");
+                buttonpre.classList.add('close');
+                $(buttonpre).append('<span>&times;</span>');
+                var divsctp1 = document.createElement("div");
+                divsctp1.classList.add("sctp1");
+                divsctp1.classList.add("l");
+                var spancol = document.createElement("span");
+                spancol.classList.add("ysfont");
+                spancol.innerText=colors[i].value;
+                var a = document.createElement("a");
+                a.setAttribute('id',"preImgAddP" + i);
+                a.innerText=$('#addPic').val();
+                var inputpres = document.createElement("input");
+                inputpres.type="hidden";
+                inputpres.id="previewImgs"+i;
+                inputpres.name="previewImgs";
+                var inputfile = document.createElement("input");
+                inputfile.type="file";
+                inputfile.id="fileinputP"+i;
+                inputfile.classList.add("hidden1");
+                inputfile.setAttribute("accept", "image/gif, image/jpeg, image/webp, image/png");
+                var divimgk = document.createElement("div");
+                divimgk.classList.add("imgk");
+                divimgk.classList.add("l");
+                divimgk.id = "galleryP"+i;
+                divsctp1.appendChild(spancol);
+                divsctp1.appendChild(a);
+                divsctp1.appendChild(inputpres);
+                divsctp1.appendChild(inputfile);
+                divsctp.appendChild(buttonpre);
+                divsctp.appendChild(divsctp1);
+                divsctp.appendChild(divimgk);
+                divcol.appendChild(divsctp);
+                divpre.appendChild(label);
+                divpre.appendChild(divcol);
+                preImgs.appendChild(divpre);
             }
          }
     });
@@ -116,7 +175,7 @@ $(function(){
             } else if (inps[inps.length-1].value == "") { //最后一个尺寸项有空值
                 break;
             } else if (i == divs.length-1) {
-                alert("可以添加了~_~");
+                //alert("可以添加了~_~");
                 var numpri = document.getElementById("numpri");
                 var tr1 = document.createElement("tr");
                 var tr2 = document.createElement("tr");
@@ -164,7 +223,6 @@ $(function(){
                         tr4.appendChild(tdpr);
                         tr5.appendChild(tdspr);
                      }
-
                 }
                 numpri.appendChild(tr1);
                 numpri.appendChild(tr2);
@@ -184,45 +242,53 @@ $(function(){
 
     //上传图片操作,对动态添加的标签元素,点击移除的操作
     $(document).on('click','.imgyl>.close',function(){
-        $(this).parent().remove();
+        $(this).parent().parent().remove();
         //每次移除遍历所有input标签,其值累加到隐藏域masterImg,previewImgs,detailImgs中
         var masterImg= "";
         var previewImgs= "[";
         var detailImgs= "[";
 
-        var div1 = document.getElementById("gallery1");
-        var inps1 = div1.getElementsByTagName("input");
-        for(i=0; i<inps1.length; i++) {
-        masterImg = masterImg + inps1[i].value;
+        var divM = document.getElementById("galleryM");
+        var inpsM = divM.getElementsByTagName("input");
+        for(i=0; i<inpsM.length; i++) {
+        masterImg = masterImg + inps[i].value;
         }
         $('#masterImg').val(masterImg);
 
-        var div2 = document.getElementById("gallery2");
-        var inps2 = div2.getElementsByTagName("input");
-        for(i=0; i<inps2.length; i++) {
-        previewImgs = previewImgs + '\"' + inps2[i].value + '\"' + ",";
-        }
-        previewImgs = previewImgs.substring(0,previewImgs.length - 1) + "]";
-        $('#previewImgs').val(previewImgs);
 
-        var div3 = document.getElementById("gallery3");
-        var inps3 = div3.getElementsByTagName("input");
-        for(i=0; i<inps3.length; i++) {
-        detailImgs = detailImgs + '\"' + inps3[i].value + '\"' + ",";
+        var prevImgs = document.getElementById("preImgs");
+        var preinpus = prevImgs.getElementsByTagName("input");
+        for(i=0;i<preinpus.length;i++) {
+            if (preinpus[i].type=="file") {
+                var id = "P"+ Math.floor(i/2);
+                var div = document.getElementById("gallery"+id);
+                var inps = div.getElementsByTagName("input");
+                for(i=0; i<inps.length; i++) {
+                    previewImgs = previewImgs + '\"' + inpsP[i].value + '\"' + ",";
+                }
+                previewImgs = previewImgs.substring(0,previewImgs.length - 1) + "]";
+                $('#previewImgs').val(previewImgs);
+            }
+        }
+
+        var divD = document.getElementById("galleryD");
+        var inpsD = divD.getElementsByTagName("input");
+        for(i=0; i<inpsD.length; i++) {
+        detailImgs = detailImgs + '\"' + inpsD[i].value + '\"' + ",";
         }
         detailImgs = detailImgs.substring(0,detailImgs.length - 1) + "]";
         $('#detailImgs').val(detailImgs);
 
         //没有商品主图时,上传按钮置为可点击且颜色恢复
-        if (document.getElementById("gallery1").getElementsByTagName("div").length==0) {
-        $("#fileinput1").removeAttr("disabled");
+        if (document.getElementById("galleryM").getElementsByTagName("div").length==0) {
+        $("#fileinputM").removeAttr("disabled");
         document.getElementById('masterImgAdd').style.background="#00B7EE";
         }
 
         //商品预览图小于6张时恢复上传功能
-        if (document.getElementById("gallery2").getElementsByTagName("div").length<6) {
-        $("#fileinput2").removeAttr("disabled");
-        document.getElementById('preImgAdd').style.background="#00B7EE";
+        if (document.getElementById("gallery"+id).getElementsByTagName("div").length<18) {
+        $("#fileinput"+id).removeAttr("disabled");
+        document.getElementById("preImgAdd"+id).style.background="#00B7EE";
         }
     });
 

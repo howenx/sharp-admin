@@ -207,7 +207,7 @@ ul,li{
 }
 
 .yanse input,.size input, .table input{
-    width: 50px;height: 22px;border: 0;outline: none;padding: 0;
+    width: 50px;height: 22px;border: 0;outline: none;padding: 0;font-size: 14px;
 }
 
 .size{
@@ -224,18 +224,6 @@ ul,li{
 }
 .ysfont{
     position: absolute;top: -25px;left: 32px;color: #00B7E
-}
-.magrad{
-    margin-top: 60px;
-}
-.magrad input{
-    margin-left: 55px;margin-bottom: 10px;
-}
-.magrad p{
-    text-align: center;
-}
-.smallf{
-    font-size: 12px;
 }
 
 
