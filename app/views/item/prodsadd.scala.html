@@ -116,6 +116,10 @@
                                         <span><input type="text"/></span>
                                         <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     </li>
+                                    <li>
+                                        <span><input type="text"/></span>
+                                        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </li>
                                     <li style="border:0px;">
                                         <span class="add" >＋</span>
                                     </li>
@@ -131,12 +135,20 @@
                         <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productSize")</div></label>
 
                         <input type="hidden" id="productSize" name="productSize"/>
+                        <input type="hidden" id="complete" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.complete")'/>
                         <div class="col-sm-6">
                             <div class="size" id="addSize">
                                 <div>
-                                    <span class="l">颜色项</span><br/><br/>
-                                    <input type="hidden" id="complete" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.complete")'/>
+                                    <span class="l">颜色项1</span><br/><br/>
                                     <ul class="l">
+                                        <li>
+                                            <span><input type="text"/></span>
+                                            <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
+                                        </li>
+                                        <li>
+                                            <span><input type="text"/></span>
+                                            <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
+                                        </li>
                                         <li>
                                             <span><input type="text"/></span>
                                             <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
@@ -144,9 +156,25 @@
                                         <li style="border:0px;">
                                             <span class="add">＋</span>
                                         </li>
-                                        <li style="border:0px;">
-                                            <span class="complete">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.complete")</span>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <span class="l">颜色项2</span><br/><br/>
+                                    <ul class="l">
+                                        <li>
+                                            <span><input type="text"/></span>
+                                            <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
                                         </li>
+                                        <li>
+                                            <span><input type="text"/></span>
+                                            <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
+                                        </li>
+                                        <li style="border:0px;">
+                                            <span class="add">＋</span>
+                                        </li>
+                                        <p style="margin-top:60px;margin-left:10px">
+                                            <span class="complete" >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.complete")</span>
+                                        </p>
                                     </ul>
                                 </div>
                             </div>
@@ -219,48 +247,46 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label" ><div class="r">数量价格</div></label>
 
-                        <div class="col-sm-3">
-                            <table class="table table-bordered spsl">
-                                <tr >
+                        <div class="col-sm-9">
+                            <input type="hidden" id ="amount" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productAmount")'/>
+                            <input type="hidden" id ="pri" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")'/>
+                            <input type="hidden" id ="spri" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")'/>
+                            <table class="table table-bordered spsl" id="numpri" border="2px">
+                                <tr>
                                     <td rowspan="2">\</td>
                                     <td colspan="3">颜色1</td>
-                                    <td colspan="1">颜色2</td>
                                     <td colspan="2">颜色3</td>
                                 </tr>
                                 <tr>
                                     <td>颜色1尺寸1</td>
-                                    <td>颜色1尺寸2</td>
-                                    <td>颜色1尺寸3</td>
+                                    <td>颜色2尺寸2</td>
+                                    <td>颜色3尺寸3</td>
                                     <td>颜色2尺寸1</td>
-                                    <td>颜色3尺寸1</td>
-                                    <td>颜色3尺寸2</td>
+                                    <td>颜色2尺寸2</td>
                                 </tr>
                                 <tr>
                                     <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productAmount")</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
                                 </tr>
                                 <tr>
                                     <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
                                 </tr>
                                 <tr>
                                     <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
+                                    <td><input type="text"/></td>
                                 </tr>
                             </table>
                         </div>
@@ -277,29 +303,56 @@
                                 <div class="sctp1 l">
                                     <a href="#" id="masterImgAdd">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
                                     <input type="hidden" id="masterImg" name="masterImg" value=""/>
-                                    <input type="file" id="fileinput1" name="image" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png" />
+                                    <input type="file" id="fileinputM" name="image" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png" />
                                 </div>
-                                <div class="imgk l" id="gallery1" style="width:150px">
+                                <div class="imgk l" id="galleryM" style="width:150px">
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</div><div class="r" style="padding-top:20px;padding-left:100px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic"))</div></label>
+                    <input type="hidden" id="preIms" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")' />
+                    <input type="hidden" id="mostS" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic")' />
+                    <input type="hidden" id="addPic" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")' />
+                    <div id="preImgs">
 
-                        <div class="col-sm-9">
-                            <div class="sctp">
-                                <div class="sctp1 l">
-                                    <a href="#" id="preImgAdd">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
-                                    <input type="hidden" id="previewImgs" name="previewImgs" />
-                                    <input type="file" id="fileinput2"  name="image" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                        <div class="form-group fdel">
+                            <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</div><div class="r" style="padding-top:20px;padding-left:100px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic"))</div></label>
+
+                            <div class="col-sm-9">
+                                <div class="sctp">
+                                    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <div class="sctp1 l">
+                                        <span class="ysfont">颜色1</span>
+                                        <a href="#" id="preImgAddP0">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
+                                        <input type="hidden" id="previewImgs0" name="previewImgs"/>
+                                        <input type="file"  id="fileinputP0" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                                    </div>
+                                    <div class="imgk l" id="galleryP0">
+                                    </div>
                                 </div>
-                                <div class="imgk l" id="gallery2" name="gallery2">
+                            </div>
+                        </div>
+
+                        <div class="form-group fdel">
+                            <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</div><div class="r" style="padding-top:20px;padding-left:100px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic"))</div></label>
+
+                            <div class="col-sm-9">
+                                <div class="sctp">
+                                    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <div class="sctp1 l">
+                                        <span class="ysfont">颜色2</span>
+                                        <a href="#" id="preImgAddP1">添加图片</a>
+                                        <input type="hidden" id="previewImgs1" name="previewImgs"/>
+                                        <input type="file" id="fileinputP1" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                                    </div>
+                                    <div class="imgk l" id="galleryP1">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label class="col-sm-3 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</label>
 
@@ -308,14 +361,15 @@
                                 <div class="sctp1 l">
                                     <a href="#">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
                                     <input type="hidden" id="detailImgs" name="detailImgs" />
-                                    <input type="file" id="fileinput3" name="image" class="hidden1" value=""/>
+                                    <input type="file" id="fileinputD" name="image" class="hidden1" value=""/>
                                 </div>
-                                <div class="imgk l" id="gallery3">
+                                <div class="imgk l" id="galleryD">
                                 </div>
                             </div>
                         </div>
 
                     </div>
+
                     <div class="form-group">
                         <label class="col-sm-3 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productDesc")</label>
 
@@ -324,8 +378,6 @@
                             <input type="text" class="form-control" id="productDesc" name="productDesc">
                         </div>
                     </div>
-
-
 
                     <div class="form-group">
                         <label class="col-sm-3 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.features")</label>
@@ -400,7 +452,13 @@
  })
 
 function changeLang() {
-    location.href='/itemCreate'+$("#language").val();
+    var lang = $("#language").val();
+    if (lang == "") {
+        location.href='/itemCreate';
+    } else {
+        location.href='/'+lang+'/itemCreate';
+    }
+
  }
 
 //表单数据提交
@@ -458,28 +516,37 @@ function submitProducts() {
     }
 }
 
-//上传图片
+/** 上传图片 **/
+//主图
+var uploadfileM = document.querySelector('#fileinputM');
+//详细图
+var uploadfileD = document.querySelector('#fileinputD');
+//预览图
+var prevImgs = document.getElementById("preImgs");
+var preinpus = prevImgs.getElementsByTagName("input");
+for(i=0;i<preinpus.length;i++) {
+    if (preinpus[i].type=="file") {
+        var id = "P"+ Math.floor(i/2);
+        var fileinputP = "fileinput"+ id;
+        uploadfileP = document.querySelector('#'+fileinputP);
+        //商品预览图
+        uploadfileP.addEventListener('change', function() {
+            var files = this.files;
+            for (var i = 0; i < files.length; i++) {
+                previewImage(this.files[i], id);
+            }
+        }, false);
 
-var uploadfiles1 = document.querySelector('#fileinput1');
-var uploadfiles2 = document.querySelector('#fileinput2');
-var uploadfiles3 = document.querySelector('#fileinput3');
+    }
+}
+
 
 //商品主图
 
-uploadfiles1.addEventListener('change', function() {
+uploadfileM.addEventListener('change', function() {
 
     var files = this.files;
-    var id = 1;
-    for (var i = 0; i < files.length; i++) {
-        previewImage(this.files[i], id);
-    }
-}, false);
-
-//商品预览图
-
-uploadfiles2.addEventListener('change', function() {
-    var files = this.files;
-    var id = 2;
+    var id = "M";
     for (var i = 0; i < files.length; i++) {
         previewImage(this.files[i], id);
     }
@@ -487,9 +554,9 @@ uploadfiles2.addEventListener('change', function() {
 
 //商品详细图
 
-uploadfiles3.addEventListener('change', function() {
+uploadfileD.addEventListener('change', function() {
     var files = this.files;
-    var id = 3;
+    var id = "D";
     for (var i = 0; i < files.length; i++) {
         previewImage(this.files[i], id);
     }
@@ -504,6 +571,8 @@ function previewImage(file, id) {
         throw "File Type must be an image";
     }
 
+
+    var div = document.createElement("div");
     var thumb = document.createElement("div");
     thumb.classList.add('imgyl');
     var button = document.createElement("button");
@@ -512,20 +581,38 @@ function previewImage(file, id) {
     $(button).append('<span>&times;</span>');
     var img = document.createElement("img");
     img.file = file;
-    gallery.appendChild(thumb);
     thumb.appendChild(button);
     thumb.appendChild(img);
+    div.appendChild(thumb);
+    gallery.appendChild(div);
+
+    //预览图增加设为主图的按钮
+    if(id.indexOf("P")>=0) {
+        var divr = document.createElement("div");
+        var inpr = document.createElement("input");
+        inpr.type="radio";
+        inpr.name=galleryId;
+        var lab = document.createElement("label");
+        lab.innerText="设为主图";
+        divr.style.marginTop="105px";
+        divr.style.marginLeft="20px";
+        divr.appendChild(inpr);
+        divr.appendChild(lab);
+        var br = document.createElement("br");
+        div.appendChild(br);
+        div.appendChild(divr);
+    }
 
      //添加商品主图主图后,添加图片按钮置为不可点击且颜色变为灰色
-     if (document.getElementById("gallery1").getElementsByTagName("div").length>0) {
-         $("#fileinput1").attr({"disabled":true});
+     if (document.getElementById("galleryM").getElementsByTagName("div").length>0) {
+         $("#fileinputM").attr({"disabled":true});
          document.getElementById('masterImgAdd').style.background="#ccc";
      }
 
      //商品预览图最多为6张
-     if (document.getElementById("gallery2").getElementsByTagName("div").length==6) {
-         $("#fileinput2").attr({"disabled":true});
-         document.getElementById('preImgAdd').style.background="#ccc";
+     if (document.getElementById("gallery"+id).getElementsByTagName("div").length==18) {
+         $("#fileinput"+id).attr({"disabled":true});
+         document.getElementById("preImgAdd"+id).style.background="#ccc";
      }
 
      upload(thumb, file, id);
@@ -561,32 +648,33 @@ function upload(thumb, file, id) {
             input.value=data.path;
 
             alert(data.message);
-            if (id==1) {
+            if (id=="M") {
                 //添加商品主图片遍历所有input标签,其值累加到隐藏域masterImg中
                 var masterImg = "";
-                divs1 = document.getElementById("gallery1");
-                inps1 = divs1.getElementsByTagName("input");
-                for(i=0; i<inps1.length; i++) {
-                    masterImg = masterImg + inps1[i].value;
+                divsM = document.getElementById("galleryM");
+                inpsM = divsM.getElementsByTagName("input");
+                for(i=0; i<inpsM.length; i++) {
+                    masterImg = masterImg + inpsM[i].value;
                 }
                 $('#masterImg').val(masterImg);
-            } else if (id==2) {
+            } else if(id.indexOf("P")>=0) {
                 //每次添加商品预览图遍历所有input标签,其值累加到隐藏域previewImgs中
                 var previewImgs = "[";
-                divs2 = document.getElementById("gallery2");
-                inps2 = divs2.getElementsByTagName("input");
-                for(i=0; i<inps2.length; i++) {
-                    previewImgs = previewImgs + '\"' + inps2[i].value + '\"' + ",";
+                var galleryId = "gallery" + id;
+  	            var divsP = document.getElementById(galleryId);
+                inpsP = divsP.getElementsByTagName("input");
+                for(i=0; i<inpsP.length; i++) {
+                    previewImgs = previewImgs + '\"' + inpsP[i].value + '\"' + ",";
                 }
                 previewImgs = previewImgs.substring(0,previewImgs.length - 1) + "]";
                 $('#previewImgs').val(previewImgs);
-            } else if (id==3) {
+            } else if (id=="D") {
                 //每次添加商品详细图片遍历所有input标签,其值累加到隐藏域detailImgs中
                 var detailImgs = "[";
-                divs3 = document.getElementById("gallery3");
-                inps3 = divs3.getElementsByTagName("input");
-                for(i=0; i<inps3.length; i++) {
-                    detailImgs = detailImgs + '\"' + inps3[i].value + '\"' + ",";
+                divsD = document.getElementById("galleryD");
+                inpsD = divsD.getElementsByTagName("input");
+                for(i=0; i<inpsD.length; i++) {
+                    detailImgs = detailImgs + '\"' + inpsD[i].value + '\"' + ",";
                 }
                  detailImgs = detailImgs.substring(0,detailImgs.length - 1) + "]";
                 $('#detailImgs').val(detailImgs);
