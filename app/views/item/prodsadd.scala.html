@@ -113,18 +113,11 @@
                             <div class="yanse">
                                 <ul>
                                     <li>
-                                        <span><input type="text"/></span>
-                                        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    </li>
-                                    <li>
-                                        <span><input type="text"/></span>
+                                        <span><input type="text" class="colorIn"/></span>
                                         <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     </li>
                                     <li style="border:0px;">
                                         <span class="add" >＋</span>
-                                    </li>
-                                    <li style="border:0px;">
-                                        <span class="complete">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.complete")</span>
                                     </li>
                                 </ul>
                             </div>
@@ -135,22 +128,13 @@
                         <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productSize")</div></label>
 
                         <input type="hidden" id="productSize" name="productSize"/>
-                        <input type="hidden" id="complete" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.complete")'/>
                         <div class="col-sm-6">
                             <div class="size" id="addSize">
                                 <div>
                                     <span class="l">颜色项1</span><br/><br/>
                                     <ul class="l">
                                         <li>
-                                            <span><input type="text"/></span>
-                                            <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
-                                        </li>
-                                        <li>
-                                            <span><input type="text"/></span>
-                                            <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
-                                        </li>
-                                        <li>
-                                            <span><input type="text"/></span>
+                                            <span><input type="text" class="sizeIn"/></span>
                                             <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
                                         </li>
                                         <li style="border:0px;">
@@ -161,20 +145,17 @@
                                 <div>
                                     <span class="l">颜色项2</span><br/><br/>
                                     <ul class="l">
-                                        <li>
-                                            <span><input type="text"/></span>
+                                        <li class="sizeIn">
+                                            <span><input type="text" class="sizeIn"/></span>
                                             <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
                                         </li>
-                                        <li>
-                                            <span><input type="text"/></span>
+                                        <li class="sizeIn">
+                                            <span><input type="text" class="sizeIn"/></span>
                                             <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
                                         </li>
                                         <li style="border:0px;">
                                             <span class="add">＋</span>
                                         </li>
-                                        <p style="margin-top:60px;margin-left:10px">
-                                            <span class="complete" >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.complete")</span>
-                                        </p>
                                     </ul>
                                 </div>
                             </div>
@@ -245,7 +226,7 @@
                     <!--</div>-->
 
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r">数量价格</div></label>
+                        <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.numPri")</div></label>
 
                         <div class="col-sm-9">
                             <input type="hidden" id ="amount" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productAmount")'/>
