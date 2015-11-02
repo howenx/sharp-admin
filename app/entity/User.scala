@@ -1,13 +1,13 @@
 package entity
 
-import anorm.{~, SQL}
+import anorm._
 import anorm.SqlParser._
-import play.api.cache.Cache
 import play.api.db.DB
 import play.api.Play.current
+import AnormEnumerationExtension._
 
+case class User (id: Long, nickname: String, gender: Gender.gender, photo_url: String ,  role: User_Type.user_type )
 
-case class User (id: Long, nickname: String, gender: String, photo_url: String)
 /**
  * Created by handy on 15/10/27.
  * kakao china
@@ -17,26 +17,72 @@ object User {
   val user = {
     get[Long]("user_id") ~
       get[String]("nickname") ~
-      get[String]("gender") ~
-      get[String]("photo_url") map {
-      case user_id ~ nickname ~ gender ~ photo_url => User(user_id, nickname, gender, photo_url)
+      get[Gender.gender]("gender") ~
+      get[String]("photo_url") ~
+      get[User_Type.user_type]("role") map {
+      case user_id ~ nickname ~ gender ~ photo_url ~ role => User(user_id, nickname, gender, photo_url, role )
     }
 
   }
 
   def find_by_phone (phone:String, passwd: String):Option[User] = {
     DB.withConnection("account")  { implicit conn =>
-    val sql = SQL( """select user_id, nickname from "ID" where phone_num = {phone_num} and passwd = user_passwd(user_id, {passwd}) and status = 'Y' """).on("phone_num" -> phone, "passwd" -> passwd)
+    val sql = SQL( """select id.user_id, id.nickname, id.gender, id.photo_url, admin.role from "ID" as id, "ID_ADMIN" as adm where id.user_id = adm.user_id and id.phone_num = {phone_num} and id.passwd = user_passwd(id.user_id, {passwd}) and adm.status = 'Y' """).on("phone_num" -> phone, "passwd" -> passwd)
     sql.as(user *).headOption
    }
   }
 
   def find_by_name (nickname:String, passwd: String):Option[User] = {
     DB.withConnection("account")  { implicit conn =>
-      val sql = SQL( """select user_id, nickname from "ID" where nickname = {nickname} and passwd = user_passwd(user_id, {passwd}) and status = 'Y' """).on("nickname" -> nickname, "passwd" -> passwd)
+      val sql = SQL( """select id.user_id, id.nickname, id.gender, id.photo_url, adm.role from "ID" as id, "ID_ADMIN" as adm where id.user_id = adm.user_id and id.nickname = {nickname} and id.passwd = user_passwd(id.user_id, {passwd}) and adm.status = 'Y' """).on("nickname" -> nickname, "passwd" -> passwd)
       sql.as(user *).headOption
     }
   }
 
 
+}
+
+/**
+ * 用户类型:供应商,翻译人员,管理员,系统管理员
+ */
+object User_Type extends Enumeration {
+  type user_type = Value
+  val SELLER, TRANSLATION, ADMIN, SYSTEM = Value
+}
+
+object Gender extends Enumeration {
+
+  type gender = Value;
+
+  val M, F = Value
+}
+
+
+import java.lang.reflect.InvocationTargetException
+import scala.reflect.runtime.universe._
+
+object AnormEnumerationExtension {
+
+
+  private lazy val rm = scala.reflect.runtime.currentMirror
+
+  implicit def enumToParameterValue[E <: Enumeration: TypeTag](enumValue: E#Value): ParameterValue = enumValue.toString
+
+  implicit def rowToEnumValue[E <: Enumeration: TypeTag]: Column[E#Value] = Column.nonNull { (value, meta) =>
+    val MetaDataItem(qualified, _, _) = meta
+    value match {
+      case string: String => {
+        val methodSym = typeTag[E].tpe.member(newTermName("withName")).asMethod
+        val im = rm.reflect(rm.reflectModule(typeOf[E].termSymbol.asModule).instance)
+        try {
+          Right(im.reflectMethod(methodSym)(string).asInstanceOf[E#Value])
+        }
+        catch {
+          case e: InvocationTargetException if e.getCause.isInstanceOf[NoSuchElementException] =>
+            Left(SqlMappingError(s"Can't convert '$string' to ${typeTag[E].tpe}, because it isn't a valid value: $qualified"))
+        }
+      }
+      case _ => Left(TypeDoesNotMatch(s"Can't convert [$value:${value.asInstanceOf[AnyRef].getClass}] to ${typeTag[E].tpe}: $qualified"))
+    }
+  }
 }

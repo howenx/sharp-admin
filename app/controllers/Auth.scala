@@ -40,10 +40,11 @@ class Auth extends Controller with Secured{
     name match {
       case p(_*) =>
         //电话号码查询
-        Some (User (111,"test", "tst","test") )
+        User.find_by_phone(name,password)
       case _ =>
         //用户昵称查询
-        Some (User (111,"test", "tst","test") )
+        User.find_by_name(name,password)
+
     }
   }
 
@@ -62,18 +63,21 @@ class Auth extends Controller with Secured{
     val user_info = login_form.bindFromRequest
     user_info.fold (
       formWithErrors => {
-        Logger.debug("to login page...")
+        Logger.debug("form error, to login page...")
         Logger.debug(formWithErrors.toString)
         Ok(views.html.login(formWithErrors))
       },
       login_info => {
         check(login_info.name, login_info.passwd) match {
           case None =>
+            Logger.debug("not admin user")
             Ok(views.html.login(user_info))
           case Some(user) =>
-            Logger.debug("user login... to admin age")
+            Logger.debug(s"user login... to admin age  $user")
+            Logger.debug(user.gender.toString)
             Cache.set(user.nickname, user.id.toString)
             Logger.debug(Cache.get(user.nickname).toString)
+
             Redirect(routes.Application.welcome()).withSession( request.session + ("username"-> user.nickname))
 
         }
