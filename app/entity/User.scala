@@ -50,6 +50,10 @@ object User_Type extends Enumeration {
   val SELLER, TRANSLATION, ADMIN, SYSTEM = Value
 }
 
+
+/**
+  * 用户性别: 男:M, 女:F
+  */
 object Gender extends Enumeration {
 
   type gender = Value;
@@ -61,6 +65,9 @@ object Gender extends Enumeration {
 import java.lang.reflect.InvocationTargetException
 import scala.reflect.runtime.universe._
 
+/**
+  * 映射db enum的值到scala的enum中
+  */
 object AnormEnumerationExtension {
 
 
@@ -68,11 +75,11 @@ object AnormEnumerationExtension {
 
   implicit def enumToParameterValue[E <: Enumeration: TypeTag](enumValue: E#Value): ParameterValue = enumValue.toString
 
-  implicit def rowToEnumValue[E <: Enumeration: TypeTag]: Column[E#Value] = Column.nonNull { (value, meta) =>
+  implicit def rowToEnumValue[E <: Enumeration: TypeTag]: Column[E#Value] = Column.nonNull1 { (value, meta) =>
     val MetaDataItem(qualified, _, _) = meta
     value match {
       case string: String => {
-        val methodSym = typeTag[E].tpe.member(newTermName("withName")).asMethod
+        val methodSym = typeTag[E].tpe.member(TermName("withName")).asMethod
         val im = rm.reflect(rm.reflectModule(typeOf[E].termSymbol.asModule).instance)
         try {
           Right(im.reflectMethod(methodSym)(string).asInstanceOf[E#Value])

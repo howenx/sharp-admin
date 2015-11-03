@@ -1,32 +1,64 @@
 package controllers
 
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 import play.api.mvc.{Controller}
 import play.api.Logger
+import play.api.Play.current
+import play.api.i18n.{Lang, MessagesApi, I18nSupport}
+
 /**
- * Created by handy on 15/10/29.
- * kakao china
- */
+  * Created by handy on 15/10/29.
+  * kakao china
+  */
 @Singleton
-class Application extends Controller with Secured{
+@Inject
+class Application @Inject()(val messagesApi: MessagesApi) extends Controller with Secured with I18nSupport {
 
-  def welcome()  = isAuthenticated { user => {
-    implicit  request => {
-      Logger.debug(s" user is $user")
 
-      Ok(views.html.welcome("cn",request.session.get("username").getOrElse("")))
+
+  def welcome(lang:String) = withUser { user => {
+    implicit request => {
+      val lang = request.getQueryString("lang") match {
+        case Some(l) =>
+          Lang.apply(l)
+        case l =>
+          Lang.preferred(request.acceptLanguages)
+      }
+
+      //Ok(views.html.welcome("cn",request.session.get("username").getOrElse(""))).withLang(lang)
+      Ok(views.html.welcome(lang.code, user.nickname))
     }
   }
   }
 
-  def welcomeLang(lang:String)  = isAuthenticated { user => {
-    implicit  request => {
-      Logger.debug(s" user is $user")
+//  def welcome() = withUser { user => {
+//    implicit request => {
+//      val lang = request.getQueryString("lang") match {
+//        case Some(l) =>
+//          Lang.apply(l)
+//        case l =>
+//          Lang.preferred(request.acceptLanguages)
+//      }
+//
+//      //Ok(views.html.welcome("cn",request.session.get("username").getOrElse(""))).withLang(lang)
+//      Ok(views.html.welcome(lang.code, user.nickname))
+//    }
+//  }
+//  }
 
-      Ok(views.html.welcome(lang,request.session.get("username").getOrElse("")))
+  /**
+    * 供应商提供信息表格
+    * @return
+    */
+  def supply = withUser { user => {
+    implicit request => {
+      Logger.debug(s" $user")
+      Ok("ok")
     }
+
   }
+
   }
 
 }

@@ -49,6 +49,10 @@ nav.promotion = Promotion
 #login
 login.user = Welcome,{0}
 login.quit = Quit
+login.title = Login
+login.username = Please enter username
+login.passwd = Please enter password
+login.login = Login
 
 #themes
 themes.slider.title = Slider Management

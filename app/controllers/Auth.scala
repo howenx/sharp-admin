@@ -2,12 +2,13 @@ package controllers
 
 
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 import play.api.cache.Cache
 import play.api.Play.current
 import entity.User
 import play.api.data._
 import play.api.data.Forms._
+import play.api.i18n.{Lang, MessagesApi, I18nSupport}
 import play.api.mvc.{Results, Action, Controller}
 import play.api.Logger
 case class LoginInfo(name:String, passwd: String)
@@ -18,7 +19,7 @@ case class LoginInfo(name:String, passwd: String)
  * kakao china
  */
 @Singleton
-class Auth extends Controller with Secured{
+class Auth @Inject() (val messagesApi: MessagesApi) extends Controller with Secured with I18nSupport{
 
   var login_form = Form(mapping(
   "name" -> nonEmptyText(minLength = 3),
@@ -50,7 +51,15 @@ class Auth extends Controller with Secured{
 
   def login = Action { implicit  request =>
     val bind_form = login_form.bind(Map("name"->"","passwd"->""))
-    Ok(views.html.login(bind_form))
+
+    val lang = request.getQueryString("lang") match {
+      case Some(l) =>
+        Lang.apply(l)
+      case l =>
+        Lang.preferred(request.acceptLanguages)
+    }
+
+    Ok(views.html.login(bind_form)).withLang(lang)
 
   }
 
@@ -74,11 +83,14 @@ class Auth extends Controller with Secured{
             Ok(views.html.login(user_info))
           case Some(user) =>
             Logger.debug(s"user login... to admin age  $user")
-            Logger.debug(user.gender.toString)
-            Cache.set(user.nickname, user.id.toString)
-            Logger.debug(Cache.get(user.nickname).toString)
-
-            Redirect(routes.Application.welcome()).withSession( request.session + ("username"-> user.nickname))
+            Cache.set(user.nickname, user)
+            val lang = request.getQueryString("lang") match {
+              case Some(l) =>
+                Lang.apply(l)
+              case l =>
+                Lang.preferred(request.acceptLanguages)
+            }
+            Redirect(routes.Application.welcome(lang.code)).withSession( request.session + ("username"-> user.nickname))
 
         }
 
@@ -87,6 +99,10 @@ class Auth extends Controller with Secured{
 
   }
 
+  /**
+    * 登出
+    * @return
+    */
   def logout = isAuthenticated { user => {
     implicit  request => {
       Results.Redirect(routes.Auth.login).withSession(request.session - ("username"))
