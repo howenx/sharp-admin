@@ -2,8 +2,8 @@
 # 为了减少merge请覆盖空白行进行添加
 
 # Home page
-GET				/front                              controllers.Application.welcome
-#GET				/$lang<(cn|en|kr)>/front            controllers.Application.welcomeLang(lang)
+GET				/front                              controllers.Application.welcome(lang= "cn")
+GET				/$lang<(cn|en|kr)>/front            controllers.Application.welcome(lang)
 GET				/itemCreate              	        controllers.Item.itemCreate(lang = "cn")
 GET				/$lang<(cn|en|kr)>/itemCreate       controllers.Item.itemCreate(lang)
 GET             /getSubcates                        controllers.Item.getSubCategory
@@ -57,6 +57,7 @@ GET             /$lang<(cn|en|kr)>/slider           controllers.Theme.slider(lan
 GET             /                                   controllers.Auth.login
 POST            /authenticate                       controllers.Auth.authenticate
 GET             /logout                             controllers.Auth.logout
+GET             /test                               controllers.Test.test
 
 
 

@@ -6,16 +6,19 @@ import play.api.mvc.{Controller}
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.{Lang, MessagesApi, I18nSupport}
+
 /**
- * Created by handy on 15/10/29.
- * kakao china
- */
+  * Created by handy on 15/10/29.
+  * kakao china
+  */
 @Singleton
 @Inject
-class Application @Inject()(val messagesApi: MessagesApi) extends Controller with Secured with I18nSupport{
+class Application @Inject()(val messagesApi: MessagesApi) extends Controller with Secured with I18nSupport {
 
-  def welcome()  = withUser { user => {
-    implicit  request => {
+
+
+  def welcome(lang:String) = withUser { user => {
+    implicit request => {
       val lang = request.getQueryString("lang") match {
         case Some(l) =>
           Lang.apply(l)
@@ -24,19 +27,33 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
       }
 
       //Ok(views.html.welcome("cn",request.session.get("username").getOrElse(""))).withLang(lang)
-      Ok(views.html.welcome(lang.code,user.nickname))
+      Ok(views.html.welcome(lang.code, user.nickname))
     }
   }
   }
 
+//  def welcome() = withUser { user => {
+//    implicit request => {
+//      val lang = request.getQueryString("lang") match {
+//        case Some(l) =>
+//          Lang.apply(l)
+//        case l =>
+//          Lang.preferred(request.acceptLanguages)
+//      }
+//
+//      //Ok(views.html.welcome("cn",request.session.get("username").getOrElse(""))).withLang(lang)
+//      Ok(views.html.welcome(lang.code, user.nickname))
+//    }
+//  }
+//  }
 
   /**
     * 供应商提供信息表格
     * @return
     */
-  def supply = isAuthenticated { user => {
+  def supply = withUser { user => {
     implicit request => {
-
+      Logger.debug(s" $user")
       Ok("ok")
     }
 

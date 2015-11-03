@@ -84,7 +84,13 @@ class Auth @Inject() (val messagesApi: MessagesApi) extends Controller with Secu
           case Some(user) =>
             Logger.debug(s"user login... to admin age  $user")
             Cache.set(user.nickname, user)
-            Redirect(routes.Application.welcome()).withSession( request.session + ("username"-> user.nickname))
+            val lang = request.getQueryString("lang") match {
+              case Some(l) =>
+                Lang.apply(l)
+              case l =>
+                Lang.preferred(request.acceptLanguages)
+            }
+            Redirect(routes.Application.welcome(lang.code)).withSession( request.session + ("username"-> user.nickname))
 
         }
 
