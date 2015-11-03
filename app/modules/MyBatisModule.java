@@ -1,9 +1,11 @@
 package modules;
 
 import com.google.inject.name.Named;
+import controllers.Theme;
 import mapper.BrandsMapper;
 import mapper.CatesMapper;
 import mapper.ProductsMapper;
+import mapper.ThemeMapper;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import play.Logger;
 import play.db.DBApi;
@@ -37,6 +39,7 @@ public class MyBatisModule extends org.mybatis.guice.MyBatisModule {
         addMapperClass(BrandsMapper.class);
         addMapperClass(CatesMapper.class);
         addMapperClass(ProductsMapper.class);
+        addMapperClass(ThemeMapper.class);
 
 //			environmentId("development1");
 //			bindConstant().annotatedWith(Names.named("mybatis.configuration.failFast")).to(true);
