@@ -3,7 +3,7 @@
 
 # Home page
 GET				/front                              controllers.Application.welcome
-GET				/$lang<(cn|en|kr)>/front            controllers.Application.welcomeLang(lang)
+#GET				/$lang<(cn|en|kr)>/front            controllers.Application.welcomeLang(lang)
 GET				/itemCreate              	        controllers.Item.itemCreate(lang = "cn")
 GET				/$lang<(cn|en|kr)>/itemCreate       controllers.Item.itemCreate(lang)
 GET             /getSubcates                        controllers.Item.getSubCategory

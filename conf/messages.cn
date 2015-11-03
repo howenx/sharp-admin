@@ -48,6 +48,10 @@ nav.promotion = 活动管理
 #login
 login.user = 欢迎你,{0}
 login.quit = 退出
+login.title = 登录
+login.username = 请输入用户名
+login.passwd = 请输入密码
+login.login = 登录
 
 
 #themes
