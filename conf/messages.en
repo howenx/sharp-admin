@@ -1,3 +1,6 @@
+#item
+item.add.prodsAddTitle= Add Products
+item.add.prodsListTitle=Products Management
 item.add.basics=        products basic information
 item.add.language=       language
 item.add.pleaseSelect=  please select
@@ -29,6 +32,14 @@ item.add.add=           add
 item.add.delete=        delete
 item.add.cancel=        cancel
 
+
+
+
+
+
+
+
+
 #nav
 nav.home = HOME
 nav.products = Products
@@ -45,6 +56,12 @@ nav.app = App
 nav.notice = Notice
 nav.promotion = Promotion
 
+
+
+
+
+
+
 #login
 login.user = Welcome,{0}
 login.quit = Quit
@@ -53,9 +70,25 @@ login.username = Please enter username
 login.passwd = Please enter password
 login.login = Login
 
+
+
+
+
+
+
+
+
+
+
 #themes
 themes.slider.title = Slider Management
 themes.slider.upload = Upload Images
+
+
+
+
+
+
 
 #welcome
 welcome.title = Homepage

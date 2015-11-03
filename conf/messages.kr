@@ -1,3 +1,6 @@
+#item
+item.add.prodsAddTitle=商品添加_kr
+item.add.prodsListTitle=商品管理_kr
 item.add.basics=商品基本信息_kr
 item.add.language=语言_kr
 item.add.pleaseSelect=请选择_kr
@@ -30,6 +33,13 @@ item.add.delete=删除_kr
 item.add.cancel=取消_kr
 
 
+
+
+
+
+
+
+
 #nav
 nav.home = HOME
 nav.products = Products
@@ -46,6 +56,12 @@ nav.app = App
 nav.notice = Notice
 nav.promotion = Promotion
 
+
+
+
+
+
+
 #login
 login.user = Welcome,{0}
 login.quit = Quit
@@ -54,9 +70,25 @@ login.username = Please enter username
 login.passwd = Please enter password
 login.login = Login
 
+
+
+
+
+
+
+
+
+
+
 #themes
 themes.slider.title = Slider Management
 themes.slider.upload = Upload Images
+
+
+
+
+
+
 
 #welcome
 welcome.title = Homepage

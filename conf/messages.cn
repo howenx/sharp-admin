@@ -1,3 +1,6 @@
+#item
+item.add.prodsAddTitle=商品添加
+item.add.prodsListTitle=商品管理
 item.add.basics=商品基本信息
 item.add.language=语言
 item.add.pleaseSelect=请选择
@@ -29,6 +32,14 @@ item.add.add=添加
 item.add.delete=删除
 item.add.cancel=取消
 
+
+
+
+
+
+
+
+
 #nav
 nav.home = 首页
 nav.products = 商品管理
@@ -45,6 +56,12 @@ nav.app = 应用管理
 nav.notice = 公告管理
 nav.promotion = 活动管理
 
+
+
+
+
+
+
 #login
 login.user = 欢迎你,{0}
 login.quit = 退出
@@ -54,9 +71,24 @@ login.passwd = 请输入密码
 login.login = 登录
 
 
+
+
+
+
+
+
+
+
+
 #themes
 themes.slider.title = 滚动条管理
 themes.slider.upload = 选择照片
+
+
+
+
+
+
 
 #welcome
 welcome.title = 首页

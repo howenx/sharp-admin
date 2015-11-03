@@ -9,7 +9,8 @@ GET				/$lang<(cn|en|kr)>/itemCreate       controllers.Item.itemCreate(lang)
 GET             /getSubcates                        controllers.Item.getSubCategory
 POST            /insertProducts                     controllers.Item.insertProducts
 GET             /changeLanguage                     controllers.Item.changeLanguage
-GET             /prodsList                          controllers.Item.prodsList
+GET             /prodsList                          controllers.Item.prodsList(lang = "cn")
+GET             /$lang<(cn|en|kr)>/prodsList        controllers.Item.prodsList(lang)
 
 
 

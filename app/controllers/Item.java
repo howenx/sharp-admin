@@ -69,9 +69,9 @@ public class Item extends Controller {
         return ok(language);
     }
 
-    public Result prodsList() {
+    public Result prodsList(String lang) {
 
-        return ok(prodslist.render(itemService.getAllProducts()));
+        return ok(prodslist.render(lang,itemService.getAllProducts()));
     }
 
     /**

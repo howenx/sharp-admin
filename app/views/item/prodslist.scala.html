@@ -1,6 +1,7 @@
-@(prodsList:List[entity.Products])
+@import play.i18n._
+@(lang:String="cn", prodsList:List[entity.Products])
 
-@headopts = {
+@scripts = {
 
 
     <!-- 日历-->
@@ -14,7 +15,9 @@
 
 }
 
-@body = {
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsListTitle")
+
+@layout(lang=lang,level="products",title=title)(scripts) {
 
 <div class="content">
     <div class="container">
@@ -114,11 +117,5 @@
         </div>
     </div>
 </div>
-
-}
-
-@admin("Products Management", headopts){
-
-@body
 
 }

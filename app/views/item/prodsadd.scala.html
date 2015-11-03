@@ -1,7 +1,7 @@
 @import play.i18n._
-@(lang:String, brandsList:List[entity.Brands], catesParentList:List[entity.Cates])
+@(lang:String="cn", brandsList:List[entity.Brands], catesParentList:List[entity.Cates])
 
-@headopts = {
+@scripts = {
 
 <link rel="stylesheet" href="/assets/css/xspsc.css"/>
 <script src="/assets/js/xspsc.js"></script>
@@ -22,7 +22,9 @@
 
 }
 
-@body = {
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsAddTitle")
+
+@layout(lang=lang,level="products",title=title)(scripts) {
 
 <div class="content">
     <div class="container">
@@ -131,7 +133,7 @@
                         <div class="col-sm-6">
                             <div class="size" id="addSize">
                                 <div>
-                                    <span class="l">颜色项1</span><br/><br/>
+                                    <span class="l">颜色1</span><br/><br/>
                                     <ul class="l">
                                         <li>
                                             <span><input type="text" class="sizeIn"/></span>
@@ -143,7 +145,7 @@
                                     </ul>
                                 </div>
                                 <div>
-                                    <span class="l">颜色项2</span><br/><br/>
+                                    <span class="l">颜色2</span><br/><br/>
                                     <ul class="l">
                                         <li class="sizeIn">
                                             <span><input type="text" class="sizeIn"/></span>
@@ -201,30 +203,6 @@
                         </div>
                     </div>
 
-                    <!--<div class="form-group">-->
-                        <!--<label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")</div></label>-->
-
-                        <!--<div class="col-sm-3">-->
-                            <!--<input type="text" class="form-control" id="productPrice" name="productPrice">-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-                    <!--<div class="form-group">-->
-                        <!--<label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")</div></label>-->
-
-                        <!--<div class="col-sm-3">-->
-                            <!--<input type="text" class="form-control" id="recommendPrice" name="recommendPrice">-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-                    <!--<div class="form-group">-->
-                        <!--<label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productAmount")</div></label>-->
-
-                        <!--<div class="col-sm-3">-->
-                            <!--<input type="text" class="form-control" id="productAmount" name="productAmount">-->
-                        <!--</div>-->
-                    <!--</div>-->
-
                     <div class="form-group">
                         <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.numPri")</div></label>
 
@@ -236,12 +214,12 @@
                                 <tr>
                                     <td rowspan="2">\</td>
                                     <td colspan="3">颜色1</td>
-                                    <td colspan="2">颜色3</td>
+                                    <td colspan="2">颜色2</td>
                                 </tr>
                                 <tr>
                                     <td>颜色1尺寸1</td>
-                                    <td>颜色2尺寸2</td>
-                                    <td>颜色3尺寸3</td>
+                                    <td>颜色1尺寸2</td>
+                                    <td>颜色1尺寸3</td>
                                     <td>颜色2尺寸1</td>
                                     <td>颜色2尺寸2</td>
                                 </tr>
@@ -298,32 +276,36 @@
                     <div id="preImgs">
 
                         <div class="form-group fdel">
-                            <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</div><div class="r" style="padding-top:20px;padding-left:100px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic"))</div></label>
+                            <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</div><div class="r" style="padding:20px;padding-left:100px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic"))</div></label>
 
-                            <div class="col-sm-9">
+                            <div class="col-sm-7">
                                 <div class="sctp">
                                     <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <div class="sctp1 l">
                                         <span class="ysfont">颜色1</span>
                                         <a href="#" id="preImgAddP0">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
                                         <input type="hidden" id="previewImgs0" name="previewImgs"/>
-                                        <input type="file"  id="fileinputP0" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                                        <input type="file" id="fileinputP0" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                                     </div>
                                     <div class="imgk l" id="galleryP0">
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-1 magrad">
+                                <input type="radio" name="mainPics" style="margin-left:40px;margin-top:70px;"/>
+                                <p>设为首要预览图</p>
+                            </div>
                         </div>
 
                         <div class="form-group fdel">
-                            <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</div><div class="r" style="padding-top:20px;padding-left:100px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic"))</div></label>
+                            <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</div><div class="r" style="padding:20px;padding-left:100px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic"))</div></label>
 
-                            <div class="col-sm-9">
+                            <div class="col-sm-7">
                                 <div class="sctp">
                                     <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <div class="sctp1 l">
                                         <span class="ysfont">颜色2</span>
-                                        <a href="#" id="preImgAddP1">添加图片</a>
+                                        <a href="#" id="preImgAddP1">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
                                         <input type="hidden" id="previewImgs1" name="previewImgs"/>
                                         <input type="file" id="fileinputP1" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                                     </div>
@@ -331,7 +313,12 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-1 magrad">
+                                <input type="radio" name="mainPics" style="margin-left:40px;margin-top:70px;"/>
+                                <p>设为首要预览图</p>
+                            </div>
                         </div>
+
                     </div>
 
                     <div class="form-group">
@@ -393,11 +380,6 @@
 
 }
 
-@admin("Add Products", headopts){
-
-@body
-
-}
 
 <script type="text/javascript">
  $(function()  {
@@ -493,7 +475,7 @@ function submitProducts() {
     features = features.substring(0,features.length - 1) + "}";
     $('#features').val(features);
     if (isPost) {
-       $("#insertProducts").submit();
+       $("#submitProducts").submit();
     }
 }
 
@@ -507,7 +489,7 @@ var prevImgs = document.getElementById("preImgs");
 var preinpus = prevImgs.getElementsByTagName("input");
 for(i=0;i<preinpus.length;i++) {
     if (preinpus[i].type=="file") {
-        var id = "P"+ Math.floor(i/2);
+        var id = "P"+ Math.floor(i/3);
         var fileinputP = "fileinput"+ id;
         uploadfileP = document.querySelector('#'+fileinputP);
         //商品预览图
@@ -552,8 +534,6 @@ function previewImage(file, id) {
         throw "File Type must be an image";
     }
 
-
-    var div = document.createElement("div");
     var thumb = document.createElement("div");
     thumb.classList.add('imgyl');
     var button = document.createElement("button");
@@ -564,25 +544,7 @@ function previewImage(file, id) {
     img.file = file;
     thumb.appendChild(button);
     thumb.appendChild(img);
-    div.appendChild(thumb);
-    gallery.appendChild(div);
-
-    //预览图增加设为主图的按钮
-    if(id.indexOf("P")>=0) {
-        var divr = document.createElement("div");
-        var inpr = document.createElement("input");
-        inpr.type="radio";
-        inpr.name=galleryId;
-        var lab = document.createElement("label");
-        lab.innerText="设为主图";
-        divr.style.marginTop="105px";
-        divr.style.marginLeft="20px";
-        divr.appendChild(inpr);
-        divr.appendChild(lab);
-        var br = document.createElement("br");
-        div.appendChild(br);
-        div.appendChild(divr);
-    }
+    gallery.appendChild(thumb);
 
      //添加商品主图主图后,添加图片按钮置为不可点击且颜色变为灰色
      if (document.getElementById("galleryM").getElementsByTagName("div").length>0) {
@@ -591,7 +553,7 @@ function previewImage(file, id) {
      }
 
      //商品预览图最多为6张
-     if (document.getElementById("gallery"+id).getElementsByTagName("div").length==18) {
+     if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==6) {
          $("#fileinput"+id).attr({"disabled":true});
          document.getElementById("preImgAdd"+id).style.background="#ccc";
      }
@@ -619,7 +581,6 @@ function upload(thumb, file, id) {
     http.onreadystatechange = function() {
         if (http.readyState == 4 && http.status == 200) {
             var data = JSON.parse(http.responseText);
-
             var input= document.createElement("input");
             thumb.appendChild(input);
             imgName = data.imgid;
@@ -627,43 +588,10 @@ function upload(thumb, file, id) {
             input.type="hidden";
             input.name=data.imgid;
             input.value=data.path;
-
             alert(data.message);
-            if (id=="M") {
-                //添加商品主图片遍历所有input标签,其值累加到隐藏域masterImg中
-                var masterImg = "";
-                divsM = document.getElementById("galleryM");
-                inpsM = divsM.getElementsByTagName("input");
-                for(i=0; i<inpsM.length; i++) {
-                    masterImg = masterImg + inpsM[i].value;
-                }
-                $('#masterImg').val(masterImg);
-            } else if(id.indexOf("P")>=0) {
-                //每次添加商品预览图遍历所有input标签,其值累加到隐藏域previewImgs中
-                var previewImgs = "[";
-                var galleryId = "gallery" + id;
-  	            var divsP = document.getElementById(galleryId);
-                inpsP = divsP.getElementsByTagName("input");
-                for(i=0; i<inpsP.length; i++) {
-                    previewImgs = previewImgs + '\"' + inpsP[i].value + '\"' + ",";
-                }
-                previewImgs = previewImgs.substring(0,previewImgs.length - 1) + "]";
-                $('#previewImgs').val(previewImgs);
-            } else if (id=="D") {
-                //每次添加商品详细图片遍历所有input标签,其值累加到隐藏域detailImgs中
-                var detailImgs = "[";
-                divsD = document.getElementById("galleryD");
-                inpsD = divsD.getElementsByTagName("input");
-                for(i=0; i<inpsD.length; i++) {
-                    detailImgs = detailImgs + '\"' + inpsD[i].value + '\"' + ",";
-                }
-                 detailImgs = detailImgs.substring(0,detailImgs.length - 1) + "]";
-                $('#detailImgs').val(detailImgs);
-            }
         }
     }
     http.send(formdata);
 }
-
 
 </script>
