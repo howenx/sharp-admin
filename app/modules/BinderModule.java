@@ -3,6 +3,8 @@ package modules;
 import com.google.inject.AbstractModule;
 import service.ItemService;
 import service.ItemServiceImpl;
+import service.ThemeService;
+import service.ThemeServiceImpl;
 
 /**
  * Guice bind interface to its implements and deposit to guice.
@@ -18,5 +20,6 @@ public class BinderModule extends AbstractModule {
      */
     protected void configure() {
         bind(ItemService.class).to(ItemServiceImpl.class);
+        bind(ThemeService.class).to(ThemeServiceImpl.class);
     }
 }

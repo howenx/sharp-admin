@@ -88,7 +88,12 @@ ul,li{
     content
 */
 .content{
-    width: 100%;height: auto;margin-top: 15px;padding: 0 0 30px;
+        width: 80%;
+        height: auto;
+        padding: 0 0 30px;
+        background-color: #fff;
+        margin: 0 auto;
+        margin-top: 40px;
 }
 .container{
     width: 1100px;padding: 0;
@@ -140,7 +145,7 @@ ul,li{
     width: 150px;
 }
 .mybtns{
-    margin-left: 300px;
+    margin-left: 550px;
 }
 .sctp1{
     width: 100px;height: 100px;padding-top: 60px;

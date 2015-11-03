@@ -18,164 +18,222 @@ $(function(){
 
     $('#datetimepicker').datetimepicker();
 
-    //添加颜色
+    /** 添加颜色 **/
     $(document).on('click','.yanse .add',function() {
         var color = $(this).parent().prev().children().first().children().first().val();
         //如果最后一项内容为空则不能添加
         if (color == "") {
             $('.yanse .add').click(function(){});
         } else
-            $("<li>").html('<span><input type="text"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
+            $("<li>").html('<span><input type="text" class="colorIn"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
     });
 
-    //颜色全部添加完成的操作,点击后添加到尺寸域,和预览图域内
+    /** 颜色变化 添加到尺寸域内 和 数量价格域内**/
+    $(document).on('keyup','.colorIn',function() {
+        var addColor = document.getElementById("addColor");
+        var colors = addColor.getElementsByTagName("input");
+        var len = colors.length;
+        var addSize = document.getElementById("addSize");
+        addSize.innerHTML = "";
+        var numpri = document.getElementById("numpri");
+        numpri.innerHTML = "";
+        var tr1 = document.createElement("tr");
+        var tr2 = document.createElement("tr");
+        var tr3 = document.createElement("tr");
+        var tr4 = document.createElement("tr");
+        var tr5 = document.createElement("tr");
+        tr1.innerHTML = '<td rowspan="2">\\</td>';
+        tr2.innerHTML = '';
+        tr3.innerHTML = '<td >'+$('#amount').val()+'</td>';
+        tr4.innerHTML = '<td >'+$('#pri').val()+'</td>';
+        tr5.innerHTML = '<td >'+$('#spri').val()+'</td>';
+        for(i=0; i<len; i++) {
+            //每一项颜色值,添加一项对应的尺寸列表
+            var div = document.createElement("div");
+            var spancn = document.createElement("span");
+            spancn.classList.add('l');
+            var br1 = document.createElement("br");
+            var br2 = document.createElement("br");
+            spancn.innerText = colors[i].value;
+            var ul = document.createElement("ul");
+            ul.classList.add('l');
+            var li1 = document.createElement("li");
+            var spansn = document.createElement("span");
+            var input = document.createElement("input");
+            input.classList.add('sizeIn');
+            var button = document.createElement("button");
+            button.classList.add('close');
+            $(button).append('<span>&times;</span>');
+            var li2 = document.createElement("li");
+            li2.style.border="0px";
+            var spanadd = document.createElement("span");
+            spanadd.classList.add('add');
+            spanadd.innerText = "+";
+            addSize.appendChild(div);
+            spansn.appendChild(input);
+            li1.appendChild(spansn);
+            li1.appendChild(button);
+            li2.appendChild(spanadd);
+            ul.appendChild(li1);
+            ul.appendChild(li2);
+            div.appendChild(spancn);
+            div.appendChild(br1);
+            div.appendChild(br2);
+            div.appendChild(ul);
+            //颜色添加到数量价格表格中
+            var td1 = document.createElement("td");
+            var td2 = document.createElement("td");
+            var td3 = document.createElement("td");
+            var td4 = document.createElement("td");
+            var td5 = document.createElement("td");
+            td1.innerText = colors[i].value;
+            td2.innerText = "";
+            tr1.appendChild(td1);
+            tr2.appendChild(td2);
+            tr3.appendChild(td3);
+            tr4.appendChild(td4);
+            tr5.appendChild(td5);
+        }
+        numpri.appendChild(tr1);
+        numpri.appendChild(tr2);
+        numpri.appendChild(tr3);
+        numpri.appendChild(tr4);
+        numpri.appendChild(tr5);
+    });
+
+//    //颜色全部添加完成的操作,点击后添加到尺寸域,和预览图域内
     $(document).on('click','.yanse .complete',function() {
-        //最后一项颜色为空点击操作无效
-        var color = $(this).parent().prev().prev().children().first().children().first().val();
-        if (color == "") {
-            alert("颜色不能有空值!");
-            $('.yanse .complete').click(function(){});
-        } else {
-            /** 添加尺寸**/
-            var addColor = document.getElementById("addColor");
-            var colors = addColor.getElementsByTagName("input");
-            var len = colors.length;
-            var addSize = document.getElementById("addSize");
-            addSize.innerHTML = "";
-            var preImgs = document.getElementById("preImgs");
-            preImgs.innerHTML="";
-            for(i=0; i<len; i++) {
-                //每一项颜色值,添加一项对应的尺寸列表
-                var div = document.createElement("div");
-                var spancn = document.createElement("span");
-                spancn.classList.add('l');
-                var br1 = document.createElement("br");
-                var br2 = document.createElement("br");
-                spancn.innerText = colors[i].value;
-                var ul = document.createElement("ul");
-                ul.classList.add('l');
-                var li1 = document.createElement("li");
-                var spansn = document.createElement("span");
-                var input = document.createElement("input");
-                var button = document.createElement("button");
-                button.classList.add('close');
-                $(button).append('<span>&times;</span>');
-                var li2 = document.createElement("li");
-                li2.style.border="0px";
-                var spanadd = document.createElement("span");
-                spanadd.classList.add('add');
-                spanadd.innerText = "+";
-                addSize.appendChild(div);
-                div.appendChild(spancn);
-                div.appendChild(br1);
-                div.appendChild(br2);
-                div.appendChild(ul);
-                ul.appendChild(li1);
-                li1.appendChild(spansn);
-                spansn.appendChild(input);
-                li1.appendChild(button);
-                ul.appendChild(li2);
-                li2.appendChild(spanadd);
-                //在最后一项增加完成按钮
-                if (i== len -1) {
-                    var p = document.createElement("p");
-                    p.style.marginTop="60px";
-                    p.style.marginLeft="10px";
-                    var spancomp = document.createElement("span");
-                    spancomp.classList.add('complete');
-                    spancomp.innerText = $('#complete').val();
-                    ul.appendChild(p);
-                    p.appendChild(spancomp);
+//        //最后一项颜色为空点击操作无效
+//        var color = $(this).parent().prev().prev().children().first().children().first().val();
+//        if (color == "") {
+//            alert("颜色不能有空值!");
+//            $('.yanse .complete').click(function(){});
+//        } else {
+//            /** 添加尺寸**/
+//            var addColor = document.getElementById("addColor");
+//            var colors = addColor.getElementsByTagName("input");
+//            var len = colors.length;
+//            var addSize = document.getElementById("addSize");
+//            addSize.innerHTML = "";
+//            var preImgs = document.getElementById("preImgs");
+//            preImgs.innerHTML="";
+//            for(i=0; i<len; i++) {
+//                /** 添加预览图 **/
+//                var divpre= document.createElement("div");
+//                divpre.classList.add('form-group');
+//                divpre.classList.add('fdel');
+//                var label = document.createElement("label");
+//                label.classList.add('col-sm-3');
+//                label.classList.add('control-label');
+//                var divx = document.createElement("div");
+//                divx.classList.add('r');
+//                divx.innerText=$('#preIms').val();
+//                var divn = document.createElement("div");
+//                divn.classList.add('r');
+//                divn.style.paddingTop="20px";
+//                divn.style.paddingLeft="100px";
+//                divn.innerText= "("+$('#mostS').val()+")";
+//                label.appendChild(divx);
+//                label.appendChild(divn);
+//                var divcol = document.createElement("div");
+//                divcol.classList.add("col-sm-9");
+//                var divsctp = document.createElement("div");
+//                divsctp.classList.add("sctp");
+//                var buttonpre = document.createElement("button");
+//                buttonpre.classList.add('close');
+//                $(buttonpre).append('<span>&times;</span>');
+//                var divsctp1 = document.createElement("div");
+//                divsctp1.classList.add("sctp1");
+//                divsctp1.classList.add("l");
+//                var spancol = document.createElement("span");
+//                spancol.classList.add("ysfont");
+//                spancol.innerText=colors[i].value;
+//                var a = document.createElement("a");
+//                a.setAttribute('id',"preImgAddP" + i);
+//                a.innerText=$('#addPic').val();
+//                var inputpres = document.createElement("input");
+//                inputpres.type="hidden";
+//                inputpres.id="previewImgs"+i;
+//                inputpres.name="previewImgs";
+//                var inputfile = document.createElement("input");
+//                inputfile.type="file";
+//                inputfile.id="fileinputP"+i;
+//                inputfile.classList.add("hidden1");
+//                inputfile.setAttribute("accept", "image/gif, image/jpeg, image/webp, image/png");
+//                var divimgk = document.createElement("div");
+//                divimgk.classList.add("imgk");
+//                divimgk.classList.add("l");
+//                divimgk.id = "galleryP"+i;
+//                divsctp1.appendChild(spancol);
+//                divsctp1.appendChild(a);
+//                divsctp1.appendChild(inputpres);
+//                divsctp1.appendChild(inputfile);
+//                divsctp.appendChild(buttonpre);
+//                divsctp.appendChild(divsctp1);
+//                divsctp.appendChild(divimgk);
+//                divcol.appendChild(divsctp);
+//                divpre.appendChild(label);
+//                divpre.appendChild(divcol);
+//                preImgs.appendChild(divpre);
+//            }
+//         }
+    });
+
+    /** 删除颜色 **/
+    $(document).on('click','.yanse .close',function() {
+        $(this).parent().remove();
+        //删除尺寸域中对应的颜色
+        var sicol = $(this).prev().children().first().val();
+        var addSize = document.getElementById("addSize");
+        var spans = addSize.getElementsByTagName("span");
+        for(i=0;i<spans.length;i++) {
+            if (spans[i].className=="l" && spans[i].innerText==sicol) {
+                spans[i].parentNode.remove();
+                break;
+            }
+        }
+        //删除数量价格域内对应的颜色
+        var numpri = document.getElementById("numpri");
+        var tr1 = numpri.getElementsByTagName("tr")[0].getElementsByTagName("td");
+        var tr2 = numpri.getElementsByTagName("tr")[1].getElementsByTagName("td");
+        var tr3 = numpri.getElementsByTagName("tr")[2];
+        var tr4 = numpri.getElementsByTagName("tr")[3];
+        var tr5 = numpri.getElementsByTagName("tr")[4];
+        for(i=1;i<tr1.length;i++) {
+            var index = 0;
+            for(j=1;j<tr2.length;j++) {
+                index++;
+            }
+            if(tr1[i].innerText == $(this).prev().children().first().val()) {
+                var sizenum = tr1[i].colSpan;
+                for(j=0;j<sizenum;j++) {
+                    $("table tr").eq(0).find("td").eq(i).remove();
+//                    tr2[i].find("td:eq("+index+")").remove();
+//                    tr3[i].find("td:eq("+index+1+")").remove();
+//                    tr4[i].find("td:eq("+index+1+")").remove();
+//                    tr5[i].find("td:eq("+index+1+")").remove();
                 }
 
-                /** 添加预览图 **/
-                var divpre= document.createElement("div");
-                divpre.classList.add('form-group');
-                divpre.classList.add('fdel');
-                var label = document.createElement("label");
-                label.classList.add('col-sm-3');
-                label.classList.add('control-label');
-                var divx = document.createElement("div");
-                divx.classList.add('r');
-                divx.innerText=$('#preIms').val();
-                var divn = document.createElement("div");
-                divn.classList.add('r');
-                divn.style.paddingTop="20px";
-                divn.style.paddingLeft="100px";
-                divn.innerText= "("+$('#mostS').val()+")";
-                label.appendChild(divx);
-                label.appendChild(divn);
-                var divcol = document.createElement("div");
-                divcol.classList.add("col-sm-9");
-                var divsctp = document.createElement("div");
-                divsctp.classList.add("sctp");
-                var buttonpre = document.createElement("button");
-                buttonpre.classList.add('close');
-                $(buttonpre).append('<span>&times;</span>');
-                var divsctp1 = document.createElement("div");
-                divsctp1.classList.add("sctp1");
-                divsctp1.classList.add("l");
-                var spancol = document.createElement("span");
-                spancol.classList.add("ysfont");
-                spancol.innerText=colors[i].value;
-                var a = document.createElement("a");
-                a.setAttribute('id',"preImgAddP" + i);
-                a.innerText=$('#addPic').val();
-                var inputpres = document.createElement("input");
-                inputpres.type="hidden";
-                inputpres.id="previewImgs"+i;
-                inputpres.name="previewImgs";
-                var inputfile = document.createElement("input");
-                inputfile.type="file";
-                inputfile.id="fileinputP"+i;
-                inputfile.classList.add("hidden1");
-                inputfile.setAttribute("accept", "image/gif, image/jpeg, image/webp, image/png");
-                var divimgk = document.createElement("div");
-                divimgk.classList.add("imgk");
-                divimgk.classList.add("l");
-                divimgk.id = "galleryP"+i;
-                divsctp1.appendChild(spancol);
-                divsctp1.appendChild(a);
-                divsctp1.appendChild(inputpres);
-                divsctp1.appendChild(inputfile);
-                divsctp.appendChild(buttonpre);
-                divsctp.appendChild(divsctp1);
-                divsctp.appendChild(divimgk);
-                divcol.appendChild(divsctp);
-                divpre.appendChild(label);
-                divpre.appendChild(divcol);
-                preImgs.appendChild(divpre);
             }
-         }
+        }
+
     });
 
-    //删除颜色,尺寸
-    $(document).on('click','.yanse .close,.size .close',function() {
-        $(this).parent().remove();
-    });
-
-    //添加尺寸
+    /** 添加尺寸 **/
     $(document).on('click','.size .add',function() {
         var size = $(this).parent().prev().children().first().children().first().val();
         //如果最后一项内容为空则不能添加
         if (size == "") {
             $('.size .add').click(function(){});
         } else
-            $("<li>").html('<span><input type="text"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
+            $("<li>").html('<span><input type="text" class="sizeIn"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
     });
 
-    //尺寸全部添加完成的操作,点击后添加到数量价格域内
-    $(document).on('click','.size .complete',function() {
+    /** 尺寸变化,添加到数量价格域内 **/
+    $(document).on('keyup','.sizeIn',function() {
         //遍历每一项颜色的最后一项尺寸,为空点击完成操作无效
         var divs = document.getElementById("addSize").getElementsByTagName("div");
-        for(i=0;i<divs.length;i++) {
-            inps = divs[i].getElementsByTagName("input");
-            if (inps.length == 0) { //尺寸全部删除完的情况
-               break;
-            } else if (inps[inps.length-1].value == "") { //最后一个尺寸项有空值
-                break;
-            } else if (i == divs.length-1) {
-                //alert("可以添加了~_~");
+//        for(i=0;i<divs.length;i++) {
                 var numpri = document.getElementById("numpri");
                 var tr1 = document.createElement("tr");
                 var tr2 = document.createElement("tr");
@@ -229,10 +287,14 @@ $(function(){
                 numpri.appendChild(tr3);
                 numpri.appendChild(tr4);
                 numpri.appendChild(tr5);
-            }
-        }
+//            }
+//        }
     });
 
+    //删除尺寸
+    $(document).on('click','.size .close',function() {
+        $(this).parent().remove();
+    });
 
 
     $(document).on('click','.fdel .close',function() {
@@ -242,7 +304,7 @@ $(function(){
 
     //上传图片操作,对动态添加的标签元素,点击移除的操作
     $(document).on('click','.imgyl>.close',function(){
-        $(this).parent().parent().remove();
+        $(this).parent().remove();
         //每次移除遍历所有input标签,其值累加到隐藏域masterImg,previewImgs,detailImgs中
         var masterImg= "";
         var previewImgs= "[";
