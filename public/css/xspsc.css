@@ -225,7 +225,7 @@ ul,li{
     margin-left: 10px;padding-top: 15px;
 }
 .table>tbody>tr>td{
-    vertical-align: middle;white-space:nowrap;
+    vertical-align: middle;white-space:nowrap;border:1px solid #ccc;
 }
 .ysfont{
     position: absolute;top: -25px;left: 32px;color: #00B7E
