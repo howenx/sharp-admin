@@ -58,6 +58,7 @@ class Auth @Inject() (val messagesApi: MessagesApi) extends Controller with Secu
       case l =>
         Lang.preferred(request.acceptLanguages)
     }
+
     Ok(views.html.login(bind_form)).withLang(lang)
 
   }
@@ -82,10 +83,7 @@ class Auth @Inject() (val messagesApi: MessagesApi) extends Controller with Secu
             Ok(views.html.login(user_info))
           case Some(user) =>
             Logger.debug(s"user login... to admin age  $user")
-            Logger.debug(user.gender.toString)
-            Cache.set(user.nickname, user.id.toString)
-            Logger.debug(Cache.get(user.nickname).toString)
-
+            Cache.set(user.nickname, user)
             Redirect(routes.Application.welcome()).withSession( request.session + ("username"-> user.nickname))
 
         }
