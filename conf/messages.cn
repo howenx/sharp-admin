@@ -5,7 +5,6 @@ item.add.cate=商品类别
 item.add.brand=品牌名称
 item.add.productName=商品名称
 item.add.productColor=颜色
-item.add.complete=完成
 item.add.productSize=尺寸
 item.add.merchName=供货商
 item.add.productPrice=市场价
@@ -13,6 +12,7 @@ item.add.recommendPrice=销售价
 item.add.sourceArea=原产地
 item.add.sells=商品销售信息
 item.add.sellDate=销售期限
+item.add.numPri=数量价格
 item.add.productAmount=库存量
 item.add.details=商品详细信息
 item.add.addPic=添加图片
@@ -27,7 +27,7 @@ item.add.featureName=属性名
 item.add.featureValue=属性值
 item.add.add=添加
 item.add.delete=删除
-item.add.cancel=删除
+item.add.cancel=取消
 
 #nav
 nav.home = 首页
