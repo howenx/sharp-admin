@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.ThemeMapper">
+
+    <!--enable mybatis default cache configure reference:
+        https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
+    -->
+    <!--<cache/>-->
+
+
+
+    <sql id="sliderColumns">
+        ${alias}.id,
+        ${alias}.img,
+        ${alias}.sort_nu,
+        ${alias}.create_at
+    </sql>
+
+    <select id="getSlidersAll" resultType="entity.Slider">
+        select
+        <include refid="sliderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from slider t order by t.sort_nu
+    </select>
+
+</mapper>
