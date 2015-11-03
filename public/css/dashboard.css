@@ -86,7 +86,6 @@
  */
 
 .placeholders {
-  margin-bottom: 30px;
   text-align: center;
 }
 .placeholders h4 {
@@ -98,4 +97,10 @@
 .placeholder img {
   display: inline-block;
   border-radius: 50%;
+}
+.table  thead th {
+    text-align: center;
+}
+.content .table{
+    font-size: 14px;text-align: center;border: 0px solid #ccc;
 }
