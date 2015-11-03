@@ -1,3 +1,5 @@
+@import play.i18n._
+@(username:String ="Admin", lang:String = "cn")
 <link rel="stylesheet" href="/assets/css/header.css">
 <header id="js-header" class="header else">
     <div class="main clearfix">
@@ -8,7 +10,7 @@
                 
                 <ul class="header-navi-list clearfix">
                     <li class="header-navi-item fl">
-                        <a href="javascript:void(0)" class="header-link tdn">首页</a>
+                        <a href="/@lang/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
 						<i class="header-nav-border-relative"></i>
                     </li>
                     <li class="header-navi-item fl">
