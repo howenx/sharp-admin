@@ -19,7 +19,7 @@ public class UserAuth extends Security.Authenticator {
         String username =  ctx.session().get("username");
         if(username != null) {
             Logger.debug("userAuth user " + username);
-            User user = (User) Cache.get(username);
+            User user = (User) Cache.get(username.trim());
             if(user != null) {
                 ctx.args.put("user",user);
             }

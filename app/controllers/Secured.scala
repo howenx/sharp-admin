@@ -31,7 +31,7 @@ trait Secured {
       Cache.getAs[User](username.trim).map { user =>
         f(user)(request)
       }.getOrElse(onUnauthorized(request))
-    
+
   }
 
   def isAuthenticated(f: => String => Request[AnyContent] => Result) = {
