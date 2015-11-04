@@ -1,9 +1,11 @@
+@import play.i18n._
+@(lang:String)
 <div class="footer">
     <ul class="website_info_ul">
-        <li>客服邮箱service@@hanmimei.cn</li>
-        <li>韩秘美© 2014-2015</li>
-        <li>北京东方爱怡斯科技有限公司</li>
-        <li>京ICP备11028595号</li>
-        <li class="info_ul_last">京公网安备110105011117</li>
+        <li>@Messages.get(new Lang(Lang.forCode(lang)),"footer.menu1")</li>
+        <li>@Messages.get(new Lang(Lang.forCode(lang)),"footer.menu2")</li>
+        <li>@Messages.get(new Lang(Lang.forCode(lang)),"footer.menu3")</li>
+        <li>@Messages.get(new Lang(Lang.forCode(lang)),"footer.menu4")</li>
+        <li class="info_ul_last">@Messages.get(new Lang(Lang.forCode(lang)),"footer.menu5")</li>
     </ul>
 </div>

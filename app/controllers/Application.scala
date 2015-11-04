@@ -19,16 +19,16 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
 
   def welcome(lang:String) = withUser { user => {
     implicit request => {
-      val lang = request.getQueryString("lang") match {
-        case Some(l) =>
-          Lang.apply(l)
-        case l =>
-          Lang.preferred(request.acceptLanguages)
-      }
+//      val lang = request.getQueryString("lang") match {
+//        case Some(l) =>
+//          Lang.apply(l)
+//        case l =>
+//          Lang.preferred(request.acceptLanguages)
+//      }
 
 
       //Ok(views.html.welcome("cn",request.session.get("username").getOrElse(""))).withLang(lang)
-      Ok(views.html.welcome(lang.code, user.nickname))
+      Ok(views.html.welcome(lang, user))
     }
   }
   }

@@ -3,10 +3,11 @@ package controllers;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import service.ThemeService;
 
 import javax.inject.Inject;
-
+import entity.User;
 /**
  * Theme management.
  * Created by howen on 15/10/28.
@@ -22,10 +23,9 @@ public class Theme extends Controller {
     @Inject
     private ThemeService service;
 
+    @Security.Authenticated(UserAuth.class)
     public Result slider(String lang) {
-        Logger.debug(service.sliderAll().toString());
-        flash("username", session("username"));
         flash("success", session("username"));
-        return ok(views.html.theme.slider.render(lang,service.sliderAll(),IMAGE_URL));
+        return ok(views.html.theme.slider.render(lang,service.sliderAll(),IMAGE_URL,(User) ctx().args.get("user")));
     }
 }

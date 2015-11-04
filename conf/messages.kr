@@ -43,20 +43,23 @@ item.add.cancel=取消_kr
 #nav
 nav.home = HOME
 nav.products = Products
-nav.products.menu1 = Products Management
-nav.products.menu2 = Products Create
+nav.products.menu1 = Item Manage
+nav.products.menu2 = Item Create
 nav.themes = Themes
 nav.themes.menu1 = Slider
 nav.themes.menu2 = Theme Create
 nav.themes.menu3 = Theme List
 nav.users = Users
-nav.users.menu1 = Users Application
+nav.users.menu1 = Users App
 nav.users.menu2 = Users Search
 nav.app = App
 nav.notice = Notice
 nav.promotion = Promotion
-
-
+nav.logo.span = Admin
+nav.translate = Translate
+nav.user.info = Me
+nav.user.message = News
+nav.system = System
 
 
 
@@ -83,7 +86,11 @@ login.login = Login
 #themes
 themes.slider.title = Slider Management
 themes.slider.upload = Upload Images
-
+themes.slider.save = Save
+themes.slider.cancel = Cancel
+themes.slider.update = Update
+themes.slider.state1 = Unchanged
+themes.slider.state2 = Changed
 
 
 
@@ -92,3 +99,13 @@ themes.slider.upload = Upload Images
 
 #welcome
 welcome.title = Homepage
+
+
+
+
+#footer
+footer.menu1 = Email:service@@hanmimei.cn
+footer.menu2 = HMM© 2014-2015
+footer.menu3 = Beijing DFHL Co. LTD.
+footer.menu4 = BeijingICP 11028595
+footer.menu5 = BeijingPolice 110105011117
