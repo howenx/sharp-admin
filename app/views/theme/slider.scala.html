@@ -2,45 +2,54 @@
 @(lang:String="cn",sliders:List[entity.Slider],url:String)
 
 @scripts = {
-<script src="/assets/js/slider.js"></script>
-<link rel="stylesheet" href="/assets/css/slider.css">
-<link rel="stylesheet" href="/assets/css/button.css">
+    <script src="/assets/js/slider.js"></script>
+    <link rel="stylesheet" href="/assets/css/slider.css">
+    <link rel="stylesheet" href="/assets/css/button.css">
+    <script src="/assets/js/bootstrap.min.js"></script>
 }
 
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.title")
+@import java.lang.String; val username=flash.get("username")
 
-@layout(lang=lang,level="themes",title=title)(scripts) {
-
-<div class="usercenter-title usercenter-wrapper">
-    <h2 class="title-letter">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.title")</h2>
-</div>
-<div style="width: 50%;margin: 10px auto;" class="alert alert-success" role="alert">
-    <strong>Well done!</strong>
-    @if(flash.containsKey("success")) {
-    @flash.get("success")
-    }
-    <span class="close" aria-label="Close"><span aria-hidden="true">&times;</span></span>
-</div>
-<ul>
-    @for(slider <- sliders) {
-    <li>
-        <div class="imgbg">
-            <div class="top">
-                <img src="/assets/images/iconfont-top.png" alt=""/>
-            </div>
-            <div class="font2">
-                <span class="glyphicon glyphicon-remove"></span>
-            </div>
-            <div class="font1">
-                <span class="glyphicon glyphicon-arrow-up"></span>
-            </div>
-        </div>
-        <img data-index=@slider.getId() data-sort=@slider.getSortNu() class="slider-content-img" src="@url@slider.getImg()">
-    </li>
-    }
-    <li class="addtu">
-        <a href="">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.upload")</a>
-    </li>
-</ul>
-<a class="large blue-light button" style="margin: 20px auto;left: 78%;">Submit</a>
+@layout(username=username,lang=lang,level="themes",title=title)(scripts) {
+<!--<div style="width: 50%;margin: 10px auto;" class="alert alert-success" role="alert">-->
+    <!--<strong>Well done!</strong>-->
+    <!--@if(flash.containsKey("success")) {-->
+    <!--@flash.get("success")-->
+    <!--}-->
+    <!--<span class="close" aria-label="Close"><span aria-hidden="true">&times;</span></span>-->
+<!--</div>-->
+<!--<div class="wrap">-->
+    <!--<div class="page-title">-->
+        <!--<span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.title")</span>-->
+    <!--</div>-->
+    <!--<div class="usercenter-option">-->
+        <!--<div class="user-state fl" data-user-state="">未更改</div>-->
+        <!--<div id="js-usercenter-mod" class="btn-white btn-form fr ml20 dn">修改</div>-->
+        <!--<div id="js-usercenter-submit" class="btn-blue btn-form fr ml15">提交</div>-->
+        <!--<div id="js-usercenter-cancel" class="btn-white btn-form fr ml20">取消</div>-->
+        <!--<span id="js-userinfo-error" class="mt20 alt fr">必填项不能为空</span>-->
+    <!--</div>-->
+    <!--<form id="usercenter-info">-->
+        <!--<ul>-->
+            <!--@for(slider <- sliders) {-->
+            <!--<li>-->
+                <!--<div class="slider-lable">-->
+                    <!--<div class="slider-lable-image-up">-->
+                        <!--<img src="/assets/images/circle-up.png" alt=""/>-->
+                    <!--</div>-->
+                    <!--<div class="slider-lable-image-del">-->
+                        <!--<img src="/assets/images/circle-x.png" alt=""/>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<img data-index=@slider.getId() data-sort=@slider.getSortNu() class="slider-content-img"-->
+                     <!--src="@url@slider.getImg()">-->
+            <!--</li>-->
+            <!--}-->
+            <!--<li class="slider-li-upload">-->
+                <!--<a href="">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.upload")</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</form>-->
+<!--</div>-->
 }
