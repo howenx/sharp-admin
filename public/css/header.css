@@ -147,6 +147,7 @@ li {
 	color: #a7effe
 }
 .info-link:focus {
+	color:#fff;
 	text-decoration: none;
 }
 .user-info:hover .info-inner{
