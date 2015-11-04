@@ -118,6 +118,7 @@ $(function(){
             divsctp.classList.add("sctp");
             var buttonpre = document.createElement("button");
             buttonpre.classList.add('close');
+            buttonpre.classList.add('big');
             $(buttonpre).append('<span>&times;</span>');
             var divsctp1 = document.createElement("div");
             divsctp1.classList.add("sctp1");
@@ -141,16 +142,17 @@ $(function(){
             divimgk.classList.add("imgk");
             divimgk.classList.add("l");
             divimgk.id = "galleryP"+i;
-            var divrad = document.createElement("div");
-            divrad.classList.add("col-sm-1");
-            divrad.classList.add("magrad");
-            var inputrad = document.createElement("input");
-            inputrad.type="radio";
-            inputrad.name="mainPics";
-            inputrad.style.marginLeft="40px";
-            inputrad.style.marginTop="70px";
+//            var divrad = document.createElement("div");
+//            divrad.classList.add("col-sm-1");
+//            divrad.classList.add("magrad");
+//            var inputrad = document.createElement("input");
+//            inputrad.type="radio";
+//            inputrad.name="mainPics";
+//            inputrad.style.marginLeft="40px";
+//            inputrad.style.marginTop="70px";
             var p = document.createElement("p");
-            p.innerText = "设为首要预览图";
+            p.style.marginTop="70px";
+            p.innerText = "(如不需上传可移除)";
             divsctp1.appendChild(spancol);
             divsctp1.appendChild(a);
             divsctp1.appendChild(inputpres);
@@ -158,12 +160,12 @@ $(function(){
             divsctp.appendChild(buttonpre);
             divsctp.appendChild(divsctp1);
             divsctp.appendChild(divimgk);
-            divrad.appendChild(inputrad);
-            divrad.appendChild(p);
+//            divrad.appendChild(inputrad);
+//            divrad.appendChild(p);
             divcol.appendChild(divsctp);
             divpre.appendChild(label);
             divpre.appendChild(divcol);
-            divpre.appendChild(divrad);
+            divpre.appendChild(p);
             preImgs.appendChild(divpre);
         }
         numpri.appendChild(tr1);
@@ -317,12 +319,12 @@ $(function(){
         }
     });
 
-    $(document).on('click','.fdel .close',function() {
+    $(document).on('click','.fdel .big',function() {
         $(this).parents(".fdel").remove();
     });
 
     /** 上传图片操作,对动态添加的标签元素,点击移除的操作 **/
-    $(document).on('click','.imgyl>.close',function(){
+    $(document).on('click','.imgyl .close',function(){
         $(this).parent().remove();
 
         //没有商品主图时,上传按钮置为可点击且颜色恢复
