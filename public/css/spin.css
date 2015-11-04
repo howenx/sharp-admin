@@ -178,3 +178,7 @@
 		-moz-transform:scale(.3);
 	}
 }
+.row {
+    margin: 0;
+    padding: 0 20px;
+}

@@ -131,7 +131,10 @@ ul,li{
     display: inline-block;width: 260px;
 }
 .input-group-addon{
-    width: 40px;height:34px;padding: 8px;text-align: center;
+    width: 40px;height:34px;padding: 8px;text-align: center;background: #fff;
+}
+.form-control[readonly]{
+    background: #fff;
 }
 .to{
     width: 40px;text-align: center;height: 34px;line-height: 34px;font-size: 24px; margin-left:-5px;

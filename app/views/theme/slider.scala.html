@@ -11,9 +11,7 @@
 
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.title")
 
-@import java.lang.String; val username=flash.get("username")
-
-@layout(username=user.nickname,lang=lang,title=title,user=user)(scripts) {
+@layout(lang=lang,title=title,user=user)(scripts) {
 
 <div style="width: 50%;margin: 10px auto;" class="alert alert-success" role="alert">
     <strong>Well done!</strong>
