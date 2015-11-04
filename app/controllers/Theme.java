@@ -23,9 +23,25 @@ public class Theme extends Controller {
     @Inject
     private ThemeService service;
 
+    /***
+     * 滚动条管理
+     * @param lang 语言
+     * @return view
+     */
     @Security.Authenticated(UserAuth.class)
     public Result slider(String lang) {
         flash("success", session("username"));
         return ok(views.html.theme.slider.render(lang,service.sliderAll(),IMAGE_URL,(User) ctx().args.get("user")));
+    }
+
+    /***
+     * 主题录入
+     * @param lang 语言
+     * @return view
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result thadd(String lang) {
+        flash("success", session("username"));
+        return ok(views.html.theme.thadd.render(lang,(User) ctx().args.get("user")));
     }
 }

@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>kakao seller admin</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- 日历  分钟-->
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <script type="text/javascript" src="js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script src="js/rili.js"></script>
+    <!-- self-->
+    <link rel="stylesheet" href="css/xspsc.css"/>
+    <script src="js/xspsc.js"></script>
+</head>
+<body>
+    
+    <!-- nav-->
+
+    <div class="contentA">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header l">
+                <a class="navbar-brand" href="#">Kakao Seller admin</a>
+            </div>
+            <div class="r">
+                <ul class="nav navbar-nav">
+                    <li class="cur"><a href="#">公告管理</a></li>
+                    <li><a href="#">活动管理</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            表情管理
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">jmeter</a></li>
+                            <li><a href="#">EJB</a></li>
+                            <li><a href="#">Jasper Report</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#">主体管理</a></li>
+                    <li><a href="#">应用信息管理</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            用户名
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">消息</a></li>
+                            <li><a href="#">退出</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+                <!--<div class="info1 l">-->
+                    <!--<span>用户名<b class="caret"></b></span>-->
+
+                    <!--<div class="user">-->
+                        <!--<a href="#">消息</a>-->
+                        <!--<a href="#">退出</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
+
+        </nav>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <input id="lang-input" type="hidden" value="@language">
+                <form class="form-horizontal" method="post" action="/insertProducts" id="insertProducts" enctype="multipart/form-data">
+                    <h1 class="tit1">商品基本信息</h1>
+
+                    <div class="upinfo">
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages("item.add.language")</div></label>
+                            <div class="col-sm-3">
+                                <select class="form-control" id="language" name="language" onchange="changeLang()">
+                                    <option value="">请选择</option>
+                                    <option value="cn">Chinese</option>
+                                    <option value="en">English</option>
+                                    <option value="kr">Korea</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages("item.add.cate")</div></label>
+                            <div class="col-sm-3">
+                                <select class="form-control" id="categorySelect">
+                                    <option value="">请选择</option>
+                                    @for(cates <- catesParentList) {
+                                    <option value="@cates.getCateId()">@cates.getCateNameCn()
+                                    </option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-sm-3" id="divDynamicSubCates">
+                                <select class="form-control" id='categorySubSelect' name="cateId">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages("item.add.brand")</div></label>
+
+                            <div class="col-sm-3">
+                                <select class="form-control" id="bandSelect" name="brandId">
+                                    <option value="">请选择</option>
+                                    @for(b <- brandsList) {
+                                    <option value="@b.getBrandId()">@b.getBrandNmCn()
+                                    </option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">商品名称</div></label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="productName" name="productName">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" ><div class="r">颜色</div></label>
+
+                            <div class="col-sm-3">
+                                <div class="yanse">
+                                    <ul>
+                                        <li>
+                                            <span><input type="text"/></span>
+                                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </li>
+                                        <li>
+                                            <span><input type="text"/></span>
+                                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </li>
+                                        <li>
+                                            <span><input type="text"/></span>
+                                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </li>
+                                        <li>
+                                            <span><input type="text"/></span>
+                                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </li>
+                                        <li>
+                                            <span><input type="text"/></span>
+                                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </li>
+                                        <li>
+                                            <span class="add">＋</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" ><div class="r">尺寸</div></label>
+
+                            <div class="col-sm-5">
+                                <div class="size">
+                                    <div>
+                                        <span class="l">美白</span>
+                                        <ul class="l">
+                                            <li>
+                                                <span><input type="text"/></span>
+                                                <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </li>
+                                            <li>
+                                                <span><input type="text"/></span>
+                                                <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </li>
+                                            <li>
+                                                <span class="add">＋</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <span class="l">保湿</span>
+                                        <ul class="l">
+                                            <li>
+                                                <span><input type="text"/></span>
+                                                <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </li>
+                                            <li>
+                                                <span><input type="text"/></span>
+                                                <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </li>
+                                            <li>
+                                                <span class="add">＋</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" ><div class="r">数量价格</div></label>
+
+                            <div class="col-sm-3">
+                                <table class="table table-bordered spsl">
+                                    <tr >
+                                        <td rowspan="2">\</td>
+                                        <td colspan="2">美白</td>
+                                        <td colspan="2">保湿</td>
+                                    </tr>
+                                    <tr>
+                                        <td>100ml</td>
+                                        <td>200ml</td>
+                                        <td>100ml</td>
+                                        <td>200ml</td>
+                                    </tr>
+                                    <tr>
+                                        <td>数量</td>
+                                        <td><input type="text"/></td>
+                                        <td><input type="text"/></td>
+                                        <td><input type="text"/></td>
+                                        <td><input type="text"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>价格</td>
+                                        <td><input type="text"/></td>
+                                        <td><input type="text"/></td>
+                                        <td><input type="text"/></td>
+                                        <td><input type="text"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>建议价格</td>
+                                        <td><input type="text"/></td>
+                                        <td><input type="text"/></td>
+                                        <td><input type="text"/></td>
+                                        <td><input type="text"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" ><div class="r">供货商</div></label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="merchName" name="merchName">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">市场价</div></label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="productPrice" name="productPrice">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">销售价</div></label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="recommendPrice" name="recommendPrice">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">原产地</div></label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="sourceArea" name="sourceArea">
+                            </div>
+                        </div>
+
+                        <!-- 商品销售信息-->
+                        <h1 class="tit1">商品销售信息</h1>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">销售期限</div></label>
+
+                            <div class="col-sm-3">
+                                <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:" data-link-field="dtp_input1">
+                                    <input class="form-control" size="16" type="text" value="" readonly id="sellOnDate" name="sellOnDate">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                            </div>
+                            <div class="to l">~</div>
+                            <div class="col-sm-3">
+                                <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:ii" data-link-field="dtp_input1">
+                                    <input class="form-control" size="16" type="text" value="" readonly id="sellOffDate" name="sellOffDate">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" ><div class="r">库存量</div></label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="productAmount" name="productAmount">
+                            </div>
+                        </div>
+
+                        <!-- 商品详细信息-->
+                        <h1 class="tit1">商品详细信息</h1>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">上传商品主图片</div><div class="r" style="padding:20px 30px 20px;">(一张)</div></label>
+
+                            <div class="col-sm-10">
+                                <div class="sctp" style="width:350px">
+                                    <div class="sctp1 l">
+                                        <a href="#" id="masterImgAdd">添加图片</a>
+                                        <input type="hidden" id="masterImg" name="masterImg" value=""/>
+                                        <input type="file" id="fileinput1" name="image" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png" />
+                                    </div>
+                                    <div class="imgk l" id="gallery1" style="width:150px">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group fdel">
+                            <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">上传商品</div><div class="r" style="padding:20px;">(最多六张)</div></label>
+
+                            <div class="col-sm-8">
+
+                                <div class="sctp">
+                                    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <div class="sctp1 l">
+                                        <span class="ysfont">美白</span>
+                                        <a href="#">添加图片</a>
+                                        <input type="hidden"/>
+                                        <input type="file" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                                    </div>
+                                    <div class="imgk l" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 magrad">
+                                <input type="radio" name="zhusp"/>
+                                <p>设为主图</p>
+                                <p class="smallf">* 只能设置一个作为主图</p>
+                            </div>
+                        </div>
+                        <div class="form-group fdel">
+                            <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">上传商品</div><div class="r" style="padding:20px;">(最多六张)</div></label>
+
+                            <div class="col-sm-8">
+                                <div class="sctp">
+                                    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <div class="sctp1 l">
+                                        <span class="ysfont">保湿</span>
+                                        <a href="#">添加图片</a>
+                                        <input type="hidden"/>
+                                        <input type="file" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                                    </div>
+                                    <div class="imgk l" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 magrad">
+                                <input type="radio"  name="zhusp"/>
+                                <p>设为主图</p>
+                                <p class="smallf">* 只能设置一个作为主图</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">上传商品预览图</div><div class="r" style="padding:20px;">(最多六张)</div></label>
+
+                            <div class="col-sm-10">
+                                <div class="sctp">
+                                    <div class="sctp1 l">
+                                        <a href="#" id="preImgAdd">添加图片</a>
+                                        <input type="hidden" id="previewImgs" name="previewImgs" />
+                                        <input type="file" id="fileinput2"  name="image" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                                    </div>
+                                    <div class="imgk l" id="gallery2" name="gallery2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">上传商品详细图</label>
+
+                            <div class="col-sm-10">
+                                <div class="sctp">
+                                    <div class="sctp1 l">
+                                        <a href="#">添加图片</a>
+                                        <input type="hidden" id="detailImgs" name="detailImgs" />
+                                        <input type="file" id="fileinput3" name="image" class="hidden1" value=""/>
+                                    </div>
+                                    <div class="imgk l" id="gallery3">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">商品详情</label>
+
+                            <div class="col-sm-10">
+                                <!--<script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>-->
+                                <input type="text" class="form-control" id="productDesc" name="productDesc">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">属性信息</label>
+
+                            <div class="col-sm-7" id="tabFea">
+                                <input type="hidden" class="form-control" id="features" name="features">
+                                <table class="table table-bordered qubian">
+                                    <tr>
+                                        <td >属性名</td>
+                                        <td width=350px>属性值</td>
+                                        <td class="add">添加</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" name="attrN"/></td>
+                                        <td><input type="text" name="attrV"/></td>
+                                        <td class="del">删除</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="mybtns">
+                            <a href="#" class="btn btn-primary btn-lg active btncl" role="button" id="submitProducts" onclick="submitProducts()">添加</a>
+                            <a href="#" class="btn btn-primary btn-lg active btncl" role="button">取消</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!--footer-->
+    <footer>
+        Powered by <a href="https://www.redmine.org/">Redmine</a> © 2006-2015 Jean-Philippe Lang
+    </footer>
+</body>
+</html>

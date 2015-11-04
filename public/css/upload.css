@@ -1,0 +1,122 @@
+#dragon-container {
+	border: dotted 1px #000;
+	height: 300px;
+	width: 100%;
+	display: block;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+.dragon-contained {
+	background: transparent;
+	display: block;
+	-webkit-user-drag: element;
+	-webkit-user-select: none;
+	cursor: auto;
+	position: absolute;
+	height: 30px;
+	text-align: center;
+}
+.dragon-graph {
+	position: relative;
+	width: auto;
+	height: 100%;
+}
+.dragon-rectangle {
+	background: #000;
+	display: inline-block;
+	border-radius: 5px;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	height: 30px;
+	width: auto;
+	text-align: center;
+	position: relative;
+	filter: alpha(Opacity=70);
+	-moz-opacity: 0.7;
+	opacity: 0.65;
+	z-index: 3;
+	margin-left: 15px;
+}
+.dragon-text {
+	position: relative;
+	left: 10px;
+	width: auto;
+	margin-right: 10px;
+}
+.dragon-p {
+	cursor: auto;
+	background: transparent;
+	padding: 0;
+	width: auto;
+	font: 12px sans-serif,Verdana, Arial, Helvetica;
+	border: 0;
+	font-weight: 300;
+	color: #FFF;
+	height: auto;
+	margin: 0;
+	text-align: center;
+	vertical-align: middle;
+	margin-right: 10px;
+	margin-top: 9px;
+}
+.dragon-trangle {
+	transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	background: #000;
+	width: 17.5px;
+	height: 17.5px;
+	top: 6px;
+	left: -6px;
+	position: absolute;
+	-moz-border-radius: 8px;
+	border-bottom-left-radius: 5px;
+	z-index: -1;
+}
+.dragon-circle {
+	position: relative;
+	height: 10px;
+	width: 10px;
+	border-radius: 50%;
+	background: #424842;
+	display: inline-block;
+}
+.dragon-circle-inner {
+	height: 6px;
+	width: 6px;
+	border-radius: 50%;
+	background: #fff;
+	left: 2px;
+	top: 2px;
+	position: relative;
+}
+.dragon-close {
+	position: absolute;
+	 float: right;
+	 display: inline-block;
+	left: 110px;
+	top: 0;
+}
+#create-mark li {
+	margin-bottom: 20px;
+	list-style: none;
+}
+#create-mark label {
+	margin-top: 10px;
+	margin-left: 10px;
+}
+li b{
+    font-weight: normal;
+    font-size: small;
+    top: 2px;
+    position: relative;
+	margin-left: 8px;
+}
+.icon-circle-close {
+    background: url('../images/close-icon.png') no-repeat;
+    background-size: contain;
+    width: 30px;
+    height: 30px;
+}
