@@ -1,7 +1,10 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import entity.Gender;
 import entity.Products;
+import entity.User;
+import entity.User_Type;
 import modules.OSSClientProvider;
 import play.Logger;
 import play.data.DynamicForm;
@@ -10,6 +13,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Result;
+import play.mvc.Security;
 import service.ItemService;
 import views.html.item.*;
 
@@ -42,9 +46,11 @@ public class Item extends Controller {
      *
      * @return Result
      */
+    @Security.Authenticated(UserAuth.class)
     public Result itemCreate(String lang) {
         Logger.debug(oss_provider.get().toString());
-        return ok(prodsadd.render(lang,itemService.getAllBrands(), itemService.getParentCates()));
+        User user = new User(1000002,"test", Gender.M(),"users/photo/default.png", User_Type.SELLER());
+        return ok(prodsadd.render(lang,itemService.getAllBrands(),itemService.getParentCates(),user));
     }
 
     /**
@@ -62,22 +68,22 @@ public class Item extends Controller {
         return ok(Json.toJson(itemService.getSubCates(hashMap)));
     }
 
-    public Result changeLanguage() {
-        DynamicForm form = Form.form().bindFromRequest();
-        String language = form.get("language");
-        ctx().changeLang(language);
-        return ok(language);
-    }
-
+    /**
+     * get all products
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
     public Result prodsList(String lang) {
-
-        return ok(prodslist.render(lang,itemService.getAllProducts()));
+        User user = new User(1000002,"test", Gender.M(),"users/photo/default.png", User_Type.SELLER());
+        return ok(prodslist.render(lang,itemService.getAllProducts(),user));
     }
 
     /**
      * insert products
      * @return Result
      */
+    @Security.Authenticated(UserAuth.class)
     public Result insertProducts() {
         ObjectNode result = Json.newObject();
         result.put("result",false);
@@ -87,8 +93,6 @@ public class Item extends Controller {
             Products products = new Products();
             products.setMerchId(1001);
             products.setMerchName(form.get("merchName"));
-            // 商品id 为 当前时间加两个随机数
-//            products.setProductId(Long.parseLong(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())+(int)(Math.random()*10)+(int)(Math.random()*10)));
             products.setLanguage(form.get("language"));
             String cateId = form.get("cateId");
             String cateName = form.get("cateName");
