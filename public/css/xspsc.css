@@ -88,10 +88,13 @@ ul,li{
     content
 */
 .content{
-    width: 100%;
+    width: 80%;
     height: auto;
     background-color: #fff;
     margin: 0 auto;
+    margin-bottom: 20px;
+    padding-bottom: 30px;
+	margin-top: 20px;
 }
 .container{
     width: auto;padding: 0;

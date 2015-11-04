@@ -54,6 +54,27 @@ h1, h2, h3, dd, ul, ol {
 	padding: 0;
 }
 
+/**********************    layout.scala.html      ***************************/
+.wrap {
+	position: relative;
+	width: 100%;
+	min-height: 100%;
+}
+.wrap-content {
+	padding-bottom: 63px;
+	display: block;
+	position: relative;
+	width: 100%;
+	margin: 0px auto;
+}
+.wrap-footer {
+	height: 64px;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+}
+
 /**********************     welcome.scala.html      ***************************/
 .center-panel {
 	width: 100%;
