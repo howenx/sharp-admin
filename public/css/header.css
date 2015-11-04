@@ -123,7 +123,8 @@ li {
 	border-bottom: 3px solid inital;
 }
 .header-navi-item:hover .header-link, .header-navi-item.active .header-link {
-	color: #176ba5
+	color: #176ba5;
+	text-decoration: none;
 }
 .header-navi-item:hover .header-nav-border-relative {
 	display: block;
@@ -140,6 +141,7 @@ li {
 }
 .user-info:hover .info-inner{
 	color: #176ba5;
+	text-decoration: none;
 } 
 .info-link:hover, .info-link.active {
 	color: #a7effe;
@@ -150,7 +152,7 @@ li {
 	display: block
 }
 .logo-span {
-	width: 100px;
+	width: 108px;
 	height: 30px;
 	padding-left: 10px;
 	line-height: 30px;

@@ -13,7 +13,23 @@
     @scripts
 </head>
 <body>
-@header(username,lang)
+<style>
+    .wrap{position:relative;width:100%;min-height:100%;}
+    .wrap-content{padding-bottom: 200px;display: block;position: relative;width: 80%;margin: 0px auto;margin-top: 20px;}
+    .wrap-footer{height:64px;position:absolute;bottom:0px;left:0px;width: 100%;}
+</style>
+<div class="wrap">
+    <div class="wrap-header">
+        @header(username,lang)
+    </div>
+    <div class="wrap-content">
+        @content
+    </div>
+    <div class="wrap-footer">
+        @footer()
+    </div>
+</div>
+
 <!--<div class="contentA">-->
     <!--<nav class="navbar navbar-default" role="navigation">-->
         <!--<div class="navbar-header">-->
@@ -60,7 +76,7 @@
         <!--</div>-->
     <!--</nav>-->
 <!--</div>-->
-@content
-@footer()
+
+
 </body>
 </html>
