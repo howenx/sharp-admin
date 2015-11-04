@@ -115,7 +115,7 @@ li b{
 	margin-left: 8px;
 }
 .icon-circle-close {
-    background: url('../images/close-icon.png') no-repeat;
+    background: url('/assets/images/close-icon.png') no-repeat;
     background-size: contain;
     width: 30px;
     height: 30px;

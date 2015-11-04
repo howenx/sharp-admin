@@ -42,6 +42,6 @@ public class Theme extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result thadd(String lang) {
         flash("success", session("username"));
-        return ok(views.html.theme.thadd.render(lang,(User) ctx().args.get("user")));
+        return ok(views.html.theme.thadd.render(lang,IMAGE_URL,(User) ctx().args.get("user")));
     }
 }
