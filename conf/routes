@@ -58,6 +58,7 @@ GET             /                                   controllers.Auth.login
 POST            /authenticate                       controllers.Auth.authenticate
 GET             /logout                             controllers.Auth.logout
 GET             /test                               controllers.Test.test
+GET             /supply                             controllers.Application.supply
 
 
 

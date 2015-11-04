@@ -26,6 +26,7 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
           Lang.preferred(request.acceptLanguages)
       }
 
+
       //Ok(views.html.welcome("cn",request.session.get("username").getOrElse(""))).withLang(lang)
       Ok(views.html.welcome(lang.code, user.nickname))
     }
@@ -54,7 +55,7 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
   def supply = withUser { user => {
     implicit request => {
       Logger.debug(s" $user")
-      Ok("ok")
+      Ok(views.html.supply())
     }
 
   }
