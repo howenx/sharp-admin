@@ -88,13 +88,16 @@ ul,li{
     content
 */
 .content{
-    width: 100%;
+    width: 80%;
     height: auto;
-    background-color: #f2f6f8;
+    background-color: #fff;
     margin: 0 auto;
+    margin-bottom: 20px;
+    padding-bottom: 30px;
+	margin-top: 20px;
 }
 .container{
-    width: 1100px;padding: 0;
+    width: auto;padding: 0;
 }
 .row{
     margin: 0 ;
@@ -229,6 +232,14 @@ ul,li{
     position: absolute;top: -25px;left: 32px;color: #00B7E
 }
 
+body {
+    font-family: 'sans-serif', 'Microsoft Yahei','Arial', 'Lantinghei SC', 'Hiragino Sans GB', 'Helvetica Neue', 'Helvetica';
+    font-size: 13px;
+    line-height: 1.5;
+    color: #333;
+    background-color: #f2f6f8;
+    margin: 0px auto;
+}
 
 
 

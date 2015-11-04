@@ -13,54 +13,16 @@
     @scripts
 </head>
 <body>
-@header(username,lang)
-<!--<div class="contentA">-->
-    <!--<nav class="navbar navbar-default" role="navigation">-->
-        <!--<div class="navbar-header">-->
-            <!--<a class="navbar-brand" href="#">Kakao Seller admin</a>-->
-        <!--</div>-->
-        <!--<div>-->
-            <!--<ul class="nav navbar-nav">-->
-                <!--@if(level=="homepage") {<li class="cur dropdown">}else { <li class="dropdown">}<a href="/@lang/front">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a></li>-->
-                <!--@if(level=="products") {<li class="cur dropdown">}else { <li class="dropdown">}-->
-                <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")<b class="caret"></b></a>-->
-                <!--<ul class="dropdown-menu">-->
-                    <!--<li><a href="#">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products.menu1")</a></li>-->
-                    <!--<li><a href="#">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products.menu2")</a></li>-->
-                <!--</ul>-->
-            <!--</li>-->
-                <!--@if(level=="themes") {<li class="cur dropdown">}else { <li class="dropdown">}-->
-                <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes")<b class="caret"></b></a>-->
-                <!--<ul class="dropdown-menu">-->
-                    <!--<li><a href="/@lang/slider">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu1")</a></li>-->
-                    <!--<li><a href="#">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu2")</a></li>-->
-                    <!--<li><a href="#">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu3")</a></li>-->
-                <!--</ul>-->
-            <!--</li>-->
-
-                <!--@if(level=="users") {<li class="cur dropdown">}else { <li class="dropdown">}-->
-                <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">@Messages.get(new Lang(Lang.forCode(lang)),"nav.users")<b class="caret"></b></a>-->
-                <!--<ul class="dropdown-menu">-->
-                    <!--<li><a href="#">@Messages.get(new Lang(Lang.forCode(lang)),"nav.users.menu1")</a></li>-->
-                    <!--<li><a href="#">@Messages.get(new Lang(Lang.forCode(lang)),"nav.users.menu2")</a></li>-->
-                <!--</ul>-->
-            <!--</li>-->
-
-                <!--@if(level=="app") {<li class="cur dropdown">}else { <li class="dropdown">}<a href="#">@Messages.get(new Lang(Lang.forCode(lang)),"nav.app")</a></li>-->
-
-                <!--@if(level=="notice") {<li class="cur dropdown">}else { <li class="dropdown">}<a href="#">@Messages.get(new Lang(Lang.forCode(lang)),"nav.notice")</a></li>-->
-
-                <!--@if(level=="promotion") {<li class="cur dropdown">}else { <li class="dropdown">}<a href="#">@Messages.get(new Lang(Lang.forCode(lang)),"nav.promotion")</a></li>-->
-
-            <!--</ul>-->
-        <!--</div>-->
-        <!--<div class="info1 r">-->
-            <!--<span class="l">@Messages.get(new Lang(Lang.forCode(lang)),"login.user",username)</span>-->
-            <!--<a class="r" href="/logout">@Messages.get(new Lang(Lang.forCode(lang)),"login.quit")</a>-->
-        <!--</div>-->
-    <!--</nav>-->
-<!--</div>-->
-@content
-@footer()
+    <div class="wrap">
+        <div class="wrap-header">
+            @header(username,lang)
+        </div>
+        <div class="wrap-content">
+            @content
+        </div>
+        <div class="wrap-footer">
+            @footer()
+        </div>
+    </div>
 </body>
 </html>
