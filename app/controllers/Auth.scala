@@ -103,9 +103,14 @@ class Auth @Inject() (val messagesApi: MessagesApi) extends Controller with Secu
     * 登出
     * @return
     */
-  def logout = isAuthenticated { user => {
+  def logout = withUser { user => {
     implicit  request => {
+
+      //清理cache
+      Cache.remove(user.nickname)
+      //清理session
       Results.Redirect(routes.Auth.login).withSession(request.session - ("username"))
+
     }
   }
   }

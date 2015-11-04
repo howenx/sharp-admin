@@ -21,7 +21,6 @@ trait Secured {
 
   def withAuth(f: => String => Request[AnyContent] => Result) = {
     Security.Authenticated(username, onUnauthorized) { user =>
-      Logger.debug(s"auth user $user")
       Action(request => f(user)(request))
     }
   }
@@ -33,11 +32,6 @@ trait Secured {
         f(user)(request)
       }.getOrElse(onUnauthorized(request))
   }
-
-//  def isAuthenticated(f: => String => Request[AnyContent] => Result) = Security.Authenticated(username, onUnauthorized) { user =>
-//    Logger.debug(s"is $user")
-//    Action(request => f(user)(request))
-//  }
 
   def isAuthenticated(f: => String => Request[AnyContent] => Result) = {
     Security.Authenticated(username, onUnauthorized) { user =>
