@@ -1,9 +1,9 @@
 @import play.i18n._
-@(lang:String,username:String)
+@(lang:String,user:entity.User)
 
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"welcome.title")
 
-@layout(username = username,lang = lang,level="homepage",title=title)(){
+@layout(lang = lang,title=title,user=user)(){
     <div class="center-panel">
         <div class="prize-banner">
             <div class="anni-banner"></div>

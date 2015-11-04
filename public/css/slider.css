@@ -3,19 +3,8 @@ ul,li {
 	padding: 0;
 	list-style: none;
 }
-.content ul {
-	width: 70%;
-	border: 0px dotted #ccc;
-	margin: 0 auto;
-}
-.content li {
-	width: 600px;
-	position: relative;
-	margin: 20px auto;
-}
 .slider-li-upload a {
 	display: block;
-	width: 100%;
 	height: 100%;
 	color: #fff;
 	padding-right: 40%;
@@ -34,10 +23,7 @@ ul,li {
 	border-radius: 3px;
 	background-size: contain;
 }
-.content img {
-	width: 100%;
-	height: 100%;
-}
+
 .slider-lable-image-up {
 	width: 35px;
 	height: 35px;
@@ -45,6 +31,8 @@ ul,li {
 	cursor: pointer;
 	top: 5px;
 	left: 20%;
+	background: url(/assets/images/circle-up.png) no-repeat;
+	background-size: contain;
 }
 .slider-lable-image-del {
 	right: 20%;
@@ -53,23 +41,23 @@ ul,li {
 	position: absolute;
 	cursor: pointer;
 	top: 5px;
+	background: url(/assets/images/circle-x.png) no-repeat;
+	background-size: contain;
 }
-.top img {
-	width: 50%;
+.slider-content-img {
+	width: 100%;
 	height: 50%;
-	position: absolute;
-	top: 10px;
-	left: 10px;
 }
 .slider-lable {
 	width: 70%;
 	height: 45px;
 	background: rgba(224, 218, 218, 0.69);
 	position: absolute;
-	bottom: 0;
+	bottom: 4px;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	margin: 0px 15%;
+	display:none;
 }
 .fly {
 	position: absolute;
@@ -78,12 +66,13 @@ ul,li {
 	font-size: 36px;
 	color: #003bb3;
 }
-.wrap {
-	margin-left: 25px;
+.wrap-slider {
 	width: 1080px;
 	min-height: 500px;
 	background-color: #fff;
 	margin: 20px auto;
+	margin-bottom: 50px;
+	padding-bottom: 30px;
 }
 .page-title {
 	color: #333;
@@ -99,13 +88,12 @@ ul,li {
 	font-weight: 400;
 }
 .usercenter-option {
-	width: 100%;
 	height: 59px;
 	margin-bottom: 13px;
 	padding: 0 20px;
 	border-bottom: 1px solid #f3f3f3;
 	background-color: #F9F9F9;
-	display: table;
+	display: block;
 }
 .usercenter-option .user-state {
 	line-height: 59px;
@@ -224,4 +212,14 @@ input[type=text], select, textarea {
 	width: 160px;
 	padding: 6px 10px;
 	border: 1px solid #cecece;
+}
+.slider-single-li {
+	display: block;
+	margin: 10px auto;
+	width: 60%;
+	height: auto;
+	position: relative;
+}
+.slider-hover-div:hover .slider-lable{
+	display:block;
 }
