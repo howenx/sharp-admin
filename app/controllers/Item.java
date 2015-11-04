@@ -49,8 +49,7 @@ public class Item extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result itemCreate(String lang) {
         Logger.debug(oss_provider.get().toString());
-        User user = new User(1000002,"test", Gender.M(),"users/photo/default.png", User_Type.SELLER());
-        return ok(prodsadd.render(lang,itemService.getAllBrands(),itemService.getParentCates(),user));
+        return ok(prodsadd.render(lang,itemService.getAllBrands(),itemService.getParentCates(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -75,8 +74,7 @@ public class Item extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result prodsList(String lang) {
-        User user = new User(1000002,"test", Gender.M(),"users/photo/default.png", User_Type.SELLER());
-        return ok(prodslist.render(lang,itemService.getAllProducts(),user));
+        return ok(prodslist.render(lang,itemService.getAllProducts(),(User) ctx().args.get("user")));
     }
 
     /**

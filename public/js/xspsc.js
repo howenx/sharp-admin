@@ -135,24 +135,16 @@ $(function(){
             inputpres.name="previewImgs";
             var inputfile = document.createElement("input");
             inputfile.type="file";
-            inputfile.id="fileinputP"+i;
+            inputfile.id="P"+i;
             inputfile.classList.add("hidden1");
             inputfile.setAttribute("accept", "image/gif, image/jpeg, image/webp, image/png");
             var divimgk = document.createElement("div");
             divimgk.classList.add("imgk");
             divimgk.classList.add("l");
             divimgk.id = "galleryP"+i;
-//            var divrad = document.createElement("div");
-//            divrad.classList.add("col-sm-1");
-//            divrad.classList.add("magrad");
-//            var inputrad = document.createElement("input");
-//            inputrad.type="radio";
-//            inputrad.name="mainPics";
-//            inputrad.style.marginLeft="40px";
-//            inputrad.style.marginTop="70px";
             var p = document.createElement("p");
             p.style.marginTop="70px";
-            p.innerText = "(如不需上传可移除)";
+            p.innerText = "(如不需上传图片可移除)";
             divsctp1.appendChild(spancol);
             divsctp1.appendChild(a);
             divsctp1.appendChild(inputpres);
@@ -160,8 +152,6 @@ $(function(){
             divsctp.appendChild(buttonpre);
             divsctp.appendChild(divsctp1);
             divsctp.appendChild(divimgk);
-//            divrad.appendChild(inputrad);
-//            divrad.appendChild(p);
             divcol.appendChild(divsctp);
             divpre.appendChild(label);
             divpre.appendChild(divcol);
@@ -333,11 +323,11 @@ $(function(){
         document.getElementById('masterImgAdd').style.background="#00B7EE";
         }
 
-//        //商品预览图小于6张时恢复上传功能
-//        if (document.getElementById("gallery"+id).getElementsByTagName("div").length<18) {
-//        $("#fileinput"+id).removeAttr("disabled");
-//        document.getElementById("preImgAdd"+id).style.background="#00B7EE";
-//        }
+        //商品预览图小于6张时恢复上传功能
+        if (document.getElementById("gallery"+id).getElementsByTagName("div").length<18) {
+        $("#fileinput"+id).removeAttr("disabled");
+        document.getElementById("preImgAdd"+id).style.background="#00B7EE";
+        }
     });
 
     /** 添加属性的操作 **/
