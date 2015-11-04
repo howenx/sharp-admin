@@ -8,7 +8,7 @@ GET				/itemCreate              	        controllers.Item.itemCreate(lang = "cn"
 GET				/$lang<(cn|en|kr)>/itemCreate       controllers.Item.itemCreate(lang)
 GET             /getSubcates                        controllers.Item.getSubCategory
 POST            /insertProducts                     controllers.Item.insertProducts
-GET             /changeLanguage                     controllers.Item.changeLanguage
+
 GET             /prodsList                          controllers.Item.prodsList(lang = "cn")
 GET             /$lang<(cn|en|kr)>/prodsList        controllers.Item.prodsList(lang)
 
@@ -60,6 +60,7 @@ GET             /                                   controllers.Auth.login
 POST            /authenticate                       controllers.Auth.authenticate
 GET             /logout                             controllers.Auth.logout
 GET             /test                               controllers.Test.test
+GET             /supply                             controllers.Application.supply
 
 
 

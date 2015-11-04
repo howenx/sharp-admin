@@ -1,0 +1,25 @@
+@import play.i18n._
+@import entity.User_Type
+@(lang:String="cn")
+
+@scripts = {
+
+}
+
+@body = {
+<div class="container">
+    <div class="row">
+        <div>
+            商品名称:<input type="text" name="name">
+            @entity.User_Type.SELLER
+        </div>
+    </div>
+
+</div>
+}
+
+@layout(lang=lang,level="themes",title="supply")(scripts) {
+
+@body
+
+}

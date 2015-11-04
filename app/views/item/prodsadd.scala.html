@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn", brandsList:List[entity.Brands], catesParentList:List[entity.Cates])
+@(lang:String="cn", brandsList:List[entity.Brands], catesParentList:List[entity.Cates],user:entity.User)
 
 @scripts = {
 
@@ -27,7 +27,7 @@
 
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsAddTitle")
 
-@layout(lang=lang,level="products",title=title)(scripts) {
+@layout(lang=lang,level="products",title=title,user=user)(scripts) {
 
 <div class="content">
     <div class="container">
@@ -258,7 +258,7 @@
                     <h1 class="tit1">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.details")</h1>
 
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.masterImg")</div><div class="r" style="padding-top:20px;padding-left:100px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.onePic"))</div></label>
+                        <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.masterImg")</div><div class="r" style="padding-top:20px;padding-left:110px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.onePic"))</div></label>
 
                         <div class="col-sm-9">
                             <div class="sctp" style="width:350px">
@@ -283,21 +283,21 @@
 
                             <div class="col-sm-7">
                                 <div class="sctp">
-                                    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <button type="button" class="close big" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <div class="sctp1 l">
                                         <span class="ysfont">颜色1</span>
                                         <a href="#" id="preImgAddP0">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
                                         <input type="hidden" id="previewImgs0" name="previewImgs"/>
-                                        <input type="file" id="fileinputP0" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                                        <input type="file" id="P0" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                                     </div>
                                     <div class="imgk l" id="galleryP0">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-1 magrad">
-                                <input type="radio" name="mainPics" style="margin-left:40px;margin-top:70px;"/>
-                                <p>设为首要预览图</p>
-                            </div>
+                            <!--<div class="col-sm-1 magrad">-->
+                                <!--<input type="radio" name="mainPics" style="margin-left:40px;margin-top:70px;"/>-->
+                                <p style="margin-top:70px;">(如不需上传可移除)</p>
+                            <!--</div>-->
                         </div>
 
                         <div class="form-group fdel">
@@ -305,21 +305,21 @@
 
                             <div class="col-sm-7">
                                 <div class="sctp">
-                                    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <button type="button" class="close big" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <div class="sctp1 l">
                                         <span class="ysfont">颜色2</span>
                                         <a href="#" id="preImgAddP1">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
                                         <input type="hidden" id="previewImgs1" name="previewImgs"/>
-                                        <input type="file" id="fileinputP1" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                                        <input type="file" id="P1"  class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                                     </div>
                                     <div class="imgk l" id="galleryP1">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-1 magrad">
-                                <input type="radio" name="mainPics" style="margin-left:40px;margin-top:70px;"/>
-                                <p>设为首要预览图</p>
-                            </div>
+                            <!--<div class="col-sm-1 magrad">-->
+                                <!--<input type="radio" name="mainPics" style="margin-left:40px;margin-top:70px;"/>-->
+                                <p style="margin-top:70px;">(如不需上传可移除)</p>
+                            <!--</div>-->
                         </div>
 
                     </div>
@@ -488,23 +488,27 @@ var uploadfileM = document.querySelector('#fileinputM');
 //详细图
 var uploadfileD = document.querySelector('#fileinputD');
 //预览图
-var prevImgs = document.getElementById("preImgs");
-var preinpus = prevImgs.getElementsByTagName("input");
-for(i=0;i<preinpus.length;i++) {
-    if (preinpus[i].type=="file") {
-        var id = "P"+ Math.floor(i/3);
-        var fileinputP = "fileinput"+ id;
-        uploadfileP = document.querySelector('#'+fileinputP);
+<!--var prevImgs = document.getElementById("preImgs");-->
+<!--var preinpus = prevImgs.getElementsByTagName("input");-->
+<!--for(i=0;i<preinpus.length;i++) {-->
+    <!--if (preinpus[i].type=="file") {-->
+        <!--var id = Math.floor(i/2);-->
+        //var fileinputP = "fileinput"+ id;
+        <!--alert(fileinputP);-->
+        <!--uploadfileP = document.querySelector('#'+'fileinputP'+id);-->
         //商品预览图
-        uploadfileP.addEventListener('change', function() {
+        <!--alert(id);-->
+        document.querySelectorAll('.hidden1').addEventListener('change', function() {
+            var id=window.event.srcElement.id;
+            alert(id);
             var files = this.files;
             for (var i = 0; i < files.length; i++) {
-                previewImage(this.files[i], id);
+                previewImage(this.files[i], 'P'+Math.floor(i/2));
             }
         }, false);
 
-    }
-}
+    <!--}-->
+<!--}-->
 
 
 //商品主图
@@ -585,12 +589,12 @@ function upload(thumb, file, id) {
         if (http.readyState == 4 && http.status == 200) {
             var data = JSON.parse(http.responseText);
             var input= document.createElement("input");
-            thumb.appendChild(input);
             imgName = data.imgid;
             input.id = imgName.substr(0,imgName.lastIndexOf("."));
             input.type="hidden";
             input.name=data.imgid;
             input.value=data.path;
+            thumb.appendChild(input);
             alert(data.message);
         }
     }

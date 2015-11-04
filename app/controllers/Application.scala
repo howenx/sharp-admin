@@ -15,8 +15,6 @@ import play.api.i18n.{Lang, MessagesApi, I18nSupport}
 @Inject
 class Application @Inject()(val messagesApi: MessagesApi) extends Controller with Secured with I18nSupport {
 
-
-
   def welcome(lang:String) = withUser { user => {
     implicit request => {
 //      val lang = request.getQueryString("lang") match {
@@ -25,6 +23,7 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
 //        case l =>
 //          Lang.preferred(request.acceptLanguages)
 //      }
+
 
       //Ok(views.html.welcome("cn",request.session.get("username").getOrElse(""))).withLang(lang)
       Ok(views.html.welcome(lang, user))
@@ -54,7 +53,9 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
   def supply = withUser { user => {
     implicit request => {
       Logger.debug(s" $user")
-      Ok("ok")
+
+      
+      Ok(views.html.supply())
     }
 
   }
