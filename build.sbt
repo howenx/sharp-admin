@@ -29,7 +29,7 @@ libraryDependencies += "org.mybatis" % "mybatis-guice" % "3.6" withSources() wit
 
 libraryDependencies += "com.google.inject.extensions" % "guice-multibindings" % "4.0" withSources() withJavadoc()
 
-// libraryDependencies += "com.github.mumoshu" %% "play2-memcached" % "0.6.0" withSources() withJavadoc()
+libraryDependencies += "com.github.mumoshu" %% "play2-memcached-play24" % "0.7.0" withSources() withJavadoc()
 
 libraryDependencies += "com.aliyun.oss" % "aliyun-sdk-oss" % "2.0.1" withSources() withJavadoc()
 libraryDependencies += "com.typesafe.play" %% "anorm" % "2.5.0" withSources() withJavadoc()

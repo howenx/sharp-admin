@@ -1,5 +1,6 @@
 package controllers
 
+
 import play.api.cache.Cache
 import play.api.mvc._
 import entity.User
@@ -28,7 +29,7 @@ trait Secured {
   def withUser(f: User => Request[AnyContent] => Result) = withAuth { username =>
     implicit request =>
       Logger.debug(s"withUser $username")
-      Cache.getAs[User](username).map { user =>
+      Cache.getAs[User](username.trim).map { user =>
         f(user)(request)
       }.getOrElse(onUnauthorized(request))
   }

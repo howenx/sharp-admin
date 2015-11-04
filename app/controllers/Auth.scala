@@ -83,7 +83,7 @@ class Auth @Inject() (val messagesApi: MessagesApi) extends Controller with Secu
             Ok(views.html.login(user_info))
           case Some(user) =>
             Logger.debug(s"user login... to admin age  $user")
-            Cache.set(user.nickname, user)
+            Cache.set(user.nickname.trim, user)
             val lang = request.getQueryString("lang") match {
               case Some(l) =>
                 Lang.apply(l)
