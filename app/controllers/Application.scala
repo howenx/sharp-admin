@@ -54,7 +54,7 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
     implicit request => {
       Logger.debug(s" $user")
 
-      
+
       Ok(views.html.supply())
     }
 
