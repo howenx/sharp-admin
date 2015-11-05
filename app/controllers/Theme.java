@@ -1,7 +1,11 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import entity.Slider;
 import play.Logger;
+import play.i18n.Lang;
+import play.i18n.Messages;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -11,6 +15,9 @@ import service.ThemeService;
 
 import javax.inject.Inject;
 import entity.User;
+
+import java.io.IOException;
+
 /**
  * Theme management.
  * Created by howen on 15/10/28.
@@ -44,21 +51,22 @@ public class Theme extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result thadd(String lang) {
-        flash("success", session("username"));
+//        flash("success", session("username"));
         return ok(views.html.theme.thadd.render(lang,IMAGE_URL,(User) ctx().args.get("user")));
     }
 
 
     public Result sliderSave(String lang){
         JsonNode json = request().body().asJson();
-        Logger.error(json.toString());
+
+        service.sliderSave(json);
+
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        return ok(Json.toJson("success"));
+        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
 
     }
 }

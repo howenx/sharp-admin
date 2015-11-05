@@ -44,7 +44,10 @@ $(function() {
 			$('.usercenter-option > .user-state').text('Changed');
 		}
 
-		del_array.push($(this).parent().next().attr('data-index'));
+		if($(this).parent().next().attr('data-index')!="-1"){
+			del_array.push($(this).parent().next().attr('data-index'));
+		}
+		
 		$(this).parent().parent().parent().remove();
 
 		//改变标志位
@@ -112,6 +115,8 @@ $(function() {
 							setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
 							change_flag=false;
 							
+							setTimeout("location.href='/"+window.lang+"/slider'", 3000);
+							
 			            },
 			            error : function(jqXHR) {
 			                console.log(jqXHR);
@@ -162,7 +167,7 @@ $(function() {
 				'<div class="slider-lable-image-up"></div>' +
 				'<div class="slider-lable-image-del"></div>' +
 				'</div>' +
-				'<img data-index="undefined" data-sort="' + $("#usercenter-info > ul").children().length + '" class="slider-content-img" src="' + this.result + '">' +
+				'<img data-index="-1" data-sort="' + $("#usercenter-info > ul").children().length + '" class="slider-content-img" src="' + this.result + '">' +
 				'</div>' +
 				'</li>');
 			upload($('.slider-li-upload').prev(), file);
@@ -186,7 +191,17 @@ $(function() {
 					var data = JSON.parse(http.responseText);
 
 					// console.log(data);
+					
+					change_flag=true;
+					
+					$('.usercenter-option > .user-state').css('background-position', '20px -73px');
 
+					if (window.lang === 'cn') {
+						$('.usercenter-option > .user-state').text('已更改');
+					} else {
+						$('.usercenter-option > .user-state').text('Changed');
+					}
+					
 					//替换dataURL为返回的服务器保存的url
 					$thumb.find('.slider-content-img').attr('src', data.minify_url);
 

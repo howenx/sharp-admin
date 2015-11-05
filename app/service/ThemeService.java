@@ -1,5 +1,6 @@
 package service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import entity.Slider;
 
 import java.util.List;
@@ -11,4 +12,6 @@ import java.util.List;
 public interface ThemeService {
 
     public List<Slider> sliderAll();
+
+    public void sliderSave(JsonNode json);
 }

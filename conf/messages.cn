@@ -112,3 +112,9 @@ footer.menu2 = 韩秘美© 2014-2015
 footer.menu3 = 北京东方爱怡斯科技有限公司
 footer.menu4 = 京ICP备11028595号
 footer.menu5 = 京公网安备110105011117
+
+
+
+
+#messages
+message.save.success = 保存成功

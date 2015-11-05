@@ -108,3 +108,9 @@ footer.menu2 = HMM© 2014-2015
 footer.menu3 = Beijing DFHL Co. LTD.
 footer.menu4 = BeijingICP 11028595
 footer.menu5 = BeijingPolice 110105011117
+
+
+
+
+#messages
+message.save.success = Save success

@@ -33,7 +33,10 @@ public class MyBatisModule extends org.mybatis.guice.MyBatisModule {
     protected void initialize() {
         Logger.debug("init mybatis database and config file...");
         environmentId("development");
-        bindConstant().annotatedWith(Names.named("mybatis.configuration.failFast")).to(true);
+//      bindConstant().annotatedWith(Names.named("mybatis.configuration.failFast")).to(true);
+        //开启驼峰自动映射
+        mapUnderscoreToCamelCase(true);
+
         bindDataSourceProviderType(DefaultDataSourceProvider.class);
         bindTransactionFactoryType(JdbcTransactionFactory.class);
         addMapperClass(BrandsMapper.class);

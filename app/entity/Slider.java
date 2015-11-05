@@ -14,6 +14,8 @@ public class Slider implements Serializable{
     private Integer sortNu;
     private Timestamp createAt;
 
+    public Slider(){}
+
     public Slider(Long id, String img, Integer sortNu, Timestamp createAt) {
         this.id = id;
         this.img = img;
