@@ -3,6 +3,7 @@ package service;
 import entity.Brands;
 import entity.Cates;
 import entity.Products;
+import play.libs.Json;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,9 +58,9 @@ public interface ItemService {
     /**
      * insert products into prods table
      *
-     * @param products
+     * @param multiProducts
      * @return boolean
      */
-    Integer insertProducts(Products products);
+    List<Integer> insertProducts(Json multiProducts);
 
 }

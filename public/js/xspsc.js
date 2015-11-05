@@ -25,7 +25,7 @@ $(function(){
         if (color == "") {
             $('.yanse .add').click(function(){});
         } else
-            $("<li>").html('<span><input type="text" class="colorIn"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
+            $("<li>").html('<span><input type="text" class="colorIn" name="productColor"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
     });
 
     /** 颜色变化 添加到尺寸列表,数量价格表格和预览图区域中**/
@@ -106,9 +106,8 @@ $(function(){
             divx.classList.add('r');
             divx.innerText=$('#preIms').val();
             var divn = document.createElement("div");
-            divn.classList.add('r');
             divn.style.paddingTop="20px";
-            divn.style.paddingLeft="100px";
+            divn.style.paddingRight="20px";
             divn.innerText= "("+$('#mostS').val()+")";
             label.appendChild(divx);
             label.appendChild(divn);
@@ -129,10 +128,6 @@ $(function(){
             var a = document.createElement("a");
             a.setAttribute('id',"preImgAddP" + i);
             a.innerText=$('#addPic').val();
-            var inputpres = document.createElement("input");
-            inputpres.type="hidden";
-            inputpres.id="previewImgs"+i;
-            inputpres.name="previewImgs";
             var inputfile = document.createElement("input");
             inputfile.type="file";
             inputfile.id="P"+i;
@@ -142,17 +137,21 @@ $(function(){
             divimgk.classList.add("imgk");
             divimgk.classList.add("l");
             divimgk.id = "galleryP"+i;
+            var inputpres = document.createElement("input");
+            inputpres.type="hidden";
+            inputpres.id="previewImgs"+i;
+            inputpres.name="previewImgs";
             var p = document.createElement("p");
             p.style.marginTop="70px";
             p.innerText = "(如不需上传图片可移除)";
             divsctp1.appendChild(spancol);
             divsctp1.appendChild(a);
-            divsctp1.appendChild(inputpres);
             divsctp1.appendChild(inputfile);
             divsctp.appendChild(buttonpre);
             divsctp.appendChild(divsctp1);
             divsctp.appendChild(divimgk);
             divcol.appendChild(divsctp);
+            divimgk.appendChild(inputpres);
             divpre.appendChild(label);
             divpre.appendChild(divcol);
             divpre.appendChild(p);
@@ -165,7 +164,6 @@ $(function(){
         numpri.appendChild(tr5);
 
     });
-
 
     /** 删除颜色 **/
     $(document).on('click','.yanse .close',function() {
@@ -219,7 +217,7 @@ $(function(){
         if (size == "") {
             $('.size .add').click(function(){});
         } else
-            $("<li>").html('<span><input type="text" class="sizeIn"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
+            $("<li>").html('<span><input type="text" class="sizeIn" name="productSize"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
     });
 
     /** 尺寸变化,添加到数量价格表格中 **/
@@ -263,6 +261,9 @@ $(function(){
                 var inp1 = document.createElement("input");
                 var inp2 = document.createElement("input");
                 var inp3 = document.createElement("input");
+                inp1.name="productAmount";
+                inp2.name="productPrice";
+                inp3.name="recommendPrice";
                 tdsi.innerText = si;
                 tdam.appendChild(inp1);
                 tdpr.appendChild(inp2);
@@ -315,19 +316,19 @@ $(function(){
 
     /** 上传图片操作,对动态添加的标签元素,点击移除的操作 **/
     $(document).on('click','.imgyl .close',function(){
-        $(this).parent().remove();
-
+        var id = $(this).parent().parent().attr("id");
         //没有商品主图时,上传按钮置为可点击且颜色恢复
-        if (document.getElementById("galleryM").getElementsByTagName("div").length==0) {
-        $("#fileinputM").removeAttr("disabled");
-        document.getElementById('masterImgAdd').style.background="#00B7EE";
+        if (id=="galleryM" && document.getElementById(id).getElementsByTagName("div").length==1) {
+            $("#M").removeAttr("disabled");
+            document.getElementById('masterImgAdd').style.background="#00B7EE";
         }
-
         //商品预览图小于6张时恢复上传功能
-        if (document.getElementById("gallery"+id).getElementsByTagName("div").length<18) {
-        $("#fileinput"+id).removeAttr("disabled");
-        document.getElementById("preImgAdd"+id).style.background="#00B7EE";
+        if (document.getElementById(id).getElementsByTagName("div").length==6) {
+            id = id.substring(7,9);
+            $("#"+id).removeAttr("disabled");
+            document.getElementById('preImgAdd'+id).style.background="#00B7EE";
         }
+        $(this).parent().remove();
     });
 
     /** 添加属性的操作 **/

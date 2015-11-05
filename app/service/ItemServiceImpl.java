@@ -7,9 +7,11 @@ import mapper.BrandsMapper;
 import mapper.CatesMapper;
 import mapper.ProductsMapper;
 import play.Logger;
+import play.libs.Json;
 
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -105,13 +107,17 @@ public class ItemServiceImpl implements ItemService {
     /**
      * insert products into prods table.
      *
-     * @param products
+     * @param multiProducts
      * @return boolean
      */
 
     @Override
-    public Integer insertProducts(Products products) {
-        return this.productsMapper.insertProducts(products);
+    public List<Integer> insertProducts(Json multiProducts) {
+        List<Integer> list = new ArrayList();
+        Products products = new Products();
+        Integer id = productsMapper.insertProducts(products);
+        list.add(id);
+        return list;
     }
 
 }
