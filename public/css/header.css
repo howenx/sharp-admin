@@ -23,7 +23,7 @@
 	height: 60px;
 	margin-top: 4px;
 	margin-left: 5px;
-	background: url(../images/logo.png) no-repeat left center;
+	background: url(/assets/images/logo.png) no-repeat left center;
 	background-size: 96%;
 }
 .fl {

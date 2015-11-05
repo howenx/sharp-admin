@@ -2,18 +2,23 @@
 @(lang:String="cn",sliders:List[entity.Slider],url:String,user:entity.User)
 
 @scripts = {
-    <script src="/assets/js/slider.js"></script>
+
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/xspsc.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/slider.css">
     <link rel="stylesheet" href="/assets/css/button.css">
+
+	<script>window.lang='@lang'</script>
+	<script>window.url='@url'</script>
+    <script src="/assets/js/slider.js"></script>
+	
 }
 
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.title")
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 
-<div style="width: 50%;margin: 10px auto;" class="alert alert-success" role="alert">
+<div style="width: 50%;margin: 10px auto;display:none;" class="alert alert-success" role="alert">
     <strong>Well done!</strong>
     @if(flash.containsKey("success")) {
         @flash.get("success")
@@ -32,6 +37,7 @@
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
     <form id="usercenter-info">
+		<input style="display:none;" type="file" id="fileinput" name="displayImage" accept="image/gif, image/jpeg, image/webp, image/png" />
         <ul>
             @for(slider <- sliders) {
                 <li class="slider-single-li">
@@ -46,7 +52,7 @@
                 </li>
             }
             <li class="slider-li-upload slider-single-li">
-                <a href="">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.upload")</a>
+                <a id="upbn">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.upload")</a>
             </li>
         </ul>
     </form>

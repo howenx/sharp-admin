@@ -1,6 +1,9 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import play.Logger;
+import play.libs.Json;
+import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -43,5 +46,19 @@ public class Theme extends Controller {
     public Result thadd(String lang) {
         flash("success", session("username"));
         return ok(views.html.theme.thadd.render(lang,IMAGE_URL,(User) ctx().args.get("user")));
+    }
+
+
+    public Result sliderSave(String lang){
+        JsonNode json = request().body().asJson();
+        Logger.error(json.toString());
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return ok(Json.toJson("success"));
+
     }
 }

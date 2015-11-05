@@ -38,7 +38,7 @@
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 
-<div style="width: 50%;margin: 10px auto;" class="alert alert-success" role="alert">
+<div style="width: 50%;margin: 10px auto;display:none;" class="alert alert-success" role="alert">
     <strong>Well done!</strong>
     @if(flash.containsKey("success")) {
         @flash.get("success")
