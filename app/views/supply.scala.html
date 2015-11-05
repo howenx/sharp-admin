@@ -1,24 +1,75 @@
 @import play.i18n._
 @import entity.User_Type
-@(lang:String="cn")
+@import entity.User
+@(lang:String="cn", user:User)
 
 @scripts = {
-
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
+<link rel="shortcut icon" type="image/png" href="/assets/images/favicon.ico">
+<link href='http://fonts.useso.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
 }
 
 @body = {
 <div class="container">
     <div class="row">
-        <div>
-            商品名称:<input type="text" name="name">
-            @entity.User_Type.SELLER
+        <div class="col-md-5 input-group" style="padding-top: 20px;">
+            <span class="input-group-addon">商品名称:</span>
+            <input type="text" name="name" class="form-control">
+
+        </div>
+        <div class="col-md-5 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">品牌:</span>
+            <input type="text" name="name" class="form-control">
+
+        </div>
+        <div class="col-md-5 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">材质:</span>
+            <input type="text" name="name" class="form-control">
+
+        </div>
+        <div class="col-md-5 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">款式:</span>
+            <input type="text" name="name" class="form-control">
+
+        </div>
+        <div class="col-md-5 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">适用人群:</span>
+            <input type="text" name="name" class="form-control">
+
+        </div>
+        <div class="col-md-5 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">成本价格:</span>
+            <input type="text" name="name" class="form-control">
+
+        </div>
+        <div class="col-md-5 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">市场价:</span>
+            <input type="text" name="name" class="form-control">
+
+        </div>
+        <div class="col-md-5 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">商品净重(公斤):</span>
+            <input type="text" name="name" class="form-control">
+
+        </div>
+        <div class="col-md-5 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">商品毛重(公斤):</span>
+            <input type="text" name="name" class="form-control">
+
+        </div>
+        <div class="col-md-5 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">包装(长):</span>
+            <input type="text" name="name" class="form-control">
+            <span class="input-group-addon">包装(宽):</span>
+            <input type="text" name="name" class="form-control">
+
         </div>
     </div>
 
 </div>
 }
 
-@layout(lang=lang,level="themes",title="supply")(scripts) {
+@layout(lang=lang,level="themes",title="supply", user=user)(scripts) {
 
 @body
 

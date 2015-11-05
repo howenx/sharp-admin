@@ -55,7 +55,7 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
       Logger.debug(s" $user")
 
 
-      Ok(views.html.supply())
+      Ok(views.html.supply("cn", user))
     }
 
   }
