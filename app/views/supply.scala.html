@@ -1,24 +1,273 @@
 @import play.i18n._
 @import entity.User_Type
-@(lang:String="cn")
+@import entity.User
+@(lang:String="cn", user:User)
 
 @scripts = {
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
+<link rel="shortcut icon" type="image/png" href="/assets/images/favicon.ico">
+<link href='http://fonts.useso.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $('#tabs').tab();
+    });
 
+
+
+
+
+
+</script>
 }
 
 @body = {
 <div class="container">
-    <div class="row">
-        <div>
-            商品名称:<input type="text" name="name">
-            @entity.User_Type.SELLER
+    <div class="row" style="margin-top:20px">
+        <div class="col-md-3 input-group pull-right">
+            <span class="input-group-addon">Language:</span>
+            <select class="form-control">
+                <option>Korea</option>
+                <option>Chinese</option>
+                <option>English</option>
+            </select>
         </div>
     </div>
+    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+        <li class="active"><a href="#hzp" data-toggle="tab">化妆品</a></li>
+        <li><a href="#ps" data-toggle="tab">配饰</a></li>
+        <li><a href="#fs" data-toggle="tab">服饰</a></li>
+    </ul>
+    <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane active" id="hzp">
+            <div class="col-md-5 input-group" style="padding-top: 20px;">
+                <span class="input-group-addon">商品名称:</span>
+                <input type="text" name="name" class="form-control">
 
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">成本价:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">售价:</span>
+                <input type="text" name="name" class="form-control">
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">尺寸(cm):</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">装箱数:</span>
+                <input type="text" name="name" class="form-control">
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">箱子尺寸:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">净重(kg):</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">毛重(kg):</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">图片:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">主要成分:</span>
+                <textarea name="name" class="form-control">
+                </textarea>
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">肤质:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">类别:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">功效:</span>
+                <textarea name="name" class="form-control">
+                </textarea>
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">原产地:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">库存量:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-2 col-md-offset-1" style="margin-top:20px;margin-bottom:20px">
+                <input type="submit" class="btn btn-primary btn-block" value="提交"/>
+            </div>
+        </div>
+        <div class="tab-pane" id="ps">
+            <div class="col-md-5 input-group" style="padding-top: 20px;">
+                <span class="input-group-addon">商品名称:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px;">
+                <span class="input-group-addon">产品图片:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">品牌:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">材质:</span>
+                <input type="text" name="name" class="form-control">
+
+                <span class="input-group-addon">款式:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">适用人群:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">成本价:</span>
+                <input type="text" name="name" class="form-control">
+
+                <span class="input-group-addon">市场价:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">库存量:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">商品净重(公斤):</span>
+                <input type="text" name="name" class="form-control">
+
+                <span class="input-group-addon">商品毛重(公斤):</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-5 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">包装(长)mm:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">包装(宽)mm:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">包装(高)mm:</span>
+                <input type="text" name="name" class="form-control">
+            </div>
+            <div class="col-md-2 col-md-offset-1" style="margin-top:20px;margin-bottom:20px">
+                <input type="submit" class="btn btn-primary btn-block" value="提交"/>
+            </div>
+        </div>
+        <div class="tab-pane" id="fs">
+            <div class="col-md-7 input-group" style="padding-top: 20px;">
+                <span class="input-group-addon">商品名称:</span>
+                <input type="text" name="name" class="form-control">
+            </div>
+            <div class="col-md-7 input-group" style="padding-top: 20px;">
+                <span class="input-group-addon">图片:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-7 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">一级分类:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">二级分类:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">三级分类:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-7 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">型号:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">颜色:</span>
+                <input type="text" name="name" class="form-control">
+            </div>
+            <div class="col-md-7 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">功能:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-7 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">用途:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+
+            <div class="col-md-7 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">版型:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">材质:</span>
+                <input type="text" name="name" class="form-control">
+
+
+                <span class="input-group-addon">里料分类:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-7 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">上市时间:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">图案:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">适用年龄:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-7 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">商品单位:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">毛重:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">净重:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">厚度:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-7 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">领型:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">衣长:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">袖型:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">衣门襟:</span>
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-md-7 input-group" style="padding-top: 20px">
+
+                <span class="input-group-addon">尺码:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">适用类型:</span>
+                <input type="text" name="name" class="form-control">
+
+
+                <span class="input-group-addon">风格:</span>
+                <input type="text" name="name" class="form-control">
+                <span class="input-group-addon">流行元素:</span>
+                <input type="text" name="name" class="form-control">
+
+
+            </div>
+
+            <div class="col-md-2 col-md-offset-2" style="margin-top:20px;margin-bottom:20px">
+                <input type="submit" class="btn btn-primary btn-block" value="提交"/>
+            </div>
+        </div>
+
+    </div>
 </div>
 }
 
-@layout(lang=lang,level="themes",title="supply")(scripts) {
+@layout(lang=lang,title="supply", user=user)(scripts) {
 
 @body
 

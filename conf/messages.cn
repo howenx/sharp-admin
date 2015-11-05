@@ -91,6 +91,7 @@ themes.slider.cancel = 取消
 themes.slider.update = 修改
 themes.slider.state1 = 未更改
 themes.slider.state2 = 已更改
+themes.create.title = 主题录入
 
 
 
@@ -111,3 +112,9 @@ footer.menu2 = 韩秘美© 2014-2015
 footer.menu3 = 北京东方爱怡斯科技有限公司
 footer.menu4 = 京ICP备11028595号
 footer.menu5 = 京公网安备110105011117
+
+
+
+
+#messages
+message.save.success = 保存成功

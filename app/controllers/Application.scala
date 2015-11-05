@@ -2,6 +2,7 @@ package controllers
 
 
 import javax.inject.{Inject, Singleton}
+import entity.User_Type
 import play.api.mvc.{Controller}
 import play.api.Logger
 import play.api.Play.current
@@ -26,7 +27,13 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
 
 
       //Ok(views.html.welcome("cn",request.session.get("username").getOrElse(""))).withLang(lang)
-      Ok(views.html.welcome(lang, user))
+      user.role match {
+        case User_Type.SELLER =>
+          Redirect(routes.Application.supply())
+        case _ =>
+          Ok(views.html.welcome(lang, user))
+      }
+
     }
   }
   }
@@ -53,9 +60,8 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
   def supply = withUser { user => {
     implicit request => {
       Logger.debug(s" $user")
-
-
-      Ok(views.html.supply())
+      Logger.debug(request.host)
+      Ok(views.html.supply("cn", user))
     }
 
   }

@@ -31,10 +31,12 @@ GET             /assets/*file                 controllers.Assets.versioned(path=
 
 
 # Theme
-GET             /slider                             controllers.Theme.slider(lang = "cn")
-GET             /$lang<(cn|en|kr)>/slider           controllers.Theme.slider(lang)
-
-
+GET             /slider                                     controllers.Theme.slider(lang = "cn")
+GET             /$lang<(cn|en|kr)>/slider                   controllers.Theme.slider(lang)
+GET             /thadd                                      controllers.Theme.thadd(lang = "cn")
+GET             /$lang<(cn|en|kr)>/thadd                    controllers.Theme.thadd(lang)
+POST            /slider/update                              controllers.Theme.sliderSave(lang ="cn")
+POST            /$lang<(cn|en|kr)>/slider/update            controllers.Theme.sliderSave(lang)
 
 
 

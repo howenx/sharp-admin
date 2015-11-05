@@ -107,7 +107,7 @@ class Auth @Inject() (val messagesApi: MessagesApi) extends Controller with Secu
     implicit  request => {
 
       //清理cache
-      Cache.remove(user.nickname)
+      Cache.remove(user.nickname.trim)
       //清理session
       Results.Redirect(routes.Auth.login).withSession(request.session - ("username"))
 

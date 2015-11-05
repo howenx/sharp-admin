@@ -8,9 +8,11 @@ ul,li {
 	height: 100%;
 	color: #fff;
 	padding-right: 40%;
+	cursor: pointer;
 }
 .slider-li-upload a:hover {
 	text-decoration: none;
+	cursor: pointer;
 }
 .slider-li-upload {
 	text-align: right;
@@ -18,7 +20,7 @@ ul,li {
 	border: 1px solid #ccc;
 	font-size: 18px;
 	height: 50px;
-	background: #35a6e8 url('../images/add_img.png') no-repeat 140px 0px;
+	background: #35a6e8 url('/assets/images/add_img.png') no-repeat 140px 0px;
 	color: #fff;
 	border-radius: 3px;
 	background-size: contain;
@@ -53,7 +55,7 @@ ul,li {
 	height: 45px;
 	background: rgba(224, 218, 218, 0.69);
 	position: absolute;
-	bottom: 4px;
+	bottom: 0px;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	margin: 0px 15%;
@@ -73,6 +75,7 @@ ul,li {
 	margin: 20px auto;
 	margin-bottom: 50px;
 	padding-bottom: 30px;
+	min-height: 800px;
 }
 .page-title {
 	color: #333;
@@ -135,8 +138,9 @@ ul,li {
 .ml15 {
 	margin-left: 15px;
 }
-.c_c00, .alt, .alert {
+.c_c00, .alt {
 	color: #c00;
+	margin-right:20px;
 }
 .mt20 {
 	margin-top: 20px;
@@ -169,19 +173,6 @@ ul,li {
 	display: block;
 	line-height: 27px;
 }
-input, select, textarea, label {
-	vertical-align: middle;
-}
-.radio-label, .span-label {
-	line-height: 40px;
-}
-input[type=checkbox], input[type=radio] {
-	margin: 0 3px 3px 0;
-}
-input[type=checkbox], input[type=radio] {
-	box-sizing: border-box;
-	padding: 0;
-}
 .userinfo-row {
 	color: #666;
 	width: 397px;
@@ -204,14 +195,6 @@ input[type=checkbox], input[type=radio] {
 	padding: 12px 10px 11px;
 	width: 375px;
 	border-radius: 2px;
-}
-input[type=text] {
-	height: 16px;
-}
-input[type=text], select, textarea {
-	width: 160px;
-	padding: 6px 10px;
-	border: 1px solid #cecece;
 }
 .slider-single-li {
 	display: block;

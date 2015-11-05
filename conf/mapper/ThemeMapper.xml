@@ -10,8 +10,6 @@
     -->
     <!--<cache/>-->
 
-
-
     <sql id="sliderColumns">
         ${alias}.id,
         ${alias}.img,
@@ -26,5 +24,20 @@
         </include>
         from slider t order by t.sort_nu
     </select>
+
+    <insert id="insertSlider" parameterType="entity.Slider" useGeneratedKeys="true" keyProperty="id">
+        insert into slider (img,sort_nu,create_at)
+        values (#{img},#{sortNu},CURRENT_TIMESTAMP(0))
+    </insert>
+
+    <update id="updateSlider" parameterType="entity.Slider">
+        update slider set img=#{img},sort_nu=#{sortNu}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSlider" parameterType="java.lang.Long">
+        delete from slider
+        where id = ${value}
+    </delete>
 
 </mapper>
