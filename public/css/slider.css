@@ -135,7 +135,7 @@ ul,li {
 .ml15 {
 	margin-left: 15px;
 }
-.c_c00, .alt, .alert {
+.c_c00, .alt {
 	color: #c00;
 }
 .mt20 {
@@ -169,19 +169,6 @@ ul,li {
 	display: block;
 	line-height: 27px;
 }
-input, select, textarea, label {
-	vertical-align: middle;
-}
-.radio-label, .span-label {
-	line-height: 40px;
-}
-input[type=checkbox], input[type=radio] {
-	margin: 0 3px 3px 0;
-}
-input[type=checkbox], input[type=radio] {
-	box-sizing: border-box;
-	padding: 0;
-}
 .userinfo-row {
 	color: #666;
 	width: 397px;
@@ -204,14 +191,6 @@ input[type=checkbox], input[type=radio] {
 	padding: 12px 10px 11px;
 	width: 375px;
 	border-radius: 2px;
-}
-input[type=text] {
-	height: 16px;
-}
-input[type=text], select, textarea {
-	width: 160px;
-	padding: 6px 10px;
-	border: 1px solid #cecece;
 }
 .slider-single-li {
 	display: block;

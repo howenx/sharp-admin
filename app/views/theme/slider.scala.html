@@ -11,14 +11,12 @@
 
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.title")
 
-@import java.lang.String; val username=flash.get("username")
-
-@layout(username=user.nickname,lang=lang,title=title,user=user)(scripts) {
+@layout(lang=lang,title=title,user=user)(scripts) {
 
 <div style="width: 50%;margin: 10px auto;" class="alert alert-success" role="alert">
     <strong>Well done!</strong>
     @if(flash.containsKey("success")) {
-    @flash.get("success")
+        @flash.get("success")
     }
     <span class="close" aria-label="Close"><span aria-hidden="true">&times;</span></span>
 </div>
@@ -36,16 +34,16 @@
     <form id="usercenter-info">
         <ul>
             @for(slider <- sliders) {
-            <li class="slider-single-li">
-                <div class="slider-hover-div">
-                    <div class="slider-lable">
-                        <div class="slider-lable-image-up"></div>
-                        <div class="slider-lable-image-del"></div>
+                <li class="slider-single-li">
+                    <div class="slider-hover-div">
+                        <div class="slider-lable">
+                            <div class="slider-lable-image-up"></div>
+                            <div class="slider-lable-image-del"></div>
+                        </div>
+                        <img data-index=@slider.getId() data-sort=@slider.getSortNu() class="slider-content-img"
+                             src="@url@slider.getImg()">
                     </div>
-                    <img data-index=@slider.getId() data-sort=@slider.getSortNu() class="slider-content-img"
-                         src="@url@slider.getImg()">
-                </div>
-            </li>
+                </li>
             }
             <li class="slider-li-upload slider-single-li">
                 <a href="">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.upload")</a>

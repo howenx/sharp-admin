@@ -27,7 +27,7 @@
 
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsAddTitle")
 
-@layout(lang=lang,level="products",title=title,user=user)(scripts) {
+@layout(lang=lang,title=title,user=user)(scripts) {
 
 <div class="content">
     <div class="container">
@@ -258,14 +258,14 @@
                     <h1 class="tit1">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.details")</h1>
 
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.masterImg")</div><div class="r" style="padding-top:20px;padding-left:110px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.onePic"))</div></label>
+                        <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.masterImg")</div><div class="r" style="padding-top:20px;padding-left:150px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.onePic"))</div></label>
 
                         <div class="col-sm-9">
                             <div class="sctp" style="width:350px">
                                 <div class="sctp1 l">
                                     <a href="#" id="masterImgAdd">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
                                     <input type="hidden" id="masterImg" name="masterImg" value=""/>
-                                    <input type="file" id="fileinputM" name="image" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png" />
+                                    <input type="file" id="M" name="image" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png" />
                                 </div>
                                 <div class="imgk l" id="galleryM" style="width:150px">
                                 </div>
@@ -296,7 +296,7 @@
                             </div>
                             <!--<div class="col-sm-1 magrad">-->
                                 <!--<input type="radio" name="mainPics" style="margin-left:40px;margin-top:70px;"/>-->
-                                <p style="margin-top:70px;">(如不需上传可移除)</p>
+                                <p style="margin-top:70px;">(如不需上传图片可移除)</p>
                             <!--</div>-->
                         </div>
 
@@ -318,7 +318,7 @@
                             </div>
                             <!--<div class="col-sm-1 magrad">-->
                                 <!--<input type="radio" name="mainPics" style="margin-left:40px;margin-top:70px;"/>-->
-                                <p style="margin-top:70px;">(如不需上传可移除)</p>
+                                <p style="margin-top:70px;">(如不需上传图片可移除)</p>
                             <!--</div>-->
                         </div>
 
@@ -332,7 +332,7 @@
                                 <div class="sctp1 l">
                                     <a href="#">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
                                     <input type="hidden" id="detailImgs" name="detailImgs" />
-                                    <input type="file" id="fileinputD" name="image" class="hidden1" value=""/>
+                                    <input type="file" id="D" name="image" class="hidden1" value=""/>
                                 </div>
                                 <div class="imgk l" id="galleryD">
                                 </div>
@@ -415,7 +415,9 @@
             }
         });
     });
- })
+ });
+
+/** 变化语言 **/
 
 function changeLang() {
     var lang = $("#language").val();
@@ -425,9 +427,9 @@ function changeLang() {
         location.href='/'+lang+'/itemCreate';
     }
 
- }
+}
 
-//表单数据提交
+/** 表单数据提交 **/
 
 function submitProducts() {
     var isPost = true;
@@ -483,54 +485,14 @@ function submitProducts() {
 }
 
 /** 上传图片 **/
-//主图
-var uploadfileM = document.querySelector('#fileinputM');
-//详细图
-var uploadfileD = document.querySelector('#fileinputD');
-//预览图
-<!--var prevImgs = document.getElementById("preImgs");-->
-<!--var preinpus = prevImgs.getElementsByTagName("input");-->
-<!--for(i=0;i<preinpus.length;i++) {-->
-    <!--if (preinpus[i].type=="file") {-->
-        <!--var id = Math.floor(i/2);-->
-        //var fileinputP = "fileinput"+ id;
-        <!--alert(fileinputP);-->
-        <!--uploadfileP = document.querySelector('#'+'fileinputP'+id);-->
-        //商品预览图
-        <!--alert(id);-->
-        document.querySelectorAll('.hidden1').addEventListener('change', function() {
-            var id=window.event.srcElement.id;
-            alert(id);
-            var files = this.files;
-            for (var i = 0; i < files.length; i++) {
-                previewImage(this.files[i], 'P'+Math.floor(i/2));
-            }
-        }, false);
 
-    <!--}-->
-<!--}-->
-
-
-//商品主图
-
-uploadfileM.addEventListener('change', function() {
-
+$(document).on('change','.hidden1',function() {
+    var id=window.event.srcElement.id;
     var files = this.files;
-    var id = "M";
     for (var i = 0; i < files.length; i++) {
         previewImage(this.files[i], id);
     }
-}, false);
-
-//商品详细图
-
-uploadfileD.addEventListener('change', function() {
-    var files = this.files;
-    var id = "D";
-    for (var i = 0; i < files.length; i++) {
-        previewImage(this.files[i], id);
-    }
-}, false);
+});
 
 function previewImage(file, id) {
     var galleryId = "gallery" + id;
@@ -560,8 +522,8 @@ function previewImage(file, id) {
      }
 
      //商品预览图最多为6张
-     if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==6) {
-         $("#fileinput"+id).attr({"disabled":true});
+     if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==3) {
+         $("#"+id).attr({"disabled":true});
          document.getElementById("preImgAdd"+id).style.background="#ccc";
      }
 
@@ -576,7 +538,6 @@ function previewImage(file, id) {
     })(img);
     reader.readAsDataURL(file);
 }
-
 
 function upload(thumb, file, id) {
     var formdata = new FormData();
