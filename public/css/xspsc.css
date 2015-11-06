@@ -95,6 +95,7 @@ ul,li{
     margin-bottom: 20px;
     padding-bottom: 30px;
 	margin-top: 20px;
+	min-height: 800px;
 }
 .container{
     width: auto;padding: 0;
@@ -225,12 +226,17 @@ ul,li{
     border: 0;
 }
 body {
-    font-family: 'sans-serif', 'Microsoft Yahei','Arial', 'Lantinghei SC', 'Hiragino Sans GB', 'Helvetica Neue', 'Helvetica';
+    font-family: 微软雅黑, 'Microsoft YaHei', sans-serif,Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol','sans-serif', 'Microsoft Yahei','Arial', 'Lantinghei SC', 'Hiragino Sans GB', 'Helvetica Neue', 'Helvetica';
     font-size: 13px;
     line-height: 1.5;
     color: #333;
     background-color: #f2f6f8;
     margin: 0px auto;
 }
-
-
+.input-group .form-control{
+	z-index: inherit;
+}
+.input-group-addon {
+    background-color: #fff;
+    border-left: 0px;
+}

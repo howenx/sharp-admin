@@ -76,6 +76,7 @@ ul,li {
 	margin-bottom: 50px;
 	padding-bottom: 30px;
 	min-height: 800px;
+	border: 1px solid #eee;
 }
 .page-title {
 	color: #333;
@@ -205,4 +206,19 @@ ul,li {
 }
 .slider-hover-div:hover .slider-lable{
 	display:block;
+}
+.mbread {
+	padding: 10px 0;
+	width: 1080px;
+	overflow: hidden;
+	color: #000;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+.mbread .bread-path {
+	float: left;
+}
+.mbread a, .mbread span{
+	color: #000;
+	font-size: 12px;
 }

@@ -34,7 +34,7 @@
 	line-height: 14px;
 }
 body {
-	font-family: 'sans-serif', 'Microsoft Yahei','Arial', 'Lantinghei SC', 'Hiragino Sans GB', 'Helvetica Neue', 'Helvetica';
+    font-family: 微软雅黑, 'Microsoft YaHei', sans-serif,Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol','sans-serif', 'Microsoft Yahei','Arial', 'Lantinghei SC', 'Hiragino Sans GB', 'Helvetica Neue', 'Helvetica';
 	font-size: 13px;
 	line-height: 1.5;
 	color: #333;

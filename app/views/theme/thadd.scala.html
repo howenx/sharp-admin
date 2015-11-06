@@ -1,20 +1,12 @@
 @import play.i18n._
 @(lang:String="cn",url:String,user:entity.User)
 @scripts = {
-
 <link rel="stylesheet" href="/assets/css/jquery-ui.css">
-<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-
 <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker.min.css"/>
-<link rel="stylesheet" href="/assets/css/xspsc.css"/>
-<link rel="stylesheet" href="/assets/css/list.css">
-
 <link rel="stylesheet" href="/assets/css/slider.css">
-
 <link rel="stylesheet" href="/assets/css/screenshot.css">
 <link rel="stylesheet" href="/assets/css/upload.css">
 <link rel="stylesheet" href="/assets/css/button.css">
-<link rel="stylesheet" href="/assets/css/spin.css">
 <link rel="stylesheet" href="/assets/css/font-face.css">
 
 <script src="/assets/js/jquery.min.js"></script>
@@ -46,6 +38,16 @@
     <span class="close" aria-label="Close"><span aria-hidden="true">&times;</span></span>
 </div>
 
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+		<a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+		<span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes")</span>
+        <span class="icon-path">&gt;</span>
+        <span>@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu2")</span>
+    </div>
+</div>
 <div class="wrap-slider">
     <div class="page-title">
         <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"themes.create.title")</span>
