@@ -8,24 +8,6 @@
     <!--enable mybatis default cache configure reference:
         https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
     -->
-    <cache/>
-
-    <resultMap type="entity.Brands" id="brands">
-        <id property="brandId" column="brand_id" javaType="Integer" jdbcType="INTEGER"/>
-        <result property="descriptionCn" column="desc_cn" javaType="String"
-                jdbcType="VARCHAR"/>
-        <result property="descriptionEn" column="desc_en" javaType="String"
-                jdbcType="VARCHAR"/>
-        <result property="descriptionKo" column="desc_kr" javaType="String"
-                jdbcType="VARCHAR"/>
-        <result property="logoUrl" column="logo_url" javaType="String" jdbcType="VARCHAR"/>
-        <result property="homePage" column="home_page" javaType="String" jdbcType="VARCHAR"/>
-        <result property="createDate" column="create_date" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
-        <result property="brandNmCn" column="brand_nm_cn" javaType="String" jdbcType="VARCHAR"/>
-        <result property="brandNmEn" column="brand_nm_en" javaType="String" jdbcType="VARCHAR"/>
-        <result property="brandNmKr" column="brand_nm_kr" javaType="String" jdbcType="VARCHAR"/>
-    </resultMap>
-
     <sql id="brandsColumns">
         ${alias}.brand_id,
         ${alias}.desc_cn,
@@ -39,7 +21,7 @@
         ${alias}.brand_nm_kr
     </sql>
 
-    <select id="getBrands" resultMap="brands" parameterType="java.lang.Integer">
+    <select id="getBrands" resultType="entity.Brands" parameterType="java.lang.Long">
         select
         <include refid="brandsColumns">
             <property name="alias" value="t"/>
@@ -47,7 +29,7 @@
         from brands t where brand_id=${value}
     </select>
 
-    <select id="getAllBrands" resultMap="brands">
+    <select id="getAllBrands" resultType="entity.Brands">
         select
         <include refid="brandsColumns">
             <property name="alias" value="t"/>

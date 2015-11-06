@@ -15,7 +15,7 @@ public class Brands implements Serializable {
 		/**
 		 * brand id.
 		 */
-		private Integer brandId;
+		private Long brandId;
 
 		/**
 		 * category id.
@@ -67,11 +67,44 @@ public class Brands implements Serializable {
 		 */
 		private String brandNmKr;
 
-		public Integer getBrandId() {
+		public Brands(){}
+
+		public Brands(Long brandId, Integer cateId, String descriptionCn, String descriptionEn, String descriptionKo, String logoUrl, String homePage, Timestamp createDate, String brandNmCn, String brandNmEn, String brandNmKr) {
+			this.brandId = brandId;
+			this.cateId = cateId;
+			this.descriptionCn = descriptionCn;
+			this.descriptionEn = descriptionEn;
+			this.descriptionKo = descriptionKo;
+			this.logoUrl = logoUrl;
+			this.homePage = homePage;
+			this.createDate = createDate;
+			this.brandNmCn = brandNmCn;
+			this.brandNmEn = brandNmEn;
+			this.brandNmKr = brandNmKr;
+		}
+
+		@Override
+		public String toString() {
+			return "Brands{" +
+					"brandId=" + brandId +
+					", cateId=" + cateId +
+					", descriptionCn='" + descriptionCn + '\'' +
+					", descriptionEn='" + descriptionEn + '\'' +
+					", descriptionKo='" + descriptionKo + '\'' +
+					", logoUrl='" + logoUrl + '\'' +
+					", homePage='" + homePage + '\'' +
+					", createDate=" + createDate +
+					", brandNmCn='" + brandNmCn + '\'' +
+					", brandNmEn='" + brandNmEn + '\'' +
+					", brandNmKr='" + brandNmKr + '\'' +
+					'}';
+		}
+
+		public Long getBrandId() {
 			return brandId;
 		}
 
-		public void setBrandId(Integer brandId) {
+		public void setBrandId(Long brandId) {
 			this.brandId = brandId;
 		}
 

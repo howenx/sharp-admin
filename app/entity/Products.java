@@ -1,5 +1,7 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -14,7 +16,7 @@ public class Products implements Serializable{
     /**
      * 主键 id
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 供货商 id
@@ -25,11 +27,6 @@ public class Products implements Serializable{
      * 供货商 名称
      */
     private String merchName;
-
-    /**
-     * 商品 id
-     */
-    private Long productId;
 
     /**
      * 语言
@@ -89,11 +86,13 @@ public class Products implements Serializable{
     /**
      * 销售开始日期
      */
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Timestamp sellOnDate;
 
     /**
      * 销售结束日期
      */
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Timestamp sellOffDate;
 
     /**
@@ -119,6 +118,7 @@ public class Products implements Serializable{
     /**
      * 商品 预览图片
      */
+//    @JsonFormat(shape=JsonFormat.Shape.ARRAY)
     private String previewImgs;
 
     /**
@@ -149,6 +149,7 @@ public class Products implements Serializable{
     /**
      * 最后更新日期
      */
+    @JsonFormat(shape=JsonFormat.Shape.ANY, pattern="s")
     private Timestamp updateDate;
 
     /**
@@ -166,11 +167,82 @@ public class Products implements Serializable{
      */
     private Integer createUid;
 
-    public Integer getId() {
+    public Products(){}
+
+    public Products(Long id, Integer merchId, String merchName, String language, Integer cateId, String cateName, Integer brandId, String brandName, String productName, String productColor, String productSize, String productDesc, String storeArea, String sourceArea, Timestamp sellOnDate, Timestamp sellOffDate, Integer productAmount, BigDecimal productPrice, BigDecimal recommendPrice, String masterImg, String previewImgs, String detailImgs, String features, String productState, boolean destory, Integer destoryUid, Timestamp updateDate, Integer updateUid, Timestamp createDate, Integer createUid) {
+        this.id = id;
+        this.merchId = merchId;
+        this.merchName = merchName;
+        this.language = language;
+        this.cateId = cateId;
+        this.cateName = cateName;
+        this.brandId = brandId;
+        this.brandName = brandName;
+        this.productName = productName;
+        this.productColor = productColor;
+        this.productSize = productSize;
+        this.productDesc = productDesc;
+        this.storeArea = storeArea;
+        this.sourceArea = sourceArea;
+        this.sellOnDate = sellOnDate;
+        this.sellOffDate = sellOffDate;
+        this.productAmount = productAmount;
+        this.productPrice = productPrice;
+        this.recommendPrice = recommendPrice;
+        this.masterImg = masterImg;
+        this.previewImgs = previewImgs;
+        this.detailImgs = detailImgs;
+        this.features = features;
+        this.productState = productState;
+        this.destory = destory;
+        this.destoryUid = destoryUid;
+        this.updateDate = updateDate;
+        this.updateUid = updateUid;
+        this.createDate = createDate;
+        this.createUid = createUid;
+    }
+
+    @Override
+    public String toString() {
+        return "Products{" +
+                "id=" + id +
+                ", merchId=" + merchId +
+                ", merchName='" + merchName + '\'' +
+                ", language='" + language + '\'' +
+                ", cateId=" + cateId +
+                ", cateName='" + cateName + '\'' +
+                ", brandId=" + brandId +
+                ", brandName='" + brandName + '\'' +
+                ", productName='" + productName + '\'' +
+                ", productColor='" + productColor + '\'' +
+                ", productSize='" + productSize + '\'' +
+                ", productDesc='" + productDesc + '\'' +
+                ", storeArea='" + storeArea + '\'' +
+                ", sourceArea='" + sourceArea + '\'' +
+                ", sellOnDate=" + sellOnDate +
+                ", sellOffDate=" + sellOffDate +
+                ", productAmount=" + productAmount +
+                ", productPrice=" + productPrice +
+                ", recommendPrice=" + recommendPrice +
+                ", masterImg='" + masterImg + '\'' +
+                ", previewImgs='" + previewImgs + '\'' +
+                ", detailImgs='" + detailImgs + '\'' +
+                ", features='" + features + '\'' +
+                ", productState='" + productState + '\'' +
+                ", destory=" + destory +
+                ", destoryUid=" + destoryUid +
+                ", updateDate=" + updateDate +
+                ", updateUid=" + updateUid +
+                ", createDate=" + createDate +
+                ", createUid=" + createUid +
+                '}';
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -188,14 +260,6 @@ public class Products implements Serializable{
 
     public void setMerchName(String merchName) {
         this.merchName = merchName;
-    }
-
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
     }
 
     public String getLanguage() {

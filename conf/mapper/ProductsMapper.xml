@@ -8,41 +8,6 @@
     <!--enable mybatis default cache configure reference:
         https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
     -->
-    <cache/>
-
-    <resultMap type="entity.Products" id="prods">
-        <id property="id" column="id" javaType="Integer" jdbcType="INTEGER"/>
-        <result property="merchId" column="merch_uid" javaType="Integer" jdbcType="INTEGER"/>
-        <result property="merchName" column="merch_nm" javaType="String" jdbcType="VARCHAR"/>
-        <result property="productId" column="prod_id" javaType="Integer" jdbcType="INTEGER"/>
-        <result property="language" column="lang" javaType="String" jdbcType="VARCHAR"/>
-        <result property="cateId" column="cate_id" javaType="Integer" jdbcType="INTEGER"/>
-        <result property="cateName" column="cate_nm" javaType="String" jdbcType="VARCHAR"/>
-        <result property="brandId" column="brand_id" javaType="Integer" jdbcType="INTEGER"/>
-        <result property="brandName" column="brand_nm" javaType="String" jdbcType="VARCHAR"/>
-        <result property="productName" column="prod_nm" javaType="String" jdbcType="VARCHAR"/>
-        <result property="productColor" column="prod_color" javaType="String" jdbcType="VARCHAR"/>
-        <result property="productSize" column="prod_size" javaType="String" jdbcType="VARCHAR"/>
-        <result property="productDesc" column="prod_desc" javaType="String" jdbcType="VARCHAR"/>
-        <result property="storeArea" column="store_area" javaType="String" jdbcType="VARCHAR"/>
-        <result property="sourceArea" column="src_area" javaType="String" jdbcType="VARCHAR"/>
-        <result property="sellOnDate" column="sell_on_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
-        <result property="sellOffDate" column="sell_off_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
-        <result property="productAmount" column="prod_amount" javaType="Integer" jdbcType="INTEGER"/>
-        <result property="productPrice" column="prod_price" javaType="BigDecimal" jdbcType="NUMERIC"/>
-        <result property="recommendPrice" column="recommend_price" javaType="BigDecimal" jdbcType="NUMERIC"/>
-        <result property="masterImg" column="prod_master_img" javaType="String" jdbcType="VARCHAR"/>
-        <result property="previewImgs" column="prod_preview_imgs" javaType="String" jdbcType="VARCHAR"/>
-        <result property="detailImgs" column="prod_detail_imgs" javaType="String" jdbcType="VARCHAR"/>
-        <result property="features" column="prod_features" javaType="String" jdbcType="VARCHAR"/>
-        <result property="productState" column="state" javaType="String" jdbcType="VARCHAR"/>
-        <result property="destory" column="is_destory" javaType="boolean" jdbcType="BOOLEAN"/>
-        <result property="destoryUid" column="destory_uid" javaType="Integer" jdbcType="INTEGER"/>
-        <result property="updateDate" column="update_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
-        <result property="updateUid" column="update_uid" javaType="Integer" jdbcType="INTEGER"/>
-        <result property="createDate" column="create_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
-        <result property="createUid" column="create_uid" javaType="Integer" jdbcType="INTEGER"/>
-    </resultMap>
 
     <sql id="productsColumns">
         ${alias}.id,
@@ -78,15 +43,15 @@
         ${alias}.create_uid
     </sql>
 
-    <select id="getProducts" resultMap="prods" parameterType="java.lang.Integer">
+    <select id="getProducts" resultType="entity.Products" parameterType="java.lang.Long">
         select
         <include refid="productsColumns">
             <property name="alias" value="t"/>
         </include>
-        from prods t where prod_id=${value}
+        from prods t where id=${value}
     </select>
 
-    <select id="getAllProducts" resultMap="prods">
+    <select id="getAllProducts" resultType="entity.Products">
         select
         <include refid="productsColumns">
             <property name="alias" value="t"/>
@@ -96,8 +61,8 @@
 
     <insert id="insertProducts" parameterType="entity.Products" useGeneratedKeys="true" keyProperty="id" >
         insert into prods
-        (merch_uid,merch_nm,prod_id,lang,cate_id,cate_nm,brand_id,brand_nm,prod_nm,prod_color,prod_size,prod_desc,store_area,src_area,sell_on_at,sell_off_at,prod_amount,prod_price,recommend_price,prod_master_img,prod_preview_imgs,prod_detail_imgs,prod_features,state,is_destory,destory_uid,update_at,update_uid,create_at,create_uid)
+        (merch_uid,merch_nm,lang,cate_id,cate_nm,brand_id,brand_nm,prod_nm,prod_color,prod_size,prod_desc,store_area,src_area,sell_on_at,sell_off_at,prod_amount,prod_price,recommend_price,prod_master_img,prod_preview_imgs,prod_detail_imgs,prod_features,state,is_destory,destory_uid,update_at,update_uid,create_at,create_uid)
         values
-        (#{merchId},#{merchName},#{productId},#{language},#{cateId},#{cateName},#{brandId},#{brandName},#{productName},#{productColor},#{productSize},#{productDesc},#{storeArea},#{sourceArea},#{sellOnDate},#{sellOffDate},#{productAmount},#{productPrice},#{recommendPrice},#{masterImg},#{previewImgs},#{detailImgs},#{features},#{productState},#{destory},#{destoryUid},#{updateDate},#{updateUid},CURRENT_TIMESTAMP(0),#{createUid})
+        (#{merchId},#{merchName},#{language},#{cateId},#{cateName},#{brandId},#{brandName},#{productName},#{productColor},#{productSize},#{productDesc},#{storeArea},#{sourceArea},#{sellOnDate},#{sellOffDate},#{productAmount},#{productPrice},#{recommendPrice},#{masterImg},#{previewImgs},#{detailImgs},#{features},#{productState},#{destory},#{destoryUid},#{updateDate},#{updateUid},CURRENT_TIMESTAMP(0),#{createUid})
     </insert>
 </mapper>

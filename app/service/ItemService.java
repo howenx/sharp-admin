@@ -1,9 +1,9 @@
 package service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import entity.Brands;
 import entity.Cates;
 import entity.Products;
-import play.libs.Json;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,9 +58,9 @@ public interface ItemService {
     /**
      * insert products into prods table
      *
-     * @param multiProducts
-     * @return boolean
+     * @param jsonProds
+     * @return List<Long>
      */
-    List<Integer> insertProducts(Json multiProducts);
+    List<Long> insertProducts(JsonNode jsonProds);
 
 }

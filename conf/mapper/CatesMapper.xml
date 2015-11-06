@@ -9,19 +9,6 @@
     <!--enable mybatis default cache configure reference:
         https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
     -->
-    <cache/>
-
-    <resultMap type="entity.Cates" id="cates">
-        <id property="cateId" column="cate_id" javaType="Integer" jdbcType="INTEGER"/>
-        <result property="parentCateId" column="pcate_id" javaType="Integer"
-                jdbcType="INTEGER"/>
-        <result property="cateNameCn" column="cate_nm_cn" javaType="String"
-                jdbcType="VARCHAR"/>
-        <result property="cateNameEn" column="cate_nm_en" javaType="String"
-                jdbcType="VARCHAR"/>
-        <result property="cateNameKr" column="cate_nm_kr" javaType="String" jdbcType="VARCHAR"/>
-        <result property="cateDesc" column="cate_desc" javaType="String" jdbcType="VARCHAR"/>
-    </resultMap>
 
     <sql id="catesColumns">
         ${alias}.cate_id,
@@ -32,7 +19,7 @@
         ${alias}.cate_desc
     </sql>
 
-    <select id="getParentCates" resultMap="cates">
+    <select id="getParentCates" resultType="entity.Cates">
         select
         <include refid="catesColumns">
             <property name="alias" value="t"/>
@@ -40,7 +27,7 @@
         from cates t where t.pcate_id IS NULL ORDER BY t.cate_nm_cn;
     </select>
 
-    <select id="getSubCates" resultMap="cates" parameterType="map">
+    <select id="getSubCates" resultType="entity.Cates" parameterType="map">
         select
         <include refid="catesColumns">
             <property name="alias" value="t"/>

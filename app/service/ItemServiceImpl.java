@@ -1,14 +1,16 @@
 package service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.Brands;
 import entity.Cates;
 import entity.Products;
+import entity.Stock;
 import mapper.BrandsMapper;
 import mapper.CatesMapper;
 import mapper.ProductsMapper;
 import play.Logger;
 import play.libs.Json;
-
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -28,6 +30,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Inject
     private ProductsMapper productsMapper;
+
+//    @Inject
+//    private StockMapper stockMapper;
 
     /**
      * get single brands by id.
@@ -107,16 +112,60 @@ public class ItemServiceImpl implements ItemService {
     /**
      * insert products into prods table.
      *
-     * @param multiProducts
+     * @param json
      * @return boolean
      */
 
     @Override
-    public List<Integer> insertProducts(Json multiProducts) {
-        List<Integer> list = new ArrayList();
-        Products products = new Products();
-        Integer id = productsMapper.insertProducts(products);
-        list.add(id);
+    public List<Long> insertProducts(JsonNode json) {
+
+        List<Long> list = new ArrayList<>();
+        for (final JsonNode jsonNode : json) {
+//            String sellOnDate=jsonNode.findValue("sellOnDate").toString();
+//            String sellOffDate=jsonNode.findValue("sellOffDate").toString();
+//            if (jsonNode.has("sellOnDate")) {
+//                ((ObjectNode) jsonNode).putNull("sellOnDate");
+//            }
+//            if (jsonNode.has("sellOffDate")) {
+//                ((ObjectNode) jsonNode).putNull("sellOffDate");
+//            }
+            if (jsonNode.has("previewImgs")) {
+                ((ObjectNode) jsonNode).put("previewImgs",jsonNode.findValue("previewImgs").toString());
+            }
+            if (jsonNode.has("detailImgs")) {
+                ((ObjectNode) jsonNode).put("detailImgs",jsonNode.findValue("detailImgs").toString());
+            }
+            if (jsonNode.has("features")) {
+                ((ObjectNode) jsonNode).put("features",jsonNode.findValue("features").toString());
+            }
+            Products products = Json.fromJson(jsonNode, Products.class);
+
+            Logger.debug(products.toString());
+
+            products.setMerchId(1001);
+            products.setProductState("Y");  //商品状态 'Y' 正常
+//            products.setDestory(false);
+            this.productsMapper.insertProducts(products);
+            Long id = products.getId();
+
+            Stock stock = new Stock();
+            stock.setProductId(products.getId());
+            stock.setProductColor(products.getProductColor());
+            stock.setProductSize(products.getProductSize());
+            stock.setProductAmount(products.getProductAmount());
+            stock.setProductPrice(products.getProductPrice());
+            stock.setRecommendPrice(products.getRecommendPrice());
+            stock.setPreviewImgs(products.getPreviewImgs());
+
+//            this.stockMapper.insertStock();
+
+
+            Logger.error(id.toString());
+            list.add(products.getId());
+        }
+
+
+
         return list;
     }
 

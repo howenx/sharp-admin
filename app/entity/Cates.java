@@ -14,7 +14,7 @@ public class Cates implements Serializable{
 		/**
 		 * * cateId primary key.
 		 */
-		private Integer cateId;
+		private Long cateId;
 
 		/**
 		 * parent cateId.
@@ -41,11 +41,33 @@ public class Cates implements Serializable{
 		 */
 		private String cateDesc;
 
-		public Integer getCateId() {
+		public Cates(){}
+		public Cates(Long cateId, Integer parentCateId, String cateNameCn, String cateNameEn, String cateNameKr, String cateDesc) {
+			this.cateId = cateId;
+			this.parentCateId = parentCateId;
+			this.cateNameCn = cateNameCn;
+			this.cateNameEn = cateNameEn;
+			this.cateNameKr = cateNameKr;
+			this.cateDesc = cateDesc;
+		}
+
+		@Override
+		public String toString() {
+			return "Cates{" +
+					"cateId=" + cateId +
+					", parentCateId=" + parentCateId +
+					", cateNameCn='" + cateNameCn + '\'' +
+					", cateNameEn='" + cateNameEn + '\'' +
+					", cateNameKr='" + cateNameKr + '\'' +
+					", cateDesc='" + cateDesc + '\'' +
+					'}';
+		}
+
+		public Long getCateId() {
 			return cateId;
 		}
 
-		public void setCateId(Integer cateId) {
+		public void setCateId(Long cateId) {
 			this.cateId = cateId;
 		}
 

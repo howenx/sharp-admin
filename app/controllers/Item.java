@@ -1,27 +1,27 @@
 package controllers;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import entity.Gender;
-import entity.Products;
 import entity.User;
-import entity.User_Type;
 import modules.OSSClientProvider;
 import play.Logger;
+import play.api.libs.json.JsArray;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
-import play.mvc.Http.MultipartFormData;
 import play.mvc.Result;
 import play.mvc.Security;
+import scala.util.parsing.json.JSONArray;
+import scala.util.parsing.json.JSONObject;
 import service.ItemService;
 import views.html.item.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -82,12 +82,17 @@ public class Item extends Controller {
      * insert products
      * @return Result
      */
-    @Security.Authenticated(UserAuth.class)
     public Result insertProducts() {
         ObjectNode result = Json.newObject();
         result.put("result", false);
-        Json multiProducts = new Json();
-        List<Integer> list = itemService.insertProducts(multiProducts);
+        DynamicForm form = Form.form().bindFromRequest();
+        String multiProducts = form.get("multiProducts");
+        System.out.print(multiProducts);
+
+        JsonNode json =Json.parse(multiProducts);
+        Logger.error(json.toString());
+
+        List<Long> list = itemService.insertProducts(json);
         return ok(list.toString());
     }
 }
