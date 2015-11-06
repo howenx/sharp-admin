@@ -159,7 +159,7 @@ ul,li{
     top: 60px;
 }
 .imgk{
-    margin-left: 30px; width:80%;
+    margin-left: 30px; width:80%;border: 0;height: auto;margin-top: auto;
 }
 .sctp{
     border: 1px solid #ccc;overflow: hidden;padding: 20px 30px;
