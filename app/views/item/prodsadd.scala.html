@@ -363,7 +363,7 @@
                     </div>
 
                     <div class="mybtns">
-                        <a href="#" class="btn btn-primary btn-lg active btncl" role="button" id="submitProducts" onclick="submitProducts()">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.add")</a>
+                        <a href="#" class="btn btn-primary btn-lg active btncl" role="button" id="submitProducts" >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.add")</a>
                         <a href="#" class="btn btn-primary btn-lg active btncl" role="button">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cancel")</a>
                     </div>
                 </div>
@@ -416,60 +416,6 @@ function changeLang() {
         location.href='/itemCreate';
     } else {
         location.href='/'+lang+'/itemCreate';
-    }
-
-}
-
-/** 数据提交 **/
-
-function submitProducts() {
-    var isPost = true;
-    var numberReg =  /[0-9]+/igm;
-    var multiProducts = "[";
-
-    //获取颜色价格表格中的数据
-    var numpri = document.getElementById("numpri");
-    var tr1 = numpri.getElementsByTagName("tr")[0].getElementsByTagName("td");
-    var tr2 = numpri.getElementsByTagName("tr")[1].getElementsByTagName("td");
-    var tr3 = numpri.getElementsByTagName("tr")[2].getElementsByTagName("td");
-    var tr4 = numpri.getElementsByTagName("tr")[3].getElementsByTagName("td");
-    var tr5 = numpri.getElementsByTagName("tr")[4].getElementsByTagName("td");
-    var productColor="";
-    var index = 0;
-
-    for(i=1;i<tr1.length;i++) {
-        productColor = tr1[i].innerText;
-        <!--prodsData = prodsData + '\"' + "productColor" + '\"' + ":" + '\"' + productColor + '\"' + ",";-->
-        var sizenum = tr1[i].colSpan;
-        for(j=0;j<sizenum;j++) {
-            var productSize = tr2[index].innerText;
-            var productAmount = tr3[index+1].getElementsByTagName("input")[0].value;
-            var productPrice = tr4[index+1].getElementsByTagName("input")[0].value;
-            var recommendPrice = tr5[index+1].getElementsByTagName("input")[0].value;
-            eval("var prodsData"+index);
-            prodsDataindex = "{";
-            alert(prodsDataindex);
-            <!--"prodsData"+index +=-->
-            index++;
-        }
-    }
-
-    prodsData = prodsData.substring(0,prodsData.length - 1) + "}";
-
-
-    if (isPost) {
-        $.ajax({
-            type: "POST",
-            url:"/insertProducts",
-            dataType:"json",
-           // data:           ,
-            error: function(request) {
-                alert("Products Insert Error!");
-            },
-            success: function(data) {
-                alert("Products Insert Success!");
-            }
-        });
     }
 
 }

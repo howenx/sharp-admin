@@ -434,7 +434,7 @@ $(function(){
                 if (spancols[k].className=="ysfont" && spancols[k].innerText==tr1[i].innerText) {
                 alert(spancols[k].innerText);
                                 alert(tr1[i].innerText);
-                    var id = spancols[k].parentNode.nextSibling.nodeId;
+                    var id = spancols[k].parentNode.nextSibling;
                     alert(id);
 //
                     break;
