@@ -119,16 +119,19 @@ ul,li {
 }
 .btn-white:hover {
 	color: #fff;
-	background-color: #35a6e8;
+	background-color: rgba(243, 71, 54, 0.9);
 }
 .btn-blue:hover {
-	background: #549de9;
+	background: rgba(243, 71, 54, 0.9);
 	text-decoration: none;
 }
 .btn-white {
-	border: 1px solid #35a6e8;
+	/*border: 1px solid #35a6e8;
 	background-color: #fff;
-	color: #35a6e8;
+	color: #35a6e8;*/
+	border: 1px solid rgba(242, 100, 86, 0.9);
+	background-color: #fff;
+	color: rgba(242, 100, 86, 0.9);
 }
 .ml20 {
 	margin-left: 20px;
@@ -148,8 +151,8 @@ ul,li {
 }
 .btn-blue {
 	cursor: pointer;
-	border: 1px solid #35a6e8;
-	background-color: #35a6e8;
+	border: 1px solid rgba(242, 100, 86, 0.9);
+	background-color: rgba(242, 100, 86, 0.9);
 	color: #fff;
 }
 .fr {
@@ -221,4 +224,10 @@ ul,li {
 .mbread a, .mbread span{
 	color: #000;
 	font-size: 12px;
+}
+.h4-custom-hmm{
+	background: url(/assets/images/name-hmm-title-lable.png) no-repeat;
+	padding-left: 15px;
+	height: 20px;
+	line-height: 20px;
 }

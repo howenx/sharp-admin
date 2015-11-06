@@ -1,5 +1,7 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -149,6 +151,7 @@ public class Products implements Serializable{
     /**
      * 最后更新日期
      */
+    @JsonFormat(shape=JsonFormat.Shape.ANY, pattern="s")
     private Timestamp updateDate;
 
     /**
