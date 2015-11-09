@@ -16,7 +16,7 @@ public interface  ProductsMapper {
      * @param productId
      * @return Products
      */
-    Products getProducts(Integer productId);
+    Products getProducts(Long productId);
 
     /**
      * get all products.
@@ -27,7 +27,7 @@ public interface  ProductsMapper {
     /**
      * insert products
      * @param products
-     * @return boolean
+     * @return Integer
      */
     Integer insertProducts(Products products);
 

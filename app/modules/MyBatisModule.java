@@ -1,9 +1,6 @@
 package modules;
 
-import mapper.BrandsMapper;
-import mapper.CatesMapper;
-import mapper.ProductsMapper;
-import mapper.ThemeMapper;
+import mapper.*;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import play.Logger;
 import play.db.DBApi;
@@ -39,7 +36,7 @@ public class MyBatisModule extends org.mybatis.guice.MyBatisModule {
         addMapperClass(CatesMapper.class);
         addMapperClass(ProductsMapper.class);
         addMapperClass(ThemeMapper.class);
-//        addMapperClass(StockMapper.class);
+        addMapperClass(StockMapper.class);
 
 //			environmentId("development1");
 //			bindConstant().annotatedWith(Names.named("mybatis.configuration.failFast")).to(true);

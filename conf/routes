@@ -11,8 +11,8 @@ POST            /insertProducts                     controllers.Item.insertProdu
 
 GET             /prodsList                          controllers.Item.prodsList(lang = "cn")
 GET             /$lang<(cn|en|kr)>/prodsList        controllers.Item.prodsList(lang)
-
-
+GET             /prodsDetail/:id                    controllers.Item.prodsDetail(lang = "cn",id:Long)
+GET             /$lang<(cn|en|kr)>/prodsDetail/:id  controllers.Item.prodsDetail(lang,id:Long)
 
 
 

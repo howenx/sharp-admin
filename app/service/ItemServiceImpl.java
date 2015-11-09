@@ -9,6 +9,7 @@ import entity.Stock;
 import mapper.BrandsMapper;
 import mapper.CatesMapper;
 import mapper.ProductsMapper;
+import mapper.StockMapper;
 import play.Logger;
 import play.libs.Json;
 
@@ -31,8 +32,8 @@ public class ItemServiceImpl implements ItemService {
     @Inject
     private ProductsMapper productsMapper;
 
-//    @Inject
-//    private StockMapper stockMapper;
+    @Inject
+    private StockMapper stockMapper;
 
     /**
      * get single brands by id.
@@ -92,7 +93,7 @@ public class ItemServiceImpl implements ItemService {
      */
 
     @Override
-    public Products getProducts(Integer productId) {
+    public Products getProducts(Long productId) {
 
         return this.productsMapper.getProducts(productId);
     }
@@ -144,7 +145,6 @@ public class ItemServiceImpl implements ItemService {
 
             products.setMerchId(1001);
             products.setProductState("Y");  //商品状态 'Y' 正常
-//            products.setDestory(false);
             this.productsMapper.insertProducts(products);
             Long id = products.getId();
 
@@ -156,16 +156,13 @@ public class ItemServiceImpl implements ItemService {
             stock.setProductPrice(products.getProductPrice());
             stock.setRecommendPrice(products.getRecommendPrice());
             stock.setPreviewImgs(products.getPreviewImgs());
-
-//            this.stockMapper.insertStock();
-
+            Logger.error(stock.toString());
+            //往库存表插入数据
+            this.stockMapper.insertStock(stock);
 
             Logger.error(id.toString());
             list.add(products.getId());
         }
-
-
-
         return list;
     }
 
