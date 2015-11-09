@@ -1,27 +1,22 @@
 package controllers;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.User;
 import modules.OSSClientProvider;
 import play.Logger;
-import play.api.libs.json.JsArray;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-import scala.util.parsing.json.JSONArray;
-import scala.util.parsing.json.JSONObject;
 import service.ItemService;
-import views.html.item.*;
+import views.html.item.prodsadd;
+import views.html.item.prodslist;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 

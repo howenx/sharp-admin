@@ -33,7 +33,7 @@ public class Theme extends Controller {
     @Inject
     private ThemeService service;
 
-    /***
+    /**
      * 滚动条管理
      * @param lang 语言
      * @return view
@@ -44,7 +44,7 @@ public class Theme extends Controller {
         return ok(views.html.theme.slider.render(lang,service.sliderAll(),IMAGE_URL,(User) ctx().args.get("user")));
     }
 
-    /***
+    /**
      * 主题录入
      * @param lang 语言
      * @return view
@@ -56,6 +56,12 @@ public class Theme extends Controller {
     }
 
 
+    /**
+     * 滚动条变更保存
+     * @param lang  语言
+     * @return  view
+     */
+    @Security.Authenticated(UserAuth.class)
     public Result sliderSave(String lang){
         JsonNode json = request().body().asJson();
 
@@ -67,6 +73,25 @@ public class Theme extends Controller {
             e.printStackTrace();
         }
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
+    }
 
+    /**
+     * 商品查询弹窗
+     * @param lang 语言
+     * @return view
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result itemSearchPopup(String lang){
+        return ok(views.html.theme.itemsearchPopup.render(lang));
+    }
+
+    /**
+     * 主题查询
+     * @param lang 语言
+     * @return  view
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result thsearch(String lang){
+        return ok(views.html.theme.thsearch.render(lang,IMAGE_URL,(User) ctx().args.get("user")));
     }
 }

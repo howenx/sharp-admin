@@ -93,6 +93,10 @@ themes.slider.state1 = 未更改
 themes.slider.state2 = 已更改
 themes.create.title = 主题录入
 page.head.path.title = 您当前的位置：
+themes.search.title = 主题查询
+
+#item search popup
+item.search.popup.title = 商品查询
 
 
 

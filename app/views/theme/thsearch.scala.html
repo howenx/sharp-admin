@@ -1,0 +1,128 @@
+@import play.i18n._
+@(lang:String="cn",url:String,user:entity.User)
+@scripts = {
+    <link rel="stylesheet" href="/assets/css/theme-search.css">
+	<link rel="stylesheet" href="/assets/css/slider.css">
+    <script src="/assets/js/search.js"></script>
+    <script>window.url = "@url"</script>
+}
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"themes.search.title")
+
+@layout(lang=lang,title=title,user=user)(scripts) {	    
+<div class="content-1">
+    <div class="page-title">
+        <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"themes.create.title")</span>
+    </div>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <!--主题id-->
+            <label class="col-sm-2 control-label">主题ID</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <!--主商品id-->
+            <label class="col-sm-2 control-label">主商品ID</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <!--开始-->
+            <label class="col-sm-2 control-label">开始</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <!--结束-->
+            <label class="col-sm-2 control-label">结束</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="btn-s">
+            <a href="#" class="btn btn-primary">重置</a>
+            <a href="#" class="btn btn-primary btn-s-2">查询</a>
+        </div>
+
+        <table class="table table-bordered table-hover">
+            <tr>
+                <td>
+                    主题ID
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                    <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                </td>
+                <th>
+                    主题图片
+                </th>
+                <th>
+                    主商品ID
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                </th>
+                <th>
+                    主商品图片
+                </th>
+                <th>
+                    开始时间
+                </th>
+                <th>
+                    结束时间
+                </th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <img class="main-img" src="images/1.jpg" alt="" width="50">
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <div class="paging">
+            <ul class="pagination">
+                <li><a href="#">&laquo;</a></li>
+                <li class="active"><a href="#">1</a></li>
+                <li class="disabled"><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">&raquo;</a></li>
+            </ul>
+        </div>
+    </form>
+</div>
+
+
+<div class="goods-img-bg">
+    <div class="goods-bg"></div>
+    <div class="goods-img">
+        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>
+}
