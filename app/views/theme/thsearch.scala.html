@@ -1,17 +1,18 @@
 @import play.i18n._
-@(lang:String="cn",url:String,user:entity.User)
+@(lang:String="cn",url:String,pageSize:Integer,countNum:Integer,pageCount:Integer,themes:List[entity.Theme],user:entity.User)
 @scripts = {
     <link rel="stylesheet" href="/assets/css/theme-search.css">
 	<link rel="stylesheet" href="/assets/css/slider.css">
     <script src="/assets/js/search.js"></script>
     <script>window.url = "@url"</script>
+	<script>window.lang = "@lang"</script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"themes.search.title")
 
 @layout(lang=lang,title=title,user=user)(scripts) {	    
 <div class="content-1">
     <div class="page-title">
-        <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"themes.create.title")</span>
+        <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.title")</span>
     </div>
     <form class="form-horizontal">
         <div class="form-group">
@@ -44,14 +45,14 @@
             <a href="#" class="btn btn-primary">重置</a>
             <a href="#" class="btn btn-primary btn-s-2">查询</a>
         </div>
-
-        <table class="table table-bordered table-hover">
+        <table id="tb-topic" class="table table-bordered table-hover">
+            <thead>
             <tr>
-                <td>
+                <th>
                     主题ID
                     <span class="glyphicon glyphicon-chevron-up"></span>
                     <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
-                </td>
+                </th>
                 <th>
                     主题图片
                 </th>
@@ -60,59 +61,42 @@
                     <span class="glyphicon glyphicon-chevron-up"></span>
                 </th>
                 <th>
-                    主商品图片
+                    主题名称
                 </th>
                 <th>
                     开始时间
+                    <span class="glyphicon glyphicon-chevron-up"></span>
                 </th>
                 <th>
                     结束时间
+                    <span class="glyphicon glyphicon-chevron-up"></span>
                 </th>
             </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <img class="main-img" src="images/1.jpg" alt="" width="50">
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            </thead>
+            <tbody>
+            @for(theme <- themes){
+                <tr>
+                    <td><a href="javascript:void(0)">@theme.getId()</a></td>
+                    <td>
+                        <img class="main-img" src="@url@theme.getThemeImg()" alt="" width="50">
+                    </td>
+                    <td>@theme.getMasterItemId()</td>
+                    <td>@theme.getTitle()</td>
+                    <td>@(theme.getStartAt().toString().substring(0,16))</td>
+                    <td>@(theme.getEndAt().toString().substring(0,16))</td>
+                </tr>
+            }
+            </tbody>
         </table>
+        <span class="page-toolbar-title">总计:@(countNum)条/每页@(pageSize)条/共@(pageCount)页</span>
         <div class="paging">
             <ul class="pagination">
-                <li><a href="#">&laquo;</a></li>
-                <li class="active"><a href="#">1</a></li>
-                <li class="disabled"><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">&raquo;</a></li>
+                <li class="prev diabled"><a href="javascript:void(0)">&laquo;</a></li>
+                <li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>
+                @for(count <- 1 until pageCount){
+                    <li class="page-num"><a href="javascript:void(0)">@(count+1)</a></li>
+                }
+                <li class="next"><a href="javascript:void(0)">&raquo;</a></li>
             </ul>
         </div>
     </form>

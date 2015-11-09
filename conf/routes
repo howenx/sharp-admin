@@ -31,17 +31,17 @@ GET             /assets/*file                 controllers.Assets.versioned(path=
 
 
 # Theme--->topic,为了不使url暴露方法名使用topic
-GET             /topic/slider                                       controllers.Theme.slider(lang = "cn")
-GET             /$lang<(cn|en|kr)>/topic/slider                     controllers.Theme.slider(lang)
-GET             /topic/add                                          controllers.Theme.thadd(lang = "cn")
-GET             /$lang<(cn|en|kr)>/topic/add                        controllers.Theme.thadd(lang)
-POST            /slider/update                                      controllers.Theme.sliderSave(lang ="cn")
-POST            /$lang<(cn|en|kr)>/slider/update                    controllers.Theme.sliderSave(lang)
-GET             /topic/search/popup                                 controllers.Theme.itemSearchPopup(lang ="cn")
-GET             /$lang<(cn|en|kr)>/topic/search/popup               controllers.Theme.itemSearchPopup(lang)
-GET             /topic/search                                       controllers.Theme.thsearch(lang ="cn")
-GET             /$lang<(cn|en|kr)>/topic/search                     controllers.Theme.thsearch(lang)
-
+GET             /topic/slider                                               controllers.ThemeCtrl.slider(lang = "cn")
+GET             /$lang<(cn|en|kr)>/topic/slider                             controllers.ThemeCtrl.slider(lang)
+GET             /topic/add                                                  controllers.ThemeCtrl.thadd(lang = "cn")
+GET             /$lang<(cn|en|kr)>/topic/add                                controllers.ThemeCtrl.thadd(lang)
+POST            /slider/update                                              controllers.ThemeCtrl.sliderSave(lang ="cn")
+POST            /$lang<(cn|en|kr)>/slider/update                            controllers.ThemeCtrl.sliderSave(lang)
+GET             /topic/search/popup                                         controllers.ThemeCtrl.itemSearchPopup(lang ="cn")
+GET             /$lang<(cn|en|kr)>/topic/search/popup                       controllers.ThemeCtrl.itemSearchPopup(lang)
+GET             /topic/search                                               controllers.ThemeCtrl.thsearch(lang ="cn")
+GET             /$lang<(cn|en|kr)>/topic/search                             controllers.ThemeCtrl.thsearch(lang)
+GET             /$lang<(cn|en|kr)>/topic/search/$pageNum<[0-9]+>            controllers.ThemeCtrl.thsearchAjax(lang,pageNum:Int)
 
 
 

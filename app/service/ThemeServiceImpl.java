@@ -3,13 +3,17 @@ package service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.Slider;
+import entity.Theme;
 import mapper.ThemeMapper;
 import play.Logger;
+import play.api.libs.iteratee.Enumeratee;
 import play.api.libs.json.Json;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * impl
@@ -20,11 +24,33 @@ public class ThemeServiceImpl implements ThemeService {
     @Inject
     private ThemeMapper themeMapper;
 
+    /**
+     * 滚动条查询
+     * @return list
+     */
     @Override
     public List<Slider> sliderAll() {
         return themeMapper.getSlidersAll();
     }
 
+    /**
+     * 主题查询
+     * @param pageSize 每页多少条
+     * @param offset   从第几条开始取数据
+     * @return list
+     */
+    @Override
+    public List<Theme> themeSearch(int pageSize, int offset) {
+        Map<String,Integer> map = new HashMap<String,Integer>();
+        map.put("pageSize", pageSize);
+        map.put("offset", offset);
+        return themeMapper.getThemePage(map);
+    }
+
+    /**
+     * 滚动条保存
+     * @param json JsonNode
+     */
     @Override
     public void sliderSave(JsonNode json) {
 
