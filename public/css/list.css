@@ -27,6 +27,7 @@
 .input-daterange input {
 	height: 34px;
 	padding: 0 30px;
+	border: 1px solid #ccc;
 }
 /*one结束*/
 .content .tbtwo {

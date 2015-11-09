@@ -19,11 +19,11 @@ item.add.productAmount=库存量_kr
 item.add.numPri=数量价格_kr
 item.add.details=商品详细信息_kr
 item.add.addPic=添加图片_kr
-item.add.masterImg=上传商品主图片_kr
+item.add.masterImg=商品主图片_kr
 item.add.onePic=一张_kr
 item.add.mostSixPic=最多六张_kr
-item.add.previewImgs=上传商品预览图_kr
-item.add.detailImgs=上传商品详细图_kr
+item.add.previewImgs=商品预览图_kr
+item.add.detailImgs= 商品详细图_kr
 item.add.productDesc=商品详情_kr
 item.add.features=属性信息_kr
 item.add.featureName=属性名_kr
@@ -31,7 +31,7 @@ item.add.featureValue=属性值_kr
 item.add.add=添加_kr
 item.add.delete=删除_kr
 item.add.cancel=取消_kr
-
+item.add.prodsDetail=商品详情_kr
 
 
 

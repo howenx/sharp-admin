@@ -4,7 +4,7 @@ $(function(){
         format: 'yyyy-mm-dd hh:ii',
         language:  'zh-CN',
         minuteStep:1,
-        weekStart: 1,
+        weekStart: 7,
         todayBtn:  1 ,
         autoclose: 1,
         todayHighlight: 1,
@@ -107,7 +107,7 @@ $(function(){
             divx.innerText=$('#preIms').val();
             var divn = document.createElement("div");
             divn.style.paddingTop="20px";
-            divn.style.paddingRight="20px";
+            divn.style.paddingRight="5px";
             divn.innerText= "("+$('#mostS').val()+")";
             label.appendChild(divx);
             label.appendChild(divn);
@@ -382,7 +382,7 @@ $(function(){
                 break;
             }
         }
-        for(i=0;i<recommendPrice.length;i++){
+        for(i=0;i<productAmount.length;i++){
             if (!numberReg.test(productAmount[i].value)) {
                 alert("库存量为正整数!");
                 isPost=false;
@@ -501,6 +501,7 @@ $(function(){
                 },
                 success: function(data) {
                     alert("Products Insert Success!");
+                    location.href="/itemCreate";
                 }
             });
         }

@@ -66,12 +66,28 @@ public class Item extends Controller {
     /**
      * get all products
      * @param lang
-     * @return
+     * @return Result
      */
     @Security.Authenticated(UserAuth.class)
     public Result prodsList(String lang) {
-        return ok(prodslist.render(lang,itemService.getAllProducts(),(User) ctx().args.get("user")));
+        return ok(prodslist.render(lang,(User) ctx().args.get("user"),itemService.getAllProducts()));
     }
+
+    /**
+     *
+     * @param id
+     * @return Result
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result prodsDetail(String lang,Long id) {
+        if(!"".equals(id) && null!=id) {
+            Products products = itemService.getProducts(id);
+            return ok(prodsdetail.render(products,lang,(User) ctx().args.get("user")));
+        } else {
+            return badRequest();
+        }
+    }
+
 
     /**
      * insert products
