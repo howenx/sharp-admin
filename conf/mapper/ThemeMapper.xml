@@ -75,8 +75,31 @@
         <include refid="themeColumns">
             <property name="alias" value="t"/>
         </include>
-        from themes t
-        ORDER BY t.create_at DESC, t.sort_nu
+        from themes t where 1=1
+        <if test="id != null">
+            and t.id = ${id}
+        </if>
+        <if test="masterItemId != null">
+            and t.master_item_id = ${masterItemId}
+        </if>
+        <if test="startAt != null">
+            and t.start_at = ${startAt}
+        </if>
+        <if test="endAt != null">
+            and t.start_at = ${endAt}
+        </if>
+
+        <if test="sort == null">
+            ORDER BY t.create_at DESC, t.sort_nu
+        </if>
+
+        <if test="sort != null">
+            ORDER BY t.${sort}
+            <if test="order != null">
+                ${order}
+            </if>
+        </if>
+
         <if test="pageSize == -1 and offset >= -1">
             LIMIT ALL OFFSET 0
         </if>

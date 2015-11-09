@@ -5,6 +5,7 @@ import entity.Slider;
 import entity.Theme;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * ThemeCtrl service
@@ -16,5 +17,5 @@ public interface ThemeService {
 
     public void sliderSave(JsonNode json);
 
-    public List<Theme> themeSearch(int pageSize,int offset);
+    public List<Theme> themeSearch(Map<String,Integer> map);
 }

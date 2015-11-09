@@ -35,15 +35,11 @@ public class ThemeServiceImpl implements ThemeService {
 
     /**
      * 主题查询
-     * @param pageSize 每页多少条
-     * @param offset   从第几条开始取数据
+     * @param map map
      * @return list
      */
     @Override
-    public List<Theme> themeSearch(int pageSize, int offset) {
-        Map<String,Integer> map = new HashMap<String,Integer>();
-        map.put("pageSize", pageSize);
-        map.put("offset", offset);
+    public List<Theme> themeSearch(Map<String,Integer> map) {
         return themeMapper.getThemePage(map);
     }
 

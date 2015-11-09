@@ -41,7 +41,7 @@ GET             /topic/search/popup                                         cont
 GET             /$lang<(cn|en|kr)>/topic/search/popup                       controllers.ThemeCtrl.itemSearchPopup(lang)
 GET             /topic/search                                               controllers.ThemeCtrl.thsearch(lang ="cn")
 GET             /$lang<(cn|en|kr)>/topic/search                             controllers.ThemeCtrl.thsearch(lang)
-GET             /$lang<(cn|en|kr)>/topic/search/$pageNum<[0-9]+>            controllers.ThemeCtrl.thsearchAjax(lang,pageNum:Int)
+POST            /$lang<(cn|en|kr)>/topic/search/$pageNum<[0-9]+>            controllers.ThemeCtrl.thsearchAjax(lang,pageNum:Int)
 
 
 

@@ -100,8 +100,12 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result thsearch(String lang){
 
+        Map<String,Integer> paramsMap = new HashMap<String,Integer>();
+        paramsMap.put("pageSize", -1);
+        paramsMap.put("offset", -1);
+
         //取总数
-        int countNum = service.themeSearch(-1,-1).size();
+        int countNum = service.themeSearch(paramsMap).size();
         //共分几页
         int pageCount = countNum/PAGE_SIZE;
 
@@ -109,19 +113,34 @@ public class ThemeCtrl extends Controller {
             pageCount = countNum/PAGE_SIZE+1;
         }
 
-        return ok(views.html.theme.thsearch.render(lang,IMAGE_URL,PAGE_SIZE,countNum,pageCount,service.themeSearch(PAGE_SIZE,1),(User) ctx().args.get("user")));
+        paramsMap.put("pageSize", PAGE_SIZE);
+        paramsMap.put("offset", 1);
+
+        return ok(views.html.theme.thsearch.render(lang,IMAGE_URL,PAGE_SIZE,countNum,pageCount,service.themeSearch(paramsMap),(User) ctx().args.get("user")));
     }
 
     @Security.Authenticated(UserAuth.class)
     public Result thsearchAjax(String lang,int pageNum){
-        Logger.error("当前页面数:"+request().body().toString());
+        JsonNode json = request().body().asJson();
+        Logger.error("当前页面数:"+json.toString());
         Logger.error("当前页面数:"+pageNum);
+
         if(pageNum>=1){
             //计算从第几条开始取数据
             int offset = (pageNum-1)*PAGE_SIZE;
-            Map<String,Object> map=new HashMap();
-            map.put("topic",service.themeSearch(PAGE_SIZE,offset));
-            return ok(Json.toJson(map));
+            Map<String,Integer> paramsMap = new HashMap<>();
+            paramsMap.put("pageSize", PAGE_SIZE);
+            paramsMap.put("offset", offset);
+
+            if(null!=json.findValue("id") && "".equals(json.findValue("id"))){
+                paramsMap.put("id", json.findValue("id").asInt());
+            }
+
+
+            Map<String,Object> returnMap=new HashMap<>();
+            returnMap.put("topic",service.themeSearch(paramsMap));
+
+            return ok(Json.toJson(returnMap));
         }
         else{
             return badRequest();

@@ -19,12 +19,12 @@
             <!--主题id-->
             <label class="col-sm-2 control-label">主题ID</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control">
+                <input id = "topic-form-id" type="text" class="form-control">
             </div>
             <!--主商品id-->
             <label class="col-sm-2 control-label">主商品ID</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control">
+                <input id = "topic-form-master-id" type="text" class="form-control">
             </div>
         </div>
 
@@ -32,18 +32,18 @@
             <!--开始-->
             <label class="col-sm-2 control-label">开始</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control">
+                <input id = "topic-form-starttime" type="text" class="form-control">
             </div>
             <!--结束-->
             <label class="col-sm-2 control-label">结束</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control">
+                <input id = "topic-form-endtime" type="text" class="form-control">
             </div>
         </div>
 
         <div class="btn-s">
-            <a href="#" class="btn btn-primary">重置</a>
-            <a href="#" class="btn btn-primary btn-s-2">查询</a>
+            <a id="topic-reset-bt" href="javascript:void(0)" class="btn btn-primary">重置</a>
+            <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">查询</a>
         </div>
         <table id="tb-topic" class="table table-bordered table-hover">
             <thead>
