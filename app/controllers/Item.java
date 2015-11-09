@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import entity.Products;
 import entity.User;
 import modules.OSSClientProvider;
 import play.Logger;
@@ -13,6 +14,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import service.ItemService;
 import views.html.item.prodsadd;
+import views.html.item.prodsdetail;
 import views.html.item.prodslist;
 
 import javax.inject.Inject;

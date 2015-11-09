@@ -9,7 +9,17 @@
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"themes.search.title")
 
-@layout(lang=lang,title=title,user=user)(scripts) {	    
+@layout(lang=lang,title=title,user=user)(scripts) {
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+		<a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+		<span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes")</span>
+        <span class="icon-path">&gt;</span>
+        <span>@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu3")</span>
+    </div>
+</div>	    
 <div class="content-1">
     <div class="page-title">
         <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.title")</span>
