@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ItemServiceImpl implements ItemService {
+public class ProdServiceImpl implements ProdService {
 
     /**
      * inject by guice.

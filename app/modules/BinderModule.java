@@ -1,8 +1,8 @@
 package modules;
 
 import com.google.inject.AbstractModule;
-import service.ItemService;
-import service.ItemServiceImpl;
+import service.ProdService;
+import service.ProdServiceImpl;
 import service.ThemeService;
 import service.ThemeServiceImpl;
 
@@ -19,7 +19,7 @@ public class BinderModule extends AbstractModule {
      * bing configure.
      */
     protected void configure() {
-        bind(ItemService.class).to(ItemServiceImpl.class);
+        bind(ProdService.class).to(ProdServiceImpl.class);
         bind(ThemeService.class).to(ThemeServiceImpl.class);
     }
 }

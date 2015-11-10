@@ -12,7 +12,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-import service.ItemService;
+import service.ProdService;
 import views.html.prod.prodsadd;
 import views.html.prod.prodsdetail;
 import views.html.prod.prodslist;
@@ -41,10 +41,10 @@ public class ProductCtrl extends Controller {
     public static final String DEPLOY_URL = play.Play.application().configuration().getString("deploy.server.url");
 
     /**
-     * inject ItemService here.
+     * inject ProdService here.
      */
     @Inject
-    private ItemService itemService;
+    private ProdService prodService;
 
     @Inject
     private OSSClientProvider oss_provider;
@@ -57,7 +57,7 @@ public class ProductCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result itemCreate(String lang) {
         Logger.debug(oss_provider.get().toString());
-        return ok(prodsadd.render(lang,itemService.getAllBrands(),itemService.getParentCates(),(User) ctx().args.get("user")));
+        return ok(prodsadd.render(lang, prodService.getAllBrands(), prodService.getParentCates(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -72,7 +72,7 @@ public class ProductCtrl extends Controller {
         Integer pcid = Integer.parseInt(form.get("pcid"));
         HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
         hashMap.put("parentCateId", pcid);
-        return ok(Json.toJson(itemService.getSubCates(hashMap)));
+        return ok(Json.toJson(prodService.getSubCates(hashMap)));
     }
 
     /**
@@ -113,7 +113,7 @@ public class ProductCtrl extends Controller {
         paramsMap.put("offset", -1);
 
         //取总数
-        int countNum = itemService.getAllProducts(paramsMap).size();
+        int countNum = prodService.getAllProducts(paramsMap).size();
         //共分几页
         int pageCount = countNum/PAGE_SIZE;
 
@@ -138,7 +138,7 @@ public class ProductCtrl extends Controller {
         Logger.error(start.toString());
         Logger.error(end.toString());
         Logger.error(currentPage.toString());
-        return ok(prodslist.render(start,end,lang,IMAGE_URL,PAGE_SIZE,countNum,pageCount,currentPage,(User) ctx().args.get("user"),itemService.getAllProducts(paramsMap)));
+        return ok(prodslist.render(start,end,lang,IMAGE_URL,PAGE_SIZE,countNum,pageCount,currentPage,(User) ctx().args.get("user"), prodService.getAllProducts(paramsMap)));
     }
 
     /**
@@ -149,7 +149,7 @@ public class ProductCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result prodsDetail(String lang,Long id) {
         if(!"".equals(id) && null!=id) {
-            Products products = itemService.getProducts(id);
+            Products products = prodService.getProducts(id);
             return ok(prodsdetail.render(products,lang,(User) ctx().args.get("user")));
         } else {
             return badRequest();
@@ -170,7 +170,7 @@ public class ProductCtrl extends Controller {
         JsonNode json =Json.parse(multiProducts);
         Logger.error(json.toString());
 
-        List<Long> list = itemService.insertProducts(json);
+        List<Long> list = prodService.insertProducts(json);
         return ok(list.toString());
     }
 }
