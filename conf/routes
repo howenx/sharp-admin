@@ -62,6 +62,8 @@ POST            /authenticate                       controllers.Auth.authenticat
 GET             /logout                             controllers.Auth.logout
 GET             /test                               controllers.Test.test
 GET             /supply                             controllers.Application.supply
+POST             /supply                             controllers.Application.supply
+GET             /supply/list                        controllers.Application.list_supply
 
 
 

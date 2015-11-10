@@ -56,8 +56,7 @@ object User_Type extends Enumeration {
   */
 object Gender extends Enumeration {
 
-  type gender = Value;
-
+  type gender = Value
   val M, F = Value
 }
 
