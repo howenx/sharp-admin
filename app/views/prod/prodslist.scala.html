@@ -1,19 +1,23 @@
 @import play.i18n._
-@(start:String,end:Integer,lang:String="cn",url:String,pageSize:Integer,countNum:Integer,pageCount:Integer,currentPage:Integer,user:entity.User,prodsList:List[entity.Products])
+@(lang:String="cn",url:String,pageSize:Integer,countNum:Integer,pageCount:Integer,user:entity.User,prodsList:List[entity.Products])
 
 @scripts = {
 
 
 <!-- 日历-->
-<link rel="stylesheet" href="/assets/css/bootstrap-datepicker.min.css"/>
-<script src="/assets/js/bootstrap-datepicker.min.js"></script>
-<script src="/assets/js/bootstrap-datepicker.zh-CN.min.js"></script>
 
-<link rel="stylesheet" href="/assets/css/xspsc.css"/>
+
+<!--<link rel="stylesheet" href="/assets/css/xspsc.css"/>-->
 <link rel="stylesheet" href="/assets/css/list.css">
 <link rel="stylesheet" href="/assets/css/theme-search.css">
-<script src="/assets/js/list.js"></script>
+
 <script src="/assets/js/search.js"></script>
+
+<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker.min.css"/>
+<script src="/assets/js/bootstrap-datetimepicker.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker.ko.js"></script>
+<script src="/assets/js/rili.js"></script>
 
 <script>window.url = "@url"</script>
 <script>window.lang = "@lang"</script>
@@ -25,8 +29,6 @@
 @layout(lang=lang,title=title,user=user)(scripts) {
 
 <div class="content">
-    <input type="hidden" id ="start" value="@start">
-    <input type="hidden" id="end" value="@end">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -44,25 +46,23 @@
                     </tr>
                     <tr>
                         <th>
-                            <span>商品状态</span>
+                            <span>开始时间</span>
                         </th>
                         <td>
-                            <select class="form-control">
-                                <option value="">全部</option>
-                                <option value="Y">正常</option>
-                                <option value="D">到期商品</option>
-                                <option value="N">删除</option>
-                                <option value="K">售空</option>
-                            </select>
+                            <div  style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
+                                <input id = "topic-form-starttime" class="form-control" size="16" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
                         </td>
                         <th>
-                            <span>销售起止日期</span>
+                            <span>结束时间</span>
                         </th>
                         <td>
-                            <div class="input-daterange input-group" id="datepicker">
-                                <input type="text" class="input-sm form-control" name="start"/>
-                                <span class="input-group-addon">to</span>
-                                <input type="text" class="input-sm form-control" name="end"/>
+                            <div  style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
+                                <input id = "topic-form-endtime"  class="form-control" size="16" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                         </td>
                     </tr>
@@ -74,6 +74,7 @@
                         </td>
                     </tr>
                 </table>
+
                 <div class="bgk">
                     <table class="table table-bordered tbtwo l">
                         <tr class="trone">
@@ -107,16 +108,15 @@
                         </tr>
                         }
                     </table>
-                    <span class="page-toolbar-title">总计:@(countNum)条/每页@(pageSize)条/ 当前@(currentPage)/@(pageCount)页</span>
+                    <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
                     <div class="paging">
                         <ul class="pagination">
-                            <li class="prev"><a href="/prodsList/@(currentPage-1)">&laquo;</a></li>
-                            <tbody id="data"></tbody>
-                            <!--@for(i <- 1 until pageCount+1){-->
-
-                                <!--<li class="page-num"><a href="/prodsList/@i">@i</a></li>-->
-                            <!--}-->
-                            <li class="next"><a href="/prodsList/@(currentPage+1)">&raquo;</a></li>
+                            <li class="prev diabled"><a href="javascript:void(0)">&laquo;</a></li>
+                            <li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>
+                            @for(count <- 1 until pageCount){
+                            <li class="page-num"><a href="javascript:void(0)">@(count+1)</a></li>
+                            }
+                            <li class="next"><a href="javascript:void(0)">&raquo;</a></li>
                         </ul>
                     </div>
                 </div>
@@ -126,15 +126,5 @@
 </div>
 }
 <script type="text/javascript">
-$(function()  {
-    var start = document.getElementById("start").value;
-    var end = document.getElementById("end").value;
-    var html = [];
-	<!--for(var i=start; i<end; i++) {-->
-
-	<!--}-->
-
-});
-
 
 </script>

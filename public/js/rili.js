@@ -21,4 +21,21 @@ $(function(){
         maxView:4,
 		pickerPosition: "bottom-left"
     });
+
+    $('.form_date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:  datetimepicker_lang,
+        minuteStep:10,
+        weekStart: 7,
+        todayBtn:  1 ,
+        autoclose: 1,
+        todayHighlight: 1,
+        keyboardNavigation:1,
+        startView: 2,
+        forceParse: 1,
+        // showMeridian: 1,
+        minView:2,
+        maxView:4,
+        pickerPosition: "bottom-left"
+    });
 })

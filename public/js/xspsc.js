@@ -1,24 +1,4 @@
 $(function(){
-    /*日历*/
-    $('.form_datetime').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
-        language:  'zh-CN',
-        minuteStep:10,
-        weekStart: 7,
-        todayBtn:  1 ,
-        autoclose: 1,
-        todayHighlight: 1,
-        keyboardNavigation:1,
-        startView: 2,
-        forceParse: 1,
-//        showMeridian: 1,
-        minView:0,
-        maxView:4,
-        pickerPosition: "bottom-left"
-    });
-
-    $('#datetimepicker').datetimepicker();
-
     /** 添加颜色 **/
     $(document).on('click','.yanse .add',function() {
         var color = $(this).parent().prev().children().first().children().first().val();

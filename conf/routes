@@ -9,8 +9,8 @@ GET				/$lang<(cn|en|kr)>/prodCreate       controllers.ProductCtrl.prodCreate(la
 GET             /getSubcates                        controllers.ProductCtrl.getSubCategory
 POST            /insertProducts                     controllers.ProductCtrl.insertProducts
 
-GET             /prodsList/:currentPage             controllers.ProductCtrl.prodsList(lang = "cn",currentPage:Integer)
-GET             /$lang<(cn|en|kr)>/prodsList/:currentPage        controllers.ProductCtrl.prodsList(lang,currentPage:Integer)
+GET             /prodsList                          controllers.ProductCtrl.prodsList(lang = "cn")
+GET             /$lang<(cn|en|kr)>/prodsList        controllers.ProductCtrl.prodsList(lang)
 GET             /prodsDetail/:id                    controllers.ProductCtrl.prodsDetail(lang = "cn",id:Long)
 GET             /$lang<(cn|en|kr)>/prodsDetail/:id  controllers.ProductCtrl.prodsDetail(lang,id:Long)
 
