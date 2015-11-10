@@ -64,14 +64,7 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result sliderSave(String lang){
         JsonNode json = request().body().asJson();
-
         service.sliderSave(json);
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
