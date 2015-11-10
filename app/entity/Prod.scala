@@ -3,6 +3,8 @@ package entity
 import play.api.db.DB
 import anorm._
 import play.api.Play.current
+import play.api.Logger
+
 /**
   * Created by handy on 15/11/5.
   * kakao china
@@ -13,11 +15,29 @@ object Prod {
     * 商品数据添加
     * @return
     */
-  def insert() = {
+  def insert(p_type: Prod_Type.prod_type,  p_name:String, tags:String, attr: String , spec: String, images :String, price:Int, maret_pirce:Int, amount:Int, extra:String) = {
     DB.withConnection("products") { implicit  conn =>
-      SQL("""insert into product (sku, name, category_id,images,price, market_price ) values ()""").on()
+
+      val catetory_id = p_type.id + 2
+
+      Logger.debug("insert products")
+
+      SQL("""insert into products (name, category_id, tags, attr, spec, images, price, market_price, amount,extra ) values ({name},{category_id},array_to_json({tags}::character varying[]), {attr}::json, {spec}::json, array_to_json({images}::character varying[]), {price},{market_price}, {amount}, {extra}::json )""").on("name"->p_name, "category_id"->catetory_id , "tags"->tags, "attr"->attr, "spec"->spec, "images"->images, "price"->price, "market_price"->maret_pirce, "amount"->amount, "extra"->extra).execute()
 
     }
   }
 
+  def list(p_type: Prod_Type.prod_type)= {
+    DB.withConnection("products") { implicit conn =>
+      val catetory_id = p_type.id + 2
+      SQL(""" select * from products where category_id = {category_id}""").on("category_id"->catetory_id)
+
+    }
+  }
+
+}
+
+object Prod_Type extends Enumeration {
+  type prod_type = Value
+  val hzp, ps, fs = Value
 }

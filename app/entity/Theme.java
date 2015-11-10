@@ -16,9 +16,9 @@ public class Theme implements Serializable{
     private Long masterItemId;
     private String title;
     private String themeDesc;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm", timezone = "GMT+8")
     private Timestamp startAt;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm", timezone = "GMT+8")
     private Timestamp endAt;
     private BigDecimal themeDiscountUp;
     private BigDecimal itemPriceTop;
@@ -31,21 +31,29 @@ public class Theme implements Serializable{
     private Integer sortNu;
     private Boolean isDestory;
     private Long destoryUid;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm", timezone = "GMT+8")
     private Timestamp   destoryAt;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm", timezone = "GMT+8")
     private Timestamp   updateAt;
     private Long updateUid;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm", timezone = "GMT+8")
     private Timestamp   createAt;
     private Long createUid;
     private String themeSrcImg;
 
+    private Integer pageSize;
+
+    private Integer offset;
+
+    //按照哪个字段排序
+    private String sort;
+    //排序方式,降序,升序
+    private String order;
 
     public Theme() {
     }
 
-    public Theme(Long id, Long masterItemId, String title, String themeDesc, Timestamp startAt, Timestamp endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean isDestory, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg) {
+    public Theme(Long id, Long masterItemId, String title, String themeDesc, Timestamp startAt, Timestamp endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean isDestory, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, Integer pageSize, Integer offset, String sort, String order) {
         this.id = id;
         this.masterItemId = masterItemId;
         this.title = title;
@@ -69,6 +77,10 @@ public class Theme implements Serializable{
         this.createAt = createAt;
         this.createUid = createUid;
         this.themeSrcImg = themeSrcImg;
+        this.pageSize = pageSize;
+        this.offset = offset;
+        this.sort = sort;
+        this.order = order;
     }
 
     public Long getId() {
@@ -255,6 +267,38 @@ public class Theme implements Serializable{
         this.themeSrcImg = themeSrcImg;
     }
 
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
+
     @Override
     public String toString() {
         return "Theme{" +
@@ -281,6 +325,10 @@ public class Theme implements Serializable{
                 ", createAt=" + createAt +
                 ", createUid=" + createUid +
                 ", themeSrcImg='" + themeSrcImg + '\'' +
+                ", pageSize=" + pageSize +
+                ", offset=" + offset +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
                 '}';
     }
 }

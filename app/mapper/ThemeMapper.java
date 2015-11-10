@@ -20,5 +20,5 @@ public interface ThemeMapper {
 
     public void deleteSlider(Long id);
 
-    public List<Theme> getThemePage(Map<String,Integer> map);
+    public List<Theme> getThemePage(Theme theme);
 }

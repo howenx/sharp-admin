@@ -1,24 +1,18 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import entity.Slider;
+import entity.Theme;
+import entity.User;
 import play.Logger;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
-import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import service.ThemeService;
 
 import javax.inject.Inject;
-import entity.User;
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -100,12 +94,13 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result thsearch(String lang){
 
-        Map<String,Integer> paramsMap = new HashMap<String,Integer>();
-        paramsMap.put("pageSize", -1);
-        paramsMap.put("offset", -1);
+        Theme theme =new Theme();
+
+        theme.setPageSize(-1);
+        theme.setOffset(-1);
 
         //取总数
-        int countNum = service.themeSearch(paramsMap).size();
+        int countNum = service.themeSearch(theme).size();
         //共分几页
         int pageCount = countNum/PAGE_SIZE;
 
@@ -113,32 +108,51 @@ public class ThemeCtrl extends Controller {
             pageCount = countNum/PAGE_SIZE+1;
         }
 
-        paramsMap.put("pageSize", PAGE_SIZE);
-        paramsMap.put("offset", 1);
+        theme.setPageSize(PAGE_SIZE);
+        theme.setOffset(1);
 
-        return ok(views.html.theme.thsearch.render(lang,IMAGE_URL,PAGE_SIZE,countNum,pageCount,service.themeSearch(paramsMap),(User) ctx().args.get("user")));
+        return ok(views.html.theme.thsearch.render(lang,IMAGE_URL,PAGE_SIZE,countNum,pageCount,service.themeSearch(theme),(User) ctx().args.get("user")));
     }
 
+    /**
+     * ajax分页查询
+     * @param lang 语言
+     * @param pageNum 当前页
+     * @return json
+     */
     @Security.Authenticated(UserAuth.class)
-    public Result thsearchAjax(String lang,int pageNum){
+    public Result thsearchAjax(String lang,int pageNum) {
+
         JsonNode json = request().body().asJson();
-        Logger.error("当前页面数:"+json.toString());
-        Logger.error("当前页面数:"+pageNum);
+
+        Theme theme = Json.fromJson(json,Theme.class);
 
         if(pageNum>=1){
             //计算从第几条开始取数据
             int offset = (pageNum-1)*PAGE_SIZE;
-            Map<String,Integer> paramsMap = new HashMap<>();
-            paramsMap.put("pageSize", PAGE_SIZE);
-            paramsMap.put("offset", offset);
 
-            if(null!=json.findValue("id") && "".equals(json.findValue("id"))){
-                paramsMap.put("id", json.findValue("id").asInt());
+            theme.setPageSize(-1);
+            theme.setOffset(-1);
+
+            //取总数
+            int countNum = service.themeSearch(theme).size();
+            //共分几页
+            int pageCount = countNum/PAGE_SIZE;
+
+            if(countNum%PAGE_SIZE!=0){
+                pageCount = countNum/PAGE_SIZE+1;
             }
 
+            theme.setPageSize(PAGE_SIZE);
+            theme.setOffset(offset);
 
+            //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
-            returnMap.put("topic",service.themeSearch(paramsMap));
+            returnMap.put("topic",service.themeSearch(theme));
+            returnMap.put("pageNum",pageNum);
+            returnMap.put("countNum",countNum);
+            returnMap.put("pageCount",pageCount);
+            returnMap.put("pageSize",PAGE_SIZE);
 
             return ok(Json.toJson(returnMap));
         }

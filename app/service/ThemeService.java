@@ -17,5 +17,5 @@ public interface ThemeService {
 
     public void sliderSave(JsonNode json);
 
-    public List<Theme> themeSearch(Map<String,Integer> map);
+    public List<Theme> themeSearch(Theme theme);
 }

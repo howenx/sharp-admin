@@ -92,7 +92,21 @@ themes.slider.update = Update
 themes.slider.state1 = Unchanged
 themes.slider.state2 = Changed
 themes.create.title = Theme Create
-page.head.path.title = Your current path:
+page.head.path.title = Your Current Path:
+themes.search.title = Theme Search
+themes.search.condition1=Theme ID
+themes.search.condition2=Master Item ID
+themes.search.condition3=Start Time
+themes.search.condition4=End Time
+themes.search.reset.bt = Reset
+themes.search.search.bt = Search
+themes.search.table.thead1 = Theme Image
+themes.search.table.thead2 = Theme Name
+themes.search.table.page.toolbar = Count:{0} results/Every Page:{1} results/Sum Page:{2} pages
+
+
+
+
 
 
 
@@ -102,12 +116,27 @@ welcome.title = Homepage
 
 
 
+
+
+
+
+
+
+
+
 #footer
 footer.menu1 = Email:service@@hanmimei.cn
 footer.menu2 = HMM© 2014-2015
 footer.menu3 = Beijing DFHL Co. LTD.
 footer.menu4 = BeijingICP 11028595
 footer.menu5 = BeijingPolice 110105011117
+
+
+
+
+
+
+
 
 
 
