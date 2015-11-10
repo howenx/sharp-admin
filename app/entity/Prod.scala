@@ -27,10 +27,25 @@ object Prod {
     }
   }
 
-  def list(p_type: Prod_Type.prod_type)= {
+
+  /**
+    * 根据表的内容取得数据
+    */
+  val parser: RowParser[Map[String, Any]] =
+    SqlParser.folder(Map.empty[String, Any]) { (map, value, meta) =>
+      Right(map + (meta.column.qualified -> value))
+    }
+
+
+  /**
+    * 产品列表
+    * @param p_type
+    * @return
+    */
+  def list(p_type: Prod_Type.prod_type) : List[Map[String, Any]] = {
     DB.withConnection("products") { implicit conn =>
       val catetory_id = p_type.id + 2
-      SQL(""" select * from products where category_id = {category_id}""").on("category_id"->catetory_id)
+      SQL(""" select * from products where category_id = {category_id}""").on("category_id"->catetory_id).as(parser.*)
 
     }
   }

@@ -57,7 +57,9 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
 
   def list_supply = withUser { user => {
     implicit  request => {
-      Ok("ok")
+      val ret = Prod.list(Prod_Type.hzp)
+      Logger.debug(ret.toString())
+      Ok(views.html.supply.list("cn",user, ret))
     }
   }
 
@@ -219,7 +221,7 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
 
         case None =>
 
-          Ok(views.html.supply("cn", user))
+          Ok(views.html.supply.supply("cn", user))
 
 
       }

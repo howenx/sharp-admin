@@ -1,0 +1,44 @@
+@import play.i18n._
+@import entity.User_Type
+@import entity.User
+@import scala.collection.immutable._
+@(lang:String="cn", user:User, products:List[Map[String, Any]])
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
+<link rel="shortcut icon" type="image/png" href="/assets/images/favicon.ico">
+<link href='http://fonts.useso.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/assets/css/bootstrap-datepicker.min.css"/>
+<script src="/assets/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $('#tabs').tab();
+        $('.datepicker').datepicker({
+          format: 'yyyy-mm-dd',
+        })
+    });
+
+
+
+
+</script>
+}
+
+@body = {
+<div class="container">
+    @for(product <- products) {
+    <div class="row">
+        @product("products.name")
+    </div>
+    }
+
+</div>
+}
+
+
+@layout(lang=lang,title="supply list", user=user)(scripts) {
+
+@body
+
+}
