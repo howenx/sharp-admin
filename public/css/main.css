@@ -78,6 +78,10 @@ h1, h2, h3, dd, ul, ol {
 	left: 0px;
 	width: 100%;
 }
+.wrap-header{
+    position:relative;
+    z-index:100;
+}
 
 /**********************     welcome.scala.html      ***************************/
 .center-panel {
