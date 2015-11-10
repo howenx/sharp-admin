@@ -4,7 +4,6 @@ import entity.Slider;
 import entity.Theme;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * ThemeCtrl mapper

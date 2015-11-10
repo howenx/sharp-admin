@@ -3,7 +3,6 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.Theme;
 import entity.User;
-import play.Logger;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
