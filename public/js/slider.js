@@ -67,15 +67,6 @@ $(function() {
 
 	})
 	
-	/***Loading..***/
-	$(document).ajaxStart(function() {
-		$('#mask').show();
-	});
-	
-	$(document).ajaxStop(function() {
-		$('#mask').hide();
-	});
-
 	/**	保存 **/
 	$(document).on('click', '#js-usercenter-submit', function() {
 		if (change_flag) {

@@ -93,6 +93,10 @@ themes.slider.state1 = Unchanged
 themes.slider.state2 = Changed
 themes.create.title = Theme Create
 page.head.path.title = Your current path:
+themes.search.title = Theme Search
+
+
+
 
 
 
@@ -100,6 +104,11 @@ page.head.path.title = Your current path:
 
 #welcome
 welcome.title = Homepage
+
+
+
+
+
 
 
 

@@ -3,7 +3,13 @@
 @scripts = {
     <link rel="stylesheet" href="/assets/css/theme-search.css">
 	<link rel="stylesheet" href="/assets/css/slider.css">
+	<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker.min.css"/>
+	<script src="/assets/js/bootstrap-datetimepicker.js"></script>
+	<script src="/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="/assets/js/bootstrap-datetimepicker.ko.js"></script>
+	<script src="/assets/js/jquery-dateFormat.min.js"></script>
     <script src="/assets/js/search.js"></script>
+	<script src="/assets/js/rili.js"></script>
     <script>window.url = "@url"</script>
 	<script>window.lang = "@lang"</script>
 }
@@ -42,12 +48,20 @@
             <!--开始-->
             <label class="col-sm-2 control-label">开始</label>
             <div class="col-sm-4">
-                <input id = "topic-form-starttime" type="text" class="form-control">
+                <div id="datetimepicker-starttime" style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
+                    <input id = "topic-form-starttime"  class="form-control" size="16" type="text" value="" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
             </div>
             <!--结束-->
             <label class="col-sm-2 control-label">结束</label>
             <div class="col-sm-4">
-                <input id = "topic-form-endtime" type="text" class="form-control">
+                <div id="datetimepicker-endtime" style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
+                    <input id = "topic-form-endtime" class="form-control" size="16" type="text" value="" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
             </div>
         </div>
 
@@ -60,7 +74,7 @@
             <tr>
                 <th>
                     主题ID
-                    <span class="glyphicon glyphicon-chevron-up"></span>
+                    <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
                     <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
                 </th>
                 <th>
@@ -68,18 +82,18 @@
                 </th>
                 <th>
                     主商品ID
-                    <span class="glyphicon glyphicon-chevron-up"></span>
+                    <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
                 </th>
                 <th>
                     主题名称
                 </th>
                 <th>
                     开始时间
-                    <span class="glyphicon glyphicon-chevron-up"></span>
+                    <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
                 </th>
                 <th>
                     结束时间
-                    <span class="glyphicon glyphicon-chevron-up"></span>
+                    <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
                 </th>
             </tr>
             </thead>
