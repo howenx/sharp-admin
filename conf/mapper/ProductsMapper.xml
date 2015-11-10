@@ -50,12 +50,18 @@
                 from prods t where id=${value}
         </select>
 
-        <select id="getAllProducts" resultType="entity.Products">
+        <select id="getAllProducts" parameterType="map" resultType="entity.Products">
                 select
                 <include refid="productsColumns">
                         <property name="alias" value="t"/>
                 </include>
                 from prods t where 1=1
+                <if test="pageSize == -1 and offset >= -1">
+                    LIMIT ALL OFFSET 0
+                </if>
+                <if test="pageSize >= 1 and offset >= 0">
+                    LIMIT #{pageSize} OFFSET #{offset}
+                </if>
         </select>
 
         <insert id="insertProducts" parameterType="entity.Products" useGeneratedKeys="true" keyProperty="id" >

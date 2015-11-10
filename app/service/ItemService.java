@@ -7,6 +7,7 @@ import entity.Products;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface ItemService {
 
@@ -50,10 +51,10 @@ public interface ItemService {
 
     /**
      * get All products from table
-     *
+     * @param map
      * @return List of Products
      */
-    List<Products> getAllProducts();
+    List<Products> getAllProducts(Map<String,Integer> map);
 
     /**
      * insert products into prods table

@@ -4,15 +4,15 @@
 # Home page
 GET				/front                              controllers.Application.welcome(lang= "cn")
 GET				/$lang<(cn|en|kr)>/front            controllers.Application.welcome(lang)
-GET				/itemCreate              	        controllers.Item.itemCreate(lang = "cn")
-GET				/$lang<(cn|en|kr)>/itemCreate       controllers.Item.itemCreate(lang)
-GET             /getSubcates                        controllers.Item.getSubCategory
-POST            /insertProducts                     controllers.Item.insertProducts
+GET				/itemCreate              	        controllers.Product.itemCreate(lang = "cn")
+GET				/$lang<(cn|en|kr)>/itemCreate       controllers.Product.itemCreate(lang)
+GET             /getSubcates                        controllers.Product.getSubCategory
+POST            /insertProducts                     controllers.Product.insertProducts
 
-GET             /prodsList                          controllers.Item.prodsList(lang = "cn")
-GET             /$lang<(cn|en|kr)>/prodsList        controllers.Item.prodsList(lang)
-GET             /prodsDetail/:id                    controllers.Item.prodsDetail(lang = "cn",id:Long)
-GET             /$lang<(cn|en|kr)>/prodsDetail/:id  controllers.Item.prodsDetail(lang,id:Long)
+GET             /prodsList/:currentPage             controllers.Product.prodsList(lang = "cn",currentPage:Integer)
+GET             /$lang<(cn|en|kr)>/prodsList/:currentPage        controllers.Product.prodsList(lang,currentPage:Integer)
+GET             /prodsDetail/:id                    controllers.Product.prodsDetail(lang = "cn",id:Long)
+GET             /$lang<(cn|en|kr)>/prodsDetail/:id  controllers.Product.prodsDetail(lang,id:Long)
 
 
 

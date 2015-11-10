@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ItemServiceImpl implements ItemService {
 
@@ -100,14 +101,14 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * get all products from table.
-     *
+     * @param map
      * @return List of entity.Products
      */
 
     @Override
-    public List<Products> getAllProducts() {
+    public List<Products> getAllProducts(Map<String,Integer> map) {
 
-        return this.productsMapper.getAllProducts();
+        return this.productsMapper.getAllProducts(map);
     }
 
     /**

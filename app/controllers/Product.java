@@ -13,14 +13,15 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import service.ItemService;
-import views.html.item.prodsadd;
-import views.html.item.prodsdetail;
-import views.html.item.prodslist;
+import views.html.prod.prodsadd;
+import views.html.prod.prodsdetail;
+import views.html.prod.prodslist;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controller for commodity create,update,modify,search.
@@ -28,7 +29,16 @@ import java.util.List;
  * @author Sunny Wu
  */
 @Singleton
-public class Item extends Controller {
+public class Product extends Controller {
+
+    //每页固定的取数
+    public static final int PAGE_SIZE = 2;
+
+    //图片服务器url
+    public static final String IMAGE_URL = play.Play.application().configuration().getString("image.server.url");
+
+    //发布服务器url
+    public static final String DEPLOY_URL = play.Play.application().configuration().getString("deploy.server.url");
 
     /**
      * inject ItemService here.
@@ -40,7 +50,7 @@ public class Item extends Controller {
     private OSSClientProvider oss_provider;
 
     /**
-     * Item create page controller.
+     * Product create page controller.
      *
      * @return Result
      */
@@ -66,13 +76,69 @@ public class Item extends Controller {
     }
 
     /**
+     *
+     * @param currentPage 当前页
+     * @param size  每页的记录数
+     * @param pageCount 总页数
+     * @return int[]
+     */
+    public static Integer[] getStep(int currentPage, int size, int pageCount) {
+
+        //总页面数小于跨度
+        if (pageCount <= size) {
+            return new Integer[]{1,pageCount};
+        }
+        //1.currentPage位置在前面
+        if (currentPage <= size/2) {
+            return new Integer[]{1, size};
+        }
+        //2.currentPage位置在后面
+        if (currentPage > pageCount-size/2) {
+            return new Integer[]{pageCount-size+1, pageCount};
+        }
+        //3.currentPage位置在中间
+        int first = currentPage-size/2;
+        return new Integer[]{first, first+size-1};
+    }
+
+    /**
      * get all products
      * @param lang
      * @return Result
      */
     @Security.Authenticated(UserAuth.class)
-    public Result prodsList(String lang) {
-        return ok(prodslist.render(lang,(User) ctx().args.get("user"),itemService.getAllProducts()));
+    public Result prodsList(String lang,Integer currentPage) {
+        Map<String,Integer> paramsMap = new HashMap<String,Integer>();
+        paramsMap.put("pageSize", -1);
+        paramsMap.put("offset", -1);
+
+        //取总数
+        int countNum = itemService.getAllProducts(paramsMap).size();
+        //共分几页
+        int pageCount = countNum/PAGE_SIZE;
+
+        if(countNum%PAGE_SIZE!=0){
+            pageCount = countNum/PAGE_SIZE+1;
+        }
+
+        if  (currentPage < 1) {
+            currentPage = 1;
+        }
+        if (currentPage > pageCount) {
+            currentPage = pageCount;
+        }
+        Integer offSet = (currentPage-1)*PAGE_SIZE;
+
+        paramsMap.put("pageSize", PAGE_SIZE);
+        paramsMap.put("offset", offSet);
+
+        Integer[] step = getStep(currentPage, 3, pageCount);
+        String start = step[0].toString();
+        Integer end = step[1];
+        Logger.error(start.toString());
+        Logger.error(end.toString());
+        Logger.error(currentPage.toString());
+        return ok(prodslist.render(start,end,lang,IMAGE_URL,PAGE_SIZE,countNum,pageCount,currentPage,(User) ctx().args.get("user"),itemService.getAllProducts(paramsMap)));
     }
 
     /**
@@ -100,7 +166,6 @@ public class Item extends Controller {
         result.put("result", false);
         DynamicForm form = Form.form().bindFromRequest();
         String multiProducts = form.get("multiProducts");
-        System.out.print(multiProducts);
 
         JsonNode json =Json.parse(multiProducts);
         Logger.error(json.toString());

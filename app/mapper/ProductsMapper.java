@@ -3,6 +3,7 @@ package mapper;
 import entity.Products;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * ProductsMapper.xml for ProductsMapper interface.
@@ -20,9 +21,10 @@ public interface  ProductsMapper {
 
     /**
      * get all products.
+     * @param map
      * @return List of Products entity
      */
-    List<Products> getAllProducts();
+    List<Products> getAllProducts(Map<String,Integer> map);
 
     /**
      * insert products
