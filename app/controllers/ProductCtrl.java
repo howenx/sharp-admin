@@ -29,7 +29,7 @@ import java.util.Map;
  * @author Sunny Wu
  */
 @Singleton
-public class Product extends Controller {
+public class ProductCtrl extends Controller {
 
     //每页固定的取数
     public static final int PAGE_SIZE = 2;
@@ -50,7 +50,7 @@ public class Product extends Controller {
     private OSSClientProvider oss_provider;
 
     /**
-     * Product create page controller.
+     * ProductCtrl create page controller.
      *
      * @return Result
      */
