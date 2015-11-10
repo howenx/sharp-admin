@@ -1,0 +1,167 @@
+@import play.i18n._
+@(lang:String="cn")
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Messages.get(new Lang(Lang.forCode(lang)),"item.search.popup.title")</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <!--self-->
+    <link rel="stylesheet" href="/assets/css/theme-search.css">
+    <script src="/assets/js/search.js"></script>
+</head>
+<body>
+<div class="content-1">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <!--主题id-->
+            <label class="col-sm-2 control-label">商品ID</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <!--主商品id-->
+            <label class="col-sm-2 control-label">商品名称</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <!--开始-->
+            <label class="col-sm-2 control-label">是否加入主题</label>
+            <div class="col-sm-4">
+                <div class="radio-border">
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" value="option1"> 是
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" value="option1"> 否
+                    </label>
+                </div>
+            </div>
+            <!--结束-->
+            <label class="col-sm-2 control-label">主题ID</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="btn-s">
+            <a href="#" class="btn btn-primary">重置</a>
+            <a href="#" class="btn btn-primary btn-s-2">查询</a>
+        </div>
+
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>
+                    商品ID
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                    <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                </th>
+                <th>
+                    商品名称
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                    <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                </th>
+                <th>
+                    商品标题
+                </th>
+                <th>
+                    主图
+                </th>
+                <th>
+                    上架时间
+                </th>
+                <th>
+                    是否加入主题
+                </th>
+                <th>
+                    主题ID
+                </th>
+                <th>
+                    商品状态
+                </th>
+                <th>
+                    价格
+                </th>
+                <th>
+                    原价
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                    <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                </th>
+                <th>
+                    折扣
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                    <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                </th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <div class="paging">
+            <ul class="pagination">
+                <li><a href="#">&laquo;</a></li>
+                <li class="active"><a href="#">1</a></li>
+                <li class="disabled"><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">&raquo;</a></li>
+            </ul>
+        </div>
+    </form>
+</div>
+</body>
+</html>

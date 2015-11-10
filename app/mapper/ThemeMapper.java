@@ -1,11 +1,13 @@
 package mapper;
 
 import entity.Slider;
+import entity.Theme;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * Theme mapper
+ * ThemeCtrl mapper
  * Created by howen on 15/11/2.
  */
 public interface ThemeMapper {
@@ -17,4 +19,6 @@ public interface ThemeMapper {
     public Long insertSlider(Slider slider);
 
     public void deleteSlider(Long id);
+
+    public List<Theme> getThemePage(Theme theme);
 }

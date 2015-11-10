@@ -19,11 +19,11 @@ item.add.numPri=数量价格
 item.add.productAmount=库存量
 item.add.details=商品详细信息
 item.add.addPic=添加图片
-item.add.masterImg=上传商品主图片
+item.add.masterImg=商品主图片
 item.add.onePic=一张
 item.add.mostSixPic=最多六张
-item.add.previewImgs=上传商品预览图
-item.add.detailImgs=上传商品详细图
+item.add.previewImgs=商品预览图
+item.add.detailImgs=商品详细图
 item.add.productDesc=商品详情
 item.add.features=属性信息
 item.add.featureName=属性名
@@ -31,7 +31,7 @@ item.add.featureValue=属性值
 item.add.add=添加
 item.add.delete=删除
 item.add.cancel=取消
-
+item.add.prodsDetail=商品详情
 
 
 
@@ -93,6 +93,30 @@ themes.slider.state1 = 未更改
 themes.slider.state2 = 已更改
 themes.create.title = 主题录入
 page.head.path.title = 您当前的位置：
+themes.search.title = 主题查询
+themes.search.condition1=主题ID
+themes.search.condition2=主商品ID
+themes.search.condition3=开始时间
+themes.search.condition4=结束时间
+themes.search.reset.bt = 重置
+themes.search.search.bt = 查询
+themes.search.table.thead1 = 主题图片
+themes.search.table.thead2 = 主题名称
+themes.search.table.page.toolbar = 总计:{0}条/每页:{1}条/共:{2}页
+
+
+
+
+
+
+
+#item search popup
+item.search.popup.title = 商品查询
+
+
+
+
+
 
 
 
@@ -101,6 +125,11 @@ page.head.path.title = 您当前的位置：
 
 #welcome
 welcome.title = 首页
+
+
+
+
+
 
 
 

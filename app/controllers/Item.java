@@ -1,27 +1,24 @@
 package controllers;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import entity.Products;
 import entity.User;
 import modules.OSSClientProvider;
 import play.Logger;
-import play.api.libs.json.JsArray;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-import scala.util.parsing.json.JSONArray;
-import scala.util.parsing.json.JSONObject;
 import service.ItemService;
-import views.html.item.*;
+import views.html.item.prodsadd;
+import views.html.item.prodsdetail;
+import views.html.item.prodslist;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -71,12 +68,28 @@ public class Item extends Controller {
     /**
      * get all products
      * @param lang
-     * @return
+     * @return Result
      */
     @Security.Authenticated(UserAuth.class)
     public Result prodsList(String lang) {
-        return ok(prodslist.render(lang,itemService.getAllProducts(),(User) ctx().args.get("user")));
+        return ok(prodslist.render(lang,(User) ctx().args.get("user"),itemService.getAllProducts()));
     }
+
+    /**
+     *
+     * @param id
+     * @return Result
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result prodsDetail(String lang,Long id) {
+        if(!"".equals(id) && null!=id) {
+            Products products = itemService.getProducts(id);
+            return ok(prodsdetail.render(products,lang,(User) ctx().args.get("user")));
+        } else {
+            return badRequest();
+        }
+    }
+
 
     /**
      * insert products

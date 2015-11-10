@@ -1,19 +1,20 @@
 $(function(){
-    /*日历*/
+    /*日历 分钟*/
     $('.form_datetime').datetimepicker({
         format: 'yyyy-mm-dd hh:ii',
         language:  'zh-CN',
-        minuteStep:1,
-        weekStart: 1,
+        minuteStep:10,
+        weekStart: 7,
         todayBtn:  1 ,
         autoclose: 1,
         todayHighlight: 1,
         keyboardNavigation:1,
         startView: 2,
         forceParse: 1,
-        showMeridian: 1,
+        // showMeridian: 1,
         minView:0,
-        maxView:4
+        maxView:4,
+		pickerPosition: "bottom-left"
     });
 
     $('#datetimepicker').datetimepicker();
@@ -107,7 +108,7 @@ $(function(){
             divx.innerText=$('#preIms').val();
             var divn = document.createElement("div");
             divn.style.paddingTop="20px";
-            divn.style.paddingRight="20px";
+            divn.style.paddingRight="5px";
             divn.innerText= "("+$('#mostS').val()+")";
             label.appendChild(divx);
             label.appendChild(divn);
@@ -382,7 +383,7 @@ $(function(){
                 break;
             }
         }
-        for(i=0;i<recommendPrice.length;i++){
+        for(i=0;i<productAmount.length;i++){
             if (!numberReg.test(productAmount[i].value)) {
                 alert("库存量为正整数!");
                 isPost=false;
@@ -501,6 +502,7 @@ $(function(){
                 },
                 success: function(data) {
                     alert("Products Insert Success!");
+                    location.href="/itemCreate";
                 }
             });
         }

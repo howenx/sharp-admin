@@ -1,14 +1,11 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.Slider;
+import entity.Theme;
 import mapper.ThemeMapper;
-import play.Logger;
-import play.api.libs.json.Json;
 
 import javax.inject.Inject;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -20,11 +17,29 @@ public class ThemeServiceImpl implements ThemeService {
     @Inject
     private ThemeMapper themeMapper;
 
+    /**
+     * 滚动条查询
+     * @return list
+     */
     @Override
     public List<Slider> sliderAll() {
         return themeMapper.getSlidersAll();
     }
 
+    /**
+     * 主题查询
+     * @param theme theme
+     * @return list
+     */
+    @Override
+    public List<Theme> themeSearch(Theme theme) {
+        return themeMapper.getThemePage(theme);
+    }
+
+    /**
+     * 滚动条保存
+     * @param json JsonNode
+     */
     @Override
     public void sliderSave(JsonNode json) {
 
@@ -35,17 +50,12 @@ public class ThemeServiceImpl implements ThemeService {
             }
         }
 
-        ObjectMapper mapper = new ObjectMapper();
-
         //取变更的Slider
         if (json.findValue("update").isArray()) {
             for (final JsonNode objNode : json.findValue("update")) {
-                Slider slider = new Slider();
-                try {
-                    slider = mapper.readValue(objNode.toString(), Slider.class);
-                } catch (IOException e) {
-                    Logger.error(e.getMessage());
-                }
+
+                Slider slider  = play.libs.Json.fromJson(objNode,Slider.class);
+
                 if (slider.getId()==-1){
                     themeMapper.insertSlider(slider);
                 }

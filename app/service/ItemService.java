@@ -46,7 +46,7 @@ public interface ItemService {
      * @param productId
      * @return entity.Products
      */
-    Products getProducts(Integer productId);
+    Products getProducts(Long productId);
 
     /**
      * get All products from table

@@ -1,17 +1,19 @@
 @import play.i18n._
-@(lang:String="cn", prodsList:List[entity.Products],user:entity.User)
+@(lang:String="cn", user:entity.User,prodsList:List[entity.Products])
 
 @scripts = {
 
 
-    <!-- 日历-->
-    <link rel="stylesheet" href="/assets/css/bootstrap-datepicker.min.css"/>
-    <script src="/assets/js/bootstrap-datepicker.min.js"></script>
-    <script src="/assets/js/bootstrap-datepicker.zh-CN.min.js"></script>
+<!-- 日历-->
+<link rel="stylesheet" href="/assets/css/bootstrap-datepicker.min.css"/>
+<script src="/assets/js/bootstrap-datepicker.min.js"></script>
+<script src="/assets/js/bootstrap-datepicker.zh-CN.min.js"></script>
 
-    <link rel="stylesheet" href="/assets/css/xspsc.css"/>
-    <link rel="stylesheet" href="/assets/css/list.css">
-    <script src="/assets/js/list.js"></script>
+<link rel="stylesheet" href="/assets/css/xspsc.css"/>
+<link rel="stylesheet" href="/assets/css/list.css">
+<link rel="stylesheet" href="/assets/css/theme-search.css">
+<script src="/assets/js/list.js"></script>
+<script src="/assets/js/search.js"></script>
 
 }
 
@@ -26,8 +28,18 @@
                 <h3>商品管理</h3>
                 <table class="table table-bordered tbone">
                     <tr>
+                        <th>商品ID</th>
+                        <td>
+                            <input type="text" class="form-control" style="border:1px solid #ccc; width:100%; height:34px;">
+                        </td>
+                        <th>商品名称</th>
+                        <td>
+                            <input type="text" class="form-control" style="border:1px solid #ccc; width:100%; height:34px;">
+                        </td>
+                    </tr>
+                    <tr>
                         <th>
-                            <span>状态</span>
+                            <span>商品状态</span>
                         </th>
                         <td>
                             <select class="form-control">
@@ -49,16 +61,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <th>商品名称</th>
-                        <td>
-                            <input type="text" class="form-control">
-                        </td>
-                        <th>登录人</th>
-                        <td>
-                            <input type="text" class="form-control">
-                        </td>
-                    </tr>
+
                     <tr>
                         <td colspan="4">
                             <a href="#">搜索</a>
@@ -66,56 +69,53 @@
                         </td>
                     </tr>
                 </table>
-                <button type="button" class="btn btn-primary btn-xs r">同步购物车商品</button>
                 <div class="bgk">
                     <table class="table table-bordered tbtwo l">
                         <tr class="trone">
-                            <td>商品ID</td>
-                            <td>供货商</td>
-                            <td>品牌名称</td>
-                            <td>商品名称</td>
-                            <td>商品类别</td>
-                            <td>商品主图</td>
-                            <td>颜色</td>
-                            <td>尺寸</td>
-                            <td >销售开始日期</td>
-                            <td>销售结束日期</td>
-                            <td>市场价</td>
-                            <td>销售价</td>
-                            <td>原产地</td>
-                            <td>库存量</td>
-                            <td>商品详情</td>
-                            <td>属性信息</td>
-                            <td>修改人</td>
-                            <td>修改时间</td>
+                            <th>商品ID</th>
+                            <th>商品名称</th>
+                            <th>供货商</th>
+                            <th>品牌名称</th>
+                            <th>商品类别</th>
+                            <th>商品主图</th>
+                            <th>颜色</th>
+                            <th>尺寸</th>
+                            <th >销售开始日期</th>
+                            <th>销售结束日期</th>
+                            <th>市场价</th>
+                            <th>销售价</th>
                         </tr>
                         @for(p <- prodsList) {
-                            <tr>
-                                <td>@p.getId()</td>
-                                <td>@p.getMerchName()</td>
-                                <td>@p.getBrandId()</td>
-                                <td>@p.getProductName()</td>
-                                <td>@p.getCateId()</td>
-                                <td><img src="http://172.28.3.18:3008@p.getMasterImg()" alt="" width="40" height="40"/></td>
-                                <td>@p.getProductColor()</td>
-                                <td>@p.getProductSize()</td>
-                                <td>@p.getSellOnDate()</td>
-                                <td>@p.getSellOffDate()</td>
-                                <td>@p.getProductPrice()</td>
-                                <td>@p.getRecommendPrice()</td>
-                                <td>@p.getSourceArea()</td>
-                                <td>@p.getProductAmount()</td>
-                                <td>@p.getProductDesc()</td>
-                                <td>@p.getFeatures()</td>
-                                <td>@p.getDestoryUid()</td>
-                                <td>@p.getUpdateDate()</td>
-                            </tr>
+                        <tr>
+                            <td>@p.getId()</td>
+                            <td>@p.getProductName()</td>
+                            <td>@p.getMerchName()</td>
+                            <td>@p.getBrandId()</td>
+                            <td>@p.getCateId()</td>
+                            <td><img src="http://172.28.3.18:3008@p.getMasterImg()" alt="" width="40" height="40"/></td>
+                            <td>@p.getProductColor()</td>
+                            <td>@p.getProductSize()</td>
+                            <td>@p.getSellOnDate()</td>
+                            <td>@p.getSellOffDate()</td>
+                            <td>@p.getProductPrice()</td>
+                            <td>@p.getRecommendPrice()</td>
+                        </tr>
                         }
                     </table>
+                    <div class="paging">
+                        <ul class="pagination">
+                            <li><a href="#">&laquo;</a></li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li class="disabled"><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#">&raquo;</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 }
