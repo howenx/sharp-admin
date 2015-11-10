@@ -55,7 +55,7 @@ public class ProductCtrl extends Controller {
      * @return Result
      */
     @Security.Authenticated(UserAuth.class)
-    public Result itemCreate(String lang) {
+    public Result prodCreate(String lang) {
         Logger.debug(oss_provider.get().toString());
         return ok(prodsadd.render(lang, prodService.getAllBrands(), prodService.getParentCates(),(User) ctx().args.get("user")));
     }

@@ -1,5 +1,5 @@
 $(function(){
-    /*日历 分钟*/
+    /*日历*/
     $('.form_datetime').datetimepicker({
         format: 'yyyy-mm-dd hh:ii',
         language:  'zh-CN',
@@ -11,10 +11,10 @@ $(function(){
         keyboardNavigation:1,
         startView: 2,
         forceParse: 1,
-        // showMeridian: 1,
+//        showMeridian: 1,
         minView:0,
         maxView:4,
-		pickerPosition: "bottom-left"
+        pickerPosition: "bottom-left"
     });
 
     $('#datetimepicker').datetimepicker();
@@ -450,11 +450,14 @@ $(function(){
             for(k=0;k<spancols.length;k++) {
                 if (spancols[k].className=="ysfont" && spancols[k].innerText==tr1[i].innerText) {
                     var id = spancols[k].parentNode.parentNode.lastChild.id;
-                    pics = document.getElementById(id).getElementsByTagName("div");
-                    for(y=0;y<pics.length;y++) {
-                         previewImgs += '\"' + pics[y].getElementsByTagName("input")[0].value + '\"' + ",";
+                    var pics;
+                    if (id!=null) {
+                        pics = document.getElementById(id).getElementsByTagName("div");
+                        for(y=0;y<pics.length;y++) {
+                             previewImgs += '\"' + pics[y].getElementsByTagName("input")[0].value + '\"' + ",";
+                        }
+                        break;
                     }
-                    break;
                 }
             }
             previewImgs = previewImgs.substring(0,previewImgs.length - 1) + "]";
@@ -491,7 +494,7 @@ $(function(){
             }
         }
         multiProducts = multiProducts.substring(0,multiProducts.length - 1) + "]";
-        console.log(multiProducts);
+//        console.log(multiProducts);
         if (true) {
             $.ajax({
                 type :  "POST",

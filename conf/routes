@@ -4,8 +4,8 @@
 # Home page
 GET				/front                              controllers.Application.welcome(lang= "cn")
 GET				/$lang<(cn|en|kr)>/front            controllers.Application.welcome(lang)
-GET				/itemCreate              	        controllers.ProductCtrl.itemCreate(lang = "cn")
-GET				/$lang<(cn|en|kr)>/itemCreate       controllers.ProductCtrl.itemCreate(lang)
+GET				/prodCreate              	        controllers.ProductCtrl.prodCreate(lang = "cn")
+GET				/$lang<(cn|en|kr)>/prodCreate       controllers.ProductCtrl.prodCreate(lang)
 GET             /getSubcates                        controllers.ProductCtrl.getSubCategory
 POST            /insertProducts                     controllers.ProductCtrl.insertProducts
 
