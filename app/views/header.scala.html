@@ -25,10 +25,10 @@
 					    		<span class="info-inner db">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")<i class="ml5 caret caret-down caret-b-9b"></i></span>
                                 <ul class="header-dropdown-list fs13 js-header-list">
                                     <li class="header-dropdown-item">
-                                        <a href="/@lang/itemCreate" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products.menu2")</a>
+                                        <a href="" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products.menu2")</a>
                                     </li>
                                     <li class="header-dropdown-item">
-                                        <a href="/@lang/prodsList/1" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products.menu1")</a>
+                                        <a href="" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products.menu1")</a>
                                     </li>
                                 </ul>
 					    		<i class="header-nav-border"></i>
@@ -51,6 +51,37 @@
 					    		<i class="header-nav-border"></i>
                             </div>
                         </li>
+                        <li class="header-navi-item fl">
+                            <div class="user-info fl js-header-dropmenu">
+                                <span class="info-inner db">@Messages.get(new Lang(Lang.forCode(lang)),"nav.data.sell")<i class="ml5 caret caret-down caret-b-9b"></i></span>
+                                <ul class="header-dropdown-list fs13 js-header-list">
+                                    <li class="header-dropdown-item">
+                                        <a href="javascript:void(0)" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.data.sell.menu1")</a>
+                                    </li>
+                                    <li class="header-dropdown-item">
+                                        <a href="javascript:void(0)" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.data.sell.menu2")</a>
+                                    </li>
+                                </ul>
+                                <i class="header-nav-border"></i>
+                            </div>
+                        </li>
+                        <li class="header-navi-item fl">
+                            <div class="user-info fl js-header-dropmenu">
+                                <span class="info-inner db">@Messages.get(new Lang(Lang.forCode(lang)),"nav.myproducts")<i class="ml5 caret caret-down caret-b-9b"></i></span>
+                                <ul class="header-dropdown-list fs13 js-header-list">
+                                    <li class="header-dropdown-item">
+                                        <a href="/@lang/itemCreate" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.myproducts.menu1")</a>
+                                    </li>
+                                    <li class="header-dropdown-item">
+                                        <a href="/@lang/prodsList/1" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.myproducts.menu2")</a>
+                                    </li>
+                                    <li class="header-dropdown-item">
+                                        <a href="javascript:void(0)" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.myproducts.menu3")</a>
+                                    </li>
+                                </ul>
+                                <i class="header-nav-border"></i>
+                            </div>
+                        </li>
                     }
                     @if(user.role==entity.User_Type.ADMIN) {
                         <li class="header-navi-item fl">
@@ -69,7 +100,7 @@
 							<span class="info-inner db">@user.nickname<i class="ml5 caret caret-down caret-b-9b"></i></span>
                             <ul class="header-dropdown-list fs13 js-header-list">
                                 <li class="header-dropdown-item">
-                                    <a href="javascript:void(0)" class="info-link active">@Messages.get(new Lang(Lang.forCode(lang)),"nav.user.info")</a>
+                                    <a href="javascript:void(0)" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.user.info")</a>
                                 </li>
                                 <li class="header-dropdown-item">
                                     <a href="javascript:void(0)"class="info-link ">@Messages.get(new Lang(Lang.forCode(lang)),"nav.user.message")&nbsp;<span id="header-drop-count"></span></a>

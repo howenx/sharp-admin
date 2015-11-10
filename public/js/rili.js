@@ -1,8 +1,13 @@
 $(function(){
+	var datetimepicker_lang = '';
+	if(window.lang == 'cn' ) datetimepicker_lang = 'zh-CN';
+	else if(window.lang == 'kr' ) datetimepicker_lang = 'ko';
+	else datetimepicker_lang = 'en';
+	
     /*日历 分钟*/
     $('.form_datetime').datetimepicker({
         format: 'yyyy-mm-dd hh:ii',
-        language:  'zh-CN',
+        language:  datetimepicker_lang,
         minuteStep:10,
         weekStart: 7,
         todayBtn:  1 ,

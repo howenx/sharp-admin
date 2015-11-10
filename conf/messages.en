@@ -42,9 +42,12 @@ item.add.prodsDetail=     Products Details
 
 #nav
 nav.home = HOME
-nav.products = Products
-nav.products.menu1 = Item Manage
-nav.products.menu2 = Item Create
+nav.products = Items
+nav.products.menu1 = List
+nav.products.menu2 = Manage
+nav.data.sell = Data Center
+nav.data.sell.menu1 = Sell Data
+nav.data.sell.menu2 = Inventory
 nav.themes = Themes
 nav.themes.menu1 = Slider
 nav.themes.menu2 = Create
@@ -60,7 +63,10 @@ nav.translate = Translate
 nav.user.info = Me
 nav.user.message = News
 nav.system = System
-
+nav.myproducts = My Products
+nav.myproducts.menu1 = Upload
+nav.myproducts.menu2 = My List
+nav.myproducts.menu3 = My Data
 
 
 

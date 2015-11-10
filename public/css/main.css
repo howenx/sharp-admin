@@ -118,3 +118,6 @@ ul, li {
     background-color: rgba(245, 245, 245, 0.56);
     opacity: 1;
 }
+.container{
+    min-height: 840px;
+}

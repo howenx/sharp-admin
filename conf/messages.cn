@@ -45,6 +45,9 @@ nav.home = 首页
 nav.products = 商品管理
 nav.products.menu1 = 商品列表
 nav.products.menu2 = 商品录入
+nav.data.sell = 数据中心
+nav.data.sell.menu1 = 销售数据
+nav.data.sell.menu2 = 库存数据
 nav.themes = 主题管理
 nav.themes.menu1 = 滚动条管理
 nav.themes.menu2 = 主题录入
@@ -56,10 +59,14 @@ nav.app = 应用管理
 nav.notice = 公告管理
 nav.promotion = 活动管理
 nav.logo.span = 后台管理
-nav.translate = 翻译列表
+nav.translate = 翻译清单
 nav.user.info = 个人中心
 nav.user.message = 消息
 nav.system = 系统管理
+nav.myproducts = 产品中心
+nav.myproducts.menu1 = 上传产品
+nav.myproducts.menu2 = 上传清单
+nav.myproducts.menu3 = 产品销量
 
 
 

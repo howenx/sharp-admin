@@ -42,9 +42,12 @@ item.add.prodsDetail=商品详情_kr
 
 #nav
 nav.home = HOME
-nav.products = Products
-nav.products.menu1 = Item Manage
-nav.products.menu2 = Item Create
+nav.products = Items
+nav.products.menu1 = List
+nav.products.menu2 = Manage
+nav.data.sell = Data Center
+nav.data.sell.menu1 = Sell Data
+nav.data.sell.menu2 = Inventory
 nav.themes = Themes
 nav.themes.menu1 = Slider
 nav.themes.menu2 = Create
@@ -60,6 +63,10 @@ nav.translate = Translate
 nav.user.info = Me
 nav.user.message = News
 nav.system = System
+nav.myproducts = My Products
+nav.myproducts.menu1 = Upload
+nav.myproducts.menu2 = My List
+nav.myproducts.menu3 = My Data
 
 
 
@@ -98,6 +105,11 @@ themes.search.condition1=Theme ID
 themes.search.condition2=Master Item ID
 themes.search.condition3=Start Time
 themes.search.condition4=End Time
+themes.search.reset.bt = Reset
+themes.search.search.bt = Search
+themes.search.table.thead1 = Theme Image
+themes.search.table.thead2 = Theme Name
+themes.search.table.page.toolbar = Count:{0} results/Every Page:{1} results/Sum Page:{2} pages
 
 
 
