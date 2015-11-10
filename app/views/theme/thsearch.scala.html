@@ -33,20 +33,20 @@
     <form class="form-horizontal">
         <div class="form-group">
             <!--主题id-->
-            <label class="col-sm-2 control-label">主题ID</label>
+            <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition1")</label>
             <div class="col-sm-4">
-                <input id = "topic-form-id" type="text" class="form-control">
+                <input id = "topic-form-id" type="number" min="10000" max="99999999" class="form-control">
             </div>
             <!--主商品id-->
-            <label class="col-sm-2 control-label">主商品ID</label>
+            <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition2")</label>
             <div class="col-sm-4">
-                <input id = "topic-form-master-id" type="text" class="form-control">
+                <input id = "topic-form-master-id" type="number" min="10000" max="99999999" class="form-control">
             </div>
         </div>
 
         <div class="form-group">
             <!--开始-->
-            <label class="col-sm-2 control-label">开始</label>
+            <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition3")</label>
             <div class="col-sm-4">
                 <div id="datetimepicker-starttime" style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
                     <input id = "topic-form-starttime"  class="form-control" size="16" type="text" value="" readonly>
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <!--结束-->
-            <label class="col-sm-2 control-label">结束</label>
+            <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition4")</label>
             <div class="col-sm-4">
                 <div id="datetimepicker-endtime" style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
                     <input id = "topic-form-endtime" class="form-control" size="16" type="text" value="" readonly>
@@ -66,33 +66,32 @@
         </div>
 
         <div class="btn-s">
-            <a id="topic-reset-bt" href="javascript:void(0)" class="btn btn-primary">重置</a>
-            <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">查询</a>
+            <a id="topic-reset-bt" href="javascript:void(0)" class="btn btn-primary">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")</a>
+            <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
         </div>
         <table id="tb-topic" class="table table-bordered table-hover">
             <thead>
             <tr>
                 <th>
-                    主题ID
-                    <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
-                    <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
-                </th>
-                <th>
-                    主题图片
-                </th>
-                <th>
-                    主商品ID
+                    @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition1")
                     <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
                 </th>
                 <th>
-                    主题名称
+                    @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.table.thead1")
                 </th>
                 <th>
-                    开始时间
+                    @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition2")
                     <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
                 </th>
                 <th>
-                    结束时间
+                    @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.table.thead2")
+                </th>
+                <th>
+                    @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition3")
+                    <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
+                </th>
+                <th>
+                    @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition4")
                     <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
                 </th>
             </tr>
@@ -112,7 +111,7 @@
             }
             </tbody>
         </table>
-        <span class="page-toolbar-title">总计:@(countNum)条/每页@(pageSize)条/共@(pageCount)页</span>
+        <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
         <div class="paging">
             <ul class="pagination">
                 <li class="prev diabled"><a href="javascript:void(0)">&laquo;</a></li>

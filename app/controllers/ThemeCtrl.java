@@ -114,6 +114,12 @@ public class ThemeCtrl extends Controller {
         return ok(views.html.theme.thsearch.render(lang,IMAGE_URL,PAGE_SIZE,countNum,pageCount,service.themeSearch(theme),(User) ctx().args.get("user")));
     }
 
+    /**
+     * ajax分页查询
+     * @param lang 语言
+     * @param pageNum 当前页
+     * @return json
+     */
     @Security.Authenticated(UserAuth.class)
     public Result thsearchAjax(String lang,int pageNum) {
 

@@ -94,9 +94,15 @@ themes.slider.state2 = 已更改
 themes.create.title = 主题录入
 page.head.path.title = 您当前的位置：
 themes.search.title = 主题查询
-
-
-
+themes.search.condition1=主题ID
+themes.search.condition2=主商品ID
+themes.search.condition3=开始时间
+themes.search.condition4=结束时间
+themes.search.reset.bt = 重置
+themes.search.search.bt = 查询
+themes.search.table.thead1 = 主题图片
+themes.search.table.thead2 = 主题名称
+themes.search.table.page.toolbar = 总计:{0}条/每页:{1}条/共:{2}页
 
 
 

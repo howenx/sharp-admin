@@ -82,6 +82,14 @@ $(function() {
 	$(document).on('click',"#topic-search-bt",function(){
 		search(1);
 	})
+	
+	//点击重置事件
+	$(document).on('click',"#topic-reset-bt",function(){
+		$("#topic-form-id").val("");
+		$("#topic-form-master-id").val("");
+		$("#topic-form-starttime").val("");
+		$("#topic-form-endtime").val("");
+	})
 
 	//ajax后台取列表
 	function search(pageIndex) {
@@ -128,8 +136,14 @@ $(function() {
 
 						);
 					})
-					//page toolbar
-					$('.page-toolbar-title').text("总计:" + data.countNum + "条/每页" + data.pageSize + "条/共" + data.pageCount + "页");
+					if (window.lang == "cn") {
+						//page toolbar
+						$('.page-toolbar-title').text("总计:" + data.countNum + "条/每页:" + data.pageSize + "条/共:" + data.pageCount + "页");
+						
+					}else{
+						//page toolbar
+						$('.page-toolbar-title').text("Count:" + data.countNum + " results/Every Page:" + data.pageSize + " results/Sum Page:" + data.pageCount + " pages");
+					}
 					//清空页码
 					$('.pagination').find(".page-num").remove();
 					//重新生成页码
@@ -153,11 +167,23 @@ $(function() {
 						$('#tb-topic').find('tbody').append('' +
 							'<tr><td colspan="6">没有数据</td></tr>'
 						);
+						//page toolbar
+						$('.page-toolbar-title').text("总计:" + data.countNum + "条/每页:" + data.pageSize + "条/共:" + data.pageCount + "页");
+						
+						
 					} else {
 						$('#tb-topic').find('tbody').append('' +
 							'<tr><td colspan="6">Not Found Data</td></tr>'
 						);
+						//page toolbar
+						$('.page-toolbar-title').text("Count:" + data.countNum + " results/Every Page:" + data.pageSize + " results/Sum Page:" + data.pageCount + " pages");
 					}
+					//清空页码
+					$('.pagination').find(".page-num").remove();
+					//重新生成页码
+					$('.pagination').find('.next').before("" +
+						'<li class="page-num active"><a href="javascript:void(0)">1</a></li>'
+					);
 				}
 
 			},
