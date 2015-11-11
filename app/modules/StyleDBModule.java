@@ -47,6 +47,10 @@ public class StyleDBModule extends PrivateModule{
 
         /**
          * bind SQLsession to isolate the multiple datasources.无须更改
+         * 如果需要取SqlSession:
+         * @Named("style")
+         * @Inject
+         * private SqlSession sqlsession;
          */
         bind(SqlSession.class).annotatedWith(Names.named("style")).toProvider(SqlSessionManagerProvider.class).in(Scopes.SINGLETON);
         expose(SqlSession.class).annotatedWith(Names.named("style"));
