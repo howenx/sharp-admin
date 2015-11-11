@@ -59,14 +59,24 @@
             <if test="id != null">
                 and t.id = #{id}
             </if>
-            <if test="prod_nm != null">
+            <if test='productName != null and productName != "null" and productName != "" '>
                 and t.prod_nm = #{productName}
             </if>
-            <if test="sell_on_at != null">
+            <if test='sellOnDate != null'>
                 and t.sell_on_at &gt;= #{sellOnDate} ::timestamp
             </if>
-            <if test="sell_off_at != null">
+            <if test='sellOffDate != null'>
                 and t.sell_off_at  &lt;= #{sellOffDate} ::timestamp
+            </if>
+            <if test="sort == null or sort == '' or sort == 'null' ">
+                ORDER BY t.id DESC, t.prod_nm
+            </if>
+
+            <if test="sort != null and sort != '' and sort != 'null' ">
+                ORDER BY t.${sort}
+                <if test="order != null">
+                    ${order}
+                </if>
             </if>
             <if test="pageSize == -1 and offset >= -1">
                 LIMIT ALL OFFSET 0

@@ -7,7 +7,6 @@ import entity.Products;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public interface ProdService {
 
@@ -51,10 +50,10 @@ public interface ProdService {
 
     /**
      * get All products from table
-     * @param map
+     * @param products
      * @return List of Products
      */
-    List<Products> getAllProducts(Map<String,Integer> map);
+    List<Products> getAllProducts(Products products);
 
     /**
      * insert products into prods table

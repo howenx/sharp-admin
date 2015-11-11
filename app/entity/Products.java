@@ -167,9 +167,16 @@ public class Products implements Serializable{
      */
     private Integer createUid;
 
+    private Integer pageSize;
+    private Integer offset;
+    //按照哪个字段排序
+    private String sort;
+    //排序方式,降序,升序
+    private String order;
+
     public Products(){}
 
-    public Products(Long id, Integer merchId, String merchName, String language, Integer cateId, String cateName, Integer brandId, String brandName, String productName, String productColor, String productSize, String productDesc, String storeArea, String sourceArea, Timestamp sellOnDate, Timestamp sellOffDate, Integer productAmount, BigDecimal productPrice, BigDecimal recommendPrice, String masterImg, String previewImgs, String detailImgs, String features, String productState, boolean destory, Integer destoryUid, Timestamp updateDate, Integer updateUid, Timestamp createDate, Integer createUid) {
+    public Products(Long id, Integer merchId, String merchName, String language, Integer cateId, String cateName, Integer brandId, String brandName, String productName, String productColor, String productSize, String productDesc, String storeArea, String sourceArea, Timestamp sellOnDate, Timestamp sellOffDate, Integer productAmount, BigDecimal productPrice, BigDecimal recommendPrice, String masterImg, String previewImgs, String detailImgs, String features, String productState, boolean destory, Integer destoryUid, Timestamp updateDate, Integer updateUid, Timestamp createDate, Integer createUid, Integer pageSize, Integer offset, String sort, String order) {
         this.id = id;
         this.merchId = merchId;
         this.merchName = merchName;
@@ -200,6 +207,10 @@ public class Products implements Serializable{
         this.updateUid = updateUid;
         this.createDate = createDate;
         this.createUid = createUid;
+        this.pageSize = pageSize;
+        this.offset = offset;
+        this.sort = sort;
+        this.order = order;
     }
 
     @Override
@@ -235,6 +246,10 @@ public class Products implements Serializable{
                 ", updateUid=" + updateUid +
                 ", createDate=" + createDate +
                 ", createUid=" + createUid +
+                ", pageSize=" + pageSize +
+                ", offset=" + offset +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
                 '}';
     }
 
@@ -478,4 +493,35 @@ public class Products implements Serializable{
         this.createUid = createUid;
     }
 
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
 }
