@@ -39,6 +39,7 @@ POST            /slider/update                                              cont
 POST            /$lang<(cn|en|kr)>/slider/update                            controllers.ThemeCtrl.sliderSave(lang)
 GET             /topic/search                                               controllers.ThemeCtrl.thsearch(lang ="cn")
 GET             /$lang<(cn|en|kr)>/topic/search                             controllers.ThemeCtrl.thsearch(lang)
+POST            /topic/search/$pageNum<[0-9]+>                              controllers.ThemeCtrl.thsearchAjax(lang ="cn",pageNum:Int)
 POST            /$lang<(cn|en|kr)>/topic/search/$pageNum<[0-9]+>            controllers.ThemeCtrl.thsearchAjax(lang,pageNum:Int)
 
 
@@ -54,6 +55,7 @@ GET             /comm/search                                                cont
 GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.itmlist(lang)
 GET             /comm/search/popup                                          controllers.ItemCtrl.itmSearchPopup(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/search/popup                        controllers.ItemCtrl.itmSearchPopup(lang)
+POST            /comm/search/$pageNum<[0-9]+>                               controllers.ItemCtrl.itmsearchAjax(lang ="cn",pageNum:Int)
 POST            /$lang<(cn|en|kr)>/comm/search/$pageNum<[0-9]+>             controllers.ItemCtrl.itmsearchAjax(lang,pageNum:Int)
 
 
