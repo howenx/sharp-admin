@@ -3,15 +3,13 @@ package modules;
 import com.google.inject.PrivateModule;
 import com.google.inject.Scopes;
 import com.google.inject.name.Names;
+import entity.Item;
 import mapper.*;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.guice.session.SqlSessionManagerProvider;
 import play.db.DBApi;
-import service.ProdService;
-import service.ProdServiceImpl;
-import service.ThemeService;
-import service.ThemeServiceImpl;
+import service.*;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -42,6 +40,7 @@ public class StyleDBModule extends PrivateModule{
                 addMapperClass(ProductsMapper.class);
                 addMapperClass(ThemeMapper.class);
                 addMapperClass(StockMapper.class);
+                addMapperClass(ItemMapper.class);
             }
         });
 
@@ -60,10 +59,12 @@ public class StyleDBModule extends PrivateModule{
          */
         bind(ProdService.class).to(ProdServiceImpl.class);
         bind(ThemeService.class).to(ThemeServiceImpl.class);
+        bind(ItemService.class).to(ItemServiceImpl.class);
 
         //必须expose
         expose(ThemeService.class);
         expose(ProdService.class);
+        expose(ItemService.class);
     }
 
     @Singleton

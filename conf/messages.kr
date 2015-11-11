@@ -110,10 +110,16 @@ themes.search.search.bt = Search
 themes.search.table.thead1 = Theme Image
 themes.search.table.thead2 = Theme Name
 themes.search.table.page.toolbar = Count:{0} results/Every Page:{1} results/Sum Page:{2} pages
+themes.search.nodata = Not Found Data
 
 
 
 
+
+#comm search popup
+comm.search.popup.title = Commodity Search
+comm.search.hadjoin = Had Join
+comm.search.willjoin = Will Join
 
 
 

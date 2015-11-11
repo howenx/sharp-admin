@@ -44,7 +44,7 @@
 
     <!---  主题    -->
 
-    <sql id = "themeColumns">
+    <sql id="themeColumns">
         ${alias}.id,
         ${alias}.master_item_id,
         ${alias}.title,
@@ -60,7 +60,7 @@
         ${alias}.item_count,
         ${alias}.theme_tag_count,
         ${alias}.sort_nu,
-        ${alias}.is_destory,
+        ${alias}.or_destory,
         ${alias}.destory_uid,
         ${alias}.destory_at,
         ${alias}.update_at,
@@ -86,7 +86,7 @@
             and t.start_at &gt;= #{startAt} ::timestamp
         </if>
         <if test="endAt != null">
-            and t.end_at  &lt;= #{endAt} ::timestamp
+            and t.end_at &lt;= #{endAt} ::timestamp
         </if>
 
         <if test="sort == null or sort == ''">

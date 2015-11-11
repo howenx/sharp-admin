@@ -1,7 +1,7 @@
 @import play.i18n._
 @(lang:String="cn",url:String,pageSize:Integer,countNum:Integer,pageCount:Integer,themes:List[entity.Theme],user:entity.User)
 @scripts = {
-    <link rel="stylesheet" href="/assets/css/theme-search.css">
+    <link rel="stylesheet" href="/assets/css/search.css">
 	<link rel="stylesheet" href="/assets/css/slider.css">
 	<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker.min.css"/>
 	<script src="/assets/js/bootstrap-datetimepicker.js"></script>
@@ -11,6 +11,8 @@
     <script src="/assets/js/search.js"></script>
 	<script src="/assets/js/rili.js"></script>
 	<script>window.url = "@url"</script>
+	<!-- 此为调用分页所提供的函数名前缀 -->
+	<script>window.search_args = 'thmlist'</script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"themes.search.title")
 
@@ -65,9 +67,11 @@
         </div>
 
         <div class="btn-s">
-            <a id="topic-reset-bt" href="javascript:void(0)" class="btn btn-primary">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")</a>
+			<input type="reset" class="btn btn-primary btn-s-2" value="@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")">
             <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
         </div>
+	</form>
+	<div class="table-content">
         <table id="tb-topic" class="table table-bordered table-hover">
             <thead>
             <tr>
@@ -96,20 +100,24 @@
             </tr>
             </thead>
             <tbody>
-            @for(theme <- themes){
-                <tr>
-                    <td><a href="javascript:void(0)">@theme.getId()</a></td>
-                    <td>
-                        <img class="main-img" src="@url@theme.getThemeImg()" alt="" width="50">
-                    </td>
-                    <td>@theme.getMasterItemId()</td>
-                    <td>@theme.getTitle()</td>
-                    <td>@(theme.getStartAt().toString().substring(0,16))</td>
-                    <td>@(theme.getEndAt().toString().substring(0,16))</td>
-                </tr>
-            }
+                @for(theme <- themes){
+                    <tr class = "tb-list-data">
+                        <td><a href="javascript:void(0)">@theme.getId()</a></td>
+                        <td>
+                            <img class="main-img" src="@url@theme.getThemeImg()" alt="" width="50">
+                        </td>
+                        <td>@theme.getMasterItemId()</td>
+                        <td>@theme.getTitle()</td>
+                        <td>@(theme.getStartAt().toString().substring(0,16))</td>
+                        <td>@(theme.getEndAt().toString().substring(0,16))</td>
+                    </tr>
+                }
+                <!---公用模块,id不能改变,只需要改变合并行数-->
+                <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
+
+        <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
         <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
         <div class="paging">
             <ul class="pagination">
@@ -121,7 +129,8 @@
                 <li class="next"><a href="javascript:void(0)">&raquo;</a></li>
             </ul>
         </div>
-    </form>
+        <!-- 公用模块,直接拷贝-->
+	</div>
 </div>
 
 

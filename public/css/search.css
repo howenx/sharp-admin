@@ -26,6 +26,7 @@
 }
 .table>tbody>tr>th,.table>tbody>tr>td {
 	text-align: center;
+	vertical-align: middle;
 }
 .paging {
 	width: 100%;
@@ -93,4 +94,7 @@
 }
 .goods-img-bg .close span{
     display: block;width: 36px;height: 36px;
+}
+.table-content{
+    padding: 20px 10px;
 }

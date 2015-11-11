@@ -29,7 +29,7 @@ public class Theme implements Serializable{
     private Integer itemCount;
     private Integer themeTagCount;
     private Integer sortNu;
-    private Boolean isDestory;
+    private Boolean orDestory;
     private Long destoryUid;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm", timezone = "GMT+8")
     private Timestamp   destoryAt;
@@ -41,8 +41,10 @@ public class Theme implements Serializable{
     private Long createUid;
     private String themeSrcImg;
 
+    //分页,每页多少条
     private Integer pageSize;
 
+    //分页,从第几条开始
     private Integer offset;
 
     //按照哪个字段排序
@@ -53,7 +55,7 @@ public class Theme implements Serializable{
     public Theme() {
     }
 
-    public Theme(Long id, Long masterItemId, String title, String themeDesc, Timestamp startAt, Timestamp endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean isDestory, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, Integer pageSize, Integer offset, String sort, String order) {
+    public Theme(Long id, Long masterItemId, String title, String themeDesc, Timestamp startAt, Timestamp endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean orDestory, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, Integer pageSize, Integer offset, String sort, String order) {
         this.id = id;
         this.masterItemId = masterItemId;
         this.title = title;
@@ -69,7 +71,7 @@ public class Theme implements Serializable{
         this.itemCount = itemCount;
         this.themeTagCount = themeTagCount;
         this.sortNu = sortNu;
-        this.isDestory = isDestory;
+        this.orDestory = orDestory;
         this.destoryUid = destoryUid;
         this.destoryAt = destoryAt;
         this.updateAt = updateAt;
@@ -203,12 +205,12 @@ public class Theme implements Serializable{
         this.sortNu = sortNu;
     }
 
-    public Boolean getDestory() {
-        return isDestory;
+    public Boolean getOrDestory() {
+        return orDestory;
     }
 
-    public void setDestory(Boolean destory) {
-        isDestory = destory;
+    public void setOrDestory(Boolean orDestory) {
+        this.orDestory = orDestory;
     }
 
     public Long getDestoryUid() {
@@ -317,7 +319,7 @@ public class Theme implements Serializable{
                 ", itemCount=" + itemCount +
                 ", themeTagCount=" + themeTagCount +
                 ", sortNu=" + sortNu +
-                ", isDestory=" + isDestory +
+                ", orDestory=" + orDestory +
                 ", destoryUid=" + destoryUid +
                 ", destoryAt=" + destoryAt +
                 ", updateAt=" + updateAt +
