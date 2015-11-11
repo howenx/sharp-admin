@@ -57,7 +57,7 @@ public class ProductCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result prodCreate(String lang) {
         Logger.debug(oss_provider.get().toString());
-        Logger.error(prodService.getParentCates().toString());
+//        Logger.error(prodService.getParentCates().toString());
         return ok(prodsadd.render(lang, prodService.getAllBrands(), prodService.getParentCates(),(User) ctx().args.get("user")));
     }
 
@@ -96,6 +96,7 @@ public class ProductCtrl extends Controller {
         }
         products.setPageSize(PAGE_SIZE);
         products.setOffset(1);
+        Logger.error(prodService.getAllProducts(products).toString());
         return ok(prodslist.render(lang,IMAGE_URL,PAGE_SIZE,countNum,pageCount,(User) ctx().args.get("user"), prodService.getAllProducts(products)));
     }
 
@@ -123,7 +124,6 @@ public class ProductCtrl extends Controller {
             }
             products.setPageSize(PAGE_SIZE);
             products.setOffset(offset);
-            Logger.error(products.toString());
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
             returnMap.put("prods",prodService.getAllProducts(products));
