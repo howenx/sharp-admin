@@ -17,7 +17,6 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ProdServiceImpl implements ProdService {
 
@@ -81,7 +80,7 @@ public class ProdServiceImpl implements ProdService {
      */
 
     @Override
-    public List<Cates> getSubCates(HashMap<String, Integer> hashMap) {
+    public List<Cates> getSubCates(HashMap<String, Long> hashMap) {
 
         return catesMapper.getSubCates(hashMap);
     }
@@ -101,14 +100,14 @@ public class ProdServiceImpl implements ProdService {
 
     /**
      * get all products from table.
-     * @param map
+     * @param products
      * @return List of entity.Products
      */
 
     @Override
-    public List<Products> getAllProducts(Map<String,Integer> map) {
+    public List<Products> getAllProducts(Products products) {
 
-        return this.productsMapper.getAllProducts(map);
+        return this.productsMapper.getAllProducts(products);
     }
 
     /**
@@ -144,7 +143,7 @@ public class ProdServiceImpl implements ProdService {
 
             Logger.debug(products.toString());
 
-            products.setMerchId(1001);
+            products.setMerchId(1001L);
             products.setProductState("Y");  //商品状态 'Y' 正常
             this.productsMapper.insertProducts(products);
             Long id = products.getId();

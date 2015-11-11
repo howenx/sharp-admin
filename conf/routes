@@ -2,17 +2,17 @@
 # 为了减少merge请覆盖空白行进行添加
 
 # Home page
-GET				/front                              controllers.Application.welcome(lang= "cn")
-GET				/$lang<(cn|en|kr)>/front            controllers.Application.welcome(lang)
-GET				/prodCreate              	        controllers.ProductCtrl.prodCreate(lang = "cn")
-GET				/$lang<(cn|en|kr)>/prodCreate       controllers.ProductCtrl.prodCreate(lang)
-GET             /getSubcates                        controllers.ProductCtrl.getSubCategory
-POST            /insertProducts                     controllers.ProductCtrl.insertProducts
-
-GET             /prodsList                          controllers.ProductCtrl.prodsList(lang = "cn")
-GET             /$lang<(cn|en|kr)>/prodsList        controllers.ProductCtrl.prodsList(lang)
-GET             /prodsDetail/:id                    controllers.ProductCtrl.prodsDetail(lang = "cn",id:Long)
-GET             /$lang<(cn|en|kr)>/prodsDetail/:id  controllers.ProductCtrl.prodsDetail(lang,id:Long)
+GET				/front                                                  controllers.Application.welcome(lang= "cn")
+GET				/$lang<(cn|en|kr)>/front                                controllers.Application.welcome(lang)
+GET				/prodCreate              	                            controllers.ProductCtrl.prodCreate(lang = "cn")
+GET				/$lang<(cn|en|kr)>/prodCreate                           controllers.ProductCtrl.prodCreate(lang)
+GET             /getSubcates                                            controllers.ProductCtrl.getSubCategory
+POST            /insertProducts                                         controllers.ProductCtrl.insertProducts
+POST            /$lang<(cn|en|kr)>/prodsList/$currPage<[0-9]+>          controllers.ProductCtrl.prodSearchAjax(lang,currPage:Int)
+GET             /prodsList                                              controllers.ProductCtrl.prodsList(lang = "cn")
+GET             /$lang<(cn|en|kr)>/prodsList                            controllers.ProductCtrl.prodsList(lang)
+GET             /prodsDetail/:id                                        controllers.ProductCtrl.prodsDetail(lang = "cn",id:Long)
+GET             /$lang<(cn|en|kr)>/prodsDetail/:id                      controllers.ProductCtrl.prodsDetail(lang,id:Long)
 
 
 

@@ -14,8 +14,8 @@ import play.mvc.Result;
 import play.mvc.Security;
 import service.ProdService;
 import views.html.prod.prodsadd;
-import views.html.prod.prodsdetail;
 import views.html.prod.prodslist;
+import views.html.prod.prodsdetail;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -32,7 +32,7 @@ import java.util.Map;
 public class ProductCtrl extends Controller {
 
     //每页固定的取数
-    public static final int PAGE_SIZE = 5;
+    public static final int PAGE_SIZE = 4;
 
     //图片服务器url
     public static final String IMAGE_URL = play.Play.application().configuration().getString("image.server.url");
@@ -51,12 +51,13 @@ public class ProductCtrl extends Controller {
 
     /**
      * ProductCtrl create page controller.
-     *
+     * @param lang 语言
      * @return Result
      */
     @Security.Authenticated(UserAuth.class)
     public Result prodCreate(String lang) {
         Logger.debug(oss_provider.get().toString());
+//        Logger.error(prodService.getParentCates().toString());
         return ok(prodsadd.render(lang, prodService.getAllBrands(), prodService.getParentCates(),(User) ctx().args.get("user")));
     }
 
@@ -69,44 +70,79 @@ public class ProductCtrl extends Controller {
 
     public Result getSubCategory() {
         DynamicForm form = Form.form().bindFromRequest();
-        Integer pcid = Integer.parseInt(form.get("pcid"));
-        HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
+        Long pcid = Long.parseLong(form.get("pcid"));
+        HashMap<String, Long> hashMap = new HashMap<String, Long>();
         hashMap.put("parentCateId", pcid);
         return ok(Json.toJson(prodService.getSubCates(hashMap)));
     }
 
     /**
      * get all products
-     * @param lang
+     * @param lang 语言
      * @return Result
      */
     @Security.Authenticated(UserAuth.class)
     public Result prodsList(String lang) {
-        Map<String,Integer> paramsMap = new HashMap<String,Integer>();
-        paramsMap.put("pageSize", -1);
-        paramsMap.put("offset", -1);
-
+        Products products = new Products();
+        products.setPageSize(-1);
+        products.setOffset(-1);
         //取总数
-        int countNum = prodService.getAllProducts(paramsMap).size();
+        int countNum = prodService.getAllProducts(products).size();
         //共分几页
         int pageCount = countNum/PAGE_SIZE;
 
         if(countNum%PAGE_SIZE!=0){
             pageCount = countNum/PAGE_SIZE+1;
         }
+        products.setPageSize(PAGE_SIZE);
+        products.setOffset(1);
+        Logger.error(prodService.getAllProducts(products).toString());
+        return ok(prodslist.render(lang,IMAGE_URL,PAGE_SIZE,countNum,pageCount,(User) ctx().args.get("user"), prodService.getAllProducts(products)));
+    }
 
-//        Integer offSet = (currentPage-1)*PAGE_SIZE;
-
-        paramsMap.put("pageSize", PAGE_SIZE);
-        paramsMap.put("offset", 1);
-
-        return ok(prodslist.render(lang,IMAGE_URL,PAGE_SIZE,countNum,pageCount,(User) ctx().args.get("user"), prodService.getAllProducts(paramsMap)));
+    /**
+     * ajax分页查询
+     * @param lang 语言
+     * @param currPage 当前页
+     * @return json
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result prodSearchAjax(String lang,int currPage) {
+        JsonNode json = request().body().asJson();
+        Products products = Json.fromJson(json,Products.class);
+        if(currPage>=1){
+            //每页开始记录数
+            int offset = (currPage-1)*PAGE_SIZE;
+            products.setPageSize(-1);
+            products.setOffset(-1);
+            //取总数
+            int countNum = prodService.getAllProducts(products).size();
+            //共分几页
+            int pageCount = countNum/PAGE_SIZE;
+            if(countNum%PAGE_SIZE!=0){
+                pageCount = countNum/PAGE_SIZE+1;
+            }
+            products.setPageSize(PAGE_SIZE);
+            products.setOffset(offset);
+            //组装返回数据
+            Map<String,Object> returnMap=new HashMap<>();
+            returnMap.put("prods",prodService.getAllProducts(products));
+            returnMap.put("currPage",currPage);
+            returnMap.put("countNum",countNum);
+            returnMap.put("pageCount",pageCount);
+            returnMap.put("pageSize",PAGE_SIZE);
+            return ok(Json.toJson(returnMap));
+        }
+        else{
+            return badRequest();
+        }
     }
 
     /**
      *
+     * @param lang 语言
      * @param id
-     * @return Result
+     * @return
      */
     @Security.Authenticated(UserAuth.class)
     public Result prodsDetail(String lang,Long id) {

@@ -3,22 +3,16 @@
 
 @scripts = {
 
-
-<!-- 日历-->
-
-
-<!--<link rel="stylesheet" href="/assets/css/xspsc.css"/>-->
 <link rel="stylesheet" href="/assets/css/list.css">
+
 <link rel="stylesheet" href="/assets/css/theme-search.css">
-
-<script src="/assets/js/search.js"></script>
-
 <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker.min.css"/>
 <script src="/assets/js/bootstrap-datetimepicker.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker.ko.js"></script>
 <script src="/assets/js/rili.js"></script>
-
+<script src="/assets/js/prodlist.js"></script>
+<script src="/assets/js/jquery-dateFormat.min.js"></script>
 <script>window.url = "@url"</script>
 <script>window.lang = "@lang"</script>
 
@@ -32,35 +26,35 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h3>商品管理</h3>
+                <h3>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsListTitle")</h3>
                 <table class="table table-bordered tbone">
                     <tr>
-                        <th>商品ID</th>
+                        <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.list.searchID")</th>
                         <td>
-                            <input type="text" class="form-control" style="border:1px solid #ccc; width:100%; height:34px;">
+                            <input id="id" type="number" min="10000" max="99999999" class="form-control" style="border:1px solid #ccc; width:100%; height:34px;">
                         </td>
-                        <th>商品名称</th>
+                        <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productName")</th>
                         <td>
-                            <input type="text" id="productName" name="productName" class="form-control" style="border:1px solid #ccc; width:100%; height:34px;">
+                            <input id="productName" type="text" min="10000" max="99999999" class="form-control" style="border:1px solid #ccc; width:100%; height:34px;">
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            <span>开始时间</span>
+                            <span>@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition3")</span>
                         </th>
                         <td>
                             <div  style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
-                                <input id = "topic-form-starttime" class="form-control" size="16" type="text" value="" readonly>
+                                <input id = "sellOnDate" class="form-control" size="16" type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
                         </td>
                         <th>
-                            <span>结束时间</span>
+                            <span>@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition4")</span>
                         </th>
                         <td>
                             <div  style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
-                                <input id = "topic-form-endtime"  class="form-control" size="16" type="text" value="" readonly>
+                                <input id = "sellOffDate"  class="form-control" size="16" type="text" value="" readonly>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
@@ -69,44 +63,63 @@
 
                     <tr>
                         <td colspan="4">
-                            <a href="#">搜索</a>
-                            <input type="reset" value="初始化"/>
+                            <a id="search" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
+                            <a id="reset" href="javascript:void(0)" class="btn btn-primary">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")</a>
                         </td>
                     </tr>
                 </table>
 
                 <div class="bgk">
-                    <table class="table table-bordered tbtwo l">
+                    <table id="prodsTab" class="table table-bordered tbtwo l">
+                        <thead>
                         <tr class="trone">
-                            <th>商品ID</th>
-                            <th>商品名称</th>
-                            <th>供货商</th>
-                            <th>品牌名称</th>
-                            <th>商品类别</th>
-                            <th>商品主图</th>
-                            <th>颜色</th>
-                            <th>尺寸</th>
-                            <th >销售开始日期</th>
-                            <th>销售结束日期</th>
-                            <th>市场价</th>
-                            <th>销售价</th>
+                            <th>
+                                @Messages.get(new Lang(Lang.forCode(lang)),"item.list.searchID")
+                                <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
+                            </th>
+                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productName")</th>
+                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</th>
+                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</th>
+                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</th>
+                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.masterImg")</th>
+                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productColor")</th>
+                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productSize")</th>
+                            <th>
+                                @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition3")
+                                <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
+                            </th>
+                            <th>
+                                @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition4")
+                                <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
+                            </th>
+                            <th>
+                                @Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")
+                                <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
+                            </th>
+                            <th>
+                                @Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")
+                                <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
+                            </th>
                         </tr>
-                        @for(p <- prodsList) {
-                        <tr>
-                            <td>@p.getId()</td>
-                            <td>@p.getProductName()</td>
-                            <td>@p.getMerchName()</td>
-                            <td>@p.getBrandId()</td>
-                            <td>@p.getCateId()</td>
-                            <td><img src="http://172.28.3.18:3008@p.getMasterImg()" alt="" width="40" height="40"/></td>
-                            <td>@p.getProductColor()</td>
-                            <td>@p.getProductSize()</td>
-                            <td>@p.getSellOnDate()</td>
-                            <td>@p.getSellOffDate()</td>
-                            <td>@p.getProductPrice()</td>
-                            <td>@p.getRecommendPrice()</td>
-                        </tr>
-                        }
+                        </thead>
+                        <tbody>
+                            @for(p <- prodsList) {
+                                <tr>
+                                    <td>@p.getId()</td>
+                                    <td>@p.getProductName()</td>
+                                    <td>@p.getMerchName()</td>
+                                    <td>@p.getBrandId()</td>
+                                    <td>@p.getCateId()</td>
+                                    <td><img class="main-img" src="@url@p.getMasterImg()" alt="" width="40" height="40"/></td>
+                                    <td>@p.getProductColor()</td>
+                                    <td>@p.getProductSize()</td>
+                                    <td>@p.getSellOnDate()</td>
+                                    <td>@p.getSellOffDate()</td>
+                                    <td>@p.getProductPrice()</td>
+                                    <td>@p.getRecommendPrice()</td>
+                                </tr>
+                            }
+                        </tbody>
                     </table>
                     <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
                     <div class="paging">
@@ -122,6 +135,13 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="goods-img-bg">
+    <div class="goods-bg"></div>
+    <div class="goods-img">
+        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
 </div>
 }

@@ -3,14 +3,12 @@
 
 @scripts = {
 
-
-
-
 <!-- 日历-->
 <link href="/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/xspsc.css"/>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script src="/assets/js/bootstrap-datetimepicker.ko.js"></script>
 
 <!-- edit -->
 <script type="text/javascript" charset="utf-8" src="/assets/editorphp/ueditor.config.js"></script>
@@ -52,21 +50,22 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</div></label>
                         <div class="col-sm-3">
+
                             <select class="form-control" id="categorySelect">
                                 <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
                                 @for(cates <- catesParentList) {
-                                @if(lang=="cn") {
-                                <option value="@cates.getCateId()">@cates.getCateNameCn()
-                                </option>
-                                }
-                                @if(lang=="en") {
-                                <option value="@cates.getCateId()">@cates.getCateNameEn()
-                                </option>
-                                }
-                                @if(lang=="kr") {
-                                <option value="@cates.getCateId()">@cates.getCateNameKr()
-                                </option>
-                                }
+                                    @if(lang=="cn") {
+                                    <option value="@cates.getCateId()">@cates.getCateNameCn()
+                                    </option>
+                                    }
+                                    @if(lang=="en") {
+                                    <option value="@cates.getCateId()">@cates.getCateNameEn()
+                                    </option>
+                                    }
+                                    @if(lang=="kr") {
+                                    <option value="@cates.getCateId()">@cates.getCateNameKr()
+                                    </option>
+                                    }
                                 }
                             </select>
                         </div>
@@ -412,9 +411,9 @@ $(function()  {
 function changeLang() {
     var lang = $("#language").val();
     if (lang == "") {
-        location.href='/itemCreate';
+        location.href='/prodCreate';
     } else {
-        location.href='/'+lang+'/itemCreate';
+        location.href='/'+lang+'/prodCreate';
     }
 
 }

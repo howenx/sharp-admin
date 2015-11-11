@@ -21,7 +21,7 @@ public class Products implements Serializable{
     /**
      * 供货商 id
      */
-    private Integer merchId;
+    private Long merchId;
 
     /**
      * 供货商 名称
@@ -36,7 +36,7 @@ public class Products implements Serializable{
     /**
      * 类别 id
      */
-    private Integer cateId;
+    private Long cateId;
 
     /**
      * 类别名称
@@ -46,7 +46,7 @@ public class Products implements Serializable{
     /**
      * 品牌 id
      */
-    private Integer brandId;
+    private Long brandId;
 
     /**
      * 品牌 名称
@@ -144,7 +144,7 @@ public class Products implements Serializable{
     /**
      * 删除 操作用户id
      */
-    private Integer destoryUid;
+    private Long destoryUid;
 
     /**
      * 最后更新日期
@@ -155,7 +155,7 @@ public class Products implements Serializable{
     /**
      * 最后更新操作用户id
      */
-    private Integer updateUid;
+    private Long updateUid;
 
     /**
      * 创建 日期
@@ -165,11 +165,18 @@ public class Products implements Serializable{
     /**
      * 创建 操作用户id
      */
-    private Integer createUid;
+    private Long createUid;
+
+    private Integer pageSize;
+    private Integer offset;
+    //按照哪个字段排序
+    private String sort;
+    //排序方式,降序,升序
+    private String order;
 
     public Products(){}
 
-    public Products(Long id, Integer merchId, String merchName, String language, Integer cateId, String cateName, Integer brandId, String brandName, String productName, String productColor, String productSize, String productDesc, String storeArea, String sourceArea, Timestamp sellOnDate, Timestamp sellOffDate, Integer productAmount, BigDecimal productPrice, BigDecimal recommendPrice, String masterImg, String previewImgs, String detailImgs, String features, String productState, boolean destory, Integer destoryUid, Timestamp updateDate, Integer updateUid, Timestamp createDate, Integer createUid) {
+    public Products(Long id, Long merchId, String merchName, String language, Long cateId, String cateName, Long brandId, String brandName, String productName, String productColor, String productSize, String productDesc, String storeArea, String sourceArea, Timestamp sellOnDate, Timestamp sellOffDate, Integer productAmount, BigDecimal productPrice, BigDecimal recommendPrice, String masterImg, String previewImgs, String detailImgs, String features, String productState, boolean destory, Long destoryUid, Timestamp updateDate, Long updateUid, Timestamp createDate, Long createUid, Integer pageSize, Integer offset, String sort, String order) {
         this.id = id;
         this.merchId = merchId;
         this.merchName = merchName;
@@ -200,6 +207,10 @@ public class Products implements Serializable{
         this.updateUid = updateUid;
         this.createDate = createDate;
         this.createUid = createUid;
+        this.pageSize = pageSize;
+        this.offset = offset;
+        this.sort = sort;
+        this.order = order;
     }
 
     @Override
@@ -235,6 +246,10 @@ public class Products implements Serializable{
                 ", updateUid=" + updateUid +
                 ", createDate=" + createDate +
                 ", createUid=" + createUid +
+                ", pageSize=" + pageSize +
+                ", offset=" + offset +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
                 '}';
     }
 
@@ -246,11 +261,11 @@ public class Products implements Serializable{
         this.id = id;
     }
 
-    public Integer getMerchId() {
+    public Long getMerchId() {
         return merchId;
     }
 
-    public void setMerchId(Integer merchId) {
+    public void setMerchId(Long merchId) {
         this.merchId = merchId;
     }
 
@@ -270,11 +285,11 @@ public class Products implements Serializable{
         this.language = language;
     }
 
-    public Integer getCateId() {
+    public Long getCateId() {
         return cateId;
     }
 
-    public void setCateId(Integer cateId) {
+    public void setCateId(Long cateId) {
         this.cateId = cateId;
     }
 
@@ -286,11 +301,11 @@ public class Products implements Serializable{
         this.cateName = cateName;
     }
 
-    public Integer getBrandId() {
+    public Long getBrandId() {
         return brandId;
     }
 
-    public void setBrandId(Integer brandId) {
+    public void setBrandId(Long brandId) {
         this.brandId = brandId;
     }
 
@@ -438,11 +453,11 @@ public class Products implements Serializable{
         this.destory = destory;
     }
 
-    public Integer getDestoryUid() {
+    public Long getDestoryUid() {
         return destoryUid;
     }
 
-    public void setDestoryUid(Integer destoryUid) {
+    public void setDestoryUid(Long destoryUid) {
         this.destoryUid = destoryUid;
     }
 
@@ -454,11 +469,11 @@ public class Products implements Serializable{
         this.updateDate = updateDate;
     }
 
-    public Integer getUpdateUid() {
+    public Long getUpdateUid() {
         return updateUid;
     }
 
-    public void setUpdateUid(Integer updateUid) {
+    public void setUpdateUid(Long updateUid) {
         this.updateUid = updateUid;
     }
 
@@ -470,12 +485,43 @@ public class Products implements Serializable{
         this.createDate = createDate;
     }
 
-    public Integer getCreateUid() {
+    public Long getCreateUid() {
         return createUid;
     }
 
-    public void setCreateUid(Integer createUid) {
+    public void setCreateUid(Long createUid) {
         this.createUid = createUid;
     }
 
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
 }
