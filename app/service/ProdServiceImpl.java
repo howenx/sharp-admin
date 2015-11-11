@@ -80,7 +80,7 @@ public class ProdServiceImpl implements ProdService {
      */
 
     @Override
-    public List<Cates> getSubCates(HashMap<String, Integer> hashMap) {
+    public List<Cates> getSubCates(HashMap<String, Long> hashMap) {
 
         return catesMapper.getSubCates(hashMap);
     }
@@ -143,7 +143,7 @@ public class ProdServiceImpl implements ProdService {
 
             Logger.debug(products.toString());
 
-            products.setMerchId(1001);
+            products.setMerchId(1001L);
             products.setProductState("Y");  //商品状态 'Y' 正常
             this.productsMapper.insertProducts(products);
             Long id = products.getId();

@@ -26,21 +26,21 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h3>商品管理</h3>
+                <h3>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsListTitle")</h3>
                 <table class="table table-bordered tbone">
                     <tr>
-                        <th>商品ID</th>
+                        <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.list.searchID")</th>
                         <td>
                             <input id="id" type="number" min="10000" max="99999999" class="form-control" style="border:1px solid #ccc; width:100%; height:34px;">
                         </td>
-                        <th>商品名称</th>
+                        <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productName")</th>
                         <td>
-                            <input id="productName" type="number" min="10000" max="99999999" class="form-control" style="border:1px solid #ccc; width:100%; height:34px;">
+                            <input id="productName" type="text" min="10000" max="99999999" class="form-control" style="border:1px solid #ccc; width:100%; height:34px;">
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            <span>开始时间</span>
+                            <span>@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition3")</span>
                         </th>
                         <td>
                             <div  style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
@@ -50,7 +50,7 @@
                             </div>
                         </td>
                         <th>
-                            <span>结束时间</span>
+                            <span>@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition4")</span>
                         </th>
                         <td>
                             <div  style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
@@ -74,30 +74,30 @@
                         <thead>
                         <tr class="trone">
                             <th>
-                                商品ID
+                                @Messages.get(new Lang(Lang.forCode(lang)),"item.list.searchID")
                                 <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
                             </th>
-                            <th>商品名称</th>
-                            <th>供货商</th>
-                            <th>品牌名称</th>
-                            <th>商品类别</th>
-                            <th>商品主图</th>
-                            <th>颜色</th>
-                            <th>尺寸</th>
+                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productName")</th>
+                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</th>
+                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</th>
+                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</th>
+                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.masterImg")</th>
+                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productColor")</th>
+                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productSize")</th>
                             <th>
-                                销售开始日期
-                                <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
-                            </th>
-                            <th>
-                                销售结束日期
+                                @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition3")
                                 <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
                             </th>
                             <th>
-                                市场价
+                                @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition4")
                                 <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
                             </th>
                             <th>
-                                销售价
+                                @Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")
+                                <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
+                            </th>
+                            <th>
+                                @Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")
                                 <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
                             </th>
                         </tr>
@@ -110,7 +110,7 @@
                                     <td>@p.getMerchName()</td>
                                     <td>@p.getBrandId()</td>
                                     <td>@p.getCateId()</td>
-                                    <td><img src="@url@p.getMasterImg()" alt="" width="40" height="40"/></td>
+                                    <td><img class="main-img" src="@url@p.getMasterImg()" alt="" width="40" height="40"/></td>
                                     <td>@p.getProductColor()</td>
                                     <td>@p.getProductSize()</td>
                                     <td>@p.getSellOnDate()</td>

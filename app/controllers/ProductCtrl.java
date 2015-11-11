@@ -57,6 +57,7 @@ public class ProductCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result prodCreate(String lang) {
         Logger.debug(oss_provider.get().toString());
+        Logger.error(prodService.getParentCates().toString());
         return ok(prodsadd.render(lang, prodService.getAllBrands(), prodService.getParentCates(),(User) ctx().args.get("user")));
     }
 
@@ -69,8 +70,8 @@ public class ProductCtrl extends Controller {
 
     public Result getSubCategory() {
         DynamicForm form = Form.form().bindFromRequest();
-        Integer pcid = Integer.parseInt(form.get("pcid"));
-        HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
+        Long pcid = Long.parseLong(form.get("pcid"));
+        HashMap<String, Long> hashMap = new HashMap<String, Long>();
         hashMap.put("parentCateId", pcid);
         return ok(Json.toJson(prodService.getSubCates(hashMap)));
     }

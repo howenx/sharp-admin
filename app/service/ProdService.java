@@ -38,7 +38,7 @@ public interface ProdService {
      * @param hashMap HashMap
      * @return List Cates entites.
      */
-    List<Cates> getSubCates(HashMap<String, Integer> hashMap);
+    List<Cates> getSubCates(HashMap<String, Long> hashMap);
 
     /**
      * get single products entity by id.

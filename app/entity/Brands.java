@@ -18,11 +18,6 @@ public class Brands implements Serializable {
 		private Long brandId;
 
 		/**
-		 * category id.
-		 */
-		private Integer cateId;
-
-		/**
 		 * brand chinese description.
 		 */
 		private String descriptionCn;
@@ -69,9 +64,8 @@ public class Brands implements Serializable {
 
 		public Brands(){}
 
-		public Brands(Long brandId, Integer cateId, String descriptionCn, String descriptionEn, String descriptionKo, String logoUrl, String homePage, Timestamp createDate, String brandNmCn, String brandNmEn, String brandNmKr) {
+		public Brands(Long brandId, String descriptionCn, String descriptionEn, String descriptionKo, String logoUrl, String homePage, Timestamp createDate, String brandNmCn, String brandNmEn, String brandNmKr) {
 			this.brandId = brandId;
-			this.cateId = cateId;
 			this.descriptionCn = descriptionCn;
 			this.descriptionEn = descriptionEn;
 			this.descriptionKo = descriptionKo;
@@ -87,7 +81,6 @@ public class Brands implements Serializable {
 		public String toString() {
 			return "Brands{" +
 					"brandId=" + brandId +
-					", cateId=" + cateId +
 					", descriptionCn='" + descriptionCn + '\'' +
 					", descriptionEn='" + descriptionEn + '\'' +
 					", descriptionKo='" + descriptionKo + '\'' +
@@ -106,14 +99,6 @@ public class Brands implements Serializable {
 
 		public void setBrandId(Long brandId) {
 			this.brandId = brandId;
-		}
-
-		public Integer getCateId() {
-			return cateId;
-		}
-
-		public void setCateId(Integer cateId) {
-			this.cateId = cateId;
 		}
 
 		public String getDescriptionCn() {

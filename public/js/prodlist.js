@@ -17,6 +17,7 @@ $(function() {
 		$(".goods-img").css("left", ($(window).width() - 1200) / 2);
 		$(this).clone().appendTo($(".goods-img")).css({
 			"width": "100%",
+			"height":"800px",
 			"z-index": 1000
 		});
 	})
