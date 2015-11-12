@@ -58,9 +58,10 @@ public interface ProdService {
     /**
      * insert products into prods table
      *
-     * @param jsonProds
+     * @param jsonProd
+     * @param jsonStocks
      * @return List<Long>
      */
-    List<Long> insertProducts(JsonNode jsonProds);
+    List<Long> insertProducts(JsonNode jsonProd, JsonNode jsonStocks);
 
 }

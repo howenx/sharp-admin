@@ -14,8 +14,8 @@ import play.mvc.Result;
 import play.mvc.Security;
 import service.ProdService;
 import views.html.prod.prodsadd;
-import views.html.prod.prodslist;
 import views.html.prod.prodsdetail;
+import views.html.prod.prodslist;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -163,12 +163,14 @@ public class ProductCtrl extends Controller {
         ObjectNode result = Json.newObject();
         result.put("result", false);
         DynamicForm form = Form.form().bindFromRequest();
-        String multiProducts = form.get("multiProducts");
+        String prods = form.get("prods");
+        String stocks = form.get("stocks");
+        JsonNode jsonProd =Json.parse(prods);
+        JsonNode jsonStocks =Json.parse(stocks);
+        Logger.error(jsonProd.toString());
+        Logger.error(jsonStocks.toString());
 
-        JsonNode json =Json.parse(multiProducts);
-        Logger.error(json.toString());
-
-        List<Long> list = prodService.insertProducts(json);
+        List<Long> list = prodService.insertProducts(jsonProd,jsonStocks);
         return ok(list.toString());
     }
 }

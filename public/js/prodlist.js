@@ -124,7 +124,7 @@ $(function() {
 							'<td>' + $(this)[0].merchName + '</td>' +
 							'<td>' + $(this)[0].brandId + '</td>' +
 							'<td>' + $(this)[0].cateId + '</td>' +
-							'<td>' + '<img class="main-img" src="' + window.url + $(this)[0].masterImg + '" alt="" width="50">' + '</td>' +
+							'<td>' + '<img class="main-img" src="' + window.url + $(this)[0].masterImg + '" alt="" width="50" height="50">' + '</td>' +
 							'<td>' + $(this)[0].productColor + '</td>' +
 							'<td>' + $(this)[0].productSize + '</td>' +
 							'<td>' + $(this)[0].sellOnDate + '</td>' +

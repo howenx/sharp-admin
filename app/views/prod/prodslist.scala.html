@@ -105,12 +105,12 @@
                         <tbody>
                             @for(p <- prodsList) {
                                 <tr>
-                                    <td>@p.getId()</td>
+                                    <td><a href="javascript:void(0)">@p.getId()</a></td>
                                     <td>@p.getProductName()</td>
                                     <td>@p.getMerchName()</td>
                                     <td>@p.getBrandId()</td>
                                     <td>@p.getCateId()</td>
-                                    <td><img class="main-img" src="@url@p.getMasterImg()" alt="" width="40" height="40"/></td>
+                                    <td><img class="main-img" src="@url@p.getMasterImg()" alt="" width="50" height="50"/></td>
                                     <td>@p.getProductColor()</td>
                                     <td>@p.getProductSize()</td>
                                     <td>@p.getSellOnDate()</td>

@@ -88,7 +88,7 @@
 
         <insert id="insertProducts" parameterType="entity.Products" useGeneratedKeys="true" keyProperty="id" >
                 insert into prods
-                (merch_uid,merch_nm,lang,cate_id,cate_nm,brand_id,brand_nm,prod_nm,prod_color,prod_size,prod_desc,store_area,src_area,sell_on_at,sell_off_at,prod_amount,prod_price,recommend_price,prod_master_img,prod_preview_imgs,prod_detail_imgs,prod_features,state,is_destory,destory_uid,update_at,update_uid,create_at,create_uid)
+                (merch_uid,merch_nm,lang,cate_id,cate_nm,brand_id,brand_nm,prod_nm,prod_color,prod_size,prod_desc,store_area,src_area,sell_on_at,sell_off_at,prod_amount,prod_price,recommend_price,prod_master_img,prod_preview_imgs,prod_detail_imgs,prod_features,state,or_destory,destory_uid,update_at,update_uid,create_at,create_uid)
                 values
                 (#{merchId},#{merchName},#{language},#{cateId},#{cateName},#{brandId},#{brandName},#{productName},#{productColor},#{productSize},#{productDesc},#{storeArea},#{sourceArea},#{sellOnDate},#{sellOffDate},#{productAmount},#{productPrice},#{recommendPrice},#{masterImg},#{previewImgs},#{detailImgs},#{features},#{productState},#{destory},#{destoryUid},#{updateDate},#{updateUid},CURRENT_TIMESTAMP(0),#{createUid})
         </insert>
