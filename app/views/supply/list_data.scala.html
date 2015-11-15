@@ -1,0 +1,70 @@
+@import scala.collection.immutable._
+
+@(lang:String="cn",products:List[Map[String, Any]],start:Int)
+@import scala.Int; var count =0; var category_id = 0;
+<div style="margin-top:20px">
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th>商品ID</th>
+            <th>商品名称</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+
+        @for(p <-products) {
+
+        @{if(count == 0) {count=p(".count").toString.toInt; category_id = p("products.category_id").toString.toInt}}
+        <tr>
+            <td>@p("products.product_id")</td>
+            <td>@p("products.name")</td>
+            <td>
+                @p("products.status") match {
+                   case "I" => {未翻译}
+                   case "T" => {已翻译}
+                }
+            </td>
+            <td> <a href="/supply/translation/@p("products.product_id")">翻译</a> <a href="/supply/@p("products.product_id")">显示</a>
+                <a href="/supply/append/@p("products.product_id")">追加</a></td>
+        </tr>
+
+        }
+    </table>
+    @pages(start,15,count,"/supply/list?id="+category_id)
+
+</div>
+
+@import scala.Int; var f = 0; var t = 0 ;
+@pages(start:Int, size:Int, total:Int, url:String) = {
+
+@{f=((start/15).floor * 5).toInt }
+@if((f+5)*15 >= total) {
+@{t=(total/15) +1}
+}else {
+@{t=f+5}
+}
+<nav class="pull-right">
+    <ul class="pagination">
+        <li>
+            @if(start <=1) {
+            <a href="#" aria-label="Previous">
+                }else {
+                <a href="javascript:load('@{url + "&start=" + (start-1)}')" aria-label="Previous">
+                }
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        @for(s <- f.max(1) to t) {
+        <li><a href="javascript:load('@{url + "&start=" + s}');">@s</a></li>
+        }
+        <li>
+            @if(start < t) {
+            <a href="javascript:load('@{url + "&start=" + (start+1)}')" aria-label="Next">
+            } else {
+            <a href="#" aria-label="Next">
+                }
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+}

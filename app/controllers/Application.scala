@@ -19,6 +19,8 @@ import scala.util.Try
 @Inject
 class Application @Inject()(val messagesApi: MessagesApi) extends Controller with Secured with I18nSupport {
 
+  val size = 15
+
   def welcome(lang:String) = withUser { user => {
     implicit request => {
 //      val lang = request.getQueryString("lang") match {
@@ -31,7 +33,7 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
       //Ok(views.html.welcome("cn",request.session.get("username").getOrElse(""))).withLang(lang)
       user.role match {
         case User_Type.SELLER =>
-          Redirect(routes.Application.supply())
+          Redirect(routes.Application.supply_init())
         case _ =>
           Ok(views.html.welcome(lang, user))
       }
@@ -55,11 +57,117 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
 //  }
 //  }
 
-  def list_supply = withUser { user => {
+  def list_supply(id:Option[Int], start:Int) = withUser { user => {
     implicit  request => {
-      val ret = Prod.list(Prod_Type.hzp)
-      Logger.debug(ret.toString())
-      Ok(views.html.supply.list("cn",user, ret))
+      id match {
+        case Some(category_id) =>
+          val ret = Prod.list(Prod_Type.apply(id.get), start, size)
+          Logger.debug(ret.toString())
+          Ok(views.html.supply.list_data("cn", ret, start))
+        case None =>
+          val ret = Prod.list(Prod_Type.hzp, start, size)
+          //Logger.debug(ret.toString())
+          Ok(views.html.supply.list("cn", user, ret, start))
+      }
+    }
+  }
+
+  }
+
+  def append(id:Long) = withUser { user => {
+    implicit request => {
+      Prod.find_by_id(id) match {
+        case Some(p) =>
+
+          Ok(views.html.supply.append("cn", user, p))
+        case None =>
+          BadRequest("no product.")
+      }
+    }
+  }
+
+  }
+
+  def append_add() = withUser { user => {
+    implicit request => {
+      request.body.asFormUrlEncoded match {
+        case Some(map) =>
+          var m = map.map { case (k, v) => k -> v.head }
+          val product_id = m("product_id")
+          m -= ("product_id")
+          Logger.debug(s"$m")
+          val audit_string = Json.toJson(m).toString()
+          Prod.append(product_id.toLong, audit_string)
+          Redirect(routes.Application.list_supply(None))
+        case None =>
+          BadRequest("append error")
+      }
+    }
+
+  }
+  }
+
+  def translation(id:Long) = withUser { user => {
+    implicit request => {
+      Prod.find_by_id(id) match {
+        case Some(p) =>
+
+          Ok(views.html.supply.translation("cn", user, p))
+        case None =>
+          BadRequest("no product.")
+      }
+
+    }
+  }
+
+  }
+
+  def show(id:Long) = withUser { user => {
+    implicit  request => {
+      Ok("ok")
+    }
+  }
+
+  }
+
+  def supply_init() = withUser { user => {
+    implicit  request => {
+      request.body.asFormUrlEncoded match {
+        case Some(map) =>
+          Logger.debug("init post")
+          var m  = map.map{case(k,v) => k->v.head}
+          val p_type = m("p_type")
+          m -= ("p_type")
+          val name = m("name")
+          val kr_string = Json.toJson(m).toString()
+          Prod.init(Prod_Type.withName(p_type),name, kr_string)
+
+          Redirect(routes.Application.supply_init()).flashing("message" -> "成功(성공)","state" -> "success")
+        case None =>
+          Logger.debug("init supply")
+          Ok(views.html.supply.supply("cn", user))
+
+      }
+    }
+  }
+
+  }
+
+  def update_kr() = withUser { user => {
+    implicit request => {
+      request.body.asFormUrlEncoded match {
+        case Some(map) =>
+          var m  = map.map{case(k,v) => k->v.head}
+          val p_type = m("p_type")
+          m -= ("p_type")
+          val product_id = m("product_id")
+          m -= ("product_id")
+          val kr_string = Json.toJson(m).toString()
+          Prod.update_krstring(product_id.toLong, kr_string )
+          Redirect(routes.Application.list_supply(None))
+        case None =>
+          BadRequest("error")
+      }
     }
   }
 
@@ -69,7 +177,7 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
     * 供应商提供信息表格
     * @return
     */
-  def supply = withUser { user => {
+  def supply() = withUser { user => {
     implicit request => {
       Logger.debug(s" $user")
 
@@ -80,6 +188,8 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
           var m  = map.map{case(k,v) => k->v.head}
           val p_type = m("p_type")
           m -= ("p_type")
+          val product_id = m("product_id")
+          m -= ("product_id")
           Prod_Type.withName(p_type) match {
             case Prod_Type.hzp =>
               Logger.debug(m.toString())
@@ -123,9 +233,9 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
               //得到扩展数据
               val extra = Json.toJson(m).toString()
 
-              Prod.insert(Prod_Type.hzp, name, tags, attr, spec, images, price, market_price, amount, extra)
+              Prod.update( product_id.toLong, Prod_Type.hzp, name, tags, attr, spec, images, price, market_price, amount, extra)
             //val price = map(price)
-              Redirect(routes.Application.supply())
+              Redirect(routes.Application.list_supply(None))
 
             //map -= (name","price")
 
@@ -168,9 +278,9 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
 
               Logger.debug(extra)
 
-              Prod.insert(Prod_Type.ps, name, tags, attr, spec, images, price, market_price, amount, extra)
+              Prod.update(product_id.toLong, Prod_Type.ps, name, tags, attr, spec, images, price, market_price, amount, extra)
 
-              Redirect(routes.Application.supply())
+              Redirect(routes.Application.list_supply(None))
 
             case Prod_Type.fs =>
               Logger.debug(m.toString())
@@ -197,12 +307,12 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
               m -= ("image")
 
               //得到属性
-              val attr_set = Set("批次","一级分类","二级分类","三级分类")
+              val attr_set = Set("批次","型号","颜色")
               val attr = Json.toJson(m.filterKeys(attr_set.contains(_))).toString()
               m --= attr_set
 
               //得到规格
-              val spec_set = Set("型号","颜色","功能")
+              val spec_set = Set("一级分类","二级分类","三级分类")
               val spec = Json.toJson(m.filterKeys(spec_set.contains(_))).toString()
               m --= spec_set
 
@@ -213,14 +323,14 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
 
               Logger.debug(extra)
 
-              Prod.insert(Prod_Type.fs, name, tags, attr, spec, images, price, market_price, amount, extra)
+              Prod.update(product_id.toLong, Prod_Type.fs, name, tags, attr, spec, images, price, market_price, amount, extra)
 
-              Redirect(routes.Application.supply())
+              Redirect(routes.Application.list_supply(None))
           }
 
 
         case None =>
-
+          Logger.debug("get...")
           Ok(views.html.supply.supply("cn", user))
 
 

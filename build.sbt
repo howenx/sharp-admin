@@ -34,6 +34,9 @@ libraryDependencies += "com.github.mumoshu" %% "play2-memcached-play24" % "0.7.0
 libraryDependencies += "com.aliyun.oss" % "aliyun-sdk-oss" % "2.0.1" withSources() withJavadoc()
 libraryDependencies += "com.typesafe.play" %% "anorm" % "2.5.0" withSources() withJavadoc()
 
+libraryDependencies += "org.apache.poi" % "poi" % "3.13" withSources() withJavadoc()
+libraryDependencies += "org.apache.poi" % "poi-ooxml" % "3.13" withSources() withJavadoc()
+
 // 检查代码中使用的过时类细节
 javacOptions += "-Xlint:deprecation"
 //  javacOptions ++= Seq("-source", "1.8", "-target", "1.8","-deprecation")
