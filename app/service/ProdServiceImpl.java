@@ -17,7 +17,6 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ProdServiceImpl implements ProdService {
 
@@ -81,7 +80,7 @@ public class ProdServiceImpl implements ProdService {
      */
 
     @Override
-    public List<Cates> getSubCates(HashMap<String, Integer> hashMap) {
+    public List<Cates> getSubCates(HashMap<String, Long> hashMap) {
 
         return catesMapper.getSubCates(hashMap);
     }
@@ -101,66 +100,58 @@ public class ProdServiceImpl implements ProdService {
 
     /**
      * get all products from table.
-     * @param map
+     * @param products
      * @return List of entity.Products
      */
 
     @Override
-    public List<Products> getAllProducts(Map<String,Integer> map) {
+    public List<Products> getAllProducts(Products products) {
 
-        return this.productsMapper.getAllProducts(map);
+        return this.productsMapper.getAllProducts(products);
     }
 
     /**
      * insert products into prods table.
      *
-     * @param json
+     * @param jsonProd
+     * @param jsonStocks
      * @return boolean
      */
-
     @Override
-    public List<Long> insertProducts(JsonNode json) {
+    public List<Long> insertProducts(JsonNode jsonProd, JsonNode jsonStocks) {
 
         List<Long> list = new ArrayList<>();
-        for (final JsonNode jsonNode : json) {
-//            String sellOnDate=jsonNode.findValue("sellOnDate").toString();
-//            String sellOffDate=jsonNode.findValue("sellOffDate").toString();
-//            if (jsonNode.has("sellOnDate")) {
-//                ((ObjectNode) jsonNode).putNull("sellOnDate");
-//            }
-//            if (jsonNode.has("sellOffDate")) {
-//                ((ObjectNode) jsonNode).putNull("sellOffDate");
-//            }
+        if (jsonProd.has("productColor")) {
+            ((ObjectNode) jsonProd).put("productColor",jsonProd.findValue("productColor").toString());
+        }
+        if (jsonProd.has("productColor")) {
+            ((ObjectNode) jsonProd).put("productSize",jsonProd.findValue("productSize").toString());
+        }
+        if (jsonProd.has("previewImgs")) {
+            ((ObjectNode) jsonProd).put("previewImgs",jsonProd.findValue("previewImgs").toString());
+        }
+        if (jsonProd.has("detailImgs")) {
+            ((ObjectNode) jsonProd).put("detailImgs",jsonProd.findValue("detailImgs").toString());
+        }
+        if (jsonProd.has("features")) {
+            ((ObjectNode) jsonProd).put("features",jsonProd.findValue("features").toString());
+        }
+        Products products = Json.fromJson(jsonProd, Products.class);
+        Logger.error(products.toString());
+        products.setMerchId(1001L);
+        products.setProductState("Y");  //商品状态 'Y' 正常
+        this.productsMapper.insertProducts(products);
+
+        //往库存表插入数据
+        for (final JsonNode jsonNode : jsonStocks) {
+            Long id = products.getId();
             if (jsonNode.has("previewImgs")) {
                 ((ObjectNode) jsonNode).put("previewImgs",jsonNode.findValue("previewImgs").toString());
             }
-            if (jsonNode.has("detailImgs")) {
-                ((ObjectNode) jsonNode).put("detailImgs",jsonNode.findValue("detailImgs").toString());
-            }
-            if (jsonNode.has("features")) {
-                ((ObjectNode) jsonNode).put("features",jsonNode.findValue("features").toString());
-            }
-            Products products = Json.fromJson(jsonNode, Products.class);
-
-            Logger.debug(products.toString());
-
-            products.setMerchId(1001);
-            products.setProductState("Y");  //商品状态 'Y' 正常
-            this.productsMapper.insertProducts(products);
-            Long id = products.getId();
-
-            Stock stock = new Stock();
+            Stock stock = Json.fromJson(jsonNode, Stock.class);
             stock.setProductId(products.getId());
-            stock.setProductColor(products.getProductColor());
-            stock.setProductSize(products.getProductSize());
-            stock.setProductAmount(products.getProductAmount());
-            stock.setProductPrice(products.getProductPrice());
-            stock.setRecommendPrice(products.getRecommendPrice());
-            stock.setPreviewImgs(products.getPreviewImgs());
             Logger.error(stock.toString());
-            //往库存表插入数据
             this.stockMapper.insertStock(stock);
-
             Logger.error(id.toString());
             list.add(products.getId());
         }

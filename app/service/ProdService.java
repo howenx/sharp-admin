@@ -7,7 +7,6 @@ import entity.Products;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public interface ProdService {
 
@@ -39,7 +38,7 @@ public interface ProdService {
      * @param hashMap HashMap
      * @return List Cates entites.
      */
-    List<Cates> getSubCates(HashMap<String, Integer> hashMap);
+    List<Cates> getSubCates(HashMap<String, Long> hashMap);
 
     /**
      * get single products entity by id.
@@ -51,17 +50,18 @@ public interface ProdService {
 
     /**
      * get All products from table
-     * @param map
+     * @param products
      * @return List of Products
      */
-    List<Products> getAllProducts(Map<String,Integer> map);
+    List<Products> getAllProducts(Products products);
 
     /**
      * insert products into prods table
      *
-     * @param jsonProds
+     * @param jsonProd
+     * @param jsonStocks
      * @return List<Long>
      */
-    List<Long> insertProducts(JsonNode jsonProds);
+    List<Long> insertProducts(JsonNode jsonProd, JsonNode jsonStocks);
 
 }

@@ -1,24 +1,4 @@
 $(function(){
-    /*日历*/
-    $('.form_datetime').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
-        language:  'zh-CN',
-        minuteStep:10,
-        weekStart: 7,
-        todayBtn:  1 ,
-        autoclose: 1,
-        todayHighlight: 1,
-        keyboardNavigation:1,
-        startView: 2,
-        forceParse: 1,
-//        showMeridian: 1,
-        minView:0,
-        maxView:4,
-        pickerPosition: "bottom-left"
-    });
-
-    $('#datetimepicker').datetimepicker();
-
     /** 添加颜色 **/
     $(document).on('click','.yanse .add',function() {
         var color = $(this).parent().prev().children().first().children().first().val();
@@ -29,13 +9,11 @@ $(function(){
             $("<li>").html('<span><input type="text" class="colorIn" name="productColor"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
     });
 
-    /** 颜色变化 添加到尺寸列表,数量价格表格和预览图区域中**/
+    /** 颜色变化 添加到数量价格表格和预览图区域中**/
     $(document).on('keyup','.colorIn',function() {
         var addColor = document.getElementById("addColor");
         var colors = addColor.getElementsByTagName("input");
         var len = colors.length;
-        var addSize = document.getElementById("addSize");
-        addSize.innerHTML = "";
         var numpri = document.getElementById("numpri");
         numpri.innerHTML = "";
         var preImgs = document.getElementById("preImgs");
@@ -51,38 +29,6 @@ $(function(){
         tr4.innerHTML = '<td >'+$('#pri').val()+'</td>';
         tr5.innerHTML = '<td >'+$('#spri').val()+'</td>';
         for(i=0; i<len; i++) {
-            //每项颜色添加到尺寸列表中
-            var div = document.createElement("div");
-            var spancn = document.createElement("span");
-            spancn.classList.add('l');
-            var br1 = document.createElement("br");
-            var br2 = document.createElement("br");
-            spancn.innerText = colors[i].value;
-            var ul = document.createElement("ul");
-            ul.classList.add('l');
-            var li1 = document.createElement("li");
-            var spansn = document.createElement("span");
-            var input = document.createElement("input");
-            input.classList.add('sizeIn');
-            var button = document.createElement("button");
-            button.classList.add('close');
-            $(button).append('<span>&times;</span>');
-            var li2 = document.createElement("li");
-            li2.style.border="0px";
-            var spanadd = document.createElement("span");
-            spanadd.classList.add('add');
-            spanadd.innerText = "+";
-            addSize.appendChild(div);
-            spansn.appendChild(input);
-            li1.appendChild(spansn);
-            li1.appendChild(button);
-            li2.appendChild(spanadd);
-            ul.appendChild(li1);
-            ul.appendChild(li2);
-            div.appendChild(spancn);
-            div.appendChild(br1);
-            div.appendChild(br2);
-            div.appendChild(ul);
             //颜色添加到数量价格表格中
             var td1 = document.createElement("td");
             var td2 = document.createElement("td");
@@ -90,7 +36,7 @@ $(function(){
             var td4 = document.createElement("td");
             var td5 = document.createElement("td");
             td1.innerText = colors[i].value;
-            td2.innerText = "";
+            td2.innerText = " ";
             tr1.appendChild(td1);
             tr2.appendChild(td2);
             tr3.appendChild(td3);
@@ -169,26 +115,18 @@ $(function(){
     /** 删除颜色 **/
     $(document).on('click','.yanse .close',function() {
         $(this).parent().remove();
-        //删除尺寸列表中对应的颜色
+        //删除数量价格表格中对应的颜色
         var thiscol = $(this).prev().children().first().val();
         var addSize = document.getElementById("addSize");
-        var spans = addSize.getElementsByTagName("span");
-        for(i=0;i<spans.length;i++) {
-            if (spans[i].className=="l" && spans[i].innerText==thiscol) {
-                spans[i].parentNode.remove();
-                break;
-            }
-        }
-        //删除数量价格表格中对应的颜色
+        var sizes = addSize.getElementsByTagName("input");
         var numpri = document.getElementById("numpri");
         var tr1 = numpri.getElementsByTagName("tr")[0].getElementsByTagName("td");
         var tr2 = numpri.getElementsByTagName("tr")[1].getElementsByTagName("td");
         var index = 0;
         for(i=1;i<tr1.length;i++) {
-            var sizenum = tr1[i].colSpan;
             if(tr1[i].innerText == thiscol) {
                 $("table tr").eq(0).find("td").eq(i).remove();
-                for(j=0;j<sizenum;j++) {
+                for(j=0;j<sizes.length;j++) {
                      $("table tr").eq(1).find("td").eq(index).remove();
                      $("table tr").eq(2).find("td").eq(index+1).remove();
                      $("table tr").eq(3).find("td").eq(index+1).remove();
@@ -196,7 +134,7 @@ $(function(){
                 }
                 break;
             }
-            for(j=0;j<sizenum;j++) {
+            for(j=0;j<sizes.length;j++) {
                 index++;
             }
         }
@@ -223,7 +161,10 @@ $(function(){
 
     /** 尺寸变化,添加到数量价格表格中 **/
     $(document).on('keyup','.sizeIn',function() {
-        var divs = document.getElementById("addSize").getElementsByTagName("div");
+         var addSize = document.getElementById("addSize");
+         var sizes = addSize.getElementsByTagName("input");
+         var addColor = document.getElementById("addColor");
+         var colors = addColor.getElementsByTagName("input");
         var numpri = document.getElementById("numpri");
         var tr1 = document.createElement("tr");
         var tr2 = document.createElement("tr");
@@ -244,17 +185,14 @@ $(function(){
         tr3.appendChild(tda);
         tr4.appendChild(tdp);
         tr5.appendChild(tdsp);
-        var ul = document.getElementById("addSize").getElementsByTagName("ul");
-        for(j=0;j<divs.length;j++) {
-             var scn = divs[j].getElementsByTagName("span")[0].innerText; //取得颜色值
-             var li = divs[j].getElementsByTagName("li");
-             var snum = li.length-1; //每种颜色的尺寸数
+        for(j=0;j<colors.length;j++) {
+             var colname = colors[j].value; //取得颜色值
              var td = document.createElement("td");
-             td.setAttribute('colspan',snum);
-             td.innerText= scn;
+             td.setAttribute('colspan',sizes.length);
+             td.innerText= colname;
              tr1.appendChild(td);
-             for (k=0;k<snum;k++) { //取得每项尺寸
-                si = li[k].getElementsByTagName("span")[0].getElementsByTagName("input")[0].value;
+             for (k=0;k<sizes.length;k++) { //取得每项尺寸
+                sizename = sizes[k].value;
                 var tdsi = document.createElement("td");
                 var tdam = document.createElement("td");
                 var tdpr = document.createElement("td");
@@ -265,7 +203,7 @@ $(function(){
                 inp1.name="productAmount";
                 inp2.name="productPrice";
                 inp3.name="recommendPrice";
-                tdsi.innerText = si;
+                tdsi.innerText = sizename;
                 tdam.appendChild(inp1);
                 tdpr.appendChild(inp2);
                 tdspr.appendChild(inp3);
@@ -284,31 +222,37 @@ $(function(){
 
     /** 删除尺寸 **/
     $(document).on('click','.size .close',function() {
-        var thiscol = $(this).parent().parent().parent().children().first().text();
-        $(this).parent().remove();
+        size = $(this).prev().children().first().val();
         //删除数量价格表格中对应的尺寸
         var numpri = document.getElementById("numpri");
         var tr1 = numpri.getElementsByTagName("tr")[0].getElementsByTagName("td");
         var tr2 = numpri.getElementsByTagName("tr")[1].getElementsByTagName("td");
-        for(i=0;i<tr2.length;i++) {
-            if($(this).prev().children().first().val()==tr2[i].innerText) {
-                $("table tr").eq(1).find("td").eq(i).remove();
-                $("table tr").eq(2).find("td").eq(i+1).remove();
-                $("table tr").eq(3).find("td").eq(i+1).remove();
-                $("table tr").eq(4).find("td").eq(i+1).remove();
-            }
-        }
+        len = tr2.length;
         for(i=1;i<tr1.length;i++) {
-            if (thiscol==tr1[i].innerText) {
-                var colSpan = tr1[i].colSpan;
-                if (colSpan==1) {
-                   $("table tr").eq(0).find("td").eq(i).remove();
-                } else {
-                    tr1[i].setAttribute('colspan',colSpan-1);
+            var colSpan = tr1[i].colSpan;
+            for(j=0;j<len;j++) {
+                if (colSpan==1) $("table tr").eq(0).find("td").eq(1).remove();
+                if(size==tr2[j].innerText) {
+                    $("table tr").eq(1).find("td").eq(j).remove();
+                    $("table tr").eq(2).find("td").eq(j+1).remove();
+                    $("table tr").eq(3).find("td").eq(j+1).remove();
+                    $("table tr").eq(4).find("td").eq(j+1).remove();
+                    len -= 1;
                     break;
                 }
             }
+            if (colSpan != 1) tr1[i].setAttribute('colspan',colSpan-1);
+            if (colSpan==1) {
+                for(k=0;k<len;k++) {
+                     $("table tr").eq(0).find("td").eq(1).remove();
+                     $("table tr").eq(1).find("td").eq(0).remove();
+                     $("table tr").eq(2).find("td").eq(1).remove();
+                     $("table tr").eq(3).find("td").eq(1).remove();
+                     $("table tr").eq(4).find("td").eq(1).remove();
+                }
+            }
         }
+         $(this).parent().remove();
     });
 
     $(document).on('click','.fdel .big',function() {
@@ -356,16 +300,19 @@ $(function(){
         $(this).parent().remove();
     });
 
+
     /** 数据提交 **/
     $("#submitProducts").click(function(){
-        var isPost = false;
-        var numberReg =  /[0-9]+/igm;
-        var multiProducts = "[";
+        var isPost = true;
+        var numberReg1 =    /^-?\d+$/;   //正整数
+        var numberReg2 =    /^-?\d+\.?\d{0,2}$/;   //整数或小数
+        var prods = "{";    //prods表存入数据
+        var stocks = "[";    //stock表存入数据
         //必填项不能有空值
         if ($("#language").val=="" || $("#categorySubSelect").val()=="" || $("#bandSelect").val()=="" || $("#productName").val==""
             || $("#sourceArea").val=="" || $("#sellOnDate").val=="" || $("#sellOffDate").val=="") {
-            alert("必填项不能为空");
             isPost=false;
+            alert("必填项不能为空");
         }
 
         //验证输入的库存量和价格符合规则
@@ -375,24 +322,28 @@ $(function(){
         var productPrice = document.getElementsByName("productPrice");
         var recommendPrice = document.getElementsByName("recommendPrice");
         if (productColor[productColor.length-1].value=="") {
-            alert("颜色不能有空值!");
+            isPost = false;
+            if (window.lang=="cn") $("#warn-color").text("颜色不能有空值");
+            else $("#warn-color").text("color can't be null");
         }
         for(i=0;i<productSize.length;i++) {
             if (productSize[i].value=="") {
-                alert("尺寸不能有空值!");
+                isPost = false;
+                if (window.lang=="cn") $("#warn-size").text("尺寸不能有空值");
+                else $("#warn-size").text("size can't be null");
                 break;
             }
         }
         for(i=0;i<productAmount.length;i++){
-            if (!numberReg.test(productAmount[i].value)) {
-                alert("库存量为正整数!");
-                isPost=false;
-                break;
+            if (!numberReg1.test(productAmount[i].value)) {
+                isPost = false;
+                if (window.lang=="cn") $("#warn-amount").text("库存量为正整数");
+                else $("#warn-amount").text("product amount must be integer");
             }
-            if (!numberReg.test(productPrice[i].value) && !numberReg.test(recommendPrice[i].value)) {
-                alert("价格为整数或小数!");
-                isPost=false;
-                break;
+            if (!numberReg2.test(productPrice[i].value) && !numberReg2.test(recommendPrice[i].value)) {
+                isPost = false;
+                if (window.lang=="cn") $("#warn-price").text("价格为整数或小数");
+                else $("#warn-price").text("price is integer or decimal");
             }
         }
         var language = $("#language").val();
@@ -408,7 +359,9 @@ $(function(){
         var galleryM = document.getElementById("galleryM");
         var masterImgLen = galleryM.getElementsByTagName("input").length;
         if (masterImgLen<1) {
-            alert("请上传商品主图!");
+            isPost = false;
+            if (window.lang=="cn") $("#warn-mastImg").text("请上传商品主图");
+            else $("#warn-mastImg").text("please upload master image");
         } else {
             masterImg = galleryM.getElementsByTagName("input")[0].value;
         }
@@ -426,27 +379,48 @@ $(function(){
         var attrV = document.getElementsByName("attrV");
         for(i=0; i<attrN.length; i++) {
             if (attrN[i].value=="" || attrV[i].value=="") {
-                alert("属性名或值不能有空!");
-                isPost=false;
+                isPost = false;
+                if (window.lang=="cn") $("#warn-attr").text("属性名或值不能有空");
+                else $("#warn-attr").text("attribute or attribute value can't be value");
             }
             features = features + '\"' + attrN[i].value + '\"' + ":" + '\"' + attrV[i].value + '\"' +",";
         }
         features = features.substring(0,features.length - 1) + "}";
-        //获取颜色价格表格中的数据
+         //拼装prod数据
+         var productColor="[";
+         var productSize="[";
+         var productAmount="";
+         var productPrice="";
+         var recommendPrice="";
+         var previewImgs="[";
+         var colors = document.getElementById("addColor").getElementsByTagName("input");
+         for (i=0;i<colors.length;i++) {
+            productColor += '\"' + colors[i].value + '\"' + ",";
+         }
+         productColor = productColor.substring(0,productColor.length - 1) + "]";
+         var sizes = document.getElementById("addSize").getElementsByTagName("input");
+         for (i=0;i<sizes.length;i++) {
+            productSize += '\"' + sizes[i].value + '\"' + ",";
+         }
+         productSize = productSize.substring(0,productSize.length - 1) + "]";
+         var preImgs = document.getElementById("preImgs");
+         var prepics = preImgs.getElementsByClassName("imgk")[0].getElementsByTagName("div");;
+         for(i=0;i<prepics.length;i++) {
+            previewImgs += '\"' + prepics[i].getElementsByTagName("input")[0].value + '\"' + ",";
+         }
+         previewImgs = previewImgs.substring(0,previewImgs.length - 1) + "]";
+        //获取数量价格表格中的数据 拼装stock数据
         var numpri = document.getElementById("numpri");
         var tr1 = numpri.getElementsByTagName("tr")[0].getElementsByTagName("td");
         var tr2 = numpri.getElementsByTagName("tr")[1].getElementsByTagName("td");
         var tr3 = numpri.getElementsByTagName("tr")[2].getElementsByTagName("td");
         var tr4 = numpri.getElementsByTagName("tr")[3].getElementsByTagName("td");
         var tr5 = numpri.getElementsByTagName("tr")[4].getElementsByTagName("td");
-        var productColor="";
         var index = 0;
-        var preImgs = document.getElementById("preImgs");
         var spancols = preImgs.getElementsByTagName("span");
-
         for(i=1;i<tr1.length;i++) {
-            var previewImgs="[";
-            productColor = tr1[i].innerText;
+            var stockPreImgs = "[";
+            var stockColor = tr1[i].innerText;
             for(k=0;k<spancols.length;k++) {
                 if (spancols[k].className=="ysfont" && spancols[k].innerText==tr1[i].innerText) {
                     var id = spancols[k].parentNode.parentNode.lastChild.id;
@@ -454,58 +428,71 @@ $(function(){
                     if (id!=null) {
                         pics = document.getElementById(id).getElementsByTagName("div");
                         for(y=0;y<pics.length;y++) {
-                             previewImgs += '\"' + pics[y].getElementsByTagName("input")[0].value + '\"' + ",";
+                             stockPreImgs += '\"' + pics[y].getElementsByTagName("input")[0].value + '\"' + ",";
                         }
                         break;
                     }
                 }
             }
-            previewImgs = previewImgs.substring(0,previewImgs.length - 1) + "]";
+            stockPreImgs = stockPreImgs.substring(0,stockPreImgs.length - 1) + "]";
             var sizenum = tr1[i].colSpan;
             for(j=0;j<sizenum;j++) {
-                var productSize = tr2[index].innerText;
-                var productAmount = tr3[index+1].getElementsByTagName("input")[0].value;
-                var productPrice = tr4[index+1].getElementsByTagName("input")[0].value;
-                var recommendPrice = tr5[index+1].getElementsByTagName("input")[0].value;
-                eval("var prodsData"+index);
+                productAmount =tr3[1].getElementsByTagName("input")[0].value;
+                productPrice = tr4[1].getElementsByTagName("input")[0].value;
+                recommendPrice = tr5[1].getElementsByTagName("input")[0].value;
+                var stockSize = tr2[index].innerText;
+                var stockAmount = tr3[index+1].getElementsByTagName("input")[0].value;
+                var stockPrice = tr4[index+1].getElementsByTagName("input")[0].value;
+                var stockRecoPrice = tr5[index+1].getElementsByTagName("input")[0].value;
+                eval("var stockData"+index);
                 //拼装成一条数据
-                prodsDataindex = "{";
-                prodsDataindex += '\"' + "language" + '\"' + ":" + '\"' + language + '\"' + ",";
-                prodsDataindex += '\"' + "cateId" + '\"' + ":" + '\"' + cateId + '\"' + ",";
-                prodsDataindex += '\"' + "brandId" + '\"' + ":" + '\"' + brandId + '\"' + ",";
-                prodsDataindex += '\"' + "productName" + '\"' + ":" + '\"' + productName + '\"' + ",";
-                prodsDataindex +=  '\"' + "productColor" + '\"' + ":" + '\"' + productColor + '\"' + ",";
-                prodsDataindex +=  '\"' + "productSize" + '\"' + ":" + '\"' + productSize + '\"' + ",";
-                prodsDataindex += '\"' + "merchName" + '\"' + ":" + '\"' + merchName + '\"' + ",";
-                prodsDataindex += '\"' + "sourceArea" + '\"' + ":" + '\"' + sourceArea + '\"' + ",";
-                prodsDataindex += '\"' + "sellOnDate" + '\"' + ":" + '\"' + sellOnDate + '\"' + ",";
-                prodsDataindex += '\"' + "sellOffDate" + '\"' + ":" + '\"' + sellOffDate + '\"' + ",";
-                prodsDataindex +=  '\"' + "productAmount" + '\"' + ":" + '\"' + productAmount + '\"' + ",";
-                prodsDataindex +=  '\"' + "productPrice" + '\"' + ":" + '\"' + productPrice + '\"' + ",";
-                prodsDataindex +=  '\"' + "recommendPrice" + '\"' + ":" + '\"' + recommendPrice + '\"' + ",";
-                prodsDataindex += '\"' + "masterImg" + '\"' + ":" + '\"' + masterImg + '\"' + ",";
-                prodsDataindex += '\"' + "previewImgs" + '\"' + ":" +  previewImgs + ",";
-                prodsDataindex += '\"' + "detailImgs" + '\"' + ":" +  detailImgs + ",";
-                prodsDataindex += '\"' + "productDesc" + '\"' + ":" + '\"' + productDesc + '\"' + ",";
-                prodsDataindex += '\"' + "features" + '\"' + ":" + features + ",";
-                prodsDataindex = prodsDataindex.substring(0,prodsDataindex.length - 1) + "}";
-                multiProducts += prodsDataindex + ",";
+                stockDataindex = "{";
+                stockDataindex += '\"' + "productColor" + '\"' + ":" + '\"' + stockColor + '\"' + ",";
+                stockDataindex += '\"' + "productSize" + '\"' + ":" + '\"' + stockSize + '\"' + ",";
+                stockDataindex += '\"' + "productAmount" + '\"' + ":" + '\"' + stockAmount + '\"' + ",";
+                stockDataindex += '\"' + "productPrice" + '\"' + ":" + '\"' + stockPrice + '\"' + ",";
+                stockDataindex += '\"' + "recommendPrice" + '\"' + ":" + '\"' + stockRecoPrice + '\"' + ",";
+                stockDataindex += '\"' + "previewImgs" + '\"' + ":" + stockPreImgs + ",";
+                stockDataindex = stockDataindex.substring(0,stockDataindex.length - 1) + "}";
+                stocks += stockDataindex + ",";
                 index++;
             }
         }
-        multiProducts = multiProducts.substring(0,multiProducts.length - 1) + "]";
-//        console.log(multiProducts);
-        if (true) {
+
+        prods += '\"' + "language" + '\"' + ":" + '\"' + language + '\"' + ",";
+        prods += '\"' + "cateId" + '\"' + ":" + '\"' + cateId + '\"' + ",";
+        prods += '\"' + "brandId" + '\"' + ":" + '\"' + brandId + '\"' + ",";
+        prods += '\"' + "productName" + '\"' + ":" + '\"' + productName + '\"' + ",";
+        prods +=  '\"' + "productColor" + '\"' + ":" +  productColor + ",";
+        prods +=  '\"' + "productSize" + '\"' + ":" +  productSize + ",";
+        prods += '\"' + "merchName" + '\"' + ":" + '\"' + merchName + '\"' + ",";
+        prods += '\"' + "sourceArea" + '\"' + ":" + '\"' + sourceArea + '\"' + ",";
+        prods += '\"' + "sellOnDate" + '\"' + ":" + '\"' + sellOnDate + '\"' + ",";
+        prods += '\"' + "sellOffDate" + '\"' + ":" + '\"' + sellOffDate + '\"' + ",";
+        prods +=  '\"' + "productAmount" + '\"' + ":" + '\"' + productAmount + '\"' + ",";
+        prods +=  '\"' + "productPrice" + '\"' + ":" + '\"' + productPrice + '\"' + ",";
+        prods +=  '\"' + "recommendPrice" + '\"' + ":" + '\"' + recommendPrice + '\"' + ",";
+        prods += '\"' + "masterImg" + '\"' + ":" + '\"' + masterImg + '\"' + ",";
+        prods += '\"' + "previewImgs" + '\"' + ":" +  previewImgs + ",";
+        prods += '\"' + "detailImgs" + '\"' + ":" +  detailImgs + ",";
+        prods += '\"' + "productDesc" + '\"' + ":" + '\"' + productDesc + '\"' + ",";
+        prods += '\"' + "features" + '\"' + ":" + features + ",";
+        prods = prods.substring(0,prods.length - 1) + "}";
+        stocks = stocks.substring(0,stocks.length - 1) + "]";
+        console.log(prods);
+        console.log(stocks);
+        console.log(isPost);
+        if (isPost) {
             $.ajax({
                 type :  "POST",
                 url : "/insertProducts",
-                data : "multiProducts=" + multiProducts,
+                data : "prods=" + prods +"&stocks="+stocks,
                 error : function(request) {
                     alert("Products Insert Error!");
                 },
                 success: function(data) {
                     alert("Products Insert Success!");
-                    location.href="/itemCreate";
+                    location.href="/prodCreate";
                 }
             });
         }

@@ -11,13 +11,13 @@ import java.util.List;
  */
 public interface ThemeMapper {
 
-    public List<Slider> getSlidersAll();
+     List<Slider> getSlidersAll();
 
-    public void updateSlider(Slider slider);
+     void updateSlider(Slider slider);
 
-    public Long insertSlider(Slider slider);
+     Long insertSlider(Slider slider);
 
-    public void deleteSlider(Long id);
+     void deleteSlider(Long id);
 
-    public List<Theme> getThemePage(Theme theme);
+     List<Theme> getThemePage(Theme theme);
 }

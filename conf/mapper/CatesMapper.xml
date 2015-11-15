@@ -13,9 +13,9 @@
     <sql id="catesColumns">
         ${alias}.cate_id,
         ${alias}.pcate_id,
-        ${alias}.cate_nm_cn,
-        ${alias}.cate_nm_en,
-        ${alias}.cate_nm_kr,
+        ${alias}.cate_nm_cn cateNameCn,
+        ${alias}.cate_nm_en cateNameEn,
+        ${alias}.cate_nm_kr cateNameKr,
         ${alias}.cate_desc
     </sql>
 

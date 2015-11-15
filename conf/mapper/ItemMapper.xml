@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.ItemMapper">
+
+    <!--enable mybatis default cache configure reference:
+        https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
+    -->
+    <!--<cache/>-->
+
+    <sql id="itemColumns">
+        ${alias}.id ,
+        ${alias}.ciq_code ,
+        ${alias}.lang ,
+        ${alias}.cate_id ,
+        ${alias}.brand_id ,
+        ${alias}.cate_nm ,
+        ${alias}.brand_nm ,
+        ${alias}.item_nm ,
+        ${alias}.item_title ,
+        ${alias}.item_desc ,
+        ${alias}.bar_code ,
+        ${alias}.bar_des ,
+        ${alias}.merch_uid ,
+        ${alias}.src_area ,
+        ${alias}.on_shelves_at ,
+        ${alias}.off_shelves_at ,
+        ${alias}.item_master_img ,
+        ${alias}.item_preview_imgs ,
+        ${alias}.item_detail_imgs ,
+        ${alias}.item_features ,
+        ${alias}.or_join_theme ,
+        ${alias}.theme_id ,
+        ${alias}.or_major_item ,
+        ${alias}.state ,
+        ${alias}.or_free_ship ,
+        ${alias}.has_invoice ,
+        ${alias}.has_vat_invoice ,
+        ${alias}.delivery_area ,
+        ${alias}.delivery_time ,
+        ${alias}.or_restrict_buy ,
+        ${alias}.restrict_amount ,
+        ${alias}.item_url ,
+        ${alias}.or_shopping_poll ,
+        ${alias}.or_share ,
+        ${alias}.share_key ,
+        ${alias}.share_img ,
+        ${alias}.share_url ,
+        ${alias}.share_count ,
+        ${alias}.like_count ,
+        ${alias}.collect_count ,
+        ${alias}.browse_count ,
+        ${alias}.item_notice ,
+        ${alias}.trans_uid ,
+        ${alias}.trans_at ,
+        ${alias}.trans_lang ,
+        ${alias}.or_destory ,
+        ${alias}.destory_uid ,
+        ${alias}.destory_at ,
+        ${alias}.update_at ,
+        ${alias}.update_uid ,
+        ${alias}.create_at ,
+        ${alias}.create_uid
+    </sql>
+
+    <select id="getItemPage" parameterType="entity.Item" resultType="entity.Item">
+        select
+        <include refid="itemColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from items t where 1=1
+        <if test="id != null">
+            and t.id = #{id}
+        </if>
+        <if test="itemTitle != null">
+            and t.item_title = #{itemTitle}
+        </if>
+        <if test="itemNm != null and itemNm != ''">
+            and t.item_nm = #{itemNm}
+        </if>
+        <if test="orJoinTheme != null">
+            and t.or_join_theme = ${orJoinTheme} ::boolean
+        </if>
+        <if test="themeId != null">
+            and t.theme_id = #{themeId}
+        </if>
+        <if test="onShelvesAt != null">
+            and t.on_shelves_at &gt;= #{onShelvesAt} ::timestamp
+        </if>
+        <if test="offShelvesAt != null">
+            and t.off_shelves_at &lt;= #{offShelvesAt} ::timestamp
+        </if>
+        <if test="sort == null or sort == ''">
+            ORDER BY t.create_at DESC
+        </if>
+        <if test="sort != null">
+            ORDER BY t.${sort}
+            <if test="order != null">
+                ${order}
+            </if>
+        </if>
+
+        <if test="pageSize == -1 and offset >= -1">
+            LIMIT ALL OFFSET 0
+        </if>
+        <if test="pageSize >= 1 and offset >= 0">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+</mapper>

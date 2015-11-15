@@ -68,15 +68,6 @@ public class ThemeCtrl extends Controller {
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
-    /**
-     * 商品查询弹窗
-     * @param lang 语言
-     * @return view
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result itemSearchPopup(String lang){
-        return ok(views.html.theme.itemsearchPopup.render(lang));
-    }
 
     /**
      * 主题查询

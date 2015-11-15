@@ -19,7 +19,7 @@ public class Cates implements Serializable{
 		/**
 		 * parent cateId.
 		 */
-		private Integer parentCateId;
+		private Long parentCateId;
 
 		/**
 		 * cate  chinese name.
@@ -42,7 +42,7 @@ public class Cates implements Serializable{
 		private String cateDesc;
 
 		public Cates(){}
-		public Cates(Long cateId, Integer parentCateId, String cateNameCn, String cateNameEn, String cateNameKr, String cateDesc) {
+		public Cates(Long cateId, Long parentCateId, String cateNameCn, String cateNameEn, String cateNameKr, String cateDesc) {
 			this.cateId = cateId;
 			this.parentCateId = parentCateId;
 			this.cateNameCn = cateNameCn;
@@ -71,11 +71,11 @@ public class Cates implements Serializable{
 			this.cateId = cateId;
 		}
 
-		public Integer getParentCateId() {
+		public Long getParentCateId() {
 			return parentCateId;
 		}
 
-		public void setParentCateId(Integer parentCateId) {
+		public void setParentCateId(Long parentCateId) {
 			this.parentCateId = parentCateId;
 		}
 

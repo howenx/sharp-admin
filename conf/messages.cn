@@ -32,7 +32,7 @@ item.add.add=添加
 item.add.delete=删除
 item.add.cancel=取消
 item.add.prodsDetail=商品详情
-
+item.list.searchID=商品ID
 
 
 
@@ -43,7 +43,7 @@ item.add.prodsDetail=商品详情
 #nav
 nav.home = 首页
 nav.products = 商品管理
-nav.products.menu1 = 商品列表
+nav.products.menu1 = 商品查询
 nav.products.menu2 = 商品录入
 nav.data.sell = 数据中心
 nav.data.sell.menu1 = 销售数据
@@ -51,7 +51,7 @@ nav.data.sell.menu2 = 库存数据
 nav.themes = 主题管理
 nav.themes.menu1 = 滚动条管理
 nav.themes.menu2 = 主题录入
-nav.themes.menu3 = 主题列表
+nav.themes.menu3 = 主题查询
 nav.users = 用户管理
 nav.users.menu1 = 用户申请
 nav.users.menu2 = 用户查询
@@ -110,16 +110,17 @@ themes.search.search.bt = 查询
 themes.search.table.thead1 = 主题图片
 themes.search.table.thead2 = 主题名称
 themes.search.table.page.toolbar = 总计:{0}条/每页:{1}条/共:{2}页
+themes.search.nodata = 没有数据
 
 
 
 
 
 
-
-#item search popup
-item.search.popup.title = 商品查询
-
+#comm search popup
+comm.search.popup.title = 商品查询
+comm.search.hadjoin = 已加入
+comm.search.willjoin = 未加入
 
 
 

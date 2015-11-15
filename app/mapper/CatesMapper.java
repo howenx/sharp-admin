@@ -25,5 +25,5 @@ public interface CatesMapper {
 		 * @param hashMap key(String),value(Integer) (cateId,parentCateId).
 		 * @return List cates entity.
 		 */
-		List<Cates> getSubCates(HashMap<String, Integer> hashMap);
+		List<Cates> getSubCates(HashMap<String, Long> hashMap);
 }

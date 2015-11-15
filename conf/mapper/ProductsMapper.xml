@@ -11,30 +11,30 @@
 
         <sql id="productsColumns">
                 ${alias}.id,
-                ${alias}.merch_uid,
-                ${alias}.merch_nm,
-                ${alias}.lang,
-                ${alias}.cate_id,
+                ${alias}.merch_uid      merchId,
+                ${alias}.merch_nm       merchName,
+                ${alias}.lang           lan,
+                ${alias}.cate_id ,
                 ${alias}.cate_nm,
                 ${alias}.brand_id,
                 ${alias}.brand_nm,
-                ${alias}.prod_nm,
-                ${alias}.prod_color,
-                ${alias}.prod_size,
-                ${alias}.prod_desc,
-                ${alias}.store_area,
-                ${alias}.src_area,
-                ${alias}.sell_on_at,
-                ${alias}.sell_off_at,
-                ${alias}.prod_amount,
-                ${alias}.prod_price,
-                ${alias}.recommend_price,
-                ${alias}.prod_master_img,
-                ${alias}.prod_preview_imgs,
-                ${alias}.prod_detail_imgs,
-                ${alias}.prod_features,
-                ${alias}.state,
-                ${alias}.is_destory,
+                ${alias}.prod_nm        productName,
+                ${alias}.prod_color     productColor,
+                ${alias}.prod_size      productSize,
+                ${alias}.prod_desc      productDesc,
+                ${alias}.store_area     storeArea,
+                ${alias}.src_area       sourceArea,
+                ${alias}.sell_on_at     sellOnDate,
+                ${alias}.sell_off_at    sellOffDate,
+                ${alias}.prod_amount    productAmount,
+                ${alias}.prod_price     productPrice,
+                ${alias}.recommend_price recommendPrice,
+                ${alias}.prod_master_img        masterImg,
+                ${alias}.prod_preview_imgs      previewImgs,
+                ${alias}.prod_detail_imgs       detailImgs,
+                ${alias}.prod_features          features,
+                ${alias}.state                  state,
+                ${alias}.or_destory             destory,
                 ${alias}.destory_uid,
                 ${alias}.update_at,
                 ${alias}.update_uid,
@@ -50,23 +50,45 @@
                 from prods t where id=${value}
         </select>
 
-        <select id="getAllProducts" parameterType="map" resultType="entity.Products">
+        <select id="getAllProducts" parameterType="entity.Products" resultType="entity.Products">
                 select
                 <include refid="productsColumns">
                         <property name="alias" value="t"/>
                 </include>
                 from prods t where 1=1
+                <if test="id != null">
+                        and t.id = #{id}
+                </if>
+                <if test='productName != null and productName != "null" and productName != "" '>
+                        and t.prod_nm = #{productName}
+                </if>
+                <if test='sellOnDate != null'>
+                        and t.sell_on_at &gt;= #{sellOnDate} ::timestamp
+                </if>
+                <if test='sellOffDate != null'>
+                        and t.sell_off_at  &lt;= #{sellOffDate} ::timestamp
+                </if>
+                <if test="sort == null or sort == '' or sort == 'null' ">
+                        ORDER BY t.id DESC, t.prod_nm
+                </if>
+
+                <if test="sort != null and sort != '' and sort != 'null' ">
+                        ORDER BY t.${sort}
+                        <if test="order != null">
+                                ${order}
+                        </if>
+                </if>
                 <if test="pageSize == -1 and offset >= -1">
-                    LIMIT ALL OFFSET 0
+                        LIMIT ALL OFFSET 0
                 </if>
                 <if test="pageSize >= 1 and offset >= 0">
-                    LIMIT #{pageSize} OFFSET #{offset}
+                        LIMIT #{pageSize} OFFSET #{offset}
                 </if>
         </select>
 
         <insert id="insertProducts" parameterType="entity.Products" useGeneratedKeys="true" keyProperty="id" >
                 insert into prods
-                (merch_uid,merch_nm,lang,cate_id,cate_nm,brand_id,brand_nm,prod_nm,prod_color,prod_size,prod_desc,store_area,src_area,sell_on_at,sell_off_at,prod_amount,prod_price,recommend_price,prod_master_img,prod_preview_imgs,prod_detail_imgs,prod_features,state,is_destory,destory_uid,update_at,update_uid,create_at,create_uid)
+                (merch_uid,merch_nm,lang,cate_id,cate_nm,brand_id,brand_nm,prod_nm,prod_color,prod_size,prod_desc,store_area,src_area,sell_on_at,sell_off_at,prod_amount,prod_price,recommend_price,prod_master_img,prod_preview_imgs,prod_detail_imgs,prod_features,state,or_destory,destory_uid,update_at,update_uid,create_at,create_uid)
                 values
                 (#{merchId},#{merchName},#{language},#{cateId},#{cateName},#{brandId},#{brandName},#{productName},#{productColor},#{productSize},#{productDesc},#{storeArea},#{sourceArea},#{sellOnDate},#{sellOffDate},#{productAmount},#{productPrice},#{recommendPrice},#{masterImg},#{previewImgs},#{detailImgs},#{features},#{productState},#{destory},#{destoryUid},#{updateDate},#{updateUid},CURRENT_TIMESTAMP(0),#{createUid})
         </insert>
