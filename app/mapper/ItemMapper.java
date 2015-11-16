@@ -11,4 +11,6 @@ import java.util.List;
 public interface ItemMapper {
 
     List<Item> getItemPage(Item item);
+
+    Integer insertItem(Item item);
 }

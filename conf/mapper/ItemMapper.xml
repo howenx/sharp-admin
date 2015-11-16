@@ -101,7 +101,6 @@
                 ${order}
             </if>
         </if>
-
         <if test="pageSize == -1 and offset >= -1">
             LIMIT ALL OFFSET 0
         </if>
@@ -109,5 +108,12 @@
             LIMIT #{pageSize} OFFSET #{offset}
         </if>
     </select>
+
+    <insert id="insertItem" parameterType="entity.Item" useGeneratedKeys="true" keyProperty="id" >
+        insert into item
+        ()
+        values
+        (})
+    </insert>
 
 </mapper>
