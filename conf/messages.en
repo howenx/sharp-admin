@@ -1,12 +1,13 @@
 #item
 item.add.prodsAddTitle= Add Products
 item.add.prodsListTitle=Products Management
+item.add.prodsDetailTitle=Product Details
 item.add.basics=        products basic information
 item.add.language=       language
 item.add.pleaseSelect=  please select
 item.add.cate=          cate
 item.add.brand= brand
-item.add.productName=   products name
+item.add.productName=   product name
 item.add.productColor=  products color
 item.add.productSize=   products size
 item.add.merchName=     merch name
@@ -19,7 +20,7 @@ item.add.productAmount= product amount
 item.add.numPri=        number and price
 item.add.details=       products detail information
 item.add.addPic=        add pic
-item.add.masterImg=     upload master image
+item.add.masterImg=     master image
 item.add.onePic=        only one
 item.add.mostSixPic=    most six
 item.add.previewImgs=   upload preview images
@@ -32,11 +33,14 @@ item.add.add=           add
 item.add.delete=        delete
 item.add.cancel=        cancel
 item.add.prodsDetail=   Products Details
-item.list.searchID=     Products ID
-
-
-
-
+item.list.searchID=     Product ID
+item.list.state=        product state
+item.detail.basics=     Basic Info
+item.detail.stock=      Stock Info
+item.detail.details=    Detail Info
+item.detail.startDate=  start date
+item.detail.endDate=    end date
+item.detail.createDate= create date
 
 
 

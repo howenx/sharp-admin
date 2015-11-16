@@ -2,136 +2,207 @@
 @(prods:entity.Products, lang:String="cn",user:entity.User)
 
 @scripts = {
-
-<link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
-<link rel="stylesheet" href="/assets/css/xspsc.css"/>
+<link rel="stylesheet" href="/assets/css/prods.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
 }
 
-@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsDetail")
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsDetailTitle")
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 
-<div class="content">
-    <div class="container">
-        <div class="row">
-            <form class="form-horizontal">
-                <div class="upinfo">
-                    <h1 class="tit1">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsDetail")</h1>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</div></label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="cateName" name="cateName" value="@prods.getCateId" disabled style="border:0">
-                        </div>
-                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</div></label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="brandName" name="brandName" value="@prods.getBrandId">
-                        </div>
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
+        <span class="icon-path">&gt;</span>
+        <span>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsDetailTitle")</span>
+    </div>
+</div>
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsDetailTitle")</span>
+    </div>
+    <div class="row">
+        <div class="goods-pre form-horizontal">
+            <!--基本信息-->
+            <div class="base-info">
+                <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.basics")</h4>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</label>
+                    <div class="col-sm-4">
+                        <input type="email" class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productName")</div></label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="productName" name="productName" value="@prods.getProductName">
-                        </div>
-                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</div></label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="merchName" name="merchName" value="@prods.getMerchName">
-                        </div>
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</label>
+                    <div class="col-sm-4">
+                        <input type="email" class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productColor")</div></label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="productColor" name="productColor" value="@prods.getProductColor">
-                        </div>
-                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productSize")</div></label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="productSize" name="productSize" value="@prods.getProductSize">
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productName")</label>
+                    <div class="col-sm-4">
+                        <input type="email" class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.sourceArea")</div></label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="sourceArea" name="sourceArea" value="@prods.getSourceArea">
-                        </div>
-                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productAmount")</div></label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="productAmount" name="productAmount" value="@prods.getProductAmount">
-                        </div>
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</label>
+                    <div class="col-sm-4">
+                        <input type="email" class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.sellDate")</div></label>
-                        <div class="col-sm-3">
-                            <input class="form-control" size="16" type="text" value="@prods.getSellOnDate" readonly id="sellOnDate" name="sellOnDate">
-                        </div>
-                        <label class="col-sm-1 control-label" style="margin-left:-100px;" >~</label>
-                        <div class="col-sm-3">
-                            <input class="form-control" size="16" type="text" value="@prods.getSellOffDate" readonly id="sellOffDate" name="sellOffDate">
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.sourceArea")</label>
+                    <div class="col-sm-4">
+                        <input type="email" class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")</div></label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="productPrice" name="productPrice" value="@prods.getProductPrice">
-                        </div>
-                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")</div></label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="recommendPrice" name="recommendPrice" value="@prods.getRecommendPrice">
-                        </div>
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.state")</label>
+                    <div class="col-sm-4">
+                        <input type="email" class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productDesc")</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control" id="productDesc" name="productDesc" value="@prods.getProductDesc">
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.startDate")</label>
+                    <div class="col-sm-4">
+                        <input type="email" class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.features")</label>
-                        <div class="col-sm-7">
-                            <!--<input type="text" class="form-control" id="features" name="features" value="@prods.getFeatures">-->
-                            <table class="table table-bordered qubian">
-                                <tr>
-                                    <td><input type="text" name="attrN"/></td>
-                                    <td><input type="text" name="attrV"/></td>
-                                </tr>
-                            </table>
-                        </div>
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.endDate")</label>
+                    <div class="col-sm-4">
+                        <input type="email" class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.masterImg")</div></label>
-                        <div class="col-sm-3">
-                            <div class="sctp" style="width:350px">
-                                    <img src="http://172.28.3.18:3008@prods.getMasterImg()" alt="" width="40" height="40"/>
-                            </div>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.list.state")</label>
+                    <div class="col-sm-4">
+                        <input type="email" class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</div></label>
-                        <div class="col-sm-3">
-                            <div class="sctp" style="width:350px">
-                                <div class="sctp1 l">
-                                    <img src="http://172.28.3.18:3008@prods.getMasterImg()" alt="" width="40" height="40"/>
-                                </div>
-                            </div>
-                        </div>
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.createDate")</label>
+                    <div class="col-sm-4">
+                        <input type="email" class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
-                        <div class="col-sm-3">
-                            <div class="sctp" style="width:350px">
-                                <div class="sctp1 l">
-                                    <img src="http://172.28.3.18:3008@prods.getMasterImg()" alt="" width="40" height="40"/>
-                                </div>
-                            </div>
+                </div>
+            </div>
+            <!-- 库存信息-->
+            <div class="stock-info">
+                <!--<h3>库存信息</h3>-->
+                <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.stock")</h4>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <table class="table table-bordered col-sm-10">
+                            <tr>
+                                <td>颜色</td>
+                                <td>尺寸</td>
+                                <td>预览图</td>
+                                <td>库存量</td>
+                                <td>现价</td>
+                                <td>原价</td>
+                                <td>折扣</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td width="200">
+                                    <img class="main-img" src="images/1.jpg" alt="" width="50">
+                                    <img class="main-img" src="images/1.jpg" alt="" width="50">
+                                    <img class="main-img" src="images/1.jpg" alt="" width="50">
+                                    <img class="main-img" src="images/1.jpg" alt="" width="50">
+                                    <img class="main-img" src="images/1.jpg" alt="" width="50">
+                                    <img class="main-img" src="images/1.jpg" alt="" width="50">
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--详情-->
+            <div class="detailed-info">
+                <!--<h3>详情</h3>-->
+                <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.details")</h4>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">主图</label>
+                    <div class="col-sm-10">
+                        <div class="table-bordered">
+
                         </div>
                     </div>
                 </div>
-            </form>
+                <!--<div class="form-group">-->
+                <!--<label class="col-sm-2 control-label">预览图</label>-->
+                <!--<div class="col-sm-10">-->
+                <!--<div class="table-bordered">-->
+                <!--123-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">商品详细图</label>
+                    <div class="col-sm-10">
+                        <div class="table-bordered">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">商品描述</label>
+                    <div class="col-sm-10">
+                        <div class="table-bordered">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">商品属性</label>
+                    <div class="col-sm-10">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>属性名</td>
+                                <td>属性值</td>
+                            </tr>
+                            <tr>
+                                <td>123</td>
+                                <td>456</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
+<div class="goods-img-bg">
+    <div class="goods-bg"></div>
+    <div class="goods-img">
+        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>
 }
-
-
-<script type="text/javascript">
-
+<script>
+$(function(){
+    $(".glyphicon").click(function(){
+        if($(this).hasClass("glyphicon-chevron-up")){
+            $(this).removeClass("glyphicon-chevron-up");
+            $(this).addClass("glyphicon-chevron-down");
+        }else{
+            $(this).removeClass("glyphicon-chevron-down");
+            $(this).addClass("glyphicon-chevron-up");
+        }
+    });
+    $(".main-img").click(function(){
+        $(".goods-img-bg").css({"height":$(window).height(),"display":"block"});
+        $(".goods-img").css("left",($(window).width()-1200)/2);
+        $(this).clone().appendTo($(".goods-img")).css({"width":"100%","z-index":1000});
+    });
+    $(".goods-img-bg .close").click(function(){
+        $(".goods-img-bg img").remove();
+        $(".goods-img-bg").css({"display":"none"});
+    });
+    $(document).on("click",".goods-bg",function(){
+        $(".goods-img-bg img").remove();
+        $(".goods-img-bg").css({"display":"none"});
+    })
+});
 </script>

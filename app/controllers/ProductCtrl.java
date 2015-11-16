@@ -14,7 +14,6 @@ import play.mvc.Result;
 import play.mvc.Security;
 import service.ProdService;
 import views.html.prod.prodsadd;
-import views.html.prod.prodsdetail;
 import views.html.prod.prodslist;
 
 import javax.inject.Inject;
@@ -96,7 +95,6 @@ public class ProductCtrl extends Controller {
         }
         products.setPageSize(PAGE_SIZE);
         products.setOffset(1);
-        Logger.error(prodService.getAllProducts(products).toString());
         return ok(prodslist.render(lang,IMAGE_URL,PAGE_SIZE,countNum,pageCount,(User) ctx().args.get("user"), prodService.getAllProducts(products)));
     }
 
@@ -131,6 +129,7 @@ public class ProductCtrl extends Controller {
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
             returnMap.put("pageSize",PAGE_SIZE);
+            Logger.error(prodService.getAllProducts(products).toString());
             return ok(Json.toJson(returnMap));
         }
         else{
@@ -148,7 +147,7 @@ public class ProductCtrl extends Controller {
     public Result prodsDetail(String lang,Long id) {
         if(!"".equals(id) && null!=id) {
             Products products = prodService.getProducts(id);
-            return ok(prodsdetail.render(products,lang,(User) ctx().args.get("user")));
+            return ok(views.html.prod.prodsdetail.render(products,lang,(User) ctx().args.get("user")));
         } else {
             return badRequest();
         }

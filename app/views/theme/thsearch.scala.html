@@ -36,12 +36,12 @@
             <!--主题id-->
             <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition1")</label>
             <div class="col-sm-4">
-                <input id = "topic-form-id" type="number" min="10000" max="99999999" class="form-control">
+                <input id = "topic-form-id" type="number" min="10000" max="99999999" class="form-control"/>
             </div>
             <!--主商品id-->
             <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition2")</label>
             <div class="col-sm-4">
-                <input id = "topic-form-master-id" type="number" min="10000" max="99999999" class="form-control">
+                <input id = "topic-form-master-id" type="number" min="10000" max="99999999" class="form-control"/>
             </div>
         </div>
 
@@ -50,7 +50,7 @@
             <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition3")</label>
             <div class="col-sm-4">
                 <div id="datetimepicker-starttime" style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
-                    <input id = "topic-form-starttime"  class="form-control" size="16" type="text" value="" readonly>
+                    <input id = "topic-form-starttime"  class="form-control" size="16" type="text" value="" readonly/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                 </div>
@@ -59,7 +59,7 @@
             <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition4")</label>
             <div class="col-sm-4">
                 <div id="datetimepicker-endtime" style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
-                    <input id = "topic-form-endtime" class="form-control" size="16" type="text" value="" readonly>
+                    <input id = "topic-form-endtime" class="form-control" size="16" type="text" value="" readonly/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                 </div>
@@ -67,7 +67,7 @@
         </div>
 
         <div class="btn-s">
-			<input type="reset" class="btn btn-primary btn-s-2" value="@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")">
+			<input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
             <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
         </div>
 	</form>

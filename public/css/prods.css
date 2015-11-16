@@ -12,13 +12,6 @@ ul,li {
 	padding: 0;
 	list-style: none;
 }
-/*
-contentA
-*/
-.contentA {
-	width: 100%;
-	background: #23527c;
-}
 .navbar-default {
 	background: #23527c;
 }
@@ -34,8 +27,8 @@ contentA
 }
 
 .tit1 {
-	font-size: 24px;
-	font-weight: 400;
+	font-size: 18px;
+	font-weight: 800;
 }
 
 .nav > li > a {
@@ -101,7 +94,7 @@ contentA
 /*
 content
 */
-.content {
+.wrap-slider {
 	width: 80%;
 	height: auto;
 	background-color: #fff;
@@ -118,23 +111,23 @@ content
 .row {
 	margin: 0 ;
 }
-.content .upinfo {
+.wrap-slider .upinfo {
 	margin-top: 20px;
 }
-.content .upinfo .form-group {
+.wrap-slider .upinfo .form-group {
 	margin-right: 20px;
 	margin-bottom: 25px;
 }
-.content .date input {
+.wrap-slider .date input {
 	display: inline-block;
 	width: 160px;
 }
-.content .table {
+.wrap-slider .table {
 	font-size: 14px;
 	text-align: center;
 	border: 1px solid #ccc;
 }
-.content .add {
+.wrap-slider .add {
 	background: #00B7EE;
 	color: #fff;
 	margin-left: 20px;
@@ -146,7 +139,7 @@ content
 	line-height: 24px;
 	font-size: 14px;
 }
-.content .del {
+.wrap-slider .del {
 	background: #ccc;
 	color: #fff;
 	cursor: pointer;
@@ -180,9 +173,6 @@ content
 }
 .col-sm-1 {
 	width: 150px;
-}
-.mybtns {
-	text-align: center;
 }
 .sctp1 {
 	width: 100px;
@@ -221,14 +211,6 @@ content
 	border: 1px solid #ccc;
 	overflow: hidden;
 	padding: 20px 30px;
-}
-.mybtns .btncl {
-	background: #00B7EE;
-	border: 1px solid #00B7EE;
-	border-radius: 3px;
-	height: 36px;
-	line-height: 16px;
-	margin-left: 10px;
 }
 .imgyl {
 	width: 100px;

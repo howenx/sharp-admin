@@ -488,11 +488,24 @@ $(function(){
                 url : "/insertProducts",
                 data : "prods=" + prods +"&stocks="+stocks,
                 error : function(request) {
-                    alert("Products Insert Error!");
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('保存失败');
+                    } else {
+                        $('#js-userinfo-error').text('Save error');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('')", 2000);
                 },
                 success: function(data) {
-                    alert("Products Insert Success!");
-                    location.href="/prodCreate";
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                        $('.usercenter-option > .user-state').text('未更改');
+                    } else {
+                        $('#js-userinfo-error').text('Save success');
+                        $('.usercenter-option > .user-state').text('Unchanged');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+                    setTimeout("location.href='/"+window.lang+"/prodCreate'", 3000);
+//                    location.href="/prodCreate";
                 }
             });
         }
