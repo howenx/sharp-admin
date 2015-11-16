@@ -2,7 +2,7 @@
 @import entity.User_Type
 @import entity.User
 @import scala.collection.immutable._
-@(lang:String="cn", user:User, products:List[Map[String, Any]])
+@(lang:String="cn", user:User, products:List[Map[String, Any]],start:Int)
 
 @scripts = {
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
@@ -13,25 +13,51 @@
 <script src="/assets/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
-        $('#tabs').tab();
-        $('.datepicker').datepicker({
-          format: 'yyyy-mm-dd',
-        })
+        $('[data-toggle="tabajax"]').click(function(e) {
+            var $this = $(this),
+        loadurl = $this.attr('href'),
+        targ = $this.attr('data-target');
+
+    $.get(loadurl, function(data) {
+        $(targ).html(data);
     });
 
+    $this.tab('show');
+    return false;
+        });
+    });
 
+    function load(loadurl) {
 
+       $.get(loadurl, function(data) {
+         $("#my-tab-content .active").html(data);
+
+       });
+    }
+
+    load('/supply/list?id=1');
 
 </script>
 }
 
 @body = {
 <div class="container">
-    @for(product <- products) {
-    <div class="row">
-        @product("products.name")
+    <div class="row" style="margin-top:50px">
+
     </div>
-    }
+    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+        <li class="active"><a href="/supply/list?id=1" data-target="#hzp" data-toggle="tabajax">化妆品</a></li>
+        <li><a href="/supply/list?id=2" data-target="#ps" data-toggle="tabajax">配饰</a></li>
+        <li><a href="/supply/list?id=3" data-target="#fs" data-toggle="tabajax">服饰</a></li>
+    </ul>
+    <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane active" id="hzp">
+        </div>
+        <div class="tab-pane" id="ps">
+        </div>
+        <div class="tab-pane" id="fs">
+        </div>
+    </div>
 
 </div>
 }

@@ -77,9 +77,15 @@ GET             /                                   controllers.Auth.login
 POST            /authenticate                       controllers.Auth.authenticate
 GET             /logout                             controllers.Auth.logout
 GET             /test                               controllers.Test.test
-GET             /supply                             controllers.Application.supply
-POST             /supply                             controllers.Application.supply
-GET             /supply/list                        controllers.Application.list_supply
+GET             /supply/init                             controllers.Application.supply_init
+POST            /supply/init                             controllers.Application.supply_init
+POST            /supply/add                             controllers.Application.supply
+POST            /supply/update/kr                             controllers.Application.update_kr
+GET             /supply/list                       controllers.Application.list_supply(id:Option[Int], start:Int ?=1)
+GET             /supply/translation/$id<[0-9]+>           controllers.Application.translation(id:Long)
+GET             /supply/append/$id<[0-9]+>           controllers.Application.append(id:Long)
+GET             /supply/$id<[0-9]+>                controllers.Application.show(id:Long)
+POST            /supply/append/add                 controllers.Application.append_add
 
 
 

@@ -1,0 +1,572 @@
+@import play.i18n._
+@import entity.{Prod_Type, Prod, User_Type, User}
+@import play.api.libs.json.Json
+@import play.api.libs.json.Json._
+@import scala.collection.immutable._
+
+@(lang:String="cn", user:User, p:Map[String, Any])
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
+<link rel="shortcut icon" type="image/png" href="/assets/images/favicon.ico">
+<link href='http://fonts.useso.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/assets/css/bootstrap-datepicker.min.css"/>
+<script src="/assets/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $('#tabs').tab();
+        $('.datepicker').datepicker({
+          format: 'yyyy-mm-dd',
+        })
+    });
+
+</script>
+}
+
+@body = {
+<div class="container">
+    <div class="row" style="margin-top:20px">
+
+    </div>
+
+    @if(Prod_Type.apply(p("products.category_id").toString.toInt ) == Prod_Type.hzp) {
+    <div class="pull-left" style="width:50%;margin-top:20px">
+        <form action="/supply/update/kr" method="post">
+
+
+            <div class="col-md-9 input-group" style="padding-top: 20px;">
+                <span class="input-group-addon">상품명칭:</span>
+                <input type="text" name="name" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "name").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">원가（KRW）:</span>
+                <input type="text" name="price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "price").asOpt[String])">
+                <span class="input-group-addon">판매가（KRW）:</span>
+                <input type="text" name="market_price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "market_price").asOpt[String])">
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">사이즈（cm）:</span>
+                <input type="text" name="尺寸(cm)" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "尺寸(cm)").asOpt[String])">
+                <span class="input-group-addon">포장 수:</span>
+                <input type="text" name="装箱数" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "装箱数").asOpt[String])">
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">Carton size(MM):</span>
+                <input type="text" name="箱子尺寸" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "箱子尺寸").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">실중량（kg）:</span>
+                <input type="text" name="净重(kg)" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "净重(kg)").asOpt[String])">
+                <span class="input-group-addon">전체중량（kg）:</span>
+                <input type="text" name="毛重(kg)" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "毛重(kg)").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">상품 이미지:</span>
+                <input type="text" name="image" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "image").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">주요성분:</span>
+                <textarea name="主要成分" class="form-control">@((Json.parse(p("products.kr_string").toString) \ "主要成分").asOpt[String])</textarea>
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">피부타입:</span>
+                <input type="text" name="肤质" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "肤质").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">상품유형:</span>
+                <input type="text" name="类别" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "类别").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">기능:</span>
+                <textarea name="功效" class="form-control">@((Json.parse(p("products.kr_string").toString) \ "功效").asOpt[String])</textarea>
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">원산지:</span>
+                <input type="text" name="原产地" class="form-control"  value="@((Json.parse(p("products.kr_string").toString) \ "原产地").asOpt[String])">
+                <span class="input-group-addon">재고수량:</span>
+                <input type="text" name="amount" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "amount").asOpt[String])">
+
+            </div>
+            <div class="col-md-4 col-md-offset-2" style="margin-top:20px;margin-bottom:20px">
+                <input type="hidden" value="hzp" name="p_type"/>
+                <input type="hidden" name="product_id" value="@p("products.product_id")"/>
+                <input type="submit" class="btn btn-primary btn-block" value="Submit"/>
+
+            </div>
+        </form>
+    </div>
+
+    <div class="pull-right" style="width:50%;margin-top:20px">
+        <form action="/supply/add" method="post">
+
+            <div class="col-md-9 input-group" style="padding-top: 20px;">
+                <span class="input-group-addon">商品名称:</span>
+                <input type="text" name="name" class="form-control" value="@p("products.name")">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">成本价:</span>
+                <input type="text" name="price" class="form-control" value="@p("products.price")">
+                <span class="input-group-addon">售价:</span>
+                <input type="text" name="market_price" class="form-control" value="@p("products.market_price")">
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">尺寸(cm):</span>
+                <input type="text" name="尺寸(cm)" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "尺寸(cm)").asOpt[String])">
+                <span class="input-group-addon">装箱数:</span>
+                <input type="text" name="装箱数" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "装箱数").asOpt[String])">
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">箱子尺寸:</span>
+                <input type="text" name="箱子尺寸" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "箱子尺寸").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">净重(kg):</span>
+                <input type="text" name="净重(kg)" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "净重(kg)").asOpt[String])">
+                <span class="input-group-addon">毛重(kg):</span>
+                <input type="text" name="毛重(kg)" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "毛重(kg)").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">图片:</span>
+                <input type="text" name="image" class="form-control" value="@Json.parse(p("products.images").toString)(0).asOpt[String]">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">主要成分:</span>
+                <textarea name="主要成分" class="form-control">@((Json.parse(p("products.spec").toString) \ "主要成分").asOpt[String])</textarea>
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">肤质:</span>
+                <input type="text" name="肤质" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "肤质").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">类别:</span>
+                <input type="text" name="类别" class="form-control" value="@((Json.parse(p("products.spec").toString) \ "类别").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">功效:</span>
+                <textarea name="功效" class="form-control">@((Json.parse(p("products.spec").toString) \ "功效").asOpt[String])</textarea>
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">原产地:</span>
+                <input type="text" name="原产地" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "原产地").asOpt[String])">
+                <span class="input-group-addon">库存量:</span>
+                <input type="text" name="amount" class="form-control" value="@p("products.amount")">
+
+            </div>
+            <div class="col-md-4 col-md-offset-2" style="margin-top:20px;margin-bottom:20px">
+                <input type="hidden" value="hzp" name="p_type"/>
+                <input type="hidden" name="product_id" value="@p("products.product_id")"/>
+                <input type="submit" class="btn btn-primary btn-block" value="提交"/>
+            </div>
+        </form>
+    </div>
+    }
+
+    @if(Prod_Type.apply(p("products.category_id").toString.toInt ) == Prod_Type.fs) {
+    <div class="pull-left" style="width:50%;margin-top:20px">
+    <form action="/supply/update/kr" method="post">
+        <div class="col-md-9 input-group" style="padding-top: 20px;">
+            <span class="input-group-addon">상품명영문:</span>
+            <input type="text" name="name" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "name").asOpt[String])">
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px;">
+            <span class="input-group-addon">상품이미지:</span>
+            <input type="text" name="image" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "image").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px;">
+            <span class="input-group-addon">1depth:</span>
+            <input type="text" name="一级分类" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "一级分类").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+
+            <span class="input-group-addon">2depth:</span>
+            <input type="text" name="二级分类" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "二级分类").asOpt[String])">
+            <span class="input-group-addon">3depth:</span>
+            <input type="text" name="三级分类" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "三级分类").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">모델코드:</span>
+            <input type="text" name="型号" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "型号").asOpt[String])">
+            <span class="input-group-addon">색상:</span>
+            <input type="text" name="颜色" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "颜色").asOpt[String])">
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">기능:</span>
+            <input type="text" name="功能" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "功能").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">용도:</span>
+            <input type="text" name="用途" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "用途").asOpt[String])">
+
+        </div>
+
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">옷 유형:</span>
+            <input type="text" name="版型" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "版型").asOpt[String])">
+            <span class="input-group-addon">재질:</span>
+            <input type="text" name="材质" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "材质").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">런칭시간:</span>
+            <input type="text" name="上市时间" class="form-control" class="datepicker" data-date-format="yyyy-mm-dd"
+                   data-provide="datepicker" value="@((Json.parse(p("products.kr_string").toString) \ "上市时间").asOpt[String])">
+            <span class="input-group-addon">안감재질:</span>
+            <input type="text" name="里料分类" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "里料分类").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+
+            <span class="input-group-addon">도안:</span>
+            <input type="text" name="图案" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "图案").asOpt[String])">
+            <span class="input-group-addon">적용연령대:</span>
+            <input type="text" name="适用年龄" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "适用年龄").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+
+            <span class="input-group-addon">전체 중량:</span>
+            <input type="text" name="毛重" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "毛重").asOpt[String])">
+            <span class="input-group-addon">실중량:</span>
+            <input type="text" name="净重" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "净重").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">단위:</span>
+            <input type="text" name="商品单位" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "商品单位").asOpt[String])">
+            <span class="input-group-addon">두께:</span>
+            <input type="text" name="厚度" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "厚度").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">옷깃형태:</span>
+            <input type="text" name="领型" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "领型").asOpt[String])">
+            <span class="input-group-addon">옷길이:</span>
+            <input type="text" name="衣长" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "衣长").asOpt[String])">
+
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+
+            <span class="input-group-addon">소매유형:</span>
+            <input type="text" name="袖型" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "袖型").asOpt[String])">
+            <span class="input-group-addon">Clothing placket:</span>
+            <input type="text" name="衣门襟" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "衣门襟").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+
+            <span class="input-group-addon">사이즈:</span>
+            <input type="text" name="尺码" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "尺码").asOpt[String])">
+            <span class="input-group-addon">적용범위:</span>
+            <input type="text" name="适用类型" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "适用类型").asOpt[String])">
+
+        </div>
+
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+
+            <span class="input-group-addon">스타일:</span>
+            <input type="text" name="风格" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "风格").asOpt[String])">
+            <span class="input-group-addon">유행요소:</span>
+            <input type="text" name="流行元素" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "流行元素").asOpt[String])">
+
+
+        </div>
+
+        <div class="col-md-4 col-md-offset-2" style="margin-top:20px;margin-bottom:20px">
+            <input type="hidden" value="fs" name="p_type"/>
+            <input type="hidden" name="product_id" value="@p("products.product_id")"/>
+            <input type="submit" class="btn btn-primary btn-block" value="Submit"/>
+        </div>
+    </form>
+        </div>
+    <div class="pull-right" style="width:50%;margin-top:20px">
+        <form action="/supply/add" method="post">
+            <div class="col-md-9 input-group" style="padding-top: 20px;">
+                <span class="input-group-addon">商品名称:</span>
+                <input type="text" name="name" class="form-control" value="@p("products.name")">
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px;">
+                <span class="input-group-addon">图片:</span>
+                <input type="text" name="image" class="form-control" value="@Json.parse(p("products.images").toString)(0).asOpt[String]">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px;">
+                <span class="input-group-addon">一级分类:</span>
+                <input type="text" name="一级分类" class="form-control" value="@((Json.parse(p("products.spec").toString) \ "一级分类").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+
+                <span class="input-group-addon">二级分类:</span>
+                <input type="text" name="二级分类" class="form-control" value="@((Json.parse(p("products.spec").toString) \ "二级分类").asOpt[String])">
+                <span class="input-group-addon">三级分类:</span>
+                <input type="text" name="三级分类" class="form-control" value="@((Json.parse(p("products.spec").toString) \ "三级分类").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">型号:</span>
+                <input type="text" name="型号" class="form-control" value="@((Json.parse(p("products.attr").toString) \ "型号").asOpt[String])">
+                <span class="input-group-addon">颜色:</span>
+                <input type="text" name="颜色" class="form-control" value="@((Json.parse(p("products.attr").toString) \ "颜色").asOpt[String])">
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">功能:</span>
+                <input type="text" name="功能" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "功能").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">用途:</span>
+                <input type="text" name="用途" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "用途").asOpt[String])">
+
+            </div>
+
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">版型:</span>
+                <input type="text" name="版型" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "版型").asOpt[String])">
+                <span class="input-group-addon">材质:</span>
+                <input type="text" name="材质" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "材质").asOpt[String])">
+
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">上市时间:</span>
+                <input type="text" name="上市时间" class="form-control" class="datepicker" data-date-format="yyyy-mm-dd"
+                       data-provide="datepicker" value="@((Json.parse(p("products.extra").toString) \ "上市时间").asOpt[String])">
+                <span class="input-group-addon">里料分类:</span>
+                <input type="text" name="里料分类" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "里料分类").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+
+                <span class="input-group-addon">图案:</span>
+                <input type="text" name="图案" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "图案").asOpt[String])">
+                <span class="input-group-addon">适用年龄:</span>
+                <input type="text" name="适用年龄" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "适用年龄").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+
+                <span class="input-group-addon">毛重:</span>
+                <input type="text" name="毛重" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "毛重").asOpt[String])">
+                <span class="input-group-addon">净重:</span>
+                <input type="text" name="净重" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "净重").asOpt[String])">
+
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">商品单位:</span>
+                <input type="text" name="商品单位" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "商品单位").asOpt[String])">
+
+                <span class="input-group-addon">厚度:</span>
+                <input type="text" name="厚度" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "厚度").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">领型:</span>
+                <input type="text" name="领型" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "领型").asOpt[String])">
+                <span class="input-group-addon">衣长:</span>
+                <input type="text" name="衣长" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "衣长").asOpt[String])">
+
+
+            </div>
+
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+
+                <span class="input-group-addon">袖型:</span>
+                <input type="text" name="袖型" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "袖型").asOpt[String])">
+                <span class="input-group-addon">衣门襟:</span>
+                <input type="text" name="衣门襟" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "衣门襟").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+
+                <span class="input-group-addon">尺码:</span>
+                <input type="text" name="尺码" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "尺码").asOpt[String])">
+                <span class="input-group-addon">适用类型:</span>
+                <input type="text" name="适用类型" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "适用类型").asOpt[String])">
+
+            </div>
+
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+
+                <span class="input-group-addon">风格:</span>
+                <input type="text" name="风格" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "风格").asOpt[String])">
+                <span class="input-group-addon">流行元素:</span>
+                <input type="text" name="流行元素" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "流行元素").asOpt[String])">
+
+            </div>
+
+            <div class="col-md-4 col-md-offset-2" style="margin-top:20px;margin-bottom:20px">
+                <input type="hidden" value="fs" name="p_type"/>
+                <input type="hidden" name="product_id" value="@p("products.product_id")"/>
+                <input type="submit" class="btn btn-primary btn-block" value="提交"/>
+            </div>
+        </form>
+    </div>
+    }
+
+    @if(Prod_Type.apply(p("products.category_id").toString.toInt ) == Prod_Type.ps) {
+    <div class="pull-left" style="width:50%;margin-top:20px">
+    <form action="/supply/update/kr" method="post">
+        <div class="col-md-9 input-group" style="padding-top: 20px;">
+            <span class="input-group-addon">상품명칭:</span>
+            <input type="text" name="name" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "name").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px;">
+            <span class="input-group-addon">상품이미지:</span>
+            <input type="text" name="image" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "image").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">브랜드:</span>
+            <input type="text" name="品牌" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "品牌").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">재질:</span>
+            <input type="text" name="材质" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "材质").asOpt[String])">
+
+            <span class="input-group-addon">스타일:</span>
+            <input type="text" name="款式" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "款式").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">적용대상:</span>
+            <input type="text" name="适用人群" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "name").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">원가（원화／인민페）:</span>
+            <input type="text" name="price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "price").asOpt[String])">
+
+            <span class="input-group-addon">판매가격:</span>
+            <input type="text" name="market_price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "market_price").asOpt[String])">
+
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">상품 실중량 kg:</span>
+            <input type="text" name="净重(kg)" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "净重(kg)").asOpt[String])">
+
+            <span class="input-group-addon">（포장）상품 전체 중량 kg:</span>
+            <input type="text" name="毛重(kg)" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "毛重(kg)").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">(포장)길이 mm:</span>
+            <input type="text" name="包装(长)mm" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "包装(长)mm").asOpt[String])">
+            <span class="input-group-addon">(포장)너비 mm:</span>
+            <input type="text" name="包装(宽)mm" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "包装(宽)mm").asOpt[String])">
+
+        </div>
+        <div class="col-md-9 input-group" style="padding-top: 20px">
+            <span class="input-group-addon">(포장)높이 mm:</span>
+            <input type="text" name="包装(高)mm" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "包装(高)mm").asOpt[String])">
+            <span class="input-group-addon">재고수량:</span>
+            <input type="text" name="amount" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "amount").asOpt[String])">
+        </div>
+        <div class="col-md-4 col-md-offset-2" style="margin-top:20px;margin-bottom:20px">
+            <input type="hidden" value="ps" name="p_type"/>
+            <input type="hidden" name="product_id" value="@p("products.product_id")"/>
+            <input type="submit" class="btn btn-primary btn-block" value="Submit"/>
+
+        </div>
+    </form>
+        </div>
+
+    <div class="pull-right" style="width:50%;margin-top:20px">
+        <form action="/supply/add" method="post">
+            <div class="col-md-9 input-group" style="padding-top: 20px;">
+                <span class="input-group-addon">商品名称:</span>
+                <input type="text" name="name" class="form-control" value="@p("products.name")">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px;">
+                <span class="input-group-addon">产品图片:</span>
+                <input type="text" name="image" class="form-control" value="@Json.parse(p("products.images").toString)(0).asOpt[String]">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">品牌:</span>
+                <input type="text" name="品牌" class="form-control" value="@((Json.parse(p("products.spec").toString) \ "品牌").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">材质:</span>
+                <input type="text" name="材质" class="form-control" value="@((Json.parse(p("products.spec").toString) \ "材质").asOpt[String])">
+
+                <span class="input-group-addon">款式:</span>
+                <input type="text" name="款式" class="form-control" value="@((Json.parse(p("products.spec").toString) \ "款式").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">适用人群:</span>
+                <input type="text" name="适用人群" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "适用人群").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">成本价:</span>
+                <input type="text" name="price" class="form-control" value="@p("products.price")">
+
+                <span class="input-group-addon">市场价:</span>
+                <input type="text" name="market_price" class="form-control" value="@p("products.market_price")">
+
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">净重(kg):</span>
+                <input type="text" name="净重(kg)" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "净重(kg)").asOpt[String])">
+
+                <span class="input-group-addon">毛重(kg):</span>
+                <input type="text" name="毛重(kg)" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "毛重(kg)").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">包装(长)mm:</span>
+                <input type="text" name="包装(长)mm" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "包装(长)mm").asOpt[String])">
+                <span class="input-group-addon">包装(宽)mm:</span>
+                <input type="text" name="包装(宽)mm" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "包装(宽)mm").asOpt[String])">
+
+            </div>
+            <div class="col-md-9 input-group" style="padding-top: 20px">
+                <span class="input-group-addon">包装(高)mm:</span>
+                <input type="text" name="包装(高)mm" class="form-control" value="@((Json.parse(p("products.extra").toString) \ "包装(高)mm").asOpt[String])">
+                <span class="input-group-addon">库存量:</span>
+                <input type="text" name="amount" class="form-control" value="@p("products.amount")">
+            </div>
+            <div class="col-md-4 col-md-offset-2" style="margin-top:20px;margin-bottom:20px">
+                <input type="hidden" value="ps" name="p_type"/>
+                <input type="hidden" name="product_id" value="@p("products.product_id")"/>
+                <input type="submit" class="btn btn-primary btn-block" value="提交"/>
+
+            </div>
+        </form>
+    </div>
+    }
+</div>
+}
+
+
+@layout(lang=lang,title="supply", user=user)(scripts) {
+
+@body
+
+}
