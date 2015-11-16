@@ -23,8 +23,8 @@ item.add.addPic=        add pic
 item.add.masterImg=     master image
 item.add.onePic=        only one
 item.add.mostSixPic=    most six
-item.add.previewImgs=   upload preview images
-item.add.detailImgs=    upload detail images
+item.add.previewImgs=   preview images
+item.add.detailImgs=    detail images
 item.add.productDesc=   product description
 item.add.features=      product features
 item.add.featureName=   feature
@@ -41,7 +41,7 @@ item.detail.details=    Detail Info
 item.detail.startDate=  start date
 item.detail.endDate=    end date
 item.detail.createDate= create date
-
+item.detail.return=     return
 
 
 #nav

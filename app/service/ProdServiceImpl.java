@@ -158,4 +158,14 @@ public class ProdServiceImpl implements ProdService {
         return list;
     }
 
+    /**
+     * get stocks by prod id
+     * @param prodId
+     * @return List of entity.Stock
+     */
+    @Override
+    public List<Stock> getStocksByProdId(Long prodId) {
+        return this.stockMapper.getStocksByProdId(prodId);
+    }
+
 }

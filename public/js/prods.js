@@ -315,12 +315,21 @@ $(function(){
             alert("必填项不能为空");
         }
 
-        //验证输入的库存量和价格符合规则
+
         var productColor = document.getElementsByName("productColor");
         var productSize = document.getElementsByName("productSize");
         var productAmount = document.getElementsByName("productAmount");
         var productPrice = document.getElementsByName("productPrice");
         var recommendPrice = document.getElementsByName("recommendPrice");
+        var language = $("#language").val();
+        var cateId = $("#categorySubSelect").val();
+        var brandId = $("#bandSelect").val();
+        var productName = $("#productName").val();
+        var merchName = $("#merchName").val();
+        var sourceArea = $("#sourceArea").val();
+        var sellOnDate = $("#sellOnDate").val();
+        var sellOffDate = $("#sellOffDate").val();
+        var productDesc = $("#productDesc").val();
         if (productColor[productColor.length-1].value=="") {
             isPost = false;
             if (window.lang=="cn") $("#warn-color").text("颜色不能有空值");
@@ -334,6 +343,7 @@ $(function(){
                 break;
             }
         }
+        //验证输入的库存量和价格符合规则
         for(i=0;i<productAmount.length;i++){
             if (!numberReg1.test(productAmount[i].value)) {
                 isPost = false;
@@ -346,15 +356,12 @@ $(function(){
                 else $("#warn-price").text("price is integer or decimal");
             }
         }
-        var language = $("#language").val();
-        var cateId = $("#categorySubSelect").val();
-        var brandId = $("#bandSelect").val();
-        var productName = $("#productName").val();
-        var merchName = $("#merchName").val();
-        var sourceArea = $("#sourceArea").val();
-        var sellOnDate = $("#sellOnDate").val();
-        var sellOffDate = $("#sellOffDate").val();
-        var productDesc = $("#productDesc").val();
+        if (sellOffDate < sellOnDate) {
+           isPost = false;
+           if (window.lang=="cn") $("#warn-date").text("结束日期必须大于开始日期");
+           else $("#warn-date").text("End date mush late to start date");
+        }
+
         var masterImg = "";
         var galleryM = document.getElementById("galleryM");
         var masterImgLen = galleryM.getElementsByTagName("input").length;

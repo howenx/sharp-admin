@@ -25,6 +25,13 @@ public interface StockMapper {
     List<Stock> getAllStock();
 
     /**
+     *
+     * @param prodId 商品id
+     * @return List of Stock entity
+     */
+    List<Stock> getStocksByProdId(Long prodId);
+
+    /**
      * insert stock
      * @param stock
      * @return Integer

@@ -1,5 +1,6 @@
 package entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -7,7 +8,7 @@ import java.math.BigDecimal;
  *
  * Created by Sunny Wu.
  */
-public class Stock {
+public class Stock implements Serializable{
 
     /**
      * 主键 id
