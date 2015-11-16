@@ -1,6 +1,7 @@
 #item
-item.add.prodsAddTitle=商品添加
-item.add.prodsListTitle=商品管理
+item.add.prodsAddTitle=商品录入
+item.add.prodsListTitle=商品查询
+item.add.prodsDetailTitle=商品详情
 item.add.basics=商品基本信息
 item.add.language=语言
 item.add.pleaseSelect=请选择
@@ -33,9 +34,13 @@ item.add.delete=删除
 item.add.cancel=取消
 item.add.prodsDetail=商品详情
 item.list.searchID=商品ID
-
-
-
+item.list.state=商品状态
+item.detail.basics=基本信息
+item.detail.stock=库存信息
+item.detail.details=详细信息
+item.detail.startDate=上架时间
+item.detail.endDate=下架时间
+item.detail.createDate=创建时间
 
 
 

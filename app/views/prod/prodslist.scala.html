@@ -3,9 +3,8 @@
 
 @scripts = {
 
-<link rel="stylesheet" href="/assets/css/list.css">
-
 <link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
 <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker.min.css"/>
 <script src="/assets/js/bootstrap-datetimepicker.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
@@ -22,118 +21,114 @@
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 
-<div class="content">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h3>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsListTitle")</h3>
-                <table class="table table-bordered tbone">
-                    <tr>
-                        <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.list.searchID")</th>
-                        <td>
-                            <input id="id" type="number" min="10000" max="99999999" class="form-control" style="border:1px solid #ccc; width:100%; height:34px;">
-                        </td>
-                        <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productName")</th>
-                        <td>
-                            <input id="productName" type="text" min="10000" max="99999999" class="form-control" style="border:1px solid #ccc; width:100%; height:34px;">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <span>@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition3")</span>
-                        </th>
-                        <td>
-                            <div  style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
-                                <input id = "sellOnDate" class="form-control" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                            </div>
-                        </td>
-                        <th>
-                            <span>@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition4")</span>
-                        </th>
-                        <td>
-                            <div  style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
-                                <input id = "sellOffDate"  class="form-control" size="16" type="text" value="" readonly>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="4">
-                            <a id="search" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
-                            <a id="reset" href="javascript:void(0)" class="btn btn-primary">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")</a>
-                        </td>
-                    </tr>
-                </table>
-
-                <div class="bgk">
-                    <table id="prodsTab" class="table table-bordered tbtwo l">
-                        <thead>
-                        <tr class="trone">
-                            <th>
-                                @Messages.get(new Lang(Lang.forCode(lang)),"item.list.searchID")
-                                <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
-                            </th>
-                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productName")</th>
-                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</th>
-                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</th>
-                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</th>
-                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.masterImg")</th>
-                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productColor")</th>
-                            <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productSize")</th>
-                            <th>
-                                @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition3")
-                                <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
-                            </th>
-                            <th>
-                                @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition4")
-                                <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
-                            </th>
-                            <th>
-                                @Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")
-                                <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
-                            </th>
-                            <th>
-                                @Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")
-                                <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            @for(p <- prodsList) {
-                                <tr>
-                                    <td><a href="javascript:void(0)">@p.getId()</a></td>
-                                    <td>@p.getProductName()</td>
-                                    <td>@p.getMerchName()</td>
-                                    <td>@p.getBrandId()</td>
-                                    <td>@p.getCateId()</td>
-                                    <td><img class="main-img" src="@url@p.getMasterImg()" alt="" width="50" height="50"/></td>
-                                    <td>@p.getProductColor()</td>
-                                    <td>@p.getProductSize()</td>
-                                    <td>@p.getSellOnDate()</td>
-                                    <td>@p.getSellOffDate()</td>
-                                    <td>@p.getProductPrice()</td>
-                                    <td>@p.getRecommendPrice()</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                    <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
-                    <div class="paging">
-                        <ul class="pagination">
-                            <li class="prev diabled"><a href="javascript:void(0)">&laquo;</a></li>
-                            <li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>
-                            @for(count <- 1 until pageCount){
-                            <li class="page-num"><a href="javascript:void(0)">@(count+1)</a></li>
-                            }
-                            <li class="next"><a href="javascript:void(0)">&raquo;</a></li>
-                        </ul>
-                    </div>
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
+        <span class="icon-path">&gt;</span>
+        <span>@Messages.get(new Lang(Lang.forCode(lang)),"nav.products.menu1")</span>
+    </div>
+</div>
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products.menu1")</span>
+    </div>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.list.searchID")</label>
+            <div class="col-sm-4">
+                <input id="id" type="number" min="10000" max="99999999" class="form-control"/>
+            </div>
+            <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productName")</label>
+            <div class="col-sm-4">
+                <input id="productName" type="text" min="10000" max="99999999" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition3")</label>
+            <div class="col-sm-4">
+                <div id="datetimepicker-starttime" style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
+                    <input id="sellOnDate" class="form-control" size="16" type="text" value=""/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                 </div>
             </div>
+            <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition4")</label>
+            <div class="col-sm-4">
+                <div id="datetimepicker-endtime" style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
+                    <input id="sellOffDate" class="form-control" size="16" type="text" value=""/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+            </div>
+        </div>
+        <div class="btn-s">
+            <input id="reset" type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'>
+            <a id="search" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
+        </div>
+    </form>
+    <div class="table-content">
+        <table id="prodsTab" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>
+                    @Messages.get(new Lang(Lang.forCode(lang)),"item.list.searchID")
+                    <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
+                </th>
+                <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productName")</th>
+                <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</th>
+                <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</th>
+                <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</th>
+                <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.masterImg")</th>
+                <th>
+                    @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition3")
+                    <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
+                </th>
+                <th>
+                    @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition4")
+                    <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
+                </th>
+                <th>
+                    @Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")
+                    <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
+                </th>
+                <th>
+                    @Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")
+                    <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
+                </th>
+                <th>@Messages.get(new Lang(Lang.forCode(lang)),"item.list.state")</th>
+            </tr>
+            </thead>
+            <tbody>
+                @for(p <- prodsList) {
+                    <tr>
+                        <td><a href="/@lang/prodsDetail/@p.getId()">@p.getId()</a></td>
+                        <td>@p.getProductName()</td>
+                        <td>@p.getMerchName()</td>
+                        <td>@p.getBrandName()</td>
+                        <td>@p.getCateName()</td>
+                        <td><img class="main-img" src="@url@p.getMasterImg()" alt="" width="50" height="50"/></td>
+                        <td>@p.getSellOnDate()</td>
+                        <td>@p.getSellOffDate()</td>
+                        <td>@p.getProductPrice()</td>
+                        <td>@p.getRecommendPrice()</td>
+                        <td>@p.getProductState()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
+        <div class="paging">
+            <ul class="pagination">
+                <li class="prev diabled"><a href="javascript:void(0)">&laquo;</a></li>
+                <li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>
+                @for(count <- 1 until pageCount){
+                    <li class="page-num"><a href="javascript:void(0)">@(count+1)</a></li>
+                }
+                <li class="next"><a href="javascript:void(0)">&raquo;</a></li>
+            </ul>
         </div>
     </div>
 </div>
@@ -145,6 +140,3 @@
     </div>
 </div>
 }
-<script type="text/javascript">
-
-</script>

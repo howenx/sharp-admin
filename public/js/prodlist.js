@@ -119,18 +119,17 @@ $(function() {
 					$(data.prods).each(function(index, element) {
 						$('#prodsTab').find('tbody').append('' +
 							'<tr>' +
-							'<td><a href="javascript:void(0)">' + $(this)[0].id + '</a></td>' +
+							'<td><a href="/'+window.lang+''/prodsDetail/'+$(this)[0].id+'">' + $(this)[0].id + '</a></td>' +
 							'<td>' + $(this)[0].productName + '</td>' +
 							'<td>' + $(this)[0].merchName + '</td>' +
 							'<td>' + $(this)[0].brandId + '</td>' +
 							'<td>' + $(this)[0].cateId + '</td>' +
 							'<td>' + '<img class="main-img" src="' + window.url + $(this)[0].masterImg + '" alt="" width="50" height="50">' + '</td>' +
-							'<td>' + $(this)[0].productColor + '</td>' +
-							'<td>' + $(this)[0].productSize + '</td>' +
 							'<td>' + $(this)[0].sellOnDate + '</td>' +
 							'<td>' + $(this)[0].sellOffDate + '</td>' +
 							'<td>' + $(this)[0].productPrice + '</td>' +
 							'<td>' + $(this)[0].recommendPrice + '</td>' +
+							'<td>' + $(this)[0].productState + '</td>' +
 							'</tr>'
 						);
 					})
@@ -171,7 +170,7 @@ $(function() {
 
 					} else {
 						$('#prodsTab').find('tbody').append('' +
-							'<tr><td colspan="12">Not Found Data</td></tr>'
+							'<tr><td colspan="11">Not Found Data</td></tr>'
 						);
 						//page toolbar
 						$('.page-toolbar-title').text("Count:" + data.countNum + " results/Every Page:" + data.pageSize + " results/Sum Page:" + data.pageCount + " pages");

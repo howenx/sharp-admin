@@ -3,16 +3,16 @@
 
 @scripts = {
 
-<!-- 日历-->
 <link href="/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/xspsc.css"/>
+<link rel="stylesheet" href="/assets/css/prods.css"/>
+<link rel="stylesheet" href="/assets/css/slider.css"/>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script src="/assets/js/bootstrap-datetimepicker.ko.js"></script>
 <script src="/assets/js/rili.js"></script>
 <!-- edit -->
 <script type="text/javascript" charset="utf-8" src="/assets/editorphp/ueditor.config.js"></script>
-<script src="/assets/js/xspsc.js"></script>
+<script src="/assets/js/prods.js"></script>
 <!--<script type="text/javascript" charset="utf-8" src="/assets/editorphp/ueditor.all.js"></script>-->
 <!--建议手动加载语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
 <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
@@ -26,334 +26,352 @@
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 
-<div class="content">
-    <div class="container">
-        <div class="row">
-            <input id="lang-input" type="hidden" value="@lang">
-            <form class="form-horizontal" method="post" action="/insertProducts" id="insertProducts" enctype="multipart/form-data">
+<div style="width: 50%;margin: 10px auto;display:none;" class="alert alert-success" role="alert">
+    <strong>Well done!</strong>
+    @if(flash.containsKey("success")) {
+    @flash.get("success")
+    }
+    <span class="close" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+</div>
 
-                <div class="upinfo">
-                    <h1 class="tit1">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.basics")</h1>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.language")</div></label>
-                        <div class="col-sm-3">
-                            <select class="form-control" id="language" name="language" onchange="changeLang()">
-                                <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
-                                <option value="cn">Chinese</option>
-                                <option value="en">English</option>
-                                <option value="kr">Korea</option>
-                            </select>
-                        </div>
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
+        <span class="icon-path">&gt;</span>
+        <span>@Messages.get(new Lang(Lang.forCode(lang)),"nav.products.menu2")</span>
+    </div>
+</div>
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsAddTitle")</span>
+    </div>
+    <div class="usercenter-option">
+        <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
+        <div  id="submitProducts" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
+        <div id="cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
+        <span id="js-userinfo-error" class="mt20 alt fr"></span>
+    </div>
+    <div class="row">
+        <input id="lang-input" type="hidden" value="@lang">
+        <form class="form-horizontal" method="post" action="/insertProducts" id="insertProducts" enctype="multipart/form-data">
+            <div class="upinfo">
+                <!-- 商品基本信息 -->
+                <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.basics")</h4>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.language")</div></label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="language" name="language" onchange="changeLang()">
+                            <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
+                            <option value="cn">Chinese</option>
+                            <option value="en">English</option>
+                            <option value="kr">Korea</option>
+                        </select>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</div></label>
-                        <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</div></label>
+                    <div class="col-sm-3">
 
-                            <select class="form-control" id="categorySelect">
-                                <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
-                                @for(cates <- catesParentList) {
-                                    @if(lang=="cn") {
-                                    <option value="@cates.getCateId()">@cates.getCateNameCn()
-                                    </option>
-                                    }
-                                    @if(lang=="en") {
-                                    <option value="@cates.getCateId()">@cates.getCateNameEn()
-                                    </option>
-                                    }
-                                    @if(lang=="kr") {
-                                    <option value="@cates.getCateId()">@cates.getCateNameKr()
-                                    </option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                        <div class="col-sm-3" id="divDynamicSubCates">
-                            <select class="form-control" id='categorySubSelect' name="cateId">
-                                <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</div></label>
-
-                        <div class="col-sm-3">
-                            <select class="form-control" id="bandSelect" name="brandId">
-                                <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
-                                @for(b <- brandsList) {
+                        <select class="form-control" id="categorySelect">
+                            <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
+                            @for(cates <- catesParentList) {
                                 @if(lang=="cn") {
-                                <option value="@b.getBrandId()">@b.getBrandNmCn()
+                                <option value="@cates.getCateId()">@cates.getCateNameCn()
                                 </option>
                                 }
                                 @if(lang=="en") {
-                                <option value="@b.getBrandId()">@b.getBrandNmEn()
+                                <option value="@cates.getCateId()">@cates.getCateNameEn()
                                 </option>
                                 }
                                 @if(lang=="kr") {
-                                <option value="@b.getBrandId()">@b.getBrandNmKr()
+                                <option value="@cates.getCateId()">@cates.getCateNameKr()
                                 </option>
                                 }
-                                }
-                            </select>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-3" id="divDynamicSubCates">
+                        <select class="form-control" id='categorySubSelect' name="cateId">
+                            <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</div></label>
+
+                    <div class="col-sm-3">
+                        <select class="form-control" id="bandSelect" name="brandId">
+                            <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
+                            @for(b <- brandsList) {
+                            @if(lang=="cn") {
+                            <option value="@b.getBrandId()">@b.getBrandNmCn()
+                            </option>
+                            }
+                            @if(lang=="en") {
+                            <option value="@b.getBrandId()">@b.getBrandNmEn()
+                            </option>
+                            }
+                            @if(lang=="kr") {
+                            <option value="@b.getBrandId()">@b.getBrandNmKr()
+                            </option>
+                            }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productName")</div></label>
+
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="productName" name="productName">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productColor")</div></label>
+
+                    <div class="col-sm-3" id="addColor">
+                        <div class="yanse">
+                            <ul>
+                                <li>
+                                    <span><input type="text" class="colorIn" name="productColor"/></span>
+                                    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </li>
+                                <li style="border:0px;">
+                                    <span class="add" >＋</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
+                    <div id="warn-color" style="color:red; margin-top:20px;"></div>
+                </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productName")</div></label>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productSize")</div></label>
 
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="productName" name="productName">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productColor")</div></label>
-
-                        <div class="col-sm-3" id="addColor">
-                            <div class="yanse">
-                                <ul>
-                                    <li>
-                                        <span><input type="text" class="colorIn" name="productColor"/></span>
-                                        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="col-sm-3">
+                        <div class="size" id="addSize">
+                            <div>
+                                <ul class="l">
+                                    <li class="sizeIn">
+                                        <span><input type="text" class="sizeIn" name="productSize"/></span>
+                                        <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
                                     </li>
                                     <li style="border:0px;">
-                                        <span class="add" >＋</span>
+                                        <span class="add">＋</span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        <div id="warn-color" style="color:red; margin-top:20px;"></div>
+                    </div>
+                    <div id="warn-size" style="color:red; margin-top:20px;"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</div></label>
+
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="merchName" name="merchName">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.sourceArea")</div></label>
+
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="sourceArea" name="sourceArea">
+                    </div>
+                </div>
+
+                <!-- 商品销售信息-->
+                <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.sells")</h4>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.sellDate")</div></label>
+
+                    <div class="col-sm-3">
+                        <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:" data-link-field="dtp_input1">
+                            <input class="form-control" size="16" type="text" value="" readonly id="sellOnDate" name="sellOnDate">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                    </div>
+                    <div class="to l">~</div>
+                    <div class="col-sm-3">
+                        <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:ii" data-link-field="dtp_input1">
+                            <input class="form-control" size="16" type="text" value="" readonly id="sellOffDate" name="sellOffDate">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.numPri")</div></label>
+
+                    <div class="col-sm-6">
+                        <input type="hidden" id ="amount" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productAmount")'/>
+                        <input type="hidden" id ="pri" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")'/>
+                        <input type="hidden" id ="spri" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")'/>
+                        <table class="table table-bordered spsl" id="numpri" border="2px">
+                            <tr>
+                                <td rowspan="2">\</td>
+                                <td colspan="2">颜色1</td>
+                                <td colspan="2">颜色2</td>
+                            </tr>
+                            <tr>
+                                <td>颜色1尺寸1</td>
+                                <td>颜色1尺寸2</td>
+                                <td>颜色2尺寸1</td>
+                                <td>颜色2尺寸2</td>
+                            </tr>
+                            <tr>
+                                <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productAmount")</td>
+                                <td><input type="text" name="productAmount"/></td>
+                                <td><input type="text" name="productAmount"/></td>
+                                <td><input type="text" name="productAmount"/></td>
+                                <td><input type="text" name="productAmount"/></td>
+                            </tr>
+                            <tr>
+                                <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")</td>
+                                <td><input type="text" name="productPrice"/></td>
+                                <td><input type="text" name="productPrice"/></td>
+                                <td><input type="text" name="productPrice"/></td>
+                                <td><input type="text" name="productPrice"/></td>
+                            </tr>
+                            <tr>
+                                <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")</td>
+                                <td><input type="text" name="recommendPrice"/></td>
+                                <td><input type="text" name="recommendPrice"/></td>
+                                <td><input type="text" name="recommendPrice"/></td>
+                                <td><input type="text" name="recommendPrice"/></td>
+                        </table>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productSize")</div></label>
+                </div>
+                <div id="warn-amount" style="color:red; margin-top:-110px;float:right;"></div>
+                <div id="warn-price" style="color:red; margin-top:-90px;float:right;"></div>
 
-                        <div class="col-sm-3">
-                            <div class="size" id="addSize">
-                                <div>
-                                    <ul class="l">
-                                        <li class="sizeIn">
-                                            <span><input type="text" class="sizeIn" name="productSize"/></span>
-                                            <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
-                                        </li>
-                                        <li style="border:0px;">
-                                            <span class="add">＋</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                <!-- 商品详细信息-->
+                <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.details")</h4>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.masterImg")</div><div style="margin-top:20px;margin-right:30px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.onePic"))</div></label>
+
+                    <div class="col-sm-3">
+                        <div class="sctp" style="width:350px">
+                            <div class="sctp1 l">
+                                <a href="#" id="masterImgAdd">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
+                                <input type="hidden" id="masterImg" name="masterImg" value=""/>
+                                <input type="file" id="M" name="image" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png" />
+                            </div>
+                            <div class="imgk l" id="galleryM" style="width:150px">
                             </div>
                         </div>
-                        <div id="warn-size" style="color:red; margin-top:20px;"></div>
                     </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</div></label>
-
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="merchName" name="merchName">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.sourceArea")</div></label>
-
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="sourceArea" name="sourceArea">
-                        </div>
-                    </div>
-
-                    <!-- 商品销售信息-->
-                    <h1 class="tit1">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.sells")</h1>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.sellDate")</div></label>
-
-                        <div class="col-sm-3">
-                            <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:" data-link-field="dtp_input1">
-                                <input class="form-control" size="16" type="text" value="" readonly id="sellOnDate" name="sellOnDate">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                            </div>
-                        </div>
-                        <div class="to l">~</div>
-                        <div class="col-sm-3">
-                            <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:ii" data-link-field="dtp_input1">
-                                <input class="form-control" size="16" type="text" value="" readonly id="sellOffDate" name="sellOffDate">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.numPri")</div></label>
-
-                        <div class="col-sm-6">
-                            <input type="hidden" id ="amount" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productAmount")'/>
-                            <input type="hidden" id ="pri" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")'/>
-                            <input type="hidden" id ="spri" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")'/>
-                            <table class="table table-bordered spsl" id="numpri" border="2px">
-                                <tr>
-                                    <td rowspan="2">\</td>
-                                    <td colspan="2">颜色1</td>
-                                    <td colspan="2">颜色2</td>
-                                </tr>
-                                <tr>
-                                    <td>颜色1尺寸1</td>
-                                    <td>颜色1尺寸2</td>
-                                    <td>颜色2尺寸1</td>
-                                    <td>颜色2尺寸2</td>
-                                </tr>
-                                <tr>
-                                    <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productAmount")</td>
-                                    <td><input type="text" name="productAmount"/></td>
-                                    <td><input type="text" name="productAmount"/></td>
-                                    <td><input type="text" name="productAmount"/></td>
-                                    <td><input type="text" name="productAmount"/></td>
-                                </tr>
-                                <tr>
-                                    <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")</td>
-                                    <td><input type="text" name="productPrice"/></td>
-                                    <td><input type="text" name="productPrice"/></td>
-                                    <td><input type="text" name="productPrice"/></td>
-                                    <td><input type="text" name="productPrice"/></td>
-                                </tr>
-                                <tr>
-                                    <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")</td>
-                                    <td><input type="text" name="recommendPrice"/></td>
-                                    <td><input type="text" name="recommendPrice"/></td>
-                                    <td><input type="text" name="recommendPrice"/></td>
-                                    <td><input type="text" name="recommendPrice"/></td>
-                            </table>
-                        </div>
-
-                    </div>
-                    <div id="warn-amount" style="color:red; margin-top:-110px;float:right;"></div>
-                    <div id="warn-price" style="color:red; margin-top:-90px;float:right;"></div>
-
-                    <!-- 商品详细信息-->
-                    <h1 class="tit1">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.details")</h1>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.masterImg")</div><div style="margin-top:20px;margin-right:30px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.onePic"))</div></label>
-
-                        <div class="col-sm-3">
-                            <div class="sctp" style="width:350px">
-                                <div class="sctp1 l">
-                                    <a href="#" id="masterImgAdd">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
-                                    <input type="hidden" id="masterImg" name="masterImg" value=""/>
-                                    <input type="file" id="M" name="image" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png" />
-                                </div>
-                                <div class="imgk l" id="galleryM" style="width:150px">
-                                </div>
-                            </div>
-                        </div>
-                        <div id="warn-mastImg" style="color:red; margin-left:610px;margin-top:80px;"></div>
-                    </div>
+                    <div id="warn-mastImg" style="color:red; margin-left:650px;margin-top:80px;"></div>
+                </div>
 
 
-                    <input type="hidden" id="preIms" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")' />
-                    <input type="hidden" id="mostS" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic")' />
-                    <input type="hidden" id="addPic" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")' />
-                    <div id="preImgs">
+                <input type="hidden" id="preIms" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")' />
+                <input type="hidden" id="mostS" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic")' />
+                <input type="hidden" id="addPic" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")' />
+                <div id="preImgs">
 
-                        <div class="form-group fdel">
-                            <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</div><div style="margin-top:20px;margin-right:5px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic"))</div></label>
-
-                            <div class="col-sm-7">
-                                <div class="sctp">
-                                    <button type="button" class="close big" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <div class="sctp1 l">
-                                        <span class="ysfont">颜色1</span>
-                                        <a href="#" id="preImgAddP0">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
-                                        <input type="file" id="P0" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
-                                    </div>
-                                    <div class="imgk l" id="galleryP0">
-                                        <input type="hidden" id="previewImgs0" name="previewImgs"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <p style="margin-top:70px;">(如不需上传图片可移除)</p>
-                        </div>
-
-                        <div class="form-group fdel">
-                            <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</div><div style="margin-top:20px;margin-right:5px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic"))</div></label>
-
-                            <div class="col-sm-7">
-                                <div class="sctp">
-                                    <button type="button" class="close big" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <div class="sctp1 l">
-                                        <span class="ysfont">颜色2</span>
-                                        <a href="#" id="preImgAddP1">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
-                                        <input type="file" id="P1"  class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
-                                    </div>
-                                    <div class="imgk l" id="galleryP1">
-                                        <input type="hidden" id="previewImgs1" name="previewImgs"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <p style="margin-top:70px;">(如不需上传图片可移除)</p>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</label>
+                    <div class="form-group fdel">
+                        <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</div><div style="margin-top:20px;margin-right:5px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic"))</div></label>
 
                         <div class="col-sm-7">
                             <div class="sctp">
+                                <button type="button" class="close big" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 <div class="sctp1 l">
-                                    <a href="#">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
-                                    <input type="hidden" id="detailImgs" name="detailImgs" />
-                                    <input type="file" id="D" name="image" class="hidden1" value=""/>
+                                    <span class="ysfont">颜色1</span>
+                                    <a href="#" id="preImgAddP0">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
+                                    <input type="file" id="P0" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                                 </div>
-                                <div class="imgk l" id="galleryD">
+                                <div class="imgk l" id="galleryP0">
+                                    <input type="hidden" id="previewImgs0" name="previewImgs"/>
                                 </div>
                             </div>
                         </div>
-
+                        <p style="margin-top:70px;">(如不需上传图片可移除)</p>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productDesc")</label>
+                    <div class="form-group fdel">
+                        <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</div><div style="margin-top:20px;margin-right:5px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic"))</div></label>
 
                         <div class="col-sm-7">
-                            <!--<script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>-->
-                            <input type="text" class="form-control" id="productDesc" name="productDesc">
+                            <div class="sctp">
+                                <button type="button" class="close big" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <div class="sctp1 l">
+                                    <span class="ysfont">颜色2</span>
+                                    <a href="#" id="preImgAddP1">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
+                                    <input type="file" id="P1"  class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                                </div>
+                                <div class="imgk l" id="galleryP1">
+                                    <input type="hidden" id="previewImgs1" name="previewImgs"/>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="margin-top:70px;">(如不需上传图片可移除)</p>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</label>
+
+                    <div class="col-sm-7">
+                        <div class="sctp">
+                            <div class="sctp1 l">
+                                <a href="#">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
+                                <input type="hidden" id="detailImgs" name="detailImgs" />
+                                <input type="file" id="D" name="image" class="hidden1" value=""/>
+                            </div>
+                            <div class="imgk l" id="galleryD">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.features")</label>
+                </div>
 
-                        <div class="col-sm-7" id="tabFea">
-                            <input type="hidden" class="form-control" id="features" name="features">
-                            <input type="hidden" id="del" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")'>
-                            <table class="table table-bordered qubian">
-                                <tr>
-                                    <td >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureName")</td>
-                                    <td width=380px>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureValue")</td>
-                                    <td class="add">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.add")</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" name="attrN"/></td>
-                                    <td><input type="text" name="attrV"/></td>
-                                    <td class="del" >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div id="warn-attr" style="color:red; margin-left:0px;margin-top:15px;"></div>
-                    </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productDesc")</label>
 
-                    <div class="mybtns">
-                        <a href="#" class="btn btn-primary btn-lg active btncl" role="button" id="submitProducts" >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.add")</a>
-                        <a href="#" class="btn btn-primary btn-lg active btncl" role="button">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cancel")</a>
+                    <div class="col-sm-7">
+                        <!--<script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>-->
+                        <input type="text" class="form-control" id="productDesc" name="productDesc">
                     </div>
                 </div>
-            </form>
-        </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.features")</label>
+
+                    <div class="col-sm-7" id="tabFea">
+                        <input type="hidden" class="form-control" id="features" name="features">
+                        <input type="hidden" id="del" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")'>
+                        <table class="table table-bordered qubian">
+                            <tr>
+                                <td >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureName")</td>
+                                <td width=380px>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureValue")</td>
+                                <td class="add">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.add")</td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="attrN"/></td>
+                                <td><input type="text" name="attrV"/></td>
+                                <td class="del" >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="warn-attr" style="color:red; margin-left:0px;margin-top:15px;"></div>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 

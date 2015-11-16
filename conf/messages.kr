@@ -1,6 +1,7 @@
 #item
-item.add.prodsAddTitle=商品添加_kr
-item.add.prodsListTitle=商品管理_kr
+item.add.prodsAddTitle=商品录入_kr
+item.add.prodsListTitle=商品查询_kr
+item.add.prodsDetailTitle=商品详情_kr
 item.add.basics=商品基本信息_kr
 item.add.language=语言_kr
 item.add.pleaseSelect=请选择_kr
@@ -33,10 +34,13 @@ item.add.delete=删除_kr
 item.add.cancel=取消_kr
 item.add.prodsDetail=商品详情_kr
 item.list.searchID=商品ID_kr
-
-
-
-
+item.list.state=商品状态_kr
+item.detail.basics=基本信息_kr
+item.detail.stock=库存信息_kr
+item.detail.details=详细信息_kr
+item.detail.startDate=上架时间_kr
+item.detail.endDate=下架时间_kr
+item.detail.createDate=创建时间_kr
 
 
 
