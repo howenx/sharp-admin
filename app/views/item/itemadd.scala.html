@@ -74,6 +74,18 @@ $(function(){
             <div class="upinfo">
             <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.basics")</h4>
             <div class="form-group">
+                <label class="col-sm-2 control-label">语言</label>
+                <input id="lang-input" type="hidden" value="@lang">
+                <div class="col-sm-2">
+                    <select class="form-control" id="language" name="language" onchange="changeLang()">
+                        <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
+                        <option value="cn">Chinese</option>
+                        <option value="en">English</option>
+                        <option value="kr">Korea</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-2 control-label">类别</label>
                 <div class="col-sm-2">
                     <select class="form-control" id="categorySelect">
@@ -125,7 +137,17 @@ $(function(){
                 <div class="col-sm-4">
                     <input type="text" class="form-control">
                 </div>
-                <label class="col-sm-2 control-label">商品主题</label>
+                <label class="col-sm-2 control-label">商品标题</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">海关编码</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control">
+                </div>
+                <label class="col-sm-2 control-label">原产地</label>
                 <div class="col-sm-4">
                     <input type="text" class="form-control">
                 </div>
@@ -146,16 +168,6 @@ $(function(){
                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                     </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">是否已加入主题</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control">
-                </div>
-                <label class="col-sm-2 control-label">主题ID</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control">
                 </div>
             </div>
         </div>
@@ -210,7 +222,7 @@ $(function(){
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">商品详细图</label>
+                <label class="col-sm-2 control-label">商品预览图</label>
                 <div class="col-sm-10">
                     <div class="gridly">
                         <div class="brick small">
@@ -241,6 +253,27 @@ $(function(){
                                 </div>
                             </div>
                         </div>
+                        <div class="brick small">
+                            <div class="img-rongqi">
+                                <img src="/assets/images/1.jpg" alt="">
+                                <div class="btn-main">
+                                    <button class="btn btn-primary active btn-xs" role="button" style="position: relative">
+                                        编辑
+                                        <input type="file">
+                                    </button>
+                                    <button class="btn btn-primary active btn-xs btn-del" role="button" style="position: relative">
+                                        删除
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">商品详细图</label>
+                <div class="col-sm-10">
+                    <div class="gridly">
                         <div class="brick small">
                             <div class="img-rongqi">
                                 <img src="/assets/images/1.jpg" alt="">
@@ -289,7 +322,7 @@ $(function(){
             <div class="form-group">
                 <label class="col-sm-2 control-label">商品描述</label>
                 <div class="col-sm-10">
-
+                    <input type="text"/>
                 </div>
             </div>
             <div class="form-group">
@@ -310,7 +343,7 @@ $(function(){
         </div>
         <!--商品设置-->
         <div class="goods-setting">
-            <h3>商品设置</h3>
+            <h4 class="h4-custom-hmm">商品设置</h4>
             <div class="form-group">
                 <label class="col-sm-2 control-label">是否支持拼购</label>
                 <div class="col-sm-4">
@@ -380,40 +413,11 @@ $(function(){
             <div class="form-group">
                 <label class="col-sm-2 control-label">发货区域</label>
                 <div class="col-sm-2">
-                    <select class="form-control">
-                        <option value="1">中国</option>
-                        <option value="1">1</option>
-                        <option value="1">1</option>
-                        <option value="1">1</option>
-                    </select>
-                </div>
-                <div class="col-sm-2">
-                    <select class="form-control">
-                        <option value="1">北京</option>
-                        <option value="1">1</option>
-                        <option value="1">1</option>
-                        <option value="1">1</option>
-                    </select>
-                </div>
-                <div class="col-sm-2">
-                    <select class="form-control">
-                        <option value="1">xx区</option>
-                        <option value="1">1</option>
-                        <option value="1">1</option>
-                        <option value="1">1</option>
-                    </select>
-                </div>
-                <div class="col-sm-2">
-                    <select class="form-control">
-                        <option value="1">xx街</option>
-                        <option value="1">1</option>
-                        <option value="1">1</option>
-                        <option value="1">1</option>
-                    </select>
+                    <input type="text" class="form-control">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">发货区域</label>
+                <label class="col-sm-2 control-label">发货日期</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control">
                 </div>
@@ -422,27 +426,9 @@ $(function(){
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">销售开始时间</label>
-                <div class="col-sm-4 form-inline">
-                    <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:" data-link-field="dtp_input1">
-                        <input class="form-control" size="16" type="text" value="" readonly name="sellOnDate">
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                    </div>
-                </div>
-                <label class="col-sm-2 control-label">销售截止时间</label>
-                <div class="col-sm-4 form-inline">
-                    <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:" data-link-field="dtp_input1">
-                        <input class="form-control" size="16" type="text" value="" readonly name="sellOnDate">
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-sm-2 control-label">商品重要通知</label>
                 <div class="col-sm-10">
-
+                    <textarea></textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -470,10 +456,19 @@ $(function(){
         </div>
         <!--选择主题-->
         <div class="theme-change">
-            <h3>主题选择</h3>
+            <h4 class="h4-custom-hmm">主题选择</h4>
             <div class="form-group">
+                <label class="col-sm-2 control-label">是否已加入主题</label>
+                <div class="col-sm-4">
+                    <label class="radio-inline">
+                        <input type="radio" name="orJoinTheme"> 是
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="orJoinTheme"> 否
+                    </label>
+                </div>
                 <label class="col-sm-2 control-label">主题ID</label>
-                <div class="col-sm-10" style="line-height: 34px">
+                <div class="col-sm-4" style="line-height: 34px">
                     <span class="tanch"></span>
                     <button class="btn btn-primary active btn-xs" role="button" onclick="ShowModal()">
                         选择
@@ -481,8 +476,8 @@ $(function(){
                 </div>
             </div>
         </div>
-            </form>
-        </div>
+        </form>
+    </div>
 </div>
 
 <div class="goods-img-bg">
@@ -495,6 +490,8 @@ $(function(){
 
 <script type="text/javascript">
 $(function()  {
+    var language = $('#lang-input').val();
+    $("#language").val(language);
     /* 一级类别改变重新加载二级类别*/
     $('#categorySelect').change(function() {
         var pcid = $("#categorySelect").val();
@@ -523,4 +520,16 @@ $(function()  {
         });
     });
 });
+
+/** 更改语言 **/
+
+function changeLang() {
+    var lang = $("#language").val();
+    if (lang == "") {
+        location.href='/comm/add';
+    } else {
+        location.href='/'+lang+'/comm/add';
+    }
+
+}
 </script>

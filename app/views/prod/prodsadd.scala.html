@@ -55,27 +55,13 @@
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
     <div class="row">
-        <input id="lang-input" type="hidden" value="@lang">
         <form class="form-horizontal" method="post" action="/insertProducts" id="insertProducts" enctype="multipart/form-data">
             <div class="upinfo">
                 <!-- 商品基本信息 -->
                 <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.basics")</h4>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.language")</div></label>
-                    <div class="col-sm-3">
-                        <select class="form-control" id="language" name="language" onchange="changeLang()">
-                            <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
-                            <option value="cn">Chinese</option>
-                            <option value="en">English</option>
-                            <option value="kr">Korea</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</div></label>
-                    <div class="col-sm-3">
-
+                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</div></label>
+                    <div class="col-sm-2">
                         <select class="form-control" id="categorySelect">
                             <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
                             @for(cates <- catesParentList) {
@@ -94,17 +80,13 @@
                             }
                         </select>
                     </div>
-                    <div class="col-sm-3" id="divDynamicSubCates">
+                    <div class="col-sm-2" id="divDynamicSubCates">
                         <select class="form-control" id='categorySubSelect' name="cateId">
                             <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
                         </select>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</div></label>
-
-                    <div class="col-sm-3">
+                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</div></label>
+                    <div class="col-sm-2">
                         <select class="form-control" id="bandSelect" name="brandId">
                             <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
                             @for(b <- brandsList) {
@@ -123,99 +105,69 @@
                             }
                         </select>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productName")</div></label>
-
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" id="productName" name="productName">
+                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productName")</div></label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="itemNm" name="itemNm">
                     </div>
                 </div>
-
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productColor")</div></label>
-
-                    <div class="col-sm-3" id="addColor">
-                        <div class="yanse">
-                            <ul>
-                                <li>
-                                    <span><input type="text" class="colorIn" name="productColor"/></span>
-                                    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                </li>
-                                <li style="border:0px;">
-                                    <span class="add" >＋</span>
-                                </li>
-                            </ul>
-                        </div>
+                    <label class="col-sm-1 control-label" ><div class="r">商品标题</div></label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="itemTitle" name="itemTitle">
                     </div>
-                    <div id="warn-color" style="color:red; margin-top:20px;"></div>
+                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.sourceArea")</div></label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="sourceArea" name="sourceArea">
+                    </div>
                 </div>
-
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productSize")</div></label>
-
-                    <div class="col-sm-3">
-                        <div class="size" id="addSize">
-                            <div>
-                                <ul class="l">
-                                    <li class="sizeIn">
-                                        <span><input type="text" class="sizeIn" name="productSize"/></span>
-                                        <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
+                    <div  id="color" class="fdel">
+                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productColor")</div></label>
+                        <div class="col-sm-4">
+                            <div class="color" id="addColor">
+                                <button type="button" class="close big" aria-label="Close" style="font-size:14px;;"><span aria-hidden="true" >&times;</span></button>
+                                <ul>
+                                    <li>
+                                        <span><input type="text" class="colorIn" name="productColor"/></span>
+                                        <button type="button" class="close" aria-label="Close" ><span aria-hidden="true">&times;</span></button>
                                     </li>
                                     <li style="border:0px;">
-                                        <span class="add">＋</span>
+                                        <span class="add" >＋</span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div id="warn-size" style="color:red; margin-top:20px;"></div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</div></label>
-
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" id="merchName" name="merchName">
+                    <div class="fdel">
+                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productSize")</div></label>
+                        <div class="col-sm-4">
+                            <div class="size" id="addSize">
+                                <button type="button" class="close big" aria-label="Close" style="font-size:14px;;"><span aria-hidden="true" >&times;</span></button>
+                                <div>
+                                    <ul>
+                                        <li class="sizeIn">
+                                            <span><input type="text" class="sizeIn" name="productSize"/></span>
+                                            <button type="button" class="close" aria-label="Close"><span>&times;</span></button>
+                                        </li>
+                                        <li style="border:0px;">
+                                            <span class="add">＋</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.sourceArea")</div></label>
+                <div class="form-group fdel">
 
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" id="sourceArea" name="sourceArea">
-                    </div>
                 </div>
-
                 <!-- 商品销售信息-->
                 <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.sells")</h4>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.sellDate")</div></label>
+                    <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.numPri")</div></label>
 
-                    <div class="col-sm-3">
-                        <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:ii" data-link-field="dtp_input1">
-                            <input class="form-control" size="16" type="text" value="" readonly id="sellOnDate" name="sellOnDate">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                        </div>
-                    </div>
-                    <div class="to l">~</div>
-                    <div class="col-sm-3">
-                        <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:ii" data-link-field="dtp_input1">
-                            <input class="form-control" size="16" type="text" value="" readonly id="sellOffDate" name="sellOffDate">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                        </div>
-                    </div>
-                </div>
-                <div id="warn-ate" style="color:red; margin-top:-50px; "></div>
-
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.numPri")</div></label>
-
-                    <div class="col-sm-6">
+                    <div class="col-sm-10">
                         <input type="hidden" id ="amount" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productAmount")'/>
                         <input type="hidden" id ="pri" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")'/>
                         <input type="hidden" id ="spri" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")'/>
@@ -257,12 +209,152 @@
                 </div>
                 <div id="warn-amount" style="color:red; margin-top:-110px;float:right;"></div>
                 <div id="warn-price" style="color:red; margin-top:-90px;float:right;"></div>
+                <h4 class="h4-custom-hmm">商品设置</h4>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">是否包邮</label>
+                    <div class="col-sm-2">
+                        <div class="radio-border">
+                            <label class="radio-inline">
+                                <input type="radio" name="orFreeShip"> 是
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="orFreeShip"> 否
+                            </label>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 control-label">是否有发票</label>
+                    <div class="col-sm-2">
+                        <div class="radio-border">
+                            <label class="radio-inline">
+                                <input type="radio" name="orFreeShip"> 是
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="orFreeShip"> 否
+                            </label>
+                        </div>
+                    </div>
+                    <label class="col-sm-2 control-label">是否有增值税发票</label>
+                    <div class="col-sm-2">
+                        <div class="radio-border">
+                            <label class="radio-inline">
+                                <input type="radio" name="orFreeShip"> 是
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="orFreeShip"> 否
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">发货地点</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="deliveryArea" name="deliveryArea">
+                    </div>
+                    <label class="col-sm-1 control-label">发货日期</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="deliveryTime" name="deliveryTime">
+                    </div>
+                    <div class="col-sm-2">
+                        <span style="line-height: 34px">(多久可以发货)</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">是否限购</label>
+                    <div class="col-sm-2">
+                        <div class="radio-border">
+                            <label class="radio-inline">
+                                <input type="radio" name="orRestrictBuy" value="option1"> 是
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="orRestrictBuy" value="option1"> 否
+                            </label>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 control-label" ><div class="r">限购数量</div></label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="restrictAmount" name="restrictAmount">
+                    </div>
 
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" ><div class="r">是否分享</div></label>
+                    <div class="col-sm-2">
+                        <div class="radio-border">
+                            <label class="radio-inline">
+                                <input type="radio" name="orShare" value="option1"> 是
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="orShare" value="option1"> 否
+                            </label>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 control-label" ><div class="r">分享key</div></label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="shareKey" name="shareKey">
+                    </div>
+                    <label class="col-sm-2 control-label">分享链接生成</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">分享图片</label>
+                    <div class="col-sm-3">
+                        <div class="detail-main">
+                            <div class="img-rongqi">
+                                <img src="/assets/images/1.jpg" alt="">
+                                <div class="btn-main">
+                                    <button class="btn btn-primary active btn-xs" role="button" style="position: relative">
+                                        编辑
+                                        <input type="file">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 control-label" ><div class="r">重要通知</div></label>
+                    <div class="col-sm-5">
+                        <textarea rows="6"  class="form-control" id="itemNotice" name="shareKey"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                </div>
+                <div class="form-group">
+
+                </div>
+                <div class="form-group">
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">商品宣传标语</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-primary btn-sm">add</button>
+                    </div>
+                </div>
+                <div class="col-sm-offset-2">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>456</td>
+                        </tr>
+                        <tr>
+                            <td>789</td>
+                        </tr>
+                    </table>
+                </div>
                 <!-- 商品详细信息-->
                 <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.details")</h4>
 
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.masterImg")</div><div style="margin-top:20px;margin-right:30px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.onePic"))</div></label>
+                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">商品主图</div><div style="margin-top:20px;margin-right:30px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.onePic"))</div></label>
 
                     <div class="col-sm-3">
                         <div class="sctp" style="width:350px">
@@ -285,7 +377,7 @@
                 <div id="preImgs">
 
                     <div class="form-group fdel">
-                        <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</div><div style="margin-top:20px;margin-right:5px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic"))</div></label>
+                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</div><div style="margin-top:20px;margin-right:5px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic"))</div></label>
 
                         <div class="col-sm-7">
                             <div class="sctp">
@@ -304,7 +396,7 @@
                     </div>
 
                     <div class="form-group fdel">
-                        <label class="col-sm-3 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</div><div style="margin-top:20px;margin-right:5px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic"))</div></label>
+                        <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</div><div style="margin-top:20px;margin-right:5px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic"))</div></label>
 
                         <div class="col-sm-7">
                             <div class="sctp">
@@ -325,7 +417,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</label>
+                    <label class="col-sm-1 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</label>
 
                     <div class="col-sm-7">
                         <div class="sctp">
@@ -342,16 +434,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productDesc")</label>
+                    <label class="col-sm-1 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productDesc")</label>
 
                     <div class="col-sm-7">
-                        <!--<script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>-->
-                        <input type="text" class="form-control" id="productDesc" name="productDesc">
+                        <textarea class="form-control" id="itemDesc" name="itemDesc"></textarea>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.features")</label>
+                    <label class="col-sm-1 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.features")</label>
 
                     <div class="col-sm-7" id="tabFea">
                         <input type="hidden" class="form-control" id="features" name="features">
@@ -381,8 +472,6 @@
 
 <script type="text/javascript">
 $(function()  {
-    var language = $('#lang-input').val();
-    $("#language").val(language);
     /* 一级类别改变重新加载二级类别*/
     $('#categorySelect').change(function() {
         var pcid = $("#categorySelect").val();
@@ -395,11 +484,11 @@ $(function()  {
                     $('#categorySubSelect').empty();
                     $('#categorySubSelect').append('<option value=""></option>');
                     $.each(data, function (i, item) {
-                        if (language == 'cn') {
+                        if (window.lang == 'cn') {
                              $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNameCn + "</option>");
-                        } else if (language == 'en') {
+                        } else if (window.lang == 'en') {
                              $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNameEn + "</option>");
-                        } else if (language == 'kr') {
+                        } else if (window.lang == 'kr') {
                              $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNameKr + "</option>");
                         }
                     });
@@ -411,18 +500,6 @@ $(function()  {
         });
     });
 });
-
-/** 更改语言 **/
-
-function changeLang() {
-    var lang = $("#language").val();
-    if (lang == "") {
-        location.href='/prodCreate';
-    } else {
-        location.href='/'+lang+'/prodCreate';
-    }
-
-}
 
 /** 上传图片 **/
 

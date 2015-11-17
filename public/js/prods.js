@@ -1,10 +1,10 @@
 $(function(){
     /** 添加颜色 **/
-    $(document).on('click','.yanse .add',function() {
+    $(document).on('click','.color .add',function() {
         var color = $(this).parent().prev().children().first().children().first().val();
         //如果最后一项内容为空则不能添加
         if (color == "") {
-            $('.yanse .add').click(function(){});
+            $('.color .add').click(function(){});
         } else
             $("<li>").html('<span><input type="text" class="colorIn" name="productColor"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
     });
@@ -113,7 +113,7 @@ $(function(){
     });
 
     /** 删除颜色 **/
-    $(document).on('click','.yanse .close',function() {
+    $(document).on('click','.color .close',function() {
         $(this).parent().remove();
         //删除数量价格表格中对应的颜色
         var thiscol = $(this).prev().children().first().val();

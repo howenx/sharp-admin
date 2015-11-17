@@ -1,4 +1,13 @@
 $(function() {
+    $(document).on("click", ".sort-topic", function(e) {
+        if ($(this).hasClass("glyphicon-chevron-up")) {
+            $(this).removeClass("glyphicon-chevron-up");
+            $(this).addClass("glyphicon-chevron-down");
+        } else {
+            $(this).removeClass("glyphicon-chevron-down");
+            $(this).addClass("glyphicon-chevron-up");
+        }
+    });
 
 	$(document).on("click", ".main-img", function(e) {
 		$(".goods-img-bg").css({
