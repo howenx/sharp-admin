@@ -20,7 +20,7 @@ libraryDependencies ++= Seq(
 routesGenerator := InjectedRoutesGenerator
 
 
-libraryDependencies += "org.postgresql" % "postgresql" % "9.3-1103-jdbc41" withSources() withJavadoc()
+libraryDependencies += "org.postgresql" % "postgresql" % "9.4-1205-jdbc42" withSources() withJavadoc()
 
 libraryDependencies += "org.mybatis" % "mybatis" % "3.3.0" withSources() withJavadoc()
 
