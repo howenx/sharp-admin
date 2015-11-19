@@ -1,4 +1,34 @@
 $(function(){
+
+    $(document).on("click", ".main-img", function(e) {
+		$(".goods-img-bg").css({
+			"height": $(window).height(),
+			"display": "block"
+		});
+		$(".goods-img").css("left", ($(window).width() - 1200) / 2);
+		$(this).clone().appendTo($(".goods-img")).css({
+			"width": "100%",
+			"height":"800px",
+			"z-index": 1000
+		});
+	});
+	$(document).on("click", ".goods-img-bg .close", function(e) {
+		$(".goods-img-bg img").remove();
+		$(".goods-img-bg").css({
+			"display": "none"
+		});
+	});
+	$(document).on("click", ".goods-bg", function(e) {
+		$(".goods-img-bg img").remove();
+		$(".goods-img-bg").css({
+			"display": "none"
+		});
+	});
+
+    $(document).on('click','.fdel .big',function() {
+        $(this).parents(".fdel").remove();
+    });
+
     /** 添加颜色 **/
     $(document).on('click','.color .add',function() {
         var color = $(this).parent().prev().children().first().children().first().val();
@@ -253,10 +283,6 @@ $(function(){
             }
         }
          $(this).parent().remove();
-    });
-
-    $(document).on('click','.fdel .big',function() {
-        $(this).parents(".fdel").remove();
     });
 
     /** 上传图片操作,对动态添加的标签元素,点击移除的操作 **/
@@ -518,5 +544,32 @@ $(function(){
         }
     });
 
+    $(document).on('click','.add1',function(){
+        var publicity = $("#publicity").val();
+        if (publicity != "") {
+            $("#publicityTab").append("<tr><td>"+publicity+"</td></tr>");
+            $("#publicity").val("");
+        }
+    });
+
+    $(".add-goods").click(function(){
+        var tr=$("<tr>").html('<td><input type="radio"></td>' +
+            '<td><input type="text"></td>' +
+            '<td><input type="text"></td>' +
+            '<td><input type="text"></td>' +
+            '<td><input type="text"></td>' +
+            '<td><input type="text"></td>' +
+            '<td><input type="text"></td>' +
+            '<td><input type="text"></td>' +
+            '<td class="list-img"><span class="add">＋<input type="file"></span></td>' +
+            '<td width="146" class="preview-img"><div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
+            '<div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
+            '<div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
+            '<div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
+            '<div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
+            '<div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
+            '<div class="add">＋<input type="file"></div></td>');
+        $(this).siblings(".table").append(tr);
+    });
 });
 
