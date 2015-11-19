@@ -110,8 +110,8 @@
                         <td>@p.getBrandName()</td>
                         <td>@p.getCateName()</td>
                         <td><img class="main-img" src="@url@p.getMasterImg()" alt="" width="50" height="50"/></td>
-                        <td>@p.getSellOnDate()</td>
-                        <td>@p.getSellOffDate()</td>
+                        <td>@(p.getSellOnDate().toString().substring(0,16))</td>
+                        <td>@(p.getSellOffDate().toString().substring(0,16))</td>
                         <td>@p.getProductPrice()</td>
                         <td>@p.getRecommendPrice()</td>
                         <td>@p.getProductState()</td>

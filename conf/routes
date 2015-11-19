@@ -51,14 +51,14 @@ POST            /$lang<(cn|en|kr)>/topic/search/$pageNum<[0-9]+>            cont
 
 
 #Item -----> commodity,简写comm
-GET             /comm/search                                                controllers.ItemCtrl.itmlist(lang ="cn")
-GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.itmlist(lang)
-GET             /comm/search/popup                                          controllers.ItemCtrl.itmSearchPopup(lang ="cn")
-GET             /$lang<(cn|en|kr)>/comm/search/popup                        controllers.ItemCtrl.itmSearchPopup(lang)
-POST            /comm/search/$pageNum<[0-9]+>                               controllers.ItemCtrl.itmsearchAjax(lang ="cn",pageNum:Int)
-POST            /$lang<(cn|en|kr)>/comm/search/$pageNum<[0-9]+>             controllers.ItemCtrl.itmsearchAjax(lang,pageNum:Int)
-
-
+GET             /comm/search                                                controllers.ItemCtrl.itemlist(lang ="cn")
+GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.itemlist(lang)
+GET             /comm/search/popup                                          controllers.ItemCtrl.itemSearchPopup(lang ="cn")
+GET             /$lang<(cn|en|kr)>/comm/search/popup                        controllers.ItemCtrl.itemSearchPopup(lang)
+POST            /comm/search/$pageNum<[0-9]+>                               controllers.ItemCtrl.itemsearchAjax(lang ="cn",pageNum:Int)
+POST            /$lang<(cn|en|kr)>/comm/search/$pageNum<[0-9]+>             controllers.ItemCtrl.itemsearchAjax(lang,pageNum:Int)
+GET             /comm/add                                                   controllers.ItemCtrl.itemCreate(lang="cn")
+GET             /$lang<cn|en|kr>/comm/add                                   controllers.ItemCtrl.itemCreate(lang)
 
 
 

@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.Products;
+import entity.Stock;
 import entity.User;
 import modules.OSSClientProvider;
 import play.Logger;
@@ -147,7 +148,8 @@ public class ProductCtrl extends Controller {
     public Result prodsDetail(String lang,Long id) {
         if(!"".equals(id) && null!=id) {
             Products products = prodService.getProducts(id);
-            return ok(views.html.prod.prodsdetail.render(products,lang,(User) ctx().args.get("user")));
+            List<Stock> stocks = prodService.getStocksByProdId(id);
+            return ok(views.html.prod.prodsdetail.render(products,stocks,IMAGE_URL,lang,(User) ctx().args.get("user")));
         } else {
             return badRequest();
         }

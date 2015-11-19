@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import entity.Brands;
 import entity.Cates;
 import entity.Products;
+import entity.Stock;
 
 import java.util.HashMap;
 import java.util.List;
@@ -63,5 +64,12 @@ public interface ProdService {
      * @return List<Long>
      */
     List<Long> insertProducts(JsonNode jsonProd, JsonNode jsonStocks);
+
+    /**
+     * get stocks by product id
+     * @param prodId
+     * @return List of Stocks
+     */
+    List<Stock> getStocksByProdId(Long prodId);
 
 }

@@ -1,10 +1,40 @@
 $(function(){
+
+    $(document).on("click", ".main-img", function(e) {
+		$(".goods-img-bg").css({
+			"height": $(window).height(),
+			"display": "block"
+		});
+		$(".goods-img").css("left", ($(window).width() - 1200) / 2);
+		$(this).clone().appendTo($(".goods-img")).css({
+			"width": "100%",
+			"height":"800px",
+			"z-index": 1000
+		});
+	});
+	$(document).on("click", ".goods-img-bg .close", function(e) {
+		$(".goods-img-bg img").remove();
+		$(".goods-img-bg").css({
+			"display": "none"
+		});
+	});
+	$(document).on("click", ".goods-bg", function(e) {
+		$(".goods-img-bg img").remove();
+		$(".goods-img-bg").css({
+			"display": "none"
+		});
+	});
+
+    $(document).on('click','.fdel .big',function() {
+        $(this).parents(".fdel").remove();
+    });
+
     /** 添加颜色 **/
-    $(document).on('click','.yanse .add',function() {
+    $(document).on('click','.color .add',function() {
         var color = $(this).parent().prev().children().first().children().first().val();
         //如果最后一项内容为空则不能添加
         if (color == "") {
-            $('.yanse .add').click(function(){});
+            $('.color .add').click(function(){});
         } else
             $("<li>").html('<span><input type="text" class="colorIn" name="productColor"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
     });
@@ -113,7 +143,7 @@ $(function(){
     });
 
     /** 删除颜色 **/
-    $(document).on('click','.yanse .close',function() {
+    $(document).on('click','.color .close',function() {
         $(this).parent().remove();
         //删除数量价格表格中对应的颜色
         var thiscol = $(this).prev().children().first().val();
@@ -255,10 +285,6 @@ $(function(){
          $(this).parent().remove();
     });
 
-    $(document).on('click','.fdel .big',function() {
-        $(this).parents(".fdel").remove();
-    });
-
     /** 上传图片操作,对动态添加的标签元素,点击移除的操作 **/
     $(document).on('click','.imgyl .close',function(){
         var id = $(this).parent().parent().attr("id");
@@ -315,12 +341,21 @@ $(function(){
             alert("必填项不能为空");
         }
 
-        //验证输入的库存量和价格符合规则
+
         var productColor = document.getElementsByName("productColor");
         var productSize = document.getElementsByName("productSize");
         var productAmount = document.getElementsByName("productAmount");
         var productPrice = document.getElementsByName("productPrice");
         var recommendPrice = document.getElementsByName("recommendPrice");
+        var language = $("#language").val();
+        var cateId = $("#categorySubSelect").val();
+        var brandId = $("#bandSelect").val();
+        var productName = $("#productName").val();
+        var merchName = $("#merchName").val();
+        var sourceArea = $("#sourceArea").val();
+        var sellOnDate = $("#sellOnDate").val();
+        var sellOffDate = $("#sellOffDate").val();
+        var productDesc = $("#productDesc").val();
         if (productColor[productColor.length-1].value=="") {
             isPost = false;
             if (window.lang=="cn") $("#warn-color").text("颜色不能有空值");
@@ -334,6 +369,7 @@ $(function(){
                 break;
             }
         }
+        //验证输入的库存量和价格符合规则
         for(i=0;i<productAmount.length;i++){
             if (!numberReg1.test(productAmount[i].value)) {
                 isPost = false;
@@ -346,15 +382,12 @@ $(function(){
                 else $("#warn-price").text("price is integer or decimal");
             }
         }
-        var language = $("#language").val();
-        var cateId = $("#categorySubSelect").val();
-        var brandId = $("#bandSelect").val();
-        var productName = $("#productName").val();
-        var merchName = $("#merchName").val();
-        var sourceArea = $("#sourceArea").val();
-        var sellOnDate = $("#sellOnDate").val();
-        var sellOffDate = $("#sellOffDate").val();
-        var productDesc = $("#productDesc").val();
+        if (sellOffDate < sellOnDate) {
+           isPost = false;
+           if (window.lang=="cn") $("#warn-date").text("结束日期必须大于开始日期");
+           else $("#warn-date").text("End date mush late to start date");
+        }
+
         var masterImg = "";
         var galleryM = document.getElementById("galleryM");
         var masterImgLen = galleryM.getElementsByTagName("input").length;
@@ -511,5 +544,32 @@ $(function(){
         }
     });
 
+    $(document).on('click','.add1',function(){
+        var publicity = $("#publicity").val();
+        if (publicity != "") {
+            $("#publicityTab").append("<tr><td>"+publicity+"</td></tr>");
+            $("#publicity").val("");
+        }
+    });
+
+    $(".add-goods").click(function(){
+        var tr=$("<tr>").html('<td><input type="radio"></td>' +
+            '<td><input type="text"></td>' +
+            '<td><input type="text"></td>' +
+            '<td><input type="text"></td>' +
+            '<td><input type="text"></td>' +
+            '<td><input type="text"></td>' +
+            '<td><input type="text"></td>' +
+            '<td><input type="text"></td>' +
+            '<td class="list-img"><span class="add">＋<input type="file"></span></td>' +
+            '<td width="146" class="preview-img"><div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
+            '<div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
+            '<div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
+            '<div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
+            '<div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
+            '<div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
+            '<div class="add">＋<input type="file"></div></td>');
+        $(this).siblings(".table").append(tr);
+    });
 });
 

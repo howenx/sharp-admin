@@ -1,3 +1,6 @@
+td,th{
+	padding: 6px 8px;
+}
 .l {
 	float: left;
 }
@@ -139,6 +142,15 @@ content
 	line-height: 24px;
 	font-size: 14px;
 }
+.add1 {
+    display: inline-block;
+    padding: 6px 14px;
+    text-decoration: none;
+    background: #00B7EE;
+    color: #fff;
+    border-radius: 3px;
+    margin-left: 10px;
+}
 .wrap-slider .del {
 	background: #ccc;
 	color: #fff;
@@ -160,19 +172,11 @@ content
 	padding: 8px;
 	text-align: center;
 }
-.to {
-	width: 40px;
-	text-align: center;
-	height: 34px;
-	line-height: 34px;
-	font-size: 24px;
-	margin-left: -5px;
-}
 .form-control {
 	display: inline;
 }
 .col-sm-1 {
-	width: 150px;
+	width: 100px;
 }
 .sctp1 {
 	width: 100px;
@@ -231,14 +235,14 @@ content
 	padding-right: 5px;
 }
 
-.yanse {
+.color {
 	width: 100%;
 	height: 100%;
 	border: 1px solid #ccc;
 	overflow: hidden;
 	padding-bottom: 10px;
 }
-.yanse li,.size li {
+.color li,.size li {
 	width: auto;
 	height: 34px;
 	padding: 6px 8px;
@@ -249,14 +253,14 @@ content
 	position: relative;
 	text-align: center;
 }
-.yanse .close,.size .close {
+.color .close,.size .close {
 	position: absolute;
 	top: 0;
 	right: 0;
 	font-size: 12px;
 	margin-right: 2px;
 }
-.yanse .add,.size .add {
+.color .add,.size .add {
 	margin: 0;
 	width: auto;
 	height: 32px;
@@ -264,7 +268,7 @@ content
 	padding: 0 7px;
 }
 
-.yanse input,.size input, .table input {
+.color input,.size input, .table input {
 	width: 50px;
 	height: 22px;
 	border: 0;
@@ -286,21 +290,54 @@ content
 	margin-left: 10px;
 	padding-top: 15px;
 }
+
+.radio-border{
+    width: 100%;height: 34px;line-height: 34px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+
+}
+.radio-border .radio-inline{
+    padding-top: 0;margin-left: 10px;
+}
+.radio-border .radio-inline input{
+    margin-top: 10px;
+}
+/*主图 其他图*/
+.detail-main{
+    width: 100%;height: 100%;padding: 6px 8px;border: 1px solid #ccc;
+}
+.detail-main .img-rongqi{
+    width: 100%;height: 100%;position: relative;
+}
+.detail-main .img-rongqi img{
+    width: 100%;
+}
+.detail-main .img-rongqi .btn-main{
+    width: 100%;position: absolute;left: 0;bottom: 0;padding-left: 42%;
+    background: rgba(0,0,0,0.5);
+}
+.detail-main input[type=file]{
+    width: 36px;height: 22px;overflow: hidden;position: absolute;left: 0;top: 0;opacity: 0;
+}
 .table>tbody>tr>td {
 	vertical-align: middle;
-	white-space: nowrap;
+	/*white-space: nowrap;*/
 	border: 1px solid #ccc;
 }
 .ysfont {
 	position: absolute;
 	top: -25px;
 	left: 32px;
-	color: #00B7E
 }
 .qubian input {
 	width: 90%;
 	outline: none;
 	border: 0;
+}
+.qubian input[type=radio]{
+	margin-left: 12px;
 }
 body {
 	font: 12px/1.5 arial, sans-serif;
@@ -320,4 +357,73 @@ body {
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
 	background-color: rgba(245, 245, 245, 0.56);
 	opacity: 1;
+}
+.goods-info1{
+	width: 100%;
+	padding-left: 15px;
+}
+.table>tbody>tr>td,.table>tbody>tr>th{
+	vertical-align: middle;text-align: center;
+}
+.qubian{
+	border-collapse:collapse;
+}
+.qubian .preview-img img{
+	display: inline-block;
+}
+.qubian .preview-img{
+	text-align: left;
+}
+.qubian .preview-img .add,.qubian .list-img .add{
+	width: 50px;height:31px;margin-left: 0;display: inline-block;line-height: 29px;
+	margin-top: 5px;position: relative;font-size: 18px;
+}
+.qubian .add input[type=file]{
+	display: block;position: absolute;left: 0;top: 0;
+	width: 40px;height: 25px;overflow: hidden;opacity: 0;
+}
+.qubian .preview-img div,.qubian .list-img div{
+	display:inline-block;position: relative;
+	margin-top: 5px;
+}
+.qubian .preview-img .close,.qubian .list-img .close{
+	position: absolute;top: -5px;right: 0;
+}
+.close{
+	opacity: 0.8;
+}
+
+/**/
+.goods-img-bg {
+	width: 100%;
+	height: auto;
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 100;
+	display: none;
+}
+.goods-img-bg .goods-bg {
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.6);
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 100;
+}
+.goods-img-bg .goods-img {
+	width: 1200px;
+	height: 100px;
+	position: absolute;
+	top: 0;
+	z-index: 101;
+	margin-top: 100px;
+}
+.goods-img-bg .close{
+    position: absolute;right: -20px;top: -18px;
+    border-radius: 50%;font-size: 36px;background: #fff;
+}
+.goods-img-bg .close span{
+    display: block;width: 36px;height: 36px;
 }

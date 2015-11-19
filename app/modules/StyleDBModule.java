@@ -3,7 +3,6 @@ package modules;
 import com.google.inject.PrivateModule;
 import com.google.inject.Scopes;
 import com.google.inject.name.Names;
-import entity.Item;
 import mapper.*;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
@@ -15,7 +14,6 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 import javax.sql.DataSource;
-import javax.swing.text.Style;
 
 /**
  * Style database sqlsession inject.注意,每个库都需要一个PrivateModule,而且有自己独立的Service注入和不同的SQLsession命名绑定
@@ -41,6 +39,7 @@ public class StyleDBModule extends PrivateModule{
                 addMapperClass(ThemeMapper.class);
                 addMapperClass(StockMapper.class);
                 addMapperClass(ItemMapper.class);
+                addMapperClass(InventoryMapper.class);
             }
         });
 

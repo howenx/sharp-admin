@@ -10,5 +10,7 @@ import java.util.List;
  */
 public interface ItemService {
 
-    List<Item> itmSearch(Item item);
+    List<Item> itemSearch(Item item);
+
+    Integer insertItem(Item item);
 }

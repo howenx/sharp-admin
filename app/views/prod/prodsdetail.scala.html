@@ -1,5 +1,5 @@
 @import play.i18n._
-@(prods:entity.Products, lang:String="cn",user:entity.User)
+@(prods:entity.Products, stocks:List[entity.Stock],url:String, lang:String="cn",user:entity.User)
 
 @scripts = {
 <link rel="stylesheet" href="/assets/css/prods.css">
@@ -24,147 +24,130 @@
     <div class="page-title">
         <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsDetailTitle")</span>
     </div>
+    <div class="usercenter-option">
+        <div id="return" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.return")</div>
+    </div>
     <div class="row">
         <div class="goods-pre form-horizontal">
             <!--基本信息-->
             <div class="base-info">
                 <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.basics")</h4>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</label>
-                    <div class="col-sm-4">
-                        <input type="email" class="form-control">
-                    </div>
-                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</label>
-                    <div class="col-sm-4">
-                        <input type="email" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group">
                     <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productName")</label>
                     <div class="col-sm-4">
-                        <input type="email" class="form-control">
+                        <input type="text" value="@prods.getProductName" class="form-control" readonly/>
                     </div>
                     <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</label>
                     <div class="col-sm-4">
-                        <input type="email" class="form-control">
+                        <input type="text" value="@prods.getMerchName" class="form-control" readonly/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</label>
+                    <div class="col-sm-4">
+                        <input type="text" value="@prods.getCateName" class="form-control" readonly/>
+                    </div>
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</label>
+                    <div class="col-sm-4">
+                        <input type="text" value="@prods.getBrandName" class="form-control" readonly/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.sourceArea")</label>
                     <div class="col-sm-4">
-                        <input type="email" class="form-control">
+                        <input type="text" value="@prods.getSourceArea" class="form-control" readonly/>
                     </div>
-                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.state")</label>
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.list.state")</label>
                     <div class="col-sm-4">
-                        <input type="email" class="form-control">
+                        <input type="text" value="@prods.getProductState" class="form-control" readonly/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.startDate")</label>
                     <div class="col-sm-4">
-                        <input type="email" class="form-control">
+                        <input type="text" value="@(prods.getSellOnDate().toString().substring(0,16))" class="form-control" readonly/>
                     </div>
                     <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.endDate")</label>
                     <div class="col-sm-4">
-                        <input type="email" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.list.state")</label>
-                    <div class="col-sm-4">
-                        <input type="email" class="form-control">
-                    </div>
-                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.createDate")</label>
-                    <div class="col-sm-4">
-                        <input type="email" class="form-control">
+                        <input type="text" value="@(prods.getSellOffDate().toString().substring(0,16))" class="form-control" readonly/>
                     </div>
                 </div>
             </div>
             <!-- 库存信息-->
             <div class="stock-info">
-                <!--<h3>库存信息</h3>-->
                 <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.stock")</h4>
                 <div class="form-group">
                     <label class="col-sm-2 control-label"></label>
                     <div class="col-sm-10">
                         <table class="table table-bordered col-sm-10">
                             <tr>
-                                <td>颜色</td>
-                                <td>尺寸</td>
-                                <td>预览图</td>
-                                <td>库存量</td>
-                                <td>现价</td>
-                                <td>原价</td>
-                                <td>折扣</td>
+                                <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productColor")</td>
+                                <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productSize")</td>
+                                <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")</td>
+                                <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productAmount")</td>
+                                <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productPrice")</td>
+                                <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.recommendPrice")</td>
                             </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td width="200">
-                                    <img class="main-img" src="images/1.jpg" alt="" width="50">
-                                    <img class="main-img" src="images/1.jpg" alt="" width="50">
-                                    <img class="main-img" src="images/1.jpg" alt="" width="50">
-                                    <img class="main-img" src="images/1.jpg" alt="" width="50">
-                                    <img class="main-img" src="images/1.jpg" alt="" width="50">
-                                    <img class="main-img" src="images/1.jpg" alt="" width="50">
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            @for(s <- stocks) {
+                                <tr>
+                                    <td>@s.getProductColor</td>
+                                    <td>@s.getProductSize</td>
+                                    <td width="300">
+                                    @for(preImgs <- s.getPreviewImgs.substring(1,s.getPreviewImgs.length-1).split(",")) {
+                                        <img class="main-img" src="@url@preImgs.substring(1,preImgs.length-1)" alt="" width="50" height="50">
+                                    }
+                                    </td>
+                                    <td>@s.getProductAmount</td>
+                                    <td>@s.getProductPrice</td>
+                                    <td>@s.getRecommendPrice</td>
+                                </tr>
+                            }
                         </table>
                     </div>
                 </div>
             </div>
             <!--详情-->
             <div class="detailed-info">
-                <!--<h3>详情</h3>-->
                 <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.details")</h4>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">主图</label>
-                    <div class="col-sm-10">
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.masterImg")</label>
+                    <div class="col-sm-2">
                         <div class="table-bordered">
-
-                        </div>
-                    </div>
-                </div>
-                <!--<div class="form-group">-->
-                <!--<label class="col-sm-2 control-label">预览图</label>-->
-                <!--<div class="col-sm-10">-->
-                <!--<div class="table-bordered">-->
-                <!--123-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">商品详细图</label>
-                    <div class="col-sm-10">
-                        <div class="table-bordered">
-
+                            <img class="main-img" src="@url@prods.getMasterImg" alt="" width="200" height="200">
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">商品描述</label>
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</label>
                     <div class="col-sm-10">
-                        <div class="table-bordered">
-
+                        <div >
+                            @for(detailImgs <- prods.getDetailImgs.substring(1,prods.getDetailImgs.length-1).split(",")) {
+                            <img class="main-img" src="@url@detailImgs.substring(1,detailImgs.length-1)" alt="" width="100" height="100">
+                            }
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">商品属性</label>
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.productDesc")</label>
+                    <div class="col-sm-10">
+                        <input type="text" value="@prods.getProductDesc" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.features")</label>
                     <div class="col-sm-10">
                         <table class="table table-bordered">
                             <tr>
-                                <td>属性名</td>
-                                <td>属性值</td>
+                                <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureName")</td>
+                                <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureValue")</td>
                             </tr>
-                            <tr>
-                                <td>123</td>
-                                <td>456</td>
-                            </tr>
+                            @for(features <- prods.getFeatures.substring(1,prods.getFeatures.length-1).split(",")) {
+                                <tr>
+                                    <td>@features.substring(1,features.indexOf(":")-1)</td>
+                                    <td>@features.substring(features.indexOf(":")+2,features.length-1)</td>
+                                </tr>
+                            }
+
                         </table>
                     </div>
                 </div>
@@ -180,29 +163,73 @@
     </div>
 </div>
 }
+
 <script>
-$(function(){
-    $(".glyphicon").click(function(){
-        if($(this).hasClass("glyphicon-chevron-up")){
-            $(this).removeClass("glyphicon-chevron-up");
-            $(this).addClass("glyphicon-chevron-down");
-        }else{
-            $(this).removeClass("glyphicon-chevron-down");
-            $(this).addClass("glyphicon-chevron-up");
-        }
+$(function() {
+    $(document).on("click", ".main-img", function(e) {
+    $(".goods-img-bg").css({
+        "height": $(window).height(),
+        "display": "block"
     });
-    $(".main-img").click(function(){
-        $(".goods-img-bg").css({"height":$(window).height(),"display":"block"});
-        $(".goods-img").css("left",($(window).width()-1200)/2);
-        $(this).clone().appendTo($(".goods-img")).css({"width":"100%","z-index":1000});
+    $(".goods-img").css("left", ($(window).width() - 1200) / 2);
+    $(this).clone().appendTo($(".goods-img")).css({
+        "width": "100%",
+        "height":"800px",
+        "z-index": 1000
     });
-    $(".goods-img-bg .close").click(function(){
-        $(".goods-img-bg img").remove();
-        $(".goods-img-bg").css({"display":"none"});
-    });
-    $(document).on("click",".goods-bg",function(){
-        $(".goods-img-bg img").remove();
-        $(".goods-img-bg").css({"display":"none"});
-    })
 });
+$(document).on("click", ".goods-img-bg .close", function(e) {
+    $(".goods-img-bg img").remove();
+    $(".goods-img-bg").css({
+        "display": "none"
+    });
+});
+$(document).on("click", ".goods-bg", function(e) {
+    $(".goods-img-bg img").remove();
+    $(".goods-img-bg").css({
+        "display": "none"
+    });
+});
+$("#return").on("click",function(){
+    location.href="/"+window.lang+"/prodsList";
+})
+
+
+});
+
 </script>
+<style type="text/css">
+.goods-img-bg {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    display: none;
+}
+.goods-img-bg .goods-bg {
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+}
+.goods-img-bg .goods-img {
+    width: 1200px;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    z-index: 101;
+    margin-top: 100px;
+}
+.goods-img-bg .close{
+    position: absolute;right: -20px;top: -18px;
+    border-radius: 50%;font-size: 36px;background: #fff;
+}
+.goods-img-bg .close span{
+    display: block;width: 36px;height: 36px;
+}
+</style>

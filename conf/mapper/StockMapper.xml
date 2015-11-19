@@ -11,12 +11,12 @@
     <sql id="stockColumns">
         ${alias}.id,
         ${alias}.prod_id,
-        ${alias}.prod_colors,
-        ${alias}.prod_size,
-        ${alias}.amount,
-        ${alias}.prod_price,
-        ${alias}.recommend_price,
-        ${alias}.prod_preview_imgs
+        ${alias}.prod_colors productColor,
+        ${alias}.prod_size productSize,
+        ${alias}.amount productAmount,
+        ${alias}.prod_price productPrice,
+        ${alias}.recommend_price recommendPrice,
+        ${alias}.prod_preview_imgs previewImgs
     </sql>
 
     <select id="getStock" resultType="entity.Stock" parameterType="java.lang.Long">
@@ -35,11 +35,19 @@
         from stock t where 1=1
     </select>
 
+    <select id="getStocksByProdId" resultType="entity.Stock" parameterType="java.lang.Long">
+        select
+        <include refid="stockColumns">
+                <property name="alias" value="t"/>
+        </include>
+        from stock t where prod_id=${value}
+    </select>
+
     <insert id="insertStock" parameterType="entity.Stock" useGeneratedKeys="true" keyProperty="id" >
         insert into stock
         (prod_id,prod_colors,prod_size,amount,prod_price,recommend_price,prod_preview_imgs)
         values
         (#{productId},#{productColor},#{productSize},#{productAmount},#{productPrice},#{recommendPrice},#{previewImgs})
-     </insert>
+    </insert>
 
 </mapper>

@@ -16,7 +16,12 @@ public class ItemServiceImpl implements ItemService{
     private ItemMapper itemMapper;
 
     @Override
-    public List<Item> itmSearch(Item item) {
+    public List<Item> itemSearch(Item item) {
         return itemMapper.getItemPage(item);
+    }
+
+    @Override
+    public  Integer insertItem(Item item) {
+        return itemMapper.insertItem(item);
     }
 }

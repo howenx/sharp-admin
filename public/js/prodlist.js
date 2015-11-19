@@ -1,14 +1,14 @@
 $(function() {
+    $(document).on("click", ".sort-topic", function(e) {
+        if ($(this).hasClass("glyphicon-chevron-up")) {
+            $(this).removeClass("glyphicon-chevron-up");
+            $(this).addClass("glyphicon-chevron-down");
+        } else {
+            $(this).removeClass("glyphicon-chevron-down");
+            $(this).addClass("glyphicon-chevron-up");
+        }
+    });
 
-	$(document).on("click", ".sort-topic", function(e) {
-		if ($(this).hasClass("glyphicon-chevron-up")) {
-			$(this).removeClass("glyphicon-chevron-up");
-			$(this).addClass("glyphicon-chevron-down");
-		} else {
-			$(this).removeClass("glyphicon-chevron-down");
-			$(this).addClass("glyphicon-chevron-up");
-		}
-	});
 	$(document).on("click", ".main-img", function(e) {
 		$(".goods-img-bg").css({
 			"height": $(window).height(),
@@ -20,19 +20,19 @@ $(function() {
 			"height":"800px",
 			"z-index": 1000
 		});
-	})
+	});
 	$(document).on("click", ".goods-img-bg .close", function(e) {
 		$(".goods-img-bg img").remove();
 		$(".goods-img-bg").css({
 			"display": "none"
 		});
-	})
+	});
 	$(document).on("click", ".goods-bg", function(e) {
 		$(".goods-img-bg img").remove();
 		$(".goods-img-bg").css({
 			"display": "none"
 		});
-	})
+	});
 
     var longDateFormat = 'yyyy-MM-dd HH:mm';
 
@@ -119,7 +119,7 @@ $(function() {
 					$(data.prods).each(function(index, element) {
 						$('#prodsTab').find('tbody').append('' +
 							'<tr>' +
-							'<td><a href="/'+window.lang+''/prodsDetail/'+$(this)[0].id+'">' + $(this)[0].id + '</a></td>' +
+							'<td><a href="/'+window.lang+'/prodsDetail/'+$(this)[0].id+'">' + $(this)[0].id + '</a></td>' +
 							'<td>' + $(this)[0].productName + '</td>' +
 							'<td>' + $(this)[0].merchName + '</td>' +
 							'<td>' + $(this)[0].brandId + '</td>' +
