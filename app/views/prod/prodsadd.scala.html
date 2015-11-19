@@ -99,7 +99,7 @@
                     </div>
                     <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</div></label>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control" id="itemNm" name="itemNm">
+                        <input type="text" class="form-control" id="merchNm" name="merchNm">
                     </div>
                 </div>
                 <div class="form-group">
@@ -107,22 +107,16 @@
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="itemTitle" name="itemTitle">
                     </div>
-                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.sourceArea")</div></label>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control" id="sourceArea" name="sourceArea">
-                    </div>
-                </div>
-                <div class="form-group">
                     <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">销售期限</div></label>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:ii" data-link-field="dtp_input1">
                             <input class="form-control" size="16" type="text" value="" readonly="" id="sellOnDate" name="sellOnDate">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                         </div>
                     </div>
-                    <div class="col-sm-1" style="font-size: 24px;margin-left: -5px;">~</div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-1" style="font-size: 24px;width:40px;margin-left:40px;">~</div>
+                    <div class="col-sm-2">
                         <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:ii" data-link-field="dtp_input1">
                             <input class="form-control" size="16" type="text" value="" readonly="" id="sellOffDate" name="sellOffDate">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -131,92 +125,95 @@
                     </div>
                     <div id="warn-ate" style="color:red; margin-top:-50px; "></div>
                 </div>
-
-
                 <!-- 商品库存信息-->
                 <h4 class="h4-custom-hmm">商品库存信息</h4>
                 <div class="form-group">
                     <div class="col-sm-12">
                         <div class="goods-info1">
-                            <table class="table table-bordered qubian">
+                            <table class="table table-bordered qubian inv" id="inventory">
                                 <tr>
-                                    <th width="60">设为主商品</th>
-                                    <th width="100">颜色分类</th>
-                                    <th width="100">尺寸分类</th>
+                                    <th width="80">设为主商品</th>
+                                    <th width="60">颜色分类</th>
+                                    <th width="60">尺寸分类</th>
                                     <th width="60">库存数量</th>
-                                    <th width="60">现价(￥)</th>
-                                    <th width="60">原价(￥)</th>
                                     <th width="60">成本价(￥)</th>
+                                    <th width="60">原价(￥)</th>
+                                    <th width="60">现价(￥)</th>
                                     <th width="60">折扣</th>
-                                    <th width="100">列表页图(一张)</th>
+                                    <!--<th width="100">主图(一张)</th>-->
                                     <th width="280">详情页预览图(最多6张)</th>
+                                    <th width="60" class="add-goods add">添加商品</th>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="radio">
+                                        <input type="radio" name="masterInvId" checked="checked"/>
                                     </td>
                                     <td>
-                                        <input type="text">
+                                        <input type="text" name="itemColor">
                                     </td>
                                     <td>
-                                        <input type="text">
+                                        <input type="text" name="itemSize">
                                     </td>
                                     <td>
-                                        <input type="text">
+                                        <input type="text" name="amount">
                                     </td>
                                     <td>
-                                        <input type="text">
+                                        <input type="text" name="itemPrice">
                                     </td>
                                     <td>
-                                        <input type="text">
+                                        <input type="text" name="itemSrcPrice">
                                     </td>
                                     <td>
-                                        <input type="text">
+                                        <input type="text" name="itemCostPrice">
                                     </td>
                                     <td>
-                                        <input type="text">
+                                        <input type="text" name="itemDiscount">
                                     </td>
-                                    <td class="list-img">
-                                        <div>
-                                            <img class="main-img" src="/assets/images/1.jpg" alt="" width="40">
-                                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        </div>
-                                                <span class="add">＋
-                                                    <input type="file">
-                                                </span>
-                                    </td>
+                                    <!--<td class="list-img">-->
+                                        <!--<div id="galleryM">-->
+                                            <!--&lt;!&ndash;<div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<img class="main-img" src="/assets/images/1.jpg" alt=""  name="invImg">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                        <!--</div>-->
+                                        <!--<span class="add" id="masterImgAdd">＋-->
+                                             <!--<input type="file" id="M" name="image" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>-->
+                                        <!--</span>-->
+                                    <!--</td>-->
                                     <td width="146" class="preview-img">
-                                        <div>
-                                            <img class="main-img" src="/assets/images/1.jpg" alt="" width="40">
-                                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <div id="galleryP1">
+                                            <!--<div>-->
+                                                <!--<img class="main-img" src="/assets/images/1.jpg" alt=""  name="itemPreviewImgs">-->
+                                                <!--<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                                            <!--</div>-->
+                                            <!--<div>-->
+                                                <!--<img class="main-img" src="/assets/images/1.jpg" alt=""  name="itemPreviewImgs">-->
+                                                <!--<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                                            <!--</div>-->
+                                            <!--<div>-->
+                                                <!--<img class="main-img" src="/assets/images/1.jpg" alt=""  name="itemPreviewImgs">-->
+                                                <!--<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                                            <!--</div>-->
+                                            <!--<div>-->
+                                                <!--<img class="main-img" src="/assets/images/1.jpg" alt=""  name="itemPreviewImgs">-->
+                                                <!--<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                                            <!--</div>-->
+                                            <!--<div>-->
+                                                <!--<img class="main-img" src="/assets/images/1.jpg" alt=""  name="itemPreviewImgs">-->
+                                                <!--<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                                            <!--</div>-->
+                                            <!--<div>-->
+                                                <!--<img class="main-img" src="/assets/images/1.jpg" alt=""  name="itemPreviewImgs">-->
+                                                <!--<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                                            <!--</div>-->
                                         </div>
-                                        <div>
-                                            <img class="main-img" src="/assets/images/1.jpg" alt="" width="40">
-                                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        </div>
-                                        <div>
-                                            <img class="main-img" src="/assets/images/1.jpg" alt="" width="40">
-                                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        </div>
-                                        <div>
-                                            <img class="main-img" src="/assets/images/1.jpg" alt="" width="40">
-                                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        </div>
-                                        <div>
-                                            <img class="main-img" src="/assets/images/1.jpg" alt="" width="40">
-                                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        </div>
-                                        <div>
-                                            <img class="main-img" src="/assets/images/1.jpg" alt="" width="40">
-                                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        </div>
-                                        <div class="add">＋
-                                            <input type="file">
+                                        <div class="add" id="preImgAddP1">＋
+                                            <input type="file" id="P1" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
                                         </div>
                                     </td>
+                                    <td class="del">删除</td>
                                 </tr>
                             </table>
-                            <button type="button" class="btn btn-primary add-goods">添加商品</button>
                         </div>
                     </div>
                 </div>
@@ -236,6 +233,21 @@
                             </label>
                         </div>
                     </div>
+                    <label class="col-sm-1 control-label" ><div class="r">是否分享</div></label>
+                    <div class="col-sm-2">
+                        <div class="radio-border">
+                            <label class="radio-inline">
+                                <input type="radio" name="orShare" value="true"> 是
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="orShare" value="false"> 否
+                            </label>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 control-label" ><div class="r">分享次数</div></label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="shareCount" name="shareCount">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label">是否限购</label>
@@ -253,7 +265,7 @@
                     <div class="col-sm-2">
                         <input type="number" class="form-control" id="restrictAmount" name="restrictAmount">
                     </div>
-                    <label class="col-sm-2   control-label">是否支持拼购</label>
+                    <label class="col-sm-1 control-label">是否支持拼购</label>
                     <div class="col-sm-2">
                         <div class="radio-border">
                             <label class="radio-inline">
@@ -280,34 +292,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" ><div class="r">是否分享</div></label>
-                    <div class="col-sm-2">
-                        <div class="radio-border">
-                            <label class="radio-inline">
-                                <input type="radio" name="orShare" value="true"> 是
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="orShare" value="false"> 否
-                            </label>
-                        </div>
-                    </div>
-                    <label class="col-sm-1 control-label" ><div class="r">分享key</div></label>
-                    <div class="col-sm-2">
-                        <input type="number" class="form-control" id="shareKey" name="shareKey">
-                    </div>
-                    <label class="col-sm-1 control-label" ><div class="r">分享次数</div></label>
-                    <div class="col-sm-2">
-                        <input type="number" class="form-control" id="shareCount" name="shareCount">
-                    </div>
-                </div>
-                <div class="form-group">
                     <label class="col-sm-1 control-label">分享图片</label>
                     <div class="col-sm-3">
                         <div class="detail-main">
                             <div class="img-rongqi">
                                 <img src="/assets/images/1.jpg" alt="">
                                 <div class="btn-main">
-                                    <button class="btn btn-primary active btn-xs" role="button" style="position: relative">
+                                    <button class="btn btn-primary active btn-xs" role="button" style="position: relative;background:#00B7EE;border:0px;" >
                                         编辑
                                         <input type="file">
                                     </button>
@@ -332,51 +323,39 @@
                         <span class="add1">添加</span>
                     </div>
                 </div>
-                <div class="col-sm-offset-1">
-                    <table class="table table-bordered" style="width:42%;" id="publicityTab">
-                    </table>
+                <div class="form-group">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-3">
+                        <table class="table table-bordered" id="publicityTab">
+                            <tr><td>优惠信息</td></tr>
+                        </table>
+                    </div>
                 </div>
                 <!-- 商品详细信息-->
                 <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.details")</h4>
 
-                <div class="form-group">
-                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">商品主图</div><div style="margin-top:20px;margin-right:30px;">(@Messages.get(new Lang(Lang.forCode(lang)),"item.add.onePic"))</div></label>
 
-                    <div class="col-sm-3">
-                        <div class="sctp" style="width:350px">
-                            <div class="sctp1 l">
-                                <a href="#" id="masterImgAdd">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
-                                <input type="hidden" id="masterImg" name="masterImg" value=""/>
-                                <input type="file" id="M" name="image" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png" />
-                            </div>
-                            <div class="imgk l" id="galleryM" style="width:150px">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">商品主图片</div><div style="margin-top:20px;margin-right:30px;">(一张)</div></label>
+                    <div class="col-sm-2">
+                        <div id="galleryM">
+                        </div>
+                        <div class="master-img" style="border:1px solid #ccc; height:80px;">
+                            <div class="add" id="masterImgAdd" style="margin-top:30px;margin-left:10px;">＋
+                                <input type="file" id="M" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                             </div>
                         </div>
                     </div>
-                    <div id="warn-mastImg" style="color:red; margin-left:650px;margin-top:80px;"></div>
-                </div>
-
-
-                <input type="hidden" id="preIms" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.previewImgs")' />
-                <input type="hidden" id="mostS" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.mostSixPic")' />
-                <input type="hidden" id="addPic" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")' />
-                <!-- -->
-
-                <div class="form-group">
                     <label class="col-sm-1 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</label>
-
-                    <div class="col-sm-7">
-                        <div class="sctp">
-                            <div class="sctp1 l">
-                                <a href="#">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
-                                <input type="hidden" id="detailImgs" name="detailImgs" />
-                                <input type="file" id="D" name="image" class="hidden1" value=""/>
+                    <div class="col-sm-5">
+                        <div class="detail-img" style="border:1px solid #ccc;">
+                            <div id="galleryD">
                             </div>
-                            <div class="imgk l" id="galleryD">
+                            <div class="add" style="margin:30px 5px;;">＋
+                                <input type="file" id="D" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="form-group">
@@ -390,10 +369,10 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label">商品参数</label>
 
-                    <div class="col-sm-7" id="tabFea">
+                    <div class="col-sm-7">
                         <input type="hidden" class="form-control" id="features" name="features">
                         <input type="hidden" id="del" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")'>
-                        <table class="table table-bordered qubian">
+                        <table class="table table-bordered qubian feature" id="tabFea">
                             <tr>
                                 <td >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureName")</td>
                                 <td width=380px>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureValue")</td>
@@ -474,15 +453,14 @@ function previewImage(file, id) {
     }
 
     var thumb = document.createElement("div");
-    thumb.classList.add('imgyl');
+    var img = document.createElement("img");
+    img.classList.add('main-img');
     var button = document.createElement("button");
     button.classList.add('close');
-    var span = document.createElement("span");
     $(button).append('<span>&times;</span>');
-    var img = document.createElement("img");
     img.file = file;
-    thumb.appendChild(button);
     thumb.appendChild(img);
+    thumb.appendChild(button);
     gallery.appendChild(thumb);
 
      //添加商品主图主图后,添加图片按钮置为不可点击且颜色变为灰色
@@ -492,7 +470,7 @@ function previewImage(file, id) {
      }
 
      //商品预览图最多为6张
-     if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==6) {
+     if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==2) {
          $("#"+id).attr({"disabled":true});
          document.getElementById("preImgAdd"+id).style.background="#ccc";
      }

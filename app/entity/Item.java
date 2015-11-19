@@ -24,6 +24,7 @@ public class Item implements Serializable{
     private String barCode            ;
     private String barDes             ;
     private Long merchUid           ;
+    private String merchNm           ;
     private String srcArea            ;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm", timezone = "GMT+8")
     private Timestamp onShelvesAt       ;
@@ -99,6 +100,7 @@ public class Item implements Serializable{
         this.barCode = barCode;
         this.barDes = barDes;
         this.merchUid = merchUid;
+        this.merchNm = merchNm;
         this.srcArea = srcArea;
         this.onShelvesAt = onShelvesAt;
         this.offShelvesAt = offShelvesAt;
@@ -592,6 +594,14 @@ public class Item implements Serializable{
         this.order = order;
     }
 
+    public String getMerchNm() {
+        return merchNm;
+    }
+
+    public void setMerchNm(String merchNm) {
+        this.merchNm = merchNm;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
@@ -608,6 +618,7 @@ public class Item implements Serializable{
                 ", barCode='" + barCode + '\'' +
                 ", barDes='" + barDes + '\'' +
                 ", merchUid=" + merchUid +
+                ", merchNm=" + merchNm +
                 ", srcArea='" + srcArea + '\'' +
                 ", onShelvesAt=" + onShelvesAt +
                 ", offShelvesAt=" + offShelvesAt +

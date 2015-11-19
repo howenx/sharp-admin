@@ -285,16 +285,20 @@ $(function(){
          $(this).parent().remove();
     });
 
-    /** 上传图片操作,对动态添加的标签元素,点击移除的操作 **/
-    $(document).on('click','.imgyl .close',function(){
-        var id = $(this).parent().parent().attr("id");
+    /** 上传图片操作,主图,点击移除的操作 **/
+    $(document).on('click','.master-img .close',function(){
         //没有商品主图时,上传按钮置为可点击且颜色恢复
-        if (id=="galleryM" && document.getElementById(id).getElementsByTagName("div").length==1) {
+        if (document.getElementById("galleryM").getElementsByTagName("div").length==1) {
             $("#M").removeAttr("disabled");
             document.getElementById('masterImgAdd').style.background="#00B7EE";
         }
+        $(this).parent().remove();
+    });
+
+    $(document).on('click','.preview-img .close',function(){
+        var id = $(this).parent().parent().attr("id");
         //商品预览图小于6张时恢复上传功能
-        if (document.getElementById(id).getElementsByTagName("div").length==6) {
+        if (document.getElementById(id).getElementsByTagName("div").length==2) {
             id = id.substring(7,9);
             $("#"+id).removeAttr("disabled");
             document.getElementById('preImgAdd'+id).style.background="#00B7EE";
@@ -302,8 +306,15 @@ $(function(){
         $(this).parent().remove();
     });
 
+    /** 详细图 点击移除的操作 **/
+    $(document).on('click','.detail-img .close',function(){
+        $(this).parent().remove();
+    });
+
+
+
     /** 添加属性的操作 **/
-    $(".qubian .add").click(function(){
+    $(document).on('click','.feature .add',function(){
         var fea = "";
         var tabFea = document.getElementById("tabFea");
         var attrN = document.getElementsByName("attrN");
@@ -312,18 +323,20 @@ $(function(){
         if (document.getElementById("tabFea").getElementsByTagName("tr").length>1) {
             //如果有未输入属性项则不能添加
             if (attrN[len-1].value=="" || attrV[len-1].value=="") {
-                $(".qubian .add").click(function(){});
+                $(".feature .add").click(function(){});
             } else {
-              $("<tr>").html('<td><input type="text" name="attrN"/></td><td><input type="text" name="attrV"/></td><td class="del">'+$('#del').val()+'</td>').appendTo($(".qubian"));
+              $("<tr>").html('<td><input type="text" name="attrN"/></td><td><input type="text" name="attrV"/></td><td class="del">'+$('#del').val()+'</td>').appendTo($(".feature"));
             }
         } else { //如果全部删除完,点击直接添加
-             $("<tr>").html('<td><input type="text" name="attrN"/></td><td><input type="text" name="attrV"/></td><td class="del">'+$('#del').val()+'</td>').appendTo($(".qubian"));
+             $("<tr>").html('<td><input type="text" name="attrN"/></td><td><input type="text" name="attrV"/></td><td class="del">'+$('#del').val()+'</td>').appendTo($(".feature"));
         }
     });
 
     /** 删除属性的操作 **/
-    $(".table").delegate(".del","click",function(){
-        $(this).parent().remove();
+    $(".feature").delegate(".del","click",function(){
+        if (document.getElementById("tabFea").getElementsByTagName("tr").length>2) {
+            $(this).parent().remove();
+        }
     });
 
 
@@ -553,23 +566,108 @@ $(function(){
     });
 
     $(".add-goods").click(function(){
-        var tr=$("<tr>").html('<td><input type="radio"></td>' +
-            '<td><input type="text"></td>' +
-            '<td><input type="text"></td>' +
-            '<td><input type="text"></td>' +
-            '<td><input type="text"></td>' +
-            '<td><input type="text"></td>' +
-            '<td><input type="text"></td>' +
-            '<td><input type="text"></td>' +
-            '<td class="list-img"><span class="add">＋<input type="file"></span></td>' +
-            '<td width="146" class="preview-img"><div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
-            '<div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
-            '<div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
-            '<div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
-            '<div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
-            '<div><img class="main-img" src="images/1.jpg" alt="" width="40"><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>' + '  ' +
-            '<div class="add">＋<input type="file"></div></td>');
-        $(this).siblings(".table").append(tr);
+        var inventory = document.getElementById("inventory");
+        var trs = inventory.getElementsByTagName("tr");
+        var index = trs.length;
+        var tds = trs[index-1].getElementsByTagName("td");
+        var i = 1;
+        for(i=1;i<tds.length;i++) {
+            if (i <=7 && tds[i].getElementsByTagName("input")[0].value=="") break;
+            if (i ==8 && trs[index-1].getElementsByClassName("preview-img")[0].getElementsByTagName("div").length<3) break;
+        }
+        if (i==10){
+            var tr =  document.createElement("tr");
+
+            var td1 = document.createElement("td");
+            var input1 = document.createElement("input");
+            input1.type = "radio";
+            input1.name = "masterInvId";
+            td1.appendChild(input1);
+
+            var td2 = document.createElement("td");
+            var input2 = document.createElement("input");
+            input2.type = "text";
+            input2.name = "itemColor";
+            td2.appendChild(input2);
+
+            var td3 = document.createElement("td");
+            var input3 = document.createElement("input");
+            input3.type = "text";
+            input3.name = "itemSize";
+            td3.appendChild(input3);
+
+            var td4 = document.createElement("td");
+            var input4 = document.createElement("input");
+            input4.type = "text";
+            input4.name = "amount";
+            td4.appendChild(input4);
+
+            var td5 = document.createElement("td");
+            var input5 = document.createElement("input");
+            input5.type = "text";
+            input5.name = "itemPrice";
+            td5.appendChild(input5);
+
+            var td6 = document.createElement("td");
+            var input6 = document.createElement("input");
+            input6.type = "text";
+            input6.name = "itemSrcPrice";
+            td6.appendChild(input6);
+
+            var td7 = document.createElement("td");
+            var input7 = document.createElement("input");
+            input7.type = "text";
+            input7.name = "itemCostPrice";
+            td7.appendChild(input7);
+
+            var td8 = document.createElement("td");
+            var input8 = document.createElement("input");
+            input8.type = "text";
+            input8.name = "itemDiscount";
+            td8.appendChild(input8);
+
+            var td9 = document.createElement("td");
+            td9.width="146px";
+            td9.classList.add('preview-img');
+            var divPre = document.createElement("div");
+            divPre.id = "galleryP"+index;
+            var divAdd = document.createElement("div");
+            divAdd.classList.add("add");
+            divAdd.id = "preImgAddP" + index;
+            divAdd.innerText = "+";
+            var inputF = document.createElement("input");
+            inputF.type = "file";
+            inputF.id = "P" + index;
+            inputF.classList.add("hidden1");
+            inputF.setAttribute("accept", "image/gif, image/jpeg, image/webp, image/png");
+            divAdd.appendChild(inputF);
+            td9.appendChild(divPre);
+            td9.appendChild(divAdd);
+
+            var td10 = document.createElement("td");
+            td10.classList.add("del");
+            td10.innerText = "删除";
+
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+            tr.appendChild(td5);
+            tr.appendChild(td6);
+            tr.appendChild(td7);
+            tr.appendChild(td8);
+            tr.appendChild(td9);
+            tr.appendChild(td10);
+            inventory.appendChild(tr);
+        }
     });
+
+    /** 删除一条商品的操作 **/
+    $(".inv").delegate(".del","click",function(){
+        if (document.getElementById("inventory").getElementsByTagName("tr").length>2) {
+            $(this).parent().remove();
+        }
+    });
+
 });
 
