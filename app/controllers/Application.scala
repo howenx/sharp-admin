@@ -102,7 +102,7 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
 
   def download_hangzhou() = withUser { user => {
     implicit request => {
-      val file = new File("hangzhou.xlsx")
+      val file = new File("/tmp/hangzhou.xlsx")
       val fileOut = new FileOutputStream(file);
       val wb = new XSSFWorkbook
       val sheet = wb.createSheet("商品备案表")
@@ -280,7 +280,7 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
   def download_shanghai() = withUser { user=> {
     implicit request => {
       //val file = new File("上海备案.xlsx")
-      val file = new File("shanghai.xlsx")
+      val file = new File("/tmp/shanghai.xlsx")
       val fileOut = new FileOutputStream(file);
       val wb = new XSSFWorkbook
       val sheet = wb.createSheet("商品备案表")
