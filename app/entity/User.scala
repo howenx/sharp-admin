@@ -5,6 +5,7 @@ import anorm.SqlParser._
 import play.api.db.DB
 import play.api.Play.current
 import AnormEnumerationExtension._
+import scala.language.implicitConversions
 
 case class User (id: Long, nickname: String, gender: Gender.gender, photo_url: String ,  role: User_Type.user_type )
 
@@ -28,14 +29,14 @@ object User {
   def find_by_phone (phone:String, passwd: String):Option[User] = {
     DB.withConnection("account")  { implicit conn =>
     val sql = SQL( """select id.user_id, id.nickname, id.gender, id.photo_url, admin.role from "ID" as id, "ID_ADMIN" as adm where id.user_id = adm.user_id and id.phone_num = {phone_num} and id.passwd = user_passwd(id.user_id, {passwd}) and adm.status = 'Y' """).on("phone_num" -> phone, "passwd" -> passwd)
-    sql.as(user *).headOption
+    sql.as(user.*).headOption
    }
   }
 
   def find_by_name (nickname:String, passwd: String):Option[User] = {
     DB.withConnection("account")  { implicit conn =>
       val sql = SQL( """select id.user_id, id.nickname, id.gender, id.photo_url, adm.role from "ID" as id, "ID_ADMIN" as adm where id.user_id = adm.user_id and id.nickname = {nickname} and id.passwd = user_passwd(id.user_id, {passwd}) and adm.status = 'Y' """).on("nickname" -> nickname, "passwd" -> passwd)
-      sql.as(user *).headOption
+      sql.as(user.*).headOption
     }
   }
 

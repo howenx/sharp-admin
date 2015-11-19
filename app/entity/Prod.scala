@@ -76,6 +76,14 @@ object Prod {
     }
   }
 
+  def download_list () : List[Map[String, Any]] = {
+    DB.withConnection("products") { implicit conn =>
+
+      SQL(""" select  * from products where status = 'T' order by product_id desc """).as(parser.*)
+
+    }
+  }
+
   def find_by_id(id:Long) : Option[Map[String,Any]]= {
     DB.withConnection("products") { implicit  conn =>
 
