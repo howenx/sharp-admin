@@ -41,7 +41,7 @@
     </ul>
     <div id="my-tab-content" class="tab-content">
         <div class="tab-pane active" id="hzp" style="width:60%">
-            <form action="/supply/init" method="post">
+            <form action="/supply/init" method="post" enctype="multipart/form-data">
                 <div class="col-md-9 input-group" style="padding-top: 20px;">
                     <span class="input-group-addon">상품명칭:</span>
                     <input type="text" name="name" class="form-control">
@@ -73,7 +73,7 @@
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
                     <span class="input-group-addon">상품 이미지:</span>
-                    <input type="text" name="image" class="form-control">
+                    <input type="file" name="image" class="form-control">
 
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
@@ -116,7 +116,7 @@
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px;">
                     <span class="input-group-addon">상품이미지:</span>
-                    <input type="text" name="image" class="form-control">
+                    <input type="file" name="image" class="form-control">
 
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
@@ -182,7 +182,7 @@
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px;">
                     <span class="input-group-addon">상품이미지:</span>
-                    <input type="text" name="image" class="form-control">
+                    <input type="file" name="image" class="form-control">
 
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px;">
@@ -284,7 +284,6 @@
                     <input type="text" name="风格" class="form-control">
                     <span class="input-group-addon">유행요소:</span>
                     <input type="text" name="流行元素" class="form-control">
-
 
                 </div>
 

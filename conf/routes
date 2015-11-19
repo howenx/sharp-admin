@@ -86,7 +86,8 @@ GET             /supply/translation/$id<[0-9]+>           controllers.Applicatio
 GET             /supply/append/$id<[0-9]+>           controllers.Application.append(id:Long)
 GET             /supply/$id<[0-9]+>                controllers.Application.show(id:Long)
 POST            /supply/append/add                 controllers.Application.append_add
-
+GET             /supply/download/shanghai                 controllers.Application.download_shanghai
+GET             /supply/download/hangzhou                 controllers.Application.download_hangzhou
 
 
 

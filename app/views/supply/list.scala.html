@@ -43,7 +43,14 @@
 @body = {
 <div class="container">
     <div class="row" style="margin-top:50px">
+       <div class="pull-right col-md-2">
+           <input type="button" onclick="javascript:window.location='/supply/download/shanghai'" class="btn btn-primary btn-block" value="上海报关下载">
 
+       </div>
+        <div class="pull-right col-md-2">
+
+            <input type="button" onclick="javascript:window.location='/supply/download/hangzhou'" class="btn btn-primary btn-block" value="杭州报关下载">
+        </div>
     </div>
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
         <li class="active"><a href="/supply/list?id=1" data-target="#hzp" data-toggle="tabajax">化妆品</a></li>
