@@ -12,40 +12,27 @@
 
     <sql id="itemColumns">
         ${alias}.id ,
-        ${alias}.ciq_code ,
-        ${alias}.lang ,
         ${alias}.cate_id ,
         ${alias}.brand_id ,
         ${alias}.cate_nm ,
         ${alias}.brand_nm ,
-        ${alias}.item_nm ,
         ${alias}.item_title ,
         ${alias}.item_desc ,
-        ${alias}.bar_code ,
-        ${alias}.bar_des ,
         ${alias}.merch_uid ,
-        ${alias}.src_area ,
         ${alias}.on_shelves_at ,
         ${alias}.off_shelves_at ,
         ${alias}.item_master_img ,
         ${alias}.item_preview_imgs ,
         ${alias}.item_detail_imgs ,
         ${alias}.item_features ,
-        ${alias}.or_join_theme ,
         ${alias}.theme_id ,
-        ${alias}.or_major_item ,
         ${alias}.state ,
         ${alias}.or_free_ship ,
-        ${alias}.has_invoice ,
-        ${alias}.has_vat_invoice ,
         ${alias}.delivery_area ,
         ${alias}.delivery_time ,
         ${alias}.or_restrict_buy ,
         ${alias}.restrict_amount ,
-        ${alias}.item_url ,
         ${alias}.or_shopping_poll ,
-        ${alias}.or_share ,
-        ${alias}.share_key ,
         ${alias}.share_img ,
         ${alias}.share_url ,
         ${alias}.share_count ,
@@ -53,9 +40,6 @@
         ${alias}.collect_count ,
         ${alias}.browse_count ,
         ${alias}.item_notice ,
-        ${alias}.trans_uid ,
-        ${alias}.trans_at ,
-        ${alias}.trans_lang ,
         ${alias}.or_destory ,
         ${alias}.destory_uid ,
         ${alias}.destory_at ,
@@ -79,9 +63,6 @@
         </if>
         <if test="itemNm != null and itemNm != ''">
             and t.item_nm = #{itemNm}
-        </if>
-        <if test="orJoinTheme != null">
-            and t.or_join_theme = ${orJoinTheme} ::boolean
         </if>
         <if test="themeId != null">
             and t.theme_id = #{themeId}
