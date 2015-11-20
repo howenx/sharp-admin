@@ -45,7 +45,7 @@ item.detail.return=返回_kr
 
 
 #nav
-nav.home = HOME
+nav.home = Home
 nav.products = Items
 nav.products.menu1 = List
 nav.products.menu2 = Manage
