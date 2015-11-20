@@ -13,13 +13,25 @@
                         <a href="/@lang/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
 						<i class="header-nav-border-relative"></i>
                     </li>
-                    @if(user.role==entity.User_Type.TRANSLATION || user.role==entity.User_Type.ADMIN) {
-                        <li class="header-navi-item fl">
-                            <a href="javascript:void(0)" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.translate")</a>
-                            <i class="header-nav-border-relative"></i>
-                        </li>
-                    }
                     @if(user.role==entity.User_Type.SELLER || user.role==entity.User_Type.ADMIN) {
+                        <li class="header-navi-item fl">
+                            <div class="user-info fl js-header-dropmenu">
+                                <span class="info-inner db">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes")<i class="ml5 caret caret-down caret-b-9b"></i></span>
+                                <ul class="header-dropdown-list fs13 js-header-list">
+                                    <li class="header-dropdown-item">
+                                        <a href="/@lang/topic/add" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu2")</a>
+                                    </li>
+                                    <li class="header-dropdown-item">
+                                        <a href="/@lang/topic/search" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu3")</a>
+                                    </li>
+                                    <li class="header-dropdown-item">
+                                        <a href="/@lang/topic/slider" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu1")</a>
+                                    </li>
+                                </ul>
+                                <i class="header-nav-border"></i>
+                            </div>
+                        </li>
+                    
                         <li class="header-navi-item fl">
                             <div class="user-info fl js-header-dropmenu">
 					    		<span class="info-inner db">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")<i class="ml5 caret caret-down caret-b-9b"></i></span>
@@ -34,23 +46,7 @@
 					    		<i class="header-nav-border"></i>
                             </div>
                         </li>
-                        <li class="header-navi-item fl">
-                            <div class="user-info fl js-header-dropmenu">
-					    		<span class="info-inner db">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes")<i class="ml5 caret caret-down caret-b-9b"></i></span>
-                                <ul class="header-dropdown-list fs13 js-header-list">
-                                    <li class="header-dropdown-item">
-                                        <a href="/@lang/topic/add" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu2")</a>
-                                    </li>
-                                    <li class="header-dropdown-item">
-                                        <a href="/@lang/topic/search" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu3")</a>
-                                    </li>
-                                    <li class="header-dropdown-item">
-                                        <a href="/@lang/topic/slider" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu1")</a>
-                                    </li>
-                                </ul>
-					    		<i class="header-nav-border"></i>
-                            </div>
-                        </li>
+
                         <li class="header-navi-item fl">
                             <div class="user-info fl js-header-dropmenu">
                                 <span class="info-inner db">@Messages.get(new Lang(Lang.forCode(lang)),"nav.data.sell")<i class="ml5 caret caret-down caret-b-9b"></i></span>
@@ -82,6 +78,12 @@
                                 <!--<i class="header-nav-border"></i>-->
                             <!--</div>-->
                         <!--</li>-->
+                    }
+                    @if(user.role==entity.User_Type.TRANSLATION || user.role==entity.User_Type.ADMIN) {
+                    <li class="header-navi-item fl">
+                        <a href="javascript:void(0)" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.translate")</a>
+                        <i class="header-nav-border-relative"></i>
+                    </li>
                     }
                     @if(user.role==entity.User_Type.ADMIN) {
                         <li class="header-navi-item fl">
