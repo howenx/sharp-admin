@@ -119,8 +119,8 @@
                         </td>
                         @if(item.getOnShelvesAt()!=null){<td>@(item.getOnShelvesAt().toString().substring(0,16))</td>}
                         @if(item.getOffShelvesAt()!=null){<td>@(item.getOffShelvesAt().toString().substring(0,16))</td>}
-                        @if(item.getThemeId()!=null && item.getThemeId()!="") {<td>@Messages.get(new Lang(Lang.forCode(lang)),"comm.search.hadjoin")</td>}
-                        @if(item.getThemeId()==null || item.getThemeId()=="") {<td>@Messages.get(new Lang(Lang.forCode(lang)),"comm.search.willjoin")</td>}
+                        @if(item.getThemeId()!=null) {<td>@Messages.get(new Lang(Lang.forCode(lang)),"comm.search.hadjoin")</td>}
+                        @if(item.getThemeId()==null) {<td>@Messages.get(new Lang(Lang.forCode(lang)),"comm.search.willjoin")</td>}
                         <td><a href="javascript:void(0)">@(item.getThemeId())</a></td>
                         <td>@(item.getState())</td>
                     </tr>
