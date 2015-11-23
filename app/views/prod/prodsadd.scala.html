@@ -57,18 +57,8 @@
                         <select class="form-control" id="categorySelect">
                             <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
                             @for(cates <- catesParentList) {
-                                @if(lang=="cn") {
-                                <option value="@cates.getCateId()">@cates.getCateNameCn()
+                                <option value="@cates.getCateId()">@cates.getCateNm()
                                 </option>
-                                }
-                                @if(lang=="en") {
-                                <option value="@cates.getCateId()">@cates.getCateNameEn()
-                                </option>
-                                }
-                                @if(lang=="kr") {
-                                <option value="@cates.getCateId()">@cates.getCateNameKr()
-                                </option>
-                                }
                             }
                         </select>
                     </div>
@@ -82,18 +72,8 @@
                         <select class="form-control" id="bandSelect" name="brandId">
                             <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
                             @for(b <- brandsList) {
-                            @if(lang=="cn") {
-                            <option value="@b.getBrandId()">@b.getBrandNmCn()
-                            </option>
-                            }
-                            @if(lang=="en") {
-                            <option value="@b.getBrandId()">@b.getBrandNmEn()
-                            </option>
-                            }
-                            @if(lang=="kr") {
-                            <option value="@b.getBrandId()">@b.getBrandNmKr()
-                            </option>
-                            }
+                                <option value="@b.getBrandId()">@b.getBrandNm()
+                                </option>
                             }
                         </select>
                     </div>

@@ -39,254 +39,8 @@ $(function(){
             $("<li>").html('<span><input type="text" class="colorIn" name="productColor"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
     });
 
-    /** 颜色变化 添加到数量价格表格和预览图区域中**/
-    $(document).on('keyup','.colorIn',function() {
-        var addColor = document.getElementById("addColor");
-        var colors = addColor.getElementsByTagName("input");
-        var len = colors.length;
-        var numpri = document.getElementById("numpri");
-        numpri.innerHTML = "";
-        var preImgs = document.getElementById("preImgs");
-        preImgs.innerHTML = "";
-        var tr1 = document.createElement("tr");
-        var tr2 = document.createElement("tr");
-        var tr3 = document.createElement("tr");
-        var tr4 = document.createElement("tr");
-        var tr5 = document.createElement("tr");
-        tr1.innerHTML = '<td rowspan="2">\\</td>';
-        tr2.innerHTML = '';
-        tr3.innerHTML = '<td >'+$('#amount').val()+'</td>';
-        tr4.innerHTML = '<td >'+$('#pri').val()+'</td>';
-        tr5.innerHTML = '<td >'+$('#spri').val()+'</td>';
-        for(i=0; i<len; i++) {
-            //颜色添加到数量价格表格中
-            var td1 = document.createElement("td");
-            var td2 = document.createElement("td");
-            var td3 = document.createElement("td");
-            var td4 = document.createElement("td");
-            var td5 = document.createElement("td");
-            td1.innerText = colors[i].value;
-            td2.innerText = " ";
-            tr1.appendChild(td1);
-            tr2.appendChild(td2);
-            tr3.appendChild(td3);
-            tr4.appendChild(td4);
-            tr5.appendChild(td5);
-            //颜色添加到预览图中
-            var divpre = document.createElement("div");
-            divpre.classList.add('form-group');
-            divpre.classList.add('fdel');
-            var label = document.createElement("label");
-            label.classList.add('col-sm-3');
-            label.classList.add('control-label');
-            var divx = document.createElement("div");
-            divx.classList.add('r');
-            divx.innerText=$('#preIms').val();
-            var divn = document.createElement("div");
-            divn.style.paddingTop="20px";
-            divn.style.paddingRight="5px";
-            divn.innerText= "("+$('#mostS').val()+")";
-            label.appendChild(divx);
-            label.appendChild(divn);
-            var divcol = document.createElement("div");
-            divcol.classList.add("col-sm-7");
-            var divsctp = document.createElement("div");
-            divsctp.classList.add("sctp");
-            var buttonpre = document.createElement("button");
-            buttonpre.classList.add('close');
-            buttonpre.classList.add('big');
-            $(buttonpre).append('<span>&times;</span>');
-            var divsctp1 = document.createElement("div");
-            divsctp1.classList.add("sctp1");
-            divsctp1.classList.add("l");
-            var spancol = document.createElement("span");
-            spancol.classList.add("ysfont");
-            spancol.innerText=colors[i].value;
-            var a = document.createElement("a");
-            a.setAttribute('id',"preImgAddP" + i);
-            a.innerText=$('#addPic').val();
-            var inputfile = document.createElement("input");
-            inputfile.type="file";
-            inputfile.id="P"+i;
-            inputfile.classList.add("hidden1");
-            inputfile.setAttribute("accept", "image/gif, image/jpeg, image/webp, image/png");
-            var divimgk = document.createElement("div");
-            divimgk.classList.add("imgk");
-            divimgk.classList.add("l");
-            divimgk.id = "galleryP"+i;
-            var inputpres = document.createElement("input");
-            inputpres.type="hidden";
-            inputpres.id="previewImgs"+i;
-            inputpres.name="previewImgs";
-            var p = document.createElement("p");
-            p.style.marginTop="70px";
-            p.innerText = "(如不需上传图片可移除)";
-            divsctp1.appendChild(spancol);
-            divsctp1.appendChild(a);
-            divsctp1.appendChild(inputfile);
-            divsctp.appendChild(buttonpre);
-            divsctp.appendChild(divsctp1);
-            divsctp.appendChild(divimgk);
-            divcol.appendChild(divsctp);
-            divimgk.appendChild(inputpres);
-            divpre.appendChild(label);
-            divpre.appendChild(divcol);
-            divpre.appendChild(p);
-            preImgs.appendChild(divpre);
-        }
-        numpri.appendChild(tr1);
-        numpri.appendChild(tr2);
-        numpri.appendChild(tr3);
-        numpri.appendChild(tr4);
-        numpri.appendChild(tr5);
-
-    });
-
-    /** 删除颜色 **/
-    $(document).on('click','.color .close',function() {
-        $(this).parent().remove();
-        //删除数量价格表格中对应的颜色
-        var thiscol = $(this).prev().children().first().val();
-        var addSize = document.getElementById("addSize");
-        var sizes = addSize.getElementsByTagName("input");
-        var numpri = document.getElementById("numpri");
-        var tr1 = numpri.getElementsByTagName("tr")[0].getElementsByTagName("td");
-        var tr2 = numpri.getElementsByTagName("tr")[1].getElementsByTagName("td");
-        var index = 0;
-        for(i=1;i<tr1.length;i++) {
-            if(tr1[i].innerText == thiscol) {
-                $("table tr").eq(0).find("td").eq(i).remove();
-                for(j=0;j<sizes.length;j++) {
-                     $("table tr").eq(1).find("td").eq(index).remove();
-                     $("table tr").eq(2).find("td").eq(index+1).remove();
-                     $("table tr").eq(3).find("td").eq(index+1).remove();
-                     $("table tr").eq(4).find("td").eq(index+1).remove();
-                }
-                break;
-            }
-            for(j=0;j<sizes.length;j++) {
-                index++;
-            }
-        }
-        //删除预览图区域中对应的颜色
-        var preImgs = document.getElementById("preImgs");
-        var spancols = preImgs.getElementsByTagName("span");
-        for(i=0;i<spancols.length;i++) {
-            if (spancols[i].className=="ysfont" && spancols[i].innerText==thiscol) {
-                spancols[i].parentNode.parentNode.parentNode.parentNode.remove();
-                break;
-            }
-        }
-    });
-
-    /** 添加尺寸 **/
-    $(document).on('click','.size .add',function() {
-        var size = $(this).parent().prev().children().first().children().first().val();
-        //如果最后一项内容为空则不能添加
-        if (size == "") {
-            $('.size .add').click(function(){});
-        } else
-            $("<li>").html('<span><input type="text" class="sizeIn" name="productSize"/></span><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>').insertBefore($(this).parent());
-    });
-
-    /** 尺寸变化,添加到数量价格表格中 **/
-    $(document).on('keyup','.sizeIn',function() {
-         var addSize = document.getElementById("addSize");
-         var sizes = addSize.getElementsByTagName("input");
-         var addColor = document.getElementById("addColor");
-         var colors = addColor.getElementsByTagName("input");
-        var numpri = document.getElementById("numpri");
-        var tr1 = document.createElement("tr");
-        var tr2 = document.createElement("tr");
-        var tr3 = document.createElement("tr");
-        var tr4 = document.createElement("tr");
-        var tr5 = document.createElement("tr");
-        var td = document.createElement("td");
-        var tda = document.createElement("td");
-        var tdp = document.createElement("td");
-        var tdsp = document.createElement("td");
-        numpri.innerHTML = "";
-        td.setAttribute('rowspan',2);
-        td.innerText="\\"
-        tda.innerText=$('#amount').val();
-        tdp.innerText=$('#pri').val();
-        tdsp.innerText=$('#spri').val();
-        tr1.appendChild(td);
-        tr3.appendChild(tda);
-        tr4.appendChild(tdp);
-        tr5.appendChild(tdsp);
-        for(j=0;j<colors.length;j++) {
-             var colname = colors[j].value; //取得颜色值
-             var td = document.createElement("td");
-             td.setAttribute('colspan',sizes.length);
-             td.innerText= colname;
-             tr1.appendChild(td);
-             for (k=0;k<sizes.length;k++) { //取得每项尺寸
-                sizename = sizes[k].value;
-                var tdsi = document.createElement("td");
-                var tdam = document.createElement("td");
-                var tdpr = document.createElement("td");
-                var tdspr = document.createElement("td");
-                var inp1 = document.createElement("input");
-                var inp2 = document.createElement("input");
-                var inp3 = document.createElement("input");
-                inp1.name="productAmount";
-                inp2.name="productPrice";
-                inp3.name="recommendPrice";
-                tdsi.innerText = sizename;
-                tdam.appendChild(inp1);
-                tdpr.appendChild(inp2);
-                tdspr.appendChild(inp3);
-                tr2.appendChild(tdsi);
-                tr3.appendChild(tdam);
-                tr4.appendChild(tdpr);
-                tr5.appendChild(tdspr);
-             }
-        }
-        numpri.appendChild(tr1);
-        numpri.appendChild(tr2);
-        numpri.appendChild(tr3);
-        numpri.appendChild(tr4);
-        numpri.appendChild(tr5);
-    });
-
-    /** 删除尺寸 **/
-    $(document).on('click','.size .close',function() {
-        size = $(this).prev().children().first().val();
-        //删除数量价格表格中对应的尺寸
-        var numpri = document.getElementById("numpri");
-        var tr1 = numpri.getElementsByTagName("tr")[0].getElementsByTagName("td");
-        var tr2 = numpri.getElementsByTagName("tr")[1].getElementsByTagName("td");
-        len = tr2.length;
-        for(i=1;i<tr1.length;i++) {
-            var colSpan = tr1[i].colSpan;
-            for(j=0;j<len;j++) {
-                if (colSpan==1) $("table tr").eq(0).find("td").eq(1).remove();
-                if(size==tr2[j].innerText) {
-                    $("table tr").eq(1).find("td").eq(j).remove();
-                    $("table tr").eq(2).find("td").eq(j+1).remove();
-                    $("table tr").eq(3).find("td").eq(j+1).remove();
-                    $("table tr").eq(4).find("td").eq(j+1).remove();
-                    len -= 1;
-                    break;
-                }
-            }
-            if (colSpan != 1) tr1[i].setAttribute('colspan',colSpan-1);
-            if (colSpan==1) {
-                for(k=0;k<len;k++) {
-                     $("table tr").eq(0).find("td").eq(1).remove();
-                     $("table tr").eq(1).find("td").eq(0).remove();
-                     $("table tr").eq(2).find("td").eq(1).remove();
-                     $("table tr").eq(3).find("td").eq(1).remove();
-                     $("table tr").eq(4).find("td").eq(1).remove();
-                }
-            }
-        }
-         $(this).parent().remove();
-    });
-
     /** 上传图片操作,主图,点击移除的操作 **/
-    $(document).on('click','.master-img .close',function(){
+    $(document).on('click','.list-img .close',function(){
         //没有商品主图时,上传按钮置为可点击且颜色恢复
         if (document.getElementById("galleryM").getElementsByTagName("div").length==1) {
             $("#M").removeAttr("disabled");
@@ -295,6 +49,17 @@ $(function(){
         $(this).parent().remove();
     });
 
+    /** 主题宣传图,点击移除的操作 **/
+    $(document).on('click','.master-img .close',function(){
+        //没有主题宣传图时,上传按钮置为可点击且颜色恢复
+        if (document.getElementById("galleryT").getElementsByTagName("div").length==1) {
+            $("#T").removeAttr("disabled");
+            document.getElementById('masterThImgAdd').style.background="#00B7EE";
+        }
+        $(this).parent().remove();
+    });
+
+    /** 预览图 点击移除的操作 **/
     $(document).on('click','.preview-img .close',function(){
         var id = $(this).parent().parent().attr("id");
         //商品预览图小于6张时恢复上传功能
@@ -571,11 +336,13 @@ $(function(){
         var index = trs.length;
         var tds = trs[index-1].getElementsByTagName("td");
         var i = 1;
+        //有空值不能添加
         for(i=1;i<tds.length;i++) {
-            if (i <=7 && tds[i].getElementsByTagName("input")[0].value=="") break;
-            if (i ==8 && trs[index-1].getElementsByClassName("preview-img")[0].getElementsByTagName("div").length<3) break;
+            if (i <=8 && tds[i].getElementsByTagName("input")[0].value=="") break;
+            if (i ==10 && trs[index-1].getElementsByClassName("list-img")[0].getElementsByTagName("div").length==1) break;
+            if (i ==11 && trs[index-1].getElementsByClassName("preview-img")[0].getElementsByTagName("div").length==1) break;
         }
-        if (i==10){
+        if (i==14){
             var tr =  document.createElement("tr");
 
             var td1 = document.createElement("td");
@@ -627,26 +394,69 @@ $(function(){
             td8.appendChild(input8);
 
             var td9 = document.createElement("td");
-            td9.width="146px";
-            td9.classList.add('preview-img');
+            var input9 = document.createElement("input");
+            input9.type = "text";
+            input9.name = "restrictAmount";
+            td10.appendChild(input);
+
+            var td8 = document.createElement("td");
+            var inputR1 = document.createElement("input");
+            inputR1.type = "radio";
+            inputR1.name = "invArea"+index;
+            inputR1.value = "B";
+            var divB = document.createElement("div");
+            divB.classList.add('area');
+            divB.innerText="保税区";
+            var inputR2 = document.createElement("input");
+            inputR2.type = "radio";
+            inputR2.name = "invArea"+index;
+            inputR2.value = "Z";
+            var divZ = document.createElement("div");
+            divZ.classList.add('area');
+            divZ.innerText="韩国直邮";
+            td8.appendChild(inputR1);
+            td8.appendChild(divB);
+            td8.appendChild(inputR2);
+            td8.appendChild(divZ);
+
+            var td11 = document.createElement("td");
+            td11.classList.add('preview-img');
+            var divM = document.createElement("div");
+            divM.id = "galleryM";
+            var spanAdd = document.createElement("span");
+            spanAdd.classList.add("add");
+            spanAdd.id = "preImgAddP" + index;
+            spanAdd.innerText = "+";
+            var inputF = document.createElement("input");
+            inputF.type = "file";
+            inputF.id = "M";
+            inputF.classList.add("hidden1");
+            inputF.setAttribute("accept", "image/gif, image/jpeg, image/webp, image/png");
+            spanAdd.appendChild(inputF);
+            td11.appendChild(divM);
+            td11.appendChild(spanAdd);
+
+            var td12 = document.createElement("td");
+            td12.width="146px";
+            td12.classList.add('preview-img');
             var divPre = document.createElement("div");
             divPre.id = "galleryP"+index;
-            var divAdd = document.createElement("div");
-            divAdd.classList.add("add");
-            divAdd.id = "preImgAddP" + index;
-            divAdd.innerText = "+";
+            var spanAdd = document.createElement("div");
+            spanAdd.classList.add("add");
+            spanAdd.id = "preImgAddP" + index;
+            spanAdd.innerText = "+";
             var inputF = document.createElement("input");
             inputF.type = "file";
             inputF.id = "P" + index;
             inputF.classList.add("hidden1");
             inputF.setAttribute("accept", "image/gif, image/jpeg, image/webp, image/png");
-            divAdd.appendChild(inputF);
-            td9.appendChild(divPre);
-            td9.appendChild(divAdd);
+            spanAdd.appendChild(inputF);
+            td12.appendChild(divPre);
+            td12.appendChild(spanAdd);
 
-            var td10 = document.createElement("td");
-            td10.classList.add("del");
-            td10.innerText = "删除";
+            var td13 = document.createElement("td");
+            td13.classList.add("del");
+            td13.innerText = "删除";
 
             tr.appendChild(td1);
             tr.appendChild(td2);
@@ -658,6 +468,9 @@ $(function(){
             tr.appendChild(td8);
             tr.appendChild(td9);
             tr.appendChild(td10);
+            tr.appendChild(td11);
+            tr.appendChild(td12);
+            tr.appendChild(td13);
             inventory.appendChild(tr);
         }
     });

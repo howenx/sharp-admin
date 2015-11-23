@@ -387,6 +387,9 @@ body {
 .qubian .preview-img{
 	text-align: left;
 }
+.detail-img{
+    display: table;
+}
 .qubian .preview-img div,.qubian .list-img div, .master-img div, .detail-img div{
 	display:inline-block;position: relative;
 	margin-top:5px;margin-left: 5px;
@@ -405,10 +408,9 @@ body {
 .qubian td {
     border:1px solid #ccc;
 }
-/*
-.preview-img .close, .list-img .close{
-
-}*/
+.area {
+    margin-top:-25px;
+}
 
 /**/
 .goods-img-bg {

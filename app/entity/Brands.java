@@ -5,171 +5,86 @@ import java.sql.Timestamp;
 
 /**
  * A entity for commodity brands.
- *
+ * <p>
  * <p>
  *
  * @author Sunny Wu
  */
 public class Brands implements Serializable {
 
-		/**
-		 * brand id.
-		 */
-		private Long brandId;
+    /**
+     * brand id.
+     */
+    private Long brandId;
 
-		/**
-		 * brand chinese description.
-		 */
-		private String descriptionCn;
+    /**
+     * brand  description.
+     */
+    private String brandDesc;
 
-		/**
-		 * brand english description.
-		 */
-		private String descriptionEn;
+    /**
+     * logo url.
+     */
+    private String logo;
 
-		/**
-		 * brand korean description.
-		 */
-		private String descriptionKo;
+    /**
+     * brand create date.
+     */
+    private Timestamp createDate;
 
-		/**
-		 * logo url.
-		 */
-		private String logoUrl;
+    /**
+     * brand  name.
+     */
+    private String brandNm;
 
-		/**
-		 * brand internet homepage.
-		 */
-		private String homePage;
+    public Brands() {
+    }
 
-		/**
-		 * brand create date.
-		 */
-		private Timestamp createDate;
+    public Brands(Long brandId, String brandDesc, String logo, Timestamp createDate, String brandNm) {
+        this.brandId = brandId;
+        this.brandDesc = brandDesc;
+        this.logo = logo;
+        this.createDate = createDate;
+        this.brandNm = brandNm;
+    }
 
-		/**
-		 * brand chinese name.
-		 */
-		private String brandNmCn;
+    public Long getBrandId() {
+        return brandId;
+    }
 
-		/**
-		 * brand english name.
-		 */
-		private String brandNmEn;
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
+    }
 
-		/**
-		 * brand korean name.
-		 */
-		private String brandNmKr;
+    public String getBrandDesc() {
+        return brandDesc;
+    }
 
-		public Brands(){}
+    public void setBrandDesc(String brandDesc) {
+        this.brandDesc = brandDesc;
+    }
 
-		public Brands(Long brandId, String descriptionCn, String descriptionEn, String descriptionKo, String logoUrl, String homePage, Timestamp createDate, String brandNmCn, String brandNmEn, String brandNmKr) {
-			this.brandId = brandId;
-			this.descriptionCn = descriptionCn;
-			this.descriptionEn = descriptionEn;
-			this.descriptionKo = descriptionKo;
-			this.logoUrl = logoUrl;
-			this.homePage = homePage;
-			this.createDate = createDate;
-			this.brandNmCn = brandNmCn;
-			this.brandNmEn = brandNmEn;
-			this.brandNmKr = brandNmKr;
-		}
+    public String getLogo() {
+        return logo;
+    }
 
-		@Override
-		public String toString() {
-			return "Brands{" +
-					"brandId=" + brandId +
-					", descriptionCn='" + descriptionCn + '\'' +
-					", descriptionEn='" + descriptionEn + '\'' +
-					", descriptionKo='" + descriptionKo + '\'' +
-					", logoUrl='" + logoUrl + '\'' +
-					", homePage='" + homePage + '\'' +
-					", createDate=" + createDate +
-					", brandNmCn='" + brandNmCn + '\'' +
-					", brandNmEn='" + brandNmEn + '\'' +
-					", brandNmKr='" + brandNmKr + '\'' +
-					'}';
-		}
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
 
-		public Long getBrandId() {
-			return brandId;
-		}
+    public Timestamp getCreateDate() {
+        return createDate;
+    }
 
-		public void setBrandId(Long brandId) {
-			this.brandId = brandId;
-		}
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
+    }
 
-		public String getDescriptionCn() {
-			return descriptionCn;
-		}
+    public String getBrandNm() {
+        return brandNm;
+    }
 
-		public void setDescriptionCn(String descriptionCn) {
-			this.descriptionCn = descriptionCn;
-		}
-
-		public String getDescriptionEn() {
-			return descriptionEn;
-		}
-
-		public void setDescriptionEn(String descriptionEn) {
-			this.descriptionEn = descriptionEn;
-		}
-
-		public String getDescriptionKo() {
-			return descriptionKo;
-		}
-
-		public void setDescriptionKo(String descriptionKo) {
-			this.descriptionKo = descriptionKo;
-		}
-
-		public String getLogoUrl() {
-			return logoUrl;
-		}
-
-		public void setLogoUrl(String logoUrl) {
-			this.logoUrl = logoUrl;
-		}
-
-		public String getHomePage() {
-			return homePage;
-		}
-
-		public void setHomePage(String homePage) {
-			this.homePage = homePage;
-		}
-
-		public Timestamp getCreateDate() {
-			return createDate;
-		}
-
-		public void setCreateDate(Timestamp createDate) {
-			this.createDate = createDate;
-		}
-
-		public String getBrandNmCn() {
-			return brandNmCn;
-		}
-
-		public void setBrandNmCn(String brandNmCn) {
-			this.brandNmCn = brandNmCn;
-		}
-
-		public String getBrandNmEn() {
-			return brandNmEn;
-		}
-
-		public void setBrandNmEn(String brandNmEn) {
-			this.brandNmEn = brandNmEn;
-		}
-
-		public String getBrandNmKr() {
-			return brandNmKr;
-		}
-
-		public void setBrandNmKr(String brandNmKr) {
-			this.brandNmKr = brandNmKr;
-		}
+    public void setBrandNm(String brandNm) {
+        this.brandNm = brandNm;
+    }
 }

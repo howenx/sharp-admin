@@ -82,11 +82,11 @@ $(function() {
 	funcList.commlist_search = function commlist_search(pageIndex) {
 		var commDto = new Object();
 		commDto.id = $("#comm-id").val();
-		commDto.itemNm = $("#comm-name").val();
+		commDto.itemNm = $("#comm-title").val();
 
 		commDto.orJoinTheme = $("input:radio[name=comm-is-join-topic]:checked").val();
 
-		console.log(commDto.orJoinTheme);
+//		console.log(commDto.orJoinTheme);
 
 		commDto.themeId = $("#comm-topic-id").val();
 		//调用共用ajax
@@ -111,7 +111,6 @@ $(function() {
 			$('#tb-topic').find('tbody').append('' +
 				'<tr class="tb-list-data">' +
 				'<td><a href="javascript:void(0)">' + $(this)[0].id + '</a></td>' +
-				'<td>' + $(this)[0].itemNm + '</td>' +
 				'<td style="width: 20%;">' + $(this)[0].itemTitle + '</td>' +
 				'<td>' +
 				'<img class="main-img" src="' + window.url + $(this)[0].itemMasterImg + '" alt="" width="50">' +

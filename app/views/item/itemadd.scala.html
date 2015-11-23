@@ -5,36 +5,13 @@
 
 <link href="/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/slider.css"/>
-<link rel="stylesheet" href="/assets/css/item.css"/>
 <link rel="stylesheet" href="/assets/css/prods.css"/>
-<style type="text/css">
-    .gridly, .gridly > :not(.dragging) {
-    -webkit-transition: all 0.4s ease-in-out;
-    -moz-transition: all 0.4s ease-in-out;
-    transition: all 0.4s ease-in-out;
-    }
-    .gridly .dragging {
-    z-index: 800;
-    }
-</style>
-<script type="text/javascript">
-$(function(){
-    $('.gridly').gridly({
-        base: 60, // px
-        gutter: 15, // px
-        columns: 12
-    });
-    $(".btn-del").click(function(){
-        $(this).parents(".brick.small").remove();
-    });
-});
-</script>
-<script type="text/javascript" src="/assets/js/jquery.gridly.js" charset="UTF-8"></script>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script src="/assets/js/bootstrap-datetimepicker.ko.js"></script>
 <script src="/assets/js/rili.js"></script>
-<script>window.lang = "@lang"</script>
+<script src="/assets/js/prods.js"></script>
+
 }
 
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsAddTitle")
@@ -49,7 +26,7 @@ $(function(){
     <span class="close" aria-label="Close"><span aria-hidden="true">&times;</span></span>
 </div>
 
-<div class="mbread">
+<div class="mbread" style="width:80%">
     <div class="bread-path">
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
         <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
@@ -70,412 +47,216 @@ $(function(){
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
     <div class="row">
-        <form class="form-horizontal" method="post" action="" id="" enctype="multipart/form-data">
+        <form class="form-horizontal" method="post" action="/insertProducts" id="insertProducts" enctype="multipart/form-data">
             <div class="upinfo">
-            <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.basics")</h4>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">语言</label>
-                <input id="lang-input" type="hidden" value="@lang">
-                <div class="col-sm-2">
-                    <select class="form-control" id="language" name="language" onchange="changeLang()">
-                        <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
-                        <option value="cn">Chinese</option>
-                        <option value="en">English</option>
-                        <option value="kr">Korea</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">类别</label>
-                <div class="col-sm-2">
-                    <select class="form-control" id="categorySelect">
-                        <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
-                        @for(cates <- catesParentList) {
-                        @if(lang=="cn") {
-                        <option value="@cates.getCateId()">@cates.getCateNameCn()
-                        </option>
-                        }
-                        @if(lang=="en") {
-                        <option value="@cates.getCateId()">@cates.getCateNameEn()
-                        </option>
-                        }
-                        @if(lang=="kr") {
-                        <option value="@cates.getCateId()">@cates.getCateNameKr()
-                        </option>
-                        }
-                        }
-                    </select>
-                </div>
-                <div class="col-sm-2" id="divDynamicSubCates">
-                    <select class="form-control" id='categorySubSelect' name="cateId">
-                        <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
-                    </select>
-                </div>
-                <label class="col-sm-2 control-label">品牌</label>
-                <div class="col-sm-4">
-                    <select class="form-control" id="bandSelect" name="brandId">
-                        <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
-                        @for(b <- brandsList) {
-                        @if(lang=="cn") {
-                        <option value="@b.getBrandId()">@b.getBrandNmCn()
-                        </option>
-                        }
-                        @if(lang=="en") {
-                        <option value="@b.getBrandId()">@b.getBrandNmEn()
-                        </option>
-                        }
-                        @if(lang=="kr") {
-                        <option value="@b.getBrandId()">@b.getBrandNmKr()
-                        </option>
-                        }
-                        }
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">商品名称</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control">
-                </div>
-                <label class="col-sm-2 control-label">商品标题</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">海关编码</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control">
-                </div>
-                <label class="col-sm-2 control-label">原产地</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">上架时间</label>
-                <div class="col-sm-4">
-                    <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:ii" data-link-field="dtp_input1">
-                        <input class="form-control" size="16" type="text" value="" readonly id="sellOffDate" name="sellOffDate"/>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                <!-- 商品基本信息 -->
+                <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.basics")</h4>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</div></label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="categorySelect">
+                            <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
+                            @for(cates <- catesParentList) {
+                                <option value="@cates.getCateId()">@cates.getCateNm()
+                                </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-2" id="divDynamicSubCates">
+                        <select class="form-control" id='categorySubSelect' name="cateId">
+                            <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</div></label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="bandSelect" name="brandId">
+                            <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
+                            @for(b <- brandsList) {
+                                <option value="@b.getBrandId()">@b.getBrandNm()
+                                </option>
+                            }
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label" ><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</div></label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="supplyMerch" name="supplyMerch">
                     </div>
                 </div>
-                <label class="col-sm-2 control-label">下架时间</label>
-                <div class="col-sm-4">
-                    <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:ii" data-link-field="dtp_input1">
-                        <input class="form-control" size="16" type="text" value="" readonly id="sellOnDate" name="sellOffDate">
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" ><div class="r">商品标题</div></label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="itemTitle" name="itemTitle">
+                    </div>
+                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">销售期限</div></label>
+                    <div class="col-sm-2">
+                        <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:ii" data-link-field="dtp_input1">
+                            <input class="form-control" size="16" type="text" value="" readonly="" id="onShelvesAt" name="onShelvesAt">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-1" style="font-size: 24px;width:40px;margin-left:40px;">~</div>
+                    <div class="col-sm-2">
+                        <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:ii" data-link-field="dtp_input1">
+                            <input class="form-control" size="16" type="text" value="" readonly="" id="offShelvesAt" name="offShelvesAt">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                    </div>
+                    <div id="warn-ate" style="color:red; margin-top:-50px; "></div>
+                </div>
+                <!-- 商品库存信息-->
+                <h4 class="h4-custom-hmm">商品库存信息</h4>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="goods-info1">
+                            <table class="table table-bordered qubian inv" id="inventory">
+                                <tr>
+                                    <th width="80">设为主商品</th>
+                                    <th width="60">颜色分类</th>
+                                    <th width="60">尺寸分类</th>
+                                    <th width="60">库存数量</th>
+                                    <th width="60">成本价(￥)</th>
+                                    <th width="60">原价(￥)</th>
+                                    <th width="60">现价(￥)</th>
+                                    <th width="60">折扣</th>
+                                    <th width="60">限购数量</th>
+                                    <th width="140">库存地</th>
+                                    <th width="100">主图(一张)</th>
+                                    <th width="280">详情页预览图(最多6张)</th>
+                                    <th width="60" class="add-goods add">添加商品</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="radio" name="masterInvId" checked="checked"/>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="itemColor">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="itemSize">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="amount">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="itemPrice">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="itemSrcPrice">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="itemCostPrice">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="itemDiscount">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="restrictAmount">
+                                    </td>
+                                    <td>
+                                        <input type="radio" name="invArea1" value="B"/><div class="area">保税区</div>
+                                        <input type="radio" name="invArea1" value="Z"/><div class="area">韩国直邮</div>
+                                    </td>
+                                    <td class="list-img">
+                                        <div id="galleryM">
+                                            <!--<div>-->
+                                            <!--<img class="main-img" src="/assets/images/1.jpg" alt=""  name="invImg">-->
+                                            <!--<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                                            <!--</div>-->
+                                        </div>
+                                        <span class="add" id="masterImgAdd">＋
+                                            <input type="file" id="M" name="invImg" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                                        </span>
+                                    </td>
+                                    <td width="146" class="preview-img">
+                                        <div id="galleryP1">
+                                        </div>
+                                        <span class="add" id="preImgAddP1">＋
+                                            <input type="file" id="P1" name="itemPreViewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
+                                        </span>
+                                    </td>
+                                    <td class="del">删除</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- 库存信息-->
-        <div class="stock-info">
-            <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.stock")</h4>
-            <div class="form-group">
-                <label class="col-sm-2 control-label"></label>
-                <div class="col-sm-10">
-                    <table class="table table-bordered col-sm-10">
-                        <tr>
-                            <td>颜色</td>
-                            <td>尺寸</td>
-                            <td>库存量</td>
-                            <td>现价</td>
-                            <td>原价</td>
-                            <td>折扣</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>总计</td>
-                            <td colspan="5"></td>
-                        </tr>
-                    </table>
+
+                <div id="warn-amount" style="color:red; margin-top:-110px;float:right;"></div>
+                <div id="warn-price" style="color:red; margin-top:-90px;float:right;"></div>
+                <h4 class="h4-custom-hmm">商品设置</h4>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" ><div class="r">重要通告</div></label>
+                    <div class="col-sm-5">
+                        <textarea rows="6"  class="form-control" id="itemNotice" name="itemNotice"></textarea>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <!--详情-->
-        <div class="detailed-info">
-            <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.detail.details")</h4>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">主图</label>
-                <div class="col-sm-3">
-                    <div class="detail-main">
-                        <div class="img-rongqi">
-                            <img src="/assets/images/1.jpg" alt="">
-                            <div class="btn-main">
-                                <button class="btn btn-primary active btn-xs" role="button" style="position: relative">
-                                    编辑
-                                    <input type="file">
-                                </button>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">优惠信息</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="publicity" id="publicity">
+                    </div>
+                    <div class="col-sm-1">
+                        <span class="add1">添加</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-3">
+                        <table class="table table-bordered" id="publicityTab">
+                            <tr><td>优惠信息</td></tr>
+                        </table>
+                    </div>
+                </div>
+                <!-- 商品详细信息-->
+                <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.details")</h4>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">主题宣传图</div><div style="margin-top:20px;margin-right:30px;">(一张)</div></label>
+                    <div class="col-sm-2">
+                        <div class="master-img" style="border:1px solid #ccc; height:80px;">
+                            <div id="galleryT">
+                            </div>
+                            <div class="add" id="masterThImgAdd" style="margin-top:30px;margin-left:10px;">＋
+                                <input type="file" id="T" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</label>
+                    <div class="col-sm-5">
+                        <div class="detail-img" style="border:1px solid #ccc;">
+                            <div id="galleryD">
+                            </div>
+                            <div class="add" style="margin:30px 5px;;">＋
+                                <input type="file" id="D" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">商品预览图</label>
-                <div class="col-sm-10">
-                    <div class="gridly">
-                        <div class="brick small">
-                            <div class="img-rongqi">
-                                <img src="/assets/images/1.jpg" alt="">
-                                <div class="btn-main">
-                                    <button class="btn btn-primary active btn-xs" role="button" style="position: relative">
-                                        编辑
-                                        <input type="file">
-                                    </button>
-                                    <button class="btn btn-primary active btn-xs btn-del" role="button" style="position: relative">
-                                        删除
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="brick small">
-                            <div class="img-rongqi">
-                                <img src="/assets/images/1.jpg" alt="">
-                                <div class="btn-main">
-                                    <button class="btn btn-primary active btn-xs" role="button" style="position: relative">
-                                        编辑
-                                        <input type="file">
-                                    </button>
-                                    <button class="btn btn-primary active btn-xs btn-del" role="button" style="position: relative">
-                                        删除
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="brick small">
-                            <div class="img-rongqi">
-                                <img src="/assets/images/1.jpg" alt="">
-                                <div class="btn-main">
-                                    <button class="btn btn-primary active btn-xs" role="button" style="position: relative">
-                                        编辑
-                                        <input type="file">
-                                    </button>
-                                    <button class="btn btn-primary active btn-xs btn-del" role="button" style="position: relative">
-                                        删除
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">商品参数</label>
+
+                    <div class="col-sm-7">
+                        <input type="hidden" class="form-control" id="features" name="features">
+                        <input type="hidden" id="del" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")'>
+                        <table class="table table-bordered qubian feature" id="tabFea">
+                            <tr>
+                                <td >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureName")</td>
+                                <td width=380px>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureValue")</td>
+                                <td class="add">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.add")</td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="attrN"/></td>
+                                <td><input type="text" name="attrV"/></td>
+                                <td class="del" >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")</td>
+                            </tr>
+                        </table>
                     </div>
+                    <div id="warn-attr" style="color:red; margin-left:0px;margin-top:15px;"></div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">商品详细图</label>
-                <div class="col-sm-10">
-                    <div class="gridly">
-                        <div class="brick small">
-                            <div class="img-rongqi">
-                                <img src="/assets/images/1.jpg" alt="">
-                                <div class="btn-main">
-                                    <button class="btn btn-primary active btn-xs" role="button" style="position: relative">
-                                        编辑
-                                        <input type="file">
-                                    </button>
-                                    <button class="btn btn-primary active btn-xs btn-del" role="button" style="position: relative">
-                                        删除
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="brick small">
-                            <div class="img-rongqi">
-                                <img src="/assets/images/1.jpg" alt="">
-                                <div class="btn-main">
-                                    <button class="btn btn-primary active btn-xs" role="button" style="position: relative">
-                                        编辑
-                                        <input type="file">
-                                    </button>
-                                    <button class="btn btn-primary active btn-xs btn-del" role="button" style="position: relative">
-                                        删除
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="brick small">
-                            <div class="img-rongqi">
-                                <img src="/assets/images/1.jpg" alt="">
-                                <div class="btn-main">
-                                    <button class="btn btn-primary active btn-xs" role="button" style="position: relative">
-                                        编辑
-                                        <input type="file">
-                                    </button>
-                                    <button class="btn btn-primary active btn-xs btn-del" role="button" style="position: relative">
-                                        删除
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">商品描述</label>
-                <div class="col-sm-10">
-                    <input type="text"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">商品属性</label>
-                <div class="col-sm-10">
-                    <table class="table table-bordered">
-                        <tr>
-                            <td>属性名</td>
-                            <td>属性值</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>456</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <!--商品设置-->
-        <div class="goods-setting">
-            <h4 class="h4-custom-hmm">商品设置</h4>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">是否支持拼购</label>
-                <div class="col-sm-4">
-                    <div class="radio-border">
-                        <label class="radio-inline">
-                            <input type="radio" name="inlineRadioOptions" value="option1"> 是
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="inlineRadioOptions" value="option1"> 否
-                        </label>
-                    </div>
-                </div>
-                <label class="col-sm-2 control-label">分享链接生成</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" readonly>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">是否限购</label>
-                <div class="col-sm-4">
-                    <div class="radio-border">
-                        <label class="radio-inline">
-                            <input type="radio" name="xiangou"> 是
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="xiangou"> 否
-                        </label>
-                    </div>
-                </div>
-                <label class="col-sm-2 control-label">限购数量</label>
-                <div class="col-sm-4">
-                    <input type="number" class="form-control">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">是否包邮</label>
-                <div class="col-sm-4">
-                    <div class="radio-border">
-                        <label class="radio-inline">
-                            <input type="radio" name="baoyou"> 是
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="baoyou"> 否
-                        </label>
-                    </div>
-                </div>
-                <label class="col-sm-2 control-label">起始收藏量</label>
-                <div class="col-sm-4">
-                    <input type="number" class="form-control">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">分享图片</label>
-                <div class="col-sm-3">
-                    <div class="sctp" style="width:350px">
-                        <div class="sctp1 l">
-                            <a href="#" id="masterImgAdd">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.addPic")</a>
-                            <input type="hidden" id="masterImg" name="masterImg" value=""/>
-                            <input type="file" id="M" name="image" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png" />
-                            <span>仅能上传一张</span>
-                        </div>
-                        <div class="imgk l" id="galleryM" style="width:150px">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">发货区域</label>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">发货日期</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-sm-2">
-                    <span style="line-height: 34px">(多久可以发货)</span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">商品重要通知</label>
-                <div class="col-sm-10">
-                    <textarea></textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">商品宣传标语</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control">
-                </div>
-                <div class="col-sm-2">
-                    <button class="btn btn-primary btn-sm">add</button>
-                </div>
-            </div>
-            <div class="col-sm-offset-2">
-                <table class="table table-bordered">
-                    <tr>
-                        <td>123</td>
-                    </tr>
-                    <tr>
-                        <td>456</td>
-                    </tr>
-                    <tr>
-                        <td>789</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <!--选择主题-->
-        <div class="theme-change">
-            <h4 class="h4-custom-hmm">主题选择</h4>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">是否已加入主题</label>
-                <div class="col-sm-4">
-                    <label class="radio-inline">
-                        <input type="radio" name="orJoinTheme"> 是
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="orJoinTheme"> 否
-                    </label>
-                </div>
-                <label class="col-sm-2 control-label">主题ID</label>
-                <div class="col-sm-4" style="line-height: 34px">
-                    <span class="tanch"></span>
-                    <button class="btn btn-primary active btn-xs" role="button" onclick="ShowModal()">
-                        选择
-                    </button>
-                </div>
-            </div>
-        </div>
         </form>
     </div>
 </div>
@@ -486,12 +267,11 @@ $(function(){
         <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
 </div>
+
 }
 
 <script type="text/javascript">
 $(function()  {
-    var language = $('#lang-input').val();
-    $("#language").val(language);
     /* 一级类别改变重新加载二级类别*/
     $('#categorySelect').change(function() {
         var pcid = $("#categorySelect").val();
@@ -504,13 +284,7 @@ $(function()  {
                     $('#categorySubSelect').empty();
                     $('#categorySubSelect').append('<option value=""></option>');
                     $.each(data, function (i, item) {
-                        if (window.lang == 'cn') {
-                             $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNameCn + "</option>");
-                        } else if (window.lang  == 'en') {
-                             $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNameEn + "</option>");
-                        } else if (window.lang  == 'kr') {
-                             $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNameKr + "</option>");
-                        }
+                             $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNm + "</option>");
                     });
                 }
                 else {
@@ -521,15 +295,87 @@ $(function()  {
     });
 });
 
-/** 更改语言 **/
+/** 上传图片 **/
 
-function changeLang() {
-    var lang = $("#language").val();
-    if (lang == "") {
-        location.href='/comm/add';
-    } else {
-        location.href='/'+lang+'/comm/add';
+$(document).on('change','.hidden1',function() {
+    var id=window.event.srcElement.id;
+    var files = this.files;
+    for (var i = 0; i < files.length; i++) {
+        previewImage(this.files[i], id);
+    }
+});
+
+function previewImage(file, id) {
+    var galleryId = "gallery" + id;
+  	var gallery = document.getElementById(galleryId);
+    var imageType = /image.*/;
+
+    if (!file.type.match(imageType)) {
+        throw "File Type must be an image";
     }
 
+    var thumb = document.createElement("div");
+    var img = document.createElement("img");
+    img.classList.add('main-img');
+    var button = document.createElement("button");
+    button.classList.add('close');
+    $(button).append('<span>&times;</span>');
+    img.file = file;
+    thumb.appendChild(img);
+    thumb.appendChild(button);
+    gallery.appendChild(thumb);
+
+     //添加商品主图主图后,添加图片按钮置为不可点击且颜色变为灰色
+     if (document.getElementById("galleryM").getElementsByTagName("div").length>0) {
+         $("#M").attr({"disabled":true});
+         document.getElementById('masterImgAdd').style.background="#ccc";
+     }
+
+     //添加主题宣传图后,添加图片按钮置为不可点击且颜色变为灰色
+     if (document.getElementById("galleryT").getElementsByTagName("div").length>0) {
+         $("#T").attr({"disabled":true});
+         document.getElementById('masterThImgAdd').style.background="#ccc";
+     }
+
+     //商品预览图最多为6张
+     if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==2) {
+         $("#"+id).attr({"disabled":true});
+         document.getElementById("preImgAdd"+id).style.background="#ccc";
+     }
+
+     upload(thumb, file, id);
+
+    // Using FileReader to display the image content
+    var reader = new FileReader();
+    reader.onload = (function(aImg) {
+        return function(e) {
+            aImg.src = e.target.result;
+        }
+    })(img);
+    reader.readAsDataURL(file);
 }
+
+function upload(thumb, file, id) {
+    var formdata = new FormData();
+    formdata.append("photo", file);
+    formdata.append("params", "minify");
+    var http = new XMLHttpRequest();
+    var url = "http://172.28.3.18:3008/upload";
+    http.open("POST", url, true);
+    http.onreadystatechange = function() {
+        if (http.readyState == 4 && http.status == 200) {
+            var data = JSON.parse(http.responseText);
+            var input= document.createElement("input");
+            imgName = data.imgid;
+            input.id = imgName.substr(0,imgName.lastIndexOf("."));
+            input.type="hidden";
+            input.name=data.imgid;
+            input.value=data.path;
+            thumb.appendChild(input);
+            alert(data.message);
+        }
+    }
+    http.send(formdata);
+}
+
 </script>

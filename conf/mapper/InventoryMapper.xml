@@ -17,26 +17,25 @@
         ${alias}.item_discount,
         ${alias}.sold_amount,
         ${alias}.rest_amount,
-        ${alias}.or_sold_out,
-        ${alias}.inv_url,
         ${alias}.inv_img,
         ${alias}.item_preview_imgs,
-        ${alias}.or_destory,
-        ${alias}.destory_uid,
-        ${alias}.destory_at,
+        ${alias}.or_destroy,
+        ${alias}.destroy_at,
         ${alias}.update_at,
-        ${alias}.update_uid,
-        ${alias}.create_uid,
         ${alias}.create_at,
         ${alias}.or_master_inv,
-        ${alias}.state
+        ${alias}.state,
+        ${alias}.ship_fee,
+        ${alias}.inv_area,
+        ${alias}.restrict_amount,
+        ${alias}.inv_title
     </sql>
 
     <insert id="insertInventory" parameterType="entity.Inventory" useGeneratedKeys="true" keyProperty="id" >
         insert into inventories
-        (item_id,item_color,item_size,amount,item_price,item_src_price,item_cost_price,item_discount,sold_amount,rest_amount,or_sold_out,inv_url,inv_img,item_preview_imgs,or_destory,destory_uid,destory_at,update_at,update_uid,create_uid,create_at,or_master_inv,state)
+        (item_id,item_color,item_size,amount,item_price,item_src_price,item_cost_price,item_discount,sold_amount,rest_amount,inv_img,item_preview_imgs,or_destroy,destroy_at,update_at,create_at,or_master_inv,state,ship_fee,inv_area,restrict_amount,inv_title)
         values
-        (#{itemId},#{itemColor},#{itemSize},#{itemPrice},#{itemSrcPrice},#{itemCostPrice},#{itemDiscount},#{amount},#{soldAmount},#{restAmount},#{orSoldOut},#{invUrl},#{invImg},#{itemPreviewImgs},#{createUid},CURRENT_TIMESTAMP(0),#{updateUid},#{updateAt},#{orDestory},#{destoryUid},#{destoryAt},#{orMasterInv},#{state}
+        (#{itemId},#{itemColor},#{itemSize},#{amount},#{itemPrice},#{itemSrcPrice},#{itemCostPrice},#{itemDiscount},#{soldAmount},#{restAmount},#{invImg},#{itemPreviewImgs},#{orDestroy},#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{orMasterInv},#{state},#{shipFee},#{invArea},#{restrictAmount},#{invTitle})
     </insert>
 
     <select id="getInventory" resultType="entity.Inventory" parameterType="java.lang.Long">
