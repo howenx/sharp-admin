@@ -98,3 +98,19 @@
 .table-content{
     padding: 20px 10px;
 }
+/**/
+.table-two{
+	width: 100%;
+}
+.goods-table,.theme-table{
+	width: 50%;height: 36px;text-align: center;line-height: 36px;
+}
+.goods-table{
+	background: #ccc;
+}
+.table-goods.table-hover,.table-theme.table-hover{
+	margin: 0;
+}
+.table-theme{
+	display: none;
+}

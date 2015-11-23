@@ -6,7 +6,33 @@
     <link rel="stylesheet" href="/assets/css/button.css">
 	<script>window.url='@url'</script>
     <script src="/assets/js/slider.js"></script>
-	
+    <script>
+        function UpdateFields(obj) {
+            alert(obj);
+        }
+
+        function ShowModal() {
+            var sharedObject = {};
+
+            if (window.showModalDialog) {
+                var retValue = showModalDialog("/topic/slider/popup", sharedObject, "dialogWidth:1100px; dialogHeight:400px; dialogLeft:300px;");
+                if (retValue) {
+                    UpdateFields(retValue.id);
+                }
+            }
+            else {
+                // for similar functionality in Opera, but it's not modal!
+                var modal = window.open ("/topic/slider/popup", null, "width=1100,height=400,left=300,modal=yes,alwaysRaised=yes", null);
+                modal.dialogArguments = sharedObject;
+            }
+        }
+        $(function(){
+            $(document).on("click",".slider-content-img",function(){
+                console.log('123123');
+                ShowModal();
+            })
+        })
+    </script>
 }
 
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.title")

@@ -1,1 +1,177 @@
+<link rel="shortcut icon" type="image/png" href="/assets/images/favicon.ico">
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css" >
+<script src="/assets/js/jquery.min.js"></script>
+<link rel="stylesheet" href="/assets/css/search.css" >
+<!--<script src="/assets/js/slider.js"></script>-->
+    <script>
+        $(function(){
+            $(".switch").click(function(){
+                $(".switch").css("background","#fff");
+                $(this).css("background","#ccc");
+                $("table").css("display","none");
+                $(".table").eq($(this).index($(".switch"))).css("display","table");
+            })
+            $(".table input[type=radio]").click(function(){
+                var id=$("input[type=radio]:checked").parent().next().html();
+                if (window.showModalDialog) {
+                    var sharedObject = {};
+                    sharedObject.id = id;
 
+                    window.returnValue = sharedObject;
+                }
+                else {
+                    // if not modal, we cannot use the returnValue property, we need to update the opener window
+                    window.opener.UpdateFields (id);
+                }
+                window.close ();
+            })
+        })
+    </script>
+
+
+<div class="table-two clearfix">
+    <div class="goods-table pull-left switch"><span>商品选择</span></div>
+    <div class="theme-table pull-left switch"><span>主题选择</span></div>
+    <!--商品-->
+    <table class="table table-bordered table-hover table-goods">
+        <tr>
+            <th>选择商品</th>
+            <th>
+                商品ID
+                <span class="glyphicon glyphicon-chevron-up"></span>
+                <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+            </th>
+            <th>
+                商品名称
+                <span class="glyphicon glyphicon-chevron-up"></span>
+                <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+            </th>
+            <th>
+                商品标题
+            </th>
+            <th>
+                主图
+            </th>
+            <th>
+                上架时间
+            </th>
+            <th>
+                商品状态
+            </th>
+            <th>
+                价格
+            </th>
+            <th>
+                原价
+                <span class="glyphicon glyphicon-chevron-up"></span>
+                <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+            </th>
+            <th>
+                折扣
+                <span class="glyphicon glyphicon-chevron-up"></span>
+                <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <input type="radio" name="id">
+            </td>
+            <td>123</td>
+            <td>1</td>
+            <td></td>
+            <td>3</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="radio" name="id">
+            </td>
+            <td>223</td>
+            <td></td>
+            <td>3</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>2</td>
+            <td></td>
+            <td>4</td>
+        </tr>
+    </table>
+    <!--主题-->
+    <table class="table table-bordered table-hover table-theme">
+        <tr>
+            <td>选择主题</td>
+            <td>
+                主题ID
+                <span class="glyphicon glyphicon-chevron-up"></span>
+                <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+            </td>
+            <th>
+                主题图片
+            </th>
+            <th>
+                主商品ID
+                <span class="glyphicon glyphicon-chevron-up"></span>
+            </th>
+            <th>
+                主商品图片
+            </th>
+            <th>
+                开始时间
+            </th>
+            <th>
+                结束时间
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <input type="radio" name="id">
+            </td>
+            <td>123</td>
+            <td>
+                <img class="main-img" src="images/1.jpg" alt="" width="50">
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="radio" name="id">
+            </td>
+            <td>456</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="radio" name="id">
+            </td>
+            <td>789</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="radio" name="id">
+            </td>
+            <td>012</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
