@@ -40,7 +40,7 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result slider(String lang) {
-        flash("success", session("username"));
+//        flash("success", session("username"));
         return ok(views.html.theme.slider.render(lang,service.sliderAll(),IMAGE_URL,(User) ctx().args.get("user")));
     }
 

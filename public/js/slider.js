@@ -87,7 +87,7 @@ $(function() {
 			// console.log(JSON.stringify(sliderdto));
 			$.ajax({
 			            type : 'POST',
-			            url : "/"+window.lang+"/slider/update",
+			            url : "/"+window.lang+"/topic/slider/update",
 			            data : JSON.stringify(sliderdto),
 			            dataType: 'json',
 						contentType: "application/json; charset=utf-8",
@@ -106,7 +106,7 @@ $(function() {
 							setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
 							change_flag=false;
 							
-							setTimeout("location.href='/"+window.lang+"/slider'", 3000);
+							setTimeout("location.href='/"+window.lang+"/topic/slider'", 3000);
 							
 			            },
 			            error : function(jqXHR) {

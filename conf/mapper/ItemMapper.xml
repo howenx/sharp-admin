@@ -29,6 +29,10 @@
         ${alias}.browse_count ,
         ${alias}.item_notice ,
         ${alias}.or_destroy ,
+<<<<<<< HEAD
+=======
+        ${alias}.destroy_uid ,
+>>>>>>> 620d38ce305ed45f2579febea1c24bb8ea1d9bfa
         ${alias}.destroy_at ,
         ${alias}.update_at ,
         ${alias}.create_at ,
