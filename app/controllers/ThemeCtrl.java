@@ -143,4 +143,13 @@ public class ThemeCtrl extends Controller {
             return badRequest();
         }
     }
+
+    /**
+     * 滚动条弹窗
+     * @return sliderPop.scala.html
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result sliderPop(){
+        return ok(views.html.theme.sliderPop.render());
+    }
 }
