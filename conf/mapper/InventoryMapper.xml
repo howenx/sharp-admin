@@ -18,7 +18,7 @@
         ${alias}.sold_amount,
         ${alias}.rest_amount,
         ${alias}.inv_img,
-        ${alias}.item_preview_imgs,
+        ${alias}.item_preview_imgs::text,
         ${alias}.or_destroy,
         ${alias}.destroy_at,
         ${alias}.update_at,
@@ -35,7 +35,7 @@
         insert into inventories
         (item_id,item_color,item_size,amount,item_price,item_src_price,item_cost_price,item_discount,sold_amount,rest_amount,inv_img,item_preview_imgs,or_destroy,destroy_at,update_at,create_at,or_master_inv,state,ship_fee,inv_area,restrict_amount,inv_title)
         values
-        (#{itemId},#{itemColor},#{itemSize},#{amount},#{itemPrice},#{itemSrcPrice},#{itemCostPrice},#{itemDiscount},#{soldAmount},#{restAmount},#{invImg},#{itemPreviewImgs},#{orDestroy},#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{orMasterInv},#{state},#{shipFee},#{invArea},#{restrictAmount},#{invTitle})
+        (#{itemId},#{itemColor},#{itemSize},#{amount},#{itemPrice},#{itemSrcPrice},#{itemCostPrice},#{itemDiscount},#{soldAmount},#{restAmount},#{invImg},#{itemPreviewImgs}::jsonb,#{orDestroy},#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{orMasterInv},#{state},#{shipFee},#{invArea},#{restrictAmount},#{invTitle})
     </insert>
 
     <select id="getInventory" resultType="entity.Inventory" parameterType="java.lang.Long">

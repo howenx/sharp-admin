@@ -19,8 +19,8 @@
         ${alias}.on_shelves_at ,
         ${alias}.off_shelves_at ,
         ${alias}.item_master_img ,
-        ${alias}.item_detail_imgs ,
-        ${alias}.item_features ,
+        ${alias}.item_detail_imgs ::text,
+        ${alias}.item_features ::text,
         ${alias}.theme_id ,
         ${alias}.state ,
         ${alias}.share_url ,
@@ -33,7 +33,7 @@
         ${alias}.update_at ,
         ${alias}.create_at ,
         ${alias}.master_inv_id ,
-        ${alias}.publicity
+        ${alias}.publicity::text
 
     </sql>
 
@@ -79,7 +79,7 @@
         insert into items
         (cate_id,brand_id,item_title,supply_merch,on_shelves_at,off_shelves_at,item_master_img,item_detail_imgs,item_features,theme_id,state,share_url,share_count,collect_count,browse_count,item_notice,or_destroy,destroy_at,update_at,create_at,master_inv_id,publicity)
         values
-        (#{cateId},#{brandId},#{itemTitle},#{supplyMerch},#{onShelvesAt},#{offShelvesAt},#{itemMasterImg},#{itemDetailImgs},#{itemFeatures},#{themeId},#{state},#{shareUrl},#{shareCount},#{collectCount},#{browseCount},#{itemNotice},#{orDestroy},#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{masterInvId},#{publicity})
+        (#{cateId},#{brandId},#{itemTitle},#{supplyMerch},#{onShelvesAt},#{offShelvesAt},#{itemMasterImg},#{itemDetailImgs}::jsonb,#{itemFeatures}::jsonb,#{themeId},#{state},#{shareUrl},#{shareCount},#{collectCount},#{browseCount},#{itemNotice},#{orDestroy},#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{masterInvId},#{publicity}::jsonb)
     </insert>
 
 </mapper>

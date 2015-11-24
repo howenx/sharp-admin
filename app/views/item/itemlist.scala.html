@@ -33,12 +33,12 @@
     </div>
     <form class="form-horizontal">
         <div class="form-group">
-            <!--主题id-->
+            <!--商品id-->
             <label class="col-sm-2 control-label">商品ID</label>
             <div class="col-sm-4">
                 <input id = "comm-id" type="number" min="10000" max="99999999" class="form-control"/>
             </div>
-            <!--主商品id-->
+            <!--商品标题-->
             <label class="col-sm-2 control-label">商品标题</label>
             <div class="col-sm-4">
                 <input id = "comm-title" type="text" class="form-control"/>
@@ -46,19 +46,6 @@
         </div>
 
         <div class="form-group">
-            <!--开始-->
-            <label class="col-sm-2 control-label">是否加入主题</label>
-            <div class="col-sm-4">
-                <div class="radio-border">
-                    <label class="radio-inline">
-                        <input type="radio" name="comm-is-join-topic" value="true"/> 是
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="comm-is-join-topic" value="false"/> 否
-                    </label>
-                </div>
-            </div>
-            <!--结束-->
             <label class="col-sm-2 control-label">主题ID</label>
             <div class="col-sm-4">
                 <input id = "comm-topic-id" type="number" min="10000" max="99999999" class="form-control"/>
@@ -92,9 +79,6 @@
                         下架时间
                     </th>
                     <th>
-                        是否加入主题
-                    </th>
-                    <th>
                         主题ID
                     </th>
                     <th>
@@ -114,8 +98,6 @@
                         </td>
                         @if(item.getOnShelvesAt()!=null){<td>@(item.getOnShelvesAt().toString().substring(0,16))</td>}
                         @if(item.getOffShelvesAt()!=null){<td>@(item.getOffShelvesAt().toString().substring(0,16))</td>}
-                        @if(item.getThemeId()!=null) {<td>@Messages.get(new Lang(Lang.forCode(lang)),"comm.search.hadjoin")</td>}
-                        @if(item.getThemeId()==null) {<td>@Messages.get(new Lang(Lang.forCode(lang)),"comm.search.willjoin")</td>}
                         <td><a href="javascript:void(0)">@(item.getThemeId())</a></td>
                         <td>@(item.getState())</td>
                     </tr>

@@ -143,7 +143,6 @@ $(function(){
             inputR1.type = "radio";
             inputR1.name = "invArea"+index;
             inputR1.value = "B";
-            inputR1.checked = "checked";
             var divB = document.createElement("div");
             divB.classList.add('area');
             divB.innerText="保税区";
@@ -151,6 +150,7 @@ $(function(){
             inputR2.type = "radio";
             inputR2.name = "invArea"+index;
             inputR2.value = "Z";
+            inputR2.checked = "checked";
             var divZ = document.createElement("div");
             divZ.classList.add('area');
             divZ.innerText="韩国直邮";
@@ -308,10 +308,19 @@ $(function(){
                 break;
             } else $("#warn-inv").text("");
         }
+        var orMasterInv = document.getElementsByName("orMasterInv");
+        for(m=0;m<orMasterInv.length;m++) {
+            if (orMasterInv[m].checked==true) break;
+            if (m==orMasterInv.length-1) $("#warn-inv").text("请选择主商品!");
+            else $("#warn-inv").text("");
+        }
+
         //优惠信息
         var publicity = "[";
         var publicityTab = document.getElementById("publicityTab");
         var pubtr = publicityTab.getElementsByTagName("tr");
+        if (pubtr.length==1)  $("#warn-pub").text("请录入优惠信息!");
+        else $("#warn-inv").text("");
         for(i=1;i<pubtr.length;i++) {
             publicity += '\"' + pubtr[i].getElementsByTagName("td")[0].innerText + '\"' + ",";
         }
@@ -322,12 +331,19 @@ $(function(){
         var masterThImgLen = galleryT.getElementsByTagName("input").length;
         if (masterThImgLen<1) {
             isPost = false;
-            $("#warn-img").text("请上传主题宣传图!");
+            $("#warn-masthimg").text("请上传主题宣传图!");
         } else {
-            $("#warn-img").text("");
+            $("#warn-masthimg").text("");
             itemMasterImg = galleryT.getElementsByTagName("input")[0].value;
         }
         var galleryD = document.getElementById("galleryD");
+        var detailImgLen = galleryD.getElementsByTagName("input").length;
+        if (detailImgLen<1) {
+            isPost = false;
+            $("#warn-detailimg").text("请上传商品详细图!");
+        } else {
+            $("#warn-detailimg").text("");
+        }
         var itemDetailImgs = "[";
         var detInps = galleryD.getElementsByTagName("input");
         for(i=0;i<detInps.length;i++) {

@@ -82,12 +82,7 @@ $(function() {
 	funcList.commlist_search = function commlist_search(pageIndex) {
 		var commDto = new Object();
 		commDto.id = $("#comm-id").val();
-		commDto.itemNm = $("#comm-title").val();
-
-		commDto.orJoinTheme = $("input:radio[name=comm-is-join-topic]:checked").val();
-
-//		console.log(commDto.orJoinTheme);
-
+		commDto.itemTitle = $("#comm-title").val();
 		commDto.themeId = $("#comm-topic-id").val();
 		//调用共用ajax
 		search("/comm/search/" + pageIndex, commDto);
@@ -95,16 +90,16 @@ $(function() {
 
 	//每个查询页面对应一个相应的返回时填充函数 商品查询页面
 	funcList.commlist_data = function commlist_data(data) {
-		var hadjoin = '';
-		var willjoin = '';
-		//国际化
-		if (window.lang == "cn") {
-			join = '已加入';
-			willjoin = '未加入';
-		} else {
-			join = 'Had Join';
-			willjoin = 'Will Join';
-		}
+//		var hadjoin = '';
+//		var willjoin = '';
+//		//国际化
+//		if (window.lang == "cn") {
+//			join = '已加入';
+//			willjoin = '未加入';
+//		} else {
+//			join = 'Had Join';
+//			willjoin = 'Will Join';
+//		}
 
 		//填充列表数据
 		$(data).each(function(index, element) {
@@ -117,7 +112,6 @@ $(function() {
 				'</td>' +
 				'<td>' + ($(this)[0].onShelvesAt != null && $(this)[0].onShelvesAt != '' ? $(this)[0].onShelvesAt.substr(0, 16) : '') + '</td>}' +
 				'<td>' + ($(this)[0].offShelvesAt != null && $(this)[0].offShelvesAt != '' ? $(this)[0].offShelvesAt.substr(0, 16) : '') + '</td>}' +
-				'<td>' + ($(this)[0].orJoinTheme === true || $(this)[0].orJoinTheme != 'true' ? join : willjoin) + '</td>' +
 				'<td><a href="javascript:void(0)">' + $(this)[0].themeId + '</a></td>' +
 				'<td>' + $(this)[0].state + '</td>' +
 				'</tr>'

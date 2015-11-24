@@ -155,15 +155,11 @@
                                         <input type="text" name="restrictAmount">
                                     </td>
                                     <td>
-                                        <input type="radio" name="invArea1" value="B" checked="checked"/><div class="area">保税区</div>
-                                        <input type="radio" name="invArea1" value="Z"/><div class="area">韩国直邮</div>
+                                        <input type="radio" name="invArea1" value="B"/><div class="area">保税区</div>
+                                        <input type="radio" name="invArea1" value="Z" checked="checked"/><div class="area">韩国直邮</div>
                                     </td>
                                     <td class="list-img">
                                         <div id="galleryM1">
-                                            <!--<div>-->
-                                            <!--<img class="main-img" src="/assets/images/1.jpg" alt=""  name="invImg">-->
-                                            <!--<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-                                            <!--</div>-->
                                         </div>
                                         <span class="add" id="masterImgAddM1">＋
                                             <input type="file" id="M1" name="invImg" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
@@ -182,12 +178,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" ><div id="warn-inv" style="color:red;"></div></label>
+                <div class="form-group" style="margin-top:-100px;">
+                    <label class="col-sm-1 control-label" ><div id="warn-inv" style="color:red;width:200px;margin-left:-80px;"></div></label>
                 </div>
-
-                <div id="warn-amount" style="color:red; margin-top:-110px;float:right;"></div>
-                <div id="warn-price" style="color:red; margin-top:-90px;float:right;"></div>
                 <h4 class="h4-custom-hmm">商品设置</h4>
                 <div class="form-group">
                     <label class="col-sm-1 control-label" ><div class="r">重要通告</div></label>
@@ -206,7 +199,9 @@
                                 </tr>
                             </table>
                         </div>
+                        <div id="warn-pub" style="color:red;margin-top:10px;"></div>
                     </div>
+
                 </div>
 
                 <!-- 商品详细信息-->
@@ -232,7 +227,8 @@
                                 <input type="file" id="D" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                             </div>
                         </div>
-                        <div id="warn-img" style="color:red;margin-top:-60px; margin-left:500px;"></div>
+                        <div id="warn-masthimg" style="color:red;margin-top:-70px; margin-left:400px;width:120px;"></div>
+                        <div id="warn-detailimg" style="color:red;margin-top:10px; margin-left:400px;width:120px;"></div>
                     </div>
                 </div>
 
