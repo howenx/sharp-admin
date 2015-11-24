@@ -20,7 +20,52 @@
 
 <script src="/assets/js/bootstrap-datetimepicker.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
-<script src="/assets/js/xspsc.js"></script>
+<script src="/assets/js/prods.js"></script>
+<script src="/assets/js/search.js"></script>
+
+<script>
+    function UpdateFields(obj) {
+        var index1=$(".table").find("tr:last").find("td").first().html();
+        for(i=0;i<$(obj).length;i++){
+            $(obj).eq(i).prepend($("<td class='index'>"+(Number(index1)+1+i)+"</td><td><input type='radio'  name='goods-main'></td>")).appendTo($(".table"));
+        }
+    }
+
+    function ShowModal() {
+        var sharedObject = {};
+
+        if (window.showModalDialog) {
+            var retValue = showModalDialog("/topic/add/popup", sharedObject, "dialogWidth:200px; dialogHeight:200px; dialogLeft:300px;");
+            if (retValue) {
+                UpdateFields(retValue.id);
+            }
+        }
+        else {
+            // for similar functionality in Opera, but it's not modal!
+            var modal = window.open ("/topic/add/popup", null, "width=1100,height=400,left=300,modal=yes,alwaysRaised=yes", null);
+            modal.dialogArguments = sharedObject;
+        }
+    }
+    $(function(){
+        var fixHelperModified = function (e, tr) {
+                    var $originals = tr.children();
+                    var $helper = tr.clone();
+                    $helper.children().each(function (index) {
+                        $(this).width($originals.eq(index).width())
+                    });
+                    return $helper;
+                },
+                updateIndex = function (e, ui) {
+                    $('td.index', ui.item.parent()).each(function (i) {
+                        $(this).html(i + 2);
+                    });
+                };
+        $("#sort tbody").sortable({
+            helper: fixHelperModified,
+            stop: updateIndex
+        }).disableSelection();
+    })
+</script>
 
 <script>window.url = "@url"</script>
 
@@ -473,6 +518,89 @@
                             </div>
                         </div>
 						<hr/>
+                        <!--商品选择-->
+                        <h3>商品选择</h3>
+                        <hr/>
+                        <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModal()">添加商品</button>
+                        <!--<a href="list-1.html" class="btn btn-primary btn-xs add-goods" target="_new">添加商品</a>-->
+                        <div class="bgk">
+                            <table class="table table-bordered table-hover grid" id="sort" title="Kurt Vonnegut novels">
+                                <thead>
+                                <tr>
+                                    <th class="index">序号</th>
+                                    <th>主商品</th>
+                                    <th>
+                                        商品ID
+                                        <span class="glyphicon glyphicon-chevron-up"></span>
+                                        <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                                    </th>
+                                    <th>
+                                        商品名称
+                                        <span class="glyphicon glyphicon-chevron-up"></span>
+                                        <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                                    </th>
+                                    <th>
+                                        商品标题
+                                    </th>
+                                    <th>
+                                        主图
+                                    </th>
+                                    <th>
+                                        上架时间
+                                    </th>
+                                    <th>
+                                        商品状态
+                                    </th>
+                                    <th>
+                                        价格
+                                    </th>
+                                    <th>
+                                        原价
+                                        <span class="glyphicon glyphicon-chevron-up"></span>
+                                        <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                                    </th>
+                                    <th>
+                                        折扣
+                                        <span class="glyphicon glyphicon-chevron-up"></span>
+                                        <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td class="index">1</td>
+                                    <td>
+                                        <input type="radio"  name="goods-main" checked>
+                                    </td>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                    <td>8</td>
+                                    <td>9</td>
+                                    <td>0</td>
+                                    <td>10</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr>
+                                    <td class="index">2</td>
+                                    <td>
+                                        <input type="radio" name="goods-main">
+                                    </td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                    <td>8</td>
+                                    <td>9</td>
+                                    <td>0</td>
+                                    <td>10</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <!-- 创建mark-->
                         <h4 class="h4-custom-hmm">添加标签</h4>
                         <div class="form-group">

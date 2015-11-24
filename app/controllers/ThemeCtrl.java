@@ -152,4 +152,14 @@ public class ThemeCtrl extends Controller {
     public Result sliderPop(){
         return ok(views.html.theme.sliderPop.render());
     }
+
+    /**
+     * 主题录入弹窗
+     * @return thaddPop.scala.html
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result thaddPop(){
+        return ok(views.html.theme.thaddPop.render());
+    }
+
 }
