@@ -3,30 +3,30 @@
 <script src="/assets/js/jquery.min.js"></script>
 <link rel="stylesheet" href="/assets/css/search.css" >
 <!--<script src="/assets/js/slider.js"></script>-->
-    <script>
-        $(function(){
-            $(".switch").click(function(){
-                $(".switch").css("background","#fff");
-                $(this).css("background","#ccc");
-                $("table").css("display","none");
-                $(".table").eq($(this).index($(".switch"))).css("display","table");
-            })
-            $(".table input[type=radio]").click(function(){
-                var id=$("input[type=radio]:checked").parent().next().html();
-                if (window.showModalDialog) {
-                    var sharedObject = {};
-                    sharedObject.id = id;
-
-                    window.returnValue = sharedObject;
-                }
-                else {
-                    // if not modal, we cannot use the returnValue property, we need to update the opener window
-                    window.opener.UpdateFields (id);
-                }
-                window.close ();
-            })
+<script>
+    $(function(){
+        $(".switch").click(function(){
+            $(".switch").css("background","#fff");
+            $(this).css("background","#ccc");
+            $("table").css("display","none");
+            $(".table").eq($(this).index($(".switch"))).css("display","table");
         })
-    </script>
+        $(".table input[type=radio]").click(function(){
+            var id=$("input[type=radio]:checked").parent().next().html();
+            if (window.showModalDialog) {
+                var sharedObject = {};
+                sharedObject.id = id;
+
+                window.returnValue = sharedObject;
+            }
+            else {
+                // if not modal, we cannot use the returnValue property, we need to update the opener window
+                window.opener.UpdateFields (id);
+            }
+            window.close ();
+        })
+    })
+</script>
 
 
 <div class="table-two clearfix">
