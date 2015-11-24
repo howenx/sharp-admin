@@ -42,11 +42,7 @@ GET             /$lang<(cn|en|kr)>/topic/search                             cont
 POST            /topic/search/$pageNum<[0-9]+>                              controllers.ThemeCtrl.thsearchAjax(lang ="cn",pageNum:Int)
 POST            /$lang<(cn|en|kr)>/topic/search/$pageNum<[0-9]+>            controllers.ThemeCtrl.thsearchAjax(lang,pageNum:Int)
 GET             /topic/slider/popup                                         controllers.ThemeCtrl.sliderPop()
-<<<<<<< HEAD
 GET             /topic/add/popup                                            controllers.ThemeCtrl.thaddPop()
-=======
-GET             /topic/add/popup                                      controllers.ThemeCtrl.thaddPop()
->>>>>>> 2f8717f96107c50c67dee0b9296a6c320ac4a353
 
 
 
