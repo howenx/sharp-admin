@@ -83,6 +83,39 @@ public class Item implements Serializable{
         this.order = order;
     }
 
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", cateId=" + cateId +
+                ", brandId=" + brandId +
+                ", itemTitle='" + itemTitle + '\'' +
+                ", supplyMerch='" + supplyMerch + '\'' +
+                ", onShelvesAt=" + onShelvesAt +
+                ", offShelvesAt=" + offShelvesAt +
+                ", itemMasterImg='" + itemMasterImg + '\'' +
+                ", itemDetailImgs='" + itemDetailImgs + '\'' +
+                ", itemFeatures='" + itemFeatures + '\'' +
+                ", themeId=" + themeId +
+                ", state='" + state + '\'' +
+                ", shareUrl='" + shareUrl + '\'' +
+                ", shareCount=" + shareCount +
+                ", collectCount=" + collectCount +
+                ", browseCount=" + browseCount +
+                ", itemNotice='" + itemNotice + '\'' +
+                ", orDestroy=" + orDestroy +
+                ", destroyAt=" + destroyAt +
+                ", updateAt=" + updateAt +
+                ", createAt=" + createAt +
+                ", masterInvId=" + masterInvId +
+                ", publicity='" + publicity + '\'' +
+                ", pageSize=" + pageSize +
+                ", offset=" + offset +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }
