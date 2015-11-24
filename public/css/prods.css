@@ -143,14 +143,16 @@ content
 	font-size: 14px;
 }
 .add1 {
-    display: inline-block;
-    padding: 6px 14px;
-    text-decoration: none;
     background: #00B7EE;
     color: #fff;
-    border-radius: 3px;
-    margin-left: 10px;
+    margin-left: 20px;
     cursor: pointer;
+    border-radius: 2px;
+    width: 60px;
+    text-align: center;
+    height: 24px;
+    line-height: 24px;
+    font-size: 14px;
 }
 .addP {
     background: #00B7EE;
@@ -337,7 +339,7 @@ content
 	top: -25px;
 	left: 32px;
 }
-.qubian input {
+.qubian input, .pub input {
 	width: 90%;
 	outline: none;
 	border: 0;
@@ -371,7 +373,7 @@ body {
 .table>tbody>tr>td,.table>tbody>tr>th{
 	vertical-align: middle;text-align: center;
 }
-.qubian{
+.qubian, .pub{
 	border-collapse:collapse;
 }
 .qubian .preview-img img,.qubian .list-img img{
@@ -386,9 +388,6 @@ body {
 }
 .qubian .preview-img{
 	text-align: left;
-}
-.detail-img{
-    display: table;
 }
 .qubian .preview-img div,.qubian .list-img div, .master-img div, .detail-img div{
 	display:inline-block;position: relative;
@@ -405,7 +404,7 @@ body {
 .qubian .preview-img .close,.qubian .list-img .close, .master-img .close, .detail-img .close {
 	position: absolute;top: -5px;right: 0;opacity: 0.3;
 }
-.qubian td {
+.qubian td, .pub td {
     border:1px solid #ccc;
 }
 .area {
