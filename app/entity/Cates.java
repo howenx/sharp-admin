@@ -73,4 +73,14 @@ public class Cates implements Serializable {
         this.cateNm = cateNm;
         this.cateDesc = cateDesc;
     }
+
+    @Override
+    public String toString() {
+        return "Cates{" +
+                "cateId=" + cateId +
+                ", pcateId=" + pcateId +
+                ", cateNm='" + cateNm + '\'' +
+                ", cateDesc='" + cateDesc + '\'' +
+                '}';
+    }
 }

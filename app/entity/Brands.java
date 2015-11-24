@@ -48,6 +48,17 @@ public class Brands implements Serializable {
         this.brandNm = brandNm;
     }
 
+    @Override
+    public String toString() {
+        return "Brands{" +
+                "brandId=" + brandId +
+                ", brandDesc='" + brandDesc + '\'' +
+                ", logo='" + logo + '\'' +
+                ", createDate=" + createDate +
+                ", brandNm='" + brandNm + '\'' +
+                '}';
+    }
+
     public Long getBrandId() {
         return brandId;
     }
