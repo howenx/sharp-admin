@@ -102,7 +102,7 @@
                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                         </div>
-                        <div id="warn-ate" style="color:red; margin-left:260px;margin-top:-30px; "></div>
+                        <div id="warn-date" style="color:red; margin-left:260px;margin-top:-30px; width:100px;"></div>
                     </div>
                 </div>
                 <!-- 商品库存信息-->
@@ -116,9 +116,9 @@
                                     <th width="60">颜色分类</th>
                                     <th width="60">尺寸分类</th>
                                     <th width="60">库存数量</th>
-                                    <th width="60">成本价(￥)</th>
-                                    <th width="60">原价(￥)</th>
                                     <th width="60">现价(￥)</th>
+                                    <th width="60">原价(￥)</th>
+                                    <th width="60">成本价(￥)</th>
                                     <th width="60">折扣</th>
                                     <th width="60">限购数量</th>
                                     <th width="140">库存地</th>
@@ -159,21 +159,21 @@
                                         <input type="radio" name="invArea1" value="Z"/><div class="area">韩国直邮</div>
                                     </td>
                                     <td class="list-img">
-                                        <div id="galleryM">
+                                        <div id="galleryM1">
                                             <!--<div>-->
                                             <!--<img class="main-img" src="/assets/images/1.jpg" alt=""  name="invImg">-->
                                             <!--<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
                                             <!--</div>-->
                                         </div>
-                                        <span class="add" id="masterImgAdd">＋
-                                            <input type="file" id="M" name="invImg" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                                        <span class="add" id="masterImgAddM1">＋
+                                            <input type="file" id="M1" name="invImg" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                                         </span>
                                     </td>
                                     <td width="146" class="preview-img">
                                         <div id="galleryP1">
                                         </div>
                                         <span class="add" id="preImgAddP1">＋
-                                            <input type="file" id="P1" name="itemPreViewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
+                                            <input type="file" id="P1" name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
                                         </span>
                                     </td>
                                     <td class="del">删除</td>
@@ -326,9 +326,9 @@ function previewImage(file, id) {
     gallery.appendChild(thumb);
 
      //添加商品主图主图后,添加图片按钮置为不可点击且颜色变为灰色
-     if (document.getElementById("galleryM").getElementsByTagName("div").length>0) {
-         $("#M").attr({"disabled":true});
-         document.getElementById('masterImgAdd').style.background="#ccc";
+     if (id.indexOf("M")>=0&&document.getElementById(galleryId).getElementsByTagName("div").length>0) {
+         $("#"+id).attr({"disabled":true});
+         document.getElementById('masterImgAdd'+id).style.background="#ccc";
      }
 
      //添加主题宣传图后,添加图片按钮置为不可点击且颜色变为灰色

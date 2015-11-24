@@ -14,7 +14,7 @@ public class Item implements Serializable{
     private Long id                  ;
     private Long cateId             ;
     private Long brandId            ;
-    private String itemTitle          ;
+    private String itemTitle         ;
     private String supplyMerch           ;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm", timezone = "GMT+8")
     private Timestamp onShelvesAt       ;
@@ -49,39 +49,6 @@ public class Item implements Serializable{
     private String sort;
     //排序方式,降序,升序
     private String order;
-
-    public Item() {
-    }
-
-    public Item(Long id, Long cateId, Long brandId, String itemTitle, String supplyMerch, Timestamp onShelvesAt, Timestamp offShelvesAt, String itemMasterImg, String itemDetailImgs, String itemFeatures, Long themeId, String state, String shareUrl, Integer shareCount, Integer collectCount, Integer browseCount, String itemNotice, Boolean orDestroy, Timestamp destroyAt, Timestamp updateAt, Timestamp createAt, Long masterInvId, String publicity, Integer pageSize, Integer offset, String sort, String order) {
-        this.id = id;
-        this.cateId = cateId;
-        this.brandId = brandId;
-        this.itemTitle = itemTitle;
-        this.supplyMerch = supplyMerch;
-        this.onShelvesAt = onShelvesAt;
-        this.offShelvesAt = offShelvesAt;
-        this.itemMasterImg = itemMasterImg;
-        this.itemDetailImgs = itemDetailImgs;
-        this.itemFeatures = itemFeatures;
-        this.themeId = themeId;
-        this.state = state;
-        this.shareUrl = shareUrl;
-        this.shareCount = shareCount;
-        this.collectCount = collectCount;
-        this.browseCount = browseCount;
-        this.itemNotice = itemNotice;
-        this.orDestroy = orDestroy;
-        this.destroyAt = destroyAt;
-        this.updateAt = updateAt;
-        this.createAt = createAt;
-        this.masterInvId = masterInvId;
-        this.publicity = publicity;
-        this.pageSize = pageSize;
-        this.offset = offset;
-        this.sort = sort;
-        this.order = order;
-    }
 
     @Override
     public String toString() {

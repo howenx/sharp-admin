@@ -1,5 +1,6 @@
 package service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import entity.Item;
 
 import java.util.List;
@@ -12,5 +13,5 @@ public interface ItemService {
 
     List<Item> itemSearch(Item item);
 
-    Integer insertItem(Item item);
+    List<Long> insertItem(JsonNode jsonItem, JsonNode jsonInventories);
 }

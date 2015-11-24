@@ -394,7 +394,7 @@ body {
 	margin-top:5px;margin-left: 5px;
 }
 .qubian .preview-img .add,.qubian .list-img .add, .master-img .add, .detail-img .add{
-	width: 40px;height:25px;margin-left: 0;display: inline-block;line-height: 22px;
+	width: 40px;height:25px;margin-left: 5px;display: inline-block;line-height: 22px;
 	margin-top: 5px;position: relative;font-size: 18px;
 }
 .qubian .add input[type=file],.master-img .add input[type=file], .detail-img .add input[type=file]{
