@@ -3,6 +3,9 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.Item;
 import entity.User;
+import play.Logger;
+import play.data.DynamicForm;
+import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -13,6 +16,7 @@ import service.ThemeService;
 
 import javax.inject.Inject;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -130,6 +134,15 @@ public class ItemCtrl extends Controller {
      * @return Result
      */
     public Result insertItem() {
-        return ok();
+        DynamicForm form = Form.form().bindFromRequest();
+        String items = form.get("items");
+        String inventories = form.get("inventories");
+        JsonNode jsonItem =Json.parse(items);
+        JsonNode jsonInventories =Json.parse(inventories);
+        Logger.error(jsonItem.toString());
+        Logger.error(jsonInventories.toString());
+
+        List<Long> list = service.insertItem(jsonItem,jsonInventories);
+        return ok(list.toString());
     }
 }

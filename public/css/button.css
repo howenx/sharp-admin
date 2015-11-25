@@ -140,3 +140,10 @@ button::-moz-focus-inner {
 #mark-bt,#push,#submit{
 	float: right;margin-right: 0;
 }
+.btn.add-goods{
+	background: #337ab7;border: 3px solid #337ab7;
+}
+
+.table tr>td,.table tr>th{
+	vertical-align: middle;text-align: center;
+}

@@ -143,14 +143,16 @@ content
 	font-size: 14px;
 }
 .add1 {
-    display: inline-block;
-    padding: 6px 14px;
-    text-decoration: none;
     background: #00B7EE;
     color: #fff;
-    border-radius: 3px;
-    margin-left: 10px;
+    margin-left: 20px;
     cursor: pointer;
+    border-radius: 2px;
+    width: 60px;
+    text-align: center;
+    height: 24px;
+    line-height: 24px;
+    font-size: 14px;
 }
 .addP {
     background: #00B7EE;
@@ -337,7 +339,7 @@ content
 	top: -25px;
 	left: 32px;
 }
-.qubian input {
+.qubian input, .pub input {
 	width: 90%;
 	outline: none;
 	border: 0;
@@ -371,7 +373,7 @@ body {
 .table>tbody>tr>td,.table>tbody>tr>th{
 	vertical-align: middle;text-align: center;
 }
-.qubian{
+.qubian, .pub{
 	border-collapse:collapse;
 }
 .qubian .preview-img img,.qubian .list-img img{
@@ -392,7 +394,7 @@ body {
 	margin-top:5px;margin-left: 5px;
 }
 .qubian .preview-img .add,.qubian .list-img .add, .master-img .add, .detail-img .add{
-	width: 40px;height:25px;margin-left: 0;display: inline-block;line-height: 22px;
+	width: 40px;height:25px;margin-left: 5px;display: inline-block;line-height: 22px;
 	margin-top: 5px;position: relative;font-size: 18px;
 }
 .qubian .add input[type=file],.master-img .add input[type=file], .detail-img .add input[type=file]{
@@ -402,13 +404,12 @@ body {
 .qubian .preview-img .close,.qubian .list-img .close, .master-img .close, .detail-img .close {
 	position: absolute;top: -5px;right: 0;opacity: 0.3;
 }
-.qubian td {
+.qubian td, .pub td {
     border:1px solid #ccc;
 }
-/*
-.preview-img .close, .list-img .close{
-
-}*/
+.area {
+    margin-top:-25px;
+}
 
 /**/
 .goods-img-bg {

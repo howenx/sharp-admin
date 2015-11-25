@@ -10,15 +10,10 @@
     -->
     <sql id="brandsColumns">
         ${alias}.brand_id,
-        ${alias}.desc_cn,
-        ${alias}.desc_en,
-        ${alias}.desc_kr,
-        ${alias}.logo_url,
-        ${alias}.home_page,
+        ${alias}.brand_desc,
+        ${alias}.logo,
         ${alias}.create_date,
-        ${alias}.brand_nm_cn,
-        ${alias}.brand_nm_en,
-        ${alias}.brand_nm_kr
+        ${alias}.brand_nm
     </sql>
 
     <select id="getBrands" resultType="entity.Brands" parameterType="java.lang.Long">

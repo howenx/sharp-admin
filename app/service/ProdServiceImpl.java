@@ -124,7 +124,7 @@ public class ProdServiceImpl implements ProdService {
         if (jsonProd.has("productColor")) {
             ((ObjectNode) jsonProd).put("productColor",jsonProd.findValue("productColor").toString());
         }
-        if (jsonProd.has("productColor")) {
+        if (jsonProd.has("productSize")) {
             ((ObjectNode) jsonProd).put("productSize",jsonProd.findValue("productSize").toString());
         }
         if (jsonProd.has("previewImgs")) {

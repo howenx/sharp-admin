@@ -14,39 +14,27 @@
         ${alias}.id ,
         ${alias}.cate_id ,
         ${alias}.brand_id ,
-        ${alias}.cate_nm ,
-        ${alias}.brand_nm ,
         ${alias}.item_title ,
-        ${alias}.item_desc ,
-        ${alias}.merch_uid ,
+        ${alias}.supply_merch ,
         ${alias}.on_shelves_at ,
         ${alias}.off_shelves_at ,
         ${alias}.item_master_img ,
-        ${alias}.item_preview_imgs ,
-        ${alias}.item_detail_imgs ,
-        ${alias}.item_features ,
+        ${alias}.item_detail_imgs ::text,
+        ${alias}.item_features ::text,
         ${alias}.theme_id ,
         ${alias}.state ,
-        ${alias}.or_free_ship ,
-        ${alias}.delivery_area ,
-        ${alias}.delivery_time ,
-        ${alias}.or_restrict_buy ,
-        ${alias}.restrict_amount ,
-        ${alias}.or_shopping_poll ,
-        ${alias}.share_img ,
         ${alias}.share_url ,
         ${alias}.share_count ,
-        ${alias}.like_count ,
         ${alias}.collect_count ,
         ${alias}.browse_count ,
         ${alias}.item_notice ,
-        ${alias}.or_destory ,
-        ${alias}.destory_uid ,
-        ${alias}.destory_at ,
+        ${alias}.or_destroy ,
+        ${alias}.destroy_at ,
         ${alias}.update_at ,
-        ${alias}.update_uid ,
         ${alias}.create_at ,
-        ${alias}.create_uid
+        ${alias}.master_inv_id ,
+        ${alias}.publicity::text
+
     </sql>
 
     <select id="getItemPage" parameterType="entity.Item" resultType="entity.Item">
@@ -60,9 +48,6 @@
         </if>
         <if test="itemTitle != null">
             and t.item_title = #{itemTitle}
-        </if>
-        <if test="itemNm != null and itemNm != ''">
-            and t.item_nm = #{itemNm}
         </if>
         <if test="themeId != null">
             and t.theme_id = #{themeId}
@@ -90,11 +75,11 @@
         </if>
     </select>
 
-    <insert id="insertItem" parameterType="entity.Item" useGeneratedKeys="true" keyProperty="id" >
-        insert into item
-        ()
+    <insert id="insertItem" parameterType="entity.Item" useGeneratedKeys="true" keyProperty="id">
+        insert into items
+        (cate_id,brand_id,item_title,supply_merch,on_shelves_at,off_shelves_at,item_master_img,item_detail_imgs,item_features,theme_id,state,share_url,share_count,collect_count,browse_count,item_notice,or_destroy,destroy_at,update_at,create_at,master_inv_id,publicity)
         values
-        (})
+        (#{cateId},#{brandId},#{itemTitle},#{supplyMerch},#{onShelvesAt},#{offShelvesAt},#{itemMasterImg},#{itemDetailImgs}::jsonb,#{itemFeatures}::jsonb,#{themeId},#{state},#{shareUrl},#{shareCount},#{collectCount},#{browseCount},#{itemNotice},#{orDestroy},#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{masterInvId},#{publicity}::jsonb)
     </insert>
 
 </mapper>

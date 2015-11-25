@@ -66,16 +66,6 @@ public class Inventory {
     private Integer restAmount;
 
     /**
-     * 是否售空
-     */
-    private Boolean orSoldOut;
-
-    /**
-     * 单个库存请求地址
-     */
-    private String invUrl;
-
-    /**
      * 主图
      */
     private String invImg;
@@ -86,19 +76,9 @@ public class Inventory {
     private String itemPreviewImgs;
 
     /**
-     * 创建操作用户id
-     */
-    private Long createUid;
-
-    /**
      * 创建时间
      */
     private Timestamp createAt;
-
-    /**
-     * 更新操作用户id
-     */
-    private Long updateUid;
 
     /**
      * 更新时间
@@ -108,17 +88,12 @@ public class Inventory {
     /**
      * 是否删除
      */
-    private Boolean orDestory;
-
-    /**
-     * 删除操作用户id
-     */
-    private Long destoryUid;
+    private Boolean orDestroy;
 
     /**
      * 删除时间
      */
-    private Timestamp destoryAt;
+    private Timestamp destroyAt;
 
     /**
      * 是否为主sku
@@ -130,9 +105,17 @@ public class Inventory {
      */
     private String state;
 
+    private BigDecimal shipFee;
+
+    private String invArea;
+
+    private Integer restrictAmount;
+
+    private String invTitle;
+
     public Inventory() {}
 
-    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, Boolean orSoldOut, String invUrl, String invImg, String itemPreviewImgs, Long createUid, Timestamp createAt, Long updateUid, Timestamp updateAt, Boolean orDestory, Long destoryUid, Timestamp destoryAt, Boolean orMasterInv, String state) {
+    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, BigDecimal shipFee, String invArea, Integer restrictAmount, String invTitle) {
         this.id = id;
         this.itemId = itemId;
         this.itemColor = itemColor;
@@ -144,19 +127,18 @@ public class Inventory {
         this.amount = amount;
         this.soldAmount = soldAmount;
         this.restAmount = restAmount;
-        this.orSoldOut = orSoldOut;
-        this.invUrl = invUrl;
         this.invImg = invImg;
         this.itemPreviewImgs = itemPreviewImgs;
-        this.createUid = createUid;
         this.createAt = createAt;
-        this.updateUid = updateUid;
         this.updateAt = updateAt;
-        this.orDestory = orDestory;
-        this.destoryUid = destoryUid;
-        this.destoryAt = destoryAt;
+        this.orDestroy = orDestroy;
+        this.destroyAt = destroyAt;
         this.orMasterInv = orMasterInv;
         this.state = state;
+        this.shipFee = shipFee;
+        this.invArea = invArea;
+        this.restrictAmount = restrictAmount;
+        this.invTitle = invTitle;
     }
 
     @Override
@@ -173,19 +155,18 @@ public class Inventory {
                 ", amount=" + amount +
                 ", soldAmount=" + soldAmount +
                 ", restAmount=" + restAmount +
-                ", orSoldOut=" + orSoldOut +
-                ", invUrl='" + invUrl + '\'' +
                 ", invImg='" + invImg + '\'' +
                 ", itemPreviewImgs='" + itemPreviewImgs + '\'' +
-                ", createUid=" + createUid +
                 ", createAt=" + createAt +
-                ", updateUid=" + updateUid +
                 ", updateAt=" + updateAt +
-                ", orDestory=" + orDestory +
-                ", destoryUid=" + destoryUid +
-                ", destoryAt=" + destoryAt +
+                ", orDestroy=" + orDestroy +
+                ", destroyAt=" + destroyAt +
                 ", orMasterInv=" + orMasterInv +
                 ", state='" + state + '\'' +
+                ", shipFee=" + shipFee +
+                ", invArea='" + invArea + '\'' +
+                ", restrictAmount=" + restrictAmount +
+                ", invTitle='" + invTitle + '\'' +
                 '}';
     }
 
@@ -277,22 +258,6 @@ public class Inventory {
         this.restAmount = restAmount;
     }
 
-    public Boolean getOrSoldOut() {
-        return orSoldOut;
-    }
-
-    public void setOrSoldOut(Boolean orSoldOut) {
-        this.orSoldOut = orSoldOut;
-    }
-
-    public String getInvUrl() {
-        return invUrl;
-    }
-
-    public void setInvUrl(String invUrl) {
-        this.invUrl = invUrl;
-    }
-
     public String getInvImg() {
         return invImg;
     }
@@ -309,28 +274,12 @@ public class Inventory {
         this.itemPreviewImgs = itemPreviewImgs;
     }
 
-    public Long getCreateUid() {
-        return createUid;
-    }
-
-    public void setCreateUid(Long createUid) {
-        this.createUid = createUid;
-    }
-
     public Timestamp getCreateAt() {
         return createAt;
     }
 
     public void setCreateAt(Timestamp createAt) {
         this.createAt = createAt;
-    }
-
-    public Long getUpdateUid() {
-        return updateUid;
-    }
-
-    public void setUpdateUid(Long updateUid) {
-        this.updateUid = updateUid;
     }
 
     public Timestamp getUpdateAt() {
@@ -341,28 +290,20 @@ public class Inventory {
         this.updateAt = updateAt;
     }
 
-    public Boolean getOrDestory() {
-        return orDestory;
+    public Boolean getOrDestroy() {
+        return orDestroy;
     }
 
-    public void setOrDestory(Boolean orDestory) {
-        this.orDestory = orDestory;
+    public void setOrDestroy(Boolean orDestroy) {
+        this.orDestroy = orDestroy;
     }
 
-    public Long getDestoryUid() {
-        return destoryUid;
+    public Timestamp getDestroyAt() {
+        return destroyAt;
     }
 
-    public void setDestoryUid(Long destoryUid) {
-        this.destoryUid = destoryUid;
-    }
-
-    public Timestamp getDestoryAt() {
-        return destoryAt;
-    }
-
-    public void setDestoryAt(Timestamp destoryAt) {
-        this.destoryAt = destoryAt;
+    public void setDestroyAt(Timestamp destroyAt) {
+        this.destroyAt = destroyAt;
     }
 
     public Boolean getOrMasterInv() {
@@ -379,5 +320,37 @@ public class Inventory {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public BigDecimal getShipFee() {
+        return shipFee;
+    }
+
+    public void setShipFee(BigDecimal shipFee) {
+        this.shipFee = shipFee;
+    }
+
+    public String getInvArea() {
+        return invArea;
+    }
+
+    public void setInvArea(String invArea) {
+        this.invArea = invArea;
+    }
+
+    public Integer getRestrictAmount() {
+        return restrictAmount;
+    }
+
+    public void setRestrictAmount(Integer restrictAmount) {
+        this.restrictAmount = restrictAmount;
+    }
+
+    public String getInvTitle() {
+        return invTitle;
+    }
+
+    public void setInvTitle(String invTitle) {
+        this.invTitle = invTitle;
     }
 }

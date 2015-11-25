@@ -13,9 +13,7 @@
     <sql id="catesColumns">
         ${alias}.cate_id,
         ${alias}.pcate_id,
-        ${alias}.cate_nm_cn cateNameCn,
-        ${alias}.cate_nm_en cateNameEn,
-        ${alias}.cate_nm_kr cateNameKr,
+        ${alias}.cate_nm,
         ${alias}.cate_desc
     </sql>
 
@@ -24,7 +22,7 @@
         <include refid="catesColumns">
             <property name="alias" value="t"/>
         </include>
-        from cates t where t.pcate_id IS NULL ORDER BY t.cate_nm_cn;
+        from cates t where t.pcate_id IS NULL ORDER BY t.cate_nm;
     </select>
 
     <select id="getSubCates" resultType="entity.Cates" parameterType="map">

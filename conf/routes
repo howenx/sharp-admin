@@ -35,14 +35,14 @@ GET             /topic/slider                                               cont
 GET             /$lang<(cn|en|kr)>/topic/slider                             controllers.ThemeCtrl.slider(lang)
 GET             /topic/add                                                  controllers.ThemeCtrl.thadd(lang = "cn")
 GET             /$lang<(cn|en|kr)>/topic/add                                controllers.ThemeCtrl.thadd(lang)
-POST            /slider/update                                              controllers.ThemeCtrl.sliderSave(lang ="cn")
-POST            /$lang<(cn|en|kr)>/slider/update                            controllers.ThemeCtrl.sliderSave(lang)
+POST            /topic/slider/update                                        controllers.ThemeCtrl.sliderSave(lang ="cn")
+POST            /$lang<(cn|en|kr)>/topic/slider/update                      controllers.ThemeCtrl.sliderSave(lang)
 GET             /topic/search                                               controllers.ThemeCtrl.thsearch(lang ="cn")
 GET             /$lang<(cn|en|kr)>/topic/search                             controllers.ThemeCtrl.thsearch(lang)
 POST            /topic/search/$pageNum<[0-9]+>                              controllers.ThemeCtrl.thsearchAjax(lang ="cn",pageNum:Int)
 POST            /$lang<(cn|en|kr)>/topic/search/$pageNum<[0-9]+>            controllers.ThemeCtrl.thsearchAjax(lang,pageNum:Int)
-
-
+GET             /topic/slider/popup                                         controllers.ThemeCtrl.sliderPop()
+GET             /topic/add/popup                                            controllers.ThemeCtrl.thaddPop()
 
 
 
@@ -59,7 +59,7 @@ POST            /comm/search/$pageNum<[0-9]+>                               cont
 POST            /$lang<(cn|en|kr)>/comm/search/$pageNum<[0-9]+>             controllers.ItemCtrl.itemsearchAjax(lang,pageNum:Int)
 GET             /comm/add                                                   controllers.ItemCtrl.itemCreate(lang="cn")
 GET             /$lang<cn|en|kr>/comm/add                                   controllers.ItemCtrl.itemCreate(lang)
-
+POST            /comm/insertItem                                            controllers.ItemCtrl.insertItem
 
 
 

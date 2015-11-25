@@ -40,7 +40,7 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result slider(String lang) {
-        flash("success", session("username"));
+//        flash("success", session("username"));
         return ok(views.html.theme.slider.render(lang,service.sliderAll(),IMAGE_URL,(User) ctx().args.get("user")));
     }
 
@@ -143,4 +143,23 @@ public class ThemeCtrl extends Controller {
             return badRequest();
         }
     }
+
+    /**
+     * 滚动条弹窗
+     * @return sliderPop.scala.html
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result sliderPop(){
+        return ok(views.html.theme.sliderPop.render());
+    }
+
+    /**
+     * 主题录入弹窗
+     * @return thaddPop.scala.html
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result thaddPop(){
+        return ok(views.html.theme.thaddPop.render());
+    }
+
 }

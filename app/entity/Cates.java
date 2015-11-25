@@ -4,111 +4,83 @@ import java.io.Serializable;
 
 /**
  * A entity for commodity categories.
- *
+ * <p>
  * <p>
  *
  * @author Sunny Wu
  */
-public class Cates implements Serializable{
+public class Cates implements Serializable {
 
-		/**
-		 * * cateId primary key.
-		 */
-		private Long cateId;
+    /**
+     * * cateId primary key.
+     */
+    private Long cateId;
 
-		/**
-		 * parent cateId.
-		 */
-		private Long parentCateId;
+    /**
+     * parent cateId.
+     */
+    private Long pcateId;
 
-		/**
-		 * cate  chinese name.
-		 */
-		private String cateNameCn;
+    /**
+     * cate  name.
+     */
+    private String cateNm;
 
-		/**
-		 * cate English name.
-		 */
-		private String cateNameEn;
+    /**
+     * cate description.
+     */
+    private String cateDesc;
 
-		/**
-		 * cate Korean name.
-		 */
-		private String cateNameKr;
+    public Cates() {
+    }
 
-		/**
-		 * cate for picture url.
-		 */
-		private String cateDesc;
+    public Long getCateId() {
+        return cateId;
+    }
 
-		public Cates(){}
-		public Cates(Long cateId, Long parentCateId, String cateNameCn, String cateNameEn, String cateNameKr, String cateDesc) {
-			this.cateId = cateId;
-			this.parentCateId = parentCateId;
-			this.cateNameCn = cateNameCn;
-			this.cateNameEn = cateNameEn;
-			this.cateNameKr = cateNameKr;
-			this.cateDesc = cateDesc;
-		}
+    public void setCateId(Long cateId) {
+        this.cateId = cateId;
+    }
 
-		@Override
-		public String toString() {
-			return "Cates{" +
-					"cateId=" + cateId +
-					", parentCateId=" + parentCateId +
-					", cateNameCn='" + cateNameCn + '\'' +
-					", cateNameEn='" + cateNameEn + '\'' +
-					", cateNameKr='" + cateNameKr + '\'' +
-					", cateDesc='" + cateDesc + '\'' +
-					'}';
-		}
+    public Long getPcateId() {
+        return pcateId;
+    }
 
-		public Long getCateId() {
-			return cateId;
-		}
+    public void setPcateId(Long pcateId) {
+        this.pcateId = pcateId;
+    }
 
-		public void setCateId(Long cateId) {
-			this.cateId = cateId;
-		}
+    public String getCateNm() {
+        return cateNm;
+    }
 
-		public Long getParentCateId() {
-			return parentCateId;
-		}
+    public void setCateNm(String cateNm) {
+        this.cateNm = cateNm;
+    }
 
-		public void setParentCateId(Long parentCateId) {
-			this.parentCateId = parentCateId;
-		}
+    public String getCateDesc() {
+        return cateDesc;
+    }
 
-		public String getCateNameCn() {
-			return cateNameCn;
-		}
+    public void setCateDesc(String cateDesc) {
+        this.cateDesc = cateDesc;
+    }
 
-		public void setCateNameCn(String cateNameCn) {
-			this.cateNameCn = cateNameCn;
-		}
+    public Cates(Long cateId, Long pcateId, String cateNm, String cateDesc) {
 
-		public String getCateNameEn() {
-			return cateNameEn;
-		}
+        this.cateId = cateId;
+        this.pcateId = pcateId;
+        this.cateNm = cateNm;
+        this.cateDesc = cateDesc;
+    }
 
-		public void setCateNameEn(String cateNameEn) {
-			this.cateNameEn = cateNameEn;
-		}
-
-		public String getCateNameKr() {
-			return cateNameKr;
-		}
-
-		public void setCateNameKr(String cateNameKr) {
-			this.cateNameKr = cateNameKr;
-		}
-
-		public String getCateDesc() {
-			return cateDesc;
-		}
-
-		public void setCateDesc(String cateDesc) {
-			this.cateDesc = cateDesc;
-		}
-
+    @Override
+    public String toString() {
+        return "Cates{" +
+                "cateId=" + cateId +
+                ", pcateId=" + pcateId +
+                ", cateNm='" + cateNm + '\'' +
+                ", cateDesc='" + cateDesc + '\'' +
+                '}';
+    }
 }

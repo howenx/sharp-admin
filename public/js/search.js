@@ -82,12 +82,7 @@ $(function() {
 	funcList.commlist_search = function commlist_search(pageIndex) {
 		var commDto = new Object();
 		commDto.id = $("#comm-id").val();
-		commDto.itemNm = $("#comm-name").val();
-
-		commDto.orJoinTheme = $("input:radio[name=comm-is-join-topic]:checked").val();
-
-		console.log(commDto.orJoinTheme);
-
+		commDto.itemTitle = $("#comm-title").val();
 		commDto.themeId = $("#comm-topic-id").val();
 		//调用共用ajax
 		search("/comm/search/" + pageIndex, commDto);
@@ -95,30 +90,28 @@ $(function() {
 
 	//每个查询页面对应一个相应的返回时填充函数 商品查询页面
 	funcList.commlist_data = function commlist_data(data) {
-		var hadjoin = '';
-		var willjoin = '';
-		//国际化
-		if (window.lang == "cn") {
-			join = '已加入';
-			willjoin = '未加入';
-		} else {
-			join = 'Had Join';
-			willjoin = 'Will Join';
-		}
+//		var hadjoin = '';
+//		var willjoin = '';
+//		//国际化
+//		if (window.lang == "cn") {
+//			join = '已加入';
+//			willjoin = '未加入';
+//		} else {
+//			join = 'Had Join';
+//			willjoin = 'Will Join';
+//		}
 
 		//填充列表数据
 		$(data).each(function(index, element) {
 			$('#tb-topic').find('tbody').append('' +
 				'<tr class="tb-list-data">' +
 				'<td><a href="javascript:void(0)">' + $(this)[0].id + '</a></td>' +
-				'<td>' + $(this)[0].itemNm + '</td>' +
 				'<td style="width: 20%;">' + $(this)[0].itemTitle + '</td>' +
 				'<td>' +
 				'<img class="main-img" src="' + window.url + $(this)[0].itemMasterImg + '" alt="" width="50">' +
 				'</td>' +
 				'<td>' + ($(this)[0].onShelvesAt != null && $(this)[0].onShelvesAt != '' ? $(this)[0].onShelvesAt.substr(0, 16) : '') + '</td>}' +
 				'<td>' + ($(this)[0].offShelvesAt != null && $(this)[0].offShelvesAt != '' ? $(this)[0].offShelvesAt.substr(0, 16) : '') + '</td>}' +
-				'<td>' + ($(this)[0].orJoinTheme === true || $(this)[0].orJoinTheme != 'true' ? join : willjoin) + '</td>' +
 				'<td><a href="javascript:void(0)">' + $(this)[0].themeId + '</a></td>' +
 				'<td>' + $(this)[0].state + '</td>' +
 				'</tr>'
@@ -252,4 +245,16 @@ $(function() {
 		});
 	}
 
+	$(".grid").on("click","input[type=radio]",function(){
+		//if($(".grid thead").find("tr").length==2){
+		$(".grid thead").find("tr").eq(1).prependTo(".grid tbody");
+		//}
+		$(this).parent().prev().html(1);
+		var arr= $(this).parents("tr").prevAll("tr");
+		for(var i=0;i<arr.length;i++){
+			$(arr[i]).find("td").first().html(Number($(arr[i]).find("td").first().html())+1);
+		}
+		$(".grid input[type=radio]:checked").parents("tr").index=0;
+		$(".grid input[type=radio]:checked").parents("tr").appendTo(".grid thead");
+	})
 })

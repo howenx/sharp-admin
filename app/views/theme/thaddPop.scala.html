@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<!--self-->
+<link rel="stylesheet" href="/assets/css/search.css">
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $(".return").click(function(){
+            var id=$("input[type=checkbox]:checked").parents("tr");
+            $(id).find("input[type=checkbox]:checked").parent().remove();
+            console.log(id);
+            if (window.showModalDialog) {
+                var sharedObject = {};
+                sharedObject.id = id;
+
+                window.returnValue = sharedObject;
+            }
+            else {
+                // if not modal, we cannot use the returnValue property, we need to update the opener window
+                window.opener.UpdateFields (id);
+            }
+            window.close ();
+        })
+    })
+</script>
+
+<body>
+<h3>商品查询</h3>
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>选择商品</th>
+        <th>
+            商品ID
+            <span class="glyphicon glyphicon-chevron-up"></span>
+            <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+        </th>
+        <th>
+            商品名称
+            <span class="glyphicon glyphicon-chevron-up"></span>
+            <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+        </th>
+        <th>
+            商品标题
+        </th>
+        <th>
+            主图
+        </th>
+        <th>
+            上架时间
+        </th>
+        <th>
+            商品状态
+        </th>
+        <th>
+            价格
+        </th>
+        <th>
+            原价
+            <span class="glyphicon glyphicon-chevron-up"></span>
+            <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+        </th>
+        <th>
+            折扣
+            <span class="glyphicon glyphicon-chevron-up"></span>
+            <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <input type="checkbox" name="goods">
+        </td>
+        <td>123</td>
+        <td>1</td>
+        <td></td>
+        <td>3</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            <input type="checkbox" name="goods">
+        </td>
+        <td>223</td>
+        <td></td>
+        <td>3</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>2</td>
+        <td></td>
+        <td>4</td>
+    </tr>
+</table>
+<button class="return">Return</button>
+</body>
