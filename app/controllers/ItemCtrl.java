@@ -70,38 +70,30 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result itemsearchAjax(String lang,int pageNum) {
-
         JsonNode json = request().body().asJson();
-
-        Item theme = Json.fromJson(json,Item.class);
-
+        Item item = Json.fromJson(json,Item.class);
         if(pageNum>=1){
             //计算从第几条开始取数据
             int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
-
-            theme.setPageSize(-1);
-            theme.setOffset(-1);
-
+            item.setPageSize(-1);
+            item.setOffset(-1);
             //取总数
-            int countNum = service.itemSearch(theme).size();
+            int countNum = service.itemSearch(item).size();
             //共分几页
             int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
 
             if(countNum%ThemeCtrl.PAGE_SIZE!=0){
                 pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
             }
-
-            theme.setPageSize(ThemeCtrl.PAGE_SIZE);
-            theme.setOffset(offset);
-
+            item.setPageSize(ThemeCtrl.PAGE_SIZE);
+            item.setOffset(offset);
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
-            returnMap.put("topic",service.itemSearch(theme));
+            returnMap.put("topic",service.itemSearch(item));
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
             returnMap.put("pageSize",ThemeCtrl.PAGE_SIZE);
-
             return ok(Json.toJson(returnMap));
         }
         else{
