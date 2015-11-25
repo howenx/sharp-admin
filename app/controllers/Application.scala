@@ -27,23 +27,23 @@ import scala.util.Try
   */
 @Singleton
 @Inject
-class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSClientProvider, configuration: Configuration, @Named("oss") oss:ActorRef) extends Controller with Secured with I18nSupport {
+class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSClientProvider, configuration: Configuration, @Named("oss") oss: ActorRef) extends Controller with Secured with I18nSupport {
 
   val size = 15
 
-  def welcome(lang:String) = withUser { user => {
+  def welcome(lang: String) = withUser { user => {
     implicit request => {
-//      val lang = request.getQueryString("lang") match {
-//        case Some(l) =>
-//          Lang.apply(l)
-//        case l =>
-//          Lang.preferred(request.acceptLanguages)
-//      }
+      //      val lang = request.getQueryString("lang") match {
+      //        case Some(l) =>
+      //          Lang.apply(l)
+      //        case l =>
+      //          Lang.preferred(request.acceptLanguages)
+      //      }
 
       //Ok(views.html.welcome("cn",request.session.get("username").getOrElse(""))).withLang(lang)
       user.role match {
         case User_Type.SELLER =>
-          Redirect(routes.Application.supply_init())
+          Redirect(routes.Application.list_supply(None))
         case User_Type.TRANSLATION =>
           Redirect(routes.Application.list_supply(None))
         case _ =>
@@ -54,28 +54,28 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
   }
   }
 
-//  def welcome() = withUser { user => {
-//    implicit request => {
-//      val lang = request.getQueryString("lang") match {
-//        case Some(l) =>
-//          Lang.apply(l)
-//        case l =>
-//          Lang.preferred(request.acceptLanguages)
-//      }
-//
-//      //Ok(views.html.welcome("cn",request.session.get("username").getOrElse(""))).withLang(lang)
-//      Ok(views.html.welcome(lang.code, user.nickname))
-//    }
-//  }
-//  }
+  //  def welcome() = withUser { user => {
+  //    implicit request => {
+  //      val lang = request.getQueryString("lang") match {
+  //        case Some(l) =>
+  //          Lang.apply(l)
+  //        case l =>
+  //          Lang.preferred(request.acceptLanguages)
+  //      }
+  //
+  //      //Ok(views.html.welcome("cn",request.session.get("username").getOrElse(""))).withLang(lang)
+  //      Ok(views.html.welcome(lang.code, user.nickname))
+  //    }
+  //  }
+  //  }
 
-  def list_supply(id:Option[Int], start:Int) = withUser { user => {
-    implicit  request => {
+  def list_supply(id: Option[Int], start: Int) = withUser { user => {
+    implicit request => {
       id match {
         case Some(category_id) =>
           val ret = Prod.list(Prod_Type.apply(id.get), start, size)
           Logger.debug(ret.toString())
-          Ok(views.html.supply.list_data("cn", ret, start))
+          Ok(views.html.supply.list_data("cn", user, ret, start))
         case None =>
           val ret = Prod.list(Prod_Type.hzp, start, size)
           //Logger.debug(ret.toString())
@@ -86,7 +86,7 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
 
   }
 
-  def append(id:Long) = withUser { user => {
+  def append(id: Long) = withUser { user => {
     implicit request => {
       Prod.find_by_id(id) match {
         case Some(p) =>
@@ -111,83 +111,83 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
       var rNum = 0
       var row = sheet.createRow(rNum)
 
-      var cNum : Int = 0
+      var cNum: Int = 0
 
       var cell = row.createCell(cNum)
       cell.setCellValue("进口明细表")
 
-      rNum +=1
+      rNum += 1
       row = sheet.createRow(rNum)
       cell = row.createCell(cNum)
       cell.setCellValue("流水号:")
 
-      rNum +=1
+      rNum += 1
       row = sheet.createRow(rNum)
       cell = row.createCell(cNum)
       cell.setCellValue("电子帐册号:")
 
-      rNum +=1
+      rNum += 1
       row = sheet.createRow(rNum)
       cell = row.createCell(cNum)
       cell.setCellValue("序列号")
 
-      cNum +=1
+      cNum += 1
       cell = row.createCell(cNum)
       cell.setCellValue("项号(账册中的序号)")
 
-      cNum +=1
+      cNum += 1
       cell = row.createCell(cNum)
       cell.setCellValue("料号")
 
-      cNum +=1
+      cNum += 1
       cell = row.createCell(cNum)
       cell.setCellValue("商品条码")
 
-      cNum +=1
+      cNum += 1
       cell = row.createCell(cNum)
       cell.setCellValue("商品编码")
 
-      cNum +=1
+      cNum += 1
       cell = row.createCell(cNum)
       cell.setCellValue("品名(账册中的品名)")
 
-      cNum +=1
+      cNum += 1
       cell = row.createCell(cNum)
       cell.setCellValue("规范申报")
 
-      cNum +=1
+      cNum += 1
       cell = row.createCell(cNum)
       cell.setCellValue("商品名称(电商提供的品名)")
 
-      cNum +=1
+      cNum += 1
       cell = row.createCell(cNum)
       cell.setCellValue("申报数量")
 
-      cNum +=1
+      cNum += 1
       cell = row.createCell(cNum)
       cell.setCellValue("申报单位")
 
-      cNum +=1
+      cNum += 1
       cell = row.createCell(cNum)
       cell.setCellValue("净重(KG)")
 
-      cNum +=1
+      cNum += 1
       cell = row.createCell(cNum)
       cell.setCellValue("毛重(KG)")
 
-      cNum +=1
+      cNum += 1
       cell = row.createCell(cNum)
       cell.setCellValue("单价")
 
-      cNum +=1
+      cNum += 1
       cell = row.createCell(cNum)
       cell.setCellValue("总价")
 
-      cNum +=1
+      cNum += 1
       cell = row.createCell(cNum)
       cell.setCellValue("币制")
 
-      cNum +=1
+      cNum += 1
       cell = row.createCell(cNum)
       cell.setCellValue("原产国")
 
@@ -196,7 +196,7 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
 
 
       Prod.download_list().map { map =>
-        rNum +=1
+        rNum += 1
         val extra = Json.parse(map("products.extra").toString)
         val spec = Json.parse(map("products.spec").toString)
         val attr = Json.parse(map("products.attr").toString)
@@ -205,63 +205,63 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
         cell = r.createCell(cNum)
         cell.setCellValue(map("products.product_id").toString)
 
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "项号").asOpt[String].getOrElse(""))
 
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "料号").asOpt[String].getOrElse(""))
 
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "商品条码").asOpt[String].getOrElse(""))
 
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "商品编码").asOpt[String].getOrElse(""))
 
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "品名").asOpt[String].getOrElse(""))
 
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "规范申报").asOpt[String].getOrElse(""))
 
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue(map("products.name").toString)
 
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue(map("products.amount").toString)
 
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "申报单位").asOpt[String].getOrElse("可靠科技"))
 
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "净重(KG)").asOpt[String].getOrElse(""))
 
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "毛重(KG)").asOpt[String].getOrElse(""))
 
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue(map("products.market_price").toString)
 
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue(map("products.market_price").toString.toDouble * map("products.amount").toString.toInt )
+        cell.setCellValue(map("products.market_price").toString.toDouble * map("products.amount").toString.toInt)
 
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "币制").asOpt[String].getOrElse(""))
 
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "原产国").asOpt[String].getOrElse("韩国"))
 
@@ -271,13 +271,13 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
       wb.write(fileOut);
       fileOut.close();
 
-      Ok.sendFile( content = file, fileName = _ => file.getName)
+      Ok.sendFile(content = file, fileName = _ => file.getName)
     }
   }
 
   }
 
-  def download_shanghai() = withUser { user=> {
+  def download_shanghai() = withUser { user => {
     implicit request => {
       //val file = new File("上海备案.xlsx")
       val file = new File("/tmp/shanghai.xlsx")
@@ -287,12 +287,12 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
       var rNum = 0
       val row = sheet.createRow(rNum)
       //row.setHeightInPoints(40);
-      rNum = rNum +1;
+      rNum = rNum + 1;
       val row1 = sheet.createRow(rNum)
       val style = wb.createCellStyle()
       //style.setFillBackgroundColor(IndexedColors.YELLOW.getIndex())
       //style.setFillPattern(CellStyle.SOLID_FOREGROUND);
-      var cNum : Int = 0
+      var cNum: Int = 0
 
       var cell = row.createCell(cNum)
       cell.setCellValue("*编号")
@@ -421,10 +421,10 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
       //import data
       Prod.download_list().map { map =>
         //Logger.debug(map.toString())
-//        map.map { m=>
-//          m("products.extra")
-//        }
-        rNum +=1
+        //        map.map { m=>
+        //          m("products.extra")
+        //        }
+        rNum += 1
         val extra = Json.parse(map("products.extra").toString)
         val spec = Json.parse(map("products.spec").toString)
         val attr = Json.parse(map("products.attr").toString)
@@ -432,58 +432,58 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
         val r = sheet.createRow(rNum)
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "商品编码").asOpt[String].getOrElse(""))
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((spec \ "品牌").asOpt[String].getOrElse(""))
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue(map("products.name").toString)
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "商品名称(英文)").asOpt[String].getOrElse(""))
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "其他名称").asOpt[String].getOrElse(""))
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "型号").asOpt[String].getOrElse(""))
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "规格").asOpt[String].getOrElse("件"))
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "产地").asOpt[String].getOrElse("韩国"))
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "功能").asOpt[String].getOrElse("装饰"))
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "用途").asOpt[String].getOrElse("佩戴"))
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "成份").asOpt[String].getOrElse(""))
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "出厂日期").asOpt[String].getOrElse(""))
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "其他备注").asOpt[String].getOrElse(""))
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "商品图片").asOpt[String].getOrElse(""))
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "商品单位").asOpt[String].getOrElse("件"))
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue(map("products.amount").toString)
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue(map("products.market_price").toString)
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "业务类型").asOpt[String].getOrElse("一般进口"))
-        cNum +=1
+        cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "申报关区").asOpt[String].getOrElse("2244"))
 
@@ -495,21 +495,20 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
       //val f_name = URLEncoder.encode("上海备案.xlsx","utf-8")
       //val uri = new URI(null, null, "上海备案.xlsx", null);
       //val f_name = uri.toASCIIString();
-//      val f = "上海备案.xlsx"
-//      val bytes = f.getBytes("utf-8")
-//      val buff = new StringBuilder(bytes.length << 2)
-//      buff.append("=?UTF-8?Q?")
-//      bytes.map { b=>
-//        val unsignedByte = b & 0xFF
-//        buff.append('=').append(HEX_CHARS(unsignedByte >> 4)).append(HEX_CHARS(unsignedByte & 0xF))
-//      }
-//      val f_name = buff.append("?=").toString()
+      //      val f = "上海备案.xlsx"
+      //      val bytes = f.getBytes("utf-8")
+      //      val buff = new StringBuilder(bytes.length << 2)
+      //      buff.append("=?UTF-8?Q?")
+      //      bytes.map { b=>
+      //        val unsignedByte = b & 0xFF
+      //        buff.append('=').append(HEX_CHARS(unsignedByte >> 4)).append(HEX_CHARS(unsignedByte & 0xF))
+      //      }
+      //      val f_name = buff.append("?=").toString()
       //Ok.sendFile( content = file, fileName = _ => f_name).withHeaders("Content-Type" -> "application/x-download; character=utf8")
       Logger.debug(file.getName)
-      Ok.sendFile( content = file, fileName = _ => file.getName)
+      Ok.sendFile(content = file, fileName = _ => file.getName)
     }
   }
-
 
 
   }
@@ -535,7 +534,7 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
   }
   }
 
-  def translation(id:Long) = withUser { user => {
+  def translation(id: Long) = withUser { user => {
     implicit request => {
       Prod.find_by_id(id) match {
         case Some(p) =>
@@ -550,32 +549,46 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
 
   }
 
-  def show(id:Long) = withUser { user => {
-    implicit  request => {
+  def show(id: Long) = withUser { user => {
+    implicit request => {
       Ok("ok")
     }
   }
 
   }
 
+  def supply_update(id: Long) = withUser { user => {
+    implicit request => {
+      Prod.find_by_id(id) match {
+        case Some(p) =>
+
+          Ok(views.html.supply.update("cn", user, p))
+        case None =>
+          BadRequest("no product.")
+      }
+    }
+  }
+
+  }
+
   def supply_init() = withUser { user => {
-    implicit  request => {
+    implicit request => {
       request.body.asMultipartFormData match {
         case Some(map) =>
-          var filename : String = null
+          var filename: String = null
           map.files.map { f =>
-            Logger.debug("update file " +f.filename)
+            Logger.debug("update file " + f.filename)
             filename = "supply" + "/" + DateTimeFormat.forPattern("yyyy-MM-dd").print(new DateTime) + "/" + System.currentTimeMillis + f.filename.replaceFirst("^[^.]*", "")
 
-            oss!OSS(f.ref,filename)
+            oss ! OSS(f.ref, filename)
 
 
           }
 
           map.asFormUrlEncoded match {
             case map =>
-              var m  = map.map{case(k,v) => k->v.head}
-              if(filename != null) {
+              var m = map.map { case (k, v) => k -> v.head }
+              if (filename != null) {
                 filename = configuration.getString("oss.prefix").get + filename
                 m += ("image" -> filename)
               }
@@ -583,16 +596,18 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
               val p_type = m("p_type")
               m -= ("p_type")
               val name = m("name")
+              m += ("添加时间" -> DateTimeFormat.longDateTime().print(new DateTime()))
+              m += ("添加人" -> user.id.toString)
               val kr_string = Json.toJson(m).toString()
-              Prod.init(Prod_Type.withName(p_type),name, kr_string)
+              Prod.init(Prod_Type.withName(p_type), name, kr_string)
 
           }
 
-          Redirect(routes.Application.supply_init()).flashing("message" -> "成功(성공)","state" -> "success")
+          Redirect(routes.Application.list_supply(None))
         case None =>
           Ok(views.html.supply.supply("cn", user))
       }
-//
+      //
     }
   }
 
@@ -600,19 +615,40 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
 
   def update_kr() = withUser { user => {
     implicit request => {
-      request.body.asFormUrlEncoded match {
+      request.body.asMultipartFormData match {
         case Some(map) =>
-          var m  = map.map{case(k,v) => k->v.head}
-          val p_type = m("p_type")
-          m -= ("p_type")
-          val product_id = m("product_id")
-          m -= ("product_id")
-          val kr_string = Json.toJson(m).toString()
-          Prod.update_krstring(product_id.toLong, kr_string )
-          Redirect(routes.Application.list_supply(None))
+          var filename: String = null
+          map.files.map { f =>
+            Logger.debug("update file " + f.filename)
+            filename = "supply" + "/" + DateTimeFormat.forPattern("yyyy-MM-dd").print(new DateTime) + "/" + System.currentTimeMillis + f.filename.replaceFirst("^[^.]*", "")
+
+            oss ! OSS(f.ref, filename)
+          }
+          map.asFormUrlEncoded match {
+            case map =>
+              var m = map.map { case (k, v) => k -> v.head }
+              if (filename != null) {
+                filename = configuration.getString("oss.prefix").get + filename
+                m += ("image" -> filename)
+              }
+              Logger.debug(m.toString())
+              val p_type = m("p_type")
+              m -= ("p_type")
+              val name = m("name")
+              val product_id = m("product_id")
+              m -= ("product_id")
+              m += ("修改时间" -> DateTimeFormat.longDateTime().print(new DateTime()))
+              val kr_string = Json.toJson(m).toString()
+              Prod.update_krstring(product_id.toLong, name, kr_string)
+              Redirect(routes.Application.list_supply(None))
+
+
+          }
+
         case None =>
           BadRequest("error")
       }
+
     }
   }
 
@@ -624,161 +660,168 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
     */
   def supply() = withUser { user => {
     implicit request => {
-      Logger.debug(s" $user")
-
-      request.body.asFormUrlEncoded match {
+      request.body.asMultipartFormData match {
         case Some(map) =>
-          //商品名称
-          //转化一下内容
-          var m  = map.map{case(k,v) => k->v.head}
-          val p_type = m("p_type")
-          m -= ("p_type")
-          val product_id = m("product_id")
-          m -= ("product_id")
-          Prod_Type.withName(p_type) match {
-            case Prod_Type.hzp =>
-              Logger.debug(m.toString())
+          var filename: String = null
+          map.files.map { f =>
+            Logger.debug("update file " + f.filename)
+            filename = "supply" + "/" + DateTimeFormat.forPattern("yyyy-MM-dd").print(new DateTime) + "/" + System.currentTimeMillis + f.filename.replaceFirst("^[^.]*", "")
+            oss ! OSS(f.ref, filename)
+          }
+          map.asFormUrlEncoded match {
+            case map =>
+              //商品名称
+              //转化一下内容
+              var m = map.map { case (k, v) => k -> v.head }
+              val p_type = m("p_type")
+              m -= ("p_type")
+              val product_id = m("product_id")
+              m -= ("product_id")
+              Prod_Type.withName(p_type) match {
+                case Prod_Type.hzp =>
+                  Logger.debug(m.toString())
 
-              //得到名字属性
-              val name = m("name")
-              m -= "name"
+                  //得到名字属性
+                  val name = m("name")
+                  m -= "name"
 
-              //标签
-              val tags = """{"化妆品"}"""
+                  //标签
+                  val tags = """{"化妆品"}"""
 
-              //成本价格
-              val price = Try(m("price").toInt).getOrElse(0)
-              m -= "price"
+                  //成本价格
+                  val price = Try(m("price").toInt).getOrElse(0)
+                  m -= "price"
 
-              //市场价格
-              val market_price = Try(m("market_price").toInt).getOrElse(0)
-              m -= "market_price"
+                  //市场价格
+                  val market_price = Try(m("market_price").toInt).getOrElse(0)
+                  m -= "market_price"
 
-              //数量
-              val amount = Try(m("amount").toInt).getOrElse(0)
-              m -= "amount"
+                  //数量
+                  val amount = Try(m("amount").toInt).getOrElse(0)
+                  m -= "amount"
 
-              //得到属性
-              //Logger.debug(m.filter(_._1.ex "批次").toString())
-              //Logger.debug(Json.toJson(m.filter(_._1 == "批次")).toString())
-              val attr_set = Set("颜色")
-              val attr = Json.toJson(m.filterKeys(attr_set.contains(_))).toString()
-              m --= attr_set
+                  //得到属性
+                  //Logger.debug(m.filter(_._1.ex "批次").toString())
+                  //Logger.debug(Json.toJson(m.filter(_._1 == "批次")).toString())
+                  val attr_set = Set("颜色")
+                  val attr = Json.toJson(m.filterKeys(attr_set.contains(_))).toString()
+                  m --= attr_set
 
-              //得到图片
-              val images_set = ("image")
-              val images = m.filterKeys(images_set.contains(_)).map(_._2).mkString("{",",","}")
-              m -= ("image")
+                  //得到图片
+                  //val images_set = ("image")
+                  //val images = m.filterKeys(images_set.contains(_)).map(_._2).mkString("{", ",", "}")
+                  //m -= ("image")
+                  if (filename != null) {
+                    filename = configuration.getString("oss.prefix").get + filename
+                  }
+                  val images = s"{$filename}";
+
+                  //得到规格
+                  val spec_set = Set("品牌", "成分", "肤质", "类别", "功能", "型号", "规格", "用途", "原产地", "单位", "尺寸")
+                  val spec = Json.toJson(m.filterKeys(spec_set.contains(_))).toString()
+                  m --= spec_set
+
+                  //得到扩展数据
+                  val extra = Json.toJson(m).toString()
+
+                  Prod.update(product_id.toLong, Prod_Type.hzp, name, tags, attr, spec, images, price, market_price, amount, extra)
+                  //val price = map(price)
+                  Redirect(routes.Application.list_supply(None))
+                  //map -= (name","price")
+
+                case Prod_Type.ps =>
+                  Logger.debug(m.toString())
+                  //得到名字属性
+                  val name = m("name")
+                  m -= "name"
+
+                  val tags = """{"配饰"}"""
+
+                  val price = Try(m("price").toInt).getOrElse(0)
+                  m -= "price"
+
+                  val market_price = Try(m("market_price").toInt).getOrElse(0)
+                  m -= "market_price"
+
+                  val amount = Try(m("amount").toInt).getOrElse(0)
+                  m -= "amount"
+
+                  //得到图片
+                  val images_set = ("image")
+                  val images = m.filterKeys(images_set.contains(_)).map(_._2).mkString("{", ",", "}")
+                  m -= ("image")
+
+                  //得到属性
+                  val attr_set = Set("批次")
+                  val attr = Json.toJson(m.filterKeys(attr_set.contains(_))).toString()
+                  m --= attr_set
+
+                  //得到规格
+                  val spec_set = Set("品牌", "材质", "款式")
+                  val spec = Json.toJson(m.filterKeys(spec_set.contains(_))).toString()
+                  m --= spec_set
+
+                  Logger.debug(spec)
+
+                  //得到扩展数据
+                  val extra = Json.toJson(m).toString()
+
+                  Logger.debug(extra)
+
+                  Prod.update(product_id.toLong, Prod_Type.ps, name, tags, attr, spec, images, price, market_price, amount, extra)
+
+                  Redirect(routes.Application.list_supply(None))
+
+                case Prod_Type.fs =>
+                  Logger.debug(m.toString())
+
+                  //得到名字属性
+                  val name = m("name")
+                  m -= "name"
+
+                  val tags = """{"服饰"}"""
+
+                  val price = Try(m("price").toInt).getOrElse(0)
+                  m -= "price"
+
+                  val market_price = Try(m("market_price").toInt).getOrElse(0)
+                  m -= "market_price"
+
+                  val amount = Try(m("amount").toInt).getOrElse(0)
+                  m -= "amount"
+
+                  //得到图片
+                  val images_set = ("image")
+                  val images = m.filterKeys(images_set.contains(_)).map(_._2).mkString("{", ",", "}")
+                  m -= ("image")
+
+                  //得到属性
+                  val attr_set = Set("批次", "型号", "颜色")
+                  val attr = Json.toJson(m.filterKeys(attr_set.contains(_))).toString()
+                  m --= attr_set
+
+                  //得到规格
+                  val spec_set = Set("一级分类", "二级分类", "三级分类")
+                  val spec = Json.toJson(m.filterKeys(spec_set.contains(_))).toString()
+                  m --= spec_set
+
+                  Logger.debug(spec)
+
+                  //得到扩展数据
+                  val extra = Json.toJson(m).toString()
+
+                  Logger.debug(extra)
+
+                  Prod.update(product_id.toLong, Prod_Type.fs, name, tags, attr, spec, images, price, market_price, amount, extra)
+
+                  Redirect(routes.Application.list_supply(None))
+              }
 
 
-              //得到规格
-              val spec_set = Set("主要成分","类别","功效")
-              val spec = Json.toJson(m.filterKeys(spec_set.contains(_))).toString()
-              m --= spec_set
-
-              //得到扩展数据
-              val extra = Json.toJson(m).toString()
-
-              //Prod.update( product_id.toLong, Prod_Type.hzp, name, tags, attr, spec, images, price, market_price, amount, extra)
-            //val price = map(price)
-              Redirect(routes.Application.list_supply(None))
-
-            //map -= (name","price")
-
-            case Prod_Type.ps =>
-              Logger.debug(m.toString())
-              //得到名字属性
-              val name = m("name")
-              m -= "name"
-
-              val tags = """{"配饰"}"""
-
-              val price = Try(m("price").toInt).getOrElse(0)
-              m -= "price"
-
-              val market_price = Try(m("market_price").toInt).getOrElse(0)
-              m -= "market_price"
-
-              val amount = Try(m("amount").toInt).getOrElse(0)
-              m -= "amount"
-
-              //得到图片
-              val images_set = ("image")
-              val images = m.filterKeys(images_set.contains(_)).map(_._2).mkString("{",",","}")
-              m -= ("image")
-
-              //得到属性
-              val attr_set = Set("批次")
-              val attr = Json.toJson(m.filterKeys(attr_set.contains(_))).toString()
-              m --= attr_set
-
-              //得到规格
-              val spec_set = Set("品牌","材质","款式")
-              val spec = Json.toJson(m.filterKeys(spec_set.contains(_))).toString()
-              m --= spec_set
-
-              Logger.debug(spec)
-
-              //得到扩展数据
-              val extra = Json.toJson(m).toString()
-
-              Logger.debug(extra)
-
-              Prod.update(product_id.toLong, Prod_Type.ps, name, tags, attr, spec, images, price, market_price, amount, extra)
-
-              Redirect(routes.Application.list_supply(None))
-
-            case Prod_Type.fs =>
-              Logger.debug(m.toString())
-
-              Logger.debug(m.toString())
-              //得到名字属性
-              val name = m("name")
-              m -= "name"
-
-              val tags = """{"服饰"}"""
-
-              val price = Try(m("price").toInt).getOrElse(0)
-              m -= "price"
-
-              val market_price = Try(m("market_price").toInt).getOrElse(0)
-              m -= "market_price"
-
-              val amount = Try(m("amount").toInt).getOrElse(0)
-              m -= "amount"
-
-              //得到图片
-              val images_set = ("image")
-              val images = m.filterKeys(images_set.contains(_)).map(_._2).mkString("{",",","}")
-              m -= ("image")
-
-              //得到属性
-              val attr_set = Set("批次","型号","颜色")
-              val attr = Json.toJson(m.filterKeys(attr_set.contains(_))).toString()
-              m --= attr_set
-
-              //得到规格
-              val spec_set = Set("一级分类","二级分类","三级分类")
-              val spec = Json.toJson(m.filterKeys(spec_set.contains(_))).toString()
-              m --= spec_set
-
-              Logger.debug(spec)
-
-              //得到扩展数据
-              val extra = Json.toJson(m).toString()
-
-              Logger.debug(extra)
-
-              Prod.update(product_id.toLong, Prod_Type.fs, name, tags, attr, spec, images, price, market_price, amount, extra)
-
-              Redirect(routes.Application.list_supply(None))
           }
 
-
         case None =>
-          Logger.debug("get...")
-          Ok(views.html.supply.supply("cn", user))
-
+          BadRequest("error")
 
       }
 
@@ -787,5 +830,4 @@ class Application @Inject()(val messagesApi: MessagesApi , val oss_client: OSSCl
   }
 
   }
-
 }

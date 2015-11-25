@@ -36,10 +36,10 @@ object Prod {
     }
   }
 
-  def update_krstring(product_id:Long , kr_string:String): Unit = {
+  def update_krstring(product_id:Long , name:String, kr_string:String): Unit = {
     DB.withConnection("products") { implicit  conn =>
 
-      SQL(""" update products set kr_string = {kr_string}::jsonb where product_id = {product_id}""").on("kr_string"->kr_string, "product_id"->product_id).execute()
+      SQL(""" update products set name = {name}, kr_string = {kr_string}::jsonb where product_id = {product_id}""").on("name"->name, "kr_string"->kr_string, "product_id"->product_id).execute()
 
     }
   }

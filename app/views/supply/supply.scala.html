@@ -17,6 +17,505 @@
         $('.datepicker').datepicker({
           format: 'yyyy-mm-dd',
         })
+
+        $("#b_hzp").click(function() {
+           if($("#hzp_url").val() == "") {
+             alert("Please input URL");
+             $("#hzp_url").focus();
+             return;
+           }
+
+           if($("#hzp_name").val() == "") {
+             alert("Please input 상품명칭");
+             $("#hzp_name").focus();
+             return;
+           }
+
+           if($("#hzp_英文名称").val() == "") {
+             alert("Please input 상품명칭(english)");
+             $("#hzp_英文名称").focus();
+             return;
+           }
+           if($("#hzp_品牌").val() == "") {
+             alert("Please input 브랜드");
+             $("#hzp_品牌").focus();
+             return;
+           }
+
+           var intRegex = /[0-9 -()+]+$/;
+           var floatRegex = /[-+]?([0-9]*.[0-9]+|[0-9]+)/;
+
+           if($("#hzp_price").val() == "") {
+             alert("Please input 원가");
+             $("#hzp_price").focus();
+             return;
+           }else {
+             if(!floatRegex.test($("#hzp_price").val())) {
+               alert("Please input number");
+               $("#hzp_price").val("");
+               $("#hzp_price").focus();
+               return;
+             }
+           }
+
+            if($("#hzp_market_price").val() == "") {
+             alert("Please input 판매가");
+             $("#hzp_market_price").focus();
+             return;
+           }else {
+             if(!floatRegex.test($("#hzp_market_price").val())) {
+               alert("Please input number");
+                $("#hzp_market_price").val("");
+               $("#hzp_market_price").focus();
+               return;
+             }
+           }
+
+           if($("#hzp_颜色").val() == "") {
+             alert("Please input 색");
+             $("#hzp_颜色").focus();
+             return;
+           }
+
+           if($("#hzp_成分").val() == "") {
+             alert("Please input 주요성분");
+             $("#hzp_成分").focus();
+             return;
+           }
+
+            if($("#hzp_功能").val() == "") {
+             alert("Please input 기능");
+             $("#hzp_功能").focus();
+             return;
+           }
+
+            if($("#hzp_型号").val() == "") {
+             alert("Please input 모델");
+             $("#hzp_型号").focus();
+             return;
+           }
+
+            if($("#hzp_规格").val() == "") {
+             alert("Please input 규격");
+             $("#hzp_规格").focus();
+             return;
+           }
+
+            if($("#hzp_用途").val() == "") {
+             alert("Please input 용도");
+             $("#hzp_用途").focus();
+             return;
+           }
+
+            if($("#hzp_原产地").val() == "") {
+             alert("Please input 원산지");
+             $("#hzp_原产地").focus();
+             return;
+           }
+
+            if($("#hzp_amount").val() == "") {
+             alert("Please input 재고수량");
+             $("#hzp_amount").focus();
+             return;
+           }else {
+             if(!intRegex.test($("#hzp_amount").val())) {
+               alert("Please input  number");
+               $("#hzp_amount").val("");
+               $("#hzp_amount").focus();
+               return;
+             }
+           }
+
+            if($("#hzp_单位").val() == "") {
+             alert("Please input unit");
+             $("#hzp_单位").focus();
+             return;
+           }
+           if($("#hzp_尺寸").val() == "") {
+             alert("Please input 사이즈");
+             $("#hzp_尺寸").focus();
+             return;
+           }else {
+             if(!floatRegex.test($("#hzp_尺寸").val())) {
+               alert("Please input  number");
+               $("#hzp_尺寸").val("");
+               $("#hzp_尺寸").focus();
+               return;
+             }
+           }
+
+           if($("#hzp_装箱数").val() == "") {
+             alert("Please input 포장 수");
+             $("#hzp_装箱数").focus();
+             return;
+           }else {
+             if(!intRegex.test($("#hzp_装箱数").val())) {
+               alert("Please input  number");
+               $("#hzp_装箱数").val("");
+               $("#hzp_装箱数").focus();
+               return;
+             }
+           }
+
+           if($("#hzp_包装长").val() == "") {
+             alert("Please input (포장)길이 mm");
+             $("#hzp_包装长").focus();
+             return;
+           }else {
+             if(!intRegex.test($("#hzp_包装长").val())) {
+               alert("Please input  number");
+               $("#hzp_包装长").val("");
+               $("#hzp_包装长").focus();
+               return;
+             }
+           }
+
+           if($("#hzp_包装宽").val() == "") {
+             alert("Please input (포장)너비 mm");
+             $("#hzp_包装宽").focus();
+             return;
+           }else {
+             if(!intRegex.test($("#hzp_包装宽").val())) {
+               alert("Please input  number");
+               $("#hzp_包装宽").val("");
+               $("#hzp_包装宽").focus();
+               return;
+             }
+           }
+
+           if($("#hzp_包装高").val() == "") {
+             alert("Please input (포장)높이");
+             $("#hzp_包装高").focus();
+             return;
+           }else {
+             if(!intRegex.test($("#hzp_包装高").val())) {
+               alert("Please input  number");
+               $("#hzp_包装高").val("");
+               $("#hzp_包装高").focus();
+               return;
+             }
+           }
+
+            if($("#hzp_净重").val() == "") {
+             alert("Please input 실중량");
+             $("#hzp_净重").focus();
+             return;
+           }else {
+             if(!intRegex.test($("#hzp_净重").val())) {
+               alert("Please input float number");
+               $("#hzp_净重").val("");
+               $("#hzp_净重").focus();
+               return;
+             }
+           }
+
+           if($("#hzp_毛重").val() == "") {
+             alert("Please input 전체중량");
+             $("#hzp_毛重").focus();
+             return;
+           }else {
+             if(!intRegex.test($("#hzp_毛重").val())) {
+               alert("Please input float number");
+               $("#hzp_毛重").val("");
+               $("#hzp_毛重").focus();
+               return;
+             }
+           }
+        $("#form_hzp").submit();
+        });
+
+        $("#b_ps").click(function() {
+
+           if($("#ps_url").val() == "") {
+             alert("Please input URL");
+             $("#ps_url").focus();
+             return;
+           }
+
+           if($("#ps_name").val() == "") {
+             alert("Please input 상품명칭");
+             $("#ps_name").focus();
+             return;
+           }
+           if($("#ps_英文名称").val() == "") {
+             alert("Please input 상품명칭(english)");
+             $("#ps_英文名称").focus();
+             return;
+           }
+           if($("#ps_品牌").val() == "") {
+             alert("Please input 브랜드");
+             $("#ps_品牌").focus();
+             return;
+           }
+
+           var intRegex = /[0-9 -()+]+$/;
+           var floatRegex = /[-+]?([0-9]*.[0-9]+|[0-9]+)/;
+
+           if($("#ps_price").val() == "") {
+             alert("Please input 원가");
+
+             $("#ps_price").focus();
+             return;
+           }else {
+             if(!floatRegex.test($("#ps_price").val())) {
+               alert("Please input number");
+                $("#ps_price").val("");
+               $("#ps_price").focus();
+               return;
+             }
+           }
+
+            if($("#ps_market_price").val() == "") {
+             alert("Please input 판매가");
+             $("#ps_market_price").focus();
+             return;
+           }else {
+             if(!floatRegex.test($("#ps_market_price").val())) {
+               alert("Please input number");
+               $("#ps_market_price").val("");
+               $("#ps_market_price").focus();
+               return;
+             }
+           }
+
+
+
+           if($("#ps_成分").val() == "") {
+             alert("Please input 주요성분");
+             $("#ps_成分").focus();
+             return;
+           }
+
+            if($("#ps_功能").val() == "") {
+             alert("Please input 기능");
+             $("#ps_功能").focus();
+             return;
+           }
+
+            if($("#ps_型号").val() == "") {
+             alert("Please input 모델");
+             $("#ps_型号").focus();
+             return;
+           }
+
+            if($("#ps_规格").val() == "") {
+             alert("Please input 규격");
+             $("#ps_规格").focus();
+             return;
+           }
+
+            if($("#ps_用途").val() == "") {
+             alert("Please input 용도");
+             $("#ps_用途").focus();
+             return;
+           }
+
+            if($("#ps_原产地").val() == "") {
+             alert("Please input 원산지");
+             $("#ps_原产地").focus();
+             return;
+           }
+
+            if($("#ps_amount").val() == "") {
+             alert("Please input 재고수량");
+             $("#ps_amount").focus();
+             return;
+           }else {
+             if(!intRegex.test($("#ps_amount").val())) {
+               alert("Please input  number");
+                $("#ps_amount").val("");
+               $("#ps_amount").focus();
+               return;
+             }
+           }
+
+            if($("#ps_单位").val() == "") {
+             alert("Please input unit");
+             $("#ps_单位").focus();
+             return;
+           }
+
+
+           if($("#ps_包装长").val() == "") {
+             alert("Please input (포장)길이 mm");
+             $("#ps_包装长").focus();
+             return;
+           }else {
+             if(!intRegex.test($("#ps_包装长").val())) {
+               alert("Please input  number");
+               $("#ps_包装长").val("");
+               $("#ps_包装长").focus();
+               return;
+             }
+           }
+
+           if($("#ps_包装宽").val() == "") {
+             alert("Please input (포장)너비 mm");
+             $("#ps_包装宽").focus();
+             return;
+           }else {
+             if(!intRegex.test($("#ps_包装宽").val())) {
+               alert("Please input  number");
+                $("#ps_包装宽").val("");
+               $("#ps_包装宽").focus();
+               return;
+             }
+           }
+
+           if($("#ps_包装高").val() == "") {
+             alert("Please input (포장)높이");
+             $("#ps_包装高").focus();
+             return;
+           }else {
+             if(!intRegex.test($("#ps_包装高").val())) {
+               alert("Please input  number");
+               $("#ps_包装高").val("");
+               $("#ps_包装高").focus();
+               return;
+             }
+           }
+
+            if($("#ps_净重").val() == "") {
+             alert("Please input 실중량");
+             $("#ps_净重").focus();
+             return;
+           }else {
+             if(!intRegex.test($("#ps_净重").val())) {
+               alert("Please input float number");
+               $("#ps_净重").val("");
+               $("#ps_净重").focus();
+               return;
+             }
+           }
+
+           if($("#ps_毛重").val() == "") {
+             alert("Please input 전체중량");
+             $("#ps_毛重").focus();
+             return;
+           }else {
+             if(!intRegex.test($("#ps_毛重").val())) {
+               alert("Please input float number");
+               $("#ps_毛重").val("");
+               $("#ps_毛重").focus();
+               return;
+             }
+           }
+        $("#form_ps").submit();
+        });
+
+        $("#b_fs").click(function() {
+
+           if($("#fs_url").val() == "") {
+             alert("Please input URL");
+             $("#fs_url").focus();
+             return;
+           }
+
+           if($("#fs_name").val() == "") {
+             alert("Please input 상품명칭");
+             $("#fs_name").focus();
+             return;
+           }
+           if($("#fs_英文名称").val() == "") {
+             alert("Please input 상품명칭(english)");
+             $("#fs_英文名称").focus();
+             return;
+           }
+           if($("#fs_品牌").val() == "") {
+             alert("Please input 브랜드");
+             $("#fs_品牌").focus();
+             return;
+           }
+
+           var intRegex = /[0-9 -()+]+$/;
+           var floatRegex = /[-+]?([0-9]*.[0-9]+|[0-9]+)/;
+
+           if($("#fs_price").val() == "") {
+             alert("Please input 원가");
+
+             $("#fs_price").focus();
+             return;
+           }else {
+             if(!floatRegex.test($("#fs_price").val())) {
+               alert("Please input number");
+                $("#fs_price").val("");
+               $("#fs_price").focus();
+               return;
+             }
+           }
+
+            if($("#fs_market_price").val() == "") {
+             alert("Please input 판매가");
+             $("#fs_market_price").focus();
+             return;
+           }else {
+             if(!floatRegex.test($("#fs_market_price").val())) {
+               alert("Please input number");
+               $("#fs_market_price").val("");
+               $("#fs_market_price").focus();
+               return;
+             }
+           }
+
+            if($("#fs_成分").val() == "") {
+             alert("Please input 주요성분");
+             $("#fs_成分").focus();
+             return;
+           }
+
+            if($("#fs_功能").val() == "") {
+             alert("Please input 기능");
+             $("#fs_功能").focus();
+             return;
+           }
+
+            if($("#fs_型号").val() == "") {
+             alert("Please input 모델");
+             $("#fs_型号").focus();
+             return;
+           }
+
+            if($("#fs_规格").val() == "") {
+             alert("Please input 규격");
+             $("#fs_规格").focus();
+             return;
+           }
+
+            if($("#fs_用途").val() == "") {
+             alert("Please input 용도");
+             $("#fs_用途").focus();
+             return;
+           }
+
+            if($("#fs_原产地").val() == "") {
+             alert("Please input 원산지");
+             $("#fs_原产地").focus();
+             return;
+           }
+
+            if($("#fs_amount").val() == "") {
+             alert("Please input 재고수량");
+             $("#fs_amount").focus();
+             return;
+           }else {
+             if(!intRegex.test($("#fs_amount").val())) {
+               alert("Please input  number");
+                $("#fs_amount").val("");
+               $("#fs_amount").focus();
+               return;
+             }
+           }
+
+            if($("#fs_单位").val() == "") {
+             alert("Please input unit");
+             $("#fs_单位").focus();
+             return;
+           }
+
+
+          $("#form_fs").submit();
+        });
+
     });
 
 </script>
@@ -25,15 +524,8 @@
 @body = {
 <div class="container">
 
-    @flash.get("message") match {
-      case Some(message) => {
-        <div class="alert alert-success" role="alert" style="margin-top:20px">@message</div>
-       }
-      case None => {
-        <div class="alert alert-info" role="alert" style="margin-top:20px">请输入(입력하십시오).</div>
-       }
-    }
-
+    <div class="row" style="margin-top:50px">
+    </div>
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs" style="margin-top:20px">
         <li class="active"><a href="#hzp" data-toggle="tab">化妆品(화장품)</a></li>
         <li><a href="#ps" data-toggle="tab">配饰(액세서리)</a></li>
@@ -41,78 +533,151 @@
     </ul>
     <div id="my-tab-content" class="tab-content">
         <div class="tab-pane active" id="hzp" style="width:60%">
-            <form action="/supply/init" method="post" enctype="multipart/form-data">
+            <form id="form_hzp" action="/supply/init" method="post" enctype="multipart/form-data">
+                <div class="col-md-9 input-group" style="padding-top: 20px;">
+                    <span class="input-group-addon">URL:</span>
+                    <input type="text" id="hzp_url" name="url" class="form-control">
+
+                </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px;">
                     <span class="input-group-addon">상품명칭:</span>
-                    <input type="text" name="name" class="form-control">
+                    <input type="text" id="hzp_name" name="name" class="form-control">
+
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px;">
+                    <span class="input-group-addon">상품명칭(english):</span>
+                    <input type="text" id="hzp_英文名称" name="英文名称" class="form-control">
+
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px;">
+                    <span class="input-group-addon">브랜드:</span>
+                    <input type="text" id="hzp_品牌" name="品牌" class="form-control">
 
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
                     <span class="input-group-addon">원가（KRW）:</span>
-                    <input type="text" name="price" class="form-control">
+                    <input type="text" id="hzp_price" name="price" class="form-control">
                     <span class="input-group-addon">판매가（KRW）:</span>
-                    <input type="text" name="market_price" class="form-control">
+                    <input type="text" id="hzp_market_price" name="market_price" class="form-control">
                 </div>
-                <div class="col-md-9 input-group" style="padding-top: 20px">
-                    <span class="input-group-addon">사이즈（cm）:</span>
-                    <input type="text" name="尺寸(cm)" class="form-control">
-                    <span class="input-group-addon">포장 수:</span>
-                    <input type="text" name="装箱数" class="form-control">
-                </div>
-                <div class="col-md-9 input-group" style="padding-top: 20px">
-                    <span class="input-group-addon">Carton size(MM):</span>
-                    <input type="text" name="箱子尺寸" class="form-control">
 
+                <div class="col-md-9 input-group" style="padding-top: 20px">
+                    <span class="input-group-addon">원가（USD）:</span>
+                    <input type="text" id="hzp_price_usd" name="usd_price" class="form-control">
+                    <span class="input-group-addon">판매가（USD）:</span>
+                    <input type="text" id="hzp_market_price_usd" name="usd_market_price" class="form-control">
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
-                    <span class="input-group-addon">실중량（kg）:</span>
-                    <input type="text" name="净重(kg)" class="form-control">
-                    <span class="input-group-addon">전체중량（kg）:</span>
-                    <input type="text" name="毛重(kg)" class="form-control">
-
-                </div>
-                <div class="col-md-9 input-group" style="padding-top: 20px">
-                    <span class="input-group-addon">상품 이미지:</span>
+                    <span class="input-group-addon">상품이미지:</span>
                     <input type="file" name="image" class="form-control">
 
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
+                    <span class="input-group-addon">색:</span>
+                    <input type="text" id="hzp_颜色" name="颜色" class="form-control">
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px">
                     <span class="input-group-addon">주요성분:</span>
-                    <textarea name="主要成分" class="form-control"></textarea>
+                    <input type="text" id="hzp_成分" name="成分" class="form-control">
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
                     <span class="input-group-addon">피부타입:</span>
-                    <input type="text" name="肤质" class="form-control">
+                    <input type="text" id="hzp_肤质" name="肤质" class="form-control">
 
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
                     <span class="input-group-addon">상품유형:</span>
-                    <input type="text" name="类别" class="form-control">
+                    <input type="text" id="hzp_类别" name="类别" class="form-control">
 
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
                     <span class="input-group-addon">기능:</span>
-                    <textarea name="功效" class="form-control"></textarea>
+                    <input type="text" id="hzp_功能" name="功能" class="form-control">
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px">
+                    <span class="input-group-addon">모델:</span>
+                    <input type="text" id="hzp_型号" name="型号" class="form-control">
+                    <span class="input-group-addon">규격:</span>
+                    <input type="text" id="hzp_规格" name="规格" class="form-control">
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px">
+                    <span class="input-group-addon">용도:</span>
+                    <input type="text" id="hzp_用途" name="用途" class="form-control">
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
                     <span class="input-group-addon">원산지:</span>
-                    <input type="text" name="原产地" class="form-control">
+                    <input type="text" id="hzp_原产地" name="原产地" class="form-control">
                     <span class="input-group-addon">재고수량:</span>
-                    <input type="text" name="amount" class="form-control">
+                    <input type="text" id="hzp_amount" name="amount" class="form-control">
+                    <span class="input-group-addon">unit:</span>
+                    <input type="text" id="hzp_单位" name="单位" class="form-control">
 
                 </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px">
+                    <span class="input-group-addon">사이즈（cm）:</span>
+                    <input type="text" id="hzp_尺寸" name="尺寸" class="form-control">
+                    <span class="input-group-addon">포장 수:</span>
+                    <input type="text" id="hzp_装箱数" name="装箱数" class="form-control">
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px">
+                    <span class="input-group-addon">(포장)길이 mm:</span>
+                    <input type="text" id="hzp_包装长" name="包装长" class="form-control">
+                    <span class="input-group-addon">(포장)너비 mm:</span>
+                    <input type="text" id="hzp_包装宽" name="包装宽" class="form-control">
+
+                    <span class="input-group-addon">(포장)높이 mm:</span>
+                    <input type="text" id="hzp_包装高"name="包装高" class="form-control">
+
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px">
+                    <span class="input-group-addon">실중량（kg）:</span>
+                    <input type="text" id="hzp_净重" name="净重" class="form-control">
+                    <span class="input-group-addon">전체중량（kg）:</span>
+                    <input type="text" id="hzp_毛重" name="毛重" class="form-control">
+
+                </div>
+                <div class="row">
                 <div class="col-md-4 col-md-offset-2" style="margin-top:20px;margin-bottom:20px">
                     <input type="hidden" value="hzp" name="p_type"/>
-                    <input type="submit" class="btn btn-primary btn-block" value="Submit"/>
+                    <input type="button" id="b_hzp" class="btn btn-primary btn-block" value="Submit"/>
+
+                </div>
                 </div>
             </form>
         </div>
         <div class="tab-pane" id="ps" style="width:60%">
-            <form action="/supply/init" method="post">
+            <form id="form_ps" action="/supply/init" method="post" enctype="multipart/form-data">
+                <div class="col-md-9 input-group" style="padding-top: 20px;">
+                    <span class="input-group-addon">URL:</span>
+                    <input type="text" id="ps_url" name="url" class="form-control">
+
+                </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px;">
                     <span class="input-group-addon">상품명칭:</span>
-                    <input type="text" name="name" class="form-control">
+                    <input type="text" id="ps_name" name="name" class="form-control">
 
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px;">
+                    <span class="input-group-addon">상품명칭(english):</span>
+                    <input type="text" id="ps_英文名称" name="英文名称" class="form-control">
+
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px;">
+                    <span class="input-group-addon">브랜드:</span>
+                    <input type="text" id="ps_品牌" name="品牌" class="form-control">
+
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px">
+                    <span class="input-group-addon">원가（KRW）:</span>
+                    <input type="text" id="ps_price" name="price" class="form-control">
+                    <span class="input-group-addon">판매가（KRW）:</span>
+                    <input type="text" id="ps_market_price" name="market_price" class="form-control">
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px">
+                    <span class="input-group-addon">원가（USD）:</span>
+                    <input type="text" id="ps_price_usd" name="usd_price" class="form-control">
+                    <span class="input-group-addon">판매가（USD）:</span>
+                    <input type="text" id="ps_market_price_usd" name="usd_market_price" class="form-control">
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px;">
                     <span class="input-group-addon">상품이미지:</span>
@@ -120,14 +685,11 @@
 
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
-                    <span class="input-group-addon">브랜드:</span>
-                    <input type="text" name="品牌" class="form-control">
-
+                    <span class="input-group-addon">주요성분:</span>
+                    <input type="text" id="ps_成分" name="成分" class="form-control">
                 </div>
-                <div class="col-md-9 input-group" style="padding-top: 20px">
-                    <span class="input-group-addon">재질:</span>
-                    <input type="text" name="材质" class="form-control">
 
+                <div class="col-md-9 input-group" style="padding-top: 20px">
                     <span class="input-group-addon">스타일:</span>
                     <input type="text" name="款式" class="form-control">
 
@@ -138,47 +700,88 @@
 
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
-                    <span class="input-group-addon">원가（원화／인민페）:</span>
-                    <input type="text" name="price" class="form-control">
-
-                    <span class="input-group-addon">판매가격:</span>
-                    <input type="text" name="market_price" class="form-control">
-
-
+                    <span class="input-group-addon">기능:</span>
+                    <input type="text" id="ps_功能" name="功能" class="form-control">
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
-                    <span class="input-group-addon">상품 실중량 kg:</span>
-                    <input type="text" name="净重(kg)" class="form-control">
+                    <span class="input-group-addon">모델:</span>
+                    <input type="text" id="ps_型号" name="型号" class="form-control">
+                    <span class="input-group-addon">규격:</span>
+                    <input type="text" id="ps_规格" name="规格" class="form-control">
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px">
+                    <span class="input-group-addon">용도:</span>
+                    <input type="text" id="ps_用途" name="用途" class="form-control">
+                </div>
 
-                    <span class="input-group-addon">（포장）상품 전체 중량 kg:</span>
-                    <input type="text" name="毛重(kg)" class="form-control">
+                <div class="col-md-9 input-group" style="padding-top: 20px">
+                    <span class="input-group-addon">원산지:</span>
+                    <input type="text" id="ps_原产地" name="原产地" class="form-control">
+                    <span class="input-group-addon">재고수량:</span>
+                    <input type="text" id="ps_amount" name="amount" class="form-control">
+                    <span class="input-group-addon">unit:</span>
+                    <input type="text" id="ps_单位" name="单位" class="form-control">
 
                 </div>
+
+
                 <div class="col-md-9 input-group" style="padding-top: 20px">
                     <span class="input-group-addon">(포장)길이 mm:</span>
-                    <input type="text" name="包装(长)mm" class="form-control">
+                    <input type="text" id="ps_包装长" name="包装长" class="form-control">
                     <span class="input-group-addon">(포장)너비 mm:</span>
-                    <input type="text" name="包装(宽)mm" class="form-control">
+                    <input type="text" id="ps_包装宽" name="包装宽" class="form-control">
+
+                    <span class="input-group-addon">(포장)높이 mm:</span>
+                    <input type="text" id="ps_包装高"name="包装高" class="form-control">
 
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
-                    <span class="input-group-addon">(포장)높이 mm:</span>
-                    <input type="text" name="包装(高)mm" class="form-control">
-                    <span class="input-group-addon">재고수량:</span>
-                    <input type="text" name="amount" class="form-control">
+                    <span class="input-group-addon">실중량（kg）:</span>
+                    <input type="text" id="ps_净重" name="净重" class="form-control">
+                    <span class="input-group-addon">전체중량（kg）:</span>
+                    <input type="text" id="ps_毛重" name="毛重" class="form-control">
+
                 </div>
                 <div class="col-md-4 col-md-offset-2" style="margin-top:20px;margin-bottom:20px">
                     <input type="hidden" value="ps" name="p_type"/>
-                    <input type="submit" class="btn btn-primary btn-block" value="Submit"/>
+                    <input type="button" id="b_ps" class="btn btn-primary btn-block" value="Submit"/>
 
                 </div>
             </form>
         </div>
         <div class="tab-pane" id="fs" style="width:60%">
-            <form action="/supply/init" method="post">
+            <form id="form_fs" action="/supply/init" method="post" enctype="multipart/form-data">
                 <div class="col-md-9 input-group" style="padding-top: 20px;">
-                    <span class="input-group-addon">상품명영문:</span>
-                    <input type="text" name="name" class="form-control">
+                    <span class="input-group-addon">URL:</span>
+                    <input type="text" id="fs_url" name="url" class="form-control">
+
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px;">
+                    <span class="input-group-addon">상품명칭:</span>
+                    <input type="text" id="fs_name" name="name" class="form-control">
+
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px;">
+                    <span class="input-group-addon">상품명칭(english):</span>
+                    <input type="text" id="fs_英文名称" name="英文名称" class="form-control">
+
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px;">
+                    <span class="input-group-addon">브랜드:</span>
+                    <input type="text" id="fs_品牌" name="品牌" class="form-control">
+
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px">
+                    <span class="input-group-addon">원가（KRW）:</span>
+                    <input type="text" id="fs_price" name="price" class="form-control">
+                    <span class="input-group-addon">판매가（KRW）:</span>
+                    <input type="text" id="fs_market_price" name="market_price" class="form-control">
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px">
+                    <span class="input-group-addon">원가（USD）:</span>
+                    <input type="text" id="fs_price_usd" name="usd_price" class="form-control">
+                    <span class="input-group-addon">판매가（USD）:</span>
+                    <input type="text" id="fs_market_price_usd" name="usd_market_price" class="form-control">
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px;">
                     <span class="input-group-addon">상품이미지:</span>
@@ -187,47 +790,56 @@
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px;">
                     <span class="input-group-addon">1depth:</span>
-                    <input type="text" name="一级分类" class="form-control">
+                    <input type="text" id="fs_一级分类" name="一级分类" class="form-control">
+
+                    <span class="input-group-addon">2depth:</span>
+                    <input type="text" id="fs_二级分类" name="二级分类" class="form-control">
+                    <span class="input-group-addon">3depth:</span>
+                    <input type="text" id="fs_三级分类" name="三级分类" class="form-control">
 
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
-
-                    <span class="input-group-addon">2depth:</span>
-                    <input type="text" name="二级分类" class="form-control">
-                    <span class="input-group-addon">3depth:</span>
-                    <input type="text" name="三级分类" class="form-control">
-
+                    <span class="input-group-addon">주요성분:</span>
+                    <input type="text" id="fs_成分" name="成分" class="form-control">
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
                     <span class="input-group-addon">모델코드:</span>
-                    <input type="text" name="型号" class="form-control">
+                    <input type="text" id="fs_型号" name="型号" class="form-control">
                     <span class="input-group-addon">색상:</span>
-                    <input type="text" name="颜色" class="form-control">
+                    <input type="text" id="fs_颜色" name="颜色" class="form-control">
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
                     <span class="input-group-addon">기능:</span>
-                    <input type="text" name="功能" class="form-control">
-
+                    <input type="text" id="fs_规格" name="规格" class="form-control">
                 </div>
+
                 <div class="col-md-9 input-group" style="padding-top: 20px">
                     <span class="input-group-addon">용도:</span>
-                    <input type="text" name="用途" class="form-control">
+                    <input type="text" id="fs_用途" name="用途" class="form-control">
+
+                </div>
+
+                <div class="col-md-9 input-group" style="padding-top: 20px">
+                    <span class="input-group-addon">원산지:</span>
+                    <input type="text" id="fs_原产地" name="原产地" class="form-control">
+                    <span class="input-group-addon">재고수량:</span>
+                    <input type="text" id="fs_amount" name="amount" class="form-control">
+                    <span class="input-group-addon">unit:</span>
+                    <input type="text" id="fs_单位" name="单位" class="form-control">
 
                 </div>
 
                 <div class="col-md-9 input-group" style="padding-top: 20px">
                     <span class="input-group-addon">옷 유형:</span>
-                    <input type="text" name="版型" class="form-control">
-                    <span class="input-group-addon">재질:</span>
-                    <input type="text" name="材质" class="form-control">
+                    <input type="text" id="fs_版型" name="版型" class="form-control">
 
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
                     <span class="input-group-addon">런칭시간:</span>
-                    <input type="text" name="上市时间" class="form-control" class="datepicker" data-date-format="yyyy-mm-dd"
+                    <input type="text" id="fs_上市时间" name="上市时间" class="form-control" class="datepicker" data-date-format="yyyy-mm-dd"
                            data-provide="datepicker">
                     <span class="input-group-addon">안감재질:</span>
-                    <input type="text" name="里料分类" class="form-control">
+                    <input type="text" id="fs_里料分类" name="里料分类" class="form-control">
 
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
@@ -239,16 +851,10 @@
 
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
-
-                    <span class="input-group-addon">전체 중량:</span>
-                    <input type="text" name="毛重" class="form-control">
-                    <span class="input-group-addon">실중량:</span>
-                    <input type="text" name="净重" class="form-control">
-
-                </div>
-                <div class="col-md-9 input-group" style="padding-top: 20px">
-                    <span class="input-group-addon">단위:</span>
-                    <input type="text" name="商品单位" class="form-control">
+                    <span class="input-group-addon">실중량（kg）:</span>
+                    <input type="text" id="fs_净重" name="净重" class="form-control">
+                    <span class="input-group-addon">전체중량（kg）:</span>
+                    <input type="text" id="fs_毛重" name="毛重" class="form-control">
                     <span class="input-group-addon">두께:</span>
                     <input type="text" name="厚度" class="form-control">
 
@@ -289,7 +895,7 @@
 
                 <div class="col-md-4 col-md-offset-2" style="margin-top:20px;margin-bottom:20px">
                     <input type="hidden" value="fs" name="p_type"/>
-                    <input type="submit" class="btn btn-primary btn-block" value="Submit"/>
+                    <input type="button" id="b_fs" class="btn btn-primary btn-block" value="Submit"/>
                 </div>
             </form>
         </div>
