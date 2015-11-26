@@ -75,7 +75,16 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
         case Some(category_id) =>
           val ret = Prod.list(Prod_Type.apply(id.get), start, size)
           Logger.debug(ret.toString())
-          Ok(views.html.supply.list_data("cn", user, ret, start))
+          val r:List[Map[String, Any]] = ret match {
+            case Nil =>
+              //val any_id:Any = id.get
+              //初始化一个空的内容
+              List(Map("products.category_id"->id.get , ".count"->0,"products.product_id"->"","products.name"->"","products.status"->""))
+            case _ =>
+              ret
+          }
+
+          Ok(views.html.supply.list_data("cn", user, r, start))
         case None =>
           val ret = Prod.list(Prod_Type.hzp, start, size)
           //Logger.debug(ret.toString())
@@ -595,11 +604,12 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
               Logger.debug(m.toString())
               val p_type = m("p_type")
               m -= ("p_type")
+              val amount = m("amount").toInt
               val name = m("name")
               m += ("添加时间" -> DateTimeFormat.longDateTime().print(new DateTime()))
               m += ("添加人" -> user.id.toString)
               val kr_string = Json.toJson(m).toString()
-              Prod.init(Prod_Type.withName(p_type), name, kr_string)
+              Prod.init(Prod_Type.withName(p_type), name, amount, kr_string)
 
           }
 
@@ -621,7 +631,6 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
           map.files.map { f =>
             Logger.debug("update file " + f.filename)
             filename = "supply" + "/" + DateTimeFormat.forPattern("yyyy-MM-dd").print(new DateTime) + "/" + System.currentTimeMillis + f.filename.replaceFirst("^[^.]*", "")
-
             oss ! OSS(f.ref, filename)
           }
           map.asFormUrlEncoded match {
@@ -637,9 +646,10 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
               val name = m("name")
               val product_id = m("product_id")
               m -= ("product_id")
+              val amount = m("amount").toInt
               m += ("修改时间" -> DateTimeFormat.longDateTime().print(new DateTime()))
               val kr_string = Json.toJson(m).toString()
-              Prod.update_krstring(product_id.toLong, name, kr_string)
+              Prod.update_krstring(product_id.toLong, name, amount, kr_string)
               Redirect(routes.Application.list_supply(None))
 
 
@@ -713,6 +723,8 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
                   //m -= ("image")
                   if (filename != null) {
                     filename = configuration.getString("oss.prefix").get + filename
+                  }else {
+                    filename = ""
                   }
                   val images = s"{$filename}";
 
@@ -747,9 +759,12 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
                   m -= "amount"
 
                   //得到图片
-                  val images_set = ("image")
-                  val images = m.filterKeys(images_set.contains(_)).map(_._2).mkString("{", ",", "}")
-                  m -= ("image")
+                  if (filename != null) {
+                    filename = configuration.getString("oss.prefix").get + filename
+                  }else {
+                    filename = ""
+                  }
+                  val images = s"{$filename}";
 
                   //得到属性
                   val attr_set = Set("批次")
@@ -757,7 +772,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
                   m --= attr_set
 
                   //得到规格
-                  val spec_set = Set("品牌", "材质", "款式")
+                  val spec_set = Set("品牌", "成分", "肤质", "类别", "功能", "型号", "规格", "用途", "原产地", "单位", "尺寸")
                   val spec = Json.toJson(m.filterKeys(spec_set.contains(_))).toString()
                   m --= spec_set
 

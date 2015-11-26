@@ -23,6 +23,7 @@
                 @p("products.status") match {
                    case "I" => {未翻译}
                    case "T" => {已翻译}
+                   case _ => {}
                 }
             </td>
             <td>
@@ -30,13 +31,18 @@
                 case User_Type.SELLER => {
                   @p("products.status") match {
                     case "I" => {<a href="/supply/update/@p("products.product_id")">修改(수정)</a> </td>}
-                    case _ => {修改(수정)}
+                    case _ => {</td>}
                   }
 
                 }
                 case User_Type.TRANSLATION => {
-                <a href="/supply/translation/@p("products.product_id")">翻译</a>
-                <a href="/supply/append/@p("products.product_id")">追加</a></td>
+                  @p("products.status") match {
+                    case "I" => {
+                       <a href="/supply/translation/@p("products.product_id")">翻译</a>
+                     <a href="/supply/append/@p("products.product_id")">追加</a></td>
+                    }
+                    case _ =>{<a href="/supply/append/@p("products.product_id")">追加</a></td>}
+                  }
                 }
                 }
 
@@ -61,7 +67,7 @@
     <ul class="pagination">
         <li>
             @if(start <=1) {
-            <a href="#" aria-label="Previous">
+                <a href="javascript:load('@{url + "&start=1"}')" aria-label="Previous">
                 }else {
                 <a href="javascript:load('@{url + "&start=" + (start-1)}')" aria-label="Previous">
                 }
