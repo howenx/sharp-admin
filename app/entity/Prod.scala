@@ -28,18 +28,18 @@ object Prod {
   }
 
 
-  def init (p_type: Prod_Type.prod_type, p_name:String, kr_string:String) = {
+  def init (p_type: Prod_Type.prod_type, p_name:String, amount:Int, kr_string:String) = {
     DB.withConnection("products") { implicit  conn =>
       val category_id = p_type.id
-      SQL(""" insert into products ( name, category_id, kr_string )values ( {name}, {category_id}, {kr_string}::jsonb) """).on("name"->p_name, "category_id"->category_id, "kr_string"->kr_string).execute()
+      SQL(""" insert into products ( name, category_id, amount, kr_string )values ( {name}, {category_id}, {amount}, {kr_string}::jsonb) """).on("name"->p_name, "category_id"->category_id, "amount"->amount, "kr_string"->kr_string).execute()
 
     }
   }
 
-  def update_krstring(product_id:Long , kr_string:String): Unit = {
+  def update_krstring(product_id:Long , name:String, amount:Int, kr_string:String): Unit = {
     DB.withConnection("products") { implicit  conn =>
 
-      SQL(""" update products set kr_string = {kr_string}::jsonb where product_id = {product_id}""").on("kr_string"->kr_string, "product_id"->product_id).execute()
+      SQL(""" update products set name = {name}, amount = {amount}, kr_string = {kr_string}::jsonb where product_id = {product_id}""").on("name"->name, "amount"->amount, "kr_string"->kr_string, "product_id"->product_id).execute()
 
     }
   }

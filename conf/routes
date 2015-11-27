@@ -83,6 +83,7 @@ POST            /supply/add                             controllers.Application.
 POST            /supply/update/kr                             controllers.Application.update_kr
 GET             /supply/list                       controllers.Application.list_supply(id:Option[Int], start:Int ?=1)
 GET             /supply/translation/$id<[0-9]+>           controllers.Application.translation(id:Long)
+GET             /supply/update/$id<[0-9]+>           controllers.Application.supply_update(id:Long)
 GET             /supply/append/$id<[0-9]+>           controllers.Application.append(id:Long)
 GET             /supply/$id<[0-9]+>                controllers.Application.show(id:Long)
 POST            /supply/append/add                 controllers.Application.append_add

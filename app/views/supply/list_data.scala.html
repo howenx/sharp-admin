@@ -1,6 +1,8 @@
 @import scala.collection.immutable._
+@import entity.User_Type
+@import entity.User
 
-@(lang:String="cn",products:List[Map[String, Any]],start:Int)
+@(lang:String="cn",user:User,products:List[Map[String, Any]],start:Int)
 @import scala.Int; var count =0; var category_id = 0;
 <div style="margin-top:20px">
     <table class="table table-hover table-bordered">
@@ -21,10 +23,29 @@
                 @p("products.status") match {
                    case "I" => {未翻译}
                    case "T" => {已翻译}
+                   case _ => {}
                 }
             </td>
-            <td> <a href="/supply/translation/@p("products.product_id")">翻译</a> <a href="/supply/@p("products.product_id")">显示</a>
-                <a href="/supply/append/@p("products.product_id")">追加</a></td>
+            <td>
+                @user.role match {
+                case User_Type.SELLER => {
+                  @p("products.status") match {
+                    case "I" => {<a href="/supply/update/@p("products.product_id")">修改(수정)</a> </td>}
+                    case _ => {</td>}
+                  }
+
+                }
+                case User_Type.TRANSLATION => {
+                  @p("products.status") match {
+                    case "I" => {
+                       <a href="/supply/translation/@p("products.product_id")">翻译</a>
+                     <a href="/supply/append/@p("products.product_id")">追加</a></td>
+                    }
+                    case _ =>{<a href="/supply/append/@p("products.product_id")">追加</a></td>}
+                  }
+                }
+                }
+
         </tr>
 
         }
@@ -46,7 +67,7 @@
     <ul class="pagination">
         <li>
             @if(start <=1) {
-            <a href="#" aria-label="Previous">
+                <a href="javascript:load('@{url + "&start=1"}')" aria-label="Previous">
                 }else {
                 <a href="javascript:load('@{url + "&start=" + (start-1)}')" aria-label="Previous">
                 }
