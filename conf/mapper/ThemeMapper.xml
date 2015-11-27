@@ -96,5 +96,9 @@
             LIMIT #{pageSize} OFFSET #{offset}
         </if>
     </select>
+    <insert id="addTheme" parameterType="entity.Theme" useGeneratedKeys="true" keyProperty="">
+        insert into themes (master_item_id,title,start_at,end_at,theme_img,sort_nu,or_destroy,destroy_at,update_at,create_at,theme_src_img,theme_config_info,theme_item,master_item_tag)
+        values (masterItemId,title,startAt,endAt)
 
+    </insert>
 </mapper>
