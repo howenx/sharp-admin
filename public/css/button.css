@@ -141,7 +141,7 @@ button::-moz-focus-inner {
 	float: right;margin-right: 0;
 }
 .btn.add-goods{
-	background: #337ab7;border: 3px solid #337ab7;
+	background: #337ab7;border: 3px solid #337ab7;float: right;margin-bottom: 5px;display: inline-block;
 }
 
 .table tr>td,.table tr>th{
