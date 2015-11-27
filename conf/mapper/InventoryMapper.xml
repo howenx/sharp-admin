@@ -46,6 +46,14 @@
         from inventories t where id=${value}
     </select>
 
+    <select id="getInventoriesByItemId" resultType="entity.Inventory" parameterType="java.lang.Long">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where item_id=${value}
+    </select>
+
     <select id="getInventoryByItemId" resultType="entity.Inventory" parameterType="java.lang.Long">
         select
         <include refid="inventoryColumns">

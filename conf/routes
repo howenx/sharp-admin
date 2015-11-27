@@ -59,11 +59,11 @@ POST            /comm/search/$pageNum<[0-9]+>                               cont
 POST            /$lang<(cn|en|kr)>/comm/search/$pageNum<[0-9]+>             controllers.ItemCtrl.itemsearchAjax(lang,pageNum:Int)
 GET             /comm/add                                                   controllers.ItemCtrl.itemCreate(lang="cn")
 GET             /$lang<cn|en|kr>/comm/add                                   controllers.ItemCtrl.itemCreate(lang)
-POST            /comm/insertItem                                            controllers.ItemCtrl.insertItem
-
-
-
-
+POST            /comm/itemInsert                                            controllers.ItemCtrl.itemInsert
+GET             /comm/findById/:id                                          controllers.ItemCtrl.findItemById(lang = "cn",id:Long)
+GET             /$lang<(cn|en|kr)>/comm/findById/:id                        controllers.ItemCtrl.findItemById(lang,id:Long)
+GET             /comm/update/:id                                            controllers.ItemCtrl.itemUpdate(lang = "cn",id:Long)
+GET             /$lang<(cn|en|kr)>/comm/update/:id                          controllers.ItemCtrl.itemUpdate(lang,id:Long)
 
 
 

@@ -1,5 +1,6 @@
 $(function(){
 
+    /** 图片放大和关闭的功能 **/
     $(document).on("click", ".main-img", function(e) {
 		$(".goods-img-bg").css({
 			"height": $(window).height(),
@@ -25,9 +26,116 @@ $(function(){
 		});
 	});
 
-    $(document).on('click','.fdel .big',function() {
-        $(this).parents(".fdel").remove();
+//    $(document).on('click','.fdel .big',function() {
+//        $(this).parents(".fdel").remove();
+//    });
+
+    /* 一级类别改变重新加载二级类别*/
+    $('#categorySelect').change(function() {
+        var pcid = $("#categorySelect").val();
+        $.ajax({
+            type: "get",
+            data: "pcid="+ pcid,
+            url: "/getSubcates",
+            success: function(data) {
+                if (typeof data != undefined && data.length > 0 && data != null) {
+                    $('#categorySubSelect').empty();
+                    $('#categorySubSelect').append('<option value=""></option>');
+                    $.each(data, function (i, item) {
+                             $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNm + "</option>");
+                    });
+                }
+                else {
+                    $("#categorySubSelect").empty();
+                }
+            }
+        });
     });
+
+    /** 上传图片 **/
+    $(document).on('change','.hidden1',function() {
+        var file = $(this);
+        file.after(file.clone().val(""));
+        file.remove();
+        var id=window.event.srcElement.id;
+        var files = this.files;
+        for (var i = 0; i < files.length; i++) {
+            previewImage(this.files[i], id);
+        }
+    });
+
+    function previewImage(file, id) {
+        var galleryId = "gallery" + id;
+      	var gallery = document.getElementById(galleryId);
+        var imageType = /image.*/;
+
+        if (!file.type.match(imageType)) {
+            throw "File Type must be an image";
+        }
+
+        var thumb = document.createElement("div");
+        var img = document.createElement("img");
+        img.classList.add('main-img');
+        var button = document.createElement("button");
+        button.classList.add('close');
+        $(button).append('<span>&times;</span>');
+        img.file = file;
+        thumb.appendChild(img);
+        thumb.appendChild(button);
+        gallery.appendChild(thumb);
+
+         //添加商品主图主图后,添加图片按钮置为不可点击且颜色变为灰色
+         if (id.indexOf("M")>=0&&document.getElementById(galleryId).getElementsByTagName("div").length>0) {
+             $("#"+id).attr({"disabled":true});
+             document.getElementById('masterImgAdd'+id).style.background="#ccc";
+         }
+
+         //添加主题宣传图后,添加图片按钮置为不可点击且颜色变为灰色
+         if (document.getElementById("galleryT").getElementsByTagName("div").length>0) {
+             $("#T").attr({"disabled":true});
+             document.getElementById('masterThImgAdd').style.background="#ccc";
+         }
+
+         //商品预览图最多为6张
+         if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==6) {
+             $("#"+id).attr({"disabled":true});
+             document.getElementById("preImgAdd"+id).style.background="#ccc";
+         }
+
+         upload(thumb, file, id);
+
+        // Using FileReader to display the image content
+        var reader = new FileReader();
+        reader.onload = (function(aImg) {
+            return function(e) {
+                aImg.src = e.target.result;
+            }
+        })(img);
+        reader.readAsDataURL(file);
+    }
+
+    function upload(thumb, file, id) {
+        var formdata = new FormData();
+        formdata.append("photo", file);
+        formdata.append("params", "minify");
+        var http = new XMLHttpRequest();
+        var url = "http://172.28.3.18:3008/upload";
+        http.open("POST", url, true);
+        http.onreadystatechange = function() {
+            if (http.readyState == 4 && http.status == 200) {
+                var data = JSON.parse(http.responseText);
+                var input= document.createElement("input");
+                imgName = data.imgid;
+                input.id = imgName.substr(0,imgName.lastIndexOf("."));
+                input.type="hidden";
+                input.name=data.imgid;
+                input.value=data.path;
+                thumb.appendChild(input);
+                alert(data.message);
+            }
+        }
+        http.send(formdata);
+    }
 
     /** 上传图片操作,主图,点击移除的操作 **/
     $(document).on('click','.list-img .close',function(){
@@ -55,7 +163,7 @@ $(function(){
     $(document).on('click','.preview-img .close',function(){
         var id = $(this).parent().parent().attr("id");
         //商品预览图小于6张时恢复上传功能
-        if (document.getElementById(id).getElementsByTagName("div").length==2) {
+        if (document.getElementById(id).getElementsByTagName("div").length==6) {
             id = id.substring(7,9);
             $("#"+id).removeAttr("disabled");
             document.getElementById('preImgAdd'+id).style.background="#00B7EE";
@@ -262,8 +370,9 @@ $(function(){
         var isPost = true;
         var numberReg1 =    /^-?\d+$/;   //正整数
         var numberReg2 =    /^-?\d+\.?\d{0,2}$/;   //整数或小数
-        var items = "{";    //items表存入数据
-        var inventories = "[";    //inventories表存入数据
+        var item = new Object();
+        var inventories = [];
+        var itemData = new Object();
         //必填项不能有空值
         if ( $("#categorySubSelect").val()=="" || $("#bandSelect").val()=="" || $("#productName").val=="" || $("#supplyMerch").val=="" || $("#itemTitle").val==""
             || $("#onShelvesAt").val=="" || $("#offShelvesAt").val=="" ) {
@@ -283,75 +392,102 @@ $(function(){
         var itemCostPrice = document.getElementsByName("itemCostPrice");
         var itemDiscount = document.getElementsByName("itemDiscount");
         var restrictAmount = document.getElementsByName("restrictAmount");
-        if (onShelvesAt > offShelvesAt) {
+        if (onShelvesAt >= offShelvesAt) {
            isPost = false;
-           $("#warn-date").html("结束日期不正确!");
+           $("#warn-date").html("日期不正确!");
         } else $("#warn-date").html("");
         var inventory = document.getElementById("inventory");
         var trs = inventory.getElementsByTagName("tr");
         var tds = trs[trs.length-1].getElementsByTagName("td");
+        //验证输入的数量和价格是否符合规则
         for(i=1;i<=8;i++) {
             if (tds[i].getElementsByTagName("input")[0].value=="") {
-                $("#warn-inv").val("库存信息不能有空值!");
+                isPost = false;
+                $("#warn-inv").html("库存信息不能有空值!");
                 break;
-            } else $("#warn-inv").val("");
+            } else $("#warn-inv").html("");
         }
-        if (tds[10].getElementsByTagName("div").length<2) $("#warn-inv").val("请上传商品主图"); else $("#warn-inv").val("");
-        if (tds[11].getElementsByTagName("div").length<2) $("#warn-inv").val("请上传商品预览图"); else $("#warn-inv").val("");
-
-        //验证输入的数量和价格是否符合规则
         for(i=0;i<amount.length;i++){
             if (!numberReg2.test(amount[i].value) || !numberReg2.test(itemPrice[i].value) || !numberReg2.test(itemSrcPrice[i].value)
                 || !numberReg2.test(itemCostPrice[i].value) || !numberReg2.test(itemDiscount[i].value) || !numberReg2.test(restrictAmount[i].value)) {
                 isPost = false;
-                $("#warn-inv").text("输入数据不合法!");
+                $("#warn-num").text("输入数据不合法!");
                 break;
-            } else $("#warn-inv").text("");
+            } else $("#warn-num").text("");
         }
+        if (tds[10].getElementsByTagName("div").length<2) {
+            isPost = false;
+            $("#warn-mas").html("请上传商品主图");
+        } else $("#warn-mas").html("");
+        if (tds[11].getElementsByTagName("div").length<2) {
+            isPost = false;
+            $("#warn-pre").html("请上传商品预览图");
+        } else $("#warn-pre").html("");
+
         var orMasterInv = document.getElementsByName("orMasterInv");
         for(m=0;m<orMasterInv.length;m++) {
             if (orMasterInv[m].checked==true) break;
-            if (m==orMasterInv.length-1) $("#warn-inv").text("请选择主商品!");
-            else $("#warn-inv").text("");
+            if (m==orMasterInv.length-1) {
+                isPost = false;
+                $("#warn-cho").text("请选择主商品!");
+            } else $("#warn-cho").text("");
         }
 
         //优惠信息
-        var publicity = "[";
+        var publicity = [];
         var publicityTab = document.getElementById("publicityTab");
         var pubtr = publicityTab.getElementsByTagName("tr");
-        if (pubtr.length==1)  $("#warn-pub").text("请录入优惠信息!");
-        else $("#warn-inv").text("");
+        if (pubtr.length==1) {
+            isPost = false;
+            $("#warn-pub").text("请录入优惠信息!");
+        } else $("#warn-pub").text("");
         for(i=1;i<pubtr.length;i++) {
-            publicity += '\"' + pubtr[i].getElementsByTagName("td")[0].innerText + '\"' + ",";
+            publicity.push(pubtr[i].getElementsByTagName("td")[0].innerText);
         }
-        publicity = publicity.substring(0,publicity.length - 1) + "]";
-
         var itemMasterImg = "";
         var galleryT = document.getElementById("galleryT");
-        var masterThImgLen = galleryT.getElementsByTagName("input").length;
+        var masterThImgLen = galleryT.getElementsByTagName("img").length;
         if (masterThImgLen<1) {
             isPost = false;
             $("#warn-masthimg").text("请上传主题宣传图!");
         } else {
             $("#warn-masthimg").text("");
-            itemMasterImg = galleryT.getElementsByTagName("input")[0].value;
         }
+        //修改页面图片来源为读取商品的信息
+        if (galleryT.getElementsByTagName("input").length==0) {
+            itemMasterImg = galleryT.getElementsByTagName("img")[0].src;
+            //截取图片的url
+            itemMasterImg  = itemMasterImg.substring(itemMasterImg.indexOf('/',itemMasterImg.indexOf('/')+2));
+        }
+        else itemMasterImg = galleryT.getElementsByTagName("input")[0].value;
         var galleryD = document.getElementById("galleryD");
-        var detailImgLen = galleryD.getElementsByTagName("input").length;
+        var detailImgLen = galleryD.getElementsByTagName("img").length;
         if (detailImgLen<1) {
             isPost = false;
             $("#warn-detailimg").text("请上传商品详细图!");
         } else {
             $("#warn-detailimg").text("");
         }
-        var itemDetailImgs = "[";
-        var detInps = galleryD.getElementsByTagName("input");
-        for(i=0;i<detInps.length;i++) {
-            itemDetailImgs = itemDetailImgs + '\"' + detInps[i].value + '\"' + ",";
+        var itemDetailImgs = [];
+        var  det = "";
+        if (galleryD.getElementsByTagName("input").length==0) {
+            det = galleryD.getElementsByTagName("img");
+            var detV = "";
+            for(i=0;i<det.length;i++) {
+                detV = det[i].src;
+                detV = detV.substring(detV.indexOf('/',detV.indexOf('/')+2));
+            }
+            itemDetailImgs.push(detV);
         }
-        itemDetailImgs = itemDetailImgs.substring(0,itemDetailImgs.length - 1) + "]";
+        else {
+            det = galleryD.getElementsByTagName("input");
+            for(i=0;i<detInps.length;i++) {
+                itemDetailImgs.push(detInps[i].value);
+            }
+        }
+        console.log(itemDetailImgs);
         //遍历所有属性及属性值累加到隐藏域features中且属性名或值不能为空
-        var itemFeatures = "{";
+        var itemFeatures = {};
         var tabFea = document.getElementById("tabFea");
         var attrN = document.getElementsByName("attrN");
         var attrV = document.getElementsByName("attrV");
@@ -360,17 +496,14 @@ $(function(){
                 isPost = false;
                 if (window.lang=="cn") $("#warn-attr").text("属性名或值不能有空");
                 else $("#warn-attr").text("attribute or attribute value can't be value");
-            }
-            itemFeatures = itemFeatures + '\"' + attrN[i].value + '\"' + ":" + '\"' + attrV[i].value + '\"' +",";
+            } else $("#warn-attr").text("");
+            itemFeatures[attrN[i].value] = attrV[i].value;
         }
-        itemFeatures = itemFeatures.substring(0,itemFeatures.length - 1) + "}";
-         //拼装inventories数据
-        var index = 0;
-            for(i=1;i<trs.length;i++) {
+        //拼装inventories数据
+        for(i=1;i<trs.length;i++) {
             var tds = trs[i].getElementsByTagName("td");
-            var itemPreviewImgs = "[";
+            var itemPreviewImgs = [];
             var orMasterInv = false;
-            eval("var inventoryData"+index);
             if (tds[0].getElementsByTagName("input")[0].checked==true)    orMasterInv = true;
             var itemColor = tds[1].getElementsByTagName("input")[0].value;
             var itemSize = tds[2].getElementsByTagName("input")[0].value;
@@ -382,52 +515,70 @@ $(function(){
             var restrictAmount = tds[8].getElementsByTagName("input")[0].value;
             var invArea = "B";
             if (tds[9].getElementsByTagName("input")[1].checked==true)   invArea = "Z";
-            var invImg = document.getElementById("galleryM"+i).getElementsByTagName("input")[0].value;
-            imgs = document.getElementById("galleryP"+i).getElementsByTagName("input");
-            for(j=0;j<imgs.length;j++) {
-                itemPreviewImgs += '\"' + imgs[j].value + '\"' + ",";
+            var invImg = "";
+            if (document.getElementById("galleryM"+i).getElementsByTagName("input").length==0) {
+                invImg = document.getElementById("galleryM"+i).getElementsByTagName("img")[0].src;
+                invImg  = invImg.substring(invImg.indexOf('/',invImg.indexOf('/')+2));
             }
-            itemPreviewImgs = itemPreviewImgs.substring(0,itemPreviewImgs.length - 1) + "]";
+            else invImg = document.getElementById("galleryM"+i).getElementsByTagName("input")[0].value;
+            imgs = document.getElementById("galleryP"+i).getElementsByTagName("input");
+            if (imgs.length==0) {
+                imgs = document.getElementById("galleryP"+i).getElementsByTagName("img");
+                var imgsV = "";
+                 for(j=0;j<imgs.length;j++) {
+                    imgsV = imgs[i].src;
+                    imgsV = imgsV.substring(imgsV.indexOf('/',imgsV.indexOf('/')+2));
+                    itemPreviewImgs.push(imgsV);
+                 }
+            }
+            else {
+                for(j=0;j<imgs.length;j++) {
+                    itemPreviewImgs.push(imgs[j].value);
+                }
+            }
+            console.log(itemPreviewImgs);
             //拼装成一条数据
-            inventoryDataindex = "{";
-            inventoryDataindex += '\"' + "orMasterInv" + '\"' + ":" + '\"' + orMasterInv + '\"' + ",";
-            inventoryDataindex += '\"' + "itemColor" + '\"' + ":" + '\"' + itemColor + '\"' + ",";
-            inventoryDataindex += '\"' + "itemSize" + '\"' + ":" + '\"' + itemSize + '\"' + ",";
-            inventoryDataindex += '\"' + "amount" + '\"' + ":" + '\"' + amount + '\"' + ",";
-            inventoryDataindex += '\"' + "itemPrice" + '\"' + ":" + '\"' + itemPrice + '\"' + ",";
-            inventoryDataindex += '\"' + "itemSrcPrice" + '\"' + ":" + '\"' + itemSrcPrice + '\"' + ",";
-            inventoryDataindex += '\"' + "itemCostPrice" + '\"' + ":" + '\"' + itemCostPrice + '\"' + ",";
-            inventoryDataindex += '\"' + "itemDiscount" + '\"' + ":" + '\"' + itemDiscount + '\"' + ",";
-            inventoryDataindex += '\"' + "restrictAmount" + '\"' + ":" + '\"' + restrictAmount + '\"' + ",";
-            inventoryDataindex += '\"' + "invArea" + '\"' + ":" + '\"' + invArea + '\"' + ",";
-            inventoryDataindex += '\"' + "invImg" + '\"' + ":" + '\"' + invImg + '\"' + ",";
-            inventoryDataindex += '\"' + "itemPreviewImgs" + '\"' + ":" +  itemPreviewImgs + ",";
-            inventoryDataindex = inventoryDataindex.substring(0,inventoryDataindex.length - 1) + "}";
-            inventories += inventoryDataindex + ",";
-            index++;
+            var inventory = new Object();
+            inventory.orMasterInv = orMasterInv;
+            inventory.itemColor = itemColor;
+            inventory.itemSize = itemSize;
+            inventory.amount = amount;
+            inventory.itemPrice = itemPrice;
+            inventory.itemPrice = itemPrice;
+            inventory.itemSrcPrice = itemSrcPrice;
+            inventory.itemCostPrice = itemCostPrice;
+            inventory.itemDiscount = itemDiscount;
+            inventory.restrictAmount = restrictAmount;
+            inventory.invArea = invArea;
+            inventory.invImg = invImg;
+            inventory.itemPreviewImgs = itemPreviewImgs;
+            inventories.push(inventory);
         }
+        item.cateId = cateId;
+        item.brandId = brandId;
+        item.supplyMerch = supplyMerch;
+        item.itemTitle = itemTitle;
+        item.onShelvesAt = onShelvesAt;
+        item.offShelvesAt = offShelvesAt;
+        item.itemNotice = itemNotice;
+        item.publicity = publicity;
+        item.itemMasterImg = itemMasterImg;
+        item.itemDetailImgs = itemDetailImgs;
+        item.itemFeatures = itemFeatures;
 
-        items += '\"' + "cateId" + '\"' + ":" + '\"' + cateId + '\"' + ",";
-        items += '\"' + "brandId" + '\"' + ":" + '\"' + brandId + '\"' + ",";
-        items += '\"' + "supplyMerch" + '\"' + ":" + '\"' + supplyMerch + '\"' + ",";
-        items += '\"' + "itemTitle" + '\"' + ":" + '\"' + itemTitle + '\"' + ",";
-        items += '\"' + "onShelvesAt" + '\"' + ":" + '\"' + onShelvesAt + '\"' + ",";
-        items += '\"' + "offShelvesAt" + '\"' + ":" + '\"' + offShelvesAt + '\"' + ",";
-        items += '\"' + "itemNotice" + '\"' + ":" + '\"' + itemNotice + '\"' + ",";
-        items += '\"' + "publicity" + '\"' + ":" +  publicity + ",";
-        items += '\"' + "itemMasterImg" + '\"' + ":" + '\"' + itemMasterImg + '\"' + ",";
-        items += '\"' + "itemDetailImgs" + '\"' + ":" +  itemDetailImgs + ",";
-        items += '\"' + "itemFeatures" + '\"' + ":" + itemFeatures + ",";
-        items = items.substring(0,items.length - 1) + "}";
-        inventories = inventories.substring(0,inventories.length - 1) + "]";
-        console.log(items);
-        console.log(inventories);
+        itemData.item = item;
+        itemData.inventories = inventories;
+
+        console.log(JSON.stringify(item));
+        console.log(JSON.stringify(inventories));
+        console.log(JSON.stringify(itemData));
         console.log(isPost);
         if (isPost) {
             $.ajax({
                 type :  "POST",
-                url : "/comm/insertItem",
-                data : "items=" + items +"&inventories="+inventories,
+                url : "/comm/itemInsert",
+                contentType: "application/json; charset=utf-8",
+                data : JSON.stringify(itemData),
                 error : function(request) {
                     if (window.lang = 'cn') {
                         $('#js-userinfo-error').text('保存失败');
@@ -437,6 +588,7 @@ $(function(){
                     setTimeout("$('#js-userinfo-error').text('')", 2000);
                 },
                 success: function(data) {
+                    $('.usercenter-option > .user-state').css('background-position', '20px -174px');
                     if (window.lang = 'cn') {
                         $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
                         $('.usercenter-option > .user-state').text('未更改');
@@ -445,7 +597,7 @@ $(function(){
                         $('.usercenter-option > .user-state').text('Unchanged');
                     }
                     setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
-                    setTimeout("location.href='/"+window.lang+"/comm/add'", 3000);
+                    setTimeout("location.href='/"+window.lang+"/comm/search'", 3000);
                 }
             });
         }

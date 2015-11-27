@@ -141,7 +141,6 @@ $(function() {
 			previewImage($(this)[0].files[i]);
 		}
 	})
-
 	function previewImage(file) {
 
 		if (!/image\/\w+/.test(file.type)) {

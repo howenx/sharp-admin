@@ -2,6 +2,7 @@ package service;
 
 import com.google.inject.Inject;
 import entity.Inventory;
+import mapper.InventoryMapper;
 
 import java.util.List;
 
@@ -10,25 +11,22 @@ import java.util.List;
  */
 public class InventoryServiceImpl implements InventoryService {
 
-    @Inject InventoryService inventoryService;
+    @Inject
+    private InventoryMapper inventoryMapper;
 
     @Override
     public Integer insertInventory(Inventory inventory){
-        return inventoryService.insertInventory(inventory);
+        return inventoryMapper.insertInventory(inventory);
     }
 
     @Override
     public Inventory getInventory(Long id){
-        return inventoryService.getInventory(id);
-    }
-
-    @Override
-    public List<Inventory> getInventoryByItemId(Long itemId){
-        return inventoryService.getInventoryByItemId(itemId);
+        return inventoryMapper.getInventory(id);
     }
 
     @Override
     public List<Inventory> getAllInventories(){
-        return inventoryService.getAllInventories();
+        return inventoryMapper.getAllInventories();
     }
+
 }

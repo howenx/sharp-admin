@@ -128,6 +128,82 @@ $(function() {
 				}
 			})
 		}
+		if ($temp_div.attr('id') == 'q_youjipin') {
+
+			$(this).parent().parent().parent().find(".input-area").each(function(index, element) {
+
+				var imgwidth = $(this).parent().parent().parent().find('input[name="custom_w"]').val();
+				var imgheight = $(this).parent().parent().parent().find('input[name="custom_h"]').val();
+
+				if (index === 0 && $(this).val()!=null && $(this).val()!='') {
+
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					data_array.push($(this).val());
+
+				} else if (index === 1 && $(this).val()!=null && $(this).val()!='') {
+
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					data_array.push($(this).val());
+
+				} else if (index === 2 && $(this).val()!=null && $(this).val()!='') {
+
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					data_array.push($(this).val());
+
+				} else if (index === 3 && $(this).val()!=null && $(this).val()!='') {
+
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					data_array.push($(this).val());
+
+				} else if (index === 4 && $(this).val()!=null && $(this).val()!='') {
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					data_array.push($(this).val());
+					if ($(this).parent().parent().parent().find("input[name='origin_wh']").is(':checked')) {
+
+						$temp_div.find("[data-index='" + index + "']").attr('src', $(this).val());
+						data_array.push($(this).val());
+
+					} else if(imgwidth!=null && imgwidth!='' &&  imgheight!=null && imgheight!=''){
+
+						var imgname = $(this).val().match(/[^\/]+\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP)/gi).toString();
+						$imginput = $(this);
+
+						if (imgname.match(/^(.*)(\.)(.{1,8})$/) != null) {
+
+							thumb = imgname + '_' + imgwidth + '×' + imgheight + '.' + imgname.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase();
+
+							$.ajax({
+								url: window.url+'/thumb/' + thumb, //Server script to process data
+								type: 'get',
+								success: function(data) {
+									if (typeof data.thumb_url != 'undefined' && data.thumb_url != null) {
+										$temp_div.find("[data-index='" + index + "']").attr('src', data.thumb_url);
+										data_array.push(data.thumb_url);
+									}
+								},
+								error: function(data, error, errorThrown) {
+									if (data.status && data.status >= 400) {
+										alert(data.responseText);
+									} else {
+										alert("Something went wrong");
+									}
+								}
+							});
+
+						} else {
+							alert('Image type is not matched.');
+							return false;
+						}
+					} else {
+						alert('Please check exists null value.')
+						return false;
+					}
+				} else {
+					alert('Please check exists null value.')
+					return false;
+				}
+			})
+		}
 	})
 
 	/** submit to nwjs shootscreen. **/
@@ -137,7 +213,7 @@ $(function() {
 		$check = $('input[name=setMain]:checked');
 		if ($check.length === 1) {
 			$.ajax({
-				url: 'http://172.28.3.18:3008/nw',
+				url: 'http://172.28.3.47:3008/nw',
 				type: 'POST',
 				data: {
 					tempid: '' + $check.attr('data-xr'),
@@ -216,7 +292,7 @@ $(function() {
   			formdata.append("params", params);
 			
   			var http = new XMLHttpRequest();
-  			var url = "http://172.28.3.18:3008/upload";
+  			var url = "http://172.28.3.47:3008/upload";
 			
   			http.open("POST", url, true);
 			

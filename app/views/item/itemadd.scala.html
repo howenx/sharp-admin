@@ -5,16 +5,16 @@
 
 <link href="/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/slider.css"/>
-<link rel="stylesheet" href="/assets/css/prods.css"/>
+<link rel="stylesheet" href="/assets/css/item.css"/>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script src="/assets/js/bootstrap-datetimepicker.ko.js"></script>
 <script src="/assets/js/rili.js"></script>
-<script src="/assets/js/prods.js"></script>
+<script src="/assets/js/item.js"></script>
 
 }
 
-@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsAddTitle")
+@import java.lang.String; var title=Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsAddTitle")
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 
@@ -47,7 +47,7 @@
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
     <div class="row">
-        <form class="form-horizontal" method="post" action="/insertProducts" id="insertProducts" enctype="multipart/form-data">
+        <form class="form-horizontal" method="post"   enctype="multipart/form-data">
             <div class="upinfo">
                 <!-- 商品基本信息 -->
                 <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.basics")</h4>
@@ -113,14 +113,14 @@
                             <table class="table table-bordered qubian inv" id="inventory">
                                 <tr>
                                     <th width="80">设为主商品</th>
-                                    <th width="60">颜色分类</th>
-                                    <th width="60">尺寸分类</th>
-                                    <th width="60">库存数量</th>
-                                    <th width="60">现价(￥)</th>
-                                    <th width="60">原价(￥)</th>
+                                    <th width="50">颜色分类</th>
+                                    <th width="50">尺寸分类</th>
+                                    <th width="50">库存数量</th>
+                                    <th width="50">现价(￥)</th>
+                                    <th width="50">原价(￥)</th>
                                     <th width="60">成本价(￥)</th>
-                                    <th width="60">折扣</th>
-                                    <th width="60">限购数量</th>
+                                    <th width="50">折扣</th>
+                                    <th width="50">限购数量</th>
                                     <th width="140">库存地</th>
                                     <th width="100">主图(一张)</th>
                                     <th width="280">详情页预览图(最多6张)</th>
@@ -179,7 +179,13 @@
                     </div>
                 </div>
                 <div class="form-group" style="margin-top:-100px;">
-                    <label class="col-sm-1 control-label" ><div id="warn-inv" style="color:red;width:200px;margin-left:-80px;"></div></label>
+                    <label class="col-sm-1 control-label" >
+                        <div id="warn-inv" style="color:red;width:200px;margin-left:-80px;"></div>
+                        <div id="warn-num" style="color:red;width:200px;margin-left:-80px;"></div>
+                        <div id="warn-mas" style="color:red;width:200px;margin-left:-80px;"></div>
+                        <div id="warn-pre" style="color:red;width:200px;margin-left:-80px;"></div>
+                        <div id="warn-cho" style="color:red;width:200px;margin-left:-80px;"></div>
+                    </label>
                 </div>
                 <h4 class="h4-custom-hmm">商品设置</h4>
                 <div class="form-group">
@@ -228,7 +234,7 @@
                             </div>
                         </div>
                         <div id="warn-masthimg" style="color:red;margin-top:-70px; margin-left:400px;width:120px;"></div>
-                        <div id="warn-detailimg" style="color:red;margin-top:10px; margin-left:400px;width:120px;"></div>
+                        <div id="warn-detailimg" style="color:red;margin-top:10px; margin-left:400px;width:120px;margin-bottom:50px;"></div>
                     </div>
                 </div>
 
@@ -265,113 +271,3 @@
 </div>
 
 }
-
-<script type="text/javascript">
-$(function()  {
-    /* 一级类别改变重新加载二级类别*/
-    $('#categorySelect').change(function() {
-        var pcid = $("#categorySelect").val();
-        $.ajax({
-            type: "get",
-            data: "pcid="+ pcid,
-            url: "/getSubcates",
-            success: function(data) {
-                if (typeof data != undefined && data.length > 0 && data != null) {
-                    $('#categorySubSelect').empty();
-                    $('#categorySubSelect').append('<option value=""></option>');
-                    $.each(data, function (i, item) {
-                             $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNm + "</option>");
-                    });
-                }
-                else {
-                    $("#categorySubSelect").empty();
-                }
-            }
-        });
-    });
-});
-
-/** 上传图片 **/
-
-$(document).on('change','.hidden1',function() {
-    var id=window.event.srcElement.id;
-    var files = this.files;
-    for (var i = 0; i < files.length; i++) {
-        previewImage(this.files[i], id);
-    }
-});
-
-function previewImage(file, id) {
-    var galleryId = "gallery" + id;
-  	var gallery = document.getElementById(galleryId);
-    var imageType = /image.*/;
-
-    if (!file.type.match(imageType)) {
-        throw "File Type must be an image";
-    }
-
-    var thumb = document.createElement("div");
-    var img = document.createElement("img");
-    img.classList.add('main-img');
-    var button = document.createElement("button");
-    button.classList.add('close');
-    $(button).append('<span>&times;</span>');
-    img.file = file;
-    thumb.appendChild(img);
-    thumb.appendChild(button);
-    gallery.appendChild(thumb);
-
-     //添加商品主图主图后,添加图片按钮置为不可点击且颜色变为灰色
-     if (id.indexOf("M")>=0&&document.getElementById(galleryId).getElementsByTagName("div").length>0) {
-         $("#"+id).attr({"disabled":true});
-         document.getElementById('masterImgAdd'+id).style.background="#ccc";
-     }
-
-     //添加主题宣传图后,添加图片按钮置为不可点击且颜色变为灰色
-     if (document.getElementById("galleryT").getElementsByTagName("div").length>0) {
-         $("#T").attr({"disabled":true});
-         document.getElementById('masterThImgAdd').style.background="#ccc";
-     }
-
-     //商品预览图最多为6张
-     if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==2) {
-         $("#"+id).attr({"disabled":true});
-         document.getElementById("preImgAdd"+id).style.background="#ccc";
-     }
-
-     upload(thumb, file, id);
-
-    // Using FileReader to display the image content
-    var reader = new FileReader();
-    reader.onload = (function(aImg) {
-        return function(e) {
-            aImg.src = e.target.result;
-        }
-    })(img);
-    reader.readAsDataURL(file);
-}
-
-function upload(thumb, file, id) {
-    var formdata = new FormData();
-    formdata.append("photo", file);
-    formdata.append("params", "minify");
-    var http = new XMLHttpRequest();
-    var url = "http://172.28.3.18:3008/upload";
-    http.open("POST", url, true);
-    http.onreadystatechange = function() {
-        if (http.readyState == 4 && http.status == 200) {
-            var data = JSON.parse(http.responseText);
-            var input= document.createElement("input");
-            imgName = data.imgid;
-            input.id = imgName.substr(0,imgName.lastIndexOf("."));
-            input.type="hidden";
-            input.name=data.imgid;
-            input.value=data.path;
-            thumb.appendChild(input);
-            alert(data.message);
-        }
-    }
-    http.send(formdata);
-}
-
-</script>

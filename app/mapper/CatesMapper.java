@@ -26,4 +26,12 @@ public interface CatesMapper {
 		 * @return List cates entity.
 		 */
 		List<Cates> getSubCates(HashMap<String, Long> hashMap);
+
+		/**
+		 * 由 cateId 得到Cates
+		 * @param cateId 类别id
+		 * @return Cates
+		 */
+		Cates getCate(Long cateId);
+
 }

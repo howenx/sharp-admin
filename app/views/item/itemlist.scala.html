@@ -89,7 +89,7 @@
                 @for(item <- items){
 					<!--必须使用tb-list-data类名，公用-->
                     <tr class = "tb-list-data">
-                        <td><a href="javascript:void(0)">@item.getId()</a></td>
+                        <td><a href="/@lang/comm/findById/@item.getId()">@item.getId()</a></td>
                         <td style="width: 20%;">@item.getItemTitle()</td>
                         <td>
                             <img class="main-img" src="@url@item.getItemMasterImg()" alt="" width="50">
@@ -128,3 +128,8 @@
     </div>
 </div>
 }
+
+<script style="text/javascript">
+
+
+</script>
