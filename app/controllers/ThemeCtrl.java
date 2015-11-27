@@ -159,7 +159,7 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result thaddPop(){
-        return ok(views.html.theme.thaddPop.render());
+        return ok(views.html.theme.thaddPop.render(service.itemSearch()));
     }
 
 }

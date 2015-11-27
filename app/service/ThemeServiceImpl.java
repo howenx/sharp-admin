@@ -1,6 +1,7 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import entity.Item;
 import entity.Slider;
 import entity.Theme;
 import mapper.ThemeMapper;
@@ -65,4 +66,11 @@ public class ThemeServiceImpl implements ThemeService {
             }
         }
     }
+    /**
+     * added by Tiffany Zhu 15/11/27.
+     * 商品查询
+     * @return list
+     */
+    @Override
+    public List<Item> itemSearch() { return themeMapper.getItemsAll(); }
 }

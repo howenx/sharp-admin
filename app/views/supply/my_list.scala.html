@@ -1,0 +1,85 @@
+@import play.i18n._
+@import entity.User_Type
+@import entity.User
+@import scala.collection.immutable._
+@(lang:String="cn", user:User, products:List[Map[String, Any]],start:Int)
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
+<link rel="shortcut icon" type="image/png" href="/assets/images/favicon.ico">
+<link href='http://fonts.useso.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/assets/css/bootstrap-datepicker.min.css"/>
+<script src="/assets/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $('[data-toggle="tabajax"]').click(function(e) {
+            var $this = $(this),
+        loadurl = $this.attr('href'),
+        targ = $this.attr('data-target');
+
+    $.get(loadurl, function(data) {
+        $(targ).html(data);
+    });
+
+    $this.tab('show');
+    return false;
+        });
+    });
+
+    function load(loadurl) {
+
+       $.get(loadurl, function(data) {
+         $("#my-tab-content .active").html(data);
+
+       });
+    }
+
+    load('/supply/my?id=1');
+
+</script>
+}
+
+@body = {
+<div class="container">
+    <div class="row" style="margin-top:50px">
+
+        @user.role match {
+           case User_Type.SELLER => {
+              <div class="pull-right col-md-2">
+                  <input type="button" onclick="javascript:window.location='/supply/init'" class="btn btn-primary btn-block" value="新增(증가)">
+              </div>
+           }
+           case User_Type.TRANSLATION => {
+             <div class="pull-right col-md-2">
+                 <input type="button" onclick="javascript:window.location='/supply/download/shanghai'" class="btn btn-primary btn-block" value="上海报关下载">
+             </div>
+             <div class="pull-right col-md-2">
+                 <input type="button" onclick="javascript:window.location='/supply/download/hangzhou'" class="btn btn-primary btn-block" value="杭州报关下载">
+              </div>
+        }
+        }
+    </div>
+    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+        <li class="active"><a href="/supply/my?id=1" data-target="#hzp" data-toggle="tabajax">化妆品</a></li>
+        <li><a href="/supply/my?id=2" data-target="#ps" data-toggle="tabajax">配饰</a></li>
+        <li><a href="/supply/my?id=3" data-target="#fs" data-toggle="tabajax">服饰</a></li>
+    </ul>
+    <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane active" id="hzp">
+        </div>
+        <div class="tab-pane" id="ps">
+        </div>
+        <div class="tab-pane" id="fs">
+        </div>
+    </div>
+
+</div>
+}
+
+
+@layout(lang=lang,title="supply list", user=user)(scripts) {
+
+@body
+
+}
