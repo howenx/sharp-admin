@@ -17,6 +17,14 @@
         ${alias}.cate_desc
     </sql>
 
+     <select id="getCate" resultType="entity.Cates" parameterType="java.lang.Long">
+        select
+        <include refid="catesColumns">
+             <property name="alias" value="t"/>
+        </include>
+             from cates t where cate_id = #{cateId}
+     </select>
+
     <select id="getParentCates" resultType="entity.Cates">
         select
         <include refid="catesColumns">

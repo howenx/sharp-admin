@@ -25,4 +25,6 @@ public interface BrandsMapper {
 		 * @return List of Brands entity
 		 */
 		List<Brands> getAllBrands();
+
+		Brands getBrand(Long brandId);
 }

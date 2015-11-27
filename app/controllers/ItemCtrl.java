@@ -1,11 +1,8 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import entity.Item;
-import entity.User;
+import entity.*;
 import play.Logger;
-import play.data.DynamicForm;
-import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -118,23 +115,37 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result itemCreate(String lang) {
-
         return ok(views.html.item.itemadd.render(lang,prodService.getAllBrands(),prodService.getParentCates(),(User) ctx().args.get("user")));
     }
+
+    /**
+     *  由id获得单个商品及其库存信息
+     * @param lang 语言
+     * @param id 商品id
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result findItemById(String lang,Long id) {
+        Item item = service.getItem(id);
+        Cates cates = service.getCate(item.getCateId());
+        String pCateNm = service.getCate(cates.getPcateId()).getCateNm();
+        Brands brands = service.getBrand(item.getBrandId());
+        List<Inventory> inventories = service.getinventoriesByItemId(id);
+        return ok(views.html.item.itemupdate.render(item,inventories,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,prodService.getAllBrands(),prodService.getParentCates(),(User) ctx().args.get("user")));
+    }
+
+    public Result itemUpdate(String lang, Long id) {
+        return ok();
+    }
+
     /**
      * 添加商品
      * @return Result
      */
-    public Result insertItem() {
-        DynamicForm form = Form.form().bindFromRequest();
-        String items = form.get("items");
-        String inventories = form.get("inventories");
-        JsonNode jsonItem =Json.parse(items);
-        JsonNode jsonInventories =Json.parse(inventories);
-        Logger.error(jsonItem.toString());
-        Logger.error(jsonInventories.toString());
-
-        List<Long> list = service.insertItem(jsonItem,jsonInventories);
+    public Result itemInsert() {
+        JsonNode json = request().body().asJson();
+        Logger.error(json.toString());
+        List<Long> list = service.itemInsert(json);
         return ok(list.toString());
     }
 }
