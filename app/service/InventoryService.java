@@ -13,7 +13,5 @@ public interface InventoryService {
 
     Inventory getInventory(Long id);
 
-    List<Inventory> getInventoryByItemId(Long itemId);
-
     List<Inventory> getAllInventories();
 }
