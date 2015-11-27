@@ -75,6 +75,32 @@
              }
            }
 
+           if($("#hzp_price_usd").val() == "") {
+             alert("Please input 원가");
+             $("#hzp_price_usd").focus();
+             return;
+           }else {
+             if(!floatRegex.test($("#hzp_price_usd").val())) {
+               alert("숫자 입력");
+               $("#hzp_price_usd").val("");
+               $("#hzp_price_usd").focus();
+               return;
+             }
+           }
+
+            if($("#hzp_market_price_usd").val() == "") {
+             alert("Please input 판매가");
+             $("#hzp_market_price_usd").focus();
+             return;
+           }else {
+             if(!floatRegex.test($("#hzp_market_price_usd").val())) {
+               alert("숫자 입력");
+                $("#hzp_market_price_usd").val("");
+               $("#hzp_market_price_usd").focus();
+               return;
+             }
+           }
+
            if($("#hzp_颜色").val() == "") {
              alert("Please input 색");
              $("#hzp_颜色").focus();
@@ -84,6 +110,18 @@
            if($("#hzp_成分").val() == "") {
              alert("Please input 주요성분");
              $("#hzp_成分").focus();
+             return;
+           }
+
+            if($("#hzp_肤质").val() == "") {
+             alert("Please input 피부타입");
+             $("#hzp_肤质").focus();
+             return;
+           }
+
+           if($("#hzp_类别").val() == "") {
+             alert("Please input 상품유형");
+             $("#hzp_类别").focus();
              return;
            }
 
@@ -225,7 +263,7 @@
                return;
              }
            }
-        $("#form_hzp").submit();
+         $("#form_hzp").submit();
         });
 
         $("#b_ps").click(function() {
@@ -278,6 +316,32 @@
                alert("숫자 입력");
                $("#ps_market_price").val("");
                $("#ps_market_price").focus();
+               return;
+             }
+           }
+
+            if($("#ps_price_usd").val() == "") {
+             alert("Please input 원가");
+             $("#ps_price_usd").focus();
+             return;
+           }else {
+             if(!floatRegex.test($("#ps_price_usd").val())) {
+               alert("숫자 입력");
+               $("#ps_price_usd").val("");
+               $("#ps_price_usd").focus();
+               return;
+             }
+           }
+
+            if($("#ps_market_price_usd").val() == "") {
+             alert("Please input 판매가");
+             $("#ps_market_price_usd").focus();
+             return;
+           }else {
+             if(!floatRegex.test($("#ps_market_price_usd").val())) {
+               alert("숫자 입력");
+                $("#ps_market_price_usd").val("");
+               $("#ps_market_price_usd").focus();
                return;
              }
            }
@@ -459,27 +523,78 @@
              }
            }
 
+            if($("#fs_price_usd").val() == "") {
+             alert("Please input 원가");
+
+             $("#fs_price_usd").focus();
+             return;
+           }else {
+             if(!floatRegex.test($("#fs_price_usd").val())) {
+               alert("숫자 입력");
+                $("#fs_price_usd").val("");
+               $("#fs_price_usd").focus();
+               return;
+             }
+           }
+
+            if($("#fs_market_price_usd").val() == "") {
+             alert("Please input 판매가");
+             $("#fs_market_price_usd").focus();
+             return;
+           }else {
+             if(!floatRegex.test($("#fs_market_price_usd").val())) {
+               alert("숫자 입력");
+               $("#fs_market_price_usd").val("");
+               $("#fs_market_price_usd").focus();
+               return;
+             }
+           }
+
+            if($("#fs_一级分类").val() == "") {
+             alert("Please input 1depth");
+             $("#fs_一级分类").focus();
+             return;
+           }
+
+           if($("#fs_二级分类").val() == "") {
+             alert("Please input 2depth");
+             $("#fs_二级分类").focus();
+             return;
+           }
+
+            if($("#fs_三级分类").val() == "") {
+             alert("Please input 3depth");
+             $("#fs_三级分类").focus();
+             return;
+           }
+
            if($("#fs_成分").val() == "") {
              alert("Please input 주요성분");
              $("#fs_成分").focus();
              return;
            }
 
-            if($("#fs_功能").val() == "") {
-             alert("Please input 기능");
-             $("#fs_功能").focus();
-             return;
-           }
-
-            if($("#fs_型号").val() == "") {
-             alert("Please input 모델");
+             if($("#fs_型号").val() == "") {
+             alert("Please input 모델코드");
              $("#fs_型号").focus();
              return;
            }
 
-            if($("#fs_规格").val() == "") {
+           if($("#fs_颜色").val() == "") {
+             alert("Please input 색상");
+             $("#fs_颜色").focus();
+             return;
+           }
+
+           if($("#fs_规格").val() == "") {
              alert("Please input 규격");
              $("#fs_规格").focus();
+             return;
+           }
+
+            if($("#fs_功能").val() == "") {
+             alert("Please input 기능");
+             $("#fs_功能").focus();
              return;
            }
 
@@ -514,12 +629,42 @@
              return;
            }
 
-            if($("#fs_净重").val() == "") {
+            if($("#fs_版型").val() == "") {
+             alert("Please input 옷 유형");
+             $("#fs_版型").focus();
+             return;
+           }
+
+           if($("#fs_上市时间").val() == "") {
+             alert("Please input 런칭시간");
+             $("#fs_上市时间").focus();
+             return;
+           }
+
+           if($("#fs_里料分类").val() == "") {
+             alert("Please input 안감재질");
+             $("#fs_里料分类").focus();
+             return;
+           }
+
+           if($("#fs_图案").val() == "") {
+             alert("Please input 도안");
+             $("#fs_图案").focus();
+             return;
+           }
+
+           if($("#fs_适用年龄").val() == "") {
+             alert("Please input 적용연령대");
+             $("#fs_适用年龄").focus();
+             return;
+           }
+
+           if($("#fs_净重").val() == "") {
              alert("Please input 실중량");
              $("#fs_净重").focus();
              return;
            }else {
-             if(!intRegex.test($("#fs_净重").val())) {
+             if(!floatRegex.test($("#fs_净重").val())) {
                alert("숫자 입력");
                $("#fs_净重").val("");
                $("#fs_净重").focus();
@@ -532,12 +677,73 @@
              $("#fs_毛重").focus();
              return;
            }else {
-             if(!intRegex.test($("#fs_毛重").val())) {
+             if(!floatRegex.test($("#fs_毛重").val())) {
                alert("숫자 입력");
                $("#fs_毛重").val("");
                $("#fs_毛重").focus();
                return;
              }
+           }
+
+            if($("#fs_厚度").val() == "") {
+             alert("Please input 두께");
+             $("#fs_厚度").focus();
+             return;
+           }else {
+             if(!floatRegex.test($("#fs_厚度").val())) {
+               alert("숫자 입력");
+               $("#fs_厚度").val("");
+               $("#fs_厚度").focus();
+               return;
+             }
+           }
+
+           if($("#fs_领型").val() == "") {
+             alert("Please input 옷깃형태");
+             $("#fs_领型").focus();
+             return;
+           }
+
+           if($("#fs_衣长").val() == "") {
+             alert("Please input 옷길이");
+             $("#fs_衣长").focus();
+             return;
+           }
+
+           if($("#fs_袖型").val() == "") {
+             alert("Please input 소매유형");
+             $("#fs_袖型").focus();
+             return;
+           }
+
+           if($("#fs_衣门襟").val() == "") {
+             alert("Please input Clothing placket");
+             $("#fs_衣门襟").focus();
+             return;
+           }
+
+           if($("#fs_尺码").val() == "") {
+             alert("Please input 사이즈");
+             $("#fs_尺码").focus();
+             return;
+           }
+
+           if($("#fs_适用类型").val() == "") {
+             alert("Please input 적용범위");
+             $("#fs_适用类型").focus();
+             return;
+           }
+
+           if($("#fs_风格").val() == "") {
+             alert("Please input 스타일");
+             $("#fs_风格").focus();
+             return;
+           }
+
+           if($("#fs_流行元素").val() == "") {
+             alert("Please input 유행요소");
+             $("#fs_流行元素").focus();
+             return;
            }
         $("#form_fs").submit();
         });
@@ -598,7 +804,7 @@
 
             </div>
             <div class="col-md-6 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">색:</span>
+                <span class="input-group-addon">색상:</span>
                 <input type="text" id="hzp_颜色" name="颜色" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "颜色").asOpt[String])">
             </div>
             <div class="col-md-6 input-group" style="padding-top: 20px">
@@ -885,9 +1091,9 @@
             <div class="col-md-6 input-group" style="padding-top: 20px">
 
                 <span class="input-group-addon">도안:</span>
-                <input type="text" name="图案" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "图案").asOpt[String])">
+                <input type="text" id="fs_图案" name="图案" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "图案").asOpt[String])">
                 <span class="input-group-addon">적용연령대:</span>
-                <input type="text" name="适用年龄" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "适用年龄").asOpt[String])">
+                <input type="text" id="fs_适用年龄" name="适用年龄" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "适用年龄").asOpt[String])">
 
             </div>
             <div class="col-md-6 input-group" style="padding-top: 20px">
@@ -896,40 +1102,40 @@
                 <span class="input-group-addon">전체중량（kg）:</span>
                 <input type="text" id="fs_毛重" name="毛重" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "毛重").asOpt[String])">
                 <span class="input-group-addon">두께:</span>
-                <input type="text" name="厚度" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "厚度").asOpt[String])">
+                <input type="text" id="fs_厚度" name="厚度" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "厚度").asOpt[String])">
 
             </div>
             <div class="col-md-6 input-group" style="padding-top: 20px">
                 <span class="input-group-addon">옷깃형태:</span>
-                <input type="text" name="领型" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "领型").asOpt[String])">
+                <input type="text" id="fs_领型" name="领型" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "领型").asOpt[String])">
                 <span class="input-group-addon">옷길이:</span>
-                <input type="text" name="衣长" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "衣长").asOpt[String])">
+                <input type="text" id="fs_衣长" name="衣长" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "衣长").asOpt[String])">
 
 
             </div>
             <div class="col-md-6 input-group" style="padding-top: 20px">
 
                 <span class="input-group-addon">소매유형:</span>
-                <input type="text" name="袖型" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "袖型").asOpt[String])">
+                <input type="text" id="fs_袖型" name="袖型" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "袖型").asOpt[String])">
                 <span class="input-group-addon">Clothing placket:</span>
-                <input type="text" name="衣门襟" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "衣门襟").asOpt[String])">
+                <input type="text" id="fs_衣门襟" name="衣门襟" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "衣门襟").asOpt[String])">
 
             </div>
             <div class="col-md-6 input-group" style="padding-top: 20px">
 
                 <span class="input-group-addon">사이즈:</span>
-                <input type="text" name="尺码" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "尺码").asOpt[String])">
+                <input type="text" id="fs_尺码" name="尺码" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "尺码").asOpt[String])">
                 <span class="input-group-addon">적용범위:</span>
-                <input type="text" name="适用类型" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "适用类型").asOpt[String])">
+                <input type="text" id="fs_适用类型" name="适用类型" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "适用类型").asOpt[String])">
 
             </div>
 
             <div class="col-md-6 input-group" style="padding-top: 20px">
 
                 <span class="input-group-addon">스타일:</span>
-                <input type="text" name="风格" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "风格").asOpt[String])">
+                <input type="text" id="fs_风格" name="风格" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "风格").asOpt[String])">
                 <span class="input-group-addon">유행요소:</span>
-                <input type="text" name="流行元素" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "流行元素").asOpt[String])">
+                <input type="text" id="fs_流行元素" name="流行元素" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "流行元素").asOpt[String])">
 
             </div>
             <div class="col-md-2 col-md-offset-2" style="margin-top:20px;margin-bottom:20px">

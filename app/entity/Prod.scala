@@ -20,18 +20,18 @@ object Prod {
 
       val catetory_id = p_type.id
 
-      val status = "T"
+      //val status = "T"
 
-      SQL(""" update products set name = {name}, category_id = {category_id}, tags = array_to_json({tags}::character varying[])::jsonb, attr = {attr}::jsonb, spec = {spec}::jsonb, images = array_to_json({images}::character varying[])::jsonb, price = {price}, market_price = {market_price}, amount = {amount}, extra = {extra}::jsonb, status = {status} where product_id = {product_id} """).on("name"->p_name, "category_id"->catetory_id , "tags"->tags, "attr"->attr, "spec"->spec, "images"->images, "price"->price, "market_price"->maret_pirce, "amount"->amount, "extra"->extra, "status"->status, "product_id"->product_id).execute()
+      SQL(""" update products set name = {name}, category_id = {category_id}, tags = array_to_json({tags}::character varying[])::jsonb, attr = {attr}::jsonb, spec = {spec}::jsonb, images = array_to_json({images}::character varying[])::jsonb, price = {price}, market_price = {market_price}, amount = {amount}, extra = {extra}::jsonb where product_id = {product_id} """).on("name"->p_name, "category_id"->catetory_id , "tags"->tags, "attr"->attr, "spec"->spec, "images"->images, "price"->price, "market_price"->maret_pirce, "amount"->amount, "extra"->extra,  "product_id"->product_id).execute()
 
     }
   }
 
 
-  def init (p_type: Prod_Type.prod_type, p_name:String, amount:Int, kr_string:String) = {
+  def init (p_type: Prod_Type.prod_type, p_name:String, amount:Int, kr_string:String, user_id:Long) = {
     DB.withConnection("products") { implicit  conn =>
       val category_id = p_type.id
-      SQL(""" insert into products ( name, category_id, amount, kr_string )values ( {name}, {category_id}, {amount}, {kr_string}::jsonb) """).on("name"->p_name, "category_id"->category_id, "amount"->amount, "kr_string"->kr_string).execute()
+      SQL(""" insert into products ( name, category_id, amount, kr_string, created_id )values ( {name}, {category_id}, {amount}, {kr_string}::jsonb, {created_id}) """).on("name"->p_name, "category_id"->category_id, "amount"->amount, "kr_string"->kr_string, "created_id"->user_id).execute()
 
     }
   }
@@ -76,10 +76,24 @@ object Prod {
     }
   }
 
+  /**
+    * 根据用户产品列表
+    * @param p_type
+    * @return
+    */
+  def list(p_type: Prod_Type.prod_type, user_id:Long, start :Int, size: Int) : List[Map[String, Any]] = {
+    DB.withConnection("products") { implicit conn =>
+      val catetory_id = p_type.id
+
+      SQL(""" select count(*) over () as count , * from products where category_id = {category_id} and created_id = {user_id} and status= 'I' order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "user_id"->user_id,  "start"->start, "size"->size).as(parser.*)
+
+    }
+  }
+
   def download_list () : List[Map[String, Any]] = {
     DB.withConnection("products") { implicit conn =>
 
-      SQL(""" select  * from products where status = 'T' order by product_id desc """).as(parser.*)
+      SQL(""" select  * from products where status = 'I' order by product_id desc """).as(parser.*)
 
     }
   }

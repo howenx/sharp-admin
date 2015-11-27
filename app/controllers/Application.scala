@@ -45,7 +45,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
         case User_Type.SELLER =>
           Redirect(routes.Application.list_supply(None))
         case User_Type.TRANSLATION =>
-          Redirect(routes.Application.list_supply(None))
+          Redirect(routes.Application.list(None))
         case _ =>
           Ok(views.html.welcome(lang, user))
       }
@@ -70,6 +70,32 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
   //  }
 
   def list_supply(id: Option[Int], start: Int) = withUser { user => {
+    implicit request => {
+      id match {
+        case Some(category_id) =>
+          val ret = Prod.list(Prod_Type.apply(id.get), user.id, start, size)
+          Logger.debug(ret.toString())
+          val r:List[Map[String, Any]] = ret match {
+            case Nil =>
+              //val any_id:Any = id.get
+              //初始化一个空的内容
+              List(Map("products.category_id"->id.get , ".count"->0,"products.product_id"->"","products.name"->"","products.status"->""))
+            case _ =>
+              ret
+          }
+
+          Ok(views.html.supply.my_list_data("cn", user, r, start))
+        case None =>
+          val ret = Prod.list(Prod_Type.hzp, user.id, start, size)
+          //Logger.debug(ret.toString())
+          Ok(views.html.supply.my_list("cn", user, ret, start))
+      }
+    }
+  }
+
+  }
+
+  def list(id: Option[Int], start: Int) = withUser { user => {
     implicit request => {
       id match {
         case Some(category_id) =>
@@ -437,6 +463,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
         val extra = Json.parse(map("products.extra").toString)
         val spec = Json.parse(map("products.spec").toString)
         val attr = Json.parse(map("products.attr").toString)
+        val kr_string = Json.parse(map("products.kr_string").toString)
         cNum = 0
         val r = sheet.createRow(rNum)
         cell = r.createCell(cNum)
@@ -449,31 +476,31 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
         cell.setCellValue(map("products.name").toString)
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "商品名称(英文)").asOpt[String].getOrElse(""))
+        cell.setCellValue((kr_string \ "英文名称").asOpt[String].getOrElse(""))
         cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "其他名称").asOpt[String].getOrElse(""))
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "型号").asOpt[String].getOrElse(""))
+        cell.setCellValue((spec \ "型号").asOpt[String].getOrElse(""))
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "规格").asOpt[String].getOrElse("件"))
+        cell.setCellValue((spec \ "规格").asOpt[String].getOrElse("件"))
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "产地").asOpt[String].getOrElse("韩国"))
+        cell.setCellValue((spec \ "原产地").asOpt[String].getOrElse("韩国"))
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "功能").asOpt[String].getOrElse("装饰"))
+        cell.setCellValue((spec \ "用途").asOpt[String].getOrElse("装饰"))
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "用途").asOpt[String].getOrElse("佩戴"))
+        cell.setCellValue((spec \ "用途").asOpt[String].getOrElse("佩戴"))
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "成份").asOpt[String].getOrElse(""))
+        cell.setCellValue((spec \ "成份").asOpt[String].getOrElse(""))
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "出厂日期").asOpt[String].getOrElse(""))
+        cell.setCellValue((spec \ "出厂日期").asOpt[String].getOrElse(""))
         cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "其他备注").asOpt[String].getOrElse(""))
@@ -482,7 +509,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
         cell.setCellValue((extra \ "商品图片").asOpt[String].getOrElse(""))
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "商品单位").asOpt[String].getOrElse("件"))
+        cell.setCellValue((spec \ "单位").asOpt[String].getOrElse("件"))
         cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue(map("products.amount").toString)
@@ -590,8 +617,6 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
             filename = "supply" + "/" + DateTimeFormat.forPattern("yyyy-MM-dd").print(new DateTime) + "/" + System.currentTimeMillis + f.filename.replaceFirst("^[^.]*", "")
 
             oss ! OSS(f.ref, filename)
-
-
           }
 
           map.asFormUrlEncoded match {
@@ -606,10 +631,10 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
               m -= ("p_type")
               val amount = m("amount").toInt
               val name = m("name")
-              m += ("添加时间" -> DateTimeFormat.longDateTime().print(new DateTime()))
-              m += ("添加人" -> user.id.toString)
+              //m += ("添加时间" -> DateTimeFormat.longDateTime().print(new DateTime()))
+              //m += ("添加人" -> user.id.toString)
               val kr_string = Json.toJson(m).toString()
-              Prod.init(Prod_Type.withName(p_type), name, amount, kr_string)
+              Prod.init(Prod_Type.withName(p_type), name, amount, kr_string,user.id)
 
           }
 
@@ -651,8 +676,6 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
               val kr_string = Json.toJson(m).toString()
               Prod.update_krstring(product_id.toLong, name, amount, kr_string)
               Redirect(routes.Application.list_supply(None))
-
-
           }
 
         case None =>
@@ -729,7 +752,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
                   val images = s"{$filename}";
 
                   //得到规格
-                  val spec_set = Set("品牌", "成分", "肤质", "类别", "功能", "型号", "规格", "用途", "原产地", "单位", "尺寸")
+                  val spec_set = Set("品牌", "成份", "肤质", "类别", "功能", "型号", "规格", "用途", "原产地", "单位", "尺寸")
                   val spec = Json.toJson(m.filterKeys(spec_set.contains(_))).toString()
                   m --= spec_set
 
@@ -738,7 +761,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
                   Prod.update(product_id.toLong, Prod_Type.hzp, name, tags, attr, spec, images, price, market_price, amount, extra)
                   //val price = map(price)
-                  Redirect(routes.Application.list_supply(None))
+                  Redirect(routes.Application.list(None))
                   //map -= (name","price")
 
                 case Prod_Type.ps =>
@@ -772,7 +795,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
                   m --= attr_set
 
                   //得到规格
-                  val spec_set = Set("品牌", "成分", "肤质", "类别", "功能", "型号", "规格", "用途", "原产地", "单位", "尺寸")
+                  val spec_set = Set("品牌", "成份", "肤质", "类别", "功能", "型号", "规格", "用途", "原产地", "单位", "尺寸")
                   val spec = Json.toJson(m.filterKeys(spec_set.contains(_))).toString()
                   m --= spec_set
 
@@ -785,7 +808,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
                   Prod.update(product_id.toLong, Prod_Type.ps, name, tags, attr, spec, images, price, market_price, amount, extra)
 
-                  Redirect(routes.Application.list_supply(None))
+                  Redirect(routes.Application.list(None))
 
                 case Prod_Type.fs =>
                   Logger.debug(m.toString())
@@ -806,17 +829,25 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
                   m -= "amount"
 
                   //得到图片
-                  val images_set = ("image")
-                  val images = m.filterKeys(images_set.contains(_)).map(_._2).mkString("{", ",", "}")
-                  m -= ("image")
+//                  val images_set = ("image")
+//                  val images = m.filterKeys(images_set.contains(_)).map(_._2).mkString("{", ",", "}")
+//                  m -= ("image")
+
+                  //得到图片
+                  if (filename != null) {
+                    filename = configuration.getString("oss.prefix").get + filename
+                  }else {
+                    filename = ""
+                  }
+                  val images = s"{$filename}";
 
                   //得到属性
-                  val attr_set = Set("批次", "型号", "颜色")
+                  val attr_set = Set("颜色")
                   val attr = Json.toJson(m.filterKeys(attr_set.contains(_))).toString()
                   m --= attr_set
 
                   //得到规格
-                  val spec_set = Set("一级分类", "二级分类", "三级分类")
+                  val spec_set = Set("品牌","一级分类", "二级分类", "三级分类","成份", "型号", "规格", "用途", "原产地", "单位", "版型", "上市时间", "里料分类", "图案", "适用年龄", "领型", "衣长", "袖型", "衣门襟", "尺码", "适用类型","风格","流行元素")
                   val spec = Json.toJson(m.filterKeys(spec_set.contains(_))).toString()
                   m --= spec_set
 
@@ -829,7 +860,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
                   Prod.update(product_id.toLong, Prod_Type.fs, name, tags, attr, spec, images, price, market_price, amount, extra)
 
-                  Redirect(routes.Application.list_supply(None))
+                  Redirect(routes.Application.list(None))
               }
 
 
