@@ -1,5 +1,6 @@
 package mapper;
 
+import entity.Item;
 import entity.Slider;
 import entity.Theme;
 
@@ -20,4 +21,6 @@ public interface ThemeMapper {
      void deleteSlider(Long id);
 
      List<Theme> getThemePage(Theme theme);
+
+     List<Item> getItemsAll();
 }
