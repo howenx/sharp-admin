@@ -117,4 +117,12 @@ public class ItemServiceImpl implements ItemService{
     public List<Inventory> getinventoriesByItemId(Long itemId) {
         return inventoryMapper.getInventoriesByItemId(itemId);
     }
+
+    /**
+     * added by Tiffany Zhu 15/11/27.
+     * 商品查询
+     * @return list
+     */
+    @Override
+    public List<Item> itemSearch() { return itemMapper.getItemsAll(); }
 }

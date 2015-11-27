@@ -27,4 +27,6 @@ public interface ItemService {
     Brands getBrand(Long brandId);
 
     Cates getCate(Long cateId);
+
+    public List<Item> itemSearch();
 }

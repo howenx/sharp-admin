@@ -20,5 +20,5 @@ public interface ThemeService {
 
     public List<Theme> themeSearch(Theme theme);
 
-    public List<Item> itemSearch();
+
 }

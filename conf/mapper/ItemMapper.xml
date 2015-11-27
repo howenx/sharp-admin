@@ -94,4 +94,11 @@
         where id = #{id}
     </update>
 
+    <select id="getItemsAll" resultType="entity.Item">
+        select
+        <include refid="itemColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from items t where state = 'Y'
+    </select>
 </mapper>

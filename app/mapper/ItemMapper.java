@@ -17,4 +17,6 @@ public interface ItemMapper {
     Item getItem(Long id);
 
     void itemUpdate(Item item);
+
+    List<Item> getItemsAll();
 }
