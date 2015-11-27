@@ -534,24 +534,19 @@ p {
 	font-size: 14px;
 	padding: 5px 10px;
 }
-.btn-flat, .btn, .btn-primary {
+.btn-flat, .btn {
 	display: inline-block;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
 	font-weight: 500;
-	background-color: #7cd8cb;
-	border-bottom: 3px solid #4ac8b6;
 	border-top: none;
 	border-left: none;
 	border-right: none;
 	font-size: 16px;
 	line-height: 25px;
 	text-transform: uppercase;
-	/*display: yes;*/
-	border-radius: 0;
 	vertical-align: top;
-	color: #FFFFFF;
 	padding: 10px 20px 8px;
 	border-radius: 3px;
 	cursor: pointer;

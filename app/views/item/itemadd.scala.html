@@ -3,14 +3,33 @@
 
 @scripts = {
 
-<link href="/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<!--<link href="/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">-->
+<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/slider.css"/>
 <link rel="stylesheet" href="/assets/css/item.css"/>
-<script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-<script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
-<script src="/assets/js/bootstrap-datetimepicker.ko.js"></script>
-<script src="/assets/js/rili.js"></script>
+<!--<script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>-->
+<!--<script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>-->
+<!--<script src="/assets/js/bootstrap-datetimepicker.ko.js"></script>-->
+<!--<script src="/assets/js/rili.js"></script>-->
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/item.js"></script>
+<script>
+    $(function(){
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY/MM/DD HH:mm:ss'
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY/MM/DD HH:mm:ss'
+            });
+        });
+    })
+</script>
 
 }
 
@@ -89,18 +108,18 @@
                     </div>
                     <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">销售期限</div></label>
                     <div class="col-sm-2">
-                        <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:ii" data-link-field="dtp_input1">
-                            <input class="form-control" size="16" type="text" value="" readonly="" id="onShelvesAt" name="onShelvesAt">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" />
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                            </span>
                         </div>
                     </div>
-                    <div class="col-sm-1" style="font-size: 24px;width:40px;margin-left:40px;">~</div>
+                    <div class="col-sm-1 control-label" style="font-size: 24px;text-align: center;padding-top: 0;">~</div>
                     <div class="col-sm-2">
-                        <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:ii" data-link-field="dtp_input1">
-                            <input class="form-control" size="16" type="text" value="" readonly="" id="offShelvesAt" name="offShelvesAt">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        <div class='input-group date' id='datetimepicker2'>
+                            <input type='text' class="form-control" />
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                            </span>
                         </div>
                         <div id="warn-date" style="color:red; margin-left:260px;margin-top:-30px; width:100px;"></div>
                     </div>
@@ -123,8 +142,8 @@
                                     <th width="50">限购数量</th>
                                     <th width="140">库存地</th>
                                     <th width="100">主图(一张)</th>
-                                    <th width="280">详情页预览图(最多6张)</th>
-                                    <th width="60" class="add-goods add">添加商品</th>
+                                    <th width="260">详情页预览图(最多6张)</th>
+                                    <th class="add-goods add">添加商品</th>
                                 </tr>
                                 <tr>
                                     <td>

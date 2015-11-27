@@ -86,8 +86,9 @@ $(function(){
 
          //添加商品主图主图后,添加图片按钮置为不可点击且颜色变为灰色
          if (id.indexOf("M")>=0&&document.getElementById(galleryId).getElementsByTagName("div").length>0) {
-             $("#"+id).attr({"disabled":true});
-             document.getElementById('masterImgAdd'+id).style.background="#ccc";
+             //$("#"+id).attr({"disabled":true});
+             //document.getElementById('masterImgAdd'+id).style.background="#ccc";
+             $("#"+id).parent().css("display","none");
          }
 
          //添加主题宣传图后,添加图片按钮置为不可点击且颜色变为灰色
@@ -143,8 +144,9 @@ $(function(){
         //没有商品主图时,上传按钮置为可点击且颜色恢复
         if (document.getElementById(id).getElementsByTagName("div").length==1) {
             id = id.substring(7,9);
-            $("#"+id).removeAttr("disabled");
-            document.getElementById('masterImgAdd'+id).style.background="#00B7EE";
+            //$("#"+id).removeAttr("disabled");
+            //document.getElementById('masterImgAdd'+id).style.background="#00B7EE";
+            $("#"+id).parent().css("display","inline-block");
         }
         $(this).parent().remove();
     });
