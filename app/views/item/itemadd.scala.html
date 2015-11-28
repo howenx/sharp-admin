@@ -6,7 +6,6 @@
 <link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/slider.css"/>
 <link rel="stylesheet" href="/assets/css/item.css"/>
-<script src="/assets/js/jquery.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
@@ -27,7 +26,6 @@
 </script>
 
 }
-
 
 @import java.lang.String; var title=Messages.get(new Lang(Lang.forCode(lang)),"item.add.prodsAddTitle")
 
@@ -105,14 +103,14 @@
                     <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">销售期限</div></label>
                     <div class="col-sm-2">
                         <div class="input-group date" id='datetimepicker1'>
-                            <input class="form-control"  type="text"  id="onShelvesAt" name="onShelvesAt" style="width:200px;">
+                            <input class="form-control col-sm-2"  type="text"  id="onShelvesAt" name="onShelvesAt">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
                     <div class="col-sm-1" style="font-size: 24px;width:40px;margin-left:40px;margin-right:40px;">~</div>
                     <div class="col-sm-2">
                         <div class="input-group date" id='datetimepicker2'>
-                            <input class="form-control"  type="text"  id="offShelvesAt" name="offShelvesAt" style="width:200px;">
+                            <input class="form-control col-sm-2"  type="text"  id="offShelvesAt" name="offShelvesAt">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                         <div id="warn-date" style="color:red; margin-left:260px;margin-top:-30px; width:100px;"></div>
