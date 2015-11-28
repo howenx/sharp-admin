@@ -3,14 +3,28 @@
 
 @scripts = {
 
-<link href="/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/slider.css"/>
 <link rel="stylesheet" href="/assets/css/item.css"/>
-<script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-<script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
-<script src="/assets/js/bootstrap-datetimepicker.ko.js"></script>
-<script src="/assets/js/rili.js"></script>
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/item.js"></script>
+<script>
+    $(function(){
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+    })
+</script>
 
 }
 
@@ -33,7 +47,7 @@
         <span class="icon-path">&gt;</span>
         <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
         <span class="icon-path">&gt;</span>
-        <span>@Messages.get(new Lang(Lang.forCode(lang)),"nav.products.menu2")</span>
+        <span>商品修改</span>
     </div>
 </div>
 <div class="wrap-slider">
@@ -42,91 +56,90 @@
     </div>
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
-        <div  id="submitProducts" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
-        <div id="cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
+        <div  id="submitItem" class="btn-blue btn-form fr ml15">更新</div>
+        <div id="return" class="btn-white btn-form fr ml20">返回</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
     <div class="row">
         <form class="form-horizontal" method="post"   enctype="multipart/form-data">
-        <div class="upinfo">
-            <!-- 商品基本信息 -->
-            <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.basics")</h4>
-            <div class="form-group">
-                <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</div></label>
-                <div class="col-sm-2">
-                    <select class="form-control" id="categorySelect">
-                        <option value="@cates.getPcateId()">@pCateNm</option>
-                        @for(cate <- catesParentList) {
+            <div class="upinfo">
+                <input type="hidden" id="itemId" name="itemId" value="@item.getId()"/>
+                <!-- 商品基本信息 -->
+                <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.basics")</h4>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</div></label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="categorySelect">
+                            <option value="@cates.getPcateId()">@pCateNm</option>
+                            @for(cate <- catesParentList) {
                             <option value="@cate.getCateId()">@cate.getCateNm()
                             </option>
-                        }
-                    </select>
-                </div>
-                <div class="col-sm-2" id="divDynamicSubCates">
-                    <select class="form-control" id='categorySubSelect' name="cateId">
-                        <option value="@cates.getCateId()">@cates.getCateNm()</option>
-                    </select>
-                </div>
-                <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</div></label>
-                <div class="col-sm-2">
-                    <select class="form-control" id="bandSelect" name="brandId">
-                        <option value="@item.getBrandId">@brands.getBrandNm()</option>
-                        @for(b <- brandsList) {
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-2" id="divDynamicSubCates">
+                        <select class="form-control" id='categorySubSelect' name="cateId">
+                            <option value="@cates.getCateId()">@cates.getCateNm()</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</div></label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="bandSelect" name="brandId">
+                            <option value="@item.getBrandId">@brands.getBrandNm()</option>
+                            @for(b <- brandsList) {
                             <option value="@b.getBrandId()">@b.getBrandNm()
                             </option>
-                        }
-                    </select>
-                </div>
-                <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</div></label>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" id="supplyMerch" name="supplyMerch" value="@item.getSupplyMerch()">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">商品标题</div></label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" id="itemTitle" name="itemTitle" value="@item.getItemTitle()">
-                </div>
-                <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">销售期限</div></label>
-                <div class="col-sm-2">
-                    <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:ii" data-link-field="dtp_input1">
-                        <input class="form-control" size="16" type="text"  readonly="" id="onShelvesAt" name="onShelvesAt" value="@(item.getOnShelvesAt().toString().substring(0,16))">
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            }
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</div></label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="supplyMerch" name="supplyMerch" value="@item.getSupplyMerch()">
                     </div>
                 </div>
-                <div class="col-sm-1" style="font-size: 24px;width:40px;margin-left:40px;">~</div>
-                <div class="col-sm-2">
-                    <div class="input-group date form_datetime" data-date-format="dd-mm-yyyy hh:ii" data-link-field="dtp_input1">
-                        <input class="form-control" size="16" type="text"  readonly="" id="offShelvesAt" name="offShelvesAt" value="@(item.getOffShelvesAt().toString().substring(0,16))">
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">商品标题</div></label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="itemTitle" name="itemTitle" value="@item.getItemTitle()">
                     </div>
-                    <div id="warn-date" style="color:red; margin-left:260px;margin-top:-30px; width:100px;"></div>
+                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">销售期限</div></label>
+                    <div class="col-sm-2">
+                        <div class="input-group date" id='datetimepicker1'>
+                            <input class="form-control"  type="text"  id="onShelvesAt" name="onShelvesAt" value="@(item.getOnShelvesAt().toString().substring(0,19))" style="width:200px;">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-1" style="font-size: 24px;width:40px;margin-left:40px;margin-right:40px;">~</div>
+                    <div class="col-sm-2">
+                        <div class="input-group date" id='datetimepicker2'>
+                            <input class="form-control"  type="text"  id="offShelvesAt" name="offShelvesAt" value="@(item.getOffShelvesAt().toString().substring(0,19))" style="width:200px;" >
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                        <div id="warn-date" style="color:red; margin-left:260px;margin-top:-30px; width:100px;"></div>
+                    </div>
                 </div>
-            </div>
-            <!-- 商品库存信息-->
-            <h4 class="h4-custom-hmm">商品库存信息</h4>
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <div class="goods-info1">
-                        <table class="table table-bordered qubian inv" id="inventory">
-                            <tr>
-                                <th width="80">设为主商品</th>
-                                <th width="60">颜色分类</th>
-                                <th width="60">尺寸分类</th>
-                                <th width="60">库存数量</th>
-                                <th width="60">现价(￥)</th>
-                                <th width="60">原价(￥)</th>
-                                <th width="60">成本价(￥)</th>
-                                <th width="60">折扣</th>
-                                <th width="60">限购数量</th>
-                                <th width="140">库存地</th>
-                                <th width="100">主图(一张)</th>
-                                <th width="280">详情页预览图(最多6张)</th>
-                                <th width="60" class="add-goods add">添加商品</th>
-                            </tr>
-                            @for(inventory <-  inventories) {
+                <!-- 商品库存信息-->
+                <h4 class="h4-custom-hmm">商品库存信息</h4>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="goods-info1">
+                            <table class="table table-bordered qubian inv" id="inventory">
+                                <tr>
+                                    <th width="80">设为主商品</th>
+                                    <th width="60">颜色分类</th>
+                                    <th width="60">尺寸分类</th>
+                                    <th width="60">库存数量</th>
+                                    <th width="60">现价(￥)</th>
+                                    <th width="60">原价(￥)</th>
+                                    <th width="60">成本价(￥)</th>
+                                    <th width="60">折扣</th>
+                                    <th width="60">限购数量</th>
+                                    <th width="140">库存地</th>
+                                    <th width="100">主图(一张)</th>
+                                    <th width="280">详情页预览图(最多6张)</th>
+                                    <th width="60" class="add-goods add">添加商品</th>
+                                </tr>
+                                @for(inventory <-  inventories) {
                                 <tr>
                                     <td>
                                         <input type="radio" name="orMasterInv" checked="checked" value="@inventory.getOrMasterInv()"/>
@@ -157,138 +170,141 @@
                                     </td>
                                     <td>
                                         @if(inventory.getInvArea()=="B"){
-                                            <input type="radio" name="@inventory.getId()" value="B" checked="checked"/><div class="area">保税区</div>
-                                            <input type="radio" name="@inventory.getId()" value="Z"/><div class="area">韩国直邮</div>
+                                        <input type="radio" name="@inventory.getId()" value="B" checked="checked"/><div class="area">保税区</div>
+                                        <input type="radio" name="@inventory.getId()" value="Z"/><div class="area">韩国直邮</div>
                                         }
                                         @if(inventory.getInvArea()=="Z"){
-                                            <input type="radio" name="@inventory.getId()" value="B"/><div class="area">保税区</div>
-                                            <input type="radio" name="@inventory.getId()" value="Z" checked="checked"/><div class="area">韩国直邮</div>
+                                        <input type="radio" name="@inventory.getId()" value="B"/><div class="area">保税区</div>
+                                        <input type="radio" name="@inventory.getId()" value="Z" checked="checked"/><div class="area">韩国直邮</div>
                                         }
                                     </td>
                                     <td class="list-img">
-                                        <div id="galleryM1">
+                                        <div >
                                             <div>
                                                 <img class="main-img" src="@url@inventory.getInvImg()" alt="">
                                                 <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </div>
                                         </div>
-                                        <span class="add" id="masterImgAddM1" style="background:#ccc;">＋
-                                            <input type="file" id="M1" name="invImg" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png" disabled="true"/>
+                                        <span class="add"  style="display:none" >＋
+                                            <input type="file"  name="invImg" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                                         </span>
                                     </td>
                                     <td width="146" class="preview-img">
-                                        <div id="galleryP1">
+                                        <div >
                                             @for(pre <- inventory.getItemPreviewImgs().substring(1,inventory.getItemPreviewImgs().length()-1).split(", ")) {
-                                                <div>
-                                                    <img class="main-img" src="@url@pre.substring(1,pre.length()-1)" alt="">
-                                                    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                </div>
+                                            <div>
+                                                <img class="main-img" src="@url@pre.substring(1,pre.length()-1)" alt="">
+                                                <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
                                             }
                                         </div>
-                                        <span class="add" id="preImgAddP1">＋
-                                            <input type="file" id="P1" name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
+                                        <span class="add" >＋
+                                            <input type="file"  name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
                                         </span>
                                     </td>
-                                    <td class="del">删除</td>
+                                    <td class="del">
+                                        删除
+                                        <input type="hidden" value="@inventory.getId()"/>
+                                    </td>
                                 </tr>
-                            }
-                        </table>
+                                }
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group" style="margin-top:-100px;">
-                <label class="col-sm-1 control-label" ><div id="warn-inv" style="color:red;width:200px;margin-left:-80px;"></div></label>
-            </div>
-            <h4 class="h4-custom-hmm">商品设置</h4>
-            <div class="form-group">
-                <label class="col-sm-1 control-label" ><div class="r">重要通告</div></label>
-                <div class="col-sm-5">
-                    <textarea rows="6"  class="form-control" id="itemNotice" name="itemNotice">@item.getItemNotice()</textarea>
+                <div class="form-group" style="margin-top:-100px;">
+                    <label class="col-sm-1 control-label" ><div id="warn-inv" style="color:red;width:200px;margin-left:-80px;"></div></label>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div>优惠信息</label>
+                <h4 class="h4-custom-hmm">商品设置</h4>
                 <div class="form-group">
-                    <div class="col-sm-3">
-                        <table class="table table-bordered pub" id="publicityTab">
-                            <tr>
-                                <td><input type="text" id="publicity"/></td>
-                                <td class="add1">添加</td>
-                            </tr>
-                            @for(pub <- item.getPublicity().substring(1,item.getPublicity().length()-1).split(", ")) {
+                    <label class="col-sm-1 control-label" ><div class="r">重要通告</div></label>
+                    <div class="col-sm-5">
+                        <textarea rows="6"  class="form-control" id="itemNotice" name="itemNotice">@item.getItemNotice()</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div>优惠信息</label>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <table class="table table-bordered pub" id="publicityTab">
+                                <tr>
+                                    <td><input type="text" id="publicity"/></td>
+                                    <td class="add1">添加</td>
+                                </tr>
+                                @for(pub <- item.getPublicity().substring(1,item.getPublicity().length()-1).split(", ")) {
                                 <tr>
                                     <td>@(pub.substring(1,pub.length()-1))</td>
                                     <td class="del">删除</td>
                                 </tr>
-                            }
-                        </table>
+                                }
+                            </table>
+                        </div>
+                        <div id="warn-pub" style="color:red;margin-top:10px;"></div>
                     </div>
-                    <div id="warn-pub" style="color:red;margin-top:10px;"></div>
+
                 </div>
 
-            </div>
+                <!-- 商品详细信息-->
+                <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.details")</h4>
 
-            <!-- 商品详细信息-->
-            <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.details")</h4>
-
-            <div class="form-group">
-                <label class="col-sm-1 control-label"><div class="r" style="padding:3px;">*</div><div class="r">主题宣传图</div><div style="margin-top:20px;margin-right:30px;">(一张)</div></label>
-                <div class="col-sm-2">
-                    <div class="master-img" style="border:1px solid #ccc; height:80px;">
-                        <div id="galleryT">
-                            <div>
-                                <img class="main-img" src="@url@item.getItemMasterImg()" alt="">
-                                <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;">*</div><div class="r">主题宣传图</div><div style="margin-top:20px;margin-right:30px;">(一张)</div></label>
+                    <div class="col-sm-2">
+                        <div class="master-img" style="border:1px solid #ccc; height:80px;">
+                            <div id="galleryT" style="margin-top:15px;margin-left:10px;">
+                                <div>
+                                    <img class="main-img" src="@url@item.getItemMasterImg()" alt="">
+                                    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="add" id="masterThImgAdd" style="margin-top:30px;margin-left:10px;background:#ccc;" >＋
-                            <input type="file" id="T" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png" disabled="disabled"/>
+                            <span class="add" id="masterThImgAdd" style="margin-top:30px;margin-left:10px;display:none;" >＋
+                                <input type="file" id="T" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                            </span>
                         </div>
                     </div>
-                </div>
-                <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
-                <div class="col-sm-4">
-                    <div class="detail-img" style="border:1px solid #ccc;">
-                        <div id="galleryD">
-                            @for(detail <- item.getItemDetailImgs().substring(1,item.getItemDetailImgs().length()-1).split(", ")) {
+                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
+                    <div class="col-sm-4">
+                        <div class="detail-img" style="border:1px solid #ccc;">
+                            <div id="galleryD">
+                                @for(detail <- item.getItemDetailImgs().substring(1,item.getItemDetailImgs().length()-1).split(", ")) {
                                 <div>
                                     <img class="main-img" src="@url@detail.substring(1,detail.length()-1)" alt="">
                                     <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
-                            }
+                                }
+                            </div>
+                            <span class="add" style="margin:30px 5px;">＋
+                                <input type="file" id="D" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                            </span>
                         </div>
-                        <div class="add" style="margin:30px 5px;">＋
-                            <input type="file" id="D" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
-                        </div>
+                        <div id="warn-masthimg" style="color:red;margin-top:-70px; margin-left:400px;width:120px;"></div>
+                        <div id="warn-detailimg" style="color:red;margin-top:10px; margin-left:400px;width:120px;margin-bottom:50px;"></div>
                     </div>
-                    <div id="warn-masthimg" style="color:red;margin-top:-70px; margin-left:400px;width:120px;"></div>
-                    <div id="warn-detailimg" style="color:red;margin-top:10px; margin-left:400px;width:120px;margin-bottom:50px;"></div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">商品参数</div></label>
-                <div class="col-sm-7">
-                    <input type="hidden" class="form-control" id="features" name="features">
-                    <input type="hidden" id="del" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")'>
-                    <table class="table table-bordered qubian feature" id="tabFea">
-                        <tr>
-                            <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureName")</td>
-                            <td width=500px>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureValue")</td>
-                            <td class="add">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.add")</td>
-                        </tr>
-                        @for(itemFeature <- item.getItemFeatures.substring(1,item.getItemFeatures.length-1).split(", ")) {
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">商品参数</div></label>
+                    <div class="col-sm-7">
+                        <input type="hidden" class="form-control" id="features" name="features">
+                        <input type="hidden" id="del" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")'>
+                        <table class="table table-bordered qubian feature" id="tabFea">
+                            <tr>
+                                <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureName")</td>
+                                <td width=500px>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureValue")</td>
+                                <td class="add">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.add")</td>
+                            </tr>
+                            @for(itemFeature <- item.getItemFeatures.substring(1,item.getItemFeatures.length-1).split(", ")) {
                             <tr>
                                 <td><input type="text" name="attrN" value='@itemFeature.substring(1,itemFeature.indexOf(":")-1)'/></td>
                                 <td><input type="text" name="attrV" value='@itemFeature.substring(itemFeature.indexOf(":")+3,itemFeature.length-1)'/></td>
                                 <td class="del" >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")</td>
                             </tr>
-                        }
-                    </table>
+                            }
+                        </table>
+                    </div>
+                    <div id="warn-attr" style="color:red; margin-left:0px;margin-top:15px;"></div>
                 </div>
-                <div id="warn-attr" style="color:red; margin-left:0px;margin-top:15px;"></div>
             </div>
-        </div>
         </form>
     </div>
 </div>

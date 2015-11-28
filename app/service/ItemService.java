@@ -16,11 +16,9 @@ public interface ItemService {
 
     List<Item> itemSearch(Item item);
 
-    List<Long> itemInsert(JsonNode json);
+    List<Long> itemSave(JsonNode json);
 
     Item getItem(Long id);
-
-    void itemUpdate(Item item);
 
     List<Inventory> getinventoriesByItemId(Long itemId);
 
@@ -28,5 +26,5 @@ public interface ItemService {
 
     Cates getCate(Long cateId);
 
-    public List<Item> itemSearch();
+    List<Item> getItemsAll();
 }

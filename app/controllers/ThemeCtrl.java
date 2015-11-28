@@ -3,7 +3,6 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.Theme;
 import entity.User;
-import mapper.ItemMapper;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
@@ -163,7 +162,7 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result thaddPop(){
-        return ok(views.html.theme.thaddPop.render(itemService.itemSearch()));
+        return ok(views.html.theme.thaddPop.render(itemService.getItemsAll()));
     }
 
 }
