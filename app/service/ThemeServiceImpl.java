@@ -70,7 +70,6 @@ public class ThemeServiceImpl implements ThemeService {
             }
         }
     }
-
     /**
      * 商品库存
      * Added by Tiffany Zhu 15/11/30.
@@ -78,5 +77,14 @@ public class ThemeServiceImpl implements ThemeService {
      */
     @Override
     public List<Inventory> getAllInventories(){return inventoryMapper.getAllInventories();}
+    /**
+     * Added by Tiffany Zhu 15/11/30.
+     * 主题保存
+     * @param json JsonNode
+     */
+    @Override
+    public void themeSave(JsonNode json){
+
+    }
 
 }

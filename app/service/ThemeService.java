@@ -22,4 +22,6 @@ public interface ThemeService {
     public List<Theme> themeSearch(Theme theme);
 
     public List<Inventory> getAllInventories();
+
+    public void themeSave(JsonNode json);
 }
