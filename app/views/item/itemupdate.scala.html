@@ -264,7 +264,7 @@
                     <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
                     <div class="col-sm-4">
                         <div class="detail-img" style="border:1px solid #ccc;">
-                            <div id="galleryD">
+                            <div id="galleryD" style="margin-bottom:5px;margin-top:15px;">
                                 @for(detail <- item.getItemDetailImgs().substring(1,item.getItemDetailImgs().length()-1).split(", ")) {
                                 <div>
                                     <img class="main-img" src="@url@detail.substring(1,detail.length()-1)" alt="">
@@ -272,7 +272,7 @@
                                 </div>
                                 }
                             </div>
-                            <span class="add" style="margin:30px 5px;">＋
+                            <span class="add" style="margin:25px 5px;">＋
                                 <input type="file" id="D" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                             </span>
                         </div>
