@@ -95,7 +95,7 @@ public class ProductCtrl extends Controller {
             pageCount = countNum/PAGE_SIZE+1;
         }
         products.setPageSize(PAGE_SIZE);
-        products.setOffset(1);
+        products.setOffset(0);
         return ok(prodslist.render(lang,IMAGE_URL,PAGE_SIZE,countNum,pageCount,(User) ctx().args.get("user"), prodService.getAllProducts(products)));
     }
 

@@ -54,7 +54,8 @@ public class ItemCtrl extends Controller {
         }
 
         item.setPageSize(ThemeCtrl.PAGE_SIZE);
-        item.setOffset(1);
+        item.setOffset(0);
+        Logger.error("所有商品:"+service.itemSearch(item).toString());
 
         return ok(views.html.item.itemlist.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,service.itemSearch(item),(User) ctx().args.get("user")));
     }
@@ -119,7 +120,7 @@ public class ItemCtrl extends Controller {
     }
 
     /**
-     *  由id获得单个商品及其库存信息
+     *  由商品id获得单个商品及其库存信息展示在详情页面
      * @param lang 语言
      * @param id 商品id
      * @return
@@ -131,21 +132,33 @@ public class ItemCtrl extends Controller {
         String pCateNm = service.getCate(cates.getPcateId()).getCateNm();
         Brands brands = service.getBrand(item.getBrandId());
         List<Inventory> inventories = service.getinventoriesByItemId(id);
-        return ok(views.html.item.itemupdate.render(item,inventories,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,prodService.getAllBrands(),prodService.getParentCates(),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemdetail.render(item,inventories,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,(User) ctx().args.get("user")));
     }
 
-    public Result itemUpdate(String lang, Long id) {
-        return ok();
+    /**
+     * 由商品id获得单个商品及其库存信息展示在修改页面
+     * @param lang 语言
+     * @param id 商品id
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result updateItemById(String lang,Long id) {
+        Item item = service.getItem(id);
+        Cates cates = service.getCate(item.getCateId());
+        String pCateNm = service.getCate(cates.getPcateId()).getCateNm();
+        Brands brands = service.getBrand(item.getBrandId());
+        List<Inventory> inventories = service.getinventoriesByItemId(id);
+        return ok(views.html.item.itemupdate.render(item,inventories,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,prodService.getAllBrands(),prodService.getParentCates(),(User) ctx().args.get("user")));
     }
 
     /**
      * 添加商品
      * @return Result
      */
-    public Result itemInsert() {
+    public Result itemSave() {
         JsonNode json = request().body().asJson();
         Logger.error(json.toString());
-        List<Long> list = service.itemInsert(json);
+        List<Long> list = service.itemSave(json);
         return ok(list.toString());
     }
 }

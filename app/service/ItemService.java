@@ -16,15 +16,15 @@ public interface ItemService {
 
     List<Item> itemSearch(Item item);
 
-    List<Long> itemInsert(JsonNode json);
+    List<Long> itemSave(JsonNode json);
 
     Item getItem(Long id);
-
-    void itemUpdate(Item item);
 
     List<Inventory> getinventoriesByItemId(Long itemId);
 
     Brands getBrand(Long brandId);
 
     Cates getCate(Long cateId);
+
+    List<Item> getItemsAll();
 }

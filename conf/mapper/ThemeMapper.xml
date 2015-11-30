@@ -96,41 +96,4 @@
             LIMIT #{pageSize} OFFSET #{offset}
         </if>
     </select>
-
-    <sql id="itemColumns">
-        ${alias}.id ,
-        ${alias}.cate_id ,
-        ${alias}.brand_id ,
-        ${alias}.item_title ,
-        ${alias}.supply_merch ,
-        ${alias}.on_shelves_at ,
-        ${alias}.off_shelves_at ,
-        ${alias}.item_master_img ,
-        ${alias}.item_detail_imgs ::text,
-        ${alias}.item_features ::text,
-        ${alias}.theme_id ,
-        ${alias}.state ,
-        ${alias}.share_url ,
-        ${alias}.share_count ,
-        ${alias}.collect_count ,
-        ${alias}.browse_count ,
-        ${alias}.item_notice ,
-        ${alias}.or_destroy ,
-        ${alias}.destroy_at ,
-        ${alias}.update_at ,
-        ${alias}.create_at ,
-        ${alias}.master_inv_id ,
-        ${alias}.publicity::text
-
-    </sql>
-    <!---  商品    -->
-    <select id="getItemsAll" resultType="entity.Item">
-        select
-        <include refid="itemColumns">
-            <property name="alias" value="t"/>
-        </include>
-        from items t where state = 'Y'
-    </select>
-
-
 </mapper>

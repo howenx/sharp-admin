@@ -66,11 +66,5 @@ public class ThemeServiceImpl implements ThemeService {
             }
         }
     }
-    /**
-     * added by Tiffany Zhu 15/11/27.
-     * 商品查询
-     * @return list
-     */
-    @Override
-    public List<Item> itemSearch() { return themeMapper.getItemsAll(); }
+
 }

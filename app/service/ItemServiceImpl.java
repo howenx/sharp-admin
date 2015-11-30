@@ -43,12 +43,12 @@ public class ItemServiceImpl implements ItemService{
 
 
     /**
-     * 录入商品和库存信息记录
+     * 录入或更新商品信息和库存信息
      * @param json 商品和库存信息json串
      * @return
      */
     @Override
-    public List<Long> itemInsert(JsonNode json) {
+    public List<Long> itemSave(JsonNode json) {
         List<Long> list = new ArrayList<>();
         Item item = new Item();
         if (json.has("item")) {
@@ -67,8 +67,10 @@ public class ItemServiceImpl implements ItemService{
             item.setState("Y");
             item.setOrDestroy(false);
             Logger.error(item.toString());
-            this.itemMapper.itemInsert(item);
-
+            if (jsonItem.has("id")) {
+                this.itemMapper.itemUpdate(item);
+            }
+            else this.itemMapper.itemInsert(item);
         }
 
         if (json.has("inventories")) {
@@ -85,9 +87,12 @@ public class ItemServiceImpl implements ItemService{
                 inventory.setState("Y");
                 inventory.setShipFee(new BigDecimal(0.00));
                 inventory.setInvTitle(item.getItemTitle());
-                Logger.error(item.toString());
-                this.inventoryMapper.insertInventory(inventory);
-                list.add(item.getId());
+                Logger.error(inventory.toString());
+                if (jsonNode.has("id")) {
+                    this.inventoryMapper.updateInventory(inventory);
+                }
+                else this.inventoryMapper.insertInventory(inventory);
+                list.add(inventory.getId());
             }
         }
         return list;
@@ -109,12 +114,15 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public void itemUpdate(Item item) {
-
-    }
-
-    @Override
     public List<Inventory> getinventoriesByItemId(Long itemId) {
         return inventoryMapper.getInventoriesByItemId(itemId);
     }
+
+    /**
+     * added by Tiffany Zhu 15/11/27.
+     * 商品查询
+     * @return list
+     */
+    @Override
+    public List<Item> getItemsAll() { return itemMapper.getItemsAll(); }
 }

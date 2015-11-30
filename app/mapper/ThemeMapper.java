@@ -22,5 +22,4 @@ public interface ThemeMapper {
 
      List<Theme> getThemePage(Theme theme);
 
-     List<Item> getItemsAll();
 }

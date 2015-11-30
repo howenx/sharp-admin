@@ -2,14 +2,12 @@
 @(lang:String="cn",url:String,user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/jquery-ui.css">
-<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker.min.css"/>
 <link rel="stylesheet" href="/assets/css/slider.css">
 <link rel="stylesheet" href="/assets/css/screenshot.css">
 <link rel="stylesheet" href="/assets/css/upload.css">
 <link rel="stylesheet" href="/assets/css/button.css">
 <link rel="stylesheet" href="/assets/css/font-face.css">
 
-<script src="/assets/js/jquery.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/jquery-ui.min.js"></script>
 
@@ -18,21 +16,10 @@
 <script src="/assets/js/upload.style.js"></script>
 <script src="/assets/js/shot.style.js"></script>
 
-<script src="/assets/js/bootstrap-datetimepicker.js"></script>
-<script src="/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
-<script src="/assets/js/rili.js"></script>
-<script src="/assets/js/prods.js"></script>
 <script src="/assets/js/slider.js"></script>
 <script src="/assets/js/search.js"></script>
 
 <script>
-    function UpdateFields(obj) {
-        var index1=$(".table").find("tr:last").find("td").first().html();
-        for(i=0;i<$(obj).length;i++){
-            $(obj).eq(i).prepend($("<td class='index'>"+(Number(index1)+1+i)+"</td><td><input type='radio'  name='goods-main'></td>")).appendTo($(".table"));
-        }
-    }
-
     function ShowModal() {
         var sharedObject = {};
 
@@ -48,6 +35,25 @@
             modal.dialogArguments = sharedObject;
         }
     }
+
+    function UpdateFields(obj) {
+        var index1=$(".table").find("tr:last").find("td").first().html();
+        for(i=0;i<$(obj).length;i++){
+            $(obj).eq(i).prepend($("<td class='index'>"+(Number(index1)+1+i)+"</td><td><input type='radio'  name='goods-main'></td>")).appendTo($(".table"));
+        }
+    }
+
+    $(document).on('change','.upload1',function() {
+        var id=window.event.srcElement.id;
+        var files = this.files;
+        var li_dv=$(this).parent().parent();
+        $(this).parent().css("display","none");
+        console.log(li_dv);
+        for (var i = 0; i < files.length; i++) {
+            previewImage(li_dv,this.files[i], id);
+        }
+    });
+
     function previewImage(obj,file, id) {
         var gallery = obj;
         var imageType = /image.*/;
@@ -67,24 +73,6 @@
         $("<button>").addClass("close").css({"position":"absolute","top":"10px","right":"10px"}).attr("type","button").attr("aria-lable","Close").html('<span aria-hidden="true">' +
                 '&times;' +
                 '</span>').appendTo($(obj));
-
-//        //添加商品主图主图后,添加图片按钮置为不可点击且颜色变为灰色
-//        if (document.getElementById("galleryM").getElementsByTagName("div").length>0) {
-//            $("#M").attr({"disabled":true});
-//            document.getElementById('masterImgAdd').style.background="#ccc";
-//        }
-//
-//        //添加主题宣传图后,添加图片按钮置为不可点击且颜色变为灰色
-//        if (document.getElementById("galleryT").getElementsByTagName("div").length>0) {
-//            $("#T").attr({"disabled":true});
-//            document.getElementById('masterThImgAdd').style.background="#ccc";
-//        }
-//
-//        //商品预览图最多为6张
-//        if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==2) {
-//            $("#"+id).attr({"disabled":true});
-//            document.getElementById("preImgAdd"+id).style.background="#ccc";
-//        }
 
         upload(thumb, file, id);
         // Using FileReader to display the image content
@@ -119,6 +107,7 @@
         }
         http.send(formdata);
     }
+
     $(function(){
         var fixHelperModified = function (e, tr) {
                     var $originals = tr.children();
@@ -138,6 +127,7 @@
             stop: updateIndex
         }).disableSelection();
 
+<<<<<<< HEAD
 //
         $(document).on('change','.upload1',function() {
             var id=window.event.srcElement.id;
@@ -150,13 +140,15 @@
                 previewImage(li_dv,this.files[i], id);
             }
         });
+=======
+>>>>>>> 6d255bf6bb6d5ac6402c9bb0c5a647379a2d64de
         $(document).on("click",".img .close",function(){
             $(this).parents(".img").find(".upload1").val("");
             $(this).parents(".img").find(".btn-primary").css("display","block");
             $(this).parents(".img").find(".track").remove();
             $(this).parents(".li-dv").find(".text").css("display","none");
             $(this).remove();
-        })
+        });
     })
 </script>
 

@@ -35,7 +35,7 @@ $(function() {
 	/***************************************by howen******************************************************/
 	var funcList = {};
 
-	var longDateFormat = 'yyyy-MM-dd HH:mm';
+	var longDateFormat = 'yyyy-MM-dd HH:mm:ss';
 	//将当前时间设置为结束时间
 	// $('#topic-form-endtime').val($.format.date(new Date(), longDateFormat));
 
@@ -49,13 +49,15 @@ $(function() {
 		topicDto.endAt = $("#topic-form-endtime").val();
 		//起止时间如果为空
 		if ($("#topic-form-starttime").val() == '' || $("#topic-form-starttime").val() == null) {
-			topicDto.startAt = $.format.date("0000-01-01 00:00", longDateFormat)
+//			topicDto.startAt = $.format.date("0000-01-01 00:00:00", longDateFormat);
+			topicDto.startAt = "0000-01-01 00:00:00";
 		}
 		if ($("#topic-form-endtime").val() == '' || $("#topic-form-endtime").val() == null) {
-			topicDto.endAt = $.format.date("99999-12-31 23:59", longDateFormat)
+//			topicDto.endAt = $.format.date("99999-12-31 23:59:59", longDateFormat);
+			topicDto.endAt = "99999-12-31 23:59:59";
 		}
-		//调用共用ajax,url从根目录开始不需要加上语言
 
+		//调用共用ajax,url从根目录开始不需要加上语言
 		search("/topic/search/" + pageIndex, topicDto);
 	}
 

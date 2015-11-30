@@ -1,5 +1,7 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -12,6 +14,7 @@ public class Slider implements Serializable{
     private Long id;
     private String img;
     private Integer sortNu;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp createAt;
 
     public Slider(){}

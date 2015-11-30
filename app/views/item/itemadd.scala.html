@@ -3,15 +3,9 @@
 
 @scripts = {
 
-<!--<link href="/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">-->
 <link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/slider.css"/>
 <link rel="stylesheet" href="/assets/css/item.css"/>
-<!--<script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>-->
-<!--<script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>-->
-<!--<script src="/assets/js/bootstrap-datetimepicker.ko.js"></script>-->
-<!--<script src="/assets/js/rili.js"></script>-->
-<script src="/assets/js/jquery.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
@@ -21,11 +15,11 @@
         $(function () {
             $('#datetimepicker1').datetimepicker({
                 locale: 'zh-cn',
-                format:'YYYY/MM/DD HH:mm:ss'
+                format:'YYYY-MM-DD HH:mm:ss'
             });
             $('#datetimepicker2').datetimepicker({
                 locale: 'zh-cn',
-                format:'YYYY/MM/DD HH:mm:ss'
+                format:'YYYY-MM-DD HH:mm:ss'
             });
         });
     })
@@ -61,7 +55,7 @@
     </div>
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
-        <div  id="submitProducts" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
+        <div  id="submitItem" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
         <div id="cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
@@ -76,8 +70,8 @@
                         <select class="form-control" id="categorySelect">
                             <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
                             @for(cates <- catesParentList) {
-                                <option value="@cates.getCateId()">@cates.getCateNm()
-                                </option>
+                            <option value="@cates.getCateId()">@cates.getCateNm()
+                            </option>
                             }
                         </select>
                     </div>
@@ -91,8 +85,8 @@
                         <select class="form-control" id="bandSelect" name="brandId">
                             <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
                             @for(b <- brandsList) {
-                                <option value="@b.getBrandId()">@b.getBrandNm()
-                                </option>
+                            <option value="@b.getBrandId()">@b.getBrandNm()
+                            </option>
                             }
                         </select>
                     </div>
@@ -108,18 +102,16 @@
                     </div>
                     <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">销售期限</div></label>
                     <div class="col-sm-2">
-                        <div class='input-group date' id='datetimepicker1'>
-                            <input type='text' class="form-control" />
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
-                            </span>
+                        <div class="input-group date" id='datetimepicker1'>
+                            <input class="form-control col-sm-2"  type="text"  id="onShelvesAt" name="onShelvesAt">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
-                    <div class="col-sm-1 control-label" style="font-size: 24px;text-align: center;padding-top: 0;">~</div>
+                    <div class="col-sm-1" style="font-size: 24px;width:40px;margin-left:40px;margin-right:40px;">~</div>
                     <div class="col-sm-2">
-                        <div class='input-group date' id='datetimepicker2'>
-                            <input type='text' class="form-control" />
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
-                            </span>
+                        <div class="input-group date" id='datetimepicker2'>
+                            <input class="form-control col-sm-2"  type="text"  id="offShelvesAt" name="offShelvesAt">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                         <div id="warn-date" style="color:red; margin-left:260px;margin-top:-30px; width:100px;"></div>
                     </div>
@@ -191,7 +183,10 @@
                                             <input type="file" id="P1" name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
                                         </span>
                                     </td>
-                                    <td class="del">删除</td>
+                                    <td class="del">
+                                        删除
+                                        <input type="hidden" value=""/>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
@@ -236,11 +231,11 @@
                     <label class="col-sm-1 control-label"><div class="r" style="padding:3px;">*</div><div class="r">主题宣传图</div><div style="margin-top:20px;margin-right:30px;">(一张)</div></label>
                     <div class="col-sm-2">
                         <div class="master-img" style="border:1px solid #ccc; height:80px;">
-                            <div id="galleryT">
+                            <div id="galleryT" style="margin-top:15px;margin-left:10px;">
                             </div>
-                            <div class="add" id="masterThImgAdd" style="margin-top:30px;margin-left:10px;">＋
+                            <span class="add" id="masterThImgAdd" style="margin-top:30px;margin-left:10px;">＋
                                 <input type="file" id="T" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
-                            </div>
+                            </span>
                         </div>
                     </div>
                     <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
@@ -248,9 +243,9 @@
                         <div class="detail-img" style="border:1px solid #ccc;">
                             <div id="galleryD">
                             </div>
-                            <div class="add" style="margin:30px 5px;">＋
+                            <span class="add" style="margin:30px 5px;">＋
                                 <input type="file" id="D" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
-                            </div>
+                            </span>
                         </div>
                         <div id="warn-masthimg" style="color:red;margin-top:-70px; margin-left:400px;width:120px;"></div>
                         <div id="warn-detailimg" style="color:red;margin-top:10px; margin-left:400px;width:120px;margin-bottom:50px;"></div>
