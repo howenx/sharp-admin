@@ -43,17 +43,6 @@
         }
     }
 
-    $(document).on('change','.upload1',function() {
-        var id=window.event.srcElement.id;
-        var files = this.files;
-        var li_dv=$(this).parent().parent();
-        $(this).parent().css("display","none");
-        console.log(li_dv);
-        for (var i = 0; i < files.length; i++) {
-            previewImage(li_dv,this.files[i], id);
-        }
-    });
-
     function previewImage(obj,file, id) {
         var gallery = obj;
         var imageType = /image.*/;
@@ -127,8 +116,6 @@
             stop: updateIndex
         }).disableSelection();
 
-<<<<<<< HEAD
-//
         $(document).on('change','.upload1',function() {
             var id=window.event.srcElement.id;
             var files = this.files;
@@ -140,8 +127,7 @@
                 previewImage(li_dv,this.files[i], id);
             }
         });
-=======
->>>>>>> 6d255bf6bb6d5ac6402c9bb0c5a647379a2d64de
+
         $(document).on("click",".img .close",function(){
             $(this).parents(".img").find(".upload1").val("");
             $(this).parents(".img").find(".btn-primary").css("display","block");
