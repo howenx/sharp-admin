@@ -1,3 +1,4 @@
+@(items:List[entity.Item])
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 <script src="/assets/js/jquery.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
@@ -80,6 +81,22 @@
         <td></td>
         <td></td>
     </tr>
+    @for(item <- items){
+    <tr>
+        <td>
+            <input type="checkbox" name="goods">
+        </td>
+        <td>@item.getId()</td>
+        <td></td>
+        <td>@item.getItemTitle()</td>
+        <td> <img class="main-img" src="@item.getItemMasterImg()" alt="" width="50"></td>
+        @if(item.getOnShelvesAt()!=null){<td>@(item.getOnShelvesAt().toString().substring(0,16))</td>}
+        <td>@item.getState()</td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    }
     <tr>
         <td>
             <input type="checkbox" name="goods">

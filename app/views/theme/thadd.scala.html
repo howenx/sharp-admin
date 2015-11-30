@@ -2,14 +2,12 @@
 @(lang:String="cn",url:String,user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/jquery-ui.css">
-<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker.min.css"/>
 <link rel="stylesheet" href="/assets/css/slider.css">
 <link rel="stylesheet" href="/assets/css/screenshot.css">
 <link rel="stylesheet" href="/assets/css/upload.css">
 <link rel="stylesheet" href="/assets/css/button.css">
 <link rel="stylesheet" href="/assets/css/font-face.css">
 
-<script src="/assets/js/jquery.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/jquery-ui.min.js"></script>
 
@@ -18,20 +16,10 @@
 <script src="/assets/js/upload.style.js"></script>
 <script src="/assets/js/shot.style.js"></script>
 
-<script src="/assets/js/bootstrap-datetimepicker.js"></script>
-<script src="/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
-<script src="/assets/js/prods.js"></script>
 <script src="/assets/js/slider.js"></script>
 <script src="/assets/js/search.js"></script>
 
 <script>
-    function UpdateFields(obj) {
-        var index1=$(".table").find("tr:last").find("td").first().html();
-        for(i=0;i<$(obj).length;i++){
-            $(obj).eq(i).prepend($("<td class='index'>"+(Number(index1)+1+i)+"</td><td><input type='radio'  name='goods-main'></td>")).appendTo($(".table"));
-        }
-    }
-
     function ShowModal() {
         var sharedObject = {};
 
@@ -47,6 +35,14 @@
             modal.dialogArguments = sharedObject;
         }
     }
+
+    function UpdateFields(obj) {
+        var index1=$(".table").find("tr:last").find("td").first().html();
+        for(i=0;i<$(obj).length;i++){
+            $(obj).eq(i).prepend($("<td class='index'>"+(Number(index1)+1+i)+"</td><td><input type='radio'  name='goods-main'></td>")).appendTo($(".table"));
+        }
+    }
+
     function previewImage(obj,file, id) {
         var gallery = obj;
         var imageType = /image.*/;
@@ -66,24 +62,6 @@
         $("<button>").addClass("close").css({"position":"absolute","top":"10px","right":"10px"}).attr("type","button").attr("aria-lable","Close").html('<span aria-hidden="true">' +
                 '&times;' +
                 '</span>').appendTo($(obj));
-
-//        //添加商品主图主图后,添加图片按钮置为不可点击且颜色变为灰色
-//        if (document.getElementById("galleryM").getElementsByTagName("div").length>0) {
-//            $("#M").attr({"disabled":true});
-//            document.getElementById('masterImgAdd').style.background="#ccc";
-//        }
-//
-//        //添加主题宣传图后,添加图片按钮置为不可点击且颜色变为灰色
-//        if (document.getElementById("galleryT").getElementsByTagName("div").length>0) {
-//            $("#T").attr({"disabled":true});
-//            document.getElementById('masterThImgAdd').style.background="#ccc";
-//        }
-//
-//        //商品预览图最多为6张
-//        if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==2) {
-//            $("#"+id).attr({"disabled":true});
-//            document.getElementById("preImgAdd"+id).style.background="#ccc";
-//        }
 
         upload(thumb, file, id);
         // Using FileReader to display the image content
@@ -118,6 +96,7 @@
         }
         http.send(formdata);
     }
+
     $(function(){
         var fixHelperModified = function (e, tr) {
                     var $originals = tr.children();
@@ -137,26 +116,25 @@
             stop: updateIndex
         }).disableSelection();
 
-//
         $(document).on('change','.upload1',function() {
             var id=window.event.srcElement.id;
             var files = this.files;
             var li_dv=$(this).parent().parent();
             $(this).parent().css("display","none");
+            $(this).parents(".li-dv").find(".text").css("display","block");
             console.log(li_dv);
             for (var i = 0; i < files.length; i++) {
                 previewImage(li_dv,this.files[i], id);
             }
-            $(this).parents(".li-dv").find(".text").css("display","block");
         });
+
         $(document).on("click",".img .close",function(){
             $(this).parents(".img").find(".upload1").val("");
             $(this).parents(".img").find(".btn-primary").css("display","block");
             $(this).parents(".img").find(".track").remove();
             $(this).parents(".li-dv").find(".text").css("display","none");
             $(this).remove();
-
-        })
+        });
     })
 </script>
 
@@ -198,615 +176,615 @@
     </div>
 
     <div class="row">
-                <div class="col-sm-22">
-                    <form class="form-horizontal">
-                        <!-- 基本信息-->
-                        <h4 class="h4-custom-hmm">基本信息</h4>
-                        
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">交易名称</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">是否销售</label>
-                            <div class="col-sm-8 rad">
-                                <div class="radbd">
-                                    <input type="radio" name="xsh"/> 销售中
-                                    <input type="radio" name="xsh"/> 暂停
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">是否隐藏</label>
-                            <div class="col-sm-8 rad">
-                                <div class="radbd">
-                                    <input type="radio" name="yc"/> 是
-                                    <input type="radio" name="yc"/> 否
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">交易类型</label>
-                            <div class="col-sm-8">
-                                <select class="form-control">
-                                    <option>交易类型</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">选择类别</label>
-                            <div class="col-sm-8">
-                                <select class="form-control">
-                                    <option>类别</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">表情类别</label>
-                            <div class="col-sm-8">
-                                <select class="form-control">
-                                    <option>表情类型</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">开始日期</label>
-                            <div class="col-sm-8">
-                                <div style="display: inline-table;" class="input-group date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-                                    <input class="form-control" size="16" type="text" value="" readonly>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                                </div>
-                                <!--<input type="datetime-local" class="form-control"/>-->
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">结束日期</label>
-                            <div class="col-sm-8">
-                                <div style="display: inline-table;" class="input-group date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-                                    <input class="form-control" size="16" type="text" value="" readonly>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                                </div>
-                                <!--<input type="datetime-local" class="form-control"/>-->
-                            </div>
-                        </div>
-						<hr/>
-                        <!-- 上传图片-->
-                        <h4 class="h4-custom-hmm">选择主题</h4>
-                        <!--<div class="form-group">-->
-                            <!--<label class="col-sm-2 control-label">选择图片</label>-->
-                            <!--<div class="col-sm-9">-->
-                                <!--<a class="large blue-light button" style="margin-bottom:10px;position:relative;" id='upbn'>Upload</a>-->
-                                <!--<input type="radio" data-xf = 'minify'   name="select-minify">-->
-                                <!--<label class="radio">压缩图片</label>-->
-                                <!--<input type="radio" data-xf = 'unminify' name="select-minify">-->
-                                <!--<label class="radio">原图上传</label>-->
-                                <!--<input style="display:none;" type="file" id="fileinput" name="displayImage" accept="image/gif, image/jpeg, image/webp, image/png" />-->
-                                <!--<div id="gallery"></div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="form-group">-->
-                            <!--<label class="col-sm-2 control-label">图片信息</label>-->
-                            <!--<div class="col-sm-9">-->
-                                <!--<div id='gpicnm'></div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Select Template</label>
-                            <div class="col-sm-9">
-                                <div class="rec_sku-title">
-                                    <!--<input type="radio" data-xr='shop_price' class="set-main temp_radio_class" name="setMain">-->
-                                    <!--<label class="radio">底部价格</label>-->
-                                    <!--<input type="radio" data-xr='shop_gray' class="set-main temp_radio_class" name="setMain">-->
-                                    <!--<label class="radio">底部颜色</label>-->
-                                    <!--<input type="radio" data-xr='shop_poster' class="set-main temp_radio_class" name="setMain">-->
-                                    <!--<label class="radio">简约风格</label>-->
-                                    <!--<input type="radio" data-xr='shop_unpack' class="set-main temp_radio_class " name="setMain">-->
-                                    <!--<label class="radio">拼购打折</label>-->
-                                    <!--<input type="radio" data-xr='deal_wide' class="set-main temp_radio_class" name="setMain">-->
-                                    <!--<label class="radio">宽版</label>-->
-                                    <!--<input type="radio" data-xr='hmm_collections' class="set-main temp_radio_class" name="setMain">-->
-                                    <!--<label class="radio">打包品</label>-->
-                                    <input type="radio" data-xr='u_youjipin' class="set-main temp_radio_class" name="setMain">
-                                    <label class="radio">宽版2</label>
-                                    <input type="radio" data-xr='q_youjipin' class="set-main temp_radio_class" name="setMain">
-                                    <label class="radio">拼购打折</label>
-                                    <input type="radio" data-xr='upload-img' class="set-main temp_radio_class" name="setMain">
-                                    <label class="radio">上传</label>
-                                </div>
-                                <div class='compress-div'>
-                                    <!--bottom price template-->
-                                    <!--<div class='li-dv'>-->
-                                        <!--<div id='shop_price' class='sync-hide' name='temp_price' style='display: inline-block;'>-->
-                                            <!--<div class='li bottom-price-temp' id='price_img'>-->
-                                                <!--<img src="/assets/images/59162b78.jpg">-->
-                                            <!--</div>-->
-                                            <!--<div style='display: block;position:relative; height: 54px;width:100%;'>-->
-                                                <!--<div class="title">-->
-                                                    <!--<p>-->
-                                                        <!--<a href="javascript:void(0)" id ='price_title' target="_blank">韩版娃娃领打底雪纺衫</a>-->
-                                                    <!--</p>-->
-                                                <!--</div>-->
-                                                <!--<div class="promotion">-->
-                                                    <!--<span id='price_discount' class="shop_price_btn">3.2折</span>-->
-                                                    <!--<span id='price_current_price'class="add_red">￥49.92</span>-->
-                                                    <!--<span id='price_origin_price'class="origin_price">￥158.00</span>-->
-                                                <!--</div>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="pre_temp sync-hide" >-->
-                                            <!--<label>标题：<input style='width: 235px;' type="text"></label>-->
-                                            <!--<label>现价：<input type="text"></label>-->
-                                            <!--<label>原价：<input type="text"></label>-->
-                                            <!--<label>折扣：<input type="text"></label>-->
-                                            <!--<label>图片名称：<input style='width: 270px;' type="text"></label>-->
-                                            <!--<label>宽度：<input name='custom_w' type="text"></label>-->
-                                            <!--<label>高度：<input name='custom_h' type="text"></label>-->
-                                            <!--<label>原始宽高<input name='origin_wh' type="checkbox"></label>-->
-                                            <!--<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--&lt;!&ndash;bottom gray template&ndash;&gt;-->
-                                    <!--<div class='li-dv'>-->
-                                        <!--<div id='shop_gray' name="temp_gray" class="li sync-hide" style='display: inline-block;width:auto;height:auto;'>-->
-                                            <!--<div class='li bottom-gray-temp' id='gray_img'>-->
-                                                <!--<img src="/assets/images/59162b78.jpg" alt=""/>-->
-                                            <!--</div>-->
-                                            <!--<a id='gray_title' class="bar" href="javascript:void(0)" target="_blank">当季最CHIC小白鞋</a>-->
-                                        <!--</div>-->
-                                        <!--<div class="pre_temp sync-hide" >-->
-                                            <!--<label>标题：<input style='width: 235px;' type="text"></label>-->
-                                            <!--<label>图片名称：<input style='width: 270px;' type="text"></label>-->
-                                            <!--<label>宽度：<input name='custom_w' type="text"></label>-->
-                                            <!--<label>高度：<input name='custom_h' type="text"></label>-->
-                                            <!--<label>原始宽高<input name='origin_wh' type="checkbox"></label>-->
-                                            <!--<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--&lt;!&ndash;simple template&ndash;&gt;-->
-                                    <!--<div class='li-dv'>-->
-                                        <!--<div id='shop_poster' name="temp_poster" class="new_poster sync-hide">-->
-                                            <!--<div class="np_pic hover_pic">-->
-                                                <!--<div id='poster_price' class="price">￥108.00</div>-->
-                                                <!--<div id='poster_img' style='display:block;width:auto;height:auto;'>-->
-                                                    <!--<img src="/assets/images/59162b78.jpg" alt=""/>-->
-                                                <!--</div>-->
-                                                <!--<div></div>-->
-                                            <!--</div>-->
-                                            <!--<div class="title">-->
-                                                <!--<p>-->
-                                                    <!--<a id='poster_title' href="javascript:void(0)" target="_blank">平底鞋单鞋小白鞋帆布鞋</a>-->
-                                                <!--</p>-->
-                                            <!--</div>-->
-                                            <!--<div class="comm_num">-->
-                                                <!--<a class="pl" href="javascript:void(0)" target="_blank">销量(<span id="poster_sale_num">102</span>)</a>-->
-                                                <!--<b class="likes_status">-->
-                                                    <!--<i class="lm_love2"></i>&nbsp;喜欢-->
-                                                <!--</b>-->
-                                                <!--<span id='poster_like_num' class="red_f f14_f poster_like_num">11</span>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="pre_temp sync-hide" >-->
-                                            <!--<label>标题：<input style='width: 235px;' type="text"></label>-->
-                                            <!--<label>价格：<input type="text"></label>-->
-                                            <!--<label>销量：<input type="text"></label>-->
-                                            <!--<label>喜欢：<input type="text"></label>-->
-                                            <!--<label>图片名称：<input style='width: 270px;' type="text"></label>-->
-                                            <!--<label>宽度：<input name='custom_w' type="text"></label>-->
-                                            <!--<label>高度：<input name='custom_h' type="text"></label>-->
-                                            <!--<label>原始宽高<input name='origin_wh' type="checkbox"></label>-->
-                                            <!--<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--&lt;!&ndash; unpack template &ndash;&gt;-->
-                                    <!--<div class='li-dv'>-->
-                                        <!--<div id='shop_unpack' name="temp_unpack" class="li sync-hide auto">-->
-                                            <!--<div class='li unpack-temp-img' id='unpack_img'>-->
-                                                <!--<img src="/assets/images/59162b78.jpg" alt=""/>-->
-                                            <!--</div>-->
-                                            <!--<div id='unpack_title' class='unpack-title-container'>-->
-                                        <!--<span>-->
-                                            <!--<b id='unpack_discount' style="font-weight: normal;">20</b>-->
-                                            <!--<b style="font-size: 17px;font-weight: normal;">%</b>-->
-                                        <!--</span>-->
-                                                <!--<div id='unpack_price_origin'>￥600.00</div>-->
-                                                <!--<div id='unpack_price_current'>￥480.00</div>-->
-                                                <!--<div id='unpack_vertical_line'></div>-->
-                                                <!--<div id='unpack_span'>拼购打折<b style="font-size: xx-small;font-weight:normal;">(最低)</b></div>-->
-                                                <!--<div id='unpack_price_unpack'>￥400.00</div>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="pre_temp sync-hide" >-->
-                                            <!--<label>折扣：<input style='width: 235px;' type="text"></label>-->
-                                            <!--<label>原价：<input style='width: 235px;' type="text"></label>-->
-                                            <!--<label>现价：<input style='width: 235px;' type="text"></label>-->
-                                            <!--<label>拼购价：<input style='width: 235px;' type="text"></label>-->
-                                            <!--<label>标题占宽度百分比：<input style='width: 235px;' type="text"></label>-->
-                                            <!--<label>标题距左侧百分比：<input style='width: 235px;' type="text"></label>-->
-                                            <!--<label>图片名称：<input style='width: 270px;' type="text"></label>-->
-                                            <!--<label>宽度：<input name='custom_w' type="text"></label>-->
-                                            <!--<label>高度：<input name='custom_h' type="text"></label>-->
-                                            <!--<label>原始宽高<input name='origin_wh' type="checkbox"></label>-->
-                                            <!--<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!-- Wide version -->
-                                    <!--<div class='li-dv'>-->
-                                        <!--<div id="deal_wide" class="deal liked sharing">-->
-                                            <!--<div class="deal-image">-->
-                                                <!--<a><img src="/assets/images/2015-09-25-1.jpg" alt=""/></a>-->
-                                            <!--</div>-->
-                                            <!--<div class="meta">-->
-                                                <!--<div class="deal-info">-->
-                                                    <!--<div class="deal-title">-->
-                                                        <!--<a>选择一把既能扮靓又兼具实用的雨伞来凹造型，依旧是下雨天的必修课。</a>-->
-                                                        <!--<div class="price-row">-->
-                                                            <!--<span class="now-price">¥13.99</span>-->
-                                                            <!--<span class="meta-info retail-price">¥46.99</span>-->
-                                                            <!--<span class="meta-info sold-quantity">2 SOLD</span>-->
-                                                        <!--</div>-->
-                                                    <!--</div>-->
-                                                    <!--<div class="deal-actions">-->
-                                                        <!--<div id="login-bubble-91579" class="login-required fadeInUp animated">-->
-                                                            <!--<svg width=".5cm" height=".5cm" viewBox="0 0 400 400">-->
-                                                                <!--<g stroke="#999999">-->
-                                                                    <!--<line x1="100" y1="300" x2="300" y2="100" stroke-width="20"></line>-->
-                                                                    <!--<line x1="100" y1="100" x2="300" y2="300" stroke-width="20"></line>-->
-                                                                <!--</g>-->
-                                                            <!--</svg>-->
-                                                            <!--<i class="icon-remove"></i>-->
-                                                            <!--<p class="txt-gray f18 italic">Have an account?</p>-->
-                                                            <!--<p class="mar20b">In order to favorite this deal you need to either login or signup.</p>-->
-                                                            <!--<div class="btn-flat btn-sm"> LOGIN </div>-->
-                                                            <!--<div class="btn-flat bgBlue mar10l btn-sm"> SIGNUP </div>-->
-                                                        <!--</div>-->
-                                                        <!--<button class="like">-->
-                                                            <!--<i class="fa"></i>-->
-                                                            <!--<span id="count-91579" class="count" data-like-count="92">93</span>-->
-                                                        <!--</button>-->
-                                                        <!--<button class="share">-->
-                                                            <!--<img src="https://d2ilfdg091sfom.cloudfront.net/content/images/jane/share.svg">-->
-                                                        <!--</button>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--<div class="social-icons">-->
-                                                    <!--<a rel="nofollow" target="_blank" class="google"><i class="fa fa-google-plus"></i></a>-->
-                                                    <!--<a rel="nofollow" target="_blank" class="facebook"><i class="fa fa-facebook"></i></a>-->
-                                                    <!--<a rel="nofollow" target="_blank" class="twitter"><i class="fa fa-twitter"></i></a>-->
-                                                    <!--<a rel="nofollow" target="_blank" class="pinterest"><i class="fa fa-pinterest"></i></a>-->
-                                                <!--</div>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="pre_temp sync-hide" >-->
-                                            <!--<label>仅剩：<input style='width: 235px;' type="text"></label>-->
-                                            <!--<label>标题：<input style='width: 235px;' type="text"></label>-->
-                                            <!--<label>多少起：<input style='width: 235px;' type="text"></label>-->
-                                            <!--<label>图片名称：<input style='width: 270px;' type="text"></label>-->
-                                            <!--<label>宽度：<input name='custom_w' type="text"></label>-->
-                                            <!--<label>高度：<input name='custom_h' type="text"></label>-->
-                                            <!--<label>原始宽高<input name='origin_wh' type="checkbox"></label>-->
-                                            <!--<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--<div class='li-dv'>-->
-                                        <!--<div id='hmm_collections' class='collections'>-->
-                                            <!--<figure class='collections-figure'>-->
-                                                <!--<span class='collections-logo'></span>-->
-                                                <!--<img src="/assets/images/idid_ie2tam3egbswmoldgmzdambqhayde_750x316.jpg" width='100%'>-->
-                                                <!--<div class='collection-locate-container'>-->
-                                                    <!--<span class='collections-location'></span>-->
-                                                    <!--<span class='collections-location-text'>韩国  ·  潮流新风尚</span>-->
-                                                <!--</div>-->
-                                            <!--</figure>-->
-                                            <!--<figcaption>-->
-                                                <!--<span class='collection-title'>Daycraft的做工是属于上乘，手感，做工，颜色，印刷这些都能得高分。价格亲民，又很耐用。</span>-->
-                                        <!--<span class='collection-price'>-->
-                                            <!--<b class='display-price'>¥80</b>-->
-                                            <!--<b class='display-up'>起</b>-->
-                                            <!--<i class='display-count'>&nbsp;|&nbsp;</i>-->
-                                            <!--<i class='display-amount'>8</i>-->
-                                            <!--<b class='display-up'>款单品</b>-->
-                                        <!--</span>-->
-                                                <!--<span class='collection-click'>....</span>-->
-                                            <!--</figcaption>-->
-                                        <!--</div>-->
-                                        <!--<div class="pre_temp sync-hide" >-->
-                                            <!--<label>仅剩：<input style='width: 235px;' type="text"></label>-->
-                                            <!--<label>标题：<input style='width: 235px;' type="text"></label>-->
-                                            <!--<label>多少起：<input style='width: 235px;' type="text"></label>-->
-                                            <!--<label>图片名称：<input style='width: 270px;' type="text"></label>-->
-                                            <!--<label>宽度：<input name='custom_w' type="text"></label>-->
-                                            <!--<label>高度：<input name='custom_h' type="text"></label>-->
-                                            <!--<label>原始宽高<input name='origin_wh' type="checkbox"></label>-->
-                                            <!--<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <div class='li-dv'>
-                                        <div id='u_youjipin' class="goods_list_img">
-                                            <div class="img">
-                                                <a class="track">
-                                                    <img data-index='4' src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8" width="100%" style="display: inline;">
-                                                </a>
-                                                <span data-index='0'>仅剩10天</span>
-                                            </div>
-                                            <div class="text">
-                                                <i data-index='1' style='font-style: normal;'>★以思念为料，享受烘焙的甜蜜★</i>
-                                                <span >
-                                                    <b data-index='2'>6</b>
-                                                    <i data-index='3' style='font-style: normal;'>元起</i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class = "pre_temp">
-                                            <table>
-                                                <tbody>
-                                                <tr>
-                                                    <th>仅剩：</th>
-                                                    <td><input class='input-area' type="text"></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>标题：</th>
-                                                    <td><input class='input-area' type="text"></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>价格/折扣：</th>
-                                                    <td><input class='input-area' type="text"></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>元/折起：</th>
-                                                    <td><input class='input-area' type="text"></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>图片URL：</th>
-                                                    <td><input class='input-area' type="text"></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>原始宽高：</th>
-                                                    <td><input name='origin_wh' type="checkbox"></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>宽度：</th>
-                                                    <td><input name='custom_w' class='size' type="text"></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>高度：</th>
-                                                    <td><input name='custom_h' class='size' type="text"></td>
-                                                </tr>
-                                                <tr>
-                                                    <th></th>
-                                                    <td><a name='pre_unpack_bt' class="small blue-light button">Preview</a></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <!--拼购打折-->
-                                    <div class='li-dv'>
-                                        <div id="q_youjipin" class="pingou">
-                                            <!--<div class="img">-->
-                                                <!--<a class="track">-->
-                                                    <!--<img data-index='4' src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8" width="100%" style="display: inline;">-->
-                                                <!--</a>-->
-                                            <!--</div>-->
-                                            <div class="img">
-                                                <a href="javascript:void(0)" class="upload-a btn-primary">
-                                                    上传图片
-                                                    <input type="file" class="upload1">
-                                                </a>
-                                            </div>
-                                            <div class="text">
-                                                <div class="illustrate-box">
-                                                    <div class="illustrate-l">
-                                                        <div class="sale">
-                                                            <!--	<span class="sale-rate">20</span><i>%</i>-->
-                                                            <span class="sale-rate">20%
-                                                                <i>打折率:</i>
-                                                            </span>
+        <div class="col-sm-12">
+            <form class="form-horizontal">
+                <!-- 基本信息-->
+                <h4 class="h4-custom-hmm">基本信息</h4>
 
-                                                        </div>
-                                                        <div class="money">
-                                                            <span class="money-raw">市场价:<i data-index='0'>￥600</i></span>
-                                                            <span class="now">折扣价:<i data-index='1'>￥480</i></span>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="illustrate-r">
-                                                        <span class="one">拼购打折<i>(最低)</i></span>
-                                                        <span class="two" data-index='2'>2人拼购</span>
-                                                        <span class="three" data-index='3'>￥400</span>
-                                                        <span class="four" data-index='4'>已拼购2345人</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class = "pre_temp">
-                                            <table>
-                                                <tbody>
-                                                <tr>
-                                                    <th>市场价:</th>
-                                                    <td><input class='input-area' type="text"></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>折扣价:</th>
-                                                    <td><input class='input-area' type="text"></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>拼购人数:</th>
-                                                    <td><input class='input-area' type="text"></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>拼购价格:</th>
-                                                    <td><input class='input-area' type="text"></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>已拼购人数:</th>
-                                                    <td><input class='input-area' type="text"></td>
-                                                </tr>
-                                                <tr>
-                                                <th></th>
-                                                <td><a name='pre_unpack_bt' class="small blue-light button">Preview</a></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <!--上传-->
-                                    <div class='li-dv'>
-                                        <div id="upload-img">
-                                            <div class="img">
-                                                <a href="javascript:void(0)" class="upload-a btn-primary">
-                                                    上传图片
-                                                    <input type="file" class="upload1">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class='submit-area'>
-                                    <a class="large blue-light button" id='submit'>Submit</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="mask" class="ui-mask" style="display: none;">
-                            <div id="circularG">
-                                <div id="circularG_1" class="circularG"></div>
-                                <div id="circularG_2" class="circularG"></div>
-                                <div id="circularG_3" class="circularG"></div>
-                                <div id="circularG_4" class="circularG"></div>
-                                <div id="circularG_5" class="circularG"></div>
-                                <div id="circularG_6" class="circularG"></div>
-                                <div id="circularG_7" class="circularG"></div>
-                                <div id="circularG_8" class="circularG"></div>
-                            </div>
-                        </div>
-						<hr/>
-                        <!--商品选择-->
-                        <h3>商品选择</h3>
-                        <hr/>
-                        <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModal()">添加商品</button>
-                        <!--<a href="list-1.html" class="btn btn-primary btn-xs add-goods" target="_new">添加商品</a>-->
-                        <div class="bgk">
-                            <table class="table table-bordered table-hover grid" id="sort" title="Kurt Vonnegut novels">
-                                <thead>
-                                <tr>
-                                    <th class="index">序号</th>
-                                    <th>主商品</th>
-                                    <th>
-                                        商品ID
-                                        <span class="glyphicon glyphicon-chevron-up"></span>
-                                        <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
-                                    </th>
-                                    <th>
-                                        商品名称
-                                        <span class="glyphicon glyphicon-chevron-up"></span>
-                                        <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
-                                    </th>
-                                    <th>
-                                        商品标题
-                                    </th>
-                                    <th>
-                                        主图
-                                    </th>
-                                    <th>
-                                        上架时间
-                                    </th>
-                                    <th>
-                                        商品状态
-                                    </th>
-                                    <th>
-                                        价格
-                                    </th>
-                                    <th>
-                                        原价
-                                        <span class="glyphicon glyphicon-chevron-up"></span>
-                                        <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
-                                    </th>
-                                    <th>
-                                        折扣
-                                        <span class="glyphicon glyphicon-chevron-up"></span>
-                                        <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td class="index">1</td>
-                                    <td>
-                                        <input type="radio"  name="goods-main" checked>
-                                    </td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td><img src="" alt=""></td>
-                                    <td>7</td>
-                                    <td>8</td>
-                                    <td>9</td>
-                                    <td>0</td>
-                                    <td>10</td>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                <tr>
-                                    <td class="index">2</td>
-                                    <td>
-                                        <input type="radio" name="goods-main">
-                                    </td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td>5</td>
-                                    <td>6</td>
-                                    <td>7</td>
-                                    <td>8</td>
-                                    <td>9</td>
-                                    <td>0</td>
-                                    <td>10</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- 创建mark-->
-                        <h4 class="h4-custom-hmm">添加标签</h4>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">标签名字:</label>
-                            <div class="col-sm-9">
-                                <input id='mark-nm' type ='text' class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">旋转角度:</label>
-                            <div class="col-sm-9">
-                                <div class="radbd" style="margin-top: 0">
-                                    <input type="radio" name="mark-deg" value="0"/> <b>0度</b>
-                                    <input type="radio" name="mark-deg" value="180"/> <b>180度</b>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label"></label>
-                            <div class="col-sm-9">
-                                <a class="large blue button" id='mark-bt' >Create</a>
-                                <div id='dragon-container'></div>
-                                <a class="large red button" id="push">Push Data</a>
-                                <div class="thumb" style='position: relative;margin-top: 10px;margin-bottom:50px;display:block;'></div>
-                            </div>
-                        </div>
-                    </form>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">交易名称</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control"/>
+                    </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">是否销售</label>
+                    <div class="col-sm-8 rad">
+                        <div class="radbd">
+                            <input type="radio" name="xsh"/> 销售中
+                            <input type="radio" name="xsh"/> 暂停
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">是否隐藏</label>
+                    <div class="col-sm-8 rad">
+                        <div class="radbd">
+                            <input type="radio" name="yc"/> 是
+                            <input type="radio" name="yc"/> 否
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">交易类型</label>
+                    <div class="col-sm-8">
+                        <select class="form-control">
+                            <option>交易类型</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">选择类别</label>
+                    <div class="col-sm-8">
+                        <select class="form-control">
+                            <option>类别</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">表情类别</label>
+                    <div class="col-sm-8">
+                        <select class="form-control">
+                            <option>表情类型</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">开始日期</label>
+                    <div class="col-sm-8">
+                        <div style="display: inline-table;" class="input-group date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                            <input class="form-control" size="16" type="text" value="" readonly>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                        <!--<input type="datetime-local" class="form-control"/>-->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">结束日期</label>
+                    <div class="col-sm-8">
+                        <div style="display: inline-table;" class="input-group date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                            <input class="form-control" size="16" type="text" value="" readonly>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                        <!--<input type="datetime-local" class="form-control"/>-->
+                    </div>
+                </div>
+                <hr/>
+                <!-- 上传图片-->
+                <h4 class="h4-custom-hmm">选择主题</h4>
+                <!--<div class="form-group">-->
+                    <!--<label class="col-sm-2 control-label">选择图片</label>-->
+                    <!--<div class="col-sm-9">-->
+                        <!--<a class="large blue-light button" style="margin-bottom:10px;position:relative;" id='upbn'>Upload</a>-->
+                        <!--<input type="radio" data-xf = 'minify'   name="select-minify">-->
+                        <!--<label class="radio">压缩图片</label>-->
+                        <!--<input type="radio" data-xf = 'unminify' name="select-minify">-->
+                        <!--<label class="radio">原图上传</label>-->
+                        <!--<input style="display:none;" type="file" id="fileinput" name="displayImage" accept="image/gif, image/jpeg, image/webp, image/png" />-->
+                        <!--<div id="gallery"></div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<label class="col-sm-2 control-label">图片信息</label>-->
+                    <!--<div class="col-sm-9">-->
+                        <!--<div id='gpicnm'></div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Select Template</label>
+                    <div class="col-sm-9">
+                        <div class="rec_sku-title">
+                            <!--<input type="radio" data-xr='shop_price' class="set-main temp_radio_class" name="setMain">-->
+                            <!--<label class="radio">底部价格</label>-->
+                            <!--<input type="radio" data-xr='shop_gray' class="set-main temp_radio_class" name="setMain">-->
+                            <!--<label class="radio">底部颜色</label>-->
+                            <!--<input type="radio" data-xr='shop_poster' class="set-main temp_radio_class" name="setMain">-->
+                            <!--<label class="radio">简约风格</label>-->
+                            <!--<input type="radio" data-xr='shop_unpack' class="set-main temp_radio_class " name="setMain">-->
+                            <!--<label class="radio">拼购打折</label>-->
+                            <!--<input type="radio" data-xr='deal_wide' class="set-main temp_radio_class" name="setMain">-->
+                            <!--<label class="radio">宽版</label>-->
+                            <!--<input type="radio" data-xr='hmm_collections' class="set-main temp_radio_class" name="setMain">-->
+                            <!--<label class="radio">打包品</label>-->
+                            <input type="radio" data-xr='u_youjipin' class="set-main temp_radio_class" name="setMain">
+                            <label class="radio">宽版2</label>
+                            <input type="radio" data-xr='q_youjipin' class="set-main temp_radio_class" name="setMain">
+                            <label class="radio">拼购打折</label>
+                            <input type="radio" data-xr='upload-img' class="set-main temp_radio_class" name="setMain">
+                            <label class="radio">上传</label>
+                        </div>
+                        <div class='compress-div'>
+                            <!--bottom price template-->
+                            <!--<div class='li-dv'>-->
+                                <!--<div id='shop_price' class='sync-hide' name='temp_price' style='display: inline-block;'>-->
+                                    <!--<div class='li bottom-price-temp' id='price_img'>-->
+                                        <!--<img src="/assets/images/59162b78.jpg">-->
+                                    <!--</div>-->
+                                    <!--<div style='display: block;position:relative; height: 54px;width:100%;'>-->
+                                        <!--<div class="title">-->
+                                            <!--<p>-->
+                                                <!--<a href="javascript:void(0)" id ='price_title' target="_blank">韩版娃娃领打底雪纺衫</a>-->
+                                            <!--</p>-->
+                                        <!--</div>-->
+                                        <!--<div class="promotion">-->
+                                            <!--<span id='price_discount' class="shop_price_btn">3.2折</span>-->
+                                            <!--<span id='price_current_price'class="add_red">￥49.92</span>-->
+                                            <!--<span id='price_origin_price'class="origin_price">￥158.00</span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="pre_temp sync-hide" >-->
+                                    <!--<label>标题：<input style='width: 235px;' type="text"></label>-->
+                                    <!--<label>现价：<input type="text"></label>-->
+                                    <!--<label>原价：<input type="text"></label>-->
+                                    <!--<label>折扣：<input type="text"></label>-->
+                                    <!--<label>图片名称：<input style='width: 270px;' type="text"></label>-->
+                                    <!--<label>宽度：<input name='custom_w' type="text"></label>-->
+                                    <!--<label>高度：<input name='custom_h' type="text"></label>-->
+                                    <!--<label>原始宽高<input name='origin_wh' type="checkbox"></label>-->
+                                    <!--<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash;bottom gray template&ndash;&gt;-->
+                            <!--<div class='li-dv'>-->
+                                <!--<div id='shop_gray' name="temp_gray" class="li sync-hide" style='display: inline-block;width:auto;height:auto;'>-->
+                                    <!--<div class='li bottom-gray-temp' id='gray_img'>-->
+                                        <!--<img src="/assets/images/59162b78.jpg" alt=""/>-->
+                                    <!--</div>-->
+                                    <!--<a id='gray_title' class="bar" href="javascript:void(0)" target="_blank">当季最CHIC小白鞋</a>-->
+                                <!--</div>-->
+                                <!--<div class="pre_temp sync-hide" >-->
+                                    <!--<label>标题：<input style='width: 235px;' type="text"></label>-->
+                                    <!--<label>图片名称：<input style='width: 270px;' type="text"></label>-->
+                                    <!--<label>宽度：<input name='custom_w' type="text"></label>-->
+                                    <!--<label>高度：<input name='custom_h' type="text"></label>-->
+                                    <!--<label>原始宽高<input name='origin_wh' type="checkbox"></label>-->
+                                    <!--<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash;simple template&ndash;&gt;-->
+                            <!--<div class='li-dv'>-->
+                                <!--<div id='shop_poster' name="temp_poster" class="new_poster sync-hide">-->
+                                    <!--<div class="np_pic hover_pic">-->
+                                        <!--<div id='poster_price' class="price">￥108.00</div>-->
+                                        <!--<div id='poster_img' style='display:block;width:auto;height:auto;'>-->
+                                            <!--<img src="/assets/images/59162b78.jpg" alt=""/>-->
+                                        <!--</div>-->
+                                        <!--<div></div>-->
+                                    <!--</div>-->
+                                    <!--<div class="title">-->
+                                        <!--<p>-->
+                                            <!--<a id='poster_title' href="javascript:void(0)" target="_blank">平底鞋单鞋小白鞋帆布鞋</a>-->
+                                        <!--</p>-->
+                                    <!--</div>-->
+                                    <!--<div class="comm_num">-->
+                                        <!--<a class="pl" href="javascript:void(0)" target="_blank">销量(<span id="poster_sale_num">102</span>)</a>-->
+                                        <!--<b class="likes_status">-->
+                                            <!--<i class="lm_love2"></i>&nbsp;喜欢-->
+                                        <!--</b>-->
+                                        <!--<span id='poster_like_num' class="red_f f14_f poster_like_num">11</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="pre_temp sync-hide" >-->
+                                    <!--<label>标题：<input style='width: 235px;' type="text"></label>-->
+                                    <!--<label>价格：<input type="text"></label>-->
+                                    <!--<label>销量：<input type="text"></label>-->
+                                    <!--<label>喜欢：<input type="text"></label>-->
+                                    <!--<label>图片名称：<input style='width: 270px;' type="text"></label>-->
+                                    <!--<label>宽度：<input name='custom_w' type="text"></label>-->
+                                    <!--<label>高度：<input name='custom_h' type="text"></label>-->
+                                    <!--<label>原始宽高<input name='origin_wh' type="checkbox"></label>-->
+                                    <!--<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash; unpack template &ndash;&gt;-->
+                            <!--<div class='li-dv'>-->
+                                <!--<div id='shop_unpack' name="temp_unpack" class="li sync-hide auto">-->
+                                    <!--<div class='li unpack-temp-img' id='unpack_img'>-->
+                                        <!--<img src="/assets/images/59162b78.jpg" alt=""/>-->
+                                    <!--</div>-->
+                                    <!--<div id='unpack_title' class='unpack-title-container'>-->
+                                <!--<span>-->
+                                    <!--<b id='unpack_discount' style="font-weight: normal;">20</b>-->
+                                    <!--<b style="font-size: 17px;font-weight: normal;">%</b>-->
+                                <!--</span>-->
+                                        <!--<div id='unpack_price_origin'>￥600.00</div>-->
+                                        <!--<div id='unpack_price_current'>￥480.00</div>-->
+                                        <!--<div id='unpack_vertical_line'></div>-->
+                                        <!--<div id='unpack_span'>拼购打折<b style="font-size: xx-small;font-weight:normal;">(最低)</b></div>-->
+                                        <!--<div id='unpack_price_unpack'>￥400.00</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="pre_temp sync-hide" >-->
+                                    <!--<label>折扣：<input style='width: 235px;' type="text"></label>-->
+                                    <!--<label>原价：<input style='width: 235px;' type="text"></label>-->
+                                    <!--<label>现价：<input style='width: 235px;' type="text"></label>-->
+                                    <!--<label>拼购价：<input style='width: 235px;' type="text"></label>-->
+                                    <!--<label>标题占宽度百分比：<input style='width: 235px;' type="text"></label>-->
+                                    <!--<label>标题距左侧百分比：<input style='width: 235px;' type="text"></label>-->
+                                    <!--<label>图片名称：<input style='width: 270px;' type="text"></label>-->
+                                    <!--<label>宽度：<input name='custom_w' type="text"></label>-->
+                                    <!--<label>高度：<input name='custom_h' type="text"></label>-->
+                                    <!--<label>原始宽高<input name='origin_wh' type="checkbox"></label>-->
+                                    <!--<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!-- Wide version -->
+                            <!--<div class='li-dv'>-->
+                                <!--<div id="deal_wide" class="deal liked sharing">-->
+                                    <!--<div class="deal-image">-->
+                                        <!--<a><img src="/assets/images/2015-09-25-1.jpg" alt=""/></a>-->
+                                    <!--</div>-->
+                                    <!--<div class="meta">-->
+                                        <!--<div class="deal-info">-->
+                                            <!--<div class="deal-title">-->
+                                                <!--<a>选择一把既能扮靓又兼具实用的雨伞来凹造型，依旧是下雨天的必修课。</a>-->
+                                                <!--<div class="price-row">-->
+                                                    <!--<span class="now-price">¥13.99</span>-->
+                                                    <!--<span class="meta-info retail-price">¥46.99</span>-->
+                                                    <!--<span class="meta-info sold-quantity">2 SOLD</span>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="deal-actions">-->
+                                                <!--<div id="login-bubble-91579" class="login-required fadeInUp animated">-->
+                                                    <!--<svg width=".5cm" height=".5cm" viewBox="0 0 400 400">-->
+                                                        <!--<g stroke="#999999">-->
+                                                            <!--<line x1="100" y1="300" x2="300" y2="100" stroke-width="20"></line>-->
+                                                            <!--<line x1="100" y1="100" x2="300" y2="300" stroke-width="20"></line>-->
+                                                        <!--</g>-->
+                                                    <!--</svg>-->
+                                                    <!--<i class="icon-remove"></i>-->
+                                                    <!--<p class="txt-gray f18 italic">Have an account?</p>-->
+                                                    <!--<p class="mar20b">In order to favorite this deal you need to either login or signup.</p>-->
+                                                    <!--<div class="btn-flat btn-sm"> LOGIN </div>-->
+                                                    <!--<div class="btn-flat bgBlue mar10l btn-sm"> SIGNUP </div>-->
+                                                <!--</div>-->
+                                                <!--<button class="like">-->
+                                                    <!--<i class="fa"></i>-->
+                                                    <!--<span id="count-91579" class="count" data-like-count="92">93</span>-->
+                                                <!--</button>-->
+                                                <!--<button class="share">-->
+                                                    <!--<img src="https://d2ilfdg091sfom.cloudfront.net/content/images/jane/share.svg">-->
+                                                <!--</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="social-icons">-->
+                                            <!--<a rel="nofollow" target="_blank" class="google"><i class="fa fa-google-plus"></i></a>-->
+                                            <!--<a rel="nofollow" target="_blank" class="facebook"><i class="fa fa-facebook"></i></a>-->
+                                            <!--<a rel="nofollow" target="_blank" class="twitter"><i class="fa fa-twitter"></i></a>-->
+                                            <!--<a rel="nofollow" target="_blank" class="pinterest"><i class="fa fa-pinterest"></i></a>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="pre_temp sync-hide" >-->
+                                    <!--<label>仅剩：<input style='width: 235px;' type="text"></label>-->
+                                    <!--<label>标题：<input style='width: 235px;' type="text"></label>-->
+                                    <!--<label>多少起：<input style='width: 235px;' type="text"></label>-->
+                                    <!--<label>图片名称：<input style='width: 270px;' type="text"></label>-->
+                                    <!--<label>宽度：<input name='custom_w' type="text"></label>-->
+                                    <!--<label>高度：<input name='custom_h' type="text"></label>-->
+                                    <!--<label>原始宽高<input name='origin_wh' type="checkbox"></label>-->
+                                    <!--<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class='li-dv'>-->
+                                <!--<div id='hmm_collections' class='collections'>-->
+                                    <!--<figure class='collections-figure'>-->
+                                        <!--<span class='collections-logo'></span>-->
+                                        <!--<img src="/assets/images/idid_ie2tam3egbswmoldgmzdambqhayde_750x316.jpg" width='100%'>-->
+                                        <!--<div class='collection-locate-container'>-->
+                                            <!--<span class='collections-location'></span>-->
+                                            <!--<span class='collections-location-text'>韩国  ·  潮流新风尚</span>-->
+                                        <!--</div>-->
+                                    <!--</figure>-->
+                                    <!--<figcaption>-->
+                                        <!--<span class='collection-title'>Daycraft的做工是属于上乘，手感，做工，颜色，印刷这些都能得高分。价格亲民，又很耐用。</span>-->
+                                <!--<span class='collection-price'>-->
+                                    <!--<b class='display-price'>¥80</b>-->
+                                    <!--<b class='display-up'>起</b>-->
+                                    <!--<i class='display-count'>&nbsp;|&nbsp;</i>-->
+                                    <!--<i class='display-amount'>8</i>-->
+                                    <!--<b class='display-up'>款单品</b>-->
+                                <!--</span>-->
+                                        <!--<span class='collection-click'>....</span>-->
+                                    <!--</figcaption>-->
+                                <!--</div>-->
+                                <!--<div class="pre_temp sync-hide" >-->
+                                    <!--<label>仅剩：<input style='width: 235px;' type="text"></label>-->
+                                    <!--<label>标题：<input style='width: 235px;' type="text"></label>-->
+                                    <!--<label>多少起：<input style='width: 235px;' type="text"></label>-->
+                                    <!--<label>图片名称：<input style='width: 270px;' type="text"></label>-->
+                                    <!--<label>宽度：<input name='custom_w' type="text"></label>-->
+                                    <!--<label>高度：<input name='custom_h' type="text"></label>-->
+                                    <!--<label>原始宽高<input name='origin_wh' type="checkbox"></label>-->
+                                    <!--<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <div class='li-dv'>
+                                <div id='u_youjipin' class="goods_list_img">
+                                    <div class="img">
+                                        <a class="track">
+                                            <img data-index='4' src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8" width="100%" style="display: inline;">
+                                        </a>
+                                        <span data-index='0'>仅剩10天</span>
+                                    </div>
+                                    <div class="text">
+                                        <i data-index='1' style='font-style: normal;'>★以思念为料，享受烘焙的甜蜜★</i>
+                                        <span >
+                                            <b data-index='2'>6</b>
+                                            <i data-index='3' style='font-style: normal;'>元起</i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class = "pre_temp">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <th>仅剩：</th>
+                                            <td><input class='input-area' type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>标题：</th>
+                                            <td><input class='input-area' type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>价格/折扣：</th>
+                                            <td><input class='input-area' type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>元/折起：</th>
+                                            <td><input class='input-area' type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>图片URL：</th>
+                                            <td><input class='input-area' type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>原始宽高：</th>
+                                            <td><input name='origin_wh' type="checkbox"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>宽度：</th>
+                                            <td><input name='custom_w' class='size' type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>高度：</th>
+                                            <td><input name='custom_h' class='size' type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <td><a name='pre_unpack_bt' class="small blue-light button">Preview</a></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--拼购打折-->
+                            <div class='li-dv'>
+                                <div id="q_youjipin" class="pingou">
+                                    <!--<div class="img">-->
+                                        <!--<a class="track">-->
+                                            <!--<img data-index='4' src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8" width="100%" style="display: inline;">-->
+                                        <!--</a>-->
+                                    <!--</div>-->
+                                    <div class="img">
+                                        <a href="javascript:void(0)" class="upload-a btn-primary">
+                                            上传图片
+                                            <input type="file" class="upload1">
+                                        </a>
+                                    </div>
+                                    <div class="text">
+                                        <div class="illustrate-box">
+                                            <div class="illustrate-l">
+                                                <div class="sale">
+                                                    <!--	<span class="sale-rate">20</span><i>%</i>-->
+                                                    <span class="sale-rate">20%
+                                                        <i>打折率:</i>
+                                                    </span>
+
+                                                </div>
+                                                <div class="money">
+                                                    <span class="money-raw">市场价:<i data-index='0'>￥600</i></span>
+                                                    <span class="now">折扣价:<i data-index='1'>￥480</i></span>
+                                                </div>
+
+                                            </div>
+                                            <div class="illustrate-r">
+                                                <span class="one">拼购打折<i>(最低)</i></span>
+                                                <span class="two" data-index='2'>2人拼购</span>
+                                                <span class="three" data-index='3'>￥400</span>
+                                                <span class="four" data-index='4'>已拼购2345人</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class = "pre_temp">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <th>市场价:</th>
+                                            <td><input class='input-area' type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>折扣价:</th>
+                                            <td><input class='input-area' type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>拼购人数:</th>
+                                            <td><input class='input-area' type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>拼购价格:</th>
+                                            <td><input class='input-area' type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>已拼购人数:</th>
+                                            <td><input class='input-area' type="text"></td>
+                                        </tr>
+                                        <tr>
+                                        <th></th>
+                                        <td><a name='pre_unpack_bt' class="small blue-light button">Preview</a></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--上传-->
+                            <div class='li-dv'>
+                                <div id="upload-img">
+                                    <div class="img">
+                                        <a href="javascript:void(0)" class="upload-a btn-primary">
+                                            上传图片
+                                            <input type="file" class="upload1">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='submit-area'>
+                            <a class="large blue-light button" id='submit'>Submit</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="mask" class="ui-mask" style="display: none;">
+                    <div id="circularG">
+                        <div id="circularG_1" class="circularG"></div>
+                        <div id="circularG_2" class="circularG"></div>
+                        <div id="circularG_3" class="circularG"></div>
+                        <div id="circularG_4" class="circularG"></div>
+                        <div id="circularG_5" class="circularG"></div>
+                        <div id="circularG_6" class="circularG"></div>
+                        <div id="circularG_7" class="circularG"></div>
+                        <div id="circularG_8" class="circularG"></div>
+                    </div>
+                </div>
+                <hr/>
+                <!--商品选择-->
+                <h3>商品选择</h3>
+                <hr/>
+                <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModal()">添加商品</button>
+                <!--<a href="list-1.html" class="btn btn-primary btn-xs add-goods" target="_new">添加商品</a>-->
+                <div class="bgk">
+                    <table class="table table-bordered table-hover grid" id="sort" title="Kurt Vonnegut novels">
+                        <thead>
+                        <tr>
+                            <th class="index">序号</th>
+                            <th>主商品</th>
+                            <th>
+                                商品ID
+                                <span class="glyphicon glyphicon-chevron-up"></span>
+                                <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                            </th>
+                            <th>
+                                商品名称
+                                <span class="glyphicon glyphicon-chevron-up"></span>
+                                <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                            </th>
+                            <th>
+                                商品标题
+                            </th>
+                            <th>
+                                主图
+                            </th>
+                            <th>
+                                上架时间
+                            </th>
+                            <th>
+                                商品状态
+                            </th>
+                            <th>
+                                价格
+                            </th>
+                            <th>
+                                原价
+                                <span class="glyphicon glyphicon-chevron-up"></span>
+                                <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                            </th>
+                            <th>
+                                折扣
+                                <span class="glyphicon glyphicon-chevron-up"></span>
+                                <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                            </th>
+                        </tr>
+                        <tr>
+                            <td class="index">1</td>
+                            <td>
+                                <input type="radio"  name="goods-main" checked>
+                            </td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td><img src="" alt=""></td>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>0</td>
+                            <td>10</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr>
+                            <td class="index">2</td>
+                            <td>
+                                <input type="radio" name="goods-main">
+                            </td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>0</td>
+                            <td>10</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- 创建mark-->
+                <h4 class="h4-custom-hmm">添加标签</h4>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">标签名字:</label>
+                    <div class="col-sm-9">
+                        <input id='mark-nm' type ='text' class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">旋转角度:</label>
+                    <div class="col-sm-9">
+                        <div class="radbd" style="margin-top: 0">
+                            <input type="radio" name="mark-deg" value="0"/> <b>0度</b>
+                            <input type="radio" name="mark-deg" value="180"/> <b>180度</b>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-9">
+                        <a class="large blue button" id='mark-bt' >Create</a>
+                        <div id='dragon-container'></div>
+                        <a class="large red button" id="push">Push Data</a>
+                        <div class="thumb" style='position: relative;margin-top: 10px;margin-bottom:50px;display:block;'></div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 }

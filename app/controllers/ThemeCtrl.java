@@ -9,6 +9,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import service.ItemService;
 import service.ThemeService;
 
 import javax.inject.Inject;
@@ -33,6 +34,8 @@ public class ThemeCtrl extends Controller {
     @Inject
     private ThemeService service;
 
+    @Inject
+    private ItemService itemService;
     /**
      * 滚动条管理
      * @param lang 语言
@@ -159,7 +162,7 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result thaddPop(){
-        return ok(views.html.theme.thaddPop.render());
+        return ok(views.html.theme.thaddPop.render(itemService.getItemsAll()));
     }
 
 }

@@ -15,7 +15,18 @@ public interface InventoryMapper {
 
     Inventory getInventory(Long id);
 
+    /**
+     * 由itemId 获得多条库存记录
+     * @param itemId 商品id
+     * @return List of Inventory
+     */
     List<Inventory> getInventoriesByItemId(Long itemId);
+
+    /**
+     * 更新一条库存信息
+     * @param inventory
+     */
+    void updateInventory(Inventory inventory);
 
     List<Inventory> getAllInventories();
 

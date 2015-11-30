@@ -1,6 +1,7 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import entity.Item;
 import entity.Slider;
 import entity.Theme;
 
@@ -18,4 +19,6 @@ public interface ThemeService {
     public void sliderSave(JsonNode json);
 
     public List<Theme> themeSearch(Theme theme);
+
+
 }

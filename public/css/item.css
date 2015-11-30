@@ -121,7 +121,6 @@ ul,li {
 }
 .wrap-slider .date input {
 	display: inline-block;
-	width: 160px;
 }
 .wrap-slider .table {
 	font-size: 14px;
@@ -131,7 +130,7 @@ ul,li {
 .wrap-slider .add {
 	background: #00B7EE;
 	color: #fff;
-	margin-left: 20px;
+	margin-left: 5px;
 	cursor: pointer;
 	border-radius: 2px;
 	width: 60px;
@@ -271,10 +270,10 @@ body {
 }
 .qubian .preview-img div,.qubian .list-img div, .master-img div, .detail-img div{
 	display:inline-block;position: relative;
-	margin-top:5px;margin-left: 5px;
+	margin-top:0px;margin-left: 5px;
 }
 .qubian .preview-img .add,.qubian .list-img .add, .master-img .add, .detail-img .add{
-	width: 40px;height:25px;margin-left: 5px;display: inline-block;line-height: 22px;
+	width: 40px;height:25px;display: inline-block;line-height: 22px;
 	margin-top: 5px;position: relative;font-size: 18px;
 }
 .qubian .add input[type=file],.master-img .add input[type=file], .detail-img .add input[type=file]{
@@ -325,4 +324,7 @@ body {
 }
 .goods-img-bg .close span{
     display: block;width: 36px;height: 36px;
+}
+#masterImgAddM1{
+	margin-left: -10px;
 }

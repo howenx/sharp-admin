@@ -26,11 +26,12 @@ $(function(){
 		});
 	});
 
-//    $(document).on('click','.fdel .big',function() {
-//        $(this).parents(".fdel").remove();
-//    });
+	/** 点击返回按钮,返回到列表查询页面 **/
+	$("#return").on("click", function() {
+	    location.href="/"+window.lang+"/comm/search";
+	});
 
-    /* 一级类别改变重新加载二级类别*/
+    /** 一级类别改变重新加载二级类别 **/
     $('#categorySelect').change(function() {
         var pcid = $("#categorySelect").val();
         $.ajax({
@@ -51,6 +52,21 @@ $(function(){
             }
         });
     });
+
+    /** 修改主图和预览图所在div的id值,修改页面使用 **/
+    if ($("#itemId").val() != "") {
+        var upInv = document.getElementById("inventory");
+        var uptrs = inventory.getElementsByTagName("tr");
+        for(i=1;i<uptrs.length;i++) {
+            var uptds = uptrs[i].getElementsByTagName("td");
+            uptds[10].getElementsByTagName("div")[0].id = "galleryM"+i;
+            uptds[10].getElementsByTagName("span")[0].id = "masterImgAddM"+i;
+            uptds[10].getElementsByTagName("input")[0].id = "M"+i;
+            uptds[11].getElementsByTagName("div")[0].id = "galleryP"+i;
+            uptds[11].getElementsByTagName("span")[0].id = "preImgAddP"+i;
+            uptds[11].getElementsByTagName("input")[0].id = "P"+i;
+        }
+    }
 
     /** 上传图片 **/
     $(document).on('change','.hidden1',function() {
@@ -84,22 +100,21 @@ $(function(){
         thumb.appendChild(button);
         gallery.appendChild(thumb);
 
-         //添加商品主图主图后,添加图片按钮置为不可点击且颜色变为灰色
+         //添加商品主图后,添加图片按钮隐藏
          if (id.indexOf("M")>=0&&document.getElementById(galleryId).getElementsByTagName("div").length>0) {
-             $("#"+id).attr({"disabled":true});
-             document.getElementById('masterImgAdd'+id).style.background="#ccc";
+             $("#"+id).parent().css("display","none");
          }
 
-         //添加主题宣传图后,添加图片按钮置为不可点击且颜色变为灰色
+         //添加主题宣传图后,添加图片按钮隐藏
          if (document.getElementById("galleryT").getElementsByTagName("div").length>0) {
-             $("#T").attr({"disabled":true});
-             document.getElementById('masterThImgAdd').style.background="#ccc";
+            $("#T").parent().css("display","none");
          }
 
          //商品预览图最多为6张
          if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==6) {
-             $("#"+id).attr({"disabled":true});
-             document.getElementById("preImgAdd"+id).style.background="#ccc";
+//             $("#"+id).attr({"disabled":true});
+//             document.getElementById("preImgAdd"+id).style.background="#ccc";
+            $("#"+id).parent().css("display","none");
          }
 
          upload(thumb, file, id);
@@ -140,21 +155,19 @@ $(function(){
     /** 上传图片操作,主图,点击移除的操作 **/
     $(document).on('click','.list-img .close',function(){
         var id = $(this).parent().parent().attr("id");
-        //没有商品主图时,上传按钮置为可点击且颜色恢复
+        //没有商品主图时,上传按钮置为显示
         if (document.getElementById(id).getElementsByTagName("div").length==1) {
             id = id.substring(7,9);
-            $("#"+id).removeAttr("disabled");
-            document.getElementById('masterImgAdd'+id).style.background="#00B7EE";
+            $("#"+id).parent().css("display","inline-block");
         }
         $(this).parent().remove();
     });
 
     /** 主题宣传图,点击移除的操作 **/
     $(document).on('click','.master-img .close',function(){
-        //没有主题宣传图时,上传按钮置为可点击且颜色恢复
+        //没有主题宣传图时,上传按钮置为显示
         if (document.getElementById("galleryT").getElementsByTagName("div").length==1) {
-            $("#T").removeAttr("disabled");
-            document.getElementById('masterThImgAdd').style.background="#00B7EE";
+            $("#T").parent().css("display","inline-block");
         }
         $(this).parent().remove();
     });
@@ -165,8 +178,7 @@ $(function(){
         //商品预览图小于6张时恢复上传功能
         if (document.getElementById(id).getElementsByTagName("div").length==6) {
             id = id.substring(7,9);
-            $("#"+id).removeAttr("disabled");
-            document.getElementById('preImgAdd'+id).style.background="#00B7EE";
+            $("#"+id).parent().css("display","inline-block");
         }
         $(this).parent().remove();
     });
@@ -183,7 +195,7 @@ $(function(){
         var index = trs.length;
         var tds = trs[index-1].getElementsByTagName("td");
         var i = 1;
-        //有空值不能添加
+        //最后一行有空值不能添加
         for(i=1;i<tds.length;i++) {
             if (i <=8 && tds[i].getElementsByTagName("input")[0].value=="") break;
             if (i ==11 && trs[index-1].getElementsByClassName("list-img")[0].getElementsByTagName("div").length==1) break;
@@ -305,6 +317,10 @@ $(function(){
             var td13 = document.createElement("td");
             td13.classList.add("del");
             td13.innerText = "删除";
+            var inputInvId = document.createElement("input");
+            inputInvId.type = "hidden";
+            inputInvId.value = "";
+            td13.appendChild(inputInvId);
 
             tr.appendChild(td1);
             tr.appendChild(td2);
@@ -366,7 +382,7 @@ $(function(){
     });
 
     /** 数据提交 **/
-    $("#submitProducts").click(function(){
+    $("#submitItem").click(function(){
         var isPost = true;
         var numberReg1 =    /^-?\d+$/;   //正整数
         var numberReg2 =    /^-?\d+\.?\d{0,2}$/;   //整数或小数
@@ -374,8 +390,8 @@ $(function(){
         var inventories = [];
         var itemData = new Object();
         //必填项不能有空值
-        if ( $("#categorySubSelect").val()=="" || $("#bandSelect").val()=="" || $("#productName").val=="" || $("#supplyMerch").val=="" || $("#itemTitle").val==""
-            || $("#onShelvesAt").val=="" || $("#offShelvesAt").val=="" ) {
+        if ( $("#categorySubSelect").val()=="" || $("#bandSelect").val()=="" || $("#productName").val()=="" || $("#supplyMerch").val()=="" || $("#itemTitle").val()==""
+            || $("#onShelvesAt").val()=="" || $("#offShelvesAt").val()=="" ) {
             isPost=false;
             alert("必填项不能为空");
         }
@@ -446,46 +462,38 @@ $(function(){
         }
         var itemMasterImg = "";
         var galleryT = document.getElementById("galleryT");
-        var masterThImgLen = galleryT.getElementsByTagName("img").length;
-        if (masterThImgLen<1) {
+        var masterThImg = galleryT.getElementsByTagName("div");
+        if (masterThImg.length<1) {
             isPost = false;
             $("#warn-masthimg").text("请上传主题宣传图!");
         } else {
             $("#warn-masthimg").text("");
         }
-        //修改页面图片来源为读取商品的信息
+        //修改页面图片来源为读取商品的信息不是上传  商品主题图
         if (galleryT.getElementsByTagName("input").length==0) {
             itemMasterImg = galleryT.getElementsByTagName("img")[0].src;
             //截取图片的url
             itemMasterImg  = itemMasterImg.substring(itemMasterImg.indexOf('/',itemMasterImg.indexOf('/')+2));
         }
         else itemMasterImg = galleryT.getElementsByTagName("input")[0].value;
+        //商品详细图
         var galleryD = document.getElementById("galleryD");
-        var detailImgLen = galleryD.getElementsByTagName("img").length;
-        if (detailImgLen<1) {
+        var detailImg = galleryD.getElementsByTagName("div");
+        if (detailImg.length<1) {
             isPost = false;
             $("#warn-detailimg").text("请上传商品详细图!");
         } else {
             $("#warn-detailimg").text("");
         }
         var itemDetailImgs = [];
-        var  det = "";
-        if (galleryD.getElementsByTagName("input").length==0) {
-            det = galleryD.getElementsByTagName("img");
-            var detV = "";
-            for(i=0;i<det.length;i++) {
-                detV = det[i].src;
+        for(i=0;i<detailImg.length;i++) {
+            if(detailImg[i].getElementsByTagName("input").length==0) {
+                var detV  = detailImg[i].getElementsByTagName("img")[0].src;
                 detV = detV.substring(detV.indexOf('/',detV.indexOf('/')+2));
+                itemDetailImgs.push(detV);
             }
-            itemDetailImgs.push(detV);
+            else itemDetailImgs.push(detailImg[i].getElementsByTagName("input")[0].value);
         }
-        else {
-            det = galleryD.getElementsByTagName("input");
-            for(i=0;i<detInps.length;i++) {
-                itemDetailImgs.push(detInps[i].value);
-            }
-        }
-        console.log(itemDetailImgs);
         //遍历所有属性及属性值累加到隐藏域features中且属性名或值不能为空
         var itemFeatures = {};
         var tabFea = document.getElementById("tabFea");
@@ -515,28 +523,23 @@ $(function(){
             var restrictAmount = tds[8].getElementsByTagName("input")[0].value;
             var invArea = "B";
             if (tds[9].getElementsByTagName("input")[1].checked==true)   invArea = "Z";
+            //sku主图
             var invImg = "";
             if (document.getElementById("galleryM"+i).getElementsByTagName("input").length==0) {
                 invImg = document.getElementById("galleryM"+i).getElementsByTagName("img")[0].src;
                 invImg  = invImg.substring(invImg.indexOf('/',invImg.indexOf('/')+2));
             }
             else invImg = document.getElementById("galleryM"+i).getElementsByTagName("input")[0].value;
-            imgs = document.getElementById("galleryP"+i).getElementsByTagName("input");
-            if (imgs.length==0) {
-                imgs = document.getElementById("galleryP"+i).getElementsByTagName("img");
-                var imgsV = "";
-                 for(j=0;j<imgs.length;j++) {
-                    imgsV = imgs[i].src;
+            //sku预览图
+            imgs = document.getElementById("galleryP"+i).getElementsByTagName("div");
+            for(j=0;j<imgs.length;j++) {
+                if (imgs[j].getElementsByTagName("input").length==0) {
+                    imgsV = imgs[j].getElementsByTagName("img")[0].src;
                     imgsV = imgsV.substring(imgsV.indexOf('/',imgsV.indexOf('/')+2));
                     itemPreviewImgs.push(imgsV);
-                 }
-            }
-            else {
-                for(j=0;j<imgs.length;j++) {
-                    itemPreviewImgs.push(imgs[j].value);
                 }
+                else itemPreviewImgs.push(imgs[j].getElementsByTagName("input")[0].value);
             }
-            console.log(itemPreviewImgs);
             //拼装成一条数据
             var inventory = new Object();
             inventory.orMasterInv = orMasterInv;
@@ -552,6 +555,9 @@ $(function(){
             inventory.invArea = invArea;
             inventory.invImg = invImg;
             inventory.itemPreviewImgs = itemPreviewImgs;
+            if (tds[12].getElementsByTagName("input")[0].value != "") {
+                inventory.id = tds[12].getElementsByTagName("input")[0].value;
+            }
             inventories.push(inventory);
         }
         item.cateId = cateId;
@@ -565,18 +571,21 @@ $(function(){
         item.itemMasterImg = itemMasterImg;
         item.itemDetailImgs = itemDetailImgs;
         item.itemFeatures = itemFeatures;
+        if ($("#itemId").val() != "") {
+            item.id = $("#itemId").val();
+        }
 
         itemData.item = item;
         itemData.inventories = inventories;
 
         console.log(JSON.stringify(item));
         console.log(JSON.stringify(inventories));
-        console.log(JSON.stringify(itemData));
+//        console.log(JSON.stringify(itemData));
         console.log(isPost);
         if (isPost) {
             $.ajax({
                 type :  "POST",
-                url : "/comm/itemInsert",
+                url : "/comm/itemSave",
                 contentType: "application/json; charset=utf-8",
                 data : JSON.stringify(itemData),
                 error : function(request) {
@@ -597,7 +606,12 @@ $(function(){
                         $('.usercenter-option > .user-state').text('Unchanged');
                     }
                     setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
-                    setTimeout("location.href='/"+window.lang+"/comm/search'", 3000);
+                    //商品更新, 成功后返回到列表查询页面
+                    if($("#itemId").val() != "") {
+                        setTimeout("location.href='/"+window.lang+"/comm/search'", 3000);
+                    }
+                    //商品录入, 成功后返回到商品录入页面
+                    else setTimeout("location.href='/"+window.lang+"/comm/add'", 3000);
                 }
             });
         }

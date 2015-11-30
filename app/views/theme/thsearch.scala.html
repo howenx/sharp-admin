@@ -1,18 +1,30 @@
 @import play.i18n._
 @(lang:String="cn",url:String,pageSize:Integer,countNum:Integer,pageCount:Integer,themes:List[entity.Theme],user:entity.User)
 @scripts = {
-    <link rel="stylesheet" href="/assets/css/search.css">
-	<link rel="stylesheet" href="/assets/css/slider.css">
-	<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker.min.css"/>
-	<script src="/assets/js/bootstrap-datetimepicker.js"></script>
-	<script src="/assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
-	<script src="/assets/js/bootstrap-datetimepicker.ko.js"></script>
-	<script src="/assets/js/jquery-dateFormat.min.js"></script>
-    <script src="/assets/js/search.js"></script>
-	<script src="/assets/js/rili.js"></script>
-	<script>window.url = "@url"</script>
-	<!-- 此为调用分页所提供的函数名前缀 -->
-	<script>window.search_args = 'thmlist'</script>
+<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/search.js"></script>
+<script>window.url = "@url"</script>
+<!-- 此为调用分页所提供的函数名前缀 -->
+<script>window.search_args = 'thmlist'</script>
+<script>
+    $(function(){
+        $(function () {
+            $('#datetimepicker-starttime').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+            $('#datetimepicker-endtime').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+    })
+</script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"themes.search.title")
 
@@ -48,20 +60,19 @@
         <div class="form-group">
             <!--开始-->
             <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition3")</label>
+
             <div class="col-sm-4">
-                <div id="datetimepicker-starttime" style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
-                    <input id = "topic-form-starttime"  class="form-control" size="16" type="text" value="" readonly/>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                <div id="datetimepicker-starttime" class="input-group date">
+                    <input id = "topic-form-starttime" class="form-control col-sm-2"  type="text">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
             </div>
             <!--结束-->
             <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition4")</label>
             <div class="col-sm-4">
-                <div id="datetimepicker-endtime" style="display: inline-table;" class="input-group date form_datetime" data-date="" data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
-                    <input id = "topic-form-endtime" class="form-control" size="16" type="text" value="" readonly/>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                <div id="datetimepicker-endtime" class="input-group date">
+                    <input id = "topic-form-endtime" class="form-control col-sm-2"  type="text">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
             </div>
         </div>
@@ -108,8 +119,8 @@
                         </td>
                         <td>@theme.getMasterItemId()</td>
                         <td>@theme.getTitle()</td>
-                        <td>@(theme.getStartAt().toString().substring(0,16))</td>
-                        <td>@(theme.getEndAt().toString().substring(0,16))</td>
+                        <td>@(theme.getStartAt().toString().substring(0,19))</td>
+                        <td>@(theme.getEndAt().toString().substring(0,19))</td>
                     </tr>
                 }
                 <!---公用模块,id不能改变,只需要改变合并行数-->
