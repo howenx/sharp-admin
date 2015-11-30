@@ -144,6 +144,7 @@
             var files = this.files;
             var li_dv=$(this).parent().parent();
             $(this).parent().css("display","none");
+            $(this).parents(".li-dv").find(".text").css("display","block");
             console.log(li_dv);
             for (var i = 0; i < files.length; i++) {
                 previewImage(li_dv,this.files[i], id);
@@ -153,6 +154,7 @@
             $(this).parents(".img").find(".upload1").val("");
             $(this).parents(".img").find(".btn-primary").css("display","block");
             $(this).parents(".img").find(".track").remove();
+            $(this).parents(".li-dv").find(".text").css("display","none");
             $(this).remove();
         })
     })

@@ -1074,7 +1074,7 @@ input[name=setMain]{
 /**/
 .li-dv .upload-a{
 	position: relative;background: #35a6e8;padding: 6px 8px;cursor: pointer;
-	border-bottom: 3px solid #35a6e8;margin: 100px 320px;
+	border-bottom: 3px solid #35a6e8;margin: 100px 320px;display: block;
 }
 .li-dv input[type=file]{
 	width: 80px;height: 40px;overflow: hidden;
