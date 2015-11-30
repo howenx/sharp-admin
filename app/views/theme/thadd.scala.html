@@ -24,14 +24,14 @@
         var sharedObject = {};
 
         if (window.showModalDialog) {
-            var retValue = showModalDialog("/topic/add/popup", sharedObject, "dialogWidth:1100px; dialogHeight:400px; dialogLeft:300px;");
+            var retValue = showModalDialog("/topic/add/popup", sharedObject, "dialogWidth:1200px; dialogHeight:600px; dialogLeft:300px;");
             if (retValue) {
                 UpdateFields(retValue.id);
             }
         }
         else {
             // for similar functionality in Opera, but it's not modal!
-            var modal = window.open ("/topic/add/popup", null, "width=1200,height=400,left=300,modal=yes,alwaysRaised=yes", null);
+            var modal = window.open ("/topic/add/popup", null, "width=1200,height=600,left=300,modal=yes,alwaysRaised=yes", null);
             modal.dialogArguments = sharedObject;
         }
     }
@@ -592,22 +592,23 @@
                                             <div class="illustrate-l">
                                                 <div class="sale">
                                                     <!--	<span class="sale-rate">20</span><i>%</i>-->
-                                                    <span class="sale-rate">20%
+                                                    <span class="sale-rate">
+                                                        <span  data-index='0'>20%</span>
                                                         <i>打折率:</i>
                                                     </span>
 
                                                 </div>
                                                 <div class="money">
-                                                    <span class="money-raw">市场价:<i data-index='0'>￥600</i></span>
-                                                    <span class="now">折扣价:<i data-index='1'>￥480</i></span>
+                                                    <span class="money-raw">市场价:<i data-index='1'>￥600</i></span>
+                                                    <span class="now">折扣价:<i data-index='2'>￥480</i></span>
                                                 </div>
 
                                             </div>
                                             <div class="illustrate-r">
                                                 <span class="one">拼购打折<i>(最低)</i></span>
-                                                <span class="two" data-index='2'>2人拼购</span>
-                                                <span class="three" data-index='3'>￥400</span>
-                                                <span class="four" data-index='4'>已拼购2345人</span>
+                                                <span class="two" data-index='3'>2人拼购</span>
+                                                <span class="three" data-index='4'>￥400</span>
+                                                <span class="four" data-index='5'>已拼购2345人</span>
                                             </div>
                                         </div>
                                     </div>
@@ -615,6 +616,10 @@
                                 <div class = "pre_temp">
                                     <table>
                                         <tbody>
+                                        <tr>
+                                            <th>折扣率:</th>
+                                            <td><input class='input-area' type="text"></td>
+                                        </tr>
                                         <tr>
                                             <th>市场价:</th>
                                             <td><input class='input-area' type="text"></td>

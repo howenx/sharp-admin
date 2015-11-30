@@ -1001,7 +1001,7 @@ input[name=setMain]{
 	padding-top: 5px;position: relative;
 }
 .sale i{
-	position: absolute;bottom: 0;left: 0;
+	position: absolute;bottom: -10px;left: 0;
 	font-size: 12px;
 }
 .money{

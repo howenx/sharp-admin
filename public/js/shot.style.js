@@ -156,6 +156,16 @@ $(function() {
 					data_array.push($(this).val());
 
 				} else if (index === 4 && $(this).val()!=null && $(this).val()!='') {
+
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					data_array.push($(this).val());
+
+				} else if (index === 5 && $(this).val()!=null && $(this).val()!='') {
+
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					data_array.push($(this).val());
+
+				} else if (index === 6 && $(this).val()!=null && $(this).val()!='') {
 					$temp_div.find("[data-index='" + index + "']").text($(this).val());
 					data_array.push($(this).val());
 					if ($(this).parent().parent().parent().find("input[name='origin_wh']").is(':checked')) {
