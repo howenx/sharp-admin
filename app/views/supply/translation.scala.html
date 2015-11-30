@@ -44,7 +44,7 @@
              $("#hzp_price").focus();
              return;
            }else {
-             if(!floatRegex.test($("#hzp_price").val())) {
+             if(!floatRegex.test($("#hzp_price").val()) || $("#hzp_price").val() ==0 ) {
                alert("请输入数字");
                $("#hzp_price").val("");
                $("#hzp_price").focus();
@@ -57,7 +57,7 @@
              $("#hzp_market_price").focus();
              return;
            }else {
-             if(!floatRegex.test($("#hzp_market_price").val())) {
+             if(!floatRegex.test($("#hzp_market_price").val()) || $("#hzp_market_price").val() == 0) {
                alert("请输入数字");
                 $("#hzp_market_price").val("");
                $("#hzp_market_price").focus();
@@ -74,6 +74,18 @@
            if($("#hzp_成份").val() == "") {
              alert("Please input 成份");
              $("#hzp_成份").focus();
+             return;
+           }
+
+            if($("#hzp_肤质").val() == "") {
+             alert("Please input 肤质");
+             $("#hzp_肤质").focus();
+             return;
+           }
+
+           if($("#hzp_类别").val() == "") {
+             alert("Please input 类别");
+             $("#hzp_类别").focus();
              return;
            }
 
@@ -240,7 +252,7 @@
              $("#ps_price").focus();
              return;
            }else {
-             if(!floatRegex.test($("#ps_price").val())) {
+             if(!floatRegex.test($("#ps_price").val()) || $("#ps_price").val() == 0) {
                alert("请输入数字");
                 $("#ps_price").val("");
                $("#ps_price").focus();
@@ -253,7 +265,7 @@
              $("#ps_market_price").focus();
              return;
            }else {
-             if(!floatRegex.test($("#ps_market_price").val())) {
+             if(!floatRegex.test($("#ps_market_price").val()) || $("#ps_market_price").val() == 0) {
                alert("请输入数字");
                $("#ps_market_price").val("");
                $("#ps_market_price").focus();
@@ -427,9 +439,39 @@
              }
            }
 
+           if($("#fs_一级分类").val() == "") {
+             alert("Please input 1depth");
+             $("#fs_一级分类").focus();
+             return;
+           }
+
+           if($("#fs_二级分类").val() == "") {
+             alert("Please input 2depth");
+             $("#fs_二级分类").focus();
+             return;
+           }
+
+            if($("#fs_三级分类").val() == "") {
+             alert("Please input 3depth");
+             $("#fs_三级分类").focus();
+             return;
+           }
+
             if($("#fs_成份").val() == "") {
              alert("Please input 成份");
              $("#fs_成份").focus();
+             return;
+           }
+
+            if($("#ps_款式").val() == "") {
+             alert("Please input 款式");
+             $("#ps_款式").focus();
+             return;
+           }
+
+            if($("#ps_适用人群").val() == "") {
+             alert("Please input 适用人群");
+             $("#ps_适用人群").focus();
              return;
            }
 
@@ -491,12 +533,55 @@
              return;
            }
 
-            if($("#fs_毛重").val() == "") {
+             if($("#fs_版型").val() == "") {
+             alert("Please input 版型");
+             $("#fs_版型").focus();
+             return;
+           }
+
+           if($("#fs_上市时间").val() == "") {
+             alert("Please input 上市时间");
+             $("#fs_上市时间").focus();
+             return;
+           }
+
+           if($("#fs_里料分类").val() == "") {
+             alert("Please input 里料分类");
+             $("#fs_里料分类").focus();
+             return;
+           }
+
+           if($("#fs_图案").val() == "") {
+             alert("Please input 图案");
+             $("#fs_图案").focus();
+             return;
+           }
+
+           if($("#fs_适用年龄").val() == "") {
+             alert("Please input 适用年龄");
+             $("#fs_适用年龄").focus();
+             return;
+           }
+
+           if($("#fs_净重").val() == "") {
+             alert("Please input 净重");
+             $("#fs_净重").focus();
+             return;
+           }else {
+             if(!floatRegex.test($("#fs_净重").val())) {
+               alert("请输入数字");
+               $("#fs_净重").val("");
+               $("#fs_净重").focus();
+               return;
+             }
+           }
+
+           if($("#fs_毛重").val() == "") {
              alert("Please input 毛重");
              $("#fs_毛重").focus();
              return;
            }else {
-             if(!intRegex.test($("#fs_毛重").val())) {
+             if(!floatRegex.test($("#fs_毛重").val())) {
                alert("请输入数字");
                $("#fs_毛重").val("");
                $("#fs_毛重").focus();
@@ -504,19 +589,66 @@
              }
            }
 
-            if($("#fs_净重").val() == "") {
-             alert("Please input 净重");
-             $("#fs_净重").focus();
+            if($("#fs_厚度").val() == "") {
+             alert("Please input 厚度");
+             $("#fs_厚度").focus();
              return;
            }else {
-             if(!intRegex.test($("#fs_净重").val())) {
-               alert("请输入净重");
-               $("#fs_净重").val("");
-               $("#fs_净重").focus();
+             if(!floatRegex.test($("#fs_厚度").val())) {
+               alert("请输入数字");
+               $("#fs_厚度").val("");
+               $("#fs_厚度").focus();
                return;
              }
            }
 
+           if($("#fs_领型").val() == "") {
+             alert("Please input 领型");
+             $("#fs_领型").focus();
+             return;
+           }
+
+           if($("#fs_衣长").val() == "") {
+             alert("Please input 衣长");
+             $("#fs_衣长").focus();
+             return;
+           }
+
+           if($("#fs_袖型").val() == "") {
+             alert("Please input 袖型");
+             $("#fs_袖型").focus();
+             return;
+           }
+
+           if($("#fs_衣门襟").val() == "") {
+             alert("Please input 衣门襟");
+             $("#fs_衣门襟").focus();
+             return;
+           }
+
+           if($("#fs_尺码").val() == "") {
+             alert("Please input 尺码");
+             $("#fs_尺码").focus();
+             return;
+           }
+
+           if($("#fs_适用类型").val() == "") {
+             alert("Please input 适用类型");
+             $("#fs_适用类型").focus();
+             return;
+           }
+
+           if($("#fs_风格").val() == "") {
+             alert("Please input 风格");
+             $("#fs_风格").focus();
+             return;
+           }
+
+           if($("#fs_流行元素").val() == "") {
+             alert("Please input 流行元素");
+             $("#fs_流行元素").focus();
+             return;
+           }
 
         $("#form_fs").submit();
         });

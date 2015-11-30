@@ -83,8 +83,14 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
             case _ =>
               ret
           }
+          start match {
+            case 0 =>
 
-          Ok(views.html.supply.my_list_data("cn", user, r, start))
+              Ok(views.html.supply.my_list("cn", user, ret, start))
+            case _ =>
+              Ok(views.html.supply.my_list_data("cn", user, r, start))
+          }
+
         case None =>
           val ret = Prod.list(Prod_Type.hzp, user.id, start, size)
           //Logger.debug(ret.toString())
@@ -99,18 +105,29 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
     implicit request => {
       id match {
         case Some(category_id) =>
-          val ret = Prod.list(Prod_Type.apply(id.get), start, size)
-          Logger.debug(ret.toString())
-          val r:List[Map[String, Any]] = ret match {
-            case Nil =>
-              //val any_id:Any = id.get
-              //初始化一个空的内容
-              List(Map("products.category_id"->id.get , ".count"->0,"products.product_id"->"","products.name"->"","products.status"->""))
-            case _ =>
-              ret
-          }
+          if (Prod_Type.values.exists(_.id == id.get)) {
+            val ret = Prod.list(Prod_Type.apply(id.get), start, size)
+            Logger.debug(ret.toString())
+            val r:List[Map[String, Any]] = ret match {
+              case Nil =>
+                //val any_id:Any = id.get
+                //初始化一个空的内容
+                List(Map("products.category_id"->id.get , ".count"->0,"products.product_id"->"","products.name"->"","products.status"->""))
+              case _ =>
+                ret
+            }
 
-          Ok(views.html.supply.list_data("cn", user, r, start))
+            start match {
+              case 0 =>
+                Ok(views.html.supply.list("cn", user, ret, start))
+              case _ =>
+                Ok(views.html.supply.list_data("cn", user, r, start))
+            }
+          }else {
+            //val r =  List(Map("products.category_id"->id.get , ".count"->0,"products.product_id"->"","products.name"->"","products.status"->""))
+            //Ok(views.html.supply.list("cn", user, r, start))
+            BadRequest("no such element")
+          }
         case None =>
           val ret = Prod.list(Prod_Type.hzp, start, size)
           //Logger.debug(ret.toString())
@@ -278,11 +295,11 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "净重(KG)").asOpt[String].getOrElse(""))
+        cell.setCellValue((extra \ "净重").asOpt[String].getOrElse(""))
 
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "毛重(KG)").asOpt[String].getOrElse(""))
+        cell.setCellValue((extra \ "毛重").asOpt[String].getOrElse(""))
 
         cNum += 1
         cell = r.createCell(cNum)
@@ -294,11 +311,11 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "币制").asOpt[String].getOrElse(""))
+        cell.setCellValue((extra \ "币制").asOpt[String].getOrElse("人民币"))
 
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "原产国").asOpt[String].getOrElse("韩国"))
+        cell.setCellValue((extra \ "原产地").asOpt[String].getOrElse("韩国"))
 
 
       }
@@ -523,6 +540,13 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "申报关区").asOpt[String].getOrElse("2244"))
 
+        cNum += 5
+        cell = r.createCell(cNum)
+        cell.setCellValue((extra \ "毛重").asOpt[String].getOrElse(""))
+        cNum += 1
+        cell = r.createCell(cNum)
+        cell.setCellValue((extra \ "净重").asOpt[String].getOrElse(""))
+
 
       }
 
@@ -609,7 +633,9 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
   def supply_init() = withUser { user => {
     implicit request => {
+      var ptype:Int =0
       request.body.asMultipartFormData match {
+
         case Some(map) =>
           var filename: String = null
           map.files.map { f =>
@@ -634,11 +660,12 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
               //m += ("添加时间" -> DateTimeFormat.longDateTime().print(new DateTime()))
               //m += ("添加人" -> user.id.toString)
               val kr_string = Json.toJson(m).toString()
+              ptype = Prod_Type.withName(p_type).id;
               Prod.init(Prod_Type.withName(p_type), name, amount, kr_string,user.id)
 
           }
 
-          Redirect(routes.Application.list_supply(None))
+          Redirect(routes.Application.list_supply(Some(ptype)))
         case None =>
           Ok(views.html.supply.supply("cn", user))
       }
@@ -650,6 +677,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
   def update_kr() = withUser { user => {
     implicit request => {
+      var ptype:Int =0
       request.body.asMultipartFormData match {
         case Some(map) =>
           var filename: String = null
@@ -668,6 +696,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
               Logger.debug(m.toString())
               val p_type = m("p_type")
               m -= ("p_type")
+              ptype = Prod_Type.withName(p_type).id
               val name = m("name")
               val product_id = m("product_id")
               m -= ("product_id")
@@ -675,7 +704,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
               m += ("修改时间" -> DateTimeFormat.longDateTime().print(new DateTime()))
               val kr_string = Json.toJson(m).toString()
               Prod.update_krstring(product_id.toLong, name, amount, kr_string)
-              Redirect(routes.Application.list_supply(None))
+              Redirect(routes.Application.list_supply(Some(ptype)))
           }
 
         case None =>
@@ -761,7 +790,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
                   Prod.update(product_id.toLong, Prod_Type.hzp, name, tags, attr, spec, images, price, market_price, amount, extra)
                   //val price = map(price)
-                  Redirect(routes.Application.list(None))
+                  Redirect(routes.Application.list(Some(1)))
                   //map -= (name","price")
 
                 case Prod_Type.ps =>
@@ -795,7 +824,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
                   m --= attr_set
 
                   //得到规格
-                  val spec_set = Set("品牌", "成份", "肤质", "类别", "功能", "型号", "规格", "用途", "原产地", "单位", "尺寸")
+                  val spec_set = Set("品牌", "成份", "肤质", "类别", "功能", "型号", "规格", "用途", "原产地", "单位", "尺寸","款式","适用人群")
                   val spec = Json.toJson(m.filterKeys(spec_set.contains(_))).toString()
                   m --= spec_set
 
@@ -808,7 +837,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
                   Prod.update(product_id.toLong, Prod_Type.ps, name, tags, attr, spec, images, price, market_price, amount, extra)
 
-                  Redirect(routes.Application.list(None))
+                  Redirect(routes.Application.list(Some(2)))
 
                 case Prod_Type.fs =>
                   Logger.debug(m.toString())
@@ -860,7 +889,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
                   Prod.update(product_id.toLong, Prod_Type.fs, name, tags, attr, spec, images, price, market_price, amount, extra)
 
-                  Redirect(routes.Application.list(None))
+                  Redirect(routes.Application.list(Some(3)))
               }
 
 

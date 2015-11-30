@@ -35,7 +35,7 @@
        });
     }
 
-    load('/supply/my?id=1');
+    load('/supply/my?id=@{products.head("products.category_id")}&start=1');
 
 </script>
 }
@@ -61,9 +61,23 @@
         }
     </div>
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-        <li class="active"><a href="/supply/my?id=1" data-target="#hzp" data-toggle="tabajax">化妆品</a></li>
-        <li><a href="/supply/my?id=2" data-target="#ps" data-toggle="tabajax">配饰</a></li>
-        <li><a href="/supply/my?id=3" data-target="#fs" data-toggle="tabajax">服饰</a></li>
+        @products.head("products.category_id") match {
+               case 3 => {
+               <li ><a href="/supply/my?id=1&start=1" data-target="#hzp" data-toggle="tabajax">化妆品</a></li>
+               <li><a href="/supply/my?id=2&start=1" data-target="#ps" data-toggle="tabajax">配饰</a></li>
+               <li class="active"><a href="/supply/my?id=3&start=1" data-target="#fs" data-toggle="tabajax">服饰</a></li>
+               }
+                case 2 => {
+                <li ><a href="/supply/my?id=1&start=1" data-target="#hzp" data-toggle="tabajax">化妆品</a></li>
+                <li class="active"><a href="/supply/my?id=2&start=1" data-target="#ps" data-toggle="tabajax">配饰</a></li>
+                <li ><a href="/supply/my?id=3&start=1" data-target="#fs" data-toggle="tabajax">服饰</a></li>
+                }
+                case 1 => {
+                <li class="active"><a href="/supply/my?id=1&start=1" data-target="#hzp" data-toggle="tabajax">化妆品</a></li>
+                <li><a href="/supply/my?id=2&start=1" data-target="#ps" data-toggle="tabajax">配饰</a></li>
+                <li ><a href="/supply/my?id=3&start=1" data-target="#fs" data-toggle="tabajax">服饰</a></li>
+                }
+        }
     </ul>
     <div id="my-tab-content" class="tab-content">
         <div class="tab-pane active" id="hzp">

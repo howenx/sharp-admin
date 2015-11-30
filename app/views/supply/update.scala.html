@@ -107,9 +107,9 @@
              return;
            }
 
-           if($("#hzp_成分").val() == "") {
+           if($("#hzp_成份").val() == "") {
              alert("Please input 주요성분");
-             $("#hzp_成分").focus();
+             $("#hzp_成份").focus();
              return;
            }
 
@@ -346,9 +346,9 @@
              }
            }
 
-           if($("#ps_成分").val() == "") {
+           if($("#ps_成份").val() == "") {
              alert("Please input 주요성분");
-             $("#ps_成分").focus();
+             $("#ps_成份").focus();
              return;
            }
 
@@ -568,9 +568,9 @@
              return;
            }
 
-           if($("#fs_成分").val() == "") {
+           if($("#fs_成份").val() == "") {
              alert("Please input 주요성분");
-             $("#fs_成分").focus();
+             $("#fs_成份").focus();
              return;
            }
 
@@ -809,7 +809,7 @@
             </div>
             <div class="col-md-6 input-group" style="padding-top: 20px">
                 <span class="input-group-addon">주요성분:</span>
-                <input type="text" id="hzp_成分" name="成分" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "成分").asOpt[String])">
+                <input type="text" id="hzp_成份" name="成份" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "成份").asOpt[String])">
             </div>
             <div class="col-md-6 input-group" style="padding-top: 20px">
                 <span class="input-group-addon">피부타입:</span>
@@ -923,7 +923,7 @@
 
             <div class="col-md-6 input-group" style="padding-top: 20px">
                 <span class="input-group-addon">주요성분:</span>
-                <input type="text" id="ps_成分" name="成分" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "成分").asOpt[String])">
+                <input type="text" id="ps_成份" name="成份" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "成份").asOpt[String])">
             </div>
 
             <div class="col-md-6 input-group" style="padding-top: 20px">
@@ -1046,7 +1046,7 @@
             </div>
             <div class="col-md-6 input-group" style="padding-top: 20px">
                 <span class="input-group-addon">주요성분:</span>
-                <input type="text" id="fs_成分" name="成分" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "成分").asOpt[String])">
+                <input type="text" id="fs_成份" name="成份" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "成份").asOpt[String])">
             </div>
             <div class="col-md-6 input-group" style="padding-top: 20px">
                 <span class="input-group-addon">모델코드:</span>
@@ -1139,7 +1139,7 @@
 
             </div>
             <div class="col-md-2 col-md-offset-2" style="margin-top:20px;margin-bottom:20px">
-                <input type="hidden" value="ps" name="p_type"/>
+                <input type="hidden" value="fs" name="p_type"/>
                 <input type="hidden" name="product_id" value="@p("products.product_id")"/>
                 <input type="button" id="b_fs" class="btn btn-primary btn-block" value="Submit"/>
 

@@ -71,7 +71,13 @@ object Prod {
     DB.withConnection("products") { implicit conn =>
       val catetory_id = p_type.id
 
-      SQL(""" select count(*) over () as count , * from products where category_id = {category_id} order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "start"->start, "size"->size).as(parser.*)
+      val s = start match {
+        case 0 =>
+          1
+        case _ =>
+          start
+      }
+      SQL(""" select count(*) over () as count , * from products where category_id = {category_id} order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "start"->s, "size"->size).as(parser.*)
 
     }
   }
@@ -84,8 +90,13 @@ object Prod {
   def list(p_type: Prod_Type.prod_type, user_id:Long, start :Int, size: Int) : List[Map[String, Any]] = {
     DB.withConnection("products") { implicit conn =>
       val catetory_id = p_type.id
-
-      SQL(""" select count(*) over () as count , * from products where category_id = {category_id} and created_id = {user_id} and status= 'I' order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "user_id"->user_id,  "start"->start, "size"->size).as(parser.*)
+      val s = start match {
+        case 0 =>
+          1
+        case _ =>
+          start
+      }
+      SQL(""" select count(*) over () as count , * from products where category_id = {category_id} and created_id = {user_id} and status= 'I' order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "user_id"->user_id,  "start"->s, "size"->size).as(parser.*)
 
     }
   }
