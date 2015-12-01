@@ -6,6 +6,31 @@
 <link href="/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/slider.css"/>
 <link rel="stylesheet" href="/assets/css/item.css"/>
+<script>
+     $(document).on("click", ".main-img", function(e) {
+            $(".goods-img-bg").css({
+                "height": $(window).height(),
+                "display": "block"
+            });
+            $(".goods-img").css("left", ($(window).width() - 1200) / 2);
+            $(this).clone().appendTo($(".goods-img")).css({
+                "width": "100%",
+                "z-index": 1000
+            });
+        })
+        $(document).on("click", ".goods-img-bg .close", function(e) {
+            $(".goods-img-bg img").remove();
+            $(".goods-img-bg").css({
+                "display": "none"
+            });
+        })
+        $(document).on("click", ".goods-bg", function(e) {
+            $(".goods-img-bg img").remove();
+            $(".goods-img-bg").css({
+                "display": "none"
+            });
+        })
+</script>
 }
 
 @import java.lang.String; var title="商品详情"

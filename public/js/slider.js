@@ -66,7 +66,17 @@ $(function() {
 		setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 1000);
 
 	})
-	
+
+	/**	点击图片绑定主题或商品 **/
+
+    $(document).on('click', '.slider-content-img', function() {
+
+        console.log("item-target:"+$(this).attr('data-target'));
+        console.log("target-type:"+$(this).attr('data-type'));
+        if($(this).attr('data-target') != "" && $(this).attr('data-type') != "")
+        change_flag = true;
+    })
+
 	/**	保存 **/
 	$(document).on('click', '#js-usercenter-submit', function() {
 		if (change_flag) {
@@ -79,6 +89,8 @@ $(function() {
 				slider.sortNu = $(this).attr('data-sort');
 				var regex = new RegExp(window.url,"gi");
 				slider.img = $(this).attr('src').replace(regex,'');
+				slider.itemTarget = $(this).attr('data-target');
+                slider.targetType = $(this).attr('data-type');
 				slider_array.push(slider);
 			})
 

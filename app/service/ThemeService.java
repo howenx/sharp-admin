@@ -2,12 +2,10 @@ package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.Inventory;
-import entity.Item;
 import entity.Slider;
 import entity.Theme;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * ThemeCtrl service
@@ -15,13 +13,15 @@ import java.util.Map;
  */
 public interface ThemeService {
 
-    public List<Slider> sliderAll();
+     List<Slider> sliderAll();
 
-    public void sliderSave(JsonNode json);
+     void sliderSave(JsonNode json);
 
-    public List<Theme> themeSearch(Theme theme);
+     List<Theme> themeSearch(Theme theme);
 
-    public List<Inventory> getAllInventories();
+     List<Inventory> getAllInventories();
 
-    public void themeSave(JsonNode json);
+     void themeSave(JsonNode json);
+
+     List<Theme> getThemesAll();
 }

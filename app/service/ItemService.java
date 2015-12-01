@@ -20,7 +20,9 @@ public interface ItemService {
 
     Item getItem(Long id);
 
-    List<Inventory> getinventoriesByItemId(Long itemId);
+    List<Inventory> getInventoriesByItemId(Long itemId);
+
+    Inventory getInventory(Long id);
 
     Brands getBrand(Long brandId);
 

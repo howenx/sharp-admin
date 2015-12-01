@@ -131,7 +131,7 @@ public class ItemCtrl extends Controller {
         Cates cates = service.getCate(item.getCateId());
         String pCateNm = service.getCate(cates.getPcateId()).getCateNm();
         Brands brands = service.getBrand(item.getBrandId());
-        List<Inventory> inventories = service.getinventoriesByItemId(id);
+        List<Inventory> inventories = service.getInventoriesByItemId(id);
         return ok(views.html.item.itemdetail.render(item,inventories,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,(User) ctx().args.get("user")));
     }
 
@@ -144,10 +144,14 @@ public class ItemCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result updateItemById(String lang,Long id) {
         Item item = service.getItem(id);
+        //由商品类别id获取类别
         Cates cates = service.getCate(item.getCateId());
+        //父类别名称
         String pCateNm = service.getCate(cates.getPcateId()).getCateNm();
+        //由商品品牌id获取品牌
         Brands brands = service.getBrand(item.getBrandId());
-        List<Inventory> inventories = service.getinventoriesByItemId(id);
+        //由商品id获取库存列表
+        List<Inventory> inventories = service.getInventoriesByItemId(id);
         return ok(views.html.item.itemupdate.render(item,inventories,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,prodService.getAllBrands(),prodService.getParentCates(),(User) ctx().args.get("user")));
     }
 

@@ -36,6 +36,11 @@ public class ItemServiceImpl implements ItemService{
     @Inject
     private CatesMapper catesMapper;
 
+    /**
+     * 分页查询商品列表
+     * @param item
+     * @return list of Item
+     */
     @Override
     public List<Item> itemSearch(Item item) {
         return itemMapper.getItemPage(item);
@@ -98,23 +103,43 @@ public class ItemServiceImpl implements ItemService{
         return list;
     }
 
+    /**
+     * 由品牌id得到品牌Brands
+     * @param brandId 品牌id
+     * @return Brands
+     */
     @Override
     public Brands getBrand(Long brandId) {
         return brandsMapper.getBrand(brandId);
     }
 
+    /**
+     * 由类别id得到类别Cates
+     * @param cateId 类别id
+     * @return Cates
+     */
     @Override
     public Cates getCate(Long cateId) {
         return catesMapper.getCate(cateId);
     }
 
+    /**
+     * 由商品id得到商品Item
+     * @param id 商品id
+     * @return Item
+     */
     @Override
     public Item getItem(Long id) {
         return itemMapper.getItem(id);
     }
 
+    /**
+     * 由商品id得到该商品的库存列表
+     * @param itemId 商品id
+     * @return list of Inventory
+     */
     @Override
-    public List<Inventory> getinventoriesByItemId(Long itemId) {
+    public List<Inventory> getInventoriesByItemId(Long itemId) {
         return inventoryMapper.getInventoriesByItemId(itemId);
     }
 
@@ -125,4 +150,15 @@ public class ItemServiceImpl implements ItemService{
      */
     @Override
     public List<Item> getItemsAll() { return itemMapper.getItemsAll(); }
+
+    /**
+     * 由库存id得到库存Inventory
+     * @param id 库存id
+     * @return Inventory
+     */
+    @Override
+    public Inventory getInventory(Long id) {
+        return inventoryMapper.getInventory(id);
+    }
+
 }
