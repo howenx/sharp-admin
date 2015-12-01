@@ -153,6 +153,7 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result sliderPop(){
+
         return ok(views.html.theme.sliderPop.render());
     }
 

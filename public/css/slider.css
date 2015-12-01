@@ -26,7 +26,7 @@ ul,li {
 	background-size: contain;
 }
 
-.slider-lable-image-up {
+.slider-label-image-up {
 	width: 35px;
 	height: 35px;
 	position: absolute;
@@ -36,7 +36,7 @@ ul,li {
 	background: url(/assets/images/circle-up.png) no-repeat;
 	background-size: contain;
 }
-.slider-lable-image-del {
+.slider-label-image-del {
 	right: 20%;
 	width: 35px;
 	height: 35px;
@@ -50,7 +50,7 @@ ul,li {
 	width: 100%;
 	height: 50%;
 }
-.slider-lable {
+.slider-label {
 	width: 70%;
 	height: 45px;
 	background: rgba(224, 218, 218, 0.69);
@@ -207,7 +207,7 @@ ul,li {
 	height: auto;
 	position: relative;
 }
-.slider-hover-div:hover .slider-lable{
+.slider-hover-div:hover .slider-label{
 	display:block;
 }
 .mbread {
@@ -226,7 +226,7 @@ ul,li {
 	font-size: 12px;
 }
 .h4-custom-hmm{
-	background: url(/assets/images/name-hmm-title-lable.png) no-repeat;
+	background: url(/assets/images/name-hmm-title-label.png) no-repeat;
 	padding-left: 15px;
 	height: 20px;
 	line-height: 20px;

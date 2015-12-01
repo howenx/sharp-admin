@@ -3,7 +3,7 @@ $(function() {
 	var change_flag = false;
 
 	/**	上移 **/
-	$(document).on('click', '.slider-lable-image-up', function() {
+	$(document).on('click', '.slider-label-image-up', function() {
 		var temp_sort = $(this).parent().next().attr('data-sort');
 
 		if (temp_sort != '1') {
@@ -34,7 +34,7 @@ $(function() {
 	});
 
 	/**	删除 **/
-	$(document).on('click', '.slider-lable-image-del', function() {
+	$(document).on('click', '.slider-label-image-del', function() {
 
 		$('.usercenter-option > .user-state').css('background-position', '20px -73px');
 
@@ -153,9 +153,9 @@ $(function() {
 		reader.onload = function(e) {
 			$('.slider-li-upload').before('<li class="slider-single-li">' +
 				'<div class="slider-hover-div">' +
-				'<div class="slider-lable">' +
-				'<div class="slider-lable-image-up"></div>' +
-				'<div class="slider-lable-image-del"></div>' +
+				'<div class="slider-label">' +
+				'<div class="slider-label-image-up"></div>' +
+				'<div class="slider-label-image-del"></div>' +
 				'</div>' +
 				'<img data-index="-1" data-sort="' + $("#usercenter-info > ul").children().length + '" class="slider-content-img" src="' + this.result + '">' +
 				'</div>' +
@@ -203,9 +203,9 @@ $(function() {
 					setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
 				} else {
 					if (window.lang = 'cn') {
-						$('#js-userinfo-error').text('图片上传失败')
+						$('#js-userinfo-error').text('图片上传失败');
 					} else {
-						$('#js-userinfo-error').text('Upload error')
+						$('#js-userinfo-error').text('Upload error');
 					}
 					setTimeout("$('#js-userinfo-error').text('')", 2000);
 				}
