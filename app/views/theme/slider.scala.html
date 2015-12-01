@@ -13,7 +13,6 @@
 
         function ShowModal() {
             var sharedObject = {};
-
             if (window.showModalDialog) {
                 var retValue = showModalDialog("/topic/slider/popup", sharedObject, "dialogWidth:1100px; dialogHeight:400px; dialogLeft:300px;");
                 if (retValue) {
@@ -28,7 +27,6 @@
         }
         $(function(){
             $(document).on("click",".slider-content-img",function(){
-                console.log('123123');
                 ShowModal();
             })
         })
@@ -72,9 +70,9 @@
             @for(slider <- sliders) {
                 <li class="slider-single-li">
                     <div class="slider-hover-div">
-                        <div class="slider-lable">
-                            <div class="slider-lable-image-up"></div>
-                            <div class="slider-lable-image-del"></div>
+                        <div class="slider-label">
+                            <div class="slider-label-image-up"></div>
+                            <div class="slider-label-image-del"></div>
                         </div>
                         <img data-index="@slider.getId()" data-sort="@slider.getSortNu()" class="slider-content-img" src="@url@slider.getImg()">
                     </div>

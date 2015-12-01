@@ -1,13 +1,17 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import entity.Item;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import entity.Inventory;
 import entity.Slider;
 import entity.Theme;
+import mapper.InventoryMapper;
 import mapper.ThemeMapper;
+import play.libs.Json;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * impl
@@ -17,6 +21,8 @@ public class ThemeServiceImpl implements ThemeService {
 
     @Inject
     private ThemeMapper themeMapper;
+    @Inject
+    private InventoryMapper inventoryMapper;
 
     /**
      * 滚动条查询
@@ -64,6 +70,37 @@ public class ThemeServiceImpl implements ThemeService {
                     themeMapper.updateSlider(slider);
                 }
             }
+        }
+    }
+    /**
+     * 商品库存
+     * Added by Tiffany Zhu 15/11/30.
+     * @return list
+     */
+    @Override
+    public List<Inventory> getAllInventories(){return inventoryMapper.getAllInventories();}
+    /**
+     * Added by Tiffany Zhu 15/11/30.
+     * 录入主题信息
+     * @param json JsonNode
+     */
+    @Override
+    public void themeSave(JsonNode json){
+        Theme theme = new Theme();
+        if(json.findValue("theme").isArray()){
+            JsonNode jsonTheme = json.findValue("theme");
+            if(jsonTheme.has("themeDesc")){
+                ((ObjectNode)jsonTheme).put("themeDesc",jsonTheme.findValue("themeDesc").toString());
+            }
+            if(jsonTheme.has("itemCount")){
+                ((ObjectNode)jsonTheme).put("itemCount",jsonTheme.findValue("itemCount").toString());
+            }
+            if(jsonTheme.has("themeTags")) {
+                ((ObjectNode) jsonTheme).put("themeTags", jsonTheme.findValue("themeTags").toString());
+            }
+            theme = Json.fromJson(json.findValue("theme"),Theme.class);
+            theme.setOrDestory(false);
+            themeMapper.insertTheme(theme);
         }
     }
 

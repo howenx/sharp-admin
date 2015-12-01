@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.Theme;
 import entity.User;
+import play.Logger;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
@@ -153,9 +154,9 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result sliderPop(){
+
         return ok(views.html.theme.sliderPop.render());
     }
-
     /**
      * 主题录入弹窗
      * @return thaddPop.scala.html
@@ -163,6 +164,18 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result thaddPop(){
         return ok(views.html.theme.thaddPop.render(itemService.getItemsAll()));
+    }
+
+    /**
+     * 添加主题
+     * @return Result
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result themeSave(String lang){
+        JsonNode json = request().body().asJson();
+        Logger.error(json.toString());
+        service.themeSave(json);
+        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
 }
