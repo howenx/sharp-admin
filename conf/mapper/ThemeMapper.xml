@@ -14,7 +14,10 @@
         ${alias}.id,
         ${alias}.img,
         ${alias}.sort_nu,
-        ${alias}.create_at
+        ${alias}.create_at,
+        ${alias}.update_at,
+        ${alias}.item_target,
+        ${alias}.target_type
     </sql>
 
     <!---  滚动条    -->
@@ -33,7 +36,7 @@
     </insert>
 
     <update id="updateSlider" parameterType="entity.Slider">
-        update slider set img=#{img},sort_nu=#{sortNu}
+        update slider set img=#{img},sort_nu=#{sortNu},update_at=CURRENT_TIMESTAMP(0)
         where id = #{id}
     </update>
 
@@ -96,6 +99,7 @@
             LIMIT #{pageSize} OFFSET #{offset}
         </if>
     </select>
+
     <insert id="insertTheme" parameterType="entity.Theme" useGeneratedKeys="true" keyProperty="id">
         insert into themes
         (master_item_id,title,start_at,end_at,theme_img,sort_nu,or_destroy,destroy_at,update_at,create_at,theme_src_img,theme_config_info,theme_item,master_item_tag)
