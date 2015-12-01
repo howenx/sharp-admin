@@ -51,8 +51,8 @@ $(function() {
 	$(document).on("click", "a[name='pre_unpack_bt']", function() {
 		data_array.length = 0;
 		/** u_youjipin ***/
-		$temp_div = $(this).parent().parent().parent().parent().parent().prev();
-		
+		$temp_div = $(this).parents(".pre_temp").prev();
+
 		if ($temp_div.attr('id') == 'u_youjipin') {
 
 			$(this).parent().parent().parent().find(".input-area").each(function(index, element) {
@@ -80,20 +80,19 @@ $(function() {
 					$temp_div.find("[data-index='" + index + "']").text($(this).val());
 					data_array.push($(this).val());
 					
-				} else if (index === 4 && $(this).val()!=null && $(this).val()!='') {
-					
+				} else if (index === 4) {
+
 					if ($(this).parent().parent().parent().find("input[name='origin_wh']").is(':checked')) {
-						
-						$temp_div.find("[data-index='" + index + "']").attr('src', $(this).val());
-						data_array.push($(this).val());
-						
+						var img_val = $("#u_youjipin").find(".main-img").attr('src');
+						data_array.push(img_val);
 					} else if(imgwidth!=null && imgwidth!='' &&  imgheight!=null && imgheight!=''){
-						
-						var imgname = $(this).val().match(/[^\/]+\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP)/gi).toString();
+						var img_val = $("#u_youjipin").find(".main-img").attr('src');
+						var imgname = img_val.match(/[^http:\/\/]+\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP)/gi).toString();
 						$imginput = $(this);
-						
+						$temp_div.find(".main-img").width(imgwidth+'px');
+						$temp_div.find(".main-img").height(imgheight+'px');
 						if (imgname.match(/^(.*)(\.)(.{1,8})$/) != null) {
-							
+
 							thumb = imgname + '_' + imgwidth + '×' + imgheight + '.' + imgname.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase();
 							
 							$.ajax({
@@ -101,7 +100,7 @@ $(function() {
 								type: 'get',
 								success: function(data) {
 									if (typeof data.thumb_url != 'undefined' && data.thumb_url != null) {
-										$temp_div.find("[data-index='" + index + "']").attr('src', data.thumb_url);
+										$temp_div.find(".main-img").attr('src', data.thumb_url);
 										data_array.push(data.thumb_url);
 									}
 								},
@@ -127,16 +126,10 @@ $(function() {
 					return false;
 				}
 			})
-		}
-		if ($temp_div.attr('id') == 'q_youjipin') {
+		}else if ($temp_div.attr('id') == 'q_youjipin') {
 
 			$(this).parent().parent().parent().find(".input-area").each(function(index, element) {
-
-				var imgwidth = $(this).parent().parent().parent().find('input[name="custom_w"]').val();
-				var imgheight = $(this).parent().parent().parent().find('input[name="custom_h"]').val();
-
 				if (index === 0 && $(this).val()!=null && $(this).val()!='') {
-
 					$temp_div.find("[data-index='" + index + "']").text($(this).val());
 					data_array.push($(this).val());
 
@@ -163,70 +156,39 @@ $(function() {
 				} else if (index === 5 && $(this).val()!=null && $(this).val()!='') {
 
 					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					console.log($(this));
 					data_array.push($(this).val());
 
-				} else if (index === 6 && $(this).val()!=null && $(this).val()!='') {
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
-					data_array.push($(this).val());
-					if ($(this).parent().parent().parent().find("input[name='origin_wh']").is(':checked')) {
-
-						$temp_div.find("[data-index='" + index + "']").attr('src', $(this).val());
-						data_array.push($(this).val());
-
-					} else if(imgwidth!=null && imgwidth!='' &&  imgheight!=null && imgheight!=''){
-
-						var imgname = $(this).val().match(/[^\/]+\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP)/gi).toString();
-						$imginput = $(this);
-
-						if (imgname.match(/^(.*)(\.)(.{1,8})$/) != null) {
-
-							thumb = imgname + '_' + imgwidth + '×' + imgheight + '.' + imgname.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase();
-
-							$.ajax({
-								url: window.url+'/thumb/' + thumb, //Server script to process data
-								type: 'get',
-								success: function(data) {
-									if (typeof data.thumb_url != 'undefined' && data.thumb_url != null) {
-										$temp_div.find("[data-index='" + index + "']").attr('src', data.thumb_url);
-										data_array.push(data.thumb_url);
-									}
-								},
-								error: function(data, error, errorThrown) {
-									if (data.status && data.status >= 400) {
-										alert(data.responseText);
-									} else {
-										alert("Something went wrong");
-									}
-								}
-							});
-
-						} else {
-							alert('Image type is not matched.');
-							return false;
-						}
-					} else {
-						alert('Please check exists null value.')
-						return false;
-					}
+				} else if (index === 6) {
+					var img_val = $("#q_youjipin").find("[data-index='" + index + "']").attr('src');
+					data_array.push(img_val);
 				} else {
-					alert('Please check exists null value.')
+					alert('Please check exists null value.');
 					return false;
 				}
 			})
 		}
+		console.log(data_array);
 	})
 
 	/** submit to nwjs shootscreen. **/
 	$('#submit').on("click", function() {
+		if($("input[data-xr=upload-img]").is(':checked')){
+			data_array.length = 0;
+			data_array.push($("#upload-img").find("img").attr("src"));
+			console.log(data_array);
+		}
 		console.log(JSON.parse(JSON.stringify(data_array)));
-		
 		$check = $('input[name=setMain]:checked');
 		if ($check.length === 1) {
 			$.ajax({
-				url: 'http://172.28.3.47:3008/nw',
+				//url: 'http://172.28.3.47:3008/nw',
+				url:window.url+"/nw",
 				type: 'POST',
 				data: {
 					tempid: '' + $check.attr('data-xr'),
+					img_width: $('#' + $check.attr('data-xr')).find(".main-img").width(),
+					img_height: $('#' + $check.attr('data-xr')).find(".main-img").height(),
 					xr_width: $('#' + $check.attr('data-xr')).width(),
 					xr_height: $('#' + $check.attr('data-xr')).height(),
 					array:JSON.stringify(data_array)
@@ -302,8 +264,8 @@ $(function() {
   			formdata.append("params", params);
 			
   			var http = new XMLHttpRequest();
-  			var url = "http://172.28.3.47:3008/upload";
-			
+  			//var url = "http://172.28.3.47:3008/upload";
+			var url = window.url+"/upload"
   			http.open("POST", url, true);
 			
   			http.onreadystatechange = function() {
