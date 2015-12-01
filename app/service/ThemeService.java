@@ -1,6 +1,7 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import entity.Inventory;
 import entity.Item;
 import entity.Slider;
 import entity.Theme;
@@ -20,5 +21,7 @@ public interface ThemeService {
 
     public List<Theme> themeSearch(Theme theme);
 
+    public List<Inventory> getAllInventories();
 
+    public void themeSave(JsonNode json);
 }

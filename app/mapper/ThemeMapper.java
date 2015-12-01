@@ -22,4 +22,6 @@ public interface ThemeMapper {
 
      List<Theme> getThemePage(Theme theme);
 
+     void insertTheme(Theme theme);
+
 }

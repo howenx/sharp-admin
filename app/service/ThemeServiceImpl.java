@@ -1,9 +1,11 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import entity.Inventory;
 import entity.Item;
 import entity.Slider;
 import entity.Theme;
+import mapper.InventoryMapper;
 import mapper.ThemeMapper;
 
 import javax.inject.Inject;
@@ -17,6 +19,8 @@ public class ThemeServiceImpl implements ThemeService {
 
     @Inject
     private ThemeMapper themeMapper;
+    @Inject
+    private InventoryMapper inventoryMapper;
 
     /**
      * 滚动条查询
@@ -65,6 +69,22 @@ public class ThemeServiceImpl implements ThemeService {
                 }
             }
         }
+    }
+    /**
+     * 商品库存
+     * Added by Tiffany Zhu 15/11/30.
+     * @return list
+     */
+    @Override
+    public List<Inventory> getAllInventories(){return inventoryMapper.getAllInventories();}
+    /**
+     * Added by Tiffany Zhu 15/11/30.
+     * 主题保存
+     * @param json JsonNode
+     */
+    @Override
+    public void themeSave(JsonNode json){
+
     }
 
 }
