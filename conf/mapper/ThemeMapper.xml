@@ -5,105 +5,114 @@
 
 <mapper namespace="mapper.ThemeMapper">
 
-    <!--enable mybatis default cache configure reference:
-        https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
-    -->
-    <!--<cache/>-->
+        <!--enable mybatis default cache configure reference:
+            https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
+        -->
+        <!--<cache/>-->
 
-    <sql id="sliderColumns">
-        ${alias}.id,
-        ${alias}.img,
-        ${alias}.sort_nu,
-        ${alias}.create_at,
-        ${alias}.update_at,
-        ${alias}.item_target,
-        ${alias}.target_type
-    </sql>
+        <sql id="sliderColumns">
+                ${alias}.id,
+                ${alias}.img,
+                ${alias}.sort_nu,
+                ${alias}.create_at,
+                ${alias}.update_at,
+                ${alias}.item_target,
+                ${alias}.target_type
+        </sql>
 
-    <!---  滚动条    -->
+        <!---  滚动条    -->
 
-    <select id="getSlidersAll" resultType="entity.Slider">
-        select
-        <include refid="sliderColumns">
-            <property name="alias" value="t"/>
-        </include>
-        from slider t order by t.sort_nu
-    </select>
+        <select id="getSlidersAll" resultType="entity.Slider">
+                select
+                <include refid="sliderColumns">
+                        <property name="alias" value="t"/>
+                </include>
+                from slider t order by t.sort_nu
+        </select>
 
-    <insert id="insertSlider" parameterType="entity.Slider" useGeneratedKeys="true" keyProperty="id">
-        insert into slider (img,sort_nu,create_at)
-        values (#{img},#{sortNu},CURRENT_TIMESTAMP(0))
-    </insert>
+        <insert id="insertSlider" parameterType="entity.Slider" useGeneratedKeys="true" keyProperty="id">
+                insert into slider (img,sort_nu,create_at)
+                values (#{img},#{sortNu},CURRENT_TIMESTAMP(0))
+        </insert>
 
-    <update id="updateSlider" parameterType="entity.Slider">
-        update slider set img=#{img},sort_nu=#{sortNu},update_at=CURRENT_TIMESTAMP(0)
-        where id = #{id}
-    </update>
+        <update id="updateSlider" parameterType="entity.Slider">
+                update slider set
+                img=#{img},sort_nu=#{sortNu},update_at=CURRENT_TIMESTAMP(0),item_target=#{itemTarget},target_type=#{targetType}
+                where id = #{id}
+        </update>
 
-    <delete id="deleteSlider" parameterType="java.lang.Long">
-        delete from slider
-        where id = ${value}
-    </delete>
+        <delete id="deleteSlider" parameterType="java.lang.Long">
+                delete from slider
+                where id = ${value}
+        </delete>
 
-    <!---  主题    -->
+        <!---  主题    -->
 
-    <sql id="themeColumns">
-        ${alias}.id,
-        ${alias}.master_item_id,
-        ${alias}.title,
-        ${alias}.start_at,
-        ${alias}.end_at,
-        ${alias}.theme_img,
-        ${alias}.sort_nu,
-        ${alias}.or_destroy,
-        ${alias}.destroy_at,
-        ${alias}.update_at,
-        ${alias}.create_at,
-        ${alias}.theme_src_img
-    </sql>
+        <sql id="themeColumns">
+                ${alias}.id,
+                ${alias}.master_item_id,
+                ${alias}.title,
+                ${alias}.start_at,
+                ${alias}.end_at,
+                ${alias}.theme_img,
+                ${alias}.sort_nu,
+                ${alias}.or_destroy,
+                ${alias}.destroy_at,
+                ${alias}.update_at,
+                ${alias}.create_at,
+                ${alias}.theme_src_img
+        </sql>
 
-    <select id="getThemePage" parameterType="entity.Theme" resultType="entity.Theme">
-        select
-        <include refid="themeColumns">
-            <property name="alias" value="t"/>
-        </include>
-        from themes t where 1=1
-        <if test="id != null">
-            and t.id = #{id}
-        </if>
-        <if test="masterItemId != null">
-            and t.master_item_id = #{masterItemId}
-        </if>
-        <if test="startAt != null">
-            and t.start_at &gt;= #{startAt} ::timestamp
-        </if>
-        <if test="endAt != null">
-            and t.end_at &lt;= #{endAt} ::timestamp
-        </if>
+        <select id="getThemePage" parameterType="entity.Theme" resultType="entity.Theme">
+                select
+                <include refid="themeColumns">
+                        <property name="alias" value="t"/>
+                </include>
+                from themes t where 1=1
+                <if test="id != null">
+                        and t.id = #{id}
+                </if>
+                <if test="masterItemId != null">
+                        and t.master_item_id = #{masterItemId}
+                </if>
+                <if test="startAt != null">
+                        and t.start_at &gt;= #{startAt} ::timestamp
+                </if>
+                <if test="endAt != null">
+                        and t.end_at &lt;= #{endAt} ::timestamp
+                </if>
 
-        <if test="sort == null or sort == ''">
-            ORDER BY t.create_at DESC, t.sort_nu
-        </if>
+                <if test="sort == null or sort == ''">
+                        ORDER BY t.create_at DESC, t.sort_nu
+                </if>
 
-        <if test="sort != null">
-            ORDER BY t.${sort}
-            <if test="order != null">
-                ${order}
-            </if>
-        </if>
+                <if test="sort != null">
+                        ORDER BY t.${sort}
+                        <if test="order != null">
+                                ${order}
+                        </if>
+                </if>
 
-        <if test="pageSize == -1 and offset >= -1">
-            LIMIT ALL OFFSET 0
-        </if>
-        <if test="pageSize >= 1 and offset >= 0">
-            LIMIT #{pageSize} OFFSET #{offset}
-        </if>
-    </select>
+                <if test="pageSize == -1 and offset >= -1">
+                        LIMIT ALL OFFSET 0
+                </if>
+                <if test="pageSize >= 1 and offset >= 0">
+                        LIMIT #{pageSize} OFFSET #{offset}
+                </if>
+        </select>
 
-    <insert id="insertTheme" parameterType="entity.Theme" useGeneratedKeys="true" keyProperty="id">
-        insert into themes
-        (master_item_id,title,start_at,end_at,theme_img,sort_nu,create_at,theme_src_img,theme_config_info,theme_item,master_item_tag)
-        values
-        (#{masterItemId},#{title},#{startAt},#{endAt},#{themeImg},#{sortNu},CURRENT_TIMESTAMP(0),#{themeSrcImg},#{themeDesc},#{itemCount},#{themeTags})
-    </insert>
+        <select id="getThemesAll" resultType="entity.Theme">
+                select
+                <include refid="themeColumns">
+                        <property name="alias" value="t"/>
+                </include>
+                from themes t where 1=1
+        </select>
+
+        <insert id="insertTheme" parameterType="entity.Theme" useGeneratedKeys="true" keyProperty="id">
+                insert into themes
+                (master_item_id,title,start_at,end_at,theme_img,sort_nu,create_at,theme_src_img,theme_config_info,theme_item,master_item_tag)
+                values
+                (#{masterItemId},#{title},#{startAt},#{endAt},#{themeImg},#{sortNu},CURRENT_TIMESTAMP(0),#{themeSrcImg},#{themeDesc},#{itemCount},#{themeTags})
+        </insert>
 </mapper>

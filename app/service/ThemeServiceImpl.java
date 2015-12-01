@@ -7,11 +7,10 @@ import entity.Slider;
 import entity.Theme;
 import mapper.InventoryMapper;
 import mapper.ThemeMapper;
-import play.libs.Json;
+import play.api.libs.json.Json;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * impl
@@ -72,6 +71,7 @@ public class ThemeServiceImpl implements ThemeService {
             }
         }
     }
+
     /**
      * 商品库存
      * Added by Tiffany Zhu 15/11/30.
@@ -79,6 +79,7 @@ public class ThemeServiceImpl implements ThemeService {
      */
     @Override
     public List<Inventory> getAllInventories(){return inventoryMapper.getAllInventories();}
+
     /**
      * Added by Tiffany Zhu 15/11/30.
      * 录入主题信息
@@ -102,6 +103,16 @@ public class ThemeServiceImpl implements ThemeService {
             theme.setOrDestory(false);
             themeMapper.insertTheme(theme);
         }
+    }
+
+    /**
+     * Added by Sunny Wu 15/12/1
+     * 查询所有的主题
+     * @return list of Theme
+     */
+    @Override
+    public List<Theme> getThemesAll() {
+        return themeMapper.getThemesAll();
     }
 
 }
