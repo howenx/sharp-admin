@@ -25,4 +25,6 @@ public interface ThemeMapper {
 
      List<Theme> getThemesAll();
 
+     void updateTheme(Theme theme);
+
 }

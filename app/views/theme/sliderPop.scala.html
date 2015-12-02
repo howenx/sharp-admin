@@ -2,14 +2,15 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>选择主题或商品</title>
-    <link rel="shortcut icon" type="image/png" href="/assets/images/favicon.ico">
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" >
-    <script src="/assets/js/jquery.min.js"></script>
-    <link rel="stylesheet" href="/assets/css/search.css" >
-    <script>
+        <meta charset="UTF-8">
+        <title>选择主题或商品</title>
+        <link rel="shortcut icon" type="image/png" href="/assets/images/favicon.ico">
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css" >
+        <script src="/assets/js/jquery.min.js"></script>
+        <link rel="stylesheet" href="/assets/css/search.css" >
+        <script>
         $(function(){
+            var sharedObject = window.dialogArguments;
             var targetType = "T";
             /**	变换选择显示主题列表或商品列表 **/
             $(".switch").click(function(){
@@ -23,9 +24,9 @@
             /** 点击单选按钮选择主题或商品 **/
             $(".table input[type=radio]").click(function(){
                 var id=$("input[type=radio]:checked").parent().next().html();
-                var sharedObject = {};
                 if (window.showModalDialog) {
                     sharedObject.id = id;
+                    sharedObject.targetType = targetType;
                     window.returnValue = sharedObject;
                 }
                 else {
@@ -79,68 +80,68 @@
 </head>
 <body>
 <div class="table-two clearfix">
-    <div class="theme-table pull-left switch"><span>主题选择</span></div>
-    <div class="goods-table pull-left switch"><span>商品选择</span></div>
-    <!--主题-->
-    <table class="table table-bordered table-hover table-theme">
-        <tr>
-            <th>选择主题</th>
-            <th>主题ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
-            <th>主题图片</th>
-            <th>主商品ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
-            <th>主商品图片</th>
-            <th>开始时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
-            <th>结束时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
-        </tr>
-        @for(obj <- thList) {
-        <tr>
-            <td><input type="radio" name="selectTheme"></td>
-            <td>@obj(0)</td>
-            <td><img class="main-img" src="@url@obj(1)" alt="" width="50"></td>
-            <td>@obj(2)</td>
-            <td><img class="main-img" src="@url@obj(3)" alt="" width="50"></td>
-            <td>@(obj(4).toString().substring(0,16))</td>
-            <td>@(obj(5).toString().substring(0,16))</td>
-        </tr>
-        }
-    </table>
-    <!--商品-->
-    <table class="table table-bordered table-hover table-goods">
-        <tr>
-            <th>选择商品</th>
-            <th>商品ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
-            <th>商品标题</th>
-            <th>商品主图</th>
-            <th>上架时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
-            <th>下架时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
-            <th>商品状态</th>
-            <th>现价(￥)<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
-            <th>原价(￥)<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
-            <th>折扣(￥)<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
-        </tr>
-        @for(obj <- itList) {
-        <tr>
-            <td><input type="radio" name="selectItem"></td>
-            <td>@obj(0)</td>
-            <td>@obj(1)</td>
-            <td><img class="main-img" src="@url@obj(2)" alt="" width="50"></td>
-            <td>@(obj(3).toString().substring(0,16))</td>
-            <td>@(obj(4).toString().substring(0,16))</td>
-            <td>@obj(5)</td>
-            <td>@obj(6)</td>
-            <td>@obj(7)</td>
-            <td>@obj(8)</td>
-        </tr>
-        }
-    </table>
+        <div class="theme-table pull-left switch"><span>主题选择</span></div>
+        <div class="goods-table pull-left switch"><span>商品选择</span></div>
+        <!--主题-->
+        <table class="table table-bordered table-hover table-theme">
+                <tr>
+                        <th>选择主题</th>
+                        <th>主题ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                        <th>主题图片</th>
+                        <th>主商品ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                        <th>主商品图片</th>
+                        <th>开始时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                        <th>结束时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                </tr>
+                @for(obj <- thList) {
+                <tr>
+                        <td><input type="radio" name="selectTheme"></td>
+                        <td>@obj(0)</td>
+                        <td><img class="main-img" src="@url@obj(1)" alt="" width="50"></td>
+                        <td>@obj(2)</td>
+                        <td><img class="main-img" src="@url@obj(3)" alt="" width="50"></td>
+                        <td>@(obj(4).toString().substring(0,16))</td>
+                        <td>@(obj(5).toString().substring(0,16))</td>
+                </tr>
+                }
+        </table>
+        <!--商品-->
+        <table class="table table-bordered table-hover table-goods">
+                <tr>
+                        <th>选择商品</th>
+                        <th>商品ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                        <th>商品标题</th>
+                        <th>商品主图</th>
+                        <th>上架时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                        <th>下架时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                        <th>商品状态</th>
+                        <th>现价(￥)<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                        <th>原价(￥)<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                        <th>折扣(￥)<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                </tr>
+                @for(obj <- itList) {
+                <tr>
+                        <td><input type="radio" name="selectItem"></td>
+                        <td>@obj(0)</td>
+                        <td>@obj(1)</td>
+                        <td><img class="main-img" src="@url@obj(2)" alt="" width="50"></td>
+                        <td>@(obj(3).toString().substring(0,16))</td>
+                        <td>@(obj(4).toString().substring(0,16))</td>
+                        <td>@obj(5)</td>
+                        <td>@obj(6)</td>
+                        <td>@obj(7)</td>
+                        <td>@obj(8)</td>
+                </tr>
+                }
+        </table>
 
 </div>
 
 <div class="goods-img-bg">
-    <div class="goods-bg"></div>
-    <div class="goods-img">
-        <button type="button" class="close" aria-label="Close" style="position: absolute;right: 283px;top: -18px;"><span aria-hidden="true">&times;</span></button>
-    </div>
+        <div class="goods-bg"></div>
+        <div class="goods-img">
+                <button type="button" class="close" aria-label="Close" style="position: absolute;right: 283px;top: -18px;"><span aria-hidden="true">&times;</span></button>
+        </div>
 </div>
 
 </body>

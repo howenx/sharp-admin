@@ -87,7 +87,6 @@ public class ThemeServiceImpl implements ThemeService {
      */
     @Override
     public void themeSave(JsonNode json){
-        /*
         Theme theme = new Theme();
         if(json.findValue("theme").isArray()){
             JsonNode jsonTheme = json.findValue("theme");
@@ -102,9 +101,13 @@ public class ThemeServiceImpl implements ThemeService {
             }
             theme = Json.fromJson(json.findValue("theme"),Theme.class);
             theme.setOrDestory(false);
-            themeMapper.insertTheme(theme);
+            if(jsonTheme.has("id")){
+                themeMapper.updateTheme(theme);
+            }else
+            {
+                themeMapper.insertTheme(theme);
+            }
         }
-        */
     }
 
 

@@ -115,4 +115,10 @@
                 values
                 (#{masterItemId},#{title},#{startAt},#{endAt},#{themeImg},#{sortNu},CURRENT_TIMESTAMP(0),#{themeSrcImg},#{themeDesc},#{itemCount},#{themeTags})
         </insert>
+        <update id="updateTheme" parameterType="entity.Theme">
+                update themes
+                set master_item_id=#{masterItemId},title=#{title},start_at=#{startAt},end_at=#{endAt},theme_img=#{themeImg},sort_nu=#{sortNu},
+                    update_at=CURRENT_TIMESTAMP(0),theme_src_img=#{themeSrcImg},theme_config_info=#{themeDesc},theme_item=#{itemCount},master_item_tag=#{themeTags}
+                where id = #{id}
+        </update>
 </mapper>
