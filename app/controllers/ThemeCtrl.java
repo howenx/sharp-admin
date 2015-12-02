@@ -16,6 +16,7 @@ import service.ItemService;
 import service.ThemeService;
 
 import javax.inject.Inject;
+import java.io.ObjectStreamClass;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -203,6 +204,13 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result thaddPop(){
+        //商品列表
+        List<Item> itemList = itemService.getItemsAll();
+        for (Item item : itemList){
+            Map<String,String>
+        }
+        List<Map> item_inventory_List = new ArrayList<>();
+
         return ok(views.html.theme.thaddPop.render(itemService.getItemsAll()));
     }
 
