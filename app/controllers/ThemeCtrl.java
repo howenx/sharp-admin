@@ -16,7 +16,7 @@ import service.ItemService;
 import service.ThemeService;
 
 import javax.inject.Inject;
-import java.io.ObjectStreamClass;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -206,12 +206,29 @@ public class ThemeCtrl extends Controller {
     public Result thaddPop(){
         //商品列表
         List<Item> itemList = itemService.getItemsAll();
-        for (Item item : itemList){
-            Map<String,String>
+        //含有主sku价格的商品列表
+        List<Map<String,Object>> itList = new ArrayList<>();
+        for(Item item : itemList) {
+            Map<String,Object> map = new HashMap();
+            Logger.error(item.toString());
+            map.put("id", item.getId());
+            map.put("title", item.getItemTitle());
+            map.put("itemMasterImg", item.getItemMasterImg());
+            map.put("onShelvesAt", item.getOnShelvesAt());
+            map.put("offShelvesAt", item.getOffShelvesAt());
+            map.put("state", item.getState());
+            //商品的价格信息不为空
+            if (item.getMasterInvId() != null) {
+                Logger.error(item.getMasterInvId().toString());
+                Inventory inventory = itemService.getInventory(item.getMasterInvId());
+                Logger.error(inventory.toString());
+                map.put("itemPrice",inventory.getItemPrice());
+                map.put("itemSrcPrice",inventory.getItemSrcPrice());
+                map.put("itemDiscount",inventory.getItemDiscount());
+            }
+            itList.add(map);
         }
-        List<Map> item_inventory_List = new ArrayList<>();
-
-        return ok(views.html.theme.thaddPop.render(itemService.getItemsAll()));
+        return ok(views.html.theme.thaddPop.render(itList,IMAGE_URL));
     }
 
     /**
@@ -228,3 +245,4 @@ public class ThemeCtrl extends Controller {
 
 
 }
+
