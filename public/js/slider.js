@@ -68,12 +68,7 @@ $(function() {
 	})
 
 	/**	点击图片绑定主题或商品 **/
-
     $(document).on('click', '.slider-content-img', function() {
-
-        console.log("item-target:"+$(this).attr('data-target'));
-        console.log("target-type:"+$(this).attr('data-type'));
-        if($(this).attr('data-target') != "" && $(this).attr('data-type') != "")
         change_flag = true;
     })
 

@@ -59,12 +59,12 @@ $(function(){
         var uptrs = inventory.getElementsByTagName("tr");
         for(i=1;i<uptrs.length;i++) {
             var uptds = uptrs[i].getElementsByTagName("td");
-            uptds[10].getElementsByTagName("div")[0].id = "galleryM"+i;
-            uptds[10].getElementsByTagName("span")[0].id = "masterImgAddM"+i;
-            uptds[10].getElementsByTagName("input")[0].id = "M"+i;
-            uptds[11].getElementsByTagName("div")[0].id = "galleryP"+i;
-            uptds[11].getElementsByTagName("span")[0].id = "preImgAddP"+i;
-            uptds[11].getElementsByTagName("input")[0].id = "P"+i;
+            uptds[11].getElementsByTagName("div")[0].id = "galleryM"+i;
+            uptds[11].getElementsByTagName("span")[0].id = "masterImgAddM"+i;
+            uptds[11].getElementsByTagName("input")[0].id = "M"+i;
+            uptds[12].getElementsByTagName("div")[0].id = "galleryP"+i;
+            uptds[12].getElementsByTagName("span")[0].id = "preImgAddP"+i;
+            uptds[12].getElementsByTagName("input")[0].id = "P"+i;
         }
     }
 
@@ -198,16 +198,17 @@ $(function(){
         //最后一行有空值不能添加
         for(i=1;i<tds.length;i++) {
             if (i <=8 && tds[i].getElementsByTagName("input")[0].value=="") break;
-            if (i ==11 && trs[index-1].getElementsByClassName("list-img")[0].getElementsByTagName("div").length==1) break;
-            if (i ==12 && trs[index-1].getElementsByClassName("preview-img")[0].getElementsByTagName("div").length==1) break;
+            if (i ==12 && trs[index-1].getElementsByClassName("list-img")[0].getElementsByTagName("div").length==1) break;
+            if (i ==13 && trs[index-1].getElementsByClassName("preview-img")[0].getElementsByTagName("div").length==1) break;
         }
-        if (i==13){
+        if (i==14){
             var tr =  document.createElement("tr");
 
             var td1 = document.createElement("td");
             var input1 = document.createElement("input");
             input1.type = "radio";
             input1.name = "orMasterInv";
+            input1.classList.add("master-radio");
             td1.appendChild(input1);
 
             var td2 = document.createElement("td");
@@ -263,6 +264,7 @@ $(function(){
             inputR1.type = "radio";
             inputR1.name = "invArea"+index;
             inputR1.value = "B";
+            inputR1.classList.add("area-radio");
             var divB = document.createElement("div");
             divB.classList.add('area');
             divB.innerText="保税区";
@@ -270,6 +272,7 @@ $(function(){
             inputR2.type = "radio";
             inputR2.name = "invArea"+index;
             inputR2.value = "Z";
+            inputR2.classList.add("area-radio");
             inputR2.checked = "checked";
             var divZ = document.createElement("div");
             divZ.classList.add('area');
@@ -279,6 +282,10 @@ $(function(){
             td10.appendChild(inputR2);
             td10.appendChild(divZ);
 
+            var tdPost = document.createElement("td");
+            tdPost.innerHTML = '<select><option value="shanghai">上海海关</option><option value="guangzhou">广州海关</option><option value="hangzhou">杭州海关</option>'+
+                               '<option value="ningbo">宁波海关</option><option value="zhengzhou">郑州海关</option><option value="chongqing">重庆海关</option>'+
+                               '<option value="gzjichang">广州机场海关</option><option value="gzluogang">广州萝岗海关</option></select>';
             var td11 = document.createElement("td");
             td11.classList.add('list-img');
             var divM = document.createElement("div");
@@ -332,6 +339,7 @@ $(function(){
             tr.appendChild(td8);
             tr.appendChild(td9);
             tr.appendChild(td10);
+            tr.appendChild(tdPost);
             tr.appendChild(td11);
             tr.appendChild(td12);
             tr.appendChild(td13);
@@ -395,7 +403,9 @@ $(function(){
             isPost=false;
             alert("必填项不能为空");
         }
-        var cateId = $("#categorySubSelect").val();
+        var cateId = "";
+        if($("#categorySubSelect").text()=="") cateId=$("#categorySelect").val();
+        else cateId=$("#categorySubSelect").val();
         var brandId = $("#bandSelect").val();
         var supplyMerch = $("#supplyMerch").val();
         var itemTitle = $("#itemTitle").val();
@@ -431,11 +441,11 @@ $(function(){
                 break;
             } else $("#warn-num").text("");
         }
-        if (tds[10].getElementsByTagName("div").length<2) {
+        if (tds[11].getElementsByTagName("div").length<2) {
             isPost = false;
             $("#warn-mas").html("请上传商品主图");
         } else $("#warn-mas").html("");
-        if (tds[11].getElementsByTagName("div").length<2) {
+        if (tds[12].getElementsByTagName("div").length<2) {
             isPost = false;
             $("#warn-pre").html("请上传商品预览图");
         } else $("#warn-pre").html("");
@@ -470,12 +480,14 @@ $(function(){
             $("#warn-masthimg").text("");
         }
         //修改页面图片来源为读取商品的信息不是上传  商品主题图
-        if (galleryT.getElementsByTagName("input").length==0) {
-            itemMasterImg = galleryT.getElementsByTagName("img")[0].src;
+        var inpT = galleryT.getElementsByTagName("input");
+        var imgT = galleryT.getElementsByTagName("img");
+        if (inpT.length==0 && imgT.length!=0) {
+            itemMasterImg = imgT[0].src;
             //截取图片的url
             itemMasterImg  = itemMasterImg.substring(itemMasterImg.indexOf('/',itemMasterImg.indexOf('/')+2));
         }
-        else itemMasterImg = galleryT.getElementsByTagName("input")[0].value;
+        if (inpT.length!=0 && imgT.length!=0) itemMasterImg = inpT[0].value;
         //商品详细图
         var galleryD = document.getElementById("galleryD");
         var detailImg = galleryD.getElementsByTagName("div");
@@ -487,12 +499,14 @@ $(function(){
         }
         var itemDetailImgs = [];
         for(i=0;i<detailImg.length;i++) {
-            if(detailImg[i].getElementsByTagName("input").length==0) {
-                var detV  = detailImg[i].getElementsByTagName("img")[0].src;
+            var inpD = detailImg[i].getElementsByTagName("input");
+            var imgD = detailImg[i].getElementsByTagName("img");
+            if(inpD.length==0 && imgD.length!=0) {
+                var detV  = imgD[0].src;
                 detV = detV.substring(detV.indexOf('/',detV.indexOf('/')+2));
                 itemDetailImgs.push(detV);
             }
-            else itemDetailImgs.push(detailImg[i].getElementsByTagName("input")[0].value);
+            if(inpD.length!=0 && imgD.length!=0) itemDetailImgs.push(inpD[0].value);
         }
         //遍历所有属性及属性值累加到隐藏域features中且属性名或值不能为空
         var itemFeatures = {};
@@ -523,22 +537,27 @@ $(function(){
             var restrictAmount = tds[8].getElementsByTagName("input")[0].value;
             var invArea = "B";
             if (tds[9].getElementsByTagName("input")[1].checked==true)   invArea = "Z";
+            var invCustoms = tds[10].getElementsByTagName("select")[0].value;
             //sku主图
             var invImg = "";
-            if (document.getElementById("galleryM"+i).getElementsByTagName("input").length==0) {
-                invImg = document.getElementById("galleryM"+i).getElementsByTagName("img")[0].src;
+            var inpM = document.getElementById("galleryM"+i).getElementsByTagName("input");
+            var imgM = document.getElementById("galleryM"+i).getElementsByTagName("img");
+            if (inpM.length==0 && imgM.length!=0) {
+                invImg = imgM[0].src;
                 invImg  = invImg.substring(invImg.indexOf('/',invImg.indexOf('/')+2));
             }
-            else invImg = document.getElementById("galleryM"+i).getElementsByTagName("input")[0].value;
+           if (inpM.length!=0 && imgM.length!=0) invImg = inpM[0].value;
             //sku预览图
             imgs = document.getElementById("galleryP"+i).getElementsByTagName("div");
             for(j=0;j<imgs.length;j++) {
-                if (imgs[j].getElementsByTagName("input").length==0) {
-                    imgsV = imgs[j].getElementsByTagName("img")[0].src;
+                var inpP = imgs[j].getElementsByTagName("input");
+                var imgP = imgs[j].getElementsByTagName("img");
+                if (inpP.length==0 && imgP.length!=0) {
+                    imgsV = imgP[0].src;
                     imgsV = imgsV.substring(imgsV.indexOf('/',imgsV.indexOf('/')+2));
                     itemPreviewImgs.push(imgsV);
                 }
-                else itemPreviewImgs.push(imgs[j].getElementsByTagName("input")[0].value);
+                if (inpP.length!=0 && imgP.length!=0) itemPreviewImgs.push(inpP[0].value);
             }
             //拼装成一条数据
             var inventory = new Object();
@@ -553,10 +572,13 @@ $(function(){
             inventory.itemDiscount = itemDiscount;
             inventory.restrictAmount = restrictAmount;
             inventory.invArea = invArea;
+            inventory.invCustoms = invCustoms;
             inventory.invImg = invImg;
             inventory.itemPreviewImgs = itemPreviewImgs;
-            if (tds[12].getElementsByTagName("input")[0].value != "") {
-                inventory.id = tds[12].getElementsByTagName("input")[0].value;
+            if (tds[13].getElementsByTagName("input")[0].value != "") {
+                inventory.id = tds[13].getElementsByTagName("input")[0].value;
+                if (tds[0].getElementsByTagName("input")[0].checked==true)
+                item.masterInvId = tds[13].getElementsByTagName("input")[0].value;
             }
             inventories.push(inventory);
         }

@@ -77,7 +77,6 @@ public class ItemServiceImpl implements ItemService{
             }
             else this.itemMapper.itemInsert(item);
         }
-
         if (json.has("inventories")) {
             //往inventories表插入数据
             for(final JsonNode jsonNode : json.findValue("inventories")) {
@@ -92,11 +91,20 @@ public class ItemServiceImpl implements ItemService{
                 inventory.setState("Y");
                 inventory.setShipFee(new BigDecimal(0.00));
                 inventory.setInvTitle(item.getItemTitle());
+                inventory.setPostalTaxCode("09020800");
                 Logger.error(inventory.toString());
                 if (jsonNode.has("id")) {
                     this.inventoryMapper.updateInventory(inventory);
                 }
                 else this.inventoryMapper.insertInventory(inventory);
+                //查找该商品的库存中主skuId,更新到items表中masterInvId
+                List<Inventory> inventories = inventoryMapper.getInventoriesByItemId(item.getId());
+                for(Inventory inv : inventories) {
+                    if (inv.getOrMasterInv()==true) {
+                        item.setMasterInvId(inv.getId());
+                        itemMapper.itemUpdate(item);
+                    }
+                }
                 list.add(inventory.getId());
             }
         }
