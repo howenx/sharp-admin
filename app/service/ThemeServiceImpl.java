@@ -7,7 +7,7 @@ import entity.Slider;
 import entity.Theme;
 import mapper.InventoryMapper;
 import mapper.ThemeMapper;
-import play.api.libs.json.Json;
+import play.libs.Json;
 
 import javax.inject.Inject;
 import java.util.List;
