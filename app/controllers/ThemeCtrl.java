@@ -207,26 +207,22 @@ public class ThemeCtrl extends Controller {
         //商品列表
         List<Item> itemList = itemService.getItemsAll();
         //含有主sku价格的商品列表
-        List<Map<String,Object>> itList = new ArrayList<>();
+        List<Object[]> itList = new ArrayList<>();
         for(Item item : itemList) {
-            Map<String,Object> map = new HashMap();
+            Object[] object = new Object[8];
             Logger.error(item.toString());
-            map.put("id", item.getId());
-            map.put("title", item.getItemTitle());
-            map.put("itemMasterImg", item.getItemMasterImg());
-            map.put("onShelvesAt", item.getOnShelvesAt());
-            map.put("offShelvesAt", item.getOffShelvesAt());
-            map.put("state", item.getState());
-            //商品的价格信息不为空
-            if (item.getMasterInvId() != null) {
-                Logger.error(item.getMasterInvId().toString());
-                Inventory inventory = itemService.getInventory(item.getMasterInvId());
-                Logger.error(inventory.toString());
-                map.put("itemPrice",inventory.getItemPrice());
-                map.put("itemSrcPrice",inventory.getItemSrcPrice());
-                map.put("itemDiscount",inventory.getItemDiscount());
-            }
-            itList.add(map);
+            Logger.error(item.getMasterInvId().toString());
+            Inventory inventory = itemService.getInventory(item.getMasterInvId());
+            Logger.error(inventory.toString());
+            object[0] = item.getId();
+            object[1] = item.getItemTitle();
+            object[2] = item.getItemMasterImg();
+            object[3] = item.getOnShelvesAt();
+            object[4] = item.getState();
+            object[5] = inventory.getItemPrice();
+            object[6] = inventory.getItemSrcPrice();
+            object[7] = inventory.getItemDiscount();
+            itList.add(object);
         }
         return ok(views.html.theme.thaddPop.render(itList,IMAGE_URL));
     }

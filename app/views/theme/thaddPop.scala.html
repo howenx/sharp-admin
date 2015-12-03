@@ -1,4 +1,4 @@
-@(itList:List[Map[String,Object]],url:String)
+@(itList:List[Array[Object]],url:String)
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 <script src="/assets/js/jquery.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
@@ -71,20 +71,20 @@
             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
         </th>
     </tr>
-    @for(itemMap <- itList){
+    @for(item <- itList){
     <tr>
         <td>
             <input type="checkbox" name="goods">
         </td>
-        <td>@itemMap.get("id")</td>
+        <td>@item(0)</td>
         <td></td>
-        <td>@itemMap.get("title")</td>
-        <td> <img class="main-img" src='@url@itemMap.get("itemMasterImg")' alt="" width="50"></td>
-        @if(itemMap.get("onShelvesAt")!=null){<td>@(itemMap.get("onShelvesAt").toString().substring(0,16))</td>}
-        <td>@itemMap.get("state")</td>
-        <td>@itemMap.get("itemPrice")</td>
-        <td>@itemMap.get("itemSrcPrice")</td>
-        <td>@itemMap.get("itemDiscount")</td>
+        <td>@item(1)</td>
+        <td> <img class="main-img" src="@url@item(2)" alt="" width="50"></td>
+        @if(item(3)!=null){<td>@(item(3).toString().substring(0,16))</td>}
+        <td>@item(4)</td>
+        <td>@item(5)</td>
+        <td>@item(6)</td>
+        <td>@item(7)</td>
     </tr>
     }
 </table>
