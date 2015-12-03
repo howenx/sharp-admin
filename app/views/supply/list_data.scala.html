@@ -1,28 +1,34 @@
 @import scala.collection.immutable._
 @import entity.User_Type
 @import entity.User
-
+@import org.joda.time.DateTime
 @(lang:String="cn",user:User,products:List[Map[String, Any]],start:Int)
 @import scala.Int; var count =0; var category_id = 0;
+@import org.joda.time.format.DateTimeFormat; val fm = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm:ss");
 <div style="margin-top:20px">
     <table class="table table-hover table-bordered">
-        <tr>
-            <th>商品ID</th>
-            <th>商品名称</th>
-            <th>状态</th>
-            <th>操作</th>
+        <tr align="center" class="info">
+            <th class="col-md-1">序号</th>
+            <th class="col-md-1">商品ID</th>
+            <th class="col-md-2">商品名称</th>
+            <th class="col-md-1">时间</th>
+            <th class="col-md-1">状态</th>
+            <th class="col-md-1">操作</th>
         </tr>
 
         @for(p <-products) {
 
         @{if(count == 0) {count=p(".count").toString.toInt; category_id = p("products.category_id").toString.toInt}}
         <tr>
-            <td>@p("products.product_id")</td>
-            <td>@p("products.name")</td>
+            <td class="col-md-1">@p(".row")</td>
+            <td class="col-md-1">@p("products.product_id")</td>
+            <td class="col-md-2">@p("products.name")</td>
+            <td class="col-md-1">@{fm.print(new DateTime(p("products.created_dt")))}</td>
             <td>
                 @p("products.status") match {
                    case "I" => {未翻译}
                    case "T" => {已翻译}
+                   case "A" => {已追加}
                    case _ => {}
                 }
             </td>
@@ -31,6 +37,7 @@
                 case User_Type.SELLER => {
                   @p("products.status") match {
                     case "I" => {<a href="/supply/update/@p("products.product_id")">修改(수정)</a> </td>}
+
                     case _ => {</td>}
                   }
 
@@ -38,11 +45,24 @@
                 case User_Type.TRANSLATION => {
                   @p("products.status") match {
                     case "I" => {
-                       <a href="/supply/translation/@p("products.product_id")">翻译</a>
-                     <a href="/supply/append/@p("products.product_id")">追加</a></td>
+                       <a href="/supply/translation/@p("products.product_id")">翻译</a></td>
+
+                    }
+                    case "T" => {
+                    <a href="/supply/translation/@p("products.product_id")">翻译</a></td>
+
+                    }
+                    case _ =>{</td>}
+                  }
+                }
+                case User_Type.ADMIN => {
+                    @p("products.status") match {
+                    case "I" => {
+
+                    <a href="/supply/append/@p("products.product_id")">追加</a></td>
                     }
                     case _ =>{<a href="/supply/append/@p("products.product_id")">追加</a></td>}
-                  }
+                    }
                 }
                 }
 

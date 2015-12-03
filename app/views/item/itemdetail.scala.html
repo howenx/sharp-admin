@@ -6,6 +6,31 @@
 <link href="/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/slider.css"/>
 <link rel="stylesheet" href="/assets/css/item.css"/>
+<script>
+     $(document).on("click", ".main-img", function(e) {
+            $(".goods-img-bg").css({
+                "height": $(window).height(),
+                "display": "block"
+            });
+            $(".goods-img").css("left", ($(window).width() - 1200) / 2);
+            $(this).clone().appendTo($(".goods-img")).css({
+                "width": "100%",
+                "z-index": 1000
+            });
+        })
+        $(document).on("click", ".goods-img-bg .close", function(e) {
+            $(".goods-img-bg img").remove();
+            $(".goods-img-bg").css({
+                "display": "none"
+            });
+        })
+        $(document).on("click", ".goods-bg", function(e) {
+            $(".goods-img-bg img").remove();
+            $(".goods-img-bg").css({
+                "display": "none"
+            });
+        })
+</script>
 }
 
 @import java.lang.String; var title="商品详情"
@@ -85,18 +110,19 @@
                     <div class="goods-info1">
                         <table class="table table-bordered qubian inv" id="inventory">
                             <tr>
-                                <th width="80">设为主商品</th>
-                                <th width="60">颜色分类</th>
-                                <th width="60">尺寸分类</th>
-                                <th width="60">库存数量</th>
-                                <th width="60">现价(￥)</th>
-                                <th width="60">原价(￥)</th>
+                                <th width="60">设为主商品</th>
+                                <th width="50">颜色分类</th>
+                                <th width="50">尺寸分类</th>
+                                <th width="30">库存数量</th>
+                                <th width="50">现价(￥)</th>
+                                <th width="50">原价(￥)</th>
                                 <th width="60">成本价(￥)</th>
-                                <th width="60">折扣</th>
-                                <th width="60">限购数量</th>
-                                <th width="140">库存地</th>
-                                <th width="100">主图(一张)</th>
-                                <th width="280">详情页预览图(最多6张)</th>
+                                <th width="40">折扣</th>
+                                <th width="30">限购数量</th>
+                                <th width="80">库存地</th>
+                                <th width="80">报关单位</th>
+                                <th width="80">主图(一张)</th>
+                                <th width="260">详情页预览图(最多6张)</th>
                             </tr>
                             @for(inventory <-  inventories) {
                                 <tr>
@@ -136,6 +162,16 @@
                                             <input type="radio" name="@inventory.getId()" value="B" disabled/><div class="area">保税区</div>
                                             <input type="radio" name="@inventory.getId()" value="Z" checked="checked" disabled/><div class="area">韩国直邮</div>
                                         }
+                                    </td>
+                                    <td>
+                                        @if(inventory.getInvCustoms()== "shanghai") {<input type="text" name="invCustoms" value="上海海关" readonly/>}
+                                        @if(inventory.getInvCustoms()== "guangzhou") {<input type="text" name="invCustoms" value="广州海关" readonly/>}
+                                        @if(inventory.getInvCustoms()== "hangzhou") {<input type="text" name="invCustoms" value="杭州海关" readonly/>}
+                                        @if(inventory.getInvCustoms()== "ningbo") {<input type="text" name="invCustoms" value="宁波海关" readonly/>}
+                                        @if(inventory.getInvCustoms()== "zhengzhou") {<input type="text" name="invCustoms" value="郑州海关" readonly/>}
+                                        @if(inventory.getInvCustoms()== "chongqing") {<input type="text" name="invCustoms" value="重庆海关" readonly/>}
+                                        @if(inventory.getInvCustoms()== "gzjichang") {<input type="text" name="invCustoms" value="广州机场海关" readonly/>}
+                                        @if(inventory.getInvCustoms()== "gzluogang") {<input type="text" name="invCustoms" value="广州萝岗海关" readonly/>}
                                     </td>
                                     <td class="list-img">
                                         <div >

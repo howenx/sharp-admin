@@ -36,6 +36,11 @@ public class ItemServiceImpl implements ItemService{
     @Inject
     private CatesMapper catesMapper;
 
+    /**
+     * 分页查询商品列表
+     * @param item
+     * @return list of Item
+     */
     @Override
     public List<Item> itemSearch(Item item) {
         return itemMapper.getItemPage(item);
@@ -72,7 +77,6 @@ public class ItemServiceImpl implements ItemService{
             }
             else this.itemMapper.itemInsert(item);
         }
-
         if (json.has("inventories")) {
             //往inventories表插入数据
             for(final JsonNode jsonNode : json.findValue("inventories")) {
@@ -87,34 +91,63 @@ public class ItemServiceImpl implements ItemService{
                 inventory.setState("Y");
                 inventory.setShipFee(new BigDecimal(0.00));
                 inventory.setInvTitle(item.getItemTitle());
+                inventory.setPostalTaxCode("09020800");
                 Logger.error(inventory.toString());
                 if (jsonNode.has("id")) {
                     this.inventoryMapper.updateInventory(inventory);
                 }
                 else this.inventoryMapper.insertInventory(inventory);
+                //查找该商品的库存中主skuId,更新到items表中masterInvId
+                List<Inventory> inventories = inventoryMapper.getInventoriesByItemId(item.getId());
+                for(Inventory inv : inventories) {
+                    if (inv.getOrMasterInv()==true) {
+                        item.setMasterInvId(inv.getId());
+                        itemMapper.itemUpdate(item);
+                    }
+                }
                 list.add(inventory.getId());
             }
         }
         return list;
     }
 
+    /**
+     * 由品牌id得到品牌Brands
+     * @param brandId 品牌id
+     * @return Brands
+     */
     @Override
     public Brands getBrand(Long brandId) {
         return brandsMapper.getBrand(brandId);
     }
 
+    /**
+     * 由类别id得到类别Cates
+     * @param cateId 类别id
+     * @return Cates
+     */
     @Override
     public Cates getCate(Long cateId) {
         return catesMapper.getCate(cateId);
     }
 
+    /**
+     * 由商品id得到商品Item
+     * @param id 商品id
+     * @return Item
+     */
     @Override
     public Item getItem(Long id) {
         return itemMapper.getItem(id);
     }
 
+    /**
+     * 由商品id得到该商品的库存列表
+     * @param itemId 商品id
+     * @return list of Inventory
+     */
     @Override
-    public List<Inventory> getinventoriesByItemId(Long itemId) {
+    public List<Inventory> getInventoriesByItemId(Long itemId) {
         return inventoryMapper.getInventoriesByItemId(itemId);
     }
 
@@ -125,4 +158,15 @@ public class ItemServiceImpl implements ItemService{
      */
     @Override
     public List<Item> getItemsAll() { return itemMapper.getItemsAll(); }
+
+    /**
+     * 由库存id得到库存Inventory
+     * @param id 库存id
+     * @return Inventory
+     */
+    @Override
+    public Inventory getInventory(Long id) {
+        return inventoryMapper.getInventory(id);
+    }
+
 }

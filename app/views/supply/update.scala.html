@@ -63,7 +63,7 @@
            }
 
             if($("#hzp_market_price").val() == "") {
-             alert("Please input 판매가");
+             alert("Please input 판매가격");
              $("#hzp_market_price").focus();
              return;
            }else {
@@ -89,7 +89,7 @@
            }
 
             if($("#hzp_market_price_usd").val() == "") {
-             alert("Please input 판매가");
+             alert("Please input 판매가격");
              $("#hzp_market_price_usd").focus();
              return;
            }else {
@@ -308,7 +308,7 @@
            }
 
             if($("#ps_market_price").val() == "") {
-             alert("Please input 판매가");
+             alert("Please input 판매가격");
              $("#ps_market_price").focus();
              return;
            }else {
@@ -334,7 +334,7 @@
            }
 
             if($("#ps_market_price_usd").val() == "") {
-             alert("Please input 판매가");
+             alert("Please input 판매가격");
              $("#ps_market_price_usd").focus();
              return;
            }else {
@@ -511,7 +511,7 @@
            }
 
             if($("#fs_market_price").val() == "") {
-             alert("Please input 판매가");
+             alert("Please input 판매가격");
              $("#fs_market_price").focus();
              return;
            }else {
@@ -538,7 +538,7 @@
            }
 
             if($("#fs_market_price_usd").val() == "") {
-             alert("Please input 판매가");
+             alert("Please input 판매가격");
              $("#fs_market_price_usd").focus();
              return;
            }else {
@@ -787,14 +787,14 @@
             <div class="col-md-6 input-group" style="padding-top: 20px">
                 <span class="input-group-addon">원가（KRW）:</span>
                 <input type="text" id="hzp_price" name="price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "price").asOpt[String])">
-                <span class="input-group-addon">판매가（KRW）:</span>
+                <span class="input-group-addon">판매가격（KRW）:</span>
                 <input type="text" id="hzp_market_price" name="market_price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "market_price").asOpt[String])">
             </div>
 
             <div class="col-md-6 input-group" style="padding-top: 20px">
                 <span class="input-group-addon">원가（USD）:</span>
                 <input type="text" id="hzp_price_usd" name="usd_price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "usd_price").asOpt[String])">
-                <span class="input-group-addon">판매가（USD）:</span>
+                <span class="input-group-addon">판매가격（USD）:</span>
                 <input type="text" id="hzp_market_price_usd" name="usd_market_price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "usd_market_price").asOpt[String])">
             </div>
 
@@ -808,7 +808,7 @@
                 <input type="text" id="hzp_颜色" name="颜色" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "颜色").asOpt[String])">
             </div>
             <div class="col-md-6 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">주요성분:</span>
+                <span class="input-group-addon">주요성분(재질):</span>
                 <input type="text" id="hzp_成份" name="成份" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "成份").asOpt[String])">
             </div>
             <div class="col-md-6 input-group" style="padding-top: 20px">
@@ -904,14 +904,14 @@
             <div class="col-md-6 input-group" style="padding-top: 20px">
                 <span class="input-group-addon">원가（KRW）:</span>
                 <input type="text" id="ps_price" name="price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "price").asOpt[String])">
-                <span class="input-group-addon">판매가（KRW）:</span>
+                <span class="input-group-addon">판매가격（KRW）:</span>
                 <input type="text" id="ps_market_price" name="market_price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "market_price").asOpt[String])">
             </div>
 
             <div class="col-md-6 input-group" style="padding-top: 20px">
                 <span class="input-group-addon">원가（USD）:</span>
                 <input type="text" id="ps_price_usd" name="usd_price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "usd_price").asOpt[String])">
-                <span class="input-group-addon">판매가（USD）:</span>
+                <span class="input-group-addon">판매가격（USD）:</span>
                 <input type="text" id="ps_market_price_usd" name="usd_market_price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "usd_market_price").asOpt[String])">
             </div>
 
@@ -922,7 +922,7 @@
             </div>
 
             <div class="col-md-6 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">주요성분:</span>
+                <span class="input-group-addon">주요성분(재질):</span>
                 <input type="text" id="ps_成份" name="成份" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "成份").asOpt[String])">
             </div>
 
@@ -1018,13 +1018,13 @@
             <div class="col-md-6 input-group" style="padding-top: 20px">
                 <span class="input-group-addon">원가（KRW）:</span>
                 <input type="text" id="fs_price" name="price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "price").asOpt[String])">
-                <span class="input-group-addon">판매가（KRW）:</span>
+                <span class="input-group-addon">판매가격（KRW）:</span>
                 <input type="text" id="fs_market_price" name="market_price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "market_price").asOpt[String])">
             </div>
             <div class="col-md-6 input-group" style="padding-top: 20px">
                 <span class="input-group-addon">원가（USD）:</span>
                 <input type="text" id="fs_price_usd" name="usd_price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "usd_price").asOpt[String])">
-                <span class="input-group-addon">판매가（USD）:</span>
+                <span class="input-group-addon">판매가격（USD）:</span>
                 <input type="text" id="fs_market_price_usd" name="usd_market_price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "usd_market_price").asOpt[String])">
             </div>
 
@@ -1045,7 +1045,7 @@
 
             </div>
             <div class="col-md-6 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">주요성분:</span>
+                <span class="input-group-addon">주요성분(재질):</span>
                 <input type="text" id="fs_成份" name="成份" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "成份").asOpt[String])">
             </div>
             <div class="col-md-6 input-group" style="padding-top: 20px">

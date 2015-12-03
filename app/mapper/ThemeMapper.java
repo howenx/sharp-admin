@@ -1,6 +1,5 @@
 package mapper;
 
-import entity.Item;
 import entity.Slider;
 import entity.Theme;
 
@@ -23,5 +22,9 @@ public interface ThemeMapper {
      List<Theme> getThemePage(Theme theme);
 
      void insertTheme(Theme theme);
+
+     List<Theme> getThemesAll();
+
+     void updateTheme(Theme theme);
 
 }

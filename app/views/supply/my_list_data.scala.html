@@ -1,32 +1,38 @@
 @import scala.collection.immutable._
 @import entity.User_Type
 @import entity.User
+@import org.joda.time.DateTime
 
 @(lang:String="cn",user:User,products:List[Map[String, Any]],start:Int)
 @import scala.Int; var count =0; var category_id = 0;
+@import org.joda.time.format.DateTimeFormat; val fm = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm:ss");
 <div style="margin-top:20px">
     <table class="table table-hover table-bordered">
-        <tr>
-            <th>商品ID</th>
-            <th>商品名称</th>
-            <th>状态</th>
-            <th>操作</th>
+        <tr align="center" class="info">
+            <th class="col-md-1">序号(순번)</th>
+            <th class="col-md-1">商品(상품)ID</th>
+            <th class="col-md-2">商品名称(상품명칭)</th>
+            <th class="col-md-1">时间(시간)</th>
+            <th class="col-md-1">状态(상태)</th>
+            <th class="col-md-1">操作(조작)</th>
         </tr>
 
         @for(p <-products) {
 
         @{if(count == 0) {count=p(".count").toString.toInt; category_id = p("products.category_id").toString.toInt}}
         <tr>
-            <td>@p("products.product_id")</td>
-            <td>@p("products.name")</td>
-            <td>
+            <td class="col-md-1">@p(".row")</td>
+            <td class="col-md-1">@p("products.product_id")</td>
+            <td class="col-md-2">@p("products.name")</td>
+            <td class="col-md-1">@{fm.print(new DateTime(p("products.created_dt")))}</td>
+            <td class="col-md-1">
                 @p("products.status") match {
-                   case "I" => {未翻译}
-                   case "T" => {已翻译}
+                   case "I" => {未翻译(미번역)}
+                   case "T" => {已翻译(번역완료)}
                    case _ => {}
                 }
             </td>
-            <td>
+            <td class="col-md-1">
                 @user.role match {
                 case User_Type.SELLER => {
                   @p("products.status") match {

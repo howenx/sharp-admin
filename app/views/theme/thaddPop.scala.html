@@ -1,4 +1,4 @@
-@(items:List[entity.Item])
+@(itList:List[Array[Object]],url:String)
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 <script src="/assets/js/jquery.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
@@ -71,50 +71,22 @@
             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
         </th>
     </tr>
+    @for(item <- itList){
     <tr>
         <td>
             <input type="checkbox" name="goods">
         </td>
-        <td>123</td>
-        <td>1</td>
+        <td>@item(0)</td>
         <td></td>
-        <td><img src="/assets/images/1.jpg" alt="" width="40" height="40"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    @for(item <- items){
-    <tr>
-        <td>
-            <input type="checkbox" name="goods">
-        </td>
-        <td>@item.getId()</td>
-        <td></td>
-        <td>@item.getItemTitle()</td>
-        <td> <img class="main-img" src="@item.getItemMasterImg()" alt="" width="50"></td>
-        @if(item.getOnShelvesAt()!=null){<td>@(item.getOnShelvesAt().toString().substring(0,16))</td>}
-        <td>@item.getState()</td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>@item(1)</td>
+        <td> <img class="main-img" src="@url@item(2)" alt="" width="50"></td>
+        @if(item(3)!=null){<td>@(item(3).toString().substring(0,16))</td>}
+        <td>@item(4)</td>
+        <td>@item(5)</td>
+        <td>@item(6)</td>
+        <td>@item(7)</td>
     </tr>
     }
-    <tr>
-        <td>
-            <input type="checkbox" name="goods">
-        </td>
-        <td>223</td>
-        <td></td>
-        <td>3</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>2</td>
-        <td></td>
-        <td>4</td>
-    </tr>
 </table>
 <button class="return btn btn-primary btn-xs" style="margin-left: 50px">确认添加</button>
 </body>

@@ -1,6 +1,8 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import entity.Inventory;
+import entity.Item;
 import entity.Theme;
 import entity.User;
 import play.Logger;
@@ -14,7 +16,10 @@ import service.ItemService;
 import service.ThemeService;
 
 import javax.inject.Inject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -149,21 +154,77 @@ public class ThemeCtrl extends Controller {
     }
 
     /**
-     * 滚动条弹窗
+     * 滚动条弹窗  主题列表和商品列表
      * @return sliderPop.scala.html
      */
     @Security.Authenticated(UserAuth.class)
     public Result sliderPop(){
-
-        return ok(views.html.theme.sliderPop.render());
+        //主题列表
+        List<Theme> themeList = service.getThemesAll();
+        //含有主商品图的主题列表
+        List<Object[]> thList = new ArrayList<>();
+        for(Theme theme : themeList) {
+            Object[] object = new Object[6];
+            Item item = itemService.getItem(theme.getMasterItemId());
+            object[0] = theme.getId();
+            object[1] = theme.getThemeImg();
+            object[2] = theme.getMasterItemId();
+            object[3] = item.getItemMasterImg();
+            object[4] = theme.getStartAt();
+            object[5] = theme.getEndAt();
+            thList.add(object);
+        }
+        //商品列表
+        List<Item> itemList = itemService.getItemsAll();
+        //含有主sku价格的商品列表
+        List<Object[]> itList = new ArrayList<>();
+        for(Item item : itemList) {
+            Object[] object = new Object[9];
+            Logger.error(item.toString());
+            Logger.error(item.getMasterInvId().toString());
+            Inventory inventory = itemService.getInventory(item.getMasterInvId());
+            Logger.error(inventory.toString());
+            object[0] = item.getId();
+            object[1] = item.getItemTitle();
+            object[2] = item.getItemMasterImg();
+            object[3] = item.getOnShelvesAt();
+            object[4] = item.getOffShelvesAt();
+            object[5] = item.getState();
+            object[6] = inventory.getItemPrice();
+            object[7] = inventory.getItemSrcPrice();
+            object[8] = inventory.getItemDiscount();
+            itList.add(object);
+        }
+        return ok(views.html.theme.sliderPop.render(thList,itList,IMAGE_URL));
     }
+
     /**
      * 主题录入弹窗
      * @return thaddPop.scala.html
      */
     @Security.Authenticated(UserAuth.class)
     public Result thaddPop(){
-        return ok(views.html.theme.thaddPop.render(itemService.getItemsAll()));
+        //商品列表
+        List<Item> itemList = itemService.getItemsAll();
+        //含有主sku价格的商品列表
+        List<Object[]> itList = new ArrayList<>();
+        for(Item item : itemList) {
+            Object[] object = new Object[8];
+            Logger.error(item.toString());
+            Logger.error(item.getMasterInvId().toString());
+            Inventory inventory = itemService.getInventory(item.getMasterInvId());
+            Logger.error(inventory.toString());
+            object[0] = item.getId();
+            object[1] = item.getItemTitle();
+            object[2] = item.getItemMasterImg();
+            object[3] = item.getOnShelvesAt();
+            object[4] = item.getState();
+            object[5] = inventory.getItemPrice();
+            object[6] = inventory.getItemSrcPrice();
+            object[7] = inventory.getItemDiscount();
+            itList.add(object);
+        }
+        return ok(views.html.theme.thaddPop.render(itList,IMAGE_URL));
     }
 
     /**
@@ -178,4 +239,6 @@ public class ThemeCtrl extends Controller {
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
+
 }
+
