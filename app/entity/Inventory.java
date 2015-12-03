@@ -110,70 +110,37 @@ public class Inventory {
      */
     private String state;
 
+    /**
+     * 邮费
+     */
     private BigDecimal shipFee;
 
+    /**库存区域
+     *
+     */
     private String invArea;
 
+    /**
+     * 限购数量
+     */
     private Integer restrictAmount;
 
+    /**
+     * 商品标题
+     */
     private String invTitle;
 
+    /**
+     * 报关单位
+     */
+    private String invCustoms;
+
+    /**
+     * 行邮税号
+     */
+    private String postalTaxCode;
+
     public Inventory() {}
-
-    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, BigDecimal shipFee, String invArea, Integer restrictAmount, String invTitle) {
-        this.id = id;
-        this.itemId = itemId;
-        this.itemColor = itemColor;
-        this.itemSize = itemSize;
-        this.itemPrice = itemPrice;
-        this.itemSrcPrice = itemSrcPrice;
-        this.itemCostPrice = itemCostPrice;
-        this.itemDiscount = itemDiscount;
-        this.amount = amount;
-        this.soldAmount = soldAmount;
-        this.restAmount = restAmount;
-        this.invImg = invImg;
-        this.itemPreviewImgs = itemPreviewImgs;
-        this.createAt = createAt;
-        this.updateAt = updateAt;
-        this.orDestroy = orDestroy;
-        this.destroyAt = destroyAt;
-        this.orMasterInv = orMasterInv;
-        this.state = state;
-        this.shipFee = shipFee;
-        this.invArea = invArea;
-        this.restrictAmount = restrictAmount;
-        this.invTitle = invTitle;
-    }
-
-    @Override
-    public String toString() {
-        return "Inventory{" +
-                "id=" + id +
-                ", itemId=" + itemId +
-                ", itemColor='" + itemColor + '\'' +
-                ", itemSize='" + itemSize + '\'' +
-                ", itemPrice=" + itemPrice +
-                ", itemSrcPrice=" + itemSrcPrice +
-                ", itemCostPrice=" + itemCostPrice +
-                ", itemDiscount=" + itemDiscount +
-                ", amount=" + amount +
-                ", soldAmount=" + soldAmount +
-                ", restAmount=" + restAmount +
-                ", invImg='" + invImg + '\'' +
-                ", itemPreviewImgs='" + itemPreviewImgs + '\'' +
-                ", createAt=" + createAt +
-                ", updateAt=" + updateAt +
-                ", orDestroy=" + orDestroy +
-                ", destroyAt=" + destroyAt +
-                ", orMasterInv=" + orMasterInv +
-                ", state='" + state + '\'' +
-                ", shipFee=" + shipFee +
-                ", invArea='" + invArea + '\'' +
-                ", restrictAmount=" + restrictAmount +
-                ", invTitle='" + invTitle + '\'' +
-                '}';
-    }
 
     public Long getId() {
         return id;
@@ -357,5 +324,80 @@ public class Inventory {
 
     public void setInvTitle(String invTitle) {
         this.invTitle = invTitle;
+    }
+
+    public String getInvCustoms() {
+        return invCustoms;
+    }
+
+    public void setInvCustoms(String invCustoms) {
+        this.invCustoms = invCustoms;
+    }
+
+    public String getPostalTaxCode() {
+        return postalTaxCode;
+    }
+
+    public void setPostalTaxCode(String postalTaxCode) {
+        this.postalTaxCode = postalTaxCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Inventory{" +
+                "id=" + id +
+                ", itemId=" + itemId +
+                ", itemColor='" + itemColor + '\'' +
+                ", itemSize='" + itemSize + '\'' +
+                ", itemPrice=" + itemPrice +
+                ", itemSrcPrice=" + itemSrcPrice +
+                ", itemCostPrice=" + itemCostPrice +
+                ", itemDiscount=" + itemDiscount +
+                ", amount=" + amount +
+                ", soldAmount=" + soldAmount +
+                ", restAmount=" + restAmount +
+                ", invImg='" + invImg + '\'' +
+                ", itemPreviewImgs='" + itemPreviewImgs + '\'' +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                ", orDestroy=" + orDestroy +
+                ", destroyAt=" + destroyAt +
+                ", orMasterInv=" + orMasterInv +
+                ", state='" + state + '\'' +
+                ", shipFee=" + shipFee +
+                ", invArea='" + invArea + '\'' +
+                ", restrictAmount=" + restrictAmount +
+                ", invTitle='" + invTitle + '\'' +
+                ", invCustoms='" + invCustoms + '\'' +
+                ", postalTaxCode='" + postalTaxCode + '\'' +
+                '}';
+    }
+
+    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, BigDecimal shipFee, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxCode) {
+        this.id = id;
+        this.itemId = itemId;
+        this.itemColor = itemColor;
+        this.itemSize = itemSize;
+        this.itemPrice = itemPrice;
+        this.itemSrcPrice = itemSrcPrice;
+        this.itemCostPrice = itemCostPrice;
+        this.itemDiscount = itemDiscount;
+        this.amount = amount;
+        this.soldAmount = soldAmount;
+        this.restAmount = restAmount;
+        this.invImg = invImg;
+        this.itemPreviewImgs = itemPreviewImgs;
+        this.createAt = createAt;
+        this.updateAt = updateAt;
+        this.orDestroy = orDestroy;
+        this.destroyAt = destroyAt;
+        this.orMasterInv = orMasterInv;
+        this.state = state;
+        this.shipFee = shipFee;
+        this.invArea = invArea;
+        this.restrictAmount = restrictAmount;
+        this.invTitle = invTitle;
+        this.invCustoms = invCustoms;
+        this.postalTaxCode = postalTaxCode;
     }
 }

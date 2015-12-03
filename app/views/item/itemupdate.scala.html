@@ -124,19 +124,20 @@
                         <div class="goods-info1">
                             <table class="table table-bordered qubian inv" id="inventory">
                                 <tr>
-                                    <th width="80">设为主商品</th>
-                                    <th width="60">颜色分类</th>
-                                    <th width="60">尺寸分类</th>
-                                    <th width="60">库存数量</th>
-                                    <th width="60">现价(￥)</th>
-                                    <th width="60">原价(￥)</th>
+                                    <th width="60">设为主商品</th>
+                                    <th width="50">颜色分类</th>
+                                    <th width="50">尺寸分类</th>
+                                    <th width="30">库存数量</th>
+                                    <th width="50">现价(￥)</th>
+                                    <th width="50">原价(￥)</th>
                                     <th width="60">成本价(￥)</th>
-                                    <th width="60">折扣</th>
-                                    <th width="60">限购数量</th>
-                                    <th width="140">库存地</th>
-                                    <th width="100">主图(一张)</th>
-                                    <th width="280">详情页预览图(最多6张)</th>
-                                    <th width="60" class="add-goods add">添加商品</th>
+                                    <th width="40">折扣</th>
+                                    <th width="30">限购数量</th>
+                                    <th width="80">库存地</th>
+                                    <th width="80">报关单位</th>
+                                    <th width="80">主图(一张)</th>
+                                    <th width="260">详情页预览图(最多6张)</th>
+                                    <th width="30" class="add-goods add">添加商品</th>
                                 </tr>
                                 @for(inventory <-  inventories) {
                                 <tr>
@@ -175,6 +176,104 @@
                                         @if(inventory.getInvArea()=="Z"){
                                         <input type="radio" name="@inventory.getId()" value="B"/><div class="area">保税区</div>
                                         <input type="radio" name="@inventory.getId()" value="Z" checked="checked"/><div class="area">韩国直邮</div>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if(inventory.getInvCustoms()== "shanghai") {
+                                        <select name="invCustoms">
+                                            <option value="shanghai">上海海关</option>
+                                            <option value="guangzhou">广州海关</option>
+                                            <option value="hangzhou">杭州海关</option>
+                                            <option value="ningbo">宁波海关</option>
+                                            <option value="zhengzhou">郑州海关</option>
+                                            <option value="chongqing">重庆海关</option>
+                                            <option value="gzjichang">广州机场海关</option>
+                                            <option value="gzluogang">广州萝岗海关</option>
+                                        </select>
+                                        }
+                                        @if(inventory.getInvCustoms()== "guangzhou") {
+                                        <select name="invCustoms">
+                                            <option value="guangzhou">广州海关</option>
+                                            <option value="shanghai">上海海关</option>
+                                            <option value="hangzhou">杭州海关</option>
+                                            <option value="ningbo">宁波海关</option>
+                                            <option value="zhengzhou">郑州海关</option>
+                                            <option value="chongqing">重庆海关</option>
+                                            <option value="gzjichang">广州机场海关</option>
+                                            <option value="gzluogang">广州萝岗海关</option>
+                                        </select>
+                                        }
+                                        @if(inventory.getInvCustoms()== "hangzhou") {
+                                        <select name="invCustoms">
+                                            <option value="hangzhou">杭州海关</option>
+                                            <option value="shanghai">上海海关</option>
+                                            <option value="guangzhou">广州海关</option>
+                                            <option value="ningbo">宁波海关</option>
+                                            <option value="zhengzhou">郑州海关</option>
+                                            <option value="chongqing">重庆海关</option>
+                                            <option value="gzjichang">广州机场海关</option>
+                                            <option value="gzluogang">广州萝岗海关</option>
+                                        </select>
+                                        }
+                                        @if(inventory.getInvCustoms()== "ningbo") {
+                                        <select name="invCustoms">
+                                            <option value="ningbo">宁波海关</option>
+                                            <option value="shanghai">上海海关</option>
+                                            <option value="guangzhou">广州海关</option>
+                                            <option value="hangzhou">杭州海关</option>
+                                            <option value="zhengzhou">郑州海关</option>
+                                            <option value="chongqing">重庆海关</option>
+                                            <option value="gzjichang">广州机场海关</option>
+                                            <option value="gzluogang">广州萝岗海关</option>
+                                        </select>
+                                        }
+                                        @if(inventory.getInvCustoms()== "zhengzhou") {
+                                        <select name="invCustoms">
+                                            <option value="zhengzhou">郑州海关</option>
+                                            <option value="shanghai">上海海关</option>
+                                            <option value="guangzhou">广州海关</option>
+                                            <option value="hangzhou">杭州海关</option>
+                                            <option value="ningbo">宁波海关</option>
+                                            <option value="chongqing">重庆海关</option>
+                                            <option value="gzjichang">广州机场海关</option>
+                                            <option value="gzluogang">广州萝岗海关</option>
+                                        </select>
+                                        }
+                                        @if(inventory.getInvCustoms()== "chongqing") {
+                                        <select name="invCustoms">
+                                            <option value="chongqing">重庆海关</option>
+                                            <option value="shanghai">上海海关</option>
+                                            <option value="guangzhou">广州海关</option>
+                                            <option value="hangzhou">杭州海关</option>
+                                            <option value="ningbo">宁波海关</option>
+                                            <option value="zhengzhou">郑州海关</option>
+                                            <option value="gzjichang">广州机场海关</option>
+                                            <option value="gzluogang">广州萝岗海关</option>
+                                        </select>
+                                        }
+                                        @if(inventory.getInvCustoms()== "gzjichang") {
+                                        <select name="invCustoms">
+                                            <option value="gzjichang">广州机场海关</option>
+                                            <option value="shanghai">上海海关</option>
+                                            <option value="guangzhou">广州海关</option>
+                                            <option value="hangzhou">杭州海关</option>
+                                            <option value="ningbo">宁波海关</option>
+                                            <option value="zhengzhou">郑州海关</option>
+                                            <option value="chongqing">重庆海关</option>
+                                            <option value="gzluogang">广州萝岗海关</option>
+                                        </select>
+                                        }
+                                        @if(inventory.getInvCustoms()== "gzluogang") {
+                                        <select name="invCustoms">
+                                            <option value="gzluogang">广州萝岗海关</option>
+                                            <option value="shanghai">上海海关</option>
+                                            <option value="guangzhou">广州海关</option>
+                                            <option value="hangzhou">杭州海关</option>
+                                            <option value="ningbo">宁波海关</option>
+                                            <option value="zhengzhou">郑州海关</option>
+                                            <option value="chongqing">重庆海关</option>
+                                            <option value="gzjichang">广州机场海关</option>
+                                        </select>
                                         }
                                     </td>
                                     <td class="list-img">
@@ -264,7 +363,7 @@
                     <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
                     <div class="col-sm-4">
                         <div class="detail-img" style="border:1px solid #ccc;">
-                            <div id="galleryD" style="margin-bottom:5px;margin-top:15px;">
+                            <div id="galleryD" style="margin-bottom:10px;margin-top:15px;">
                                 @for(detail <- item.getItemDetailImgs().substring(1,item.getItemDetailImgs().length()-1).split(", ")) {
                                 <div>
                                     <img class="main-img" src="@url@detail.substring(1,detail.length()-1)" alt="">
@@ -272,7 +371,7 @@
                                 </div>
                                 }
                             </div>
-                            <span class="add" style="margin:25px 5px;">＋
+                            <span class="add" style="margin:15px 5px;">＋
                                 <input type="file" id="D" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                             </span>
                         </div>

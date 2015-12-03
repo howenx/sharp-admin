@@ -3,36 +3,46 @@
 
 @scripts = {
     <link rel="stylesheet" href="/assets/css/slider.css">
-    <link rel="stylesheet" href="/assets/css/button.css">
 	<script>window.url='@url'</script>
     <script src="/assets/js/slider.js"></script>
     <script>
         function UpdateFields(obj) {
-            alert(obj);
+            var id = obj.id;
+            var targetType = obj.targetType;
+            var $obj = obj;
+            var itemTarget = "";
+            if(targetType=="D") {
+                itemTarget = "localhost:9000"+"/"+window.lang+"/comm/findById/"+id;
+            }
+            if(targetType=="T") {
+                itemTarget = "localhost:9000"+"/"+window.lang+"/comm/findById/"+id;
+            }
+            $obj.attr('data-target', itemTarget);
+            $obj.attr('data-type', targetType);
         }
 
-        function ShowModal() {
+        function ShowModal($obj) {
             var sharedObject = {};
-
+            sharedObject = $obj;
             if (window.showModalDialog) {
                 var retValue = showModalDialog("/topic/slider/popup", sharedObject, "dialogWidth:1100px; dialogHeight:400px; dialogLeft:300px;");
                 if (retValue) {
-                    UpdateFields(retValue.id);
+                    UpdateFields(retValue);
                 }
             }
             else {
                 // for similar functionality in Opera, but it's not modal!
-                var modal = window.open ("/topic/slider/popup", null, "width=1100,height=400,left=300,modal=yes,alwaysRaised=yes", null);
+                var modal = window.open ("/topic/slider/popup", null, "width=1300,height=500,left=300,modal=yes,alwaysRaised=yes", null);
                 modal.dialogArguments = sharedObject;
             }
         }
         $(function(){
             $(document).on("click",".slider-content-img",function(){
-                console.log('123123');
-                ShowModal();
+                ShowModal($(this));
             })
         })
     </script>
+
 }
 
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.title")
@@ -72,11 +82,11 @@
             @for(slider <- sliders) {
                 <li class="slider-single-li">
                     <div class="slider-hover-div">
-                        <div class="slider-lable">
-                            <div class="slider-lable-image-up"></div>
-                            <div class="slider-lable-image-del"></div>
+                        <div class="slider-label">
+                            <div class="slider-label-image-up"></div>
+                            <div class="slider-label-image-del"></div>
                         </div>
-                        <img data-index="@slider.getId()" data-sort="@slider.getSortNu()" class="slider-content-img" src="@url@slider.getImg()">
+                        <img data-index="@slider.getId()" data-sort="@slider.getSortNu()" class="slider-content-img" src="@url@slider.getImg()" data-target="@slider.getItemTarget()" data-type="@slider.getTargetType()" >
                     </div>
                 </li>
             }

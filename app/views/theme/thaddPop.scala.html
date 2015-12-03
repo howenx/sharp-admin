@@ -1,4 +1,4 @@
-@(items:List[entity.Item])
+@(itList:List[Map[String,Object]],url:String)
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 <script src="/assets/js/jquery.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
@@ -71,50 +71,22 @@
             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
         </th>
     </tr>
+    @for(itemMap <- itList){
     <tr>
         <td>
             <input type="checkbox" name="goods">
         </td>
-        <td>123</td>
-        <td>1</td>
+        <td>@itemMap.get("id")</td>
         <td></td>
-        <td><img src="/assets/images/1.jpg" alt="" width="40" height="40"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    @for(item <- items){
-    <tr>
-        <td>
-            <input type="checkbox" name="goods">
-        </td>
-        <td>@item.getId()</td>
-        <td></td>
-        <td>@item.getItemTitle()</td>
-        <td> <img class="main-img" src="@item.getItemMasterImg()" alt="" width="50"></td>
-        @if(item.getOnShelvesAt()!=null){<td>@(item.getOnShelvesAt().toString().substring(0,16))</td>}
-        <td>@item.getState()</td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>@itemMap.get("title")</td>
+        <td> <img class="main-img" src='@url@itemMap.get("itemMasterImg")' alt="" width="50"></td>
+        @if(itemMap.get("onShelvesAt")!=null){<td>@(itemMap.get("onShelvesAt").toString().substring(0,16))</td>}
+        <td>@itemMap.get("state")</td>
+        <td>@itemMap.get("itemPrice")</td>
+        <td>@itemMap.get("itemSrcPrice")</td>
+        <td>@itemMap.get("itemDiscount")</td>
     </tr>
     }
-    <tr>
-        <td>
-            <input type="checkbox" name="goods">
-        </td>
-        <td>223</td>
-        <td></td>
-        <td>3</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>2</td>
-        <td></td>
-        <td>4</td>
-    </tr>
 </table>
 <button class="return btn btn-primary btn-xs" style="margin-left: 50px">确认添加</button>
 </body>

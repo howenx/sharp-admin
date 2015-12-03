@@ -16,15 +16,12 @@ public class Slider implements Serializable{
     private Integer sortNu;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp createAt;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    private Timestamp updateAt;
+    private String itemTarget;
+    private String targetType;
 
     public Slider(){}
-
-    public Slider(Long id, String img, Integer sortNu, Timestamp createAt) {
-        this.id = id;
-        this.img = img;
-        this.sortNu = sortNu;
-        this.createAt = createAt;
-    }
 
     public Long getId() {
         return id;
@@ -58,6 +55,30 @@ public class Slider implements Serializable{
         this.createAt = createAt;
     }
 
+    public Timestamp getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Timestamp updateAt) {
+        this.updateAt = updateAt;
+    }
+
+    public String getItemTarget() {
+        return itemTarget;
+    }
+
+    public void setItemTarget(String itemTarget) {
+        this.itemTarget = itemTarget;
+    }
+
+    public String getTargetType() {
+        return targetType;
+    }
+
+    public void setTargetType(String targetType) {
+        this.targetType = targetType;
+    }
+
     @Override
     public String toString() {
         return "Slider{" +
@@ -65,6 +86,19 @@ public class Slider implements Serializable{
                 ", img='" + img + '\'' +
                 ", sortNu=" + sortNu +
                 ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                ", itemTarget='" + itemTarget + '\'' +
+                ", targetType='" + targetType + '\'' +
                 '}';
+    }
+
+    public Slider(Long id, String img, Integer sortNu, Timestamp createAt, Timestamp updateAt, String itemTarget, String targetType) {
+        this.id = id;
+        this.img = img;
+        this.sortNu = sortNu;
+        this.createAt = createAt;
+        this.updateAt = updateAt;
+        this.itemTarget = itemTarget;
+        this.targetType = targetType;
     }
 }

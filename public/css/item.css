@@ -223,9 +223,10 @@ ul,li {
 .qubian input[type=text] {
     width:100%;
 }
-.qubian input[type=radio]{
-	margin-left: 25px;
+.qubian .master-radio{
+	margin-left: 15px;
 }
+
 body {
 	font: 12px/1.5 arial, sans-serif;
 	font-size: 13px;
@@ -288,7 +289,7 @@ body {
 }
 .area {
     margin-top:-20px;
-    margin-left:10px;
+    margin-left:20px;
 }
 
 /*图片放大*/

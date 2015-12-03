@@ -89,7 +89,7 @@
 
         <update id="itemUpdate" parameterType="entity.Item">
                 update items
-                set cate_id=#{cateId},brand_id=#{brandId},item_title=#{itemTitle},supply_merch=#{supplyMerch},on_shelves_at=#{onShelvesAt},off_shelves_at=#{offShelvesAt},item_master_img=#{itemMasterImg},item_detail_imgs=#{itemDetailImgs}::jsonb,item_features=#{itemFeatures}::jsonb,state=#{state},item_notice=#{itemNotice},publicity=#{publicity}::jsonb
+                set cate_id=#{cateId},brand_id=#{brandId},item_title=#{itemTitle},supply_merch=#{supplyMerch},on_shelves_at=#{onShelvesAt},off_shelves_at=#{offShelvesAt},item_master_img=#{itemMasterImg},item_detail_imgs=#{itemDetailImgs}::jsonb,item_features=#{itemFeatures}::jsonb,theme_id=#{themeId},state=#{state},share_url=#{shareUrl},share_count=#{shareCount},collect_count=#{collectCount},browse_count=#{browseCount},item_notice=#{itemNotice},or_destroy=#{orDestroy},destroy_at=#{destroyAt},update_at=CURRENT_TIMESTAMP(0),master_inv_id=#{masterInvId},publicity=#{publicity}::jsonb
                 where id = #{id}
         </update>
 
