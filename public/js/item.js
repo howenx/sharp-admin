@@ -59,12 +59,12 @@ $(function(){
         var uptrs = inventory.getElementsByTagName("tr");
         for(i=1;i<uptrs.length;i++) {
             var uptds = uptrs[i].getElementsByTagName("td");
-            uptds[11].getElementsByTagName("div")[0].id = "galleryM"+i;
-            uptds[11].getElementsByTagName("span")[0].id = "masterImgAddM"+i;
-            uptds[11].getElementsByTagName("input")[0].id = "M"+i;
-            uptds[12].getElementsByTagName("div")[0].id = "galleryP"+i;
-            uptds[12].getElementsByTagName("span")[0].id = "preImgAddP"+i;
-            uptds[12].getElementsByTagName("input")[0].id = "P"+i;
+            uptds[12].getElementsByTagName("div")[0].id = "galleryM"+i;
+            uptds[12].getElementsByTagName("span")[0].id = "masterImgAddM"+i;
+            uptds[12].getElementsByTagName("input")[0].id = "M"+i;
+            uptds[13].getElementsByTagName("div")[0].id = "galleryP"+i;
+            uptds[13].getElementsByTagName("span")[0].id = "preImgAddP"+i;
+            uptds[13].getElementsByTagName("input")[0].id = "P"+i;
         }
     }
 
@@ -197,69 +197,75 @@ $(function(){
         var i = 1;
         //最后一行有空值不能添加
         for(i=1;i<tds.length;i++) {
-            if (i <=8 && tds[i].getElementsByTagName("input")[0].value=="") break;
-            if (i ==12 && trs[index-1].getElementsByClassName("list-img")[0].getElementsByTagName("div").length==1) break;
-            if (i ==13 && trs[index-1].getElementsByClassName("preview-img")[0].getElementsByTagName("div").length==1) break;
+            if (i <=9 && tds[i].getElementsByTagName("input")[0].value=="") break;
+            if (i ==13 && trs[index-1].getElementsByClassName("list-img")[0].getElementsByTagName("div").length==1) break;
+            if (i ==14 && trs[index-1].getElementsByClassName("preview-img")[0].getElementsByTagName("div").length==1) break;
         }
-        if (i==14){
+        if (i==15){
             var tr =  document.createElement("tr");
 
-            var td1 = document.createElement("td");
-            var input1 = document.createElement("input");
-            input1.type = "radio";
-            input1.name = "orMasterInv";
-            input1.classList.add("master-radio");
-            td1.appendChild(input1);
+            var tdR = document.createElement("td");
+            var inputR = document.createElement("input");
+            inputR.type = "radio";
+            inputR.name = "orMasterInv";
+            inputR.classList.add("master-radio");
+            tdR.appendChild(inputR);
 
-            var td2 = document.createElement("td");
-            var input2 = document.createElement("input");
-            input2.type = "text";
-            input2.name = "itemColor";
-            td2.appendChild(input2);
+            var tdC = document.createElement("td");
+            var inputC = document.createElement("input");
+            inputC.type = "text";
+            inputC.name = "itemColor";
+            tdC.appendChild(inputC);
 
-            var td3 = document.createElement("td");
-            var input3 = document.createElement("input");
-            input3.type = "text";
-            input3.name = "itemSize";
-            td3.appendChild(input3);
+            var tdS = document.createElement("td");
+            var inputS = document.createElement("input");
+            inputS.type = "text";
+            inputS.name = "itemSize";
+            tdS.appendChild(inputS);
 
-            var td4 = document.createElement("td");
-            var input4 = document.createElement("input");
-            input4.type = "text";
-            input4.name = "amount";
-            td4.appendChild(input4);
+            var tdW = document.createElement("td");
+            var inputW = document.createElement("input");
+            inputW.type = "text";
+            inputW.name = "invWeight";
+            tdW.appendChild(inputW);
 
-            var td5 = document.createElement("td");
-            var input5 = document.createElement("input");
-            input5.type = "text";
-            input5.name = "itemPrice";
-            td5.appendChild(input5);
+            var tdA = document.createElement("td");
+            var inputA = document.createElement("input");
+            inputA.type = "text";
+            inputA.name = "amount";
+            tdA.appendChild(inputA);
 
-            var td6 = document.createElement("td");
-            var input6 = document.createElement("input");
-            input6.type = "text";
-            input6.name = "itemSrcPrice";
-            td6.appendChild(input6);
+            var tdP = document.createElement("td");
+            var inputP = document.createElement("input");
+            inputP.type = "text";
+            inputP.name = "itemPrice";
+            tdP.appendChild(inputP);
 
-            var td7 = document.createElement("td");
-            var input7 = document.createElement("input");
-            input7.type = "text";
-            input7.name = "itemCostPrice";
-            td7.appendChild(input7);
+            var tdSP = document.createElement("td");
+            var inputSP = document.createElement("input");
+            inputSP.type = "text";
+            inputSP.name = "itemSrcPrice";
+            tdSP.appendChild(inputSP);
 
-            var td8 = document.createElement("td");
-            var input8 = document.createElement("input");
-            input8.type = "text";
-            input8.name = "itemDiscount";
-            td8.appendChild(input8);
+            var tdCP = document.createElement("td");
+            var inputCP = document.createElement("input");
+            inputCP.type = "text";
+            inputCP.name = "itemCostPrice";
+            tdCP.appendChild(inputCP);
 
-            var td9 = document.createElement("td");
-            var input9 = document.createElement("input");
-            input9.type = "text";
-            input9.name = "restrictAmount";
-            td9.appendChild(input9);
+            var tdD = document.createElement("td");
+            var inputD = document.createElement("input");
+            inputD.type = "text";
+            inputD.name = "itemDiscount";
+            tdD.appendChild(inputD);
 
-            var td10 = document.createElement("td");
+            var tdRA = document.createElement("td");
+            var inputRA = document.createElement("input");
+            inputRA.type = "text";
+            inputRA.name = "restrictAmount";
+            tdRA.appendChild(inputRA);
+
+            var tdIA = document.createElement("td");
             var inputR1 = document.createElement("input");
             inputR1.type = "radio";
             inputR1.name = "invArea"+index;
@@ -277,17 +283,17 @@ $(function(){
             var divZ = document.createElement("div");
             divZ.classList.add('area');
             divZ.innerText="韩国直邮";
-            td10.appendChild(inputR1);
-            td10.appendChild(divB);
-            td10.appendChild(inputR2);
-            td10.appendChild(divZ);
+            tdIA.appendChild(inputR1);
+            tdIA.appendChild(divB);
+            tdIA.appendChild(inputR2);
+            tdIA.appendChild(divZ);
 
             var tdPost = document.createElement("td");
             tdPost.innerHTML = '<select><option value="shanghai">上海海关</option><option value="guangzhou">广州海关</option><option value="hangzhou">杭州海关</option>'+
                                '<option value="ningbo">宁波海关</option><option value="zhengzhou">郑州海关</option><option value="chongqing">重庆海关</option>'+
                                '<option value="gzjichang">广州机场海关</option><option value="gzluogang">广州萝岗海关</option></select>';
-            var td11 = document.createElement("td");
-            td11.classList.add('list-img');
+            var tdMI = document.createElement("td");
+            tdMI.classList.add('list-img');
             var divM = document.createElement("div");
             divM.id = "galleryM"+index;
             var spanAdd = document.createElement("span");
@@ -300,12 +306,12 @@ $(function(){
             inputF.classList.add("hidden1");
             inputF.setAttribute("accept", "image/gif, image/jpeg, image/webp, image/png");
             spanAdd.appendChild(inputF);
-            td11.appendChild(divM);
-            td11.appendChild(spanAdd);
+            tdMI.appendChild(divM);
+            tdMI.appendChild(spanAdd);
 
-            var td12 = document.createElement("td");
-            td12.width="146px";
-            td12.classList.add('preview-img');
+            var tdPI = document.createElement("td");
+            tdPI.width="146px";
+            tdPI.classList.add('preview-img');
             var divPre = document.createElement("div");
             divPre.id = "galleryP"+index;
             var spanAdd = document.createElement("div");
@@ -318,31 +324,32 @@ $(function(){
             inputF.classList.add("hidden1");
             inputF.setAttribute("accept", "image/gif, image/jpeg, image/webp, image/png");
             spanAdd.appendChild(inputF);
-            td12.appendChild(divPre);
-            td12.appendChild(spanAdd);
+            tdPI.appendChild(divPre);
+            tdPI.appendChild(spanAdd);
 
-            var td13 = document.createElement("td");
-            td13.classList.add("del");
-            td13.innerText = "删除";
+            var tdDe = document.createElement("td");
+            tdDe.classList.add("del");
+            tdDe.innerText = "删除";
             var inputInvId = document.createElement("input");
             inputInvId.type = "hidden";
             inputInvId.value = "";
-            td13.appendChild(inputInvId);
+            tdDe.appendChild(inputInvId);
 
-            tr.appendChild(td1);
-            tr.appendChild(td2);
-            tr.appendChild(td3);
-            tr.appendChild(td4);
-            tr.appendChild(td5);
-            tr.appendChild(td6);
-            tr.appendChild(td7);
-            tr.appendChild(td8);
-            tr.appendChild(td9);
-            tr.appendChild(td10);
+            tr.appendChild(tdR);
+            tr.appendChild(tdC);
+            tr.appendChild(tdS);
+            tr.appendChild(tdW);
+            tr.appendChild(tdA);
+            tr.appendChild(tdP);
+            tr.appendChild(tdSP);
+            tr.appendChild(tdCP);
+            tr.appendChild(tdD);
+            tr.appendChild(tdRA);
+            tr.appendChild(tdIA);
             tr.appendChild(tdPost);
-            tr.appendChild(td11);
-            tr.appendChild(td12);
-            tr.appendChild(td13);
+            tr.appendChild(tdMI);
+            tr.appendChild(tdPI);
+            tr.appendChild(tdDe);
             inventory.appendChild(tr);
         }
     });
@@ -412,6 +419,7 @@ $(function(){
         var onShelvesAt = $("#onShelvesAt").val();
         var offShelvesAt = $("#offShelvesAt").val();
         var itemNotice = $("#itemNotice").val();
+        var invWeight = document.getElementsByName("invWeight");
         var amount = document.getElementsByName("amount");
         var itemPrice = document.getElementsByName("itemPrice");
         var itemSrcPrice = document.getElementsByName("itemSrcPrice");
@@ -425,8 +433,8 @@ $(function(){
         var inventory = document.getElementById("inventory");
         var trs = inventory.getElementsByTagName("tr");
         var tds = trs[trs.length-1].getElementsByTagName("td");
-        //验证输入的数量和价格是否符合规则
-        for(i=1;i<=8;i++) {
+        //验证输入的数量和价格等是否符合规则
+        for(i=1;i<=9;i++) {
             if (tds[i].getElementsByTagName("input")[0].value=="") {
                 isPost = false;
                 $("#warn-inv").html("库存信息不能有空值!");
@@ -434,18 +442,18 @@ $(function(){
             } else $("#warn-inv").html("");
         }
         for(i=0;i<amount.length;i++){
-            if (!numberReg2.test(amount[i].value) || !numberReg2.test(itemPrice[i].value) || !numberReg2.test(itemSrcPrice[i].value)
+            if (!numberReg2.test(invWeight[i].value) ||  !numberReg2.test(amount[i].value) || !numberReg2.test(itemPrice[i].value) || !numberReg2.test(itemSrcPrice[i].value)
                 || !numberReg2.test(itemCostPrice[i].value) || !numberReg2.test(itemDiscount[i].value) || !numberReg2.test(restrictAmount[i].value)) {
                 isPost = false;
                 $("#warn-num").text("输入数据不合法!");
                 break;
             } else $("#warn-num").text("");
         }
-        if (tds[11].getElementsByTagName("div").length<2) {
+        if (tds[12].getElementsByTagName("div").length<2) {
             isPost = false;
             $("#warn-mas").html("请上传商品主图");
         } else $("#warn-mas").html("");
-        if (tds[12].getElementsByTagName("div").length<2) {
+        if (tds[13].getElementsByTagName("div").length<2) {
             isPost = false;
             $("#warn-pre").html("请上传商品预览图");
         } else $("#warn-pre").html("");
@@ -529,15 +537,16 @@ $(function(){
             if (tds[0].getElementsByTagName("input")[0].checked==true)    orMasterInv = true;
             var itemColor = tds[1].getElementsByTagName("input")[0].value;
             var itemSize = tds[2].getElementsByTagName("input")[0].value;
-            var amount = tds[3].getElementsByTagName("input")[0].value;
-            var itemPrice = tds[4].getElementsByTagName("input")[0].value;
-            var itemSrcPrice = tds[5].getElementsByTagName("input")[0].value;
-            var itemCostPrice = tds[6].getElementsByTagName("input")[0].value;
-            var itemDiscount = tds[7].getElementsByTagName("input")[0].value;
-            var restrictAmount = tds[8].getElementsByTagName("input")[0].value;
+            var invWeight = tds[3].getElementsByTagName("input")[0].value;
+            var amount = tds[4].getElementsByTagName("input")[0].value;
+            var itemPrice = tds[5].getElementsByTagName("input")[0].value;
+            var itemSrcPrice = tds[6].getElementsByTagName("input")[0].value;
+            var itemCostPrice = tds[7].getElementsByTagName("input")[0].value;
+            var itemDiscount = tds[8].getElementsByTagName("input")[0].value;
+            var restrictAmount = tds[9].getElementsByTagName("input")[0].value;
             var invArea = "B";
-            if (tds[9].getElementsByTagName("input")[1].checked==true)   invArea = "Z";
-            var invCustoms = tds[10].getElementsByTagName("select")[0].value;
+            if (tds[10].getElementsByTagName("input")[1].checked==true)   invArea = "Z";
+            var invCustoms = tds[11].getElementsByTagName("select")[0].value;
             //sku主图
             var invImg = "";
             var inpM = document.getElementById("galleryM"+i).getElementsByTagName("input");
@@ -564,6 +573,7 @@ $(function(){
             inventory.orMasterInv = orMasterInv;
             inventory.itemColor = itemColor;
             inventory.itemSize = itemSize;
+            inventory.invWeight = invWeight;
             inventory.amount = amount;
             inventory.itemPrice = itemPrice;
             inventory.itemPrice = itemPrice;
@@ -575,10 +585,10 @@ $(function(){
             inventory.invCustoms = invCustoms;
             inventory.invImg = invImg;
             inventory.itemPreviewImgs = itemPreviewImgs;
-            if (tds[13].getElementsByTagName("input")[0].value != "") {
-                inventory.id = tds[13].getElementsByTagName("input")[0].value;
+            if (tds[14].getElementsByTagName("input")[0].value != "") {
+                inventory.id = tds[14].getElementsByTagName("input")[0].value;
                 if (tds[0].getElementsByTagName("input")[0].checked==true)
-                item.masterInvId = tds[13].getElementsByTagName("input")[0].value;
+                item.masterInvId = tds[14].getElementsByTagName("input")[0].value;
             }
             inventories.push(inventory);
         }

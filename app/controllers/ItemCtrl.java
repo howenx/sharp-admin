@@ -57,7 +57,7 @@ public class ItemCtrl extends Controller {
         item.setOffset(0);
         Logger.error("所有商品:"+service.itemSearch(item).toString());
 
-        return ok(views.html.item.itemlist.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,service.itemSearch(item),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,service.itemSearch(item),(User) ctx().args.get("user")));
     }
 
     /**
