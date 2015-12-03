@@ -39,18 +39,7 @@
            var intRegex = /[0-9 -()+]+$/;
            var floatRegex = /[-+]?([0-9]*.[0-9]+|[0-9]+)/;
 
-           if($("#hzp_price").val() == "") {
-             alert("Please input 成本价");
-             $("#hzp_price").focus();
-             return;
-           }else {
-             if(!floatRegex.test($("#hzp_price").val()) || $("#hzp_price").val() ==0 ) {
-               alert("请输入数字");
-               $("#hzp_price").val("");
-               $("#hzp_price").focus();
-               return;
-             }
-           }
+
 
             if($("#hzp_market_price").val() == "") {
              alert("Please input 售价");
@@ -247,18 +236,7 @@
            var intRegex = /[0-9 -()+]+$/;
            var floatRegex = /[-+]?([0-9]*.[0-9]+|[0-9]+)/;
 
-           if($("#ps_price").val() == "") {
-             alert("Please input 成本价");
-             $("#ps_price").focus();
-             return;
-           }else {
-             if(!floatRegex.test($("#ps_price").val()) || $("#ps_price").val() == 0) {
-               alert("请输入数字");
-                $("#ps_price").val("");
-               $("#ps_price").focus();
-               return;
-             }
-           }
+
 
             if($("#ps_market_price").val() == "") {
              alert("Please input 售价");
@@ -413,18 +391,7 @@
            var intRegex = /[0-9 -()+]+$/;
            var floatRegex = /[-+]?([0-9]*.[0-9]+|[0-9]+)/;
 
-           if($("#fs_price").val() == "") {
-             alert("Please input 成本价");
-             $("#fs_price").focus();
-             return;
-           }else {
-             if(!floatRegex.test($("#fs_price").val()) || $("#fs_price").val() == 0) {
-               alert("请输入数字");
-                $("#fs_price").val("");
-               $("#fs_price").focus();
-               return;
-             }
-           }
+
 
            if($("#fs_market_price").val() == "") {
              alert("Please input 售价");
@@ -689,15 +656,13 @@
             </div>
 
             <div class="col-md-10 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">원가（KRW）:</span>
-                <input type="text" name="price" class="form-control" value="@{(json \ "price").asOpt[String]}" readonly>
+
                 <span class="input-group-addon">판매가（KRW）:</span>
                 <input type="text" name="market_price" class="form-control" value="@{(json \ "market_price").asOpt[String]}" readonly>
             </div>
 
             <div class="col-md-10 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">원가（USD）:</span>
-                <input type="text"  name="usd_price" class="form-control" value="@{(json \ "usd_price").asOpt[String]}" readonly>
+
                 <span class="input-group-addon">판매가（USD）:</span>
                 <input type="text"  name="usd_market_price" class="form-control" value="@{(json \ "usd_market_price").asOpt[String]}" readonly>
             </div>
@@ -792,13 +757,12 @@
 
             </div>
             <div class="col-md-10 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">成本价:</span>
-                <input type="text" id="hzp_price" name="price" class="form-control" value="@p("products.price")">
+
                 <span class="input-group-addon">售价:</span>
                 <input type="text" id="hzp_market_price" name="market_price" class="form-control" value="@p("products.market_price")">
             </div>
             <div class="col-md-10 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">图片:(<a href="@Json.parse(p("products.images").toString)(0).asOpt[String]" target="_blank"> 旧链接</a>)</span>
+                <span class="input-group-addon">图片:(<a href="@Json.parse(p("products.images").toString)(0).asOpt[String]" target="_blank"> 链接</a>)</span>
                 <input type="file" name="image" class="form-control">
 
             </div>
@@ -898,14 +862,12 @@
             <input type="text" name="品牌" class="form-control" value="@{(json \ "品牌").asOpt[String]}" readonly>
         </div>
         <div class="col-md-10 input-group" style="padding-top: 20px">
-            <span class="input-group-addon">원가（KRW）:</span>
-            <input type="text" name="price" class="form-control" value="@{(json \ "price").asOpt[String]}" readonly>
+
             <span class="input-group-addon">판매가（KRW）:</span>
             <input type="text" name="market_price" class="form-control" value="@{(json \ "market_price").asOpt[String]}" readonly>
         </div>
         <div class="col-md-10 input-group" style="padding-top: 20px">
-            <span class="input-group-addon">원가（USD）:</span>
-            <input type="text" name="usd_price" class="form-control" value="@{(json \ "usd_price").asOpt[String]}" readonly>
+
             <span class="input-group-addon">판매가（USD）:</span>
             <input type="text" name="usd_market_price" class="form-control" value="@{(json \ "usd_market_price").asOpt[String]}" readonly>
         </div>
@@ -1037,14 +999,13 @@
 
             </div>
             <div class="col-md-10 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">成本价:</span>
-                <input type="text" id="fs_price" name="price" class="form-control" value="@p("products.price")">
+
                 <span class="input-group-addon">售价:</span>
                 <input type="text" id="fs_market_price" name="market_price" class="form-control" value="@p("products.market_price")">
             </div>
 
             <div class="col-md-10 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">图片:(<a href="@Json.parse(p("products.images").toString)(0).asOpt[String]" target="_blank"> 旧链接</a>)</span>
+                <span class="input-group-addon">图片:(<a href="@Json.parse(p("products.images").toString)(0).asOpt[String]" target="_blank"> 链接</a>)</span>
                 <input type="file" name="image" class="form-control">
 
             </div>
@@ -1183,14 +1144,12 @@
 
         </div>
         <div class="col-md-10 input-group" style="padding-top: 20px">
-            <span class="input-group-addon">원가（KRW）:</span>
-            <input type="text"  name="price" class="form-control" value="@{(json \ "price").asOpt[String]}" readonly>
+
             <span class="input-group-addon">판매가（KRW）:</span>
             <input type="text"  name="market_price" class="form-control" value="@{(json \ "market_price").asOpt[String]}" readonly>
         </div>
         <div class="col-md-10 input-group" style="padding-top: 20px">
-            <span class="input-group-addon">원가（USD）:</span>
-            <input type="text"  name="usd_price" class="form-control" value="@{(json \ "usd_price").asOpt[String]}" readonly>
+
             <span class="input-group-addon">판매가（USD）:</span>
             <input type="text"  name="usd_market_price" class="form-control" value="@{(json \ "usd_market_price").asOpt[String]}" readonly>
         </div>
@@ -1272,13 +1231,12 @@
 
             </div>
             <div class="col-md-10 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">成本价:</span>
-                <input type="text" id="ps_price" name="price" class="form-control" value="@p("products.price")">
+
                 <span class="input-group-addon">售价:</span>
                 <input type="text" id="ps_market_price" name="market_price" class="form-control" value="@p("products.market_price")">
             </div>
             <div class="col-md-10 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">图片:(<a href="@Json.parse(p("products.images").toString)(0).asOpt[String]" target="_blank"> 旧链接</a>)</span>
+                <span class="input-group-addon">图片:(<a href="@Json.parse(p("products.images").toString)(0).asOpt[String]" target="_blank"> 链接</a>)</span>
                 <input type="file" name="image" class="form-control">
 
             </div>

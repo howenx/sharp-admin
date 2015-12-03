@@ -22,7 +22,7 @@ object Prod {
 
       //val status = "T"
 
-      SQL(""" update products set name = {name}, category_id = {category_id}, tags = array_to_json({tags}::character varying[])::jsonb, attr = {attr}::jsonb, spec = {spec}::jsonb, images = array_to_json({images}::character varying[])::jsonb, price = {price}, market_price = {market_price}, amount = {amount}, extra = {extra}::jsonb where product_id = {product_id} """).on("name"->p_name, "category_id"->catetory_id , "tags"->tags, "attr"->attr, "spec"->spec, "images"->images, "price"->price, "market_price"->maret_pirce, "amount"->amount, "extra"->extra,  "product_id"->product_id).execute()
+      SQL(""" update products set name = {name}, category_id = {category_id}, tags = array_to_json({tags}::character varying[])::jsonb, attr = {attr}::jsonb, spec = {spec}::jsonb, images = array_to_json({images}::character varying[])::jsonb, price = {price}, market_price = {market_price}, amount = {amount}, extra = {extra}::jsonb , status = 'T' where product_id = {product_id} """).on("name"->p_name, "category_id"->catetory_id , "tags"->tags, "attr"->attr, "spec"->spec, "images"->images, "price"->price, "market_price"->maret_pirce, "amount"->amount, "extra"->extra,  "product_id"->product_id).execute()
 
     }
   }
@@ -47,7 +47,7 @@ object Prod {
   def append(product_id:Long, audit_string:String) = {
     DB.withConnection("products") { implicit  conn =>
 
-      SQL(""" update products set extra = jsonb_merge(extra , {audit_string}::jsonb) where product_id = {product_id}""").on("audit_string"->audit_string, "product_id"->product_id).execute()
+      SQL(""" update products set extra = jsonb_merge(extra , {audit_string}::jsonb), status = 'A' where product_id = {product_id}""").on("audit_string"->audit_string, "product_id"->product_id).execute()
 
     }
   }
@@ -77,7 +77,7 @@ object Prod {
         case _ =>
           start
       }
-      SQL(""" select count(*) over () as count , * from products where category_id = {category_id} order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "start"->s, "size"->size).as(parser.*)
+      SQL(""" select row_number() over(ORDER BY product_id) as row, count(*) over () as count , * from products where category_id = {category_id} order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "start"->s, "size"->size).as(parser.*)
 
     }
   }
@@ -96,7 +96,7 @@ object Prod {
         case _ =>
           start
       }
-      SQL(""" select count(*) over () as count , * from products where category_id = {category_id} and created_id = {user_id} and status= 'I' order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "user_id"->user_id,  "start"->s, "size"->size).as(parser.*)
+      SQL(""" select row_number() over(ORDER BY product_id) as row, count(*) over () as count , * from products where category_id = {category_id} and created_id = {user_id}  order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "user_id"->user_id,  "start"->s, "size"->size).as(parser.*)
 
     }
   }

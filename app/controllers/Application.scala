@@ -46,6 +46,8 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
           Redirect(routes.Application.list_supply(None))
         case User_Type.TRANSLATION =>
           Redirect(routes.Application.list(None))
+        case User_Type.ADMIN =>
+          Redirect(routes.Application.list(None))
         case _ =>
           Ok(views.html.welcome(lang, user))
       }
@@ -73,22 +75,28 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
     implicit request => {
       id match {
         case Some(category_id) =>
-          val ret = Prod.list(Prod_Type.apply(id.get), user.id, start, size)
-          Logger.debug(ret.toString())
-          val r:List[Map[String, Any]] = ret match {
-            case Nil =>
-              //val any_id:Any = id.get
-              //初始化一个空的内容
-              List(Map("products.category_id"->id.get , ".count"->0,"products.product_id"->"","products.name"->"","products.status"->""))
-            case _ =>
-              ret
-          }
-          start match {
-            case 0 =>
+          if (Prod_Type.values.exists(_.id == id.get)) {
+            val ret = Prod.list(Prod_Type.apply(id.get), user.id, start, size)
+            Logger.debug(ret.toString())
 
-              Ok(views.html.supply.my_list("cn", user, ret, start))
-            case _ =>
-              Ok(views.html.supply.my_list_data("cn", user, r, start))
+            val r: List[Map[String, Any]] = ret match {
+              case Nil =>
+                //val any_id:Any = id.get
+                //初始化一个空的内容
+                List(Map("products.category_id" -> id.get, ".count" -> 0, "products.product_id" -> "", "products.name" -> "", "products.status" -> ""))
+              case _ =>
+                ret
+            }
+            start match {
+              case 0 =>
+
+                Ok(views.html.supply.my_list("cn", user, ret, start))
+              case _ =>
+                Ok(views.html.supply.my_list_data("cn", user, r, start))
+            }
+          }
+          else {
+            BadRequest("no such element")
           }
 
         case None =>
@@ -123,10 +131,9 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
               case _ =>
                 Ok(views.html.supply.list_data("cn", user, r, start))
             }
-          }else {
-            //val r =  List(Map("products.category_id"->id.get , ".count"->0,"products.product_id"->"","products.name"->"","products.status"->""))
-            //Ok(views.html.supply.list("cn", user, r, start))
-            BadRequest("no such element")
+          }
+          else {
+            Ok(views.html.error404())
           }
         case None =>
           val ret = Prod.list(Prod_Type.hzp, start, size)
@@ -157,7 +164,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
       val file = new File("/tmp/hangzhou.xlsx")
       val fileOut = new FileOutputStream(file);
       val wb = new XSSFWorkbook
-      val sheet = wb.createSheet("商品备案表")
+      val sheet = wb.createSheet("备案")
 
       //创建
       var rNum = 0
@@ -166,7 +173,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
       var cNum: Int = 0
 
       var cell = row.createCell(cNum)
-      cell.setCellValue("进口明细表")
+      cell.setCellValue("备案明细表")
 
       rNum += 1
       row = sheet.createRow(rNum)
@@ -176,20 +183,12 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
       rNum += 1
       row = sheet.createRow(rNum)
       cell = row.createCell(cNum)
-      cell.setCellValue("电子帐册号:")
+      cell.setCellValue("帐册号:")
 
       rNum += 1
       row = sheet.createRow(rNum)
       cell = row.createCell(cNum)
       cell.setCellValue("序列号")
-
-      cNum += 1
-      cell = row.createCell(cNum)
-      cell.setCellValue("项号(账册中的序号)")
-
-      cNum += 1
-      cell = row.createCell(cNum)
-      cell.setCellValue("料号")
 
       cNum += 1
       cell = row.createCell(cNum)
@@ -201,19 +200,19 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
       cNum += 1
       cell = row.createCell(cNum)
-      cell.setCellValue("品名(账册中的品名)")
+      cell.setCellValue("行邮税号")
 
       cNum += 1
       cell = row.createCell(cNum)
-      cell.setCellValue("规范申报")
+      cell.setCellValue("品名")
 
       cNum += 1
       cell = row.createCell(cNum)
-      cell.setCellValue("商品名称(电商提供的品名)")
+      cell.setCellValue("规范申报(品牌、型号、成分含量等)")
 
       cNum += 1
       cell = row.createCell(cNum)
-      cell.setCellValue("申报数量")
+      cell.setCellValue("规格")
 
       cNum += 1
       cell = row.createCell(cNum)
@@ -221,11 +220,11 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
       cNum += 1
       cell = row.createCell(cNum)
-      cell.setCellValue("净重(KG)")
+      cell.setCellValue("币制")
 
       cNum += 1
       cell = row.createCell(cNum)
-      cell.setCellValue("毛重(KG)")
+      cell.setCellValue("成交数量")
 
       cNum += 1
       cell = row.createCell(cNum)
@@ -237,16 +236,28 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
       cNum += 1
       cell = row.createCell(cNum)
-      cell.setCellValue("币制")
+      cell.setCellValue("原产国")
 
       cNum += 1
       cell = row.createCell(cNum)
-      cell.setCellValue("原产国")
+      cell.setCellValue("净重")
 
-      sheet.addMergedRegion(CellRangeAddress.valueOf("A1:P1"))
-      sheet.addMergedRegion(CellRangeAddress.valueOf("B2:P2"))
+      cNum += 1
+      cell = row.createCell(cNum)
+      cell.setCellValue("毛重")
+
+      cNum += 1
+      cell = row.createCell(cNum)
+      cell.setCellValue("第一/第二计量单位")
+      cNum += 1
+      cell = row.createCell(cNum)
+      cell.setCellValue("功能用途")
+
+      sheet.addMergedRegion(CellRangeAddress.valueOf("A1:Q1"))
+      sheet.addMergedRegion(CellRangeAddress.valueOf("B2:Q2"))
 
 
+      var idx = 1;
       Prod.download_list().map { map =>
         rNum += 1
         val extra = Json.parse(map("products.extra").toString)
@@ -254,6 +265,12 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
         val attr = Json.parse(map("products.attr").toString)
         cNum = 0
         val r = sheet.createRow(rNum)
+        cell = r.createCell(cNum)
+
+        cell.setCellValue("" + idx)
+        cNum +=1
+        idx +=1
+
         cell = r.createCell(cNum)
         cell.setCellValue(map("products.product_id").toString)
 
@@ -541,11 +558,24 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
         cell.setCellValue((extra \ "申报关区").asOpt[String].getOrElse("2244"))
 
         cNum += 5
-        cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "毛重").asOpt[String].getOrElse(""))
+        //cell = r.createCell(cNum)
+        //cell.setCellValue((extra \ "毛重").asOpt[String].getOrElse(""))
         cNum += 1
+        //cell = r.createCell(cNum)
+        //cell.setCellValue((extra \ "净重").asOpt[String].getOrElse(""))
+        cNum += 3
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "净重").asOpt[String].getOrElse(""))
+        map("products.category_id") match {
+          case 1 =>
+            //hzp
+            cell.setCellValue("09000000")
+          case 2 =>
+            //ps
+            cell.setCellValue("08010000")
+          case 3 =>
+            cell.setCellValue("04019900")
+        }
+
 
 
       }
@@ -582,10 +612,12 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
           var m = map.map { case (k, v) => k -> v.head }
           val product_id = m("product_id")
           m -= ("product_id")
+          val p_type = m("p_type")
+          m -= ("p_type")
           Logger.debug(s"$m")
           val audit_string = Json.toJson(m).toString()
           Prod.append(product_id.toLong, audit_string)
-          Redirect(routes.Application.list_supply(None))
+          Redirect(routes.Application.list(Some(Prod_Type.withName(p_type).id)))
         case None =>
           BadRequest("append error")
       }
