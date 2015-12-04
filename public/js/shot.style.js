@@ -180,10 +180,12 @@ $(function() {
 		}
 		console.log(JSON.parse(JSON.stringify(data_array)));
 		$check = $('input[name=setMain]:checked');
+		console.log($('#' + $check.attr('data-xr')).width());
+		console.log($('#' + $check.attr('data-xr')).height());
 		if ($check.length === 1) {
 			$.ajax({
-				//url: 'http://172.28.3.47:3008/nw',
-				url:window.url+"/nw",
+				url: 'http://172.28.3.47:3008/nw',
+				//url:window.url+"/nw",
 				type: 'POST',
 				data: {
 					tempid: '' + $check.attr('data-xr'),
@@ -204,6 +206,7 @@ $(function() {
 		} else {
 			alert('Please check the templates.');
 		}
+
 	});
 
   	
@@ -264,8 +267,8 @@ $(function() {
   			formdata.append("params", params);
 			
   			var http = new XMLHttpRequest();
-  			//var url = "http://172.28.3.47:3008/upload";
-			var url = window.url+"/upload"
+  			var url = "http://172.28.3.47:3008/upload";
+			//var url = window.url+"/upload";
   			http.open("POST", url, true);
 			
   			http.onreadystatechange = function() {

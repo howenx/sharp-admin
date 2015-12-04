@@ -140,6 +140,11 @@ public class Inventory {
      */
     private String postalTaxCode;
 
+    /**
+     * 单个sku重量 单位克
+     */
+    private  Integer invWeight;
+
     public Inventory() {}
 
     public Long getId() {
@@ -342,6 +347,14 @@ public class Inventory {
         this.postalTaxCode = postalTaxCode;
     }
 
+    public Integer getInvWeight() {
+        return invWeight;
+    }
+
+    public void setInvWeight(Integer invWeight) {
+        this.invWeight = invWeight;
+    }
+
     @Override
     public String toString() {
         return "Inventory{" +
@@ -370,10 +383,11 @@ public class Inventory {
                 ", invTitle='" + invTitle + '\'' +
                 ", invCustoms='" + invCustoms + '\'' +
                 ", postalTaxCode='" + postalTaxCode + '\'' +
+                ", invWeight=" + invWeight +
                 '}';
     }
 
-    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, BigDecimal shipFee, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxCode) {
+    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, BigDecimal shipFee, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxCode, Integer invWeight) {
         this.id = id;
         this.itemId = itemId;
         this.itemColor = itemColor;
@@ -399,5 +413,6 @@ public class Inventory {
         this.invTitle = invTitle;
         this.invCustoms = invCustoms;
         this.postalTaxCode = postalTaxCode;
+        this.invWeight = invWeight;
     }
 }

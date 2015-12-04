@@ -389,7 +389,7 @@ label.radio {
 	/*padding-bottom: 10px;*/
 /*}*/
 /*****************************************************/
-#shop_unpack {
+#shop_unpack,#q_youjipin {
 	display: inline-block;
 	width: auto;
 	height: auto;
@@ -856,6 +856,9 @@ figure {
 	/*text-decoration: none;*/
 	/*display: inline-block;*/
 /*}*/
+.li-dv img{
+	width: 100%;
+}
 .goods_list_img img {
 	vertical-align: top;
 	border: 0;

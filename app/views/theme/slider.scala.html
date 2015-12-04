@@ -12,10 +12,10 @@
             var $obj = obj;
             var itemTarget = "";
             if(targetType=="D") {
-                itemTarget = "localhost:9000"+"/"+window.lang+"/comm/findById/"+id;
+                itemTarget = "172.28.3.18:9001"+"/comm/detail/"+id;
             }
             if(targetType=="T") {
-                itemTarget = "localhost:9000"+"/"+window.lang+"/comm/findById/"+id;
+                itemTarget = "172.28.3.18:9001"+"/topic/list/"+id;
             }
             $obj.attr('data-target', itemTarget);
             $obj.attr('data-type', targetType);
@@ -25,14 +25,14 @@
             var sharedObject = {};
             sharedObject = $obj;
             if (window.showModalDialog) {
-                var retValue = showModalDialog("/topic/slider/popup", sharedObject, "dialogWidth:1100px; dialogHeight:400px; dialogLeft:300px;");
+                var retValue = showModalDialog("/topic/slider/popup", sharedObject, "dialogWidth:1300px; dialogHeight:800px; dialogLeft:300px;");
                 if (retValue) {
                     UpdateFields(retValue);
                 }
             }
             else {
                 // for similar functionality in Opera, but it's not modal!
-                var modal = window.open ("/topic/slider/popup", null, "width=1300,height=500,left=300,modal=yes,alwaysRaised=yes", null);
+                var modal = window.open ("/topic/slider/popup", null, "width=1300,height=800,left=300,modal=yes,alwaysRaised=yes", null);
                 modal.dialogArguments = sharedObject;
             }
         }
