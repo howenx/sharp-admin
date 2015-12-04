@@ -7,6 +7,7 @@
 @import scala.Int; var count =0; var category_id = 0;
 @import org.joda.time.format.DateTimeFormat; val fm = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm:ss");
 <div style="margin-top:20px">
+
     <table class="table table-hover table-bordered">
         <tr align="center" class="info">
             <th class="col-md-1">序号(순번)</th>
@@ -24,7 +25,7 @@
             <td class="col-md-1">@p(".row")</td>
             <td class="col-md-1">@p("products.product_id")</td>
             <td class="col-md-2">@p("products.name")</td>
-            <td class="col-md-1">@{fm.print(new DateTime(p("products.created_dt")))}</td>
+            <td class="col-md-1">@{fm.print(new DateTime(p("products.update_dt")))}</td>
             <td class="col-md-1">
                 @p("products.status") match {
                    case "I" => {未翻译(미번역)}
@@ -36,7 +37,7 @@
                 @user.role match {
                 case User_Type.SELLER => {
                   @p("products.status") match {
-                    case "I" => {<a href="/supply/update/@p("products.product_id")">修改(수정)</a> </td>}
+                    case "I" => {<a href="/supply/update/@p("products.product_id")">修改(수정)</a>  <a href="/supply/delete/@p("products.product_id")">删除(수정)</a></td>}
                     case _ => {</td>}
                   }
 
@@ -57,6 +58,25 @@
         }
     </table>
     @pages(start,15,count,"/supply/my?id="+category_id)
+
+    <div class="row" style="margin-top:10px">
+
+        @user.role match {
+        case User_Type.SELLER => {
+        <div class="pull-right col-md-2">
+            <input type="button" onclick="javascript:window.location='/supply/init'" class="btn btn-primary btn-block" value="新增(증가)">
+        </div>
+        }
+        case User_Type.TRANSLATION => {
+        <div class="pull-right col-md-2">
+            <input type="button" onclick="javascript:window.location='/supply/download/shanghai'" class="btn btn-primary btn-block" value="上海报关下载">
+        </div>
+        <div class="pull-right col-md-2">
+            <input type="button" onclick="javascript:window.location='/supply/download/hangzhou'" class="btn btn-primary btn-block" value="杭州报关下载">
+        </div>
+        }
+        }
+    </div>
 
 </div>
 
@@ -95,3 +115,5 @@
     </ul>
 </nav>
 }
+
+
