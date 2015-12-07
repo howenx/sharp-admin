@@ -167,6 +167,47 @@ $(function() {
 					return false;
 				}
 			})
+		}else if ($temp_div.attr('id') == 'q_youjipin2') {
+
+			$(this).parent().parent().parent().find(".input-area").each(function(index, element) {
+				if (index === 0 && $(this).val()!=null && $(this).val()!='') {
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					data_array.push($(this).val());
+
+				} else if (index === 1 && $(this).val()!=null && $(this).val()!='') {
+
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					data_array.push($(this).val());
+
+				} else if (index === 2 && $(this).val()!=null && $(this).val()!='') {
+
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					data_array.push($(this).val());
+
+				} else if (index === 3 && $(this).val()!=null && $(this).val()!='') {
+
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					data_array.push($(this).val());
+
+				} else if (index === 4 && $(this).val()!=null && $(this).val()!='') {
+
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					data_array.push($(this).val());
+
+				} else if (index === 5 && $(this).val()!=null && $(this).val()!='') {
+
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					console.log($(this));
+					data_array.push($(this).val());
+
+				} else if (index === 6) {
+					var img_val = $("#q_youjipin2").find("[data-index='" + index + "']").attr('src');
+					data_array.push(img_val);
+				} else {
+					alert('Please check exists null value.');
+					return false;
+				}
+			})
 		}
 		console.log(data_array);
 	})
@@ -177,11 +218,16 @@ $(function() {
 			data_array.length = 0;
 			data_array.push($("#upload-img").find("img").attr("src"));
 			console.log(data_array);
+		}else if($("input[data-xr=shop_unpack]").is(':checked')){
+			data_array.length = 0;
+			data_array.push($("#shop_unpack").find("img").attr("src"));
+			console.log(data_array);
 		}
-		console.log(JSON.parse(JSON.stringify(data_array)));
+		//console.log(JSON.parse(JSON.stringify(data_array)));
 		$check = $('input[name=setMain]:checked');
-		console.log($('#' + $check.attr('data-xr')).width());
-		console.log($('#' + $check.attr('data-xr')).height());
+		//console.log($('#' + $check.attr('data-xr')).width());
+		//console.log($('#' + $check.attr('data-xr')).height());
+		console.log(JSON.stringify(data_array));
 		if ($check.length === 1) {
 			$.ajax({
 				url: 'http://172.28.3.47:3008/nw',
