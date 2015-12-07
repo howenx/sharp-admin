@@ -256,11 +256,12 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
       sheet.addMergedRegion(CellRangeAddress.valueOf("A1:Q1"))
       sheet.addMergedRegion(CellRangeAddress.valueOf("B2:Q2"))
 
-
       var idx = 1;
       Prod.download_list().map { map =>
         rNum += 1
         val extra = Json.parse(map("products.extra").toString)
+        val kr_string = Json.parse(map("products.kr_string").toString)
+
         val spec = Json.parse(map("products.spec").toString)
         val attr = Json.parse(map("products.attr").toString)
         cNum = 0
@@ -268,19 +269,12 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
         cell = r.createCell(cNum)
 
         cell.setCellValue("" + idx)
-        cNum +=1
+
         idx +=1
 
-        cell = r.createCell(cNum)
-        cell.setCellValue(map("products.product_id").toString)
-
-        cNum += 1
-        cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "项号").asOpt[String].getOrElse(""))
-
-        cNum += 1
-        cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "料号").asOpt[String].getOrElse(""))
+        //cNum +=1
+        //cell = r.createCell(cNum)
+        //cell.setCellValue(map("products.product_id").toString)
 
         cNum += 1
         cell = r.createCell(cNum)
@@ -292,11 +286,16 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "品名").asOpt[String].getOrElse(""))
-
-        cNum += 1
-        cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "规范申报").asOpt[String].getOrElse(""))
+        map("products.category_id") match {
+          case 1 =>
+            //hzp
+            cell.setCellValue("09000000")
+          case 2 =>
+            //ps
+            cell.setCellValue("08010000")
+          case 3 =>
+            cell.setCellValue("04019900")
+        }
 
         cNum += 1
         cell = r.createCell(cNum)
@@ -304,35 +303,68 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue(map("products.amount").toString)
+        cell.setCellValue((extra \ "规范申报").asOpt[String].getOrElse(""))
 
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "申报单位").asOpt[String].getOrElse("可靠科技"))
+        cell.setCellValue((spec \ "规格").asOpt[String].getOrElse(""))
 
+        cNum += 1
+        cell = r.createCell(cNum)
+        cell.setCellValue((spec \ "单位").asOpt[String].getOrElse(""))
+
+        cNum += 1
+        cell = r.createCell(cNum)
+        cell.setCellValue("美元")
+
+        cNum += 1
+        cell = r.createCell(cNum)
+        cell.setCellValue(map("products.amount").toString)
+
+//        cNum += 1
+//        cell = r.createCell(cNum)
+//        cell.setCellValue(extra \ "market_price_usd").asOpt[String].getOrElse("0").toDouble * map("products.amount").toString.toInt)
+
+        cNum += 1
+        cell = r.createCell(cNum)
+        cell.setCellValue((kr_string \ "usd_price").asOpt[String].getOrElse(""))
+
+        cNum += 1
+        cell = r.createCell(cNum)
+        //val total = Try((kr_string \ "usd_price").asOpt[String].getOrElse("0").toDouble).getOrElse(0) * map("products.amount").toString.toInt
+
+        val total = (kr_string \ "usd_price").asOpt[String] match {
+          case Some(f) =>
+            if(f.isEmpty) {
+              0
+            }
+            else {
+              f.toDouble * map("products.amount").toString.toInt
+            }
+          case None =>
+            0
+        }
+
+        cell.setCellValue(total.toString)
+
+        cNum += 1
+        cell = r.createCell(cNum)
+        cell.setCellValue((extra \ "原产地").asOpt[String].getOrElse("韩国"))
+
+        cNum += 1
+        cell = r.createCell(cNum)
+        cell.setCellValue((extra \ "毛重").asOpt[String].getOrElse(""))
         cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "净重").asOpt[String].getOrElse(""))
 
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "毛重").asOpt[String].getOrElse(""))
+        cell.setCellValue("g")
 
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue(map("products.market_price").toString)
-
-        cNum += 1
-        cell = r.createCell(cNum)
-        cell.setCellValue(map("products.market_price").toString.toDouble * map("products.amount").toString.toInt)
-
-        cNum += 1
-        cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "币制").asOpt[String].getOrElse("人民币"))
-
-        cNum += 1
-        cell = r.createCell(cNum)
-        cell.setCellValue((extra \ "原产地").asOpt[String].getOrElse("韩国"))
+        cell.setCellValue((spec \ "功能").asOpt[String].getOrElse(""))
 
 
       }
@@ -501,6 +533,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
         cNum = 0
         val r = sheet.createRow(rNum)
         cell = r.createCell(cNum)
+        //京东SKU
         cell.setCellValue((extra \ "商品编码").asOpt[String].getOrElse(""))
         cNum += 1
         cell = r.createCell(cNum)

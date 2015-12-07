@@ -39,7 +39,7 @@ object Prod {
   def update_krstring(product_id:Long , name:String, amount:Int, kr_string:String): Unit = {
     DB.withConnection("products") { implicit  conn =>
 
-      SQL(""" update products set name = {name}, amount = {amount}, kr_string = {kr_string}::jsonb where product_id = {product_id}""").on("name"->name, "amount"->amount, "kr_string"->kr_string, "product_id"->product_id).execute()
+      SQL(""" update products set name = {name}, amount = {amount}, kr_string = {kr_string}::jsonb, update_dt = now()::timestamp(0) without time zone where product_id = {product_id}""").on("name"->name, "amount"->amount, "kr_string"->kr_string, "product_id"->product_id).execute()
 
     }
   }
@@ -77,7 +77,7 @@ object Prod {
         case _ =>
           start
       }
-      SQL(""" select row_number() over(ORDER BY product_id) as row, count(*) over () as count , * from products where category_id = {category_id} order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "start"->s, "size"->size).as(parser.*)
+      SQL(""" select row_number() over(ORDER BY product_id desc ) as row, count(*) over () as count , * from products where category_id = {category_id} order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "start"->s, "size"->size).as(parser.*)
 
     }
   }
@@ -96,7 +96,7 @@ object Prod {
         case _ =>
           start
       }
-      SQL(""" select row_number() over(ORDER BY product_id) as row, count(*) over () as count , * from products where category_id = {category_id} and created_id = {user_id}  order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "user_id"->user_id,  "start"->s, "size"->size).as(parser.*)
+      SQL(""" select row_number() over(ORDER BY product_id desc) as row, count(*) over () as count , * from products where category_id = {category_id} and created_id = {user_id}  order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "user_id"->user_id,  "start"->s, "size"->size).as(parser.*)
 
     }
   }
@@ -104,7 +104,7 @@ object Prod {
   def download_list () : List[Map[String, Any]] = {
     DB.withConnection("products") { implicit conn =>
 
-      SQL(""" select  * from products where status = 'I' order by product_id desc """).as(parser.*)
+      SQL(""" select  * from products where status = 'A' order by product_id desc """).as(parser.*)
 
     }
   }
