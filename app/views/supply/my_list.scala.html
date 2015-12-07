@@ -20,11 +20,17 @@
 
     $.get(loadurl, function(data) {
         $(targ).html(data);
+        //$("#stat").on("change",function(){alert(1);});
     });
 
+
     $this.tab('show');
+
     return false;
         });
+
+
+
     });
 
     function load(loadurl) {
@@ -32,17 +38,87 @@
        $.get(loadurl, function(data) {
          $("#my-tab-content .active").html(data);
 
+          //$("#stat").change(function(e){
+            //  alert(111);
+            //});
        });
+
+
+
+
     }
 
     load('/supply/my?id=@{products.head("products.category_id")}&start=1');
+
+    function del(id) {
+       if(confirm('삭제 하시겠습니까?')) {
+         $.post('/supply/delete',{'id':id}, function(data) {
+           if(data != '') {
+              window.location= "/supply/my?id=" + data;
+            }
+            else {
+                window.location= "/supply/my";
+            }
+         });
+       }
+    }
+
+    function add () {
+       var url = $("#tabs .active a ").attr("href");
+       var matches = url.match(/id=(\d)+/);
+       if (matches[1]) {
+          window.location="/supply/init/" + matches[1];
+       }
+    }
+
+    function stat(my,cat) {
+       load("/supply/my" + "?id=" + cat + "&stat=" + my.value + "&start=1");
+      /**
+      if(window.location.search == '') {
+          load("/supply/my"  + "?stat=" + my.value + "&start=1");
+       }
+       else {
+          var matches = window.location.search.match(/id=(\d)+/);
+
+          if(matches == null) {
+             load("/supply/my"  + "?stat=" + my.value + "&start=1");
+           }
+           else {
+              if(matches[1]) {
+               load("/supply/my" + "?id=" + matches[1] + "&stat=" + my.value + "&start=1");
+              }
+              else {
+                load("/supply/my"  + "?stat=" + my.value + "&start=1");
+              }
+          }
+      }
+      **/
+
+    }
 
 </script>
 }
 
 @body = {
 <div class="container">
-    <div class="row" style="margin-top:30px">
+    <div class="row" style="margin-top:50px">
+
+
+            @user.role match {
+            case User_Type.SELLER => {
+            <div class="pull-right col-md-2">
+                <input type="button" onclick="javascript:add();" class="btn btn-primary btn-block" value="新增(증가)">
+            </div>
+            }
+            case User_Type.TRANSLATION => {
+            <div class="pull-right col-md-2">
+                <input type="button" onclick="javascript:window.location='/supply/download/shanghai'" class="btn btn-primary btn-block" value="上海报关下载">
+            </div>
+            <div class="pull-right col-md-2">
+                <input type="button" onclick="javascript:window.location='/supply/download/hangzhou'" class="btn btn-primary btn-block" value="杭州报关下载">
+            </div>
+            }
+            }
 
     </div>
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">

@@ -19,6 +19,7 @@ import play.api.{Configuration, Logger}
 import play.api.Play.current
 import play.api.i18n.{Lang, MessagesApi, I18nSupport}
 
+
 import scala.util.Try
 
 /**
@@ -43,11 +44,11 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
       //Ok(views.html.welcome("cn",request.session.get("username").getOrElse(""))).withLang(lang)
       user.role match {
         case User_Type.SELLER =>
-          Redirect(routes.Application.list_supply(None))
+          Redirect(routes.Application.list_supply(None,None))
         case User_Type.TRANSLATION =>
-          Redirect(routes.Application.list(None))
+          Redirect(routes.Application.list(None,None))
         case User_Type.ADMIN =>
-          Redirect(routes.Application.list(None))
+          Redirect(routes.Application.list_admin(None,None))
         case _ =>
           Ok(views.html.welcome(lang, user))
       }
@@ -71,19 +72,29 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
   //  }
   //  }
 
-  def list_supply(id: Option[Int], start: Int) = withUser { user => {
+  def list_supply(id: Option[Int], stat:Option[String],start: Int) = withUser { user => {
     implicit request => {
+
+      val m = request.queryString.map { case (k, v) => k -> v.head }
+
+      val status:Option[String] = m.get("stat") match {
+        case Some("") =>
+          None
+        case s =>
+          s
+      }
+
       id match {
         case Some(category_id) =>
           if (Prod_Type.values.exists(_.id == id.get)) {
-            val ret = Prod.list(Prod_Type.apply(id.get), user.id, start, size)
+            val ret = Prod.list(Prod_Type.apply(id.get), user.id, status, start, size)
             Logger.debug(ret.toString())
-
+            Logger.debug(s"status is $status---")
             val r: List[Map[String, Any]] = ret match {
               case Nil =>
                 //val any_id:Any = id.get
                 //初始化一个空的内容
-                List(Map("products.category_id" -> id.get, ".count" -> 0, "products.product_id" -> "", "products.name" -> "", "products.status" -> ""))
+                List(Map("products.category_id" -> id.get, ".row" ->"",".count" -> 0, "products.product_id" -> "", "products.name" -> "", "products.status" -> "","products.update_dt"->""))
               case _ =>
                 ret
             }
@@ -92,7 +103,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
                 Ok(views.html.supply.my_list("cn", user, ret, start))
               case _ =>
-                Ok(views.html.supply.my_list_data("cn", user, r, start))
+                Ok(views.html.supply.my_list_data("cn", user, r, status, start))
             }
           }
           else {
@@ -100,7 +111,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
           }
 
         case None =>
-          val ret = Prod.list(Prod_Type.hzp, user.id, start, size)
+          val ret = Prod.list(Prod_Type.hzp, user.id,None, start, size)
           //Logger.debug(ret.toString())
           Ok(views.html.supply.my_list("cn", user, ret, start))
       }
@@ -109,18 +120,26 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
   }
 
-  def list(id: Option[Int], start: Int) = withUser { user => {
+  def list(id: Option[Int], stat:Option[String], start: Int) = withUser { user => {
     implicit request => {
+      val m = request.queryString.map { case (k, v) => k -> v.head }
+
+      val status:Option[String] = m.get("stat") match {
+        case Some("") =>
+          None
+        case s =>
+          s
+      }
       id match {
         case Some(category_id) =>
           if (Prod_Type.values.exists(_.id == id.get)) {
-            val ret = Prod.list(Prod_Type.apply(id.get), start, size)
+            val ret = Prod.list(Prod_Type.apply(id.get), status, start, size)
             Logger.debug(ret.toString())
             val r:List[Map[String, Any]] = ret match {
               case Nil =>
                 //val any_id:Any = id.get
                 //初始化一个空的内容
-                List(Map("products.category_id"->id.get , ".count"->0,"products.product_id"->"","products.name"->"","products.status"->""))
+                List(Map("products.category_id" -> id.get, ".row" ->"",".count" -> 0, "products.product_id" -> "", "products.name" -> "", "products.status" -> "","products.update_dt"->""))
               case _ =>
                 ret
             }
@@ -129,16 +148,60 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
               case 0 =>
                 Ok(views.html.supply.list("cn", user, ret, start))
               case _ =>
-                Ok(views.html.supply.list_data("cn", user, r, start))
+                Ok(views.html.supply.list_data("cn", user, r,status, start))
             }
           }
           else {
             Ok(views.html.error404())
           }
         case None =>
-          val ret = Prod.list(Prod_Type.hzp, start, size)
+          val ret = Prod.list(Prod_Type.hzp, None, start, size)
           //Logger.debug(ret.toString())
           Ok(views.html.supply.list("cn", user, ret, start))
+      }
+    }
+  }
+
+  }
+
+  def list_admin(id: Option[Int], stat:Option[String], start: Int) = withUser { user => {
+    implicit request => {
+      val m = request.queryString.map { case (k, v) => k -> v.head }
+
+      val status:Option[String] = m.get("stat") match {
+        case Some("") =>
+          None
+        case s =>
+          s
+      }
+      id match {
+        case Some(category_id) =>
+          if (Prod_Type.values.exists(_.id == id.get)) {
+            val ret = Prod.list_admin(Prod_Type.apply(id.get), status, start, size)
+            Logger.debug(ret.toString())
+            val r:List[Map[String, Any]] = ret match {
+              case Nil =>
+                //val any_id:Any = id.get
+                //初始化一个空的内容
+                List(Map("products.category_id" -> id.get, ".row" ->"",".count" -> 0, "products.product_id" -> "", "products.name" -> "", "products.status" -> "","products.update_dt"->""))
+              case _ =>
+                ret
+            }
+
+            start match {
+              case 0 =>
+                Ok(views.html.supply.admin_list("cn", user, ret, start))
+              case _ =>
+                Ok(views.html.supply.admin_list_data("cn", user, r,status, start))
+            }
+          }
+          else {
+            Ok(views.html.error404())
+          }
+        case None =>
+          val ret = Prod.list_admin(Prod_Type.hzp, None, start, size)
+          //Logger.debug(ret.toString())
+          Ok(views.html.supply.admin_list("cn", user, ret, start))
       }
     }
   }
@@ -650,7 +713,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
           Logger.debug(s"$m")
           val audit_string = Json.toJson(m).toString()
           Prod.append(product_id.toLong, audit_string)
-          Redirect(routes.Application.list(Some(Prod_Type.withName(p_type).id)))
+          Redirect(routes.Application.list(Some(Prod_Type.withName(p_type).id), None))
         case None =>
           BadRequest("append error")
       }
@@ -696,7 +759,33 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
   }
 
-  def supply_init() = withUser { user => {
+  def supply_delete() = withUser { user => {
+    implicit request => {
+      request.body.asFormUrlEncoded match {
+        case Some(map) =>
+          val m = map.map { case (k, v) => k -> v.head }
+          val id = m("id").toString().toLong;
+          val cat = Prod.delete(id)
+          Ok(cat.getOrElse("").toString)
+        case _ =>
+          Ok("")
+      }
+    }
+  }
+
+  }
+
+  def supply_init(id:Long) = withUser { user => {
+    implicit request => {
+      Ok(views.html.supply.supply("cn", user, id.toInt))
+      }
+      //
+    }
+  }
+
+
+
+  def supply_init_add() = withUser { user => {
     implicit request => {
       var ptype:Int =0
       request.body.asMultipartFormData match {
@@ -730,9 +819,9 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
           }
 
-          Redirect(routes.Application.list_supply(Some(ptype)))
+          Redirect(routes.Application.list_supply(Some(ptype),None))
         case None =>
-          Ok(views.html.supply.supply("cn", user))
+          Ok(views.html.supply.supply("cn", user, 0))
       }
       //
     }
@@ -769,7 +858,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
               m += ("修改时间" -> DateTimeFormat.longDateTime().print(new DateTime()))
               val kr_string = Json.toJson(m).toString()
               Prod.update_krstring(product_id.toLong, name, amount, kr_string)
-              Redirect(routes.Application.list_supply(Some(ptype)))
+              Redirect(routes.Application.list_supply(Some(ptype),None))
           }
 
         case None =>
@@ -855,7 +944,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
                   Prod.update(product_id.toLong, Prod_Type.hzp, name, tags, attr, spec, images, price, market_price, amount, extra)
                   //val price = map(price)
-                  Redirect(routes.Application.list(Some(1)))
+                  Redirect(routes.Application.list(Some(1), None))
                   //map -= (name","price")
 
                 case Prod_Type.ps =>
@@ -902,7 +991,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
                   Prod.update(product_id.toLong, Prod_Type.ps, name, tags, attr, spec, images, price, market_price, amount, extra)
 
-                  Redirect(routes.Application.list(Some(2)))
+                  Redirect(routes.Application.list(Some(2), None))
 
                 case Prod_Type.fs =>
                   Logger.debug(m.toString())
@@ -954,7 +1043,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
                   Prod.update(product_id.toLong, Prod_Type.fs, name, tags, attr, spec, images, price, market_price, amount, extra)
 
-                  Redirect(routes.Application.list(Some(3)))
+                  Redirect(routes.Application.list(Some(3), None))
               }
 
 

@@ -2,23 +2,20 @@
 @import entity.User_Type
 @import entity.User
 @import org.joda.time.DateTime
-
-@(lang:String="cn",user:User,products:List[Map[String, Any]],status:Option[String], start:Int)
+@(lang:String="cn",user:User,products:List[Map[String, Any]],status:Option[String],start:Int)
 @import scala.Int; var count =0; var category_id = 0;
 @import org.joda.time.format.DateTimeFormat; val fm = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm:ss");
-
 <div style="margin-top:20px">
-
     <div class="row" style="padding-bottom:10px">
         @for(p <-products) {
         @count match {
-         case 0 => {
-           @{count=p(".count").toString.toInt; category_id = p("products.category_id").toString.toInt}
+        case 0 => {
+        @{count=p(".count").toString.toInt; category_id = p("products.category_id").toString.toInt}
         <div class="col-md-3 input-group pull-right" >
             <span class="input-group-addon">状态(상태):</span>
             <select id="stat" class="form-control" onchange="javascript:stat(this, @category_id);">
                 <option @{status match {case None=>{"selected"} case _=>{}}} value=""></option>
-              <option @{status match {case Some("I")=>{"selected"} case _=>{}}} value="I">未翻译(미번역)</option>
+                <option @{status match {case Some("I")=>{"selected"} case _=>{}}} value="I">未翻译(미번역)</option>
                 <option @{status match {case Some("T")=>{"selected"} case _=>{}}} value="T">已翻译(번역완료)</option>
                 <option  @{status match {case Some("A")=>{"selected"} case _=>{}}} value="A">已追加(보충했음)</option>
             </select>
@@ -26,14 +23,16 @@
     </div>
     <table class="table table-hover table-bordered">
         <tr align="center" class="info">
-            <th class="col-md-1">序号(순번)</th>
-            <th class="col-md-1">商品(상품)ID</th>
-            <th class="col-md-2">商品名称(상품명칭)</th>
-            <th class="col-md-1">时间(시간)</th>
-            <th class="col-md-1">状态(상태)</th>
-            <th class="col-md-1">操作(조작)</th>
+            <th class="col-md-1">序号</th>
+            <th class="col-md-1">商品ID</th>
+            <th class="col-md-4">商品名称</th>
+            <th class="col-md-2">时间</th>
+            <th class="col-md-1">供应商</th>
+            <th class="col-md-1">状态</th>
+            <th class="col-md-1">操作</th>
         </tr>
-       }
+
+        }
         case _ => {}
         }
         <tr>
@@ -41,19 +40,21 @@
             <td class="col-md-1">@p("products.product_id")</td>
             <td class="col-md-2">@p("products.name")</td>
             <td class="col-md-1">@{p("products.update_dt") match {case ""=>{} case _ =>{fm.print(new DateTime(p("products.update_dt")))} }}</td>
-            <td class="col-md-1">
+            <td class="col-md-2">@p("ID.nickname")</td>
+            <td>
                 @p("products.status") match {
-                   case "I" => {未翻译(미번역)}
-                   case "T" => {已翻译(번역완료)}
-                   case "A" => {已追加(보충했음)}
+                   case "I" => {未翻译}
+                   case "T" => {已翻译}
+                   case "A" => {已追加}
                    case _ => {}
                 }
             </td>
-            <td class="col-md-1">
+            <td>
                 @user.role match {
                 case User_Type.SELLER => {
                   @p("products.status") match {
-                    case "I" => {<a href="/supply/update/@p("products.product_id")">修改(수정)</a>  <a href="javascript:del(@p("products.product_id"))">删除(삭제)</a></td>}
+                    case "I" => {<a href="/supply/update/@p("products.product_id")">修改(수정)</a> </td>}
+
                     case _ => {</td>}
                   }
 
@@ -61,11 +62,24 @@
                 case User_Type.TRANSLATION => {
                   @p("products.status") match {
                     case "I" => {
-                       <a href="/supply/translation/@p("products.product_id")">翻译</a>
-                     <a href="/supply/append/@p("products.product_id")">追加</a></td>
+                       <a href="/supply/translation/@p("products.product_id")">翻译</a></td>
+
+                    }
+                    case "T" => {
+                    <a href="/supply/translation/@p("products.product_id")">翻译</a></td>
+
+                    }
+                    case _ =>{</td>}
+                  }
+                }
+                case User_Type.ADMIN => {
+                    @p("products.status") match {
+                    case "I" => {
+
+                    <a href="/supply/append/@p("products.product_id")">追加</a></td>
                     }
                     case _ =>{<a href="/supply/append/@p("products.product_id")">追加</a></td>}
-                  }
+                    }
                 }
                 }
 
@@ -74,11 +88,9 @@
         }
     </table>
     @status match {
-       case Some(s) => {@pages(start,15,count,"/supply/my?id="+category_id+"&stat="+s)}
-       case _ => {@pages(start,15,count,"/supply/my?id="+category_id)}
+    case Some(s) => {@pages(start,15,count,"/supply/admin?id="+category_id+"&stat="+s)}
+    case _ => {@pages(start,15,count,"/supply/admin?id="+category_id)}
     }
-
-
 
 
 </div>
@@ -96,7 +108,7 @@
     <ul class="pagination">
         <li>
             @if(start <=1) {
-                <a href="#" aria-label="Previous">
+                <a href="javascript:load('@{url + "&start=1"}')" aria-label="Previous">
                 }else {
                 <a href="javascript:load('@{url + "&start=" + (start-1)}')" aria-label="Previous">
                 }
@@ -118,5 +130,3 @@
     </ul>
 </nav>
 }
-
-
