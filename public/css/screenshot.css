@@ -302,7 +302,7 @@ label.radio {
 	display: block;
 	position: relative;
 	width: 730px;
-	background: url("/assets/images/upload_iezdinbygzqwmoldgmzdambqmmyde_750x316.jpg");
+	/*background: url("/assets/images/upload_iezdinbygzqwmoldgmzdambqmmyde_750x316.jpg");*/
 	overflow: auto;
 	background-size: 100%;
 	/*	height: auto;*/
@@ -972,6 +972,37 @@ input[name=setMain]{
 	bottom:0;
 	left: 0;
 }
+/*222222222222222*/
+#q_youjipin2 .text{
+	width: 90%;
+	margin-left: 5%;
+
+}
+#q_youjipin2 .illustrate-box{
+	height: 55px;
+	background: rgb(230, 224, 224);
+	opacity: 0.9;
+}
+#q_youjipin2 .money-raw i{
+	font-size: 14px;
+}
+#q_youjipin2 .now i{
+	font-size: 16px;
+	margin-top: 0;
+}
+#q_youjipin2 .illustrate-r span:nth-child(1){
+	font-size: 14px;
+}
+#q_youjipin2 .illustrate-r span i{
+	font-size: 12px;
+}
+#q_youjipin2 .illustrate-r span{
+	display: inline-block;
+}
+#q_youjipin2 .illustrate-r .three{
+	font-size: 14px;
+}
+/*qqqqqqqqqqqqqqqqqqq*/
 #u_youjipin .text{
 	display: none;
 }
@@ -980,7 +1011,6 @@ input[name=setMain]{
 	height:116px;
 	background: #fff;
 	color:#b1b1b1;
-
 }
 
 
@@ -988,7 +1018,7 @@ input[name=setMain]{
 	float: left;
 	border-right:1px solid #e9e7e8;
 	width:60%;
-	height:116px;
+	height:100%;
 	padding:0 5% 0 10%;
 
 }
@@ -998,8 +1028,8 @@ input[name=setMain]{
 	/*height:50px;*/
 	/*background-size:contain;*/
 	display: block;
-	font-size: 50px;
-	padding-left: 10px;
+	font-size: 30px;
+	/*padding-left: 10px;*/
 	color:#e56254;
 
 }
@@ -1038,7 +1068,7 @@ input[name=setMain]{
 
 .illustrate-r{
 	float: left;
-	height:116px;
+	height:100%;
 	width:40%;
 	position: relative;
 	padding:10px 0 0 3%;
