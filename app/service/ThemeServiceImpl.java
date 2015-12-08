@@ -100,7 +100,6 @@ public class ThemeServiceImpl implements ThemeService {
                 ((ObjectNode) jsonTheme).put("themeTags", jsonTheme.findValue("themeTags").toString());
             }
             theme = Json.fromJson(json.findValue("theme"),Theme.class);
-            theme.setOrDestory(false);
             if(jsonTheme.has("id")){
                 themeMapper.updateTheme(theme);
             }else
