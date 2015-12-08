@@ -7,19 +7,29 @@
 <script src="/assets/js/search.js"></script>
 <script type="text/javascript">
     $(function(){
+        var sharedObject = window.dialogArguments;
+        if (sharedObject.flag) {
+            $("input[type=checkbox]").attr('type','radio');
+        }
         $(".return").click(function(){
             var id=$("input[type=checkbox]:checked").parents("tr");
             $(id).find("input[type=checkbox]:checked").parent().remove();
-            console.log(id);
+            var lable_id=$("input[type=radio]:checked").parent().next().html();
             if (window.showModalDialog) {
                 var sharedObject = {};
                 sharedObject.id = id;
-
+                if(lable_id.value!==""){
+                    sharedObject.lable_id = lable_id;
+                }
                 window.returnValue = sharedObject;
             }
             else {
                 // if not modal, we cannot use the returnValue property, we need to update the opener window
-                window.opener.UpdateFields (id);
+                var sharedObject = {};
+                sharedObject.id = id;
+                sharedObject.lable_id = lable_id;
+                console.log(lable_id);
+                window.opener.UpdateFields (sharedObject);
             }
             window.close ();
         })

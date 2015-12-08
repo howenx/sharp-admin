@@ -30,7 +30,7 @@
         if (window.showModalDialog) {
             var retValue = showModalDialog("/topic/add/popup", sharedObject, "dialogWidth:1200px; dialogHeight:600px; dialogLeft:300px;");
             if (retValue) {
-                UpdateFields(retValue.id);
+                UpdateFields(retValue);
             }
         }
         else {
@@ -39,12 +39,30 @@
             modal.dialogArguments = sharedObject;
         }
     }
+    function ShowModal1() {
+        var sharedObject = {};
+        sharedObject.flag = true;
 
-    function UpdateFields(obj) {
-        var index1=$(".table").find("tr:last").find("td").first().html();
-        for(i=0;i<$(obj).length;i++){
-            $(obj).eq(i).prepend($("<td class='index'>"+(Number(index1)+1+i)+"</td><td><input type='radio'  name='goods-main'></td>")).appendTo($(".table"));
+        if (window.showModalDialog) {
+            var retValue = showModalDialog("/topic/add/popup", sharedObject, "dialogWidth:1200px; dialogHeight:600px; dialogLeft:300px;");
+            if (retValue) {
+                UpdateFields(retValue);
+            }
         }
+        else {
+            // for similar functionality in Opera, but it's not modal!
+            var modal = window.open ("/topic/add/popup", null, "width=1200,height=600,left=300,modal=yes,alwaysRaised=yes", null);
+            modal.dialogArguments = sharedObject;
+        }
+    }
+    function UpdateFields(obj) {
+        var obj1=obj.id;
+        var index1=$(".table").find("tr:last").find("td").first().html();
+        for(var i=0;i<$(obj1).length;i++){
+            $(obj1).eq(i).prepend($("<td class='index'>"+(Number(index1)+1+i)+"</td><td><input type='radio'  name='goods-main'></td>")).appendTo($(".table"));
+        }
+
+        $('#input_imgurl').val(obj.lable_id);
     }
 
     function previewImage(obj,file, id) {
@@ -629,6 +647,15 @@
                             <input type="radio" name="mark-deg" value="0"/> <b>0度</b>
                             <input type="radio" name="mark-deg" value="180"/> <b>180度</b>
                         </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">图片url:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="input_imgurl" disabled>
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-primary btn-xs label-id" onclick="ShowModal1()">选择</button>
                     </div>
                 </div>
                 <div class="form-group">
