@@ -120,15 +120,17 @@
                                 <th width="60">成本价(￥)</th>
                                 <th width="40">折扣</th>
                                 <th width="30">限购数量</th>
-                                <th width="100">库存地</th>
+                                <th width="30">邮费</th>
+                                <th width="50">税率/税号</th>
+                                <th width="100">库存区域</th>
                                 <th width="80">报关单位</th>
                                 <th width="80">主图(一张)</th>
-                                <th width="260">详情页预览图(最多6张)</th>
+                                <th width="260">详情页预览图</th>
                             </tr>
                             @for(inventory <-  inventories) {
                                 <tr>
                                     <td>
-                                        <input type="radio" name="orMasterInv" checked="checked" value="@inventory.getOrMasterInv()" disabled/>
+                                        <input type="radio" name="orMasterInv" checked="checked" class="master-radio" value="@inventory.getOrMasterInv()" disabled/>
                                     </td>
                                     <td>
                                         <input type="text" name="itemColor" value="@inventory.getItemColor()" readonly/>
@@ -158,24 +160,22 @@
                                         <input type="text" name="restrictAmount" value="@inventory.getRestrictAmount()" readonly/>
                                     </td>
                                     <td>
-                                        @if(inventory.getInvArea()=="B"){
-                                            <input type="radio" name="@inventory.getId()" value="B" checked="checked" disabled/><div class="area">保税区</div>
-                                            <input type="radio" name="@inventory.getId()" value="Z" disabled/><div class="area">韩国直邮</div>
-                                        }
-                                        @if(inventory.getInvArea()=="Z"){
-                                            <input type="radio" name="@inventory.getId()" value="B" disabled/><div class="area">保税区</div>
-                                            <input type="radio" name="@inventory.getId()" value="Z" checked="checked" disabled/><div class="area">韩国直邮</div>
-                                        }
+                                        <input type="text" name="shipFee" value="@inventory.getShipFee()" readonly/>
+                                    </td>
+                                    <td>
+                                        @if(inventory.getPostalTaxRate()!= "") { <input type="text" name="postalTaxRate" value="@inventory.getPostalTaxRate()" readonly/>}
+                                        @if(inventory.getPostalTaxCode()!= "") { <input type="text" name="postalTaxCode" value="@inventory.getPostalTaxCode()" readonly/>}
+                                    </td>
+                                    <td>
+                                        @if(inventory.getInvArea()== "Z") {<input type="text" name="invArea" value="韩国直邮" readonly/>}
+                                        @if(inventory.getInvArea()== "H") {<input type="text" name="invArea" value="杭州保税仓" readonly/>}
+                                        @if(inventory.getInvArea()== "G") {<input type="text" name="invArea" value="广州保税仓" readonly/>}
+                                        @if(inventory.getInvArea()== "K") {<input type="text" name="invArea" value="海外直邮" readonly/>}
                                     </td>
                                     <td>
                                         @if(inventory.getInvCustoms()== "shanghai") {<input type="text" name="invCustoms" value="上海海关" readonly/>}
-                                        @if(inventory.getInvCustoms()== "guangzhou") {<input type="text" name="invCustoms" value="广州海关" readonly/>}
                                         @if(inventory.getInvCustoms()== "hangzhou") {<input type="text" name="invCustoms" value="杭州海关" readonly/>}
-                                        @if(inventory.getInvCustoms()== "ningbo") {<input type="text" name="invCustoms" value="宁波海关" readonly/>}
-                                        @if(inventory.getInvCustoms()== "zhengzhou") {<input type="text" name="invCustoms" value="郑州海关" readonly/>}
-                                        @if(inventory.getInvCustoms()== "chongqing") {<input type="text" name="invCustoms" value="重庆海关" readonly/>}
-                                        @if(inventory.getInvCustoms()== "gzjichang") {<input type="text" name="invCustoms" value="广州机场海关" readonly/>}
-                                        @if(inventory.getInvCustoms()== "gzluogang") {<input type="text" name="invCustoms" value="广州萝岗海关" readonly/>}
+                                        @if(inventory.getInvCustoms()== "guangzhou") {<input type="text" name="invCustoms" value="广州海关" readonly/>}
                                     </td>
                                     <td class="list-img">
                                         <div >

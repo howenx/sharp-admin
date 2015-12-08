@@ -2,7 +2,8 @@
 @import entity.User_Type
 @import entity.User
 @import play.api.mvc._
-@(lang:String="cn", user:User)(implicit flash: Flash)
+@import scala.Int
+@(lang:String="cn", user:User, id:Int)(implicit flash: Flash)
 
 @scripts = {
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
@@ -14,6 +15,14 @@
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
         $('#tabs').tab();
+
+        $('#tabs li a').each(function(index,element) {
+          if(index+1 == @id ) {
+             $(this).tab('show');
+          }
+        });
+
+
         $('.datepicker').datepicker({
           format: 'yyyy-mm-dd',
         })
@@ -41,6 +50,21 @@
              $("#hzp_品牌").focus();
              return;
            }
+
+           if($("#hzp_商品条码").val() == "") {
+             alert("Please input 바코드");
+             $("#hzp_商品条码").focus();
+             return;
+           }
+
+           var barRegex = /[0-9 -()+]{13}/;
+
+           if(!barRegex.test($("#hzp_商品条码").val())) {
+               alert("숫자 입력, length is 13");
+               $("#hzp_商品条码").val("");
+               $("#hzp_商品条码").focus();
+               return;
+             }
 
            var intRegex = /[0-9 -()+]+$/;
            var floatRegex = /[-+]?([0-9]*.[0-9]+|[0-9]+)/;
@@ -169,31 +193,7 @@
              $("#hzp_单位").focus();
              return;
            }
-           if($("#hzp_尺寸").val() == "") {
-             alert("Please input 사이즈");
-             $("#hzp_尺寸").focus();
-             return;
-           }else {
-             if(!floatRegex.test($("#hzp_尺寸").val())) {
-               alert("숫자 입력");
-               $("#hzp_尺寸").val("");
-               $("#hzp_尺寸").focus();
-               return;
-             }
-           }
 
-           if($("#hzp_装箱数").val() == "") {
-             alert("Please input 포장 수");
-             $("#hzp_装箱数").focus();
-             return;
-           }else {
-             if(!intRegex.test($("#hzp_装箱数").val())) {
-               alert("숫자 입력");
-               $("#hzp_装箱数").val("");
-               $("#hzp_装箱数").focus();
-               return;
-             }
-           }
 
            if($("#hzp_包装长").val() == "") {
              alert("Please input (포장)길이 mm");
@@ -285,6 +285,21 @@
              $("#ps_品牌").focus();
              return;
            }
+
+           if($("#ps_商品条码").val() == "") {
+             alert("Please input 바코드");
+             $("#ps_商品条码").focus();
+             return;
+           }
+
+           var barRegex = /[0-9 -()+]{13}/;
+
+           if(!barRegex.test($("#ps_商品条码").val())) {
+               alert("숫자 입력, length is 13");
+               $("#ps_商品条码").val("");
+               $("#ps_商品条码").focus();
+               return;
+             }
 
            var intRegex = /[0-9 -()+]+$/;
            var floatRegex = /[-+]?([0-9]*.[0-9]+|[0-9]+)/;
@@ -501,6 +516,21 @@
              $("#fs_品牌").focus();
              return;
            }
+
+           if($("#fs_商品条码").val() == "") {
+             alert("Please input 바코드");
+             $("#fs_商品条码").focus();
+             return;
+           }
+
+           var barRegex = /[0-9 -()+]{13}/;
+
+           if(!barRegex.test($("#fs_商品条码").val())) {
+               alert("숫자 입력, length is 13");
+               $("#fs_商品条码").val("");
+               $("#fs_商品条码").focus();
+               return;
+             }
 
            var intRegex = /[0-9 -()+]+$/;
            var floatRegex = /[-+]?([0-9]*.[0-9]+|[0-9]+)/;
@@ -771,9 +801,10 @@
     <div class="row" style="margin-top:50px">
     </div>
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs" style="margin-top:20px">
-        <li class="active"><a href="#hzp" data-toggle="tab">化妆品(화장품)</a></li>
-        <li><a href="#ps" data-toggle="tab">配饰(액세서리)</a></li>
-        <li><a href="#fs" data-toggle="tab">服饰(의상)</a></li>
+
+        <li class="active"><a href="#hzp" data-target="#hzp" data-toggle="tab">化妆品(화장품)</a></li>
+        <li ><a href="#ps"  data-target="#ps" data-toggle="tab">配饰(액세서리)</a></li>
+        <li ><a href="#fs"  data-target="#fs" data-toggle="tab">服饰(의상)</a></li>
     </ul>
     <div id="my-tab-content" class="tab-content">
         <div class="tab-pane active" id="hzp" style="width:60%">
@@ -798,6 +829,12 @@
                     <input type="text" id="hzp_品牌" name="品牌" class="form-control">
 
                 </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px;">
+                <span class="input-group-addon">바코드:</span>
+                <input type="text" id="hzp_商品条码" name="商品条码" class="form-control">
+
+                </div>
+
                 <div class="col-md-9 input-group" style="padding-top: 20px">
                     <span class="input-group-addon">원가（KRW）:</span>
                     <input type="text" id="hzp_price" name="price" class="form-control">
@@ -857,12 +894,7 @@
                     <input type="text" id="hzp_单位" name="单位" class="form-control">
 
                 </div>
-                <div class="col-md-9 input-group" style="padding-top: 20px">
-                    <span class="input-group-addon">사이즈（cm）:</span>
-                    <input type="text" id="hzp_尺寸" name="尺寸" class="form-control">
-                    <span class="input-group-addon">포장 수:</span>
-                    <input type="text" id="hzp_装箱数" name="装箱数" class="form-control">
-                </div>
+
                 <div class="col-md-9 input-group" style="padding-top: 20px">
                     <span class="input-group-addon">(포장)길이 mm:</span>
                     <input type="text" id="hzp_包装长" name="包装长" class="form-control">
@@ -909,6 +941,11 @@
                 <div class="col-md-9 input-group" style="padding-top: 20px;">
                     <span class="input-group-addon">브랜드:</span>
                     <input type="text" id="ps_品牌" name="品牌" class="form-control">
+
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px;">
+                    <span class="input-group-addon">바코드:</span>
+                    <input type="text" id="ps_商品条码" name="商品条码" class="form-control">
 
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">
@@ -1013,6 +1050,11 @@
                 <div class="col-md-9 input-group" style="padding-top: 20px;">
                     <span class="input-group-addon">브랜드:</span>
                     <input type="text" id="fs_品牌" name="品牌" class="form-control">
+
+                </div>
+                <div class="col-md-9 input-group" style="padding-top: 20px;">
+                    <span class="input-group-addon">바코드:</span>
+                    <input type="text" id="fs_商品条码" name="商品条码" class="form-control">
 
                 </div>
                 <div class="col-md-9 input-group" style="padding-top: 20px">

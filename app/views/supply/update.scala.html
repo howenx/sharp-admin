@@ -46,6 +46,21 @@
              return;
            }
 
+            if($("#hzp_商品条码").val() == "") {
+             alert("Please input 바코드");
+             $("#hzp_商品条码").focus();
+             return;
+           }
+
+           var barRegex = /[0-9 -()+]{13}/;
+
+           if(!barRegex.test($("#hzp_商品条码").val())) {
+               alert("숫자 입력, length is 13");
+               $("#hzp_商品条码").val("");
+               $("#hzp_商品条码").focus();
+               return;
+             }
+
            var intRegex = /[0-9 -()+]+$/;
            var floatRegex = /[-+]?([0-9]*.[0-9]+|[0-9]+)/;
 
@@ -173,31 +188,7 @@
              $("#hzp_单位").focus();
              return;
            }
-           if($("#hzp_尺寸").val() == "") {
-             alert("Please input 사이즈");
-             $("#hzp_尺寸").focus();
-             return;
-           }else {
-             if(!floatRegex.test($("#hzp_尺寸").val())) {
-               alert("숫자 입력");
-               $("#hzp_尺寸").val("");
-               $("#hzp_尺寸").focus();
-               return;
-             }
-           }
 
-           if($("#hzp_装箱数").val() == "") {
-             alert("Please input 포장 수");
-             $("#hzp_装箱数").focus();
-             return;
-           }else {
-             if(!intRegex.test($("#hzp_装箱数").val())) {
-               alert("숫자 입력");
-               $("#hzp_装箱数").val("");
-               $("#hzp_装箱数").focus();
-               return;
-             }
-           }
 
            if($("#hzp_包装长").val() == "") {
              alert("Please input (포장)길이 mm");
@@ -289,6 +280,21 @@
              $("#ps_品牌").focus();
              return;
            }
+
+            if($("#ps_商品条码").val() == "") {
+             alert("Please input 바코드");
+             $("#ps_商品条码").focus();
+             return;
+           }
+
+           var barRegex = /[0-9 -()+]{13}/;
+
+           if(!barRegex.test($("#ps_商品条码").val())) {
+               alert("숫자 입력, length is 13");
+               $("#ps_商品条码").val("");
+               $("#ps_商品条码").focus();
+               return;
+             }
 
            var intRegex = /[0-9 -()+]+$/;
            var floatRegex = /[-+]?([0-9]*.[0-9]+|[0-9]+)/;
@@ -492,6 +498,21 @@
              $("#fs_品牌").focus();
              return;
            }
+
+            if($("#fs_商品条码").val() == "") {
+             alert("Please input 바코드");
+             $("#fs_商品条码").focus();
+             return;
+           }
+
+           var barRegex = /[0-9 -()+]{13}/;
+
+           if(!barRegex.test($("#fs_商品条码").val())) {
+               alert("숫자 입력, length is 13");
+               $("#fs_商品条码").val("");
+               $("#fs_商品条码").focus();
+               return;
+             }
 
            var intRegex = /[0-9 -()+]+$/;
            var floatRegex = /[-+]?([0-9]*.[0-9]+|[0-9]+)/;
@@ -784,6 +805,13 @@
                 <input type="text" id="hzp_品牌" name="品牌" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "品牌").asOpt[String])">
 
             </div>
+
+            <div class="col-md-6 input-group" style="padding-top: 20px;">
+                <span class="input-group-addon">바코드:</span>
+                <input type="text" id="hzp_商品条码" name="商品条码" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "商品条码").asOpt[String])">
+
+            </div>
+
             <div class="col-md-6 input-group" style="padding-top: 20px">
                 <span class="input-group-addon">원가（KRW）:</span>
                 <input type="text" id="hzp_price" name="price" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "price").asOpt[String])">
@@ -844,12 +872,7 @@
                 <input type="text" id="hzp_单位" name="单位" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "单位").asOpt[String])">
 
             </div>
-            <div class="col-md-6 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">사이즈（cm）:</span>
-                <input type="text" id="hzp_尺寸" name="尺寸" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "尺寸").asOpt[String])">
-                <span class="input-group-addon">포장 수:</span>
-                <input type="text" id="hzp_装箱数" name="装箱数" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "装箱数").asOpt[String])">
-            </div>
+
             <div class="col-md-6 input-group" style="padding-top: 20px">
                 <span class="input-group-addon">(포장)길이 mm:</span>
                 <input type="text" id="hzp_包装长" name="包装长" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "包装长").asOpt[String])">
@@ -899,6 +922,12 @@
             <div class="col-md-6 input-group" style="padding-top: 20px;">
                 <span class="input-group-addon">브랜드:</span>
                 <input type="text" id="ps_品牌" name="品牌" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "品牌").asOpt[String])">
+
+            </div>
+
+            <div class="col-md-6 input-group" style="padding-top: 20px;">
+                <span class="input-group-addon">바코드:</span>
+                <input type="text" id="ps_商品条码" name="商品条码" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "商品条码").asOpt[String])">
 
             </div>
             <div class="col-md-6 input-group" style="padding-top: 20px">
@@ -1012,6 +1041,12 @@
             <div class="col-md-6 input-group" style="padding-top: 20px;">
                 <span class="input-group-addon">브랜드:</span>
                 <input type="text" id="fs_品牌" name="品牌" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "品牌").asOpt[String])">
+
+            </div>
+
+            <div class="col-md-6 input-group" style="padding-top: 20px;">
+                <span class="input-group-addon">바코드:</span>
+                <input type="text" id="fs_商品条码" name="商品条码" class="form-control" value="@((Json.parse(p("products.kr_string").toString) \ "商品条码").asOpt[String])">
 
             </div>
 

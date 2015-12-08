@@ -91,7 +91,6 @@ public class ItemServiceImpl implements ItemService{
                 inventory.setState("Y");
                 inventory.setShipFee(new BigDecimal(0.00));
                 inventory.setInvTitle(item.getItemTitle());
-                inventory.setPostalTaxCode("09020800");
                 Logger.error(inventory.toString());
                 if (jsonNode.has("id")) {
                     this.inventoryMapper.updateInventory(inventory);

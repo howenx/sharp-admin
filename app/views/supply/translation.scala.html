@@ -126,31 +126,7 @@
              $("#hzp_单位").focus();
              return;
            }
-           if($("#hzp_尺寸").val() == "") {
-             alert("Please input 尺寸");
-             $("#hzp_尺寸").focus();
-             return;
-           }else {
-             if(!floatRegex.test($("#hzp_尺寸").val())) {
-               alert("请输入数字");
-               $("#hzp_尺寸").val("");
-               $("#hzp_尺寸").focus();
-               return;
-             }
-           }
 
-           if($("#hzp_装箱数").val() == "") {
-             alert("Please input 装箱数");
-             $("#hzp_装箱数").focus();
-             return;
-           }else {
-             if(!intRegex.test($("#hzp_装箱数").val())) {
-               alert("请输入数字");
-               $("#hzp_装箱数").val("");
-               $("#hzp_装箱数").focus();
-               return;
-             }
-           }
 
            if($("#hzp_包装长").val() == "") {
              alert("Please input 包装长");
@@ -715,12 +691,7 @@
             <input type="text" name="单位" class="form-control" value="@{(json \ "单位").asOpt[String]}" readonly>
 
         </div>
-        <div class="col-md-10 input-group" style="padding-top: 20px">
-            <span class="input-group-addon">사이즈（cm）:</span>
-            <input type="text" name="尺寸" class="form-control" value="@{(json \ "尺寸").asOpt[String]}" readonly>
-            <span class="input-group-addon">포장 수:</span>
-            <input type="text" name="装箱数" class="form-control" value="@{(json \ "装箱数").asOpt[String]}" readonly>
-        </div>
+
         <div class="col-md-10 input-group" style="padding-top: 20px">
             <span class="input-group-addon">(포장)길이mm:</span>
             <input type="text" name="包装长" class="form-control" value="@{(json \ "包装长").asOpt[String]}" readonly>
@@ -771,7 +742,7 @@
                 <input type="text" id="hzp_颜色" name="颜色" class="form-control" value="@((Json.parse(p("products.attr").toString) \ "颜色").asOpt[String])">
             </div>
             <div class="col-md-10 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">成份:</span>
+                <span class="input-group-addon">成份(材质):</span>
                 <input type="text" id="hzp_成份" name="成份" class="form-control" value="@{(spec \ "成份").asOpt[String]}">
             </div>
             <div class="col-md-10 input-group" style="padding-top: 20px">
@@ -808,12 +779,7 @@
                 <input type="text" id="hzp_单位" name="单位" class="form-control" value="@{(spec \ "单位").asOpt[String]}">
 
             </div>
-            <div class="col-md-10 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">尺寸（cm）:</span>
-                <input type="text" id="hzp_尺寸" name="尺寸" class="form-control" value="@{(spec \ "尺寸").asOpt[String]}">
-                <span class="input-group-addon">装箱数:</span>
-                <input type="text" id="hzp_装箱数" name="装箱数" class="form-control" value="@{(extra \ "装箱数").asOpt[String]}">
-            </div>
+
             <div class="col-md-10 input-group" style="padding-top: 20px">
                 <span class="input-group-addon">包装长 mm:</span>
                 <input type="text" id="hzp_包装长" name="包装长" class="form-control" value="@{(extra \ "包装长").asOpt[String]}">
@@ -1020,7 +986,7 @@
 
             </div>
             <div class="col-md-10 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">成份:</span>
+                <span class="input-group-addon">成份(材质):</span>
                 <input type="text" id="fs_成份" name="成份" class="form-control" value="@{(spec \ "成份").asOpt[String]}">
             </div>
             <div class="col-md-10 input-group" style="padding-top: 20px">
@@ -1242,7 +1208,7 @@
             </div>
 
             <div class="col-md-10 input-group" style="padding-top: 20px">
-                <span class="input-group-addon">成份:</span>
+                <span class="input-group-addon">成份(材质):</span>
                 <input type="text"  id="ps_成份"name="成份" class="form-control" value="@{(spec \ "成份").asOpt[String]}">
             </div>
 

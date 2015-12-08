@@ -67,7 +67,7 @@ object Prod {
     * @param p_type
     * @return
     */
-  def list(p_type: Prod_Type.prod_type, start :Int, size: Int) : List[Map[String, Any]] = {
+  def list(p_type: Prod_Type.prod_type, status:Option[String], start :Int, size: Int) : List[Map[String, Any]] = {
     DB.withConnection("products") { implicit conn =>
       val catetory_id = p_type.id
 
@@ -77,7 +77,12 @@ object Prod {
         case _ =>
           start
       }
-      SQL(""" select row_number() over(ORDER BY product_id desc ) as row, count(*) over () as count , * from products where category_id = {category_id} order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "start"->s, "size"->size).as(parser.*)
+      status match {
+        case Some(stat) =>
+          SQL( """ select row_number() over(ORDER BY product_id desc ) as row, count(product_id) over () as count , * from products where category_id = {category_id} and status = {stat} and status <> 'N' order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id" -> catetory_id, "stat" -> stat, "start" -> s, "size" -> size).as(parser.*)
+        case None =>
+          SQL( """ select row_number() over(ORDER BY product_id desc ) as row, count(product_id) over () as count , * from products where category_id = {category_id}  and status <> 'N' order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id" -> catetory_id, "start" -> s, "size" -> size).as(parser.*)
+      }
 
     }
   }
@@ -87,7 +92,7 @@ object Prod {
     * @param p_type
     * @return
     */
-  def list(p_type: Prod_Type.prod_type, user_id:Long, start :Int, size: Int) : List[Map[String, Any]] = {
+  def list(p_type: Prod_Type.prod_type, user_id:Long, status:Option[String],start :Int, size: Int) : List[Map[String, Any]] = {
     DB.withConnection("products") { implicit conn =>
       val catetory_id = p_type.id
       val s = start match {
@@ -96,7 +101,70 @@ object Prod {
         case _ =>
           start
       }
-      SQL(""" select row_number() over(ORDER BY product_id desc) as row, count(*) over () as count , * from products where category_id = {category_id} and created_id = {user_id}  order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "user_id"->user_id,  "start"->s, "size"->size).as(parser.*)
+
+      status match {
+        case Some(stat) =>
+          SQL(""" select row_number() over(ORDER BY product_id desc) as row, count(product_id) over () as count , * from products where category_id = {category_id} and created_id = {user_id} and status = {stat} and status <> 'N'  order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "user_id"->user_id, "stat"->stat, "start"->s, "size"->size).as(parser.*)
+        case None =>
+          SQL(""" select row_number() over(ORDER BY product_id desc) as row, count(product_id) over () as count , * from products where category_id = {category_id} and created_id = {user_id} and status <> 'N'  order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id"->catetory_id, "user_id"->user_id, "start"->s, "size"->size).as(parser.*)
+      }
+
+
+
+    }
+  }
+
+  def list_admin(p_type: Prod_Type.prod_type,  status:Option[String],start :Int, size: Int) : List[Map[String, Any]] = {
+    val ret = DB.withConnection("products") { implicit conn =>
+      val catetory_id = p_type.id
+      val s = start match {
+        case 0 =>
+          1
+        case _ =>
+          start
+      }
+
+      status match {
+        case Some(stat) =>
+          SQL( """ select row_number() over(ORDER BY product_id desc ) as row, count(product_id) over () as count , * from products where category_id = {category_id} and status = {stat} and status <> 'N' order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id" -> catetory_id, "stat" -> stat, "start" -> s, "size" -> size).as(parser.*)
+        case None =>
+          SQL( """ select row_number() over(ORDER BY product_id desc ) as row, count(product_id) over () as count , * from products where category_id = {category_id}  and status <> 'N' order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id" -> catetory_id, "start" -> s, "size" -> size).as(parser.*)
+      }
+
+
+    }
+
+    var results:List[Map[String, Any]] = List()
+    DB.withConnection("account") { implicit conn =>
+      ret.map { m =>
+         val created_id = m("products.created_id").toString.toInt
+         val user = SQL( """ select nickname from "ID" where user_id = {user_id} and status = 'Y'  """).on("user_id"->created_id).as(parser.*).headOption
+        Logger.debug(user.get.toString())
+
+        val r = m ++ user.get
+
+        Logger.debug(r.toString())
+
+        results = results ::: List(r)
+
+      }
+      Logger.debug(results.toString())
+      results
+
+    }
+
+  }
+
+
+
+  def delete (product_id:Long) :Option[Int]= {
+    DB.withConnection("products") { implicit conn =>
+      val ret = SQL(""" update products set status = 'N' where product_id = {product_id} returning category_id """).on("product_id"->product_id).as(parser.*)
+      ret.headOption map {head =>
+        //Prod_Type.apply(head("products.category_id").toString.toInt)
+        head("products.category_id").toString.toInt
+      }
+
 
     }
   }
