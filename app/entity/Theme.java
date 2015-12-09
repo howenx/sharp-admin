@@ -40,6 +40,7 @@ public class Theme implements Serializable{
     private Timestamp   createAt;
     private Long createUid;
     private String themeSrcImg;
+    private String themeItem;
 
     //分页,每页多少条
     private Integer pageSize;
@@ -269,6 +270,14 @@ public class Theme implements Serializable{
         this.themeSrcImg = themeSrcImg;
     }
 
+    public String getThemeItem() {
+        return themeItem;
+    }
+
+    public void setThemeItem(String themeItem) {
+        this.themeItem = themeItem;
+    }
+
     public Integer getPageSize() {
         return pageSize;
     }
@@ -327,6 +336,7 @@ public class Theme implements Serializable{
                 ", createAt=" + createAt +
                 ", createUid=" + createUid +
                 ", themeSrcImg='" + themeSrcImg + '\'' +
+                ", themeItem='" + themeItem + '\'' +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +

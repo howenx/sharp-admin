@@ -111,9 +111,9 @@
 
         <insert id="insertTheme" parameterType="entity.Theme" useGeneratedKeys="true" keyProperty="id">
                 insert into themes
-                (master_item_id,title,start_at,end_at,theme_img,sort_nu,create_at,theme_src_img,theme_config_info,theme_item,master_item_tag)
+                (master_item_id,title,start_at,end_at,theme_img,sort_nu,create_at,theme_src_img,theme_item,master_item_tag)
                 values
-                (#{masterItemId},#{title},#{startAt},#{endAt},#{themeImg},#{sortNu},CURRENT_TIMESTAMP(0),#{themeSrcImg},#{themeDesc},#{itemCount},#{themeTags})
+                (#{masterItemId},#{title},#{startAt},#{endAt},#{themeImg},#{sortNu},CURRENT_TIMESTAMP(0),#{themeSrcImg},#{themeItem}::jsonb,#{themeTags}::jsonb)
         </insert>
         <update id="updateTheme" parameterType="entity.Theme">
                 update themes

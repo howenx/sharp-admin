@@ -7,6 +7,7 @@ import entity.Slider;
 import entity.Theme;
 import mapper.InventoryMapper;
 import mapper.ThemeMapper;
+import play.Logger;
 import play.libs.Json;
 
 import javax.inject.Inject;
@@ -86,27 +87,23 @@ public class ThemeServiceImpl implements ThemeService {
      * @param json JsonNode
      */
     @Override
-    public void themeSave(JsonNode json){
-        Theme theme = new Theme();
-        if(json.findValue("theme").isArray()){
-            JsonNode jsonTheme = json.findValue("theme");
-            if(jsonTheme.has("themeDesc")){
-                ((ObjectNode)jsonTheme).put("themeDesc",jsonTheme.findValue("themeDesc").toString());
-            }
-            if(jsonTheme.has("itemCount")){
-                ((ObjectNode)jsonTheme).put("itemCount",jsonTheme.findValue("itemCount").toString());
-            }
-            if(jsonTheme.has("themeTags")) {
-                ((ObjectNode) jsonTheme).put("themeTags", jsonTheme.findValue("themeTags").toString());
-            }
-            theme = Json.fromJson(json.findValue("theme"),Theme.class);
-            if(jsonTheme.has("id")){
-                themeMapper.updateTheme(theme);
-            }else
-            {
-                themeMapper.insertTheme(theme);
-            }
+    public void themeSave(JsonNode json)
+    {
+
+        if(json.has("themeDesc")){
+            ((ObjectNode)json).put("themeDesc",json.findValue("themeDesc").toString());
         }
+        if(json.has("themeItem")){
+            ((ObjectNode)json).put("themeItem",json.findValue("themeItem").toString());
+        }
+        if(json.has("themeTags")) {
+            ((ObjectNode) json).put("themeTags", json.findValue("themeTags").toString());
+        }
+
+        Logger.error(json.toString());
+        Theme theme = play.libs.Json.fromJson(json,Theme.class);
+        theme.setOrDestory(false);
+        themeMapper.insertTheme(theme);
     }
 
 
