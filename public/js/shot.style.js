@@ -410,14 +410,21 @@ $(function() {
             themeItems.push(itemId);
             }
         var masterItemTag = [];
-        var tagsContainer = document.getElementById("dragon-container").getElementsByClassName("dragon-contained ui-draggable ui-draggable-handle");
-        for(i=0;i<tagsContainer.length;i++){
+        var tagsContainer = document.getElementById("dragon-container");
+        var containerWidth = tagsContainer.scrollWidth;
+        var containerHeight = tagsContainer.scrollHeight;
+        var tags = tagsContainer.getElementsByClassName("dragon-contained ui-draggable ui-draggable-handle");
+        for(i=0;i<tags.length;i++){
             var tag = {};
-            var style = tagsContainer[i].style.cssText;
-            tag.left = style.substring(style.indexOf("left: ")+6,style.indexOf(";"));
-            tag.top =  style.substring(style.indexOf("top: ")+5,style.length-1);
-            tag.name = tagsContainer[i].getElementsByTagName("p")[0].innerText;
-            if(tagsContainer[i].getElementsByClassName("dragon-graph")[0].style.cssText.indexOf(180)>0)
+            var style = tags[i].style.cssText;
+            var tagLeft = parseInt(style.substring(style.indexOf("left: ")+6,style.indexOf("px;")));
+            var tagTop =  parseInt(style.substring(style.indexOf("top: ")+5,style.length-3)) - 50;
+
+            tag.left = parseFloat((tagLeft/containerWidth).toFixed(2));
+            tag.url = "/comm/detail/" + masterItemId;
+            tag.top = parseFloat((tagTop/containerHeight).toFixed(2));
+            tag.name = tags[i].getElementsByTagName("p")[0].innerText;
+            if(tags[i].getElementsByClassName("dragon-graph")[0].style.cssText.indexOf(180)>0)
             {
                 tag.angle = 180;
             }else{
