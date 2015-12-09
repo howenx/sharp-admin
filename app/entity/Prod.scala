@@ -15,31 +15,31 @@ object Prod {
     * 商品数据添加
     * @return
     */
-  def update(product_id:Long , p_type: Prod_Type.prod_type,  p_name:String, tags:String, attr: String , spec: String, images :String, price:Int, maret_pirce:Int, amount:Int, extra:String) = {
+  def update(product_id:Long , p_type: Prod_Type.prod_type,  p_name:String, tags:String, attr: String , spec: String, images :String, price:Int, amount:Int, extra:String) = {
     DB.withConnection("products") { implicit  conn =>
 
       val catetory_id = p_type.id
 
       //val status = "T"
 
-      SQL(""" update products set name = {name}, category_id = {category_id}, tags = array_to_json({tags}::character varying[])::jsonb, attr = {attr}::jsonb, spec = {spec}::jsonb, images = array_to_json({images}::character varying[])::jsonb, price = {price}, market_price = {market_price}, amount = {amount}, extra = {extra}::jsonb , status = 'T' where product_id = {product_id} """).on("name"->p_name, "category_id"->catetory_id , "tags"->tags, "attr"->attr, "spec"->spec, "images"->images, "price"->price, "market_price"->maret_pirce, "amount"->amount, "extra"->extra,  "product_id"->product_id).execute()
+      SQL(""" update products set name = {name}, category_id = {category_id}, tags = array_to_json({tags}::character varying[])::jsonb, attr = {attr}::jsonb, spec = {spec}::jsonb, images = array_to_json({images}::character varying[])::jsonb, price = {price},  amount = {amount}, extra = {extra}::jsonb , status = 'T' where product_id = {product_id} """).on("name"->p_name, "category_id"->catetory_id , "tags"->tags, "attr"->attr, "spec"->spec, "images"->images, "price"->price,  "amount"->amount, "extra"->extra,  "product_id"->product_id).execute()
 
     }
   }
 
 
-  def init (p_type: Prod_Type.prod_type, p_name:String, amount:Int, kr_string:String, user_id:Long) = {
+  def init (p_type: Prod_Type.prod_type, p_name:String, bar_code:String, amount:Int, kr_string:String, user_id:Long) = {
     DB.withConnection("products") { implicit  conn =>
       val category_id = p_type.id
-      SQL(""" insert into products ( name, category_id, amount, kr_string, created_id )values ( {name}, {category_id}, {amount}, {kr_string}::jsonb, {created_id}) """).on("name"->p_name, "category_id"->category_id, "amount"->amount, "kr_string"->kr_string, "created_id"->user_id).execute()
+      SQL(""" insert into products ( name, category_id, bar_code, amount, kr_string, created_id )values ( {name}, {category_id}, {amount}, {kr_string}::jsonb, {created_id}) """).on("name"->p_name, "category_id"->category_id, "bar_code"->bar_code, "amount"->amount, "kr_string"->kr_string, "created_id"->user_id).execute()
 
     }
   }
 
-  def update_krstring(product_id:Long , name:String, amount:Int, kr_string:String): Unit = {
+  def update_krstring(product_id:Long , name:String, bar_code:String, amount:Int, kr_string:String): Unit = {
     DB.withConnection("products") { implicit  conn =>
 
-      SQL(""" update products set name = {name}, amount = {amount}, kr_string = {kr_string}::jsonb, update_dt = now()::timestamp(0) without time zone where product_id = {product_id}""").on("name"->name, "amount"->amount, "kr_string"->kr_string, "product_id"->product_id).execute()
+      SQL(""" update products set name = {name}, bar_code = {bar_code}, amount = {amount}, kr_string = {kr_string}::jsonb, update_dt = now()::timestamp(0) without time zone where product_id = {product_id}""").on("name"->name, "bar_code"->bar_code, "amount"->amount, "kr_string"->kr_string, "product_id"->product_id).execute()
 
     }
   }
@@ -114,7 +114,7 @@ object Prod {
     }
   }
 
-  def list_admin(p_type: Prod_Type.prod_type,  status:Option[String],start :Int, size: Int) : List[Map[String, Any]] = {
+  def list_admin(p_type: Prod_Type.prod_type,  status:Option[String],code:Option[String], name:Option[String],start :Int, size: Int) : List[Map[String, Any]] = {
     val ret = DB.withConnection("products") { implicit conn =>
       val catetory_id = p_type.id
       val s = start match {
@@ -128,7 +128,21 @@ object Prod {
         case Some(stat) =>
           SQL( """ select row_number() over(ORDER BY product_id desc ) as row, count(product_id) over () as count , * from products where category_id = {category_id} and status = {stat} and status <> 'N' order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id" -> catetory_id, "stat" -> stat, "start" -> s, "size" -> size).as(parser.*)
         case None =>
-          SQL( """ select row_number() over(ORDER BY product_id desc ) as row, count(product_id) over () as count , * from products where category_id = {category_id}  and status <> 'N' order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id" -> catetory_id, "start" -> s, "size" -> size).as(parser.*)
+          code match {
+            case Some(c) =>
+
+              SQL( """ select row_number() over(ORDER BY product_id desc ) as row, count(product_id) over () as count , * from products where bar_code like '%' || {bar_code} || '%' and category_id = {category_id}  and status <> 'N' order by product_id desc offset ({start} -1) * {size} limit {size} """).on("bar_code"->code, "category_id" -> catetory_id, "start" -> s, "size" -> size).as(parser.*)
+            case None =>
+              name match {
+                case Some(n) =>
+                  SQL( """ select row_number() over(ORDER BY product_id desc ) as row, count(product_id) over () as count , * from products where name like '%' || {name} || '%' and category_id = {category_id}  and status <> 'N' order by product_id desc offset ({start} -1) * {size} limit {size} """).on("name"->n, "category_id" -> catetory_id, "start" -> s, "size" -> size).as(parser.*)
+                case None =>
+                  SQL( """ select row_number() over(ORDER BY product_id desc ) as row, count(product_id) over () as count , * from products where category_id = {category_id}  and status <> 'N' order by product_id desc offset ({start} -1) * {size} limit {size} """).on("category_id" -> catetory_id, "start" -> s, "size" -> size).as(parser.*)
+
+              }
+          }
+
+
       }
 
 
@@ -139,11 +153,11 @@ object Prod {
       ret.map { m =>
          val created_id = m("products.created_id").toString.toInt
          val user = SQL( """ select nickname from "ID" where user_id = {user_id} and status = 'Y'  """).on("user_id"->created_id).as(parser.*).headOption
-        Logger.debug(user.get.toString())
+        //Logger.debug(user.get.toString())
 
         val r = m ++ user.get
 
-        Logger.debug(r.toString())
+        //Logger.debug(r.toString())
 
         results = results ::: List(r)
 
