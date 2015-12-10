@@ -1,6 +1,5 @@
 package service;
 
-import entity.Carriage;
 import entity.Inventory;
 import mapper.InventoryMapper;
 
@@ -61,55 +60,6 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public List<Inventory> getAllInventories() {
         return  inventoryMapper.getAllInventories();
-    }
-
-
-
-    /**
-     * 录入一条运费信息
-     * @param carriage 运费
-     * @return id
-     */
-    @Override
-    public Integer insertCarriage(Carriage carriage) {
-        return inventoryMapper.insertCarriage(carriage);
-    }
-
-    /**
-     * 更新一条运费信息
-     * @param carriage
-     */
-    @Override
-    public void updateCarriage(Carriage carriage) {
-        inventoryMapper.updateCarriage(carriage);
-    }
-
-    /**
-     * 根据id获取一条运费信息
-     * @param id
-     * @return Carriage
-     */
-    @Override
-    public Carriage getCarriage(Long id) {
-        return inventoryMapper.getCarriage(id);
-    }
-
-    /**
-     * 获取所有的运费信息
-     * @return list of Carriage
-     */
-    @Override
-    public List<Carriage> getAllCarriage() {
-        return inventoryMapper.getAllCarriage();
-    }
-
-    /**
-     * 获取运费模板
-     * @return list of Carriage
-     */
-    @Override
-    public List<Carriage> getModel(){
-        return inventoryMapper.getModel();
     }
 
 }
