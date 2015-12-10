@@ -4,6 +4,7 @@
 @scripts = {
 
 <link rel="stylesheet" href="/assets/css/slider.css"/>
+<link rel="stylesheet" href="/assets/css/cost.css">
 
 }
 
@@ -25,10 +26,82 @@
     <div class="page-title">
         <span class="title-name">添加运费模板</span>
     </div>
+    <h5>单品运费设置</h5>
+    <div class="hr"></div>
     <div class="row">
         <form class="form-horizontal" method="post" enctype="multipart/form-data">
-
-
+            <!--运费模版名称-->
+            <div class="input-item" style="padding-top: 30px">
+                <span>运费模版名称:</span>
+                <input type="text">  请输入汉字、 -、 字母或者数字
+            </div>
+            <!--是否包邮-->
+            <div class="input-item">
+                <span>是否包邮:</span>
+                <input type="radio" name="free-shipping" checked>  买家承担运费
+                <input type="radio" name="free-shipping">  卖家承担运费
+            </div>
+            <!--计费规则-->
+            <div class="input-item">
+                <span>计费规则:</span>
+                <input type="radio" name="cost-role" checked>  按件数
+                <input type="radio" name="cost-role">  按重量
+                <input type="radio" name="cost-role">  按体积
+            </div>
+            <!--运送方式-->
+            <div class="input-item">
+                <span>运送方式</span>
+                <div class="tran-mode">
+                    <h5 style="padding-top: 3px">除指定地区外,其余地区的运费采用"默认运费"</h5>
+                    <input type="checkbox" checked>  快递
+                    <table cellspacing="0">
+                        <tr style="background: rgb(224,238,255)">
+                            <td colspan="6">
+                                默认运费: <input type="text">件内, <input type="text">元,增加运费 <input type="text">元
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>运送到</td>
+                            <td>首件(件)</td>
+                            <td>首费(元)</td>
+                            <td>续件(件)</td>
+                            <td>续费(元)</td>
+                            <td>操作</td>
+                        </tr>
+                        <tr>
+                            <td width="300">
+                                北京 上海 <a href="javascript:void(0)" style="float: right">编辑</a>
+                            </td>
+                            <td>
+                                <input type="text" value="5">
+                            </td>
+                            <td>
+                                <input type="text" value="10">
+                            </td>
+                            <td>
+                                <input type="text" value="1">
+                            </td>
+                            <td>
+                                <input type="text" value="10">
+                            </td>
+                            <td>
+                                <a href="javascript:void(0)">删除</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <a href="javascript:void(0)">为指定地区城市设置运费</a>
+                                <a href="javascript:void(0)">批量操作</a>
+                            </td>
+                        </tr>
+                    </table>
+                    <h5>备注:运费按照商品金额-优惠(直降/单品促销)-返现之后的订单金额收取</h5>
+                    <div class="btns">
+                        <button type="button">保存且返回</button>
+                        <button type="button" style="margin-left: 30px">返回</button>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 </div>

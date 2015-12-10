@@ -1,0 +1,117 @@
+body{
+    margin: 0;padding: 0;font-size: 16px;
+}
+h5{
+    margin: 0;
+}
+.wrap-slider{
+    width: 80%;margin: 0 auto;
+}
+.wrap-slider>h5{
+    display: inline-block;
+    color: #fff;
+    background: -webkit-linear-gradient(rgb(0,118,200), rgb(30,68,158)); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(rgb(0,118,200),rgb(30,68,158)); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(rgb(0,118,200), rgb(30,68,158)); /* Firefox 3.6 - 15 */
+    background: linear-gradient(rgb(0,118,200), rgb(30,68,158)); /* 标准的语法 */
+    padding: 8px 10px;
+    margin-left: 10px;
+    margin-top: 30px;
+}
+.wrap-slider .hr{
+    width: 100%;height: 2px;background: rgb(85,113,170);
+}
+.wrap-slider .form-cost{
+    padding-left: 10px;
+}
+.wrap-slider .input-item{
+    padding: 10px 0;
+    color: rgb(140,142,143);
+    font-size: 13px;
+    font-weight: 700;
+}
+.wrap-slider .input-item:not(:nth-of-type(1)){
+    color: rgb(72,76,82);
+}
+.wrap-slider .input-item>span{
+    float: left;
+    width: 200px;
+    color: rgb(88,96,102);
+    font-size: 16px;
+}
+.wrap-slider .input-item>.tran-mode{
+    display: inline-block;
+}
+.wrap-slider .input-item>.tran-mode>span{
+
+}
+.wrap-slider .input-item>.tran-mode table{
+    border: 1px solid rgb(187,211,242);
+    color: rgb(72,76,82);
+}
+.wrap-slider .input-item>.tran-mode table td{
+    border: 1px solid rgb(187,211,242);
+    padding: 6px 8px;
+}
+.wrap-slider .input-item>.tran-mode table td a{
+    text-decoration: none;
+}
+.wrap-slider .input-item>.tran-mode>h5{
+    padding: 10px 0;
+    color: rgb(140,142,143);
+}
+.wrap-slider .input-item>.tran-mode .btns button{
+    background: -webkit-linear-gradient(rgb(0,118,200), rgb(30,68,158)); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(rgb(0,118,200),rgb(30,68,158)); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(rgb(0,118,200), rgb(30,68,158)); /* Firefox 3.6 - 15 */
+    background: linear-gradient(rgb(0,118,200), rgb(30,68,158)); /* 标准的语法 */
+    border: 0;color: #fff;
+    padding: 6px 8px;
+    /*outline: none;*/
+}
+/****************city*******************/
+.container-fluid{
+    margin-top: 20px;
+}
+.all-province{
+    width: 100%;border: 1px solid #ccc;
+    padding: 10px 12px;
+}
+.all-province h5{
+    float: left;
+    margin: 0 20px 0 0;
+}
+.checkbox-inline{
+    width: 80px;margin-bottom: 10px;
+}
+.checkbox-inline+.checkbox-inline{
+    margin-left: 50px;
+}
+/***************freight_template 运费模版*****************/
+.table-content{
+    width: 1100px;margin: 30px auto;
+}
+.table-content button{
+    background: -webkit-linear-gradient(rgb(0,118,200), rgb(30,68,158)); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(rgb(0,118,200),rgb(30,68,158)); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(rgb(0,118,200), rgb(30,68,158)); /* Firefox 3.6 - 15 */
+    background: linear-gradient(rgb(0,118,200), rgb(30,68,158)); /* 标准的语法 */
+    border: 0;color: #fff;
+    padding: 6px 8px;
+}
+.table-content table{
+    width: 98%;
+    border: 1px solid #ccc;
+    margin: 20px 0;
+    text-align: center;
+}
+.table-content table>tbody>tr>td{
+    border: 1px solid #ccc;
+    padding: 6px 8px;
+}
+.table-content table>tbody>tr>td span:nth-of-type(1){
+    float: left;
+}
+.table-content table>tbody>tr>td span:nth-of-type(2){
+    float: right;
+}
