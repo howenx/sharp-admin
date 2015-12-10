@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.OrderMapper">
+
+    <sql id="orderColumns">
+        ${alias}.order_id,
+        ${alias}.user_id,
+        ${alias}.pay_total,
+        ${alias}.pay_method,
+        ${alias}.order_create_at,
+        ${alias}.order_ip,
+        ${alias}.pg_trade_no,
+        ${alias}.order_status,
+        ${alias}.error_str,
+        ${alias}.discount,
+        ${alias}.updated_at,
+        ${alias}.order_desc,
+        ${alias}.add_id,
+        ${alias}.ship_fee
+    </sql>
+    <select id="getOrdersAll" resultType="entity.Order">
+        select
+        <include refid="orderColumns">
+            <property name="alias" value="t"></property>
+        </include>
+        from sp_order t where 1=1
+    </select>
+
+
+</mapper>
