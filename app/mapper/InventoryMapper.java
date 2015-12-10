@@ -1,6 +1,5 @@
 package mapper;
 
-import entity.Carriage;
 import entity.Inventory;
 
 import java.util.List;
@@ -31,15 +30,4 @@ public interface InventoryMapper {
 
     List<Inventory> getAllInventories();
 
-    //运费设置的接口
-
-    Integer insertCarriage(Carriage carriage);
-
-    void updateCarriage(Carriage carriage);
-
-    Carriage getCarriage(Long id);
-
-    List<Carriage> getAllCarriage();
-
-    List<Carriage> getModel();
 }

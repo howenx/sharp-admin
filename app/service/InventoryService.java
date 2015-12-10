@@ -1,6 +1,5 @@
 package service;
 
-import entity.Carriage;
 import entity.Inventory;
 
 import java.util.List;
@@ -20,15 +19,4 @@ public interface InventoryService {
 
     List<Inventory> getAllInventories();
 
-
-    //运费设置
-    Integer insertCarriage(Carriage carriage);
-
-    void updateCarriage(Carriage carriage);
-
-    Carriage getCarriage(Long id);
-
-    List<Carriage> getAllCarriage();
-
-    List<Carriage> getModel();
 }

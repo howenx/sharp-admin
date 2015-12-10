@@ -55,12 +55,12 @@ POST            /$lang<(cn|en|kr)>/topic/add/themeSave                      cont
 
 
 #Item -----> commodity,简写comm
-GET             /comm/search                                                controllers.ItemCtrl.itemlist(lang ="cn")
-GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.itemlist(lang)
+GET             /comm/search                                                controllers.ItemCtrl.itemList(lang ="cn")
+GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.itemList(lang)
 GET             /comm/search/popup                                          controllers.ItemCtrl.itemSearchPopup(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/search/popup                        controllers.ItemCtrl.itemSearchPopup(lang)
-POST            /comm/search/$pageNum<[0-9]+>                               controllers.ItemCtrl.itemsearchAjax(lang ="cn",pageNum:Int)
-POST            /$lang<(cn|en|kr)>/comm/search/$pageNum<[0-9]+>             controllers.ItemCtrl.itemsearchAjax(lang,pageNum:Int)
+POST            /comm/search/$pageNum<[0-9]+>                               controllers.ItemCtrl.itemSearchAjax(lang ="cn",pageNum:Int)
+POST            /$lang<(cn|en|kr)>/comm/search/$pageNum<[0-9]+>             controllers.ItemCtrl.itemSearchAjax(lang,pageNum:Int)
 GET             /comm/add                                                   controllers.ItemCtrl.itemCreate(lang="cn")
 GET             /$lang<cn|en|kr>/comm/add                                   controllers.ItemCtrl.itemCreate(lang)
 POST            /comm/itemSave                                              controllers.ItemCtrl.itemSave
@@ -68,11 +68,11 @@ GET             /comm/findById/:id                                          cont
 GET             /$lang<(cn|en|kr)>/comm/findById/:id                        controllers.ItemCtrl.findItemById(lang,id:Long)
 GET             /comm/updateById/:id                                        controllers.ItemCtrl.updateItemById(lang = "cn",id:Long)
 GET             /$lang<(cn|en|kr)>/comm/updateById/:id                      controllers.ItemCtrl.updateItemById(lang,id:Long)
-
-
-
-
-
+#Carriage --> carr 运费模板设置
+GET             /carr/search                                                controllers.ItemCtrl.carrModelSearch(lang = "cn")
+GET             /$lang<(cn|en|kr)>/carr/search                              controllers.ItemCtrl.carrModelSearch(lang)
+GET             /carr/add                                                   controllers.ItemCtrl.carrCreate(lang="cn")
+GET             /$lang<(cn|en|kr)/comm/search>                              controllers.ItemCtrl.carrCreate(lang)
 
 
 

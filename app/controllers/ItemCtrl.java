@@ -7,10 +7,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-import service.InventoryService;
-import service.ItemService;
-import service.ProdService;
-import service.ThemeService;
+import service.*;
 
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -35,13 +32,16 @@ public class ItemCtrl extends Controller {
     @Inject
     private InventoryService inventoryService;
 
+    @Inject
+    private CarriageService carriageService;
+
     /**
      * 商品列表
      * @param lang 语言
      * @return view
      */
     @Security.Authenticated(UserAuth.class)
-    public Result itemlist(String lang){
+    public Result itemList(String lang){
 
         Item item =new Item();
 
@@ -71,7 +71,7 @@ public class ItemCtrl extends Controller {
      * @return json
      */
     @Security.Authenticated(UserAuth.class)
-    public Result itemsearchAjax(String lang,int pageNum) {
+    public Result itemSearchAjax(String lang,int pageNum) {
         JsonNode json = request().body().asJson();
         Item item = Json.fromJson(json,Item.class);
         if(pageNum>=1){
@@ -120,7 +120,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result itemCreate(String lang) {
-        return ok(views.html.item.itemadd.render(lang,prodService.getAllBrands(),prodService.getParentCates(),inventoryService.getModel(),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemadd.render(lang,prodService.getAllBrands(),prodService.getParentCates(),carriageService.getModel(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -174,5 +174,25 @@ public class ItemCtrl extends Controller {
         Logger.error(json.toString());
         List<Long> list = service.itemSave(json);
         return ok(list.toString());
+    }
+
+    /**
+     * 新增运费模板
+     * @param lang 语言
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result carrCreate(String lang) {
+        return ok(views.html.item.carrmodelAdd.render(lang, (User) ctx().args.get("user")));
+    }
+
+    /**
+     * 运费模板列表
+     * @param lang 语言
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result carrModelSearch(String lang) {
+        return ok(views.html.item.carrmodelList.render(lang,(User) ctx().args.get("user")));
     }
 }
