@@ -101,6 +101,29 @@
         })(img);
         reader.readAsDataURL(file);
     }
+    function previewImage1(obj, file) {
+        var gallery = obj;
+        var imageType = /image.*/;
+
+        if (!file.type.match(imageType)) {
+            throw "File Type must be an image";
+        }
+        var img = document.createElement("img");
+        img.file = file;
+        $(img).width('100%');
+        $(img).height('100%');
+        $(img).css("float","left");
+        $(gallery).append($(img));
+        upload(gallery, file);
+        // Using FileReader to display the image content
+        var reader = new FileReader();
+        reader.onload = (function (aImg) {
+            return function (e) {
+                aImg.src = e.target.result;
+            }
+        })(img);
+        reader.readAsDataURL(file);
+    }
 
     function upload(thumb, file, id) {
         var formdata = new FormData();
@@ -169,7 +192,19 @@
                 previewImage(li_dv, this.files[i], id);
             }
         });
-
+//        upload-lable
+        $(document).on('change', '#upload-label', function () {
+            if($(this).val()){
+                var files = this.files;
+                var label_img = $('#dragon-container');
+                $(label_img).find("img").remove();
+            }else{
+                var label_img = $('#dragon-container');
+            }
+            for (var i = 0; i < files.length; i++) {
+                previewImage1(label_img, this.files[i]);
+            }
+        });
         $(document).on("click", ".img .close", function () {
             if ($(this).parent().find(".onlyday")) {
                 $(this).parents(".img").find(".upload2").val("");
@@ -654,6 +689,16 @@
                 <h4 class="h4-custom-hmm">添加标签</h4>
 
                 <div class="form-group">
+                    <label class="col-sm-2 control-label">上传图片:</label>
+
+                    <div class="col-sm-9">
+                        <a href="javascript:void(0)" class="upload-label btn-primary btn-xs">
+                            上传图片
+                            <input type="file" id="upload-label">
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-2 control-label">标签名字:</label>
 
                     <div class="col-sm-9">
@@ -677,7 +722,7 @@
                         <input type="text" class="form-control" id="input_imgurl" disabled>
                     </div>
                     <div class="col-sm-1">
-                        <button class="btn btn-primary btn-xs label-id" onclick="ShowModal1()">选择</button>
+                        <button type="button" class="btn btn-primary btn-xs label-id" onclick="ShowModal1()">选择</button>
                     </div>
                 </div>
                 <div class="form-group">
