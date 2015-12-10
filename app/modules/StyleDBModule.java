@@ -59,11 +59,13 @@ public class StyleDBModule extends PrivateModule{
         bind(ProdService.class).to(ProdServiceImpl.class);
         bind(ThemeService.class).to(ThemeServiceImpl.class);
         bind(ItemService.class).to(ItemServiceImpl.class);
+        bind(InventoryService.class).to(InventoryServiceImpl.class);
 
         //必须expose
         expose(ThemeService.class);
         expose(ProdService.class);
         expose(ItemService.class);
+        expose(InventoryService.class);
     }
 
     @Singleton

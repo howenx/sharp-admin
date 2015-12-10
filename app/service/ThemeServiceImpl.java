@@ -2,13 +2,11 @@ package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import entity.Inventory;
 import entity.Slider;
 import entity.Theme;
 import mapper.InventoryMapper;
 import mapper.ThemeMapper;
 import play.Logger;
-import play.libs.Json;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -72,14 +70,6 @@ public class ThemeServiceImpl implements ThemeService {
             }
         }
     }
-
-    /**
-     * 商品库存
-     * Added by Tiffany Zhu 15/11/30.
-     * @return list
-     */
-    @Override
-    public List<Inventory> getAllInventories(){return inventoryMapper.getAllInventories();}
 
     /**
      * Added by Tiffany Zhu 15/11/30.

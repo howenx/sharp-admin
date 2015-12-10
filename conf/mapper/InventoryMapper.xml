@@ -5,71 +5,119 @@
 
 <mapper namespace="mapper.InventoryMapper">
 
-        <sql id="inventoryColumns">
-                ${alias}.id,
-                ${alias}.item_id,
-                ${alias}.item_color,
-                ${alias}.item_size,
-                ${alias}.amount,
-                ${alias}.item_price,
-                ${alias}.item_src_price,
-                ${alias}.item_cost_price,
-                ${alias}.item_discount,
-                ${alias}.sold_amount,
-                ${alias}.rest_amount,
-                ${alias}.inv_img,
-                ${alias}.item_preview_imgs::text,
-                ${alias}.or_destroy,
-                ${alias}.destroy_at,
-                ${alias}.update_at,
-                ${alias}.create_at,
-                ${alias}.or_master_inv,
-                ${alias}.state,
-                ${alias}.ship_fee,
-                ${alias}.inv_area,
-                ${alias}.restrict_amount,
-                ${alias}.inv_title,
-                ${alias}.inv_customs,
-                ${alias}.postal_tax_code,
-                ${alias}.inv_weight,
-                ${alias}.postal_tax_rate
-        </sql>
+    <sql id="inventoryColumns">
+        ${alias}.id,
+        ${alias}.item_id,
+        ${alias}.item_color,
+        ${alias}.item_size,
+        ${alias}.amount,
+        ${alias}.item_price,
+        ${alias}.item_src_price,
+        ${alias}.item_cost_price,
+        ${alias}.item_discount,
+        ${alias}.sold_amount,
+        ${alias}.rest_amount,
+        ${alias}.inv_img,
+        ${alias}.item_preview_imgs::text,
+        ${alias}.or_destroy,
+        ${alias}.destroy_at,
+        ${alias}.update_at,
+        ${alias}.create_at,
+        ${alias}.or_master_inv,
+        ${alias}.state,
+        ${alias}.ship_fee,
+        ${alias}.inv_area,
+        ${alias}.restrict_amount,
+        ${alias}.inv_title,
+        ${alias}.inv_customs,
+        ${alias}.postal_tax_code,
+        ${alias}.inv_weight,
+        ${alias}.postal_tax_rate,
+        ${alias}.carriage_model_code
+    </sql>
 
-        <insert id="insertInventory" parameterType="entity.Inventory" useGeneratedKeys="true" keyProperty="id">
-                insert into inventories
-                (item_id,item_color,item_size,amount,item_price,item_src_price,item_cost_price,item_discount,sold_amount,rest_amount,inv_img,item_preview_imgs,or_destroy,destroy_at,update_at,create_at,or_master_inv,state,ship_fee,inv_area,restrict_amount,inv_title,inv_customs,postal_tax_code,inv_weight,postal_tax_rate)
-                values
-                (#{itemId},#{itemColor},#{itemSize},#{amount},#{itemPrice},#{itemSrcPrice},#{itemCostPrice},#{itemDiscount},#{soldAmount},#{restAmount},#{invImg},#{itemPreviewImgs}::jsonb,#{orDestroy},#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{orMasterInv},#{state},#{shipFee},#{invArea},#{restrictAmount},#{invTitle},#{invCustoms},#{postalTaxCode},#{invWeight},#{postalTaxRate})
-        </insert>
+    <sql id="carriageColumns">
+        ${alias}.id,
+        ${alias}.model_code,
+        ${alias}.model_name,
+        ${alias}.first_num,
+        ${alias}.first_fee,
+        ${alias}.add_num,
+        ${alias}.add_fee,
+        ${alias}.city_code
+    </sql>
 
-        <update id="updateInventory" parameterType="entity.Inventory">
-                update inventories
-                set item_color=#{itemColor},item_size=#{itemSize},amount=#{amount},item_price=#{itemPrice},item_src_price=#{itemSrcPrice},item_cost_price=#{itemCostPrice},item_discount=#{itemDiscount},sold_amount=#{soldAmount},rest_amount=#{restAmount},inv_img=#{invImg},item_preview_imgs=#{itemPreviewImgs}::jsonb,or_destroy=#{orDestroy},destroy_at=#{destroyAt},update_at=CURRENT_TIMESTAMP(0),create_at=#{createAt},or_master_inv=#{orMasterInv},state=#{state},ship_fee=#{shipFee},inv_area=#{invArea},restrict_amount=#{restrictAmount},inv_title=#{invTitle},inv_customs=#{invCustoms},postal_tax_code=#{postalTaxCode},inv_weight=#{invWeight},postal_tax_rate=#{postalTaxRate}
-                where id = #{id}
-        </update>
+    <insert id="insertCarriage" parameterType="entity.Carriage" useGeneratedKeys="true" keyProperty="id">
+        insert into carriage
+        (model_code,model_name,first_num,first_fee,add_num,add_fee,city_code)
+        values
+        (#{modelCode},#{modelName},#{firstNum},#{firstFee},#{addNum},#{addFee},#{cityCode})
+    </insert>
 
-        <select id="getInventory" resultType="entity.Inventory" parameterType="java.lang.Long">
-                select
-                <include refid="inventoryColumns">
-                        <property name="alias" value="t"/>
-                </include>
-                from inventories t where id=${value}
+    <update id="updateCarriage" parameterType="entity.Carriage">
+        update carriage
+        set
+        (model_code=#{modelCode},model_name=#{modelName},first_num=#{firstNum},first_fee=#{firstFee},add_num=#{addNum},add_fee=#{addFee},city_code=#{cityCode})
+        where id = #{id}
+    </update>
+
+    <select id="getCarriage" resultType="entity.Carriage" parameterType="java.lang.Long">
+        select
+        <include refid="carriageColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from carriage t where id = ${value}
+    </select>
+
+    <select id="getAllCarriage" resultType="entity.Carriage">
+        select
+        <include refid="carriageColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from carriage t where 1 =1
+    </select>
+
+        <select id="getModel" resultType="entity.Carriage">
+                select DISTINCT model_code, model_name FROM carriage
         </select>
 
-        <select id="getInventoriesByItemId" resultType="entity.Inventory" parameterType="java.lang.Long">
-                select
-                <include refid="inventoryColumns">
-                        <property name="alias" value="t"/>
-                </include>
-                from inventories t where item_id=${value}
-        </select>
 
-        <select id="getAllInventories" resultType="entity.Inventory">
-                select
-                <include refid="inventoryColumns">
-                        <property name="alias" value="t"/>
-                </include>
-                from inventories t where 1=1
-        </select>
+    <insert id="insertInventory" parameterType="entity.Inventory" useGeneratedKeys="true" keyProperty="id">
+        insert into inventories
+        (item_id,item_color,item_size,amount,item_price,item_src_price,item_cost_price,item_discount,sold_amount,rest_amount,inv_img,item_preview_imgs,or_destroy,destroy_at,update_at,create_at,or_master_inv,state,ship_fee,inv_area,restrict_amount,inv_title,inv_customs,postal_tax_code,inv_weight,postal_tax_rate,carriage_model_code)
+        values
+        (#{itemId},#{itemColor},#{itemSize},#{amount},#{itemPrice},#{itemSrcPrice},#{itemCostPrice},#{itemDiscount},#{soldAmount},#{restAmount},#{invImg},#{itemPreviewImgs}::jsonb,#{orDestroy},#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{orMasterInv},#{state},#{shipFee},#{invArea},#{restrictAmount},#{invTitle},#{invCustoms},#{postalTaxCode},#{invWeight},#{postalTaxRate},#{carriageModelCode})
+    </insert>
+
+    <update id="updateInventory" parameterType="entity.Inventory">
+        update inventories
+        set
+        item_color=#{itemColor},item_size=#{itemSize},amount=#{amount},item_price=#{itemPrice},item_src_price=#{itemSrcPrice},item_cost_price=#{itemCostPrice},item_discount=#{itemDiscount},sold_amount=#{soldAmount},rest_amount=#{restAmount},inv_img=#{invImg},item_preview_imgs=#{itemPreviewImgs}::jsonb,or_destroy=#{orDestroy},destroy_at=#{destroyAt},update_at=CURRENT_TIMESTAMP(0),create_at=#{createAt},or_master_inv=#{orMasterInv},state=#{state},ship_fee=#{shipFee},inv_area=#{invArea},restrict_amount=#{restrictAmount},inv_title=#{invTitle},inv_customs=#{invCustoms},postal_tax_code=#{postalTaxCode},inv_weight=#{invWeight},postal_tax_rate=#{postalTaxRate},carriage_model_code=#{carriageModelCode}
+        where id = #{id}
+    </update>
+
+    <select id="getInventory" resultType="entity.Inventory" parameterType="java.lang.Long">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where id=${value}
+    </select>
+
+    <select id="getInventoriesByItemId" resultType="entity.Inventory" parameterType="java.lang.Long">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where item_id=${value}
+    </select>
+
+    <select id="getAllInventories" resultType="entity.Inventory">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where 1=1
+    </select>
 
 </mapper>

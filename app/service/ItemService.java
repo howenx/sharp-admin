@@ -3,7 +3,6 @@ package service;
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.Brands;
 import entity.Cates;
-import entity.Inventory;
 import entity.Item;
 
 import java.util.List;
@@ -19,10 +18,6 @@ public interface ItemService {
     List<Long> itemSave(JsonNode json);
 
     Item getItem(Long id);
-
-    List<Inventory> getInventoriesByItemId(Long itemId);
-
-    Inventory getInventory(Long id);
 
     Brands getBrand(Long brandId);
 
