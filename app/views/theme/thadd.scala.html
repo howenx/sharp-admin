@@ -57,11 +57,9 @@
     }
     function UpdateFields(obj) {
         var obj1=obj.id;
-        var index1=$(".table tbody").find("tr").length,
-            index2=$(".table thead").find("tr").length;
-        var index = index1+index2;
+        var index1=$(".table").find("tr:last").find("td").first().html();
         for(var i=0;i<$(obj1).length;i++){
-            $(obj1).eq(i).prepend($("<td class='index'>"+(Number(index)+i)+"</td><td><input type='radio'  name='goods-main'></td>")).appendTo($(".table"));
+            $(obj1).eq(i).prepend($("<td class='index'>"+(Number(index1)+1+i)+"</td><td><input type='radio'  name='goods-main'></td>")).appendTo($(".table"));
         }
 
         $('#input_imgurl').val(obj.lable_id);
@@ -598,38 +596,39 @@
                                 <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
                             </th>
                         </tr>
-                        <!--<tr>-->
-                            <!--<td class="index">1</td>-->
-                            <!--<td>-->
-                                <!--<input type="radio"  name="goods-main" checked>-->
-                            <!--</td>-->
-                            <!--<td>2</td>-->
-                            <!--<td>3</td>-->
-                            <!--<td>4</td>-->
-                            <!--<td><img src="" alt=""></td>-->
-                            <!--<td>7</td>-->
-                            <!--<td>8</td>-->
-                            <!--<td>9</td>-->
-                            <!--<td>0</td>-->
-                            <!--<td>10</td>-->
-                        <!--</tr>-->
+                        <tr>
+                            <td class="index">1</td>
+                            <td>
+                                <input type="radio"  name="goods-main" checked>
+                            </td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td><img src="" alt=""></td>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>0</td>
+                            <td>10</td>
+                        </tr>
                         </thead>
                         <tbody>
-                        <!--<tr>-->
-                            <!--<td class="index">2</td>-->
-                            <!--<td>-->
-                                <!--<input type="radio" name="goods-main">-->
-                            <!--</td>-->
-                            <!--<td>3</td>-->
-                            <!--<td>4</td>-->
-                            <!--<td>5</td>-->
-                            <!--<td>6</td>-->
-                            <!--<td>7</td>-->
-                            <!--<td>8</td>-->
-                            <!--<td>9</td>-->
-                            <!--<td>0</td>-->
-                            <!--<td>10</td>-->
-                        <!--</tr>-->
+
+                        <tr>
+                            <td class="index">2</td>
+                            <td>
+                                <input type="radio" name="goods-main">
+                            </td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>0</td>
+                            <td>10</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

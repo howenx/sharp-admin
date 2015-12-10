@@ -35,10 +35,10 @@
        });
     }
 
-    load('/supply/admin?id=@{products.head("products.category_id")}&start=1');
+    load('/supply/list?id=@{products.head("products.category_id")}&start=1');
 
     function stat(my,cat) {
-       load("/supply/admin" + "?id=" + cat + "&stat=" + my.value + "&start=1");
+       load("/supply/list" + "?id=" + cat + "&stat=" + my.value + "&start=1");
        }
 
 </script>

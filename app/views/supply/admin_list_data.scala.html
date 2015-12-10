@@ -11,15 +11,34 @@
         @count match {
         case 0 => {
         @{count=p(".count").toString.toInt; category_id = p("products.category_id").toString.toInt}
-        <div class="col-md-3 input-group pull-right" >
-            <span class="input-group-addon">状态(상태):</span>
-            <select id="stat" class="form-control" onchange="javascript:stat(this, @category_id);">
+        <form id="search" class="form-inline">
+
+        <div class="col-md-3  input-group" >
+            <span class="input-group-addon">商品条码:</span>
+            <input id="search_code@(category_id)" type="text" class="form-control" name="code">
+        </div>
+
+
+        <div class="col-md-3  input-group" >
+            <span class="input-group-addon">商品名称:</span>
+            <input id="search_name@(category_id)" type="text" class="form-control" name="name">
+        </div>
+
+        <div class="col-md-2 input-group" >
+            <span class="input-group-addon">状态:</span>
+            <select id="stat" class="form-control" onchange="javascript:state(this, @category_id);">
                 <option @{status match {case None=>{"selected"} case _=>{}}} value=""></option>
                 <option @{status match {case Some("I")=>{"selected"} case _=>{}}} value="I">未翻译(미번역)</option>
                 <option @{status match {case Some("T")=>{"selected"} case _=>{}}} value="T">已翻译(번역완료)</option>
                 <option  @{status match {case Some("A")=>{"selected"} case _=>{}}} value="A">已追加(보충했음)</option>
             </select>
         </div>
+            <input id="search_cat@(category_id)" type="hidden" class="form-control" value="@(category_id)">
+                <input type="button" class="input-group col-md-1 btn btn-primary " onclick="javascript:search(@(category_id));" value="搜索">
+
+
+        </form>
+
     </div>
     <table class="table table-hover table-bordered">
         <tr align="center" class="info">
@@ -74,11 +93,15 @@
                 }
                 case User_Type.ADMIN => {
                     @p("products.status") match {
-                    case "I" => {
+                    case "T" => {
 
                     <a href="/supply/append/@p("products.product_id")">追加</a></td>
                     }
-                    case _ =>{<a href="/supply/append/@p("products.product_id")">追加</a></td>}
+                    case "A" => {
+
+                    <a href="/supply/append/@p("products.product_id")">追加</a></td>
+                    }
+                    case _ =>{}
                     }
                 }
                 }

@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn", brandsList:List[entity.Brands], catesParentList:List[entity.Cates],user:entity.User)
+@(lang:String="cn", brandsList:List[entity.Brands], catesParentList:List[entity.Cates],modelList:List[entity.Carriage],user:entity.User)
 
 @scripts = {
 
@@ -133,7 +133,7 @@
                                     <th width="60">成本价(￥)</th>
                                     <th width="40">折扣</th>
                                     <th width="30">限购数量</th>
-                                    <th width="30">邮费</th>
+                                    <th width="30">运费设置</th>
                                     <th width="30">税率设置</th>
                                     <th width="50">税率(整数)</th>
                                     <th width="60">行邮税号</th>
@@ -175,7 +175,13 @@
                                         <input type="text" name="restrictAmount">
                                     </td>
                                     <td>
-                                        <input type="text" name="shipFee">
+                                        <select name="modelSel">
+                                            <option value="">请选择</option>
+                                            @for(m <- modelList) {
+                                            <option value="@m.getModelCode()">@m.getModelName()
+                                            </option>
+                                            }
+                                        </select>
                                     </td>
                                     <td>
                                         <select class="trset" id="1">

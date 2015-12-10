@@ -7,6 +7,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import service.InventoryService;
 import service.ItemService;
 import service.ProdService;
 import service.ThemeService;
@@ -30,6 +31,9 @@ public class ItemCtrl extends Controller {
 
     @Inject
     private ThemeService themeService;
+
+    @Inject
+    private InventoryService inventoryService;
 
     /**
      * 商品列表
@@ -116,7 +120,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result itemCreate(String lang) {
-        return ok(views.html.item.itemadd.render(lang,prodService.getAllBrands(),prodService.getParentCates(),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemadd.render(lang,prodService.getAllBrands(),prodService.getParentCates(),inventoryService.getModel(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -134,7 +138,7 @@ public class ItemCtrl extends Controller {
             pCateNm = service.getCate(cates.getPcateId()).getCateNm();
         } else pCateNm = cates.getCateNm();
         Brands brands = service.getBrand(item.getBrandId());
-        List<Inventory> inventories = service.getInventoriesByItemId(id);
+        List<Inventory> inventories = inventoryService.getInventoriesByItemId(id);
         return ok(views.html.item.itemdetail.render(item,inventories,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,(User) ctx().args.get("user")));
     }
 
@@ -157,7 +161,7 @@ public class ItemCtrl extends Controller {
         //由商品品牌id获取品牌
         Brands brands = service.getBrand(item.getBrandId());
         //由商品id获取库存列表
-        List<Inventory> inventories = service.getInventoriesByItemId(id);
+        List<Inventory> inventories = inventoryService.getInventoriesByItemId(id);
         return ok(views.html.item.itemupdate.render(item,inventories,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,prodService.getAllBrands(),prodService.getParentCates(),(User) ctx().args.get("user")));
     }
 

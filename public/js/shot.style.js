@@ -1,7 +1,7 @@
 $(function() {
 	/*** template params array.****/
 	var data_array = [];
-	
+	var themeImg = "";
 	/***** replace file click event. *****/
 	$('#upbn').on("click", function() {
 		if($(':radio[name=select-minify]').is(':checked')){
@@ -230,7 +230,8 @@ $(function() {
 		console.log(JSON.stringify(data_array));
 		if ($check.length === 1) {
 			$.ajax({
-				url: 'http://172.28.3.47:3008/nw',
+				//url: 'http://172.28.3.47:3008/nw',
+				url: 'http://172.28.3.18:3008/nw',
 				//url:window.url+"/nw",
 				type: 'POST',
 				data: {
@@ -244,6 +245,7 @@ $(function() {
 				success: function(data) {
 					$('#mask').hide();
 					alert(data.error + ' ' + data.message + ' ' + data.shot_url);
+					themeImg = data.shot_url;
 					$check.prop('checked', false);
 					window.open(data.shot_url);
 					return false;
@@ -313,7 +315,8 @@ $(function() {
   			formdata.append("params", params);
 			
   			var http = new XMLHttpRequest();
-  			var url = "http://172.28.3.47:3008/upload";
+  			//var url = "http://172.28.3.47:3008/upload";
+  			var url = "http://172.28.3.18:3008/upload";
 			//var url = window.url+"/upload";
   			http.open("POST", url, true);
 			
@@ -345,5 +348,132 @@ $(function() {
   			return false;
   		}
   	}
-	
+
+  	$("#push").click(function(){
+        var isPost = true;
+        if($("#themeTitle").val() == "" || $("#onShelvesAt").val() == "" || $("#offShelvesAt").val() == "")
+        {
+            isPost = false;
+            alert("基本信息不能为空!");
+            return false;
+        }
+        if(themeImg == "")
+        {
+            isPost = false;
+            alert("请选择主题并上传图片!");
+            return false;
+        }
+        if(document.getElementById("dragon-container").getElementsByClassName("dragon-contained ui-draggable ui-draggable-handle").length == 0)
+        {
+            isPost = false;
+            alert("请添加标签!");
+            return false;
+        }
+        var theme = new Object();
+        var masterItemId = parseInt(document.getElementById("sort").rows[1].cells[2].innerHTML);
+        var title = $("#themeTitle").val();
+        var onShelvesAt = $("#onShelvesAt").val();
+        var offShelvesAt = $("#offShelvesAt").val();
+        var themeImgFinal = themeImg.substring(themeImg.indexOf('/',themeImg.indexOf('/')+2));
+        var sortNu = 1;
+        var obj = document.getElementById("u_youjipin").getElementsByTagName("img");
+        var url = obj[0].src;
+        var themeSrcImg = url.substring(url.indexOf('/',url.indexOf('/')+2));
+
+        var themeConfig = [];
+        /*
+        var config1 = document.getElementsByClassName("pre_temp")[0];
+        if(config1.getElementsByTagName("input")[0].value != "")
+        {
+           themeConfig.push("仅剩:" + config1.getElementsByTagName("input")[0].value);
+           themeConfig.push("标题:" + config1.getElementsByTagName("input")[1].value);
+           themeConfig.push("价格/折扣:" + config1.getElementsByTagName("input")[2].value);
+           themeConfig.push("元/折起:" + config1.getElementsByTagName("input")[3].value);
+
+        }
+        var config2 = document.getElementsByClassName("pre_temp")[1];
+        if(config2.getElementsByTagName("input")[0].value != "")
+        {
+           themeConfig.push("折扣率:" + config2.getElementsByTagName("input")[0].value);
+           themeConfig.push("市场价:" + config2.getElementsByTagName("input")[1].value);
+           themeConfig.push("折扣价:" + config2.getElementsByTagName("input")[2].value);
+           themeConfig.push("拼购人数:" + config2.getElementsByTagName("input")[3].value);
+           themeConfig.push("拼购价格:" + config2.getElementsByTagName("input")[4].value);
+           themeConfig.push("已拼购人数:" + config2.getElementsByTagName("input")[5].value);
+
+        }
+        */
+        var themeItems = [];
+        var items = document.getElementById("sort");
+        for(i=1;i<items.getElementsByTagName("tr").length;i++){
+            var itemId = parseInt(items.rows[i].cells[2].innerText);
+            themeItems.push(itemId);
+            }
+        var masterItemTag = [];
+        var tagsContainer = document.getElementById("dragon-container");
+        var containerWidth = tagsContainer.scrollWidth;
+        var containerHeight = tagsContainer.scrollHeight;
+        var tags = tagsContainer.getElementsByClassName("dragon-contained ui-draggable ui-draggable-handle");
+        for(i=0;i<tags.length;i++){
+            var tag = {};
+            var style = tags[i].style.cssText;
+            var tagLeft = parseInt(style.substring(style.indexOf("left: ")+6,style.indexOf("px;")));
+            var tagTop =  parseInt(style.substring(style.indexOf("top: ")+5,style.length-3)) - 50;
+
+            tag.left = parseFloat((tagLeft/containerWidth).toFixed(2));
+            tag.url = "/comm/detail/" + masterItemId;
+            tag.top = parseFloat((tagTop/containerHeight).toFixed(2));
+            tag.name = tags[i].getElementsByTagName("p")[0].innerText;
+            if(tags[i].getElementsByClassName("dragon-graph")[0].style.cssText.indexOf(180)>0)
+            {
+                tag.angle = 180;
+            }else{
+                tag.angle = 0;
+            }
+            masterItemTag.push(tag);
+        }
+        theme.masterItemId = masterItemId;
+        theme.title = title;
+        theme.startAt = onShelvesAt;
+        theme.endAt = offShelvesAt;
+        theme.themeImg = themeImgFinal;
+        theme.sortNu = sortNu;
+        //theme.orDestory = false;
+        theme.themeSrcImg = themeSrcImg;
+        theme.themeDesc = themeConfig;
+        theme.themeItem = themeItems;
+        theme.themeTags = masterItemTag;
+
+        if (isPost) {
+                    $.ajax({
+                        type :  "POST",
+                        url : "/topic/add/themeSave",
+                        contentType: "application/json; charset=utf-8",
+                        data : JSON.stringify(theme),
+                        error : function(request) {
+                            if (window.lang = 'cn') {
+                                $('#js-userinfo-error').text('保存失败');
+                            } else {
+                                $('#js-userinfo-error').text('Save error');
+                            }
+                            setTimeout("$('#js-userinfo-error').text('')", 2000);
+                        },
+                        success: function(data) {
+                            alert("Save Success");
+                            if (window.lang = 'cn') {
+                                $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                            } else {
+                                $('#js-userinfo-error').text('Save success');
+                            }
+                            setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 1000);
+                            //主题录入, 成功后返回到主题录入页面
+                            setTimeout("location.href='/"+window.lang+"/topic/add'", 1000);
+                        }
+                    });
+                }
+
+
+  	})
+
+
 });

@@ -167,23 +167,38 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
   def list_admin(id: Option[Int], stat:Option[String], start: Int) = withUser { user => {
     implicit request => {
       val m = request.queryString.map { case (k, v) => k -> v.head }
-
+      Logger.debug(m.toString())
       val status:Option[String] = m.get("stat") match {
         case Some("") =>
           None
         case s =>
           s
       }
+
+      val code:Option[String] = m.get("code") match {
+        case Some("") =>
+          None
+        case c =>
+          c
+      }
+
+      val name:Option[String] = m.get("name") match {
+        case Some("") =>
+          None
+        case n =>
+          n
+      }
+
       id match {
         case Some(category_id) =>
           if (Prod_Type.values.exists(_.id == id.get)) {
-            val ret = Prod.list_admin(Prod_Type.apply(id.get), status, start, size)
-            Logger.debug(ret.toString())
+            val ret = Prod.list_admin(Prod_Type.apply(id.get), status, code, name, start, size)
+            //Logger.debug(ret.toString())
             val r:List[Map[String, Any]] = ret match {
               case Nil =>
                 //val any_id:Any = id.get
                 //初始化一个空的内容
-                List(Map("products.category_id" -> id.get, ".row" ->"",".count" -> 0, "products.product_id" -> "", "products.name" -> "", "products.status" -> "","products.update_dt"->""))
+                List(Map("products.category_id" -> id.get, ".row" ->"",".count" -> 0, "products.product_id" -> "", "products.name" -> "", "products.status" -> "","products.update_dt"->"","ID.nickname"->""))
               case _ =>
                 ret
             }
@@ -199,7 +214,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
             Ok(views.html.error404())
           }
         case None =>
-          val ret = Prod.list_admin(Prod_Type.hzp, None, start, size)
+          val ret = Prod.list_admin(Prod_Type.hzp, None, None, None, start, size)
           //Logger.debug(ret.toString())
           Ok(views.html.supply.admin_list("cn", user, ret, start))
       }
@@ -810,12 +825,16 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
               val p_type = m("p_type")
               m -= ("p_type")
               val amount = m("amount").toInt
+              //m -= ("amount")
               val name = m("name")
+
+              val bar_code = m("bar_code")
+              //m -= ("bar_code")
               //m += ("添加时间" -> DateTimeFormat.longDateTime().print(new DateTime()))
               //m += ("添加人" -> user.id.toString)
               val kr_string = Json.toJson(m).toString()
               ptype = Prod_Type.withName(p_type).id;
-              Prod.init(Prod_Type.withName(p_type), name, amount, kr_string,user.id)
+              Prod.init(Prod_Type.withName(p_type), name, bar_code, amount, kr_string,user.id)
 
           }
 
@@ -855,9 +874,11 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
               val product_id = m("product_id")
               m -= ("product_id")
               val amount = m("amount").toInt
+
+              val bar_code = m("bar_code")
               m += ("修改时间" -> DateTimeFormat.longDateTime().print(new DateTime()))
               val kr_string = Json.toJson(m).toString()
-              Prod.update_krstring(product_id.toLong, name, amount, kr_string)
+              Prod.update_krstring(product_id.toLong, name, bar_code, amount, kr_string)
               Redirect(routes.Application.list_supply(Some(ptype),None))
           }
 
@@ -909,8 +930,8 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
                   m -= "price"
 
                   //市场价格
-                  val market_price = Try(m("market_price").toInt).getOrElse(0)
-                  m -= "market_price"
+                  ///val market_price = Try(m("market_price").toInt).getOrElse(0)
+                  //m -= "market_price"
 
                   //数量
                   val amount = Try(m("amount").toInt).getOrElse(0)
@@ -942,7 +963,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
                   //得到扩展数据
                   val extra = Json.toJson(m).toString()
 
-                  Prod.update(product_id.toLong, Prod_Type.hzp, name, tags, attr, spec, images, price, market_price, amount, extra)
+                  Prod.update(product_id.toLong, Prod_Type.hzp, name, tags, attr, spec, images, price, amount, extra)
                   //val price = map(price)
                   Redirect(routes.Application.list(Some(1), None))
                   //map -= (name","price")
@@ -958,8 +979,8 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
                   val price = Try(m("price").toInt).getOrElse(0)
                   m -= "price"
 
-                  val market_price = Try(m("market_price").toInt).getOrElse(0)
-                  m -= "market_price"
+                  //val market_price = Try(m("market_price").toInt).getOrElse(0)
+                  ///m -= "market_price"
 
                   val amount = Try(m("amount").toInt).getOrElse(0)
                   m -= "amount"
@@ -989,7 +1010,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
                   Logger.debug(extra)
 
-                  Prod.update(product_id.toLong, Prod_Type.ps, name, tags, attr, spec, images, price, market_price, amount, extra)
+                  Prod.update(product_id.toLong, Prod_Type.ps, name, tags, attr, spec, images, price, amount, extra)
 
                   Redirect(routes.Application.list(Some(2), None))
 
@@ -1005,8 +1026,8 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
                   val price = Try(m("price").toInt).getOrElse(0)
                   m -= "price"
 
-                  val market_price = Try(m("market_price").toInt).getOrElse(0)
-                  m -= "market_price"
+                  //val market_price = Try(m("market_price").toInt).getOrElse(0)
+                  //m -= "market_price"
 
                   val amount = Try(m("amount").toInt).getOrElse(0)
                   m -= "amount"
@@ -1041,7 +1062,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
                   Logger.debug(extra)
 
-                  Prod.update(product_id.toLong, Prod_Type.fs, name, tags, attr, spec, images, price, market_price, amount, extra)
+                  Prod.update(product_id.toLong, Prod_Type.fs, name, tags, attr, spec, images, price,  amount, extra)
 
                   Redirect(routes.Application.list(Some(3), None))
               }
