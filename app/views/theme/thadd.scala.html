@@ -56,16 +56,18 @@
         }
     }
     function UpdateFields(obj) {
-        var obj1=obj.id;
-        var index1=$(".table").find("tr:last").find("td").first().html();
-        for(var i=0;i<$(obj1).length;i++){
-            $(obj1).eq(i).prepend($("<td class='index'>"+(Number(index1)+1+i)+"</td><td><input type='radio'  name='goods-main'></td>")).appendTo($(".table"));
+        var obj1 = obj.id;
+        var index1 = $(".table tbody").find("tr").length,
+                index2 = $(".table thead").find("tr").length;
+        var index = index1 + index2;
+        for (var i = 0; i < $(obj1).length; i++) {
+            $(obj1).eq(i).prepend($("<td class='index'>" + (Number(index) + i) + "</td><td><input type='radio'  name='goods-main'></td>")).appendTo($(".table"));
         }
 
         $('#input_imgurl').val(obj.lable_id);
     }
 
-    function previewImage(obj,file, id) {
+    function previewImage(obj, file, id) {
         var gallery = obj;
         var imageType = /image.*/;
 
@@ -78,18 +80,22 @@
         var img = document.createElement("img");
         img.classList.add('main-img');
         img.file = file;
-        $(img).attr('data-index','6');
+        $(img).attr('data-index', '6');
         $(thumb).append($(img));
         $(gallery).append($(thumb));
-        $("<button>").addClass("close").css({"position":"absolute","top":"10px","right":"10px"}).attr("type","button").attr("aria-lable","Close").html('<span aria-hidden="true">' +
+        $("<button>").addClass("close").css({
+            "position": "absolute",
+            "top": "10px",
+            "right": "10px"
+        }).attr("type", "button").attr("aria-lable", "Close").html('<span aria-hidden="true">' +
                 '&times;' +
                 '</span>').appendTo($(obj));
 
         upload(thumb, file, id);
         // Using FileReader to display the image content
         var reader = new FileReader();
-        reader.onload = (function(aImg) {
-            return function(e) {
+        reader.onload = (function (aImg) {
+            return function (e) {
                 aImg.src = e.target.result;
             }
         })(img);
@@ -103,17 +109,17 @@
         var http = new XMLHttpRequest();
         var url = "http://172.28.3.18:3008/upload";
         http.open("POST", url, true);
-        http.onreadystatechange = function() {
+        http.onreadystatechange = function () {
             if (http.readyState == 4 && http.status == 200) {
                 var data = JSON.parse(http.responseText);
                 console.log(data.minify_url);
-                var input= document.createElement("input");
+                var input = document.createElement("input");
                 imgName = data.imgid;
-                input.id = imgName.substr(0,imgName.lastIndexOf("."));
-                input.type="hidden";
-                input.name=data.imgid;
-                input.value=data.path;
-                $(thumb).find("img").attr('src',data.minify_url);
+                input.id = imgName.substr(0, imgName.lastIndexOf("."));
+                input.type = "hidden";
+                input.name = data.imgid;
+                input.value = data.path;
+                $(thumb).find("img").attr('src', data.minify_url);
                 thumb.appendChild(input);
                 alert(data.message);
             }
@@ -121,7 +127,7 @@
         http.send(formdata);
     }
 
-    $(function(){
+    $(function () {
         var fixHelperModified = function (e, tr) {
                     var $originals = tr.children();
                     var $helper = tr.clone();
@@ -140,39 +146,39 @@
             stop: updateIndex
         }).disableSelection();
 
-        $(document).on('change','.upload1',function() {
-            var id=window.event.srcElement.id;
+        $(document).on('change', '.upload1', function () {
+            var id = window.event.srcElement.id;
             var files = this.files;
-            var li_dv=$(this).parent().parent();
-            $(this).parent().css("display","none");
-            $(this).parents(".li-dv").find(".text").css("display","block");
+            var li_dv = $(this).parent().parent();
+            $(this).parent().css("display", "none");
+            $(this).parents(".li-dv").find(".text").css("display", "block");
             console.log(li_dv);
             for (var i = 0; i < files.length; i++) {
-                previewImage(li_dv,this.files[i], id);
+                previewImage(li_dv, this.files[i], id);
             }
         });
-        $(document).on('change','.upload2',function() {
-            var id=window.event.srcElement.id;
+        $(document).on('change', '.upload2', function () {
+            var id = window.event.srcElement.id;
             var files = this.files;
-            var li_dv=$(this).parent().parent();
-            $(this).parent().css("display","none");
-            $(this).parent().next().css("display","block");
-            $(this).parents(".li-dv").find(".text").css("display","block");
+            var li_dv = $(this).parent().parent();
+            $(this).parent().css("display", "none");
+            $(this).parent().next().css("display", "block");
+            $(this).parents(".li-dv").find(".text").css("display", "block");
             console.log(li_dv);
             for (var i = 0; i < files.length; i++) {
-                previewImage(li_dv,this.files[i], id);
+                previewImage(li_dv, this.files[i], id);
             }
         });
 
-        $(document).on("click",".img .close",function(){
-            if($(this).parent().find(".onlyday")){
+        $(document).on("click", ".img .close", function () {
+            if ($(this).parent().find(".onlyday")) {
                 $(this).parents(".img").find(".upload2").val("");
-                $(this).parent().find(".onlyday").css("display","none");
+                $(this).parent().find(".onlyday").css("display", "none");
             }
             $(this).parents(".img").find(".upload1").val("");
-            $(this).parents(".img").find(".btn-primary").css("display","block");
+            $(this).parents(".img").find(".btn-primary").css("display", "block");
             $(this).parents(".img").find(".track").remove();
-            $(this).parents(".li-dv").find(".text").css("display","none");
+            $(this).parents(".li-dv").find(".text").css("display", "none");
             $(this).remove();
         });
     })
@@ -189,7 +195,7 @@
 <div style="width: 50%;margin: 10px auto;display:none;" class="alert alert-success" role="alert">
     <strong>Well done!</strong>
     @if(flash.containsKey("success")) {
-        @flash.get("success")
+    @flash.get("success")
     }
     <span class="close" aria-label="Close"><span aria-hidden="true">&times;</span></span>
 </div>
@@ -197,8 +203,8 @@
 <div class="mbread">
     <div class="bread-path">
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
-		<a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
-		<span class="icon-path">&gt;</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
         <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes")</span>
         <span class="icon-path">&gt;</span>
         <span>@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu2")</span>
@@ -210,8 +216,12 @@
     </div>
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
-        <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
-        <div id="js-usercenter-cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
+        <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15">@Messages.get(new
+            Lang(Lang.forCode(lang)),"themes.slider.save")
+        </div>
+        <div id="js-usercenter-cancel" class="btn-white btn-form fr ml20">@Messages.get(new
+            Lang(Lang.forCode(lang)),"themes.slider.cancel")
+        </div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
 
@@ -223,24 +233,27 @@
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label">主题标题</label>
+
                     <div class="col-sm-8">
-                        <input type="text" class="form-control"/>
+                        <input type="text" class="form-control" id="themeTitle"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">开始日期</label>
+
                     <div class="col-sm-8">
                         <div class="input-group date" id='datetimepicker1'>
-                            <input class="form-control col-sm-2"  type="text"  id="onShelvesAt" name="onShelvesAt">
+                            <input class="form-control col-sm-2" type="text" id="onShelvesAt" name="onShelvesAt">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">结束日期</label>
+
                     <div class="col-sm-8">
                         <div class="input-group date" id='datetimepicker2'>
-                            <input class="form-control col-sm-2"  type="text"  id="offShelvesAt" name="offShelvesAt">
+                            <input class="form-control col-sm-2" type="text" id="offShelvesAt" name="offShelvesAt">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
@@ -248,8 +261,10 @@
                 <hr/>
                 <!-- 上传图片-->
                 <h4 class="h4-custom-hmm">选择主题</h4>
+
                 <div class="form-group">
                     <label class="col-sm-2 control-label">选择主题</label>
+
                     <div class="col-sm-9">
                         <div class="rec_sku-title">
                             <input type="radio" data-xr='u_youjipin' class="set-main temp_radio_class" name="setMain">
@@ -276,13 +291,13 @@
                                     </div>
                                     <div class="text">
                                         <i data-index='1' style='font-style: normal;'>★以思念为料，享受烘焙的甜蜜★</i>
-                                        <span >
+                                        <span>
                                             <b data-index='2'>6</b>
                                             <i data-index='3' style='font-style: normal;'>元起</i>
                                         </span>
                                     </div>
                                 </div>
-                                <div class = "pre_temp">
+                                <div class="pre_temp">
                                     <table>
                                         <tbody>
                                         <tr>
@@ -329,9 +344,9 @@
                             <div class='li-dv'>
                                 <div id="q_youjipin" class="pingou">
                                     <!--<div class="img">-->
-                                        <!--<a class="track">-->
-                                            <!--<img data-index='4' src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8" width="100%" style="display: inline;">-->
-                                        <!--</a>-->
+                                    <!--<a class="track">-->
+                                    <!--<img data-index='4' src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8" width="100%" style="display: inline;">-->
+                                    <!--</a>-->
                                     <!--</div>-->
                                     <div class="img">
                                         <a href="javascript:void(0)" class="upload-a btn-primary">
@@ -345,7 +360,7 @@
                                                 <div class="sale">
                                                     <!--	<span class="sale-rate">20</span><i>%</i>-->
                                                     <span class="sale-rate">
-                                                        <span  data-index='0'>20%</span>
+                                                        <span data-index='0'>20%</span>
                                                         <i>打折率:</i>
                                                     </span>
 
@@ -365,7 +380,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class = "pre_temp">
+                                <div class="pre_temp">
                                     <table>
                                         <tbody>
                                         <tr>
@@ -397,8 +412,8 @@
                                             <td><input class='input-area' type="text"></td>
                                         </tr>
                                         <tr>
-                                        <th></th>
-                                        <td><a name='pre_unpack_bt' class="small blue-light button">预览</a></td>
+                                            <th></th>
+                                            <td><a name='pre_unpack_bt' class="small blue-light button">预览</a></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -424,7 +439,7 @@
                                                 <div class="sale">
                                                     <!--	<span class="sale-rate">20</span><i>%</i>-->
                                                     <span class="sale-rate">
-                                                        <span  data-index='0'>20</span>
+                                                        <span data-index='0'>20</span>
                                                         <span style="font-size: 16px">%</span>
                                                         <!--<i>打折率:</i>-->
                                                     </span>
@@ -446,7 +461,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class = "pre_temp">
+                                <div class="pre_temp">
                                     <table>
                                         <tbody>
                                         <tr>
@@ -489,7 +504,9 @@
                             <div class='li-dv'>
                                 <div id='shop_unpack' name="temp_unpack" class="li sync-hide auto">
                                     <div class='li unpack-temp-img' id='unpack_img'>
-                                        <img class=".main-img" src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8" alt="">
+                                        <img class=".main-img"
+                                             src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8"
+                                             alt="">
                                     </div>
                                     <div id='unpack_title' class='unpack-title-container'>
                                         <span>
@@ -506,17 +523,17 @@
                                     </div>
                                 </div>
                                 <!--<div class="pre_temp sync-hide" >-->
-                                    <!--<label>折扣：<input style='width: 235px;' type="text"></label>-->
-                                    <!--<label>原价：<input style='width: 235px;' type="text"></label>-->
-                                    <!--<label>现价：<input style='width: 235px;' type="text"></label>-->
-                                    <!--<label>拼购价：<input style='width: 235px;' type="text"></label>-->
-                                    <!--<label>标题占宽度百分比：<input style='width: 235px;' type="text"></label>-->
-                                    <!--<label>标题距左侧百分比：<input style='width: 235px;' type="text"></label>-->
-                                    <!--<label>图片名称：<input style='width: 270px;' type="text"></label>-->
-                                    <!--<label>宽度：<input name='custom_w' type="text"></label>-->
-                                    <!--<label>高度：<input name='custom_h' type="text"></label>-->
-                                    <!--<label>原始宽高<input name='origin_wh' type="checkbox"></label>-->
-                                    <!--<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>-->
+                                <!--<label>折扣：<input style='width: 235px;' type="text"></label>-->
+                                <!--<label>原价：<input style='width: 235px;' type="text"></label>-->
+                                <!--<label>现价：<input style='width: 235px;' type="text"></label>-->
+                                <!--<label>拼购价：<input style='width: 235px;' type="text"></label>-->
+                                <!--<label>标题占宽度百分比：<input style='width: 235px;' type="text"></label>-->
+                                <!--<label>标题距左侧百分比：<input style='width: 235px;' type="text"></label>-->
+                                <!--<label>图片名称：<input style='width: 270px;' type="text"></label>-->
+                                <!--<label>宽度：<input name='custom_w' type="text"></label>-->
+                                <!--<label>高度：<input name='custom_h' type="text"></label>-->
+                                <!--<label>原始宽高<input name='origin_wh' type="checkbox"></label>-->
+                                <!--<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>-->
                                 <!--</div>-->
                             </div>
                             <!--上传-->
@@ -596,52 +613,56 @@
                                 <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
                             </th>
                         </tr>
-                        <tr>
-                            <td class="index">1</td>
-                            <td>
-                                <input type="radio"  name="goods-main" checked>
-                            </td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td><img src="" alt=""></td>
-                            <td>7</td>
-                            <td>8</td>
-                            <td>9</td>
-                            <td>0</td>
-                            <td>10</td>
-                        </tr>
+                        <!--<tr>-->
+                            <!--<td class="index">1</td>-->
+                            <!--<td>-->
+                                <!--<input type="radio" name="goods-main" checked>-->
+                            <!--</td>-->
+                            <!--<td>2</td>-->
+                            <!--<td>3</td>-->
+                            <!--<td>4</td>-->
+                            <!--<td><img src="" alt=""></td>-->
+                            <!--<td>7</td>-->
+                            <!--<td>8</td>-->
+                            <!--<td>9</td>-->
+                            <!--<td>0</td>-->
+                            <!--<td>10</td>-->
+                        <!--</tr>-->
+                        </thead>
+                        <tbody>
+                        <!--<td class="index">1</td>-->
+                        <!--<td>-->
+                        <!--<input type="radio"  name="goods-main" checked>-->
+                        <!--</td>-->
+                        <!--<td>101302</td>-->
+                        <!--<td></td>-->
+                        <!--<td>韩秘美 Crystalshop 施华洛世奇水晶珀蒂小皇冠珍珠8mm纯银针耳钉 耳饰</td>-->
+                        <!--<td><img src="http://172.28.3.18:3008/uploads/minify/0696f8aed74d48588fa77536181967cc1449042588015.png" alt=""></td>-->
+                        <!--<td>2015-12-03 15:47</td>-->
+                        <!--<td>Y</td>-->
+                        <!--<td>86.00</td>-->
+                        <!--<td>56.00</td>-->
+                        <!--<td>18.0</td>-->
+                        <!--</tr>-->
                         </thead>
                         <tbody>
 
-                        <tr>
-                            <td class="index">2</td>
-                            <td>
-                                <input type="radio" name="goods-main">
-                            </td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                            <td>7</td>
-                            <td>8</td>
-                            <td>9</td>
-                            <td>0</td>
-                            <td>10</td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
                 <!-- 创建mark-->
                 <h4 class="h4-custom-hmm">添加标签</h4>
+
                 <div class="form-group">
                     <label class="col-sm-2 control-label">标签名字:</label>
+
                     <div class="col-sm-9">
-                        <input id='mark-nm' type ='text' class="form-control">
+                        <input id='mark-nm' type='text' class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">旋转角度:</label>
+
                     <div class="col-sm-9">
                         <div class="radbd" style="margin-top: 0">
                             <input type="radio" name="mark-deg" value="0"/> <b>0度</b>
@@ -651,6 +672,7 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">图片url:</label>
+
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="input_imgurl" disabled>
                     </div>
@@ -660,11 +682,15 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label"></label>
+
                     <div class="col-sm-9">
-                        <a class="large blue button" id='mark-bt' >创建</a>
+                        <a class="large blue button" id='mark-bt'>创建</a>
+
                         <div id='dragon-container'></div>
                         <a class="large red button" id="push">Push Data</a>
-                        <div class="thumb" style='position: relative;margin-top: 10px;margin-bottom:50px;display:block;'></div>
+
+                        <div class="thumb"
+                             style='position: relative;margin-top: 10px;margin-bottom:50px;display:block;'></div>
                     </div>
                 </div>
             </form>
