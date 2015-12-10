@@ -1125,3 +1125,21 @@ input[name=setMain]{
 .li-dv .img{
 	position: relative;
 }
+
+.upload-label{
+	width: 90px;
+	position: relative;
+	padding: 6px 8px;
+	cursor: pointer;
+	display: block;
+	text-align: center;
+}
+.upload-label input{
+	width: 90px;
+	height: 30px;
+	overflow: hidden;
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: 0;
+}
