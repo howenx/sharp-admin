@@ -51,8 +51,6 @@ public class RestClient {
             }
         });
 
-        Logger.debug(request.toString());
-
         return request.post(sb.toString()).map(wsResponse -> {
             switch (wsResponse.getStatus()) {
                 case 200: {
