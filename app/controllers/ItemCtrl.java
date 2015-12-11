@@ -209,7 +209,7 @@ public class ItemCtrl extends Controller {
 
     @Security.Authenticated(UserAuth.class)
     public Result orderList(String lang){
-        return ok(views.html.item.ordersearch.render());
+        return ok(views.html.item.ordersearch.render(lang,(User) ctx().args.get("user")));
     }
 
 }
