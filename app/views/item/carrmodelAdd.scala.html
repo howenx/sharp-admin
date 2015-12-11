@@ -5,6 +5,70 @@
 
 <link rel="stylesheet" href="/assets/css/slider.css"/>
 <link rel="stylesheet" href="/assets/css/cost.css">
+<script src="/assets/js/jquery.min.js"></script>
+<script>
+    function ShowModal(addr,arr) {
+        var sharedObject = {};
+        sharedObject.cityOriginal_arr = arr;
+        sharedObject.addr = addr;
+
+        if (window.showModalDialog) {
+            var retValue = showModalDialog("/carr/pop", sharedObject, "dialogWidth:1200px; dialogHeight:600px; dialogLeft:300px;");
+            if (retValue) {
+                UpdateFields(retValue);
+            }
+        }
+        else {
+            // for similar functionality in Opera, but it's not modal!
+            var modal = window.open ("/carr/pop", null, "width=1200,height=600,left=300,modal=yes,alwaysRaised=yes", null);
+            modal.dialogArguments = sharedObject;
+        }
+    }
+    function UpdateFields(obj) {
+        var cityCode,cityName,cityNameGiven,cityCodeGiven;
+        cityCode = obj.cityCode;
+        cityName = obj.cityName;
+        cityNameGiven = cityName.join(" ");
+        cityCodeGiven = cityCode.join(",");
+        $('.add-temp').parents("tr").before('<tr>' +
+                '<td width="300"><span>'+cityNameGiven+'</span><a href="javascript:void(0)" class="edit" style="float: right">编辑</a><input type="hidden" value="' +
+                cityCodeGiven +
+                '"></td>' +
+                '<td><input type="text" value="5"></td>' +
+                '<td><input type="text" value="10"></td>' +
+                '<td><input type="text" value="1"></td>' +
+                '<td><input type="text" value="10"></td>' +
+                '<td><a href="javascript:void(0)" class="del">删除</a></td>' +
+                '</tr>')
+    }
+    function UpdateFields1(obj) {
+        var cityCode,cityName,cityGiven;
+        cityCode = obj.cityCode;
+        cityName = obj.cityName;
+        cityGiven = cityName.join(" ");
+        $(obj.addr).html(cityGiven);
+        $(obj.addr).parent().find("input[type=hidden]").val(cityCode.join(","));
+    }
+    $(function(){
+        $('.add-temp').click(function(){
+            ShowModal();
+        });
+        var cityOriginal_arr;
+        $(document).on('click','.edit',function(){
+            var cityOriginal = $(this).parent().find("span").html();
+            cityOriginal_arr = cityOriginal.split(" ");
+            console.log(cityOriginal_arr);
+            var addr = $(this).parent().find('span');
+            ShowModal(addr,cityOriginal_arr);
+        });
+        $(document).on('click','.del',function(){
+            $(this).parents('tr').remove();
+        });
+        $(".express").change(function(){
+            $(".tran-mode table").toggle();
+        })
+    })
+</script>
 
 }
 
@@ -12,7 +76,7 @@
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 
-<<div class="mbread">
+<div class="mbread">
     <div class="bread-path">
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
         <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
@@ -53,7 +117,7 @@
                 <span>运送方式</span>
                 <div class="tran-mode">
                     <h5 style="padding-top: 3px">除指定地区外,其余地区的运费采用"默认运费"</h5>
-                    <input type="checkbox" checked>  快递
+                    <input type="checkbox" class="express" checked>  快递
                     <table cellspacing="0">
                         <tr style="background: rgb(224,238,255)">
                             <td colspan="6">
@@ -70,7 +134,8 @@
                         </tr>
                         <tr>
                             <td width="300">
-                                北京 上海 <a href="javascript:void(0)" style="float: right">编辑</a>
+                                <span>北京 上海</span> <a href="javascript:void(0)" class="edit" style="float: right">编辑</a>
+                                <input type="hidden" value="BJ,SH">
                             </td>
                             <td>
                                 <input type="text" value="5">
@@ -85,12 +150,12 @@
                                 <input type="text" value="10">
                             </td>
                             <td>
-                                <a href="javascript:void(0)">删除</a>
+                                <a href="javascript:void(0)" class="del">删除</a>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="6">
-                                <a href="javascript:void(0)">为指定地区城市设置运费</a>
+                                <a href="javascript:void(0)" class="add-temp">为指定地区城市设置运费</a>
                                 <a href="javascript:void(0)">批量操作</a>
                             </td>
                         </tr>

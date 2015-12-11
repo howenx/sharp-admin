@@ -195,4 +195,10 @@ public class ItemCtrl extends Controller {
     public Result carrModelSearch(String lang) {
         return ok(views.html.item.carrmodelList.render(lang,(User) ctx().args.get("user")));
     }
+
+    public Result carrPop() {
+            return ok(views.html.item.cityPop.render());
+        }
 }
+
+
