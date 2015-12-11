@@ -12,6 +12,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import service.InventoryService;
 import service.ItemService;
 import service.ThemeService;
 
@@ -42,6 +43,9 @@ public class ThemeCtrl extends Controller {
 
     @Inject
     private ItemService itemService;
+
+    @Inject
+    private InventoryService inventoryService;
     /**
      * 滚动条管理
      * @param lang 语言
@@ -182,7 +186,7 @@ public class ThemeCtrl extends Controller {
             Object[] object = new Object[9];
             Logger.error(item.toString());
             Logger.error(item.getMasterInvId().toString());
-            Inventory inventory = itemService.getInventory(item.getMasterInvId());
+            Inventory inventory = inventoryService.getInventory(item.getMasterInvId());
             Logger.error(inventory.toString());
             object[0] = item.getId();
             object[1] = item.getItemTitle();
@@ -212,7 +216,7 @@ public class ThemeCtrl extends Controller {
             Object[] object = new Object[8];
             Logger.error(item.toString());
             Logger.error(item.getMasterInvId().toString());
-            Inventory inventory = itemService.getInventory(item.getMasterInvId());
+            Inventory inventory = inventoryService.getInventory(item.getMasterInvId());
             Logger.error(inventory.toString());
             object[0] = item.getId();
             object[1] = item.getItemTitle();

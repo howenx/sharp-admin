@@ -50,6 +50,7 @@ nav.home = 首页
 nav.products = 商品管理
 nav.products.menu1 = 商品查询
 nav.products.menu2 = 商品录入
+nav.products.menu4 = 订单查询
 nav.data.sell = 数据中心
 nav.data.sell.menu1 = 销售数据
 nav.data.sell.menu2 = 库存数据

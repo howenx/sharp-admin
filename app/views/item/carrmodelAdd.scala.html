@@ -1,0 +1,174 @@
+@import play.i18n._
+@(lang:String="cn",user:entity.User)
+
+@scripts = {
+
+<link rel="stylesheet" href="/assets/css/slider.css"/>
+<link rel="stylesheet" href="/assets/css/cost.css">
+<script src="/assets/js/jquery.min.js"></script>
+<script>
+    function ShowModal(addr,arr) {
+        var sharedObject = {};
+        sharedObject.cityOriginal_arr = arr;
+        sharedObject.addr = addr;
+
+        if (window.showModalDialog) {
+            var retValue = showModalDialog("/carr/pop", sharedObject, "dialogWidth:1200px; dialogHeight:600px; dialogLeft:300px;");
+            if (retValue) {
+                UpdateFields(retValue);
+            }
+        }
+        else {
+            // for similar functionality in Opera, but it's not modal!
+            var modal = window.open ("/carr/pop", null, "width=1200,height=600,left=300,modal=yes,alwaysRaised=yes", null);
+            modal.dialogArguments = sharedObject;
+        }
+    }
+    function UpdateFields(obj) {
+        var cityCode,cityName,cityNameGiven,cityCodeGiven;
+        cityCode = obj.cityCode;
+        cityName = obj.cityName;
+        cityNameGiven = cityName.join(" ");
+        cityCodeGiven = cityCode.join(",");
+        $('.add-temp').parents("tr").before('<tr>' +
+                '<td width="300"><span>'+cityNameGiven+'</span><a href="javascript:void(0)" class="edit" style="float: right">编辑</a><input type="hidden" value="' +
+                cityCodeGiven +
+                '"></td>' +
+                '<td><input type="text" value="5"></td>' +
+                '<td><input type="text" value="10"></td>' +
+                '<td><input type="text" value="1"></td>' +
+                '<td><input type="text" value="10"></td>' +
+                '<td><a href="javascript:void(0)" class="del">删除</a></td>' +
+                '</tr>')
+    }
+    function UpdateFields1(obj) {
+        var cityCode,cityName,cityGiven;
+        cityCode = obj.cityCode;
+        cityName = obj.cityName;
+        cityGiven = cityName.join(" ");
+        $(obj.addr).html(cityGiven);
+        $(obj.addr).parent().find("input[type=hidden]").val(cityCode.join(","));
+    }
+    $(function(){
+        $('.add-temp').click(function(){
+            ShowModal();
+        });
+        var cityOriginal_arr;
+        $(document).on('click','.edit',function(){
+            var cityOriginal = $(this).parent().find("span").html();
+            cityOriginal_arr = cityOriginal.split(" ");
+            console.log(cityOriginal_arr);
+            var addr = $(this).parent().find('span');
+            ShowModal(addr,cityOriginal_arr);
+        });
+        $(document).on('click','.del',function(){
+            $(this).parents('tr').remove();
+        });
+        $(".express").change(function(){
+            $(".tran-mode table").toggle();
+        })
+    })
+</script>
+
+}
+
+@import java.lang.String; var title="添加运费模板"
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
+        <span class="icon-path">&gt;</span>
+        <span>运费模板</span>
+    </div>
+</div>
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">添加运费模板</span>
+    </div>
+    <h5>单品运费设置</h5>
+    <div class="hr"></div>
+    <div class="row">
+        <form class="form-horizontal" method="post" enctype="multipart/form-data">
+            <!--运费模版名称-->
+            <div class="input-item" style="padding-top: 30px">
+                <span>运费模版名称:</span>
+                <input type="text">  请输入汉字、 -、 字母或者数字
+            </div>
+            <!--是否包邮-->
+            <div class="input-item">
+                <span>是否包邮:</span>
+                <input type="radio" name="free-shipping" checked>  买家承担运费
+                <input type="radio" name="free-shipping">  卖家承担运费
+            </div>
+            <!--计费规则-->
+            <div class="input-item">
+                <span>计费规则:</span>
+                <input type="radio" name="cost-role" checked>  按件数
+                <input type="radio" name="cost-role">  按重量
+                <input type="radio" name="cost-role">  按体积
+            </div>
+            <!--运送方式-->
+            <div class="input-item">
+                <span>运送方式</span>
+                <div class="tran-mode">
+                    <h5 style="padding-top: 3px">除指定地区外,其余地区的运费采用"默认运费"</h5>
+                    <input type="checkbox" class="express" checked>  快递
+                    <table cellspacing="0">
+                        <tr style="background: rgb(224,238,255)">
+                            <td colspan="6">
+                                默认运费: <input type="text">件内, <input type="text">元,增加运费 <input type="text">元
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>运送到</td>
+                            <td>首件(件)</td>
+                            <td>首费(元)</td>
+                            <td>续件(件)</td>
+                            <td>续费(元)</td>
+                            <td>操作</td>
+                        </tr>
+                        <tr>
+                            <td width="300">
+                                <span>北京 上海</span> <a href="javascript:void(0)" class="edit" style="float: right">编辑</a>
+                                <input type="hidden" value="BJ,SH">
+                            </td>
+                            <td>
+                                <input type="text" value="5">
+                            </td>
+                            <td>
+                                <input type="text" value="10">
+                            </td>
+                            <td>
+                                <input type="text" value="1">
+                            </td>
+                            <td>
+                                <input type="text" value="10">
+                            </td>
+                            <td>
+                                <a href="javascript:void(0)" class="del">删除</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <a href="javascript:void(0)" class="add-temp">为指定地区城市设置运费</a>
+                                <a href="javascript:void(0)">批量操作</a>
+                            </td>
+                        </tr>
+                    </table>
+                    <h5>备注:运费按照商品金额-优惠(直降/单品促销)-返现之后的订单金额收取</h5>
+                    <div class="btns">
+                        <button type="button">保存且返回</button>
+                        <button type="button" style="margin-left: 30px">返回</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+}

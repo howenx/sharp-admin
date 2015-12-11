@@ -1,0 +1,161 @@
+@import play.i18n._
+@(lang:String="cn",user:entity.User)
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css"/>
+<link rel="stylesheet" href="/assets/css/cost.css">
+<script src="/assets/js/jquery.min.js"></script>
+<script>
+    $(function(){
+        $(".temp-del").click(function(){
+            $(this).parents("table").remove();
+        })
+    })
+</script>
+}
+
+@import java.lang.String; var title="运费模板"
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
+        <span class="icon-path">&gt;</span>
+        <span>运费模板</span>
+    </div>
+</div>
+
+<div class="content-1">
+    <div class="page-title">
+        <span class="title-name">运费模板列表</span>
+    </div>
+    <div class="table-content">
+        <input type="button" value="新增运费模板" onclick="javascript:window.location.href='/carr/add'"/>
+        <div class="template">
+            <!--one-->
+            <table cellspacing="0">
+                <tr style="background: rgb(224,238,255)">
+                    <td colspan="6">
+                        <span>默认模版</span>
+                        <span>最后编辑时间:2015-11-12 15:18 <a href="javascript:void(0)" class="temp-edit">修改</a></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="130">运送方式</td>
+                    <td>运送到</td>
+                    <td>首件(件)</td>
+                    <td>运费(元)</td>
+                    <td>续件(件)</td>
+                    <td>运费(元)</td>
+                </tr>
+                <tr>
+                    <td>快递</td>
+                    <td>未被划分的配送地区自动归于默认运费</td>
+                    <td>10</td>
+                    <td>25.00</td>
+                    <td>2</td>
+                    <td>5.00</td>
+                </tr>
+            </table>
+            <!--two-->
+            <table cellspacing="0">
+                <tr style="background: rgb(224,238,255)">
+                    <td colspan="6">
+                        <span>化妆品不包邮</span>
+                        <span>最后编辑时间:2015-11-12 15:17
+                            <a href="javascript:void(0)" class="temp-edit">修改</a>
+                            <a href="javascript:void(0)" class="temp-del">删除</a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="130">运送方式</td>
+                    <td>运送到</td>
+                    <td>首件(件)</td>
+                    <td>运费(元)</td>
+                    <td>续件(件)</td>
+                    <td>运费(元)</td>
+                </tr>
+                <tr>
+                    <td>快递</td>
+                    <td>未被划分的配送地区自动归于默认运费</td>
+                    <td>3</td>
+                    <td>25.00</td>
+                    <td>1</td>
+                    <td>5.00</td>
+                </tr>
+                <tr>
+                    <td>快递</td>
+                    <td>北京 上海 天津 重庆 河北 山西 河南 辽宁 吉林 黑龙江 江苏</td>
+                    <td>5</td>
+                    <td>25.00</td>
+                    <td>2</td>
+                    <td>5.00</td>
+                </tr>
+            </table>
+            <!--three-->
+            <table cellspacing="0">
+                <tr style="background: rgb(224,238,255)">
+                    <td colspan="6">
+                        <span>单品包邮</span>
+                        <span>最后编辑时间:2015-11-12 15:15
+                            <a href="javascript:void(0)" class="temp-edit">修改</a>
+                            <a href="javascript:void(0)" class="temp-del">删除</a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="130">运送方式</td>
+                    <td>运送到</td>
+                    <td>首件(件)</td>
+                    <td>运费(元)</td>
+                    <td>续件(件)</td>
+                    <td>运费(元)</td>
+                </tr>
+                <tr>
+                    <td>快递</td>
+                    <td>全国</td>
+                    <td>1</td>
+                    <td>0.00</td>
+                    <td>1</td>
+                    <td>0.00</td>
+                </tr>
+            </table>
+            <!--four-->
+            <table cellspacing="0">
+                <tr style="background: rgb(224,238,255)">
+                    <td colspan="6">
+                        <span>卖家承担运费</span>
+                        <span>最后编辑时间:2015-11-12 17:50
+                            <a href="javascript:void(0)" class="temp-edit">修改</a>
+                            <a href="javascript:void(0)" class="temp-del">删除</a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="130">运送方式</td>
+                    <td>运送到</td>
+                    <td>首件(件)</td>
+                    <td>运费(元)</td>
+                    <td>续件(件)</td>
+                    <td>运费(元)</td>
+                </tr>
+                <tr>
+                    <td>快递</td>
+                    <td>全国</td>
+                    <td>1</td>
+                    <td>0.00</td>
+                    <td>1</td>
+                    <td>0.00</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+}

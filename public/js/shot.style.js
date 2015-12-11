@@ -370,17 +370,25 @@ $(function() {
             return false;
         }
         var theme = new Object();
-        var masterItemId = document.getElementById("sort").rows[1].cells[2].innerHTML;
+        //主商品ID
+        var masterItemId = parseInt(document.getElementById("sort").rows[1].cells[2].innerHTML);
+        //主题标题
         var title = $("#themeTitle").val();
+        //开始日期
         var onShelvesAt = $("#onShelvesAt").val();
+        //结束日期
         var offShelvesAt = $("#offShelvesAt").val();
+        //主题图片,主页显示图片
         var themeImgFinal = themeImg.substring(themeImg.indexOf('/',themeImg.indexOf('/')+2));
+        //排序
         var sortNu = 1;
+        //主题原背景图片
         var obj = document.getElementById("u_youjipin").getElementsByTagName("img");
         var url = obj[0].src;
         var themeSrcImg = url.substring(url.indexOf('/',url.indexOf('/')+2));
-
+        //主题的配置信息
         var themeConfig = [];
+        /*
         var config1 = document.getElementsByClassName("pre_temp")[0];
         if(config1.getElementsByTagName("input")[0].value != "")
         {
@@ -401,50 +409,62 @@ $(function() {
            themeConfig.push("已拼购人数:" + config2.getElementsByTagName("input")[5].value);
 
         }
-
+        */
+        //主题包含的商品信息
         var themeItems = [];
-        themeItems.push(document.getElementById("sort").innerHTML);
-        var masterItemTag = [];
-        var tagsContainer = document.getElementById("dragon-container").getElementsByClassName("dragon-contained ui-draggable ui-draggable-handle");
-        for(i=0;i<tagsContainer.length;i++){
-            var tag = [];
-            var style = tagsContainer[i].style.cssText;
-            var left = "left:" + style.substring(style.indexOf("left: ")+6,style.indexOf(";"));
-            var top = "top:" + style.substring(style.indexOf("top: ")+5,style.length-1);
-            var name = "name:" + tagsContainer[i].getElementsByTagName("p")[0].innerText;
-            var angle;
-            if(tagsContainer[i].getElementsByClassName("dragon-graph")[0].style.cssText.indexOf(180))
-            {
-                angle = "angle:" + 180;
-            }else{
-                angle = "angle:" + 0;
+        var items = document.getElementById("sort");
+        for(i=1;i<items.getElementsByTagName("tr").length;i++){
+            var itemId = parseInt(items.rows[i].cells[2].innerText);
+            themeItems.push(itemId);
             }
-            tag.push(top);
-            tag.push(left);
-            tag.push(name);
-            tag.push(angle);
+        //主题主宣传图上的标签
+        var masterItemTag = [];
+        var tagsContainer = document.getElementById("dragon-container");
+        var containerWidth = tagsContainer.scrollWidth;
+        var containerHeight = tagsContainer.scrollHeight;
+        var tags = tagsContainer.getElementsByClassName("dragon-contained ui-draggable ui-draggable-handle");
+        for(i=0;i<tags.length;i++)
+        {
+            var tag = {};
+            var style = tags[i].style.cssText;
+            var tagLeft = parseInt(style.substring(style.indexOf("left: ")+6,style.indexOf("px;")));
+            var tagTop =  parseInt(style.substring(style.indexOf("top: ")+5,style.length-3)) - 50;
+
+            tag.left = parseFloat((tagLeft/containerWidth).toFixed(2));
+            tag.url = "/comm/detail/" + masterItemId;
+            tag.top = parseFloat((tagTop/containerHeight).toFixed(2));
+            tag.name = tags[i].getElementsByTagName("p")[0].innerText;
+            if(tags[i].getElementsByClassName("dragon-graph")[0].style.cssText.indexOf(180)>0)
+            {
+                tag.angle = 180;
+            }else{
+                tag.angle = 0;
+            }
             masterItemTag.push(tag);
         }
-        theme.master_item_id = masterItemId;
-        theme.title = title;
-        theme.start_at = onShelvesAt;
-        theme.end_at = offShelvesAt;
-        theme.theme_img = themeImgFinal;
-        theme.sort_nu = sortNu;
-        theme.or_destroy = false;
-        theme.theme_src_img = themeSrcImg;
-        theme.theme_config_info = themeConfig;
-        theme.theme_item = themeItems;
-        theme.master_item_tag = masterItemTag;
+        //主题列表主宣传图
+        var imgUrl = document.getElementById("dragon-container").getElementsByTagName("img")[0].src;
+        var themeMasterImg = imgUrl.substring(imgUrl.indexOf('/',imgUrl.indexOf('/')+2));
 
-        alert(theme);
-        /*
+        theme.masterItemId = masterItemId;
+        theme.title = title;
+        theme.startAt = onShelvesAt;
+        theme.endAt = offShelvesAt;
+        theme.themeImg = themeImgFinal;
+        theme.sortNu = sortNu;
+        //theme.orDestory = false;
+        theme.themeSrcImg = themeSrcImg;
+        theme.themeDesc = themeConfig;
+        theme.themeItem = themeItems;
+        theme.themeTags = masterItemTag;
+        theme.themeMasterImg = themeMasterImg;
+
         if (isPost) {
                     $.ajax({
                         type :  "POST",
-                        url : "/topic/themeSave",
+                        url : "/topic/add/themeSave",
                         contentType: "application/json; charset=utf-8",
-                        data : JSON.stringify(itemData),
+                        data : JSON.stringify(theme),
                         error : function(request) {
                             if (window.lang = 'cn') {
                                 $('#js-userinfo-error').text('保存失败');
@@ -454,18 +474,20 @@ $(function() {
                             setTimeout("$('#js-userinfo-error').text('')", 2000);
                         },
                         success: function(data) {
+                            alert("Save Success");
                             if (window.lang = 'cn') {
                                 $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
                             } else {
                                 $('#js-userinfo-error').text('Save success');
                             }
-                            setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+                            setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 1000);
                             //主题录入, 成功后返回到主题录入页面
-                            setTimeout("location.href='/"+window.lang+"/topic/add'", 3000);
+                            setTimeout("location.href='/"+window.lang+"/topic/add'", 1000);
                         }
                     });
                 }
-                */
+
+
   	})
 
 

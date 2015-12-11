@@ -141,31 +141,11 @@ public class ItemServiceImpl implements ItemService{
     }
 
     /**
-     * 由商品id得到该商品的库存列表
-     * @param itemId 商品id
-     * @return list of Inventory
-     */
-    @Override
-    public List<Inventory> getInventoriesByItemId(Long itemId) {
-        return inventoryMapper.getInventoriesByItemId(itemId);
-    }
-
-    /**
      * added by Tiffany Zhu 15/11/27.
      * 商品查询
      * @return list
      */
     @Override
     public List<Item> getItemsAll() { return itemMapper.getItemsAll(); }
-
-    /**
-     * 由库存id得到库存Inventory
-     * @param id 库存id
-     * @return Inventory
-     */
-    @Override
-    public Inventory getInventory(Long id) {
-        return inventoryMapper.getInventory(id);
-    }
 
 }

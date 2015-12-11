@@ -1,0 +1,65 @@
+package service;
+
+import entity.Inventory;
+import mapper.InventoryMapper;
+
+import javax.inject.Inject;
+import java.util.List;
+
+/**
+ * Created by Sunny Wu.
+ */
+public class InventoryServiceImpl implements InventoryService {
+
+    @Inject
+    private InventoryMapper inventoryMapper;
+
+    /**
+     * 录入一条库存记录
+     * @param inventory 库存记录
+     * @return id
+     */
+    @Override
+    public Integer insertInventory(Inventory inventory){
+        return inventoryMapper.insertInventory(inventory);
+    }
+
+    /**
+     * 由库存id获得一条库存记录
+     * @param id
+     * @return Inventory
+     */
+    @Override
+    public Inventory getInventory(Long id) {
+        return inventoryMapper.getInventory(id);
+    }
+
+    /**
+     * 由商品id获得该商品的所有库存信息
+     * @param itemId 商品id
+     * @return list of inventory
+     */
+    @Override
+    public List<Inventory> getInventoriesByItemId(Long itemId) {
+        return inventoryMapper.getInventoriesByItemId(itemId);
+    }
+
+    /**
+     * 更新一条库存记录
+     * @param inventory 库存记录
+     */
+    @Override
+    public void updateInventory(Inventory inventory) {
+         inventoryMapper.updateInventory(inventory);
+    }
+
+    /**
+     * 查询所有的库存记录
+     * @return list of inventory
+     */
+    @Override
+    public List<Inventory> getAllInventories() {
+        return  inventoryMapper.getAllInventories();
+    }
+
+}
