@@ -370,16 +370,23 @@ $(function() {
             return false;
         }
         var theme = new Object();
+        //主商品ID
         var masterItemId = parseInt(document.getElementById("sort").rows[1].cells[2].innerHTML);
+        //主题标题
         var title = $("#themeTitle").val();
+        //开始日期
         var onShelvesAt = $("#onShelvesAt").val();
+        //结束日期
         var offShelvesAt = $("#offShelvesAt").val();
+        //主题图片,主页显示图片
         var themeImgFinal = themeImg.substring(themeImg.indexOf('/',themeImg.indexOf('/')+2));
+        //排序
         var sortNu = 1;
+        //主题原背景图片
         var obj = document.getElementById("u_youjipin").getElementsByTagName("img");
         var url = obj[0].src;
         var themeSrcImg = url.substring(url.indexOf('/',url.indexOf('/')+2));
-
+        //主题的配置信息
         var themeConfig = [];
         /*
         var config1 = document.getElementsByClassName("pre_temp")[0];
@@ -403,18 +410,21 @@ $(function() {
 
         }
         */
+        //主题包含的商品信息
         var themeItems = [];
         var items = document.getElementById("sort");
         for(i=1;i<items.getElementsByTagName("tr").length;i++){
             var itemId = parseInt(items.rows[i].cells[2].innerText);
             themeItems.push(itemId);
             }
+        //主题主宣传图上的标签
         var masterItemTag = [];
         var tagsContainer = document.getElementById("dragon-container");
         var containerWidth = tagsContainer.scrollWidth;
         var containerHeight = tagsContainer.scrollHeight;
         var tags = tagsContainer.getElementsByClassName("dragon-contained ui-draggable ui-draggable-handle");
-        for(i=0;i<tags.length;i++){
+        for(i=0;i<tags.length;i++)
+        {
             var tag = {};
             var style = tags[i].style.cssText;
             var tagLeft = parseInt(style.substring(style.indexOf("left: ")+6,style.indexOf("px;")));
@@ -432,6 +442,10 @@ $(function() {
             }
             masterItemTag.push(tag);
         }
+        //主题列表主宣传图
+        var imgUrl = document.getElementById("dragon-container").getElementsByTagName("img")[0].src;
+        var themeMasterImg = imgUrl.substring(imgUrl.indexOf('/',imgUrl.indexOf('/')+2));
+
         theme.masterItemId = masterItemId;
         theme.title = title;
         theme.startAt = onShelvesAt;
@@ -443,6 +457,7 @@ $(function() {
         theme.themeDesc = themeConfig;
         theme.themeItem = themeItems;
         theme.themeTags = masterItemTag;
+        theme.themeMasterImg = themeMasterImg;
 
         if (isPost) {
                     $.ajax({
