@@ -38,6 +38,30 @@ public class Order implements Serializable {
     //排序方式,降序,升序
     private String order;
 
+    public Order() {
+    }
+
+    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, Long addId, BigDecimal shipFee, Integer pageSize, Integer offset, String sort, String order) {
+        this.orderId = orderId;
+        this.userId = userId;
+        this.payTotal = payTotal;
+        this.payMethod = payMethod;
+        this.orderCreateAt = orderCreateAt;
+        this.orderIp = orderIp;
+        this.pgTradeNo = pgTradeNo;
+        this.orderStatus = orderStatus;
+        this.errorStr = errorStr;
+        this.discount = discount;
+        this.updatedAt = updatedAt;
+        this.orderDesc = orderDesc;
+        this.addId = addId;
+        this.shipFee = shipFee;
+        this.pageSize = pageSize;
+        this.offset = offset;
+        this.sort = sort;
+        this.order = order;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
