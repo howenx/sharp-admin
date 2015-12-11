@@ -6,8 +6,10 @@ import java.net.{URI, URLEncoder}
 import javax.inject.{Named, Inject, Singleton}
 import actor.OSS
 import akka.actor.ActorRef
-import entity.{Prod_Type, Prod, User_Type}
+import com.fasterxml.jackson.databind.JsonNode
+import entity.{User, Prod_Type, Prod, User_Type}
 import modules.OSSClientProvider
+import order.B1EC2Client
 import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.ss.usermodel.{CellStyle, IndexedColors}
 import org.apache.poi.xssf.usermodel.{XSSFCellStyle, XSSFWorkbook}
@@ -76,6 +78,11 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
     implicit request => {
 
       val m = request.queryString.map { case (k, v) => k -> v.head }
+      //val t = User.test().head._2 * 1.0 == User.test().head._2
+
+
+
+      //Logger.debug(t.toString)
 
       val status:Option[String] = m.get("stat") match {
         case Some("") =>

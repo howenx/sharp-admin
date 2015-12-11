@@ -70,9 +70,6 @@ GET             /$lang<(cn|en|kr)>/comm/updateById/:id                      cont
 
 
 
-
-
-
 GET             /                                   controllers.Auth.login
 POST            /authenticate                       controllers.Auth.authenticate
 GET             /logout                             controllers.Auth.logout
