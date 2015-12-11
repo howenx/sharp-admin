@@ -76,6 +76,9 @@ GET             /carr/add                                                   cont
 GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.carrCreate(lang)
 GET             /carr/pop                                                  controllers.ItemCtrl.carrPop()
 
+GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.carrCreate(lang)
+GET             /carr/pop                                                  controllers.ItemCtrl.carrPop()
+
 GET             /$lang<(cn|en|kr)/comm/search>                              controllers.ItemCtrl.carrCreate(lang)
 GET             /comm/order/search                                          controllers.ItemCtrl.orderList(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/order/search                        controllers.ItemCtrl.orderList(lang)
