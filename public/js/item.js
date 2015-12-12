@@ -608,7 +608,7 @@ $(function(){
             var restrictAmount = tds[9].getElementsByTagName("input")[0].value;
             var carriageModelCode = tds[10].getElementsByTagName("select")[0].value;
             var tRSet = tds[11].getElementsByTagName("select")[0].value;
-            if(tRSet=="") {
+            if($("#itemId").val() == "" && tRSet=="") {
                 isPost = false;
                 $("#warn-num").text("请选择税率设置!");
             } else $("#warn-num").text("");

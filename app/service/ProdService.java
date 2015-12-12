@@ -14,10 +14,10 @@ public interface ProdService {
     /**
      * get single brands entity by id.
      *
-     * @param brandId Integer
+     * @param brandId Long
      * @return entity.Brands
      */
-    Brands getBrands(Integer brandId);
+    Brands getBrands(Long brandId);
 
     /**
      * get All brands from table

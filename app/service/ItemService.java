@@ -5,6 +5,7 @@ import entity.Brands;
 import entity.Cates;
 import entity.Item;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,13 +14,41 @@ import java.util.List;
  */
 public interface ItemService {
 
+    /**
+     * get single brands entity by id.
+     *
+     * @param brandId Long
+     * @return entity.Brands
+     */
+    Brands getBrands(Long brandId);
+
+    /**
+     * get All brands from table
+     *
+     * @return List of Brands.
+     */
+    List<Brands> getAllBrands();
+
+    /**
+     * get parent categories.
+     *
+     * @return List Cates entites.
+     */
+    List<Cates> getParentCates();
+
+    /**
+     * get sub categories.
+     *
+     * @param hashMap HashMap
+     * @return List Cates entites.
+     */
+    List<Cates> getSubCates(HashMap<String, Long> hashMap);
+
     List<Item> itemSearch(Item item);
 
     List<Long> itemSave(JsonNode json);
 
     Item getItem(Long id);
-
-    Brands getBrand(Long brandId);
 
     Cates getCate(Long cateId);
 

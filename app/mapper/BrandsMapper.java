@@ -15,10 +15,10 @@ public interface BrandsMapper {
 
 		/**
 		 * get brand by brandId.
-		 * @param brandId Integer
+		 * @param brandId Long
 		 * @return Brands entity
 		 */
-		Brands getBrands(Integer brandId);
+		Brands getBrands(Long brandId);
 
 		/**
 		 * get all brands.
@@ -26,5 +26,4 @@ public interface BrandsMapper {
 		 */
 		List<Brands> getAllBrands();
 
-		Brands getBrand(Long brandId);
 }

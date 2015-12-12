@@ -16,14 +16,6 @@
         ${alias}.brand_nm
     </sql>
 
-    <select id="getBrand" resultType="entity.Brands" parameterType="java.lang.Long">
-        select
-        <include refid="brandsColumns">
-            <property name="alias" value="t"/>
-        </include>
-        from brands t where brand_id = #{brandId}
-    </select>
-
     <select id="getBrands" resultType="entity.Brands" parameterType="java.lang.Long">
         select
         <include refid="brandsColumns">

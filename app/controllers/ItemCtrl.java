@@ -7,9 +7,13 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-import service.*;
+import service.CarriageService;
+import service.InventoryService;
+import service.ItemService;
+import service.ThemeService;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +26,6 @@ public class ItemCtrl extends Controller {
 
     @Inject
     private ItemService service;
-
-    @Inject
-    private ProdService prodService;
 
     @Inject
     private ThemeService themeService;
@@ -120,7 +121,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result itemCreate(String lang) {
-        return ok(views.html.item.itemadd.render(lang,prodService.getAllBrands(),prodService.getParentCates(),carriageService.getModel(),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemadd.render(lang,service.getAllBrands(),service.getParentCates(),carriageService.getModel(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -137,9 +138,35 @@ public class ItemCtrl extends Controller {
         if(null != cates.getPcateId()) {
             pCateNm = service.getCate(cates.getPcateId()).getCateNm();
         } else pCateNm = cates.getCateNm();
-        Brands brands = service.getBrand(item.getBrandId());
+        Brands brands = service.getBrands(item.getBrandId());
         List<Inventory> inventories = inventoryService.getInventoriesByItemId(id);
-        return ok(views.html.item.itemdetail.render(item,inventories,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,(User) ctx().args.get("user")));
+        //包含modelName的库存列表
+        List<Object[]> invList = new ArrayList<>();
+        for(Inventory inventory : inventories) {
+            Object[] object = new Object[24];
+            object[0] = inventory.getOrMasterInv();
+            object[1] = inventory.getItemColor();
+            object[2] = inventory.getItemSize();
+            object[3] = inventory.getInvWeight();
+            object[4] = inventory.getAmount();
+            object[5] = inventory.getItemPrice();
+            object[6] = inventory.getItemSrcPrice();
+            object[7] = inventory.getItemCostPrice();
+            object[8] = inventory.getItemDiscount();
+            object[9] = inventory.getRestrictAmount();
+            object[10] = inventory.getCarriageModelCode();
+            //由库存表的carriageModelCode 得到 modelName
+            object[11] = carriageService.getModelName(inventory.getCarriageModelCode());
+            object[12] = inventory.getPostalTaxRate();
+            object[13] = inventory.getPostalTaxCode();
+            object[14] = inventory.getInvArea();
+            object[15] = inventory.getInvCustoms();
+            object[16] = inventory.getInvImg();
+            object[17] = inventory.getItemPreviewImgs();
+            invList.add(object);
+        }
+
+        return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,(User) ctx().args.get("user")));
     }
 
     /**
@@ -159,10 +186,41 @@ public class ItemCtrl extends Controller {
             pCateNm = service.getCate(cates.getPcateId()).getCateNm();
         } else pCateNm = cates.getCateNm();
         //由商品品牌id获取品牌
-        Brands brands = service.getBrand(item.getBrandId());
+        Brands brands = service.getBrands(item.getBrandId());
         //由商品id获取库存列表
         List<Inventory> inventories = inventoryService.getInventoriesByItemId(id);
-        return ok(views.html.item.itemupdate.render(item,inventories,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,prodService.getAllBrands(),prodService.getParentCates(),(User) ctx().args.get("user")));
+        //包含modelName的库存列表
+        List<Object[]> invList = new ArrayList<>();
+        for(Inventory inventory : inventories) {
+            Object[] object = new Object[24];
+            object[0] = inventory.getId();
+            object[1] = inventory.getItemId();
+            object[2] = inventory.getItemColor();
+            object[3] = inventory.getItemSize();
+            object[4] = inventory.getAmount();
+            object[5] = inventory.getItemSrcPrice();
+            object[6] = inventory.getItemPrice();
+            object[7] = inventory.getItemCostPrice();
+            object[8] = inventory.getItemDiscount();
+            object[9] = inventory.getSoldAmount();
+            object[10] = inventory.getRestAmount();
+            object[11] = inventory.getInvImg();
+            object[12] = inventory.getItemPreviewImgs();
+            object[13] = inventory.getOrDestroy();
+            object[14] = inventory.getOrMasterInv();
+            object[15] = inventory.getState();
+            object[16] = inventory.getInvArea();
+            object[17] = inventory.getRestrictAmount();
+            object[18] = inventory.getInvCustoms();
+            object[19] = inventory.getPostalTaxCode();
+            object[20] = inventory.getPostalTaxRate();
+            object[21] = inventory.getInvWeight();
+            object[22] = inventory.getCarriageModelCode();
+            //由库存表的carriageModelCode 得到 modelName
+            object[23] = carriageService.getModelName(inventory.getCarriageModelCode());
+            invList.add(object);
+        }
+        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,service.getAllBrands(),service.getParentCates(),carriageService.getModel(),(User) ctx().args.get("user")));
     }
 
     /**

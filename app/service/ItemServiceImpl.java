@@ -15,6 +15,7 @@ import play.libs.Json;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -106,16 +107,6 @@ public class ItemServiceImpl implements ItemService{
     }
 
     /**
-     * 由品牌id得到品牌Brands
-     * @param brandId 品牌id
-     * @return Brands
-     */
-    @Override
-    public Brands getBrand(Long brandId) {
-        return brandsMapper.getBrand(brandId);
-    }
-
-    /**
      * 由类别id得到类别Cates
      * @param cateId 类别id
      * @return Cates
@@ -142,5 +133,55 @@ public class ItemServiceImpl implements ItemService{
      */
     @Override
     public List<Item> getItemsAll() { return itemMapper.getItemsAll(); }
+
+    /**
+     * get single brands by id.
+     *
+     * @param brandId Integer
+     * @return entity.Brands
+     */
+
+    @Override
+    public Brands getBrands(Long brandId) {
+
+        return this.brandsMapper.getBrands(brandId);
+    }
+
+    /**
+     * get all brands from table.
+     *
+     * @return List of entity.Brands
+     */
+
+    @Override
+    public List<Brands> getAllBrands() {
+
+        return brandsMapper.getAllBrands();
+    }
+
+    /**
+     * get parent categories.
+     *
+     * @return List of Cates
+     */
+
+    @Override
+    public List<Cates> getParentCates() {
+
+        return catesMapper.getParentCates();
+    }
+
+    /**
+     * get sub categories.
+     *
+     * @param hashMap HashMap
+     * @return List of Cates
+     */
+
+    @Override
+    public List<Cates> getSubCates(HashMap<String, Long> hashMap) {
+
+        return catesMapper.getSubCates(hashMap);
+    }
 
 }
