@@ -1,5 +1,5 @@
 body{
-    margin: 0;padding: 0;font-size: 16px;
+    margin: 0;padding: 0;
 }
 h5{
     margin: 0;
@@ -86,6 +86,9 @@ h5{
 }
 .checkbox-inline+.checkbox-inline{
     margin-left: 50px;
+}
+.city-ok{
+    margin-left: 10%;margin-top: 20px;
 }
 /***************freight_template 运费模版*****************/
 .table-content{

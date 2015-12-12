@@ -49,6 +49,7 @@ nav.home = Home
 nav.products = Items
 nav.products.menu1 = List
 nav.products.menu2 = Manage
+nav.products.menu4 = OrderList
 nav.data.sell = Data Center
 nav.data.sell.menu1 = Sell Data
 nav.data.sell.menu2 = Inventory

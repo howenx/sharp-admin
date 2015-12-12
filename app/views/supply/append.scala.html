@@ -46,10 +46,9 @@
 
         </div>
         <div class="col-md-10 input-group" style="padding-top: 20px">
-            <span class="input-group-addon">成本价:</span>
-            <input type="text" id="hzp_price" name="price" class="form-control" value="@p("products.price")" readonly>
+
             <span class="input-group-addon">售价:</span>
-            <input type="text" id="hzp_market_price" name="market_price" class="form-control" value="@p("products.market_price")" readonly>
+            <input type="text" id="hzp_price" name="price" class="form-control" value="@p("products.price")" readonly>
         </div>
         <div class="col-md-10 input-group" style="padding-top: 20px">
             <span class="input-group-addon">图片:(<a href="@Json.parse(p("products.images").toString)(0).asOpt[String]" target="_blank"> 链接</a>)</span>
@@ -173,10 +172,9 @@
 
         </div>
         <div class="col-md-10 input-group" style="padding-top: 20px">
-            <span class="input-group-addon">成本价:</span>
-            <input type="text" id="fs_price" name="price" class="form-control" value="@p("products.price")" readonly>
+
             <span class="input-group-addon">售价:</span>
-            <input type="text" id="fs_market_price" name="market_price" class="form-control" value="@p("products.market_price")" readonly>
+            <input type="text" id="fs_price" name="price" class="form-control" value="@p("products.price")" readonly>
         </div>
 
         <div class="col-md-10 input-group" style="padding-top: 20px">
@@ -221,7 +219,7 @@
             <span class="input-group-addon">原产地:</span>
             <input type="text" id="fs_原产地" name="原产地" class="form-control" value="@{(spec \ "原产地").asOpt[String]}" readonly>
             <span class="input-group-addon">数量:</span>
-            <input type="text"  id="fs_amount" name="amount" class="form-control" value="@p("products.market_price")" readonly>
+            <input type="text"  id="fs_amount" name="amount" class="form-control" value="@p("products.amount")" readonly>
             <span class="input-group-addon">单位:</span>
             <input type="text" id="fs_单位" name="单位" class="form-control" value="@{(spec \ "单位").asOpt[String]}" readonly>
 
@@ -338,10 +336,9 @@
 
         </div>
         <div class="col-md-10 input-group" style="padding-top: 20px">
-            <span class="input-group-addon">成本价:</span>
-            <input type="text" id="ps_price" name="price" class="form-control" value="@p("products.price")" readonly>
+
             <span class="input-group-addon">售价:</span>
-            <input type="text" id="ps_market_price" name="market_price" class="form-control" value="@p("products.market_price")" readonly>
+            <input type="text" id="ps_price" name="price" class="form-control" value="@p("products.price")" readonly>
         </div>
         <div class="col-md-10 input-group" style="padding-top: 20px">
             <span class="input-group-addon">图片:(<a href="@Json.parse(p("products.images").toString)(0).asOpt[String]" target="_blank"> 链接</a>)</span>

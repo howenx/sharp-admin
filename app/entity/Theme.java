@@ -41,6 +41,7 @@ public class Theme implements Serializable{
     private Long createUid;
     private String themeSrcImg;
     private String themeItem;
+    private String themeMasterImg;
 
     //分页,每页多少条
     private Integer pageSize;
@@ -56,7 +57,7 @@ public class Theme implements Serializable{
     public Theme() {
     }
 
-    public Theme(Long id, Long masterItemId, String title, String themeDesc, Timestamp startAt, Timestamp endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean orDestory, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, Integer pageSize, Integer offset, String sort, String order) {
+    public Theme(Long id, Long masterItemId, String title, String themeDesc, Timestamp startAt, Timestamp endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean orDestory, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, String themeItem, String themeMasterImg, Integer pageSize, Integer offset, String sort, String order) {
         this.id = id;
         this.masterItemId = masterItemId;
         this.title = title;
@@ -80,6 +81,8 @@ public class Theme implements Serializable{
         this.createAt = createAt;
         this.createUid = createUid;
         this.themeSrcImg = themeSrcImg;
+        this.themeItem = themeItem;
+        this.themeMasterImg = themeMasterImg;
         this.pageSize = pageSize;
         this.offset = offset;
         this.sort = sort;
@@ -310,6 +313,14 @@ public class Theme implements Serializable{
         this.order = order;
     }
 
+    public String getThemeMasterImg() {
+        return themeMasterImg;
+    }
+
+    public void setThemeMasterImg(String themeMasterImg) {
+        this.themeMasterImg = themeMasterImg;
+    }
+
     @Override
     public String toString() {
         return "Theme{" +
@@ -337,6 +348,7 @@ public class Theme implements Serializable{
                 ", createUid=" + createUid +
                 ", themeSrcImg='" + themeSrcImg + '\'' +
                 ", themeItem='" + themeItem + '\'' +
+                ", themeMasterImg='" + themeMasterImg + '\'' +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +

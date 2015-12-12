@@ -1,0 +1,134 @@
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/css/cost.css">
+<script src="/assets/js/jquery.min.js"></script>
+<script>
+    $(function(){
+        var sharedObject = window.dialogArguments;
+        var cityOriginal_arr = sharedObject.cityOriginal_arr;
+        var addr = sharedObject.addr;
+        if(cityOriginal_arr){
+            var inputs = $('input[type=checkbox]');
+            for(var i=0;i<cityOriginal_arr.length;i++){
+                for(var j=0;j<inputs.length;j++){
+                    if(cityOriginal_arr[i]==inputs[j].name){
+                        $(inputs[j]).prop('checked',true);
+                    }
+                }
+            }
+        }
+
+        $(".city-ok").click(function(){
+            var city_selected = $(".all-province").find("input[type=checkbox]:checked");
+            var cityCode = [];
+            var cityName = [];
+            for(var i=0;i<city_selected.length;i++){
+                cityCode.push(city_selected[i].value);
+                cityName.push(city_selected[i].name);
+            }
+            console.log(cityCode,cityName)
+            if (window.showModalDialog) {
+                var sharedObject = {};
+                sharedObject.cityCode = cityCode;
+                sharedObject.cityName = cityName;
+                window.returnValue = sharedObject;
+            }
+            else {
+                if(cityOriginal_arr){
+                    var sharedObject = {};
+                    sharedObject.cityCode = cityCode;
+                    sharedObject.cityName = cityName;
+                    sharedObject.addr = addr;
+                    window.opener.UpdateFields1 (sharedObject);
+                }else {
+                    // if not modal, we cannot use the returnValue property, we need to update the opener window
+                    var sharedObject = {};
+                    sharedObject.cityCode = cityCode;
+                    sharedObject.cityName = cityName;
+                    window.opener.UpdateFields (sharedObject);
+                }
+            }
+            window.close ();
+        })
+    })
+</script>
+
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-1 col-xs-2" style="margin-top: 140px;text-align: center">
+            地区设置:
+        </div>
+        <div class="col-sm-11 col-xs-10">
+            <div class="all-province">
+                <h5>所有省市:</h5>
+                <form class="form-inline" style="display: inline-block">
+                    <div class="every-four">
+                        <lable class="checkbox-inline"><input type="checkbox" name="北京" value="BJ"> 北京</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="上海" value="SH"> 上海</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="天津" value="TJ"> 天津</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="重庆" value="CQ"> 重庆</lable>
+                    </div>
+                    <div class="every-four">
+                        <lable class="checkbox-inline"><input type="checkbox" name="河北" value="HE"> 河北</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="山西" value="SX"> 山西</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="河南" value="HA"> 河南</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="辽宁" value="LN"> 辽宁</lable>
+                    </div>
+                    <div class="every-four">
+                        <lable class="checkbox-inline"><input type="checkbox" name="吉林" value="JL"> 吉林</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="黑龙江" value="HL"> 黑龙江</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="内蒙古" value="NM"> 内蒙古</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="江苏" value="JS"> 江苏</lable>
+                    </div>
+                    <div class="every-four">
+                        <lable class="checkbox-inline"><input type="checkbox" name="山东" value="SD"> 山东</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="安徽" value="AH"> 安徽</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="浙江" value="ZJ"> 浙江</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="福建" value="FJ"> 福建</lable>
+                    </div>
+                    <div class="every-four">
+                        <lable class="checkbox-inline"><input type="checkbox" name="湖北" value="HB"> 湖北</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="湖南" value="HN"> 湖南</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="广东" value="GD"> 广东</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="广西" value="GX"> 广西</lable>
+                    </div>
+                    <div class="every-four">
+                        <lable class="checkbox-inline"><input type="checkbox" name="江西" value="JX"> 江西</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="四川" value="SC"> 四川</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="海南" value="HI"> 海南</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="贵州" value="GZ"> 贵州</lable>
+                    </div>
+                    <div class="every-four">
+                        <lable class="checkbox-inline"><input type="checkbox" name="云南" value="YN"> 云南</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="西藏" value="XZ"> 西藏</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="陕西" value="SN"> 陕西</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="甘肃" value="GS"> 甘肃</lable>
+                    </div>
+                    <div class="every-four">
+                        <lable class="checkbox-inline"><input type="checkbox" name="青海" value="QH"> 青海</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="宁夏" value="NX"> 宁夏</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="新疆" value="XJ"> 新疆</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="台湾" value="TW"> 台湾</lable>
+                    </div>
+                    <div class="every-four">
+                        <lable class="checkbox-inline"><input type="checkbox" name="香港" value="HK"> 香港</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="澳门" value="MO"> 澳门</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="保税区" value=""> 保税区</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="亚洲" value=""> 亚洲</lable>
+                    </div>
+                    <div class="every-four">
+                        <lable class="checkbox-inline"><input type="checkbox" name="欧洲" value=""> 欧洲</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="非洲" value=""> 非洲</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="北美洲" value=""> 北美洲</lable>
+                        <lable class="checkbox-inline"><input type="checkbox" name="南美洲" value="">南美洲</lable>
+                    </div>
+                    <div class="every-four">
+                        <lable class="checkbox-inline"><input type="checkbox" name="大洋洲" value="">大洋洲</lable>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<button type="button" class="btn btn-primary city-ok">确认</button>
+</body>

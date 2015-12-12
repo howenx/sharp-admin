@@ -195,4 +195,23 @@ public class ItemCtrl extends Controller {
     public Result carrModelSearch(String lang) {
         return ok(views.html.item.carrmodelList.render(lang,(User) ctx().args.get("user")));
     }
+
+
+    public Result carrPop() {
+            return ok(views.html.item.cityPop.render());
+        }
+
+    /**
+     * 订单列表
+     * @param lang
+     * @return
+     */
+
+    @Security.Authenticated(UserAuth.class)
+    public Result orderList(String lang){
+        return ok(views.html.item.ordersearch.render(lang,(User) ctx().args.get("user")));
+    }
+
 }
+
+
