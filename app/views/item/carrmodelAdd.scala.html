@@ -4,7 +4,7 @@
 @scripts = {
 
 <link rel="stylesheet" href="/assets/css/slider.css"/>
-<link rel="stylesheet" href="/assets/css/cost.css">
+<link rel="stylesheet" href="/assets/css/carr.css">
 <script src="/assets/js/jquery.min.js"></script>
 <script>
     function ShowModal(addr,arr) {
@@ -31,13 +31,13 @@
         cityNameGiven = cityName.join(" ");
         cityCodeGiven = cityCode.join(",");
         $('.add-temp').parents("tr").before('<tr>' +
-                '<td width="300"><span>'+cityNameGiven+'</span><a href="javascript:void(0)" class="edit" style="float: right">编辑</a><input type="hidden" value="' +
+                '<td width="300" class="dataFee"><span>'+cityNameGiven+'</span><a href="javascript:void(0)" class="edit" style="float: right">编辑</a><input type="hidden" value="' +
                 cityCodeGiven +
                 '"></td>' +
-                '<td><input type="text" value="5"></td>' +
-                '<td><input type="text" value="10"></td>' +
-                '<td><input type="text" value="1"></td>' +
-                '<td><input type="text" value="10"></td>' +
+                '<td><input type="text" value=""></td>' +
+                '<td><input type="text" value=""></td>' +
+                '<td><input type="text" value=""></td>' +
+                '<td><input type="text" value=""></td>' +
                 '<td><a href="javascript:void(0)" class="del">删除</a></td>' +
                 '</tr>')
     }
@@ -57,7 +57,6 @@
         $(document).on('click','.edit',function(){
             var cityOriginal = $(this).parent().find("span").html();
             cityOriginal_arr = cityOriginal.split(" ");
-            console.log(cityOriginal_arr);
             var addr = $(this).parent().find('span');
             ShowModal(addr,cityOriginal_arr);
         });
@@ -97,7 +96,7 @@
             <!--运费模版名称-->
             <div class="input-item" style="padding-top: 30px">
                 <span>运费模版名称:</span>
-                <input type="text">  请输入汉字、 -、 字母或者数字
+                <input type="text" id="modelName" name="modelName" style="color:black;">  请输入汉字、 -、 字母或者数字<font id="modelName-warn" style="color:red;margin-left:10px;"></font>
             </div>
             <!--是否包邮-->
             <div class="input-item">
@@ -117,11 +116,11 @@
                 <span>运送方式</span>
                 <div class="tran-mode">
                     <h5 style="padding-top: 3px">除指定地区外,其余地区的运费采用"默认运费"</h5>
-                    <input type="checkbox" class="express" checked>  快递
-                    <table cellspacing="0">
-                        <tr style="background: rgb(224,238,255)">
+                    <input type="checkbox" class="express" checked>  快递  <font id="data-warn" style="color:red;margin-left:10px;"></font>
+                    <table cellspacing="0" id="dataTab">
+                        <tr style="background: rgb(224,238,255)" class="dataFee">
                             <td colspan="6">
-                                默认运费: <input type="text">件内, <input type="text">元,增加运费 <input type="text">元
+                                默认运费: <input type="text">件内, <input type="text">元,每增加<input type="text">件,增加运费 <input type="text">元
                             </td>
                         </tr>
                         <tr>
@@ -132,27 +131,27 @@
                             <td>续费(元)</td>
                             <td>操作</td>
                         </tr>
-                        <tr>
-                            <td width="300">
-                                <span>北京 上海</span> <a href="javascript:void(0)" class="edit" style="float: right">编辑</a>
-                                <input type="hidden" value="BJ,SH">
-                            </td>
-                            <td>
-                                <input type="text" value="5">
-                            </td>
-                            <td>
-                                <input type="text" value="10">
-                            </td>
-                            <td>
-                                <input type="text" value="1">
-                            </td>
-                            <td>
-                                <input type="text" value="10">
-                            </td>
-                            <td>
-                                <a href="javascript:void(0)" class="del">删除</a>
-                            </td>
-                        </tr>
+                        <!--<tr>-->
+                            <!--<td width="300">-->
+                                <!--<span>北京 上海</span> <a href="javascript:void(0)" class="edit" style="float: right">编辑</a>-->
+                                <!--<input type="hidden" value="BJ,SH">-->
+                            <!--</td>-->
+                            <!--<td>-->
+                                <!--<input type="text" value="5">-->
+                            <!--</td>-->
+                            <!--<td>-->
+                                <!--<input type="text" value="10">-->
+                            <!--</td>-->
+                            <!--<td>-->
+                                <!--<input type="text" value="1">-->
+                            <!--</td>-->
+                            <!--<td>-->
+                                <!--<input type="text" value="10">-->
+                            <!--</td>-->
+                            <!--<td>-->
+                                <!--<a href="javascript:void(0)" class="del">删除</a>-->
+                            <!--</td>-->
+                        <!--</tr>-->
                         <tr>
                             <td colspan="6">
                                 <a href="javascript:void(0)" class="add-temp">为指定地区城市设置运费</a>
@@ -162,7 +161,7 @@
                     </table>
                     <h5>备注:运费按照商品金额-优惠(直降/单品促销)-返现之后的订单金额收取</h5>
                     <div class="btns">
-                        <button type="button">保存且返回</button>
+                        <button type="button" id="modelSubmit">保存且返回</button>
                         <button type="button" style="margin-left: 30px">返回</button>
                     </div>
                 </div>
@@ -172,3 +171,24 @@
 </div>
 
 }
+
+<script>
+    $("#modelSubmit").click(function() {
+        var isPost = true;
+        var numberReg =    /^-?\d+\.?\d{0,2}$/;   //整数或小数
+        var modelName = $("#modelName").val();
+        if (modelName=="") {
+            isPost = false;
+            $("#modelName-warn").text("请输入模板名称");
+        } else $("#modelName-warn").text("");
+        var inputs = document.getElementById("dataTab").getElementsByTagName("input");
+        for(i=0;i<inputs.length;i++) {
+            if(!numberReg.test(inputs[i].value)) {
+                isPost = false;
+                $("#data-warn").text("请输入正确的数据");
+                break;
+            } else $("#data-warn").text("");
+        }
+    });
+
+</script>
