@@ -145,39 +145,17 @@ public class Inventory {
      */
     private  Integer invWeight;
 
+    /**
+     * 行邮税率
+     */
     private String postalTaxRate;
 
-    public Inventory() {}
+    /**
+     * 邮费模板code
+     */
+    private String carriageModelCode;
 
-    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, BigDecimal shipFee, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxCode, Integer invWeight, String postalTaxRate) {
-        this.id = id;
-        this.itemId = itemId;
-        this.itemColor = itemColor;
-        this.itemSize = itemSize;
-        this.itemPrice = itemPrice;
-        this.itemSrcPrice = itemSrcPrice;
-        this.itemCostPrice = itemCostPrice;
-        this.itemDiscount = itemDiscount;
-        this.amount = amount;
-        this.soldAmount = soldAmount;
-        this.restAmount = restAmount;
-        this.invImg = invImg;
-        this.itemPreviewImgs = itemPreviewImgs;
-        this.createAt = createAt;
-        this.updateAt = updateAt;
-        this.orDestroy = orDestroy;
-        this.destroyAt = destroyAt;
-        this.orMasterInv = orMasterInv;
-        this.state = state;
-        this.shipFee = shipFee;
-        this.invArea = invArea;
-        this.restrictAmount = restrictAmount;
-        this.invTitle = invTitle;
-        this.invCustoms = invCustoms;
-        this.postalTaxCode = postalTaxCode;
-        this.invWeight = invWeight;
-        this.postalTaxRate = postalTaxRate;
-    }
+    public Inventory() {}
 
     public Long getId() {
         return id;
@@ -395,6 +373,14 @@ public class Inventory {
         this.postalTaxRate = postalTaxRate;
     }
 
+    public String getCarriageModelCode() {
+        return carriageModelCode;
+    }
+
+    public void setCarriageModelCode(String carriageModelCode) {
+        this.carriageModelCode = carriageModelCode;
+    }
+
     @Override
     public String toString() {
         return "Inventory{" +
@@ -425,6 +411,38 @@ public class Inventory {
                 ", postalTaxCode='" + postalTaxCode + '\'' +
                 ", invWeight=" + invWeight +
                 ", postalTaxRate='" + postalTaxRate + '\'' +
+                ", carriageModelCode='" + carriageModelCode + '\'' +
                 '}';
+    }
+
+    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, BigDecimal shipFee, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxCode, Integer invWeight, String postalTaxRate, String carriageModelCode) {
+        this.id = id;
+        this.itemId = itemId;
+        this.itemColor = itemColor;
+        this.itemSize = itemSize;
+        this.itemPrice = itemPrice;
+        this.itemSrcPrice = itemSrcPrice;
+        this.itemCostPrice = itemCostPrice;
+        this.itemDiscount = itemDiscount;
+        this.amount = amount;
+        this.soldAmount = soldAmount;
+        this.restAmount = restAmount;
+        this.invImg = invImg;
+        this.itemPreviewImgs = itemPreviewImgs;
+        this.createAt = createAt;
+        this.updateAt = updateAt;
+        this.orDestroy = orDestroy;
+        this.destroyAt = destroyAt;
+        this.orMasterInv = orMasterInv;
+        this.state = state;
+        this.shipFee = shipFee;
+        this.invArea = invArea;
+        this.restrictAmount = restrictAmount;
+        this.invTitle = invTitle;
+        this.invCustoms = invCustoms;
+        this.postalTaxCode = postalTaxCode;
+        this.invWeight = invWeight;
+        this.postalTaxRate = postalTaxRate;
+        this.carriageModelCode = carriageModelCode;
     }
 }

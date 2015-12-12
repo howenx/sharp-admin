@@ -1,5 +1,5 @@
 @import play.i18n._
-@(item:entity.Item,inventories:List[entity.Inventory],cates:entity.Cates,pCateNm:String, brands:entity.Brands,url:String, lang:String="cn", user:entity.User)
+@(item:entity.Item,invList:List[Array[Object]],cates:entity.Cates,pCateNm:String, brands:entity.Brands,url:String, lang:String="cn", user:entity.User)
 
 @scripts = {
 
@@ -120,67 +120,67 @@
                                 <th width="60">成本价(￥)</th>
                                 <th width="40">折扣</th>
                                 <th width="30">限购数量</th>
-                                <th width="30">邮费</th>
+                                <th width="30">运费模板</th>
                                 <th width="50">税率/税号</th>
                                 <th width="100">库存区域</th>
                                 <th width="80">报关单位</th>
                                 <th width="80">主图(一张)</th>
                                 <th width="260">详情页预览图</th>
                             </tr>
-                            @for(inventory <-  inventories) {
+                            @for(obj <-  invList) {
                                 <tr>
                                     <td>
-                                        <input type="radio" name="orMasterInv" checked="checked" class="master-radio" value="@inventory.getOrMasterInv()" disabled/>
+                                        <input type="radio" name="orMasterInv" checked="checked" class="master-radio" value="@obj(0)" disabled/>
                                     </td>
                                     <td>
-                                        <input type="text" name="itemColor" value="@inventory.getItemColor()" readonly/>
+                                        <input type="text" name="itemColor" value="@obj(1)" readonly/>
                                     </td>
                                     <td>
-                                        <input type="text" name="itemSize" value="@inventory.getItemSize()" readonly/>
+                                        <input type="text" name="itemSize" value="@obj(2)" readonly/>
                                     </td>
                                     <td>
-                                        <input type="text" name="invWeight" value="@inventory.getInvWeight()"/>
+                                        <input type="text" name="invWeight" value="@obj(3)" readonly/>
                                     </td>
                                     <td>
-                                        <input type="text" name="amount" value="@inventory.getAmount()" readonly/>
+                                        <input type="text" name="amount" value="@obj(4)" readonly/>
                                     </td>
                                     <td>
-                                        <input type="text" name="itemPrice" value="@inventory.getItemPrice()" readonly/>
+                                        <input type="text" name="itemPrice" value="@obj(5)" readonly/>
                                     </td>
                                     <td>
-                                        <input type="text" name="itemSrcPrice" value="@inventory.getItemSrcPrice()" readonly/>
+                                        <input type="text" name="itemSrcPrice" value="@obj(6)" readonly/>
                                     </td>
                                     <td>
-                                        <input type="text" name="itemCostPrice" value="@inventory.getItemCostPrice()" readonly/>
+                                        <input type="text" name="itemCostPrice" value="@obj(7)" readonly/>
                                     </td>
                                     <td>
-                                        <input type="text" name="itemDiscount" value="@inventory.getItemDiscount()" readonly/>
+                                        <input type="text" name="itemDiscount" value="@obj(8)" readonly/>
                                     </td>
                                     <td>
-                                        <input type="text" name="restrictAmount" value="@inventory.getRestrictAmount()" readonly/>
+                                        <input type="text" name="restrictAmount" value="@obj(9)" readonly/>
                                     </td>
                                     <td>
-                                        <input type="text" name="shipFee" value="@inventory.getShipFee()" readonly/>
+                                        <input type="text" name="modeName" value="@obj(11)" readonly/>
                                     </td>
                                     <td>
-                                        @if(inventory.getPostalTaxRate()!= "") { <input type="text" name="postalTaxRate" value="@inventory.getPostalTaxRate()" readonly/>}
-                                        @if(inventory.getPostalTaxCode()!= "") { <input type="text" name="postalTaxCode" value="@inventory.getPostalTaxCode()" readonly/>}
+                                        @if(obj(12)!= "") { <input type="text" name="postalTaxRate" value="@obj(12)" readonly/>}
+                                        @if(obj(13)!= "") { <input type="text" name="postalTaxCode" value="@obj(13)" readonly/>}
                                     </td>
                                     <td>
-                                        @if(inventory.getInvArea()== "Z") {<input type="text" name="invArea" value="韩国直邮" readonly/>}
-                                        @if(inventory.getInvArea()== "H") {<input type="text" name="invArea" value="杭州保税仓" readonly/>}
-                                        @if(inventory.getInvArea()== "G") {<input type="text" name="invArea" value="广州保税仓" readonly/>}
-                                        @if(inventory.getInvArea()== "K") {<input type="text" name="invArea" value="海外直邮" readonly/>}
+                                        @if(obj(14)== "Z") {<input type="text" name="invArea" value="韩国直邮" readonly/>}
+                                        @if(obj(14)== "H") {<input type="text" name="invArea" value="杭州保税仓" readonly/>}
+                                        @if(obj(14)== "G") {<input type="text" name="invArea" value="广州保税仓" readonly/>}
+                                        @if(obj(14)== "K") {<input type="text" name="invArea" value="海外直邮" readonly/>}
                                     </td>
                                     <td>
-                                        @if(inventory.getInvCustoms()== "shanghai") {<input type="text" name="invCustoms" value="上海海关" readonly/>}
-                                        @if(inventory.getInvCustoms()== "hangzhou") {<input type="text" name="invCustoms" value="杭州海关" readonly/>}
-                                        @if(inventory.getInvCustoms()== "guangzhou") {<input type="text" name="invCustoms" value="广州海关" readonly/>}
+                                        @if(obj(15)== "shanghai") {<input type="text" name="invCustoms" value="上海海关" readonly/>}
+                                        @if(obj(15)== "hangzhou") {<input type="text" name="invCustoms" value="杭州海关" readonly/>}
+                                        @if(obj(15)== "guangzhou") {<input type="text" name="invCustoms" value="广州海关" readonly/>}
                                     </td>
                                     <td class="list-img">
                                         <div >
                                             <div>
-                                                <img class="main-img" src="@url@inventory.getInvImg()" alt="">
+                                                <img class="main-img" src="@url@obj(16)" alt="">
                                             </div>
                                         </div>
                                         <div>
@@ -189,7 +189,7 @@
                                     </td>
                                     <td width="146" class="preview-img">
                                         <div >
-                                            @for(pre <- inventory.getItemPreviewImgs().substring(1,inventory.getItemPreviewImgs().length()-1).split(", ")) {
+                                            @for(pre <- obj(17).toString().substring(1,obj(17).toString().length()-1).split(", ")) {
                                                 <div>
                                                     <img class="main-img" src="@url@pre.substring(1,pre.length()-1)" alt="">
                                                 </div>

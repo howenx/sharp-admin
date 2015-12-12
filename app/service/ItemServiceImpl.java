@@ -14,7 +14,6 @@ import play.Logger;
 import play.libs.Json;
 
 import javax.inject.Inject;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +66,6 @@ public class ItemServiceImpl implements ItemService{
             if (jsonItem.has("itemFeatures")) {
                 ((ObjectNode) jsonItem).put("itemFeatures",jsonItem.findValue("itemFeatures").toString());
             }
-
             item = Json.fromJson(json.findValue("item"),Item.class);
             item.setState("Y");
             item.setOrDestroy(false);
@@ -85,11 +83,7 @@ public class ItemServiceImpl implements ItemService{
                 }
                 Inventory inventory = Json.fromJson(jsonNode, Inventory.class);
                 inventory.setItemId(item.getId());
-                inventory.setSoldAmount(0);
-                inventory.setRestAmount(inventory.getAmount());
-                inventory.setOrDestroy(false);
                 inventory.setState("Y");
-                inventory.setShipFee(new BigDecimal(0.00));
                 inventory.setInvTitle(item.getItemTitle());
                 Logger.error(inventory.toString());
                 if (jsonNode.has("id")) {
@@ -100,8 +94,9 @@ public class ItemServiceImpl implements ItemService{
                 List<Inventory> inventories = inventoryMapper.getInventoriesByItemId(item.getId());
                 for(Inventory inv : inventories) {
                     if (inv.getOrMasterInv()==true) {
-                        item.setMasterInvId(inv.getId());
-                        itemMapper.itemUpdate(item);
+                        Item item1 = itemMapper.getItem(item.getId());
+                        item1.setMasterInvId(inv.getId());
+                        itemMapper.itemUpdate(item1);
                     }
                 }
                 list.add(inventory.getId());
