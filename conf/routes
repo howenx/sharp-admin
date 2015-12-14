@@ -80,8 +80,19 @@ GET             /$lang<(cn|en|kr)>/comm/search                              cont
 GET             /carr/pop                                                  controllers.ItemCtrl.carrPop()
 
 GET             /$lang<(cn|en|kr)/comm/search>                              controllers.ItemCtrl.carrCreate(lang)
+#order 订单列表
 GET             /comm/order/search                                          controllers.ItemCtrl.orderList(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/order/search                        controllers.ItemCtrl.orderList(lang)
+#brand 品牌
+GET             /comm/brand/search                                          controllers.ItemCtrl.brandList(lang ="cn")
+GET             /$lang<(cn|en|kr)>/comm/brand/search                        controllers.ItemCtrl.brandList(lang)
+GET             /comm/brand/add                                             controllers.ItemCtrl.brandAdd(lang ="cn")
+GET             /$lang<(cn|en|kr)>/comm/brand/add                           controllers.ItemCtrl.brandAdd(lang)
+#cates -->cate 商品分类
+GET             /comm/cate/search                                           controllers.ItemCtrl.cateList(lang ="cn")
+GET             /$lang<(cn|en|kr)>/comm/cate/search                         controllers.ItemCtrl.cateList(lang)
+GET             /comm/cate/add                                              controllers.ItemCtrl.cateAdd(lang ="cn")
+GET             /$lang<(cn|en|kr)>/comm/cate/add                            controllers.ItemCtrl.cateAdd(lang)
 
 
 
