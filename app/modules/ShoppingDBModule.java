@@ -34,6 +34,7 @@ public class ShoppingDBModule extends PrivateModule {
 
                 //只针对shopping数据库的Mapper,不可以讲一个Mapper多Module进行Add
                 addMapperClass(OrderMapper.class);
+                addMapperClass(ShipMapper.class);
 
             }
         });
@@ -52,9 +53,11 @@ public class ShoppingDBModule extends PrivateModule {
          * bind service for controller or other service inject. 绑定style数据库所对应的Service
          */
         bind(OrderService.class).to(OrderServiceImpl.class);
+        bind(ShipService.class).to(ShipServiceImpl.class);
 
         //必须expose
         expose(OrderService.class);
+        expose(ShipService.class);
     }
 
     @Singleton

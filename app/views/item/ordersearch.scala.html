@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",user:entity.User)
+@(lang:String="cn",orList:List[Array[Object]],user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -74,34 +74,24 @@
                 <th>订单Id</th>
                 <th>用户Id</th>
                 <th>创建时间</th>
+                <th>快递单号</th>
                 <th>订单总价</th>
                 <th>支付渠道</th>
                 <th>订单状态</th>
-                <th>订单地址</th>
-                <th>订单备注</th>
             </tr>
             </thead>
             <tbody>
+            @for(order <- orList){
             <tr>
-                <td><a href="">12324</a></td>
-                <td>52351</td>
-                <td>2020/02/22 20:02:20</td>
-                <td>$1000.00</td>
-                <td>where</td>
-                <td>翼支付</td>
-                <td>xx村xxxx</td>
-                <td>1件 大号</td>
+                <td><a href="">@order(0)</a></td>
+                <td>@order(1)</td>
+                <td>@order(2)</td>
+                <td>@order(3)</td>
+                <td>@order(4)</td>
+                <td>@order(5)</td>
+                <td>@order(6)</td>
             </tr>
-            <tr>
-                <td><a href="">12324</a></td>
-                <td>52351</td>
-                <td>2020/02/22 20:02:20</td>
-                <td>$1000.00</td>
-                <td>where</td>
-                <td>翼支付</td>
-                <td>xx村xxxx</td>
-                <td>1件 大号</td>
-            </tr>
+            }
             </tbody>
         </table>
     </div>
