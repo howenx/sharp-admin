@@ -7,10 +7,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-import service.CarriageService;
-import service.InventoryService;
-import service.ItemService;
-import service.ThemeService;
+import service.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -35,6 +32,10 @@ public class ItemCtrl extends Controller {
 
     @Inject
     private CarriageService carriageService;
+
+    @Inject
+    private OrderService orderService;
+
 
     /**
      * 商品列表
@@ -264,12 +265,15 @@ public class ItemCtrl extends Controller {
      * @param lang
      * @return
      */
-
     @Security.Authenticated(UserAuth.class)
     public Result orderList(String lang){
+        //含有物流信息的订单列表
+        List<Order> orderList = orderService.getOrdersAll();
+        for(Order order : orderList){
+            //Object[] object =
+        }
         return ok(views.html.item.ordersearch.render(lang,(User) ctx().args.get("user")));
     }
-
 }
 
 

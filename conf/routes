@@ -83,6 +83,9 @@ GET             /$lang<(cn|en|kr)/comm/search>                              cont
 GET             /comm/order/search                                          controllers.ItemCtrl.orderList(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/order/search                        controllers.ItemCtrl.orderList(lang)
 
+
+
+
 GET             /                                   controllers.Auth.login
 POST            /authenticate                       controllers.Auth.authenticate
 GET             /logout                             controllers.Auth.logout
@@ -102,6 +105,20 @@ GET             /supply/$id<[0-9]+>                controllers.Application.show(
 POST            /supply/append/add                 controllers.Application.append_add
 GET             /supply/download/shanghai                 controllers.Application.download_shanghai
 GET             /supply/download/hangzhou                 controllers.Application.download_hangzhou
+
+
+
+
+
+
+
+
+
+#System Parameter --> config 系统参数设置
+GET             /data/config/search                                       controllers.DataCtrl.systemParameterSearch(lang ="cn")
+GET             /$lang<(cn|en|kr)>/data/config/search                     controllers.DataCtrl.systemParameterSearch(lang)
+GET             /data/config/add                                          controllers.DataCtrl.systemParameterAdd(lang ="cn")
+GET             /$lang<(cn|en|kr)>/data/config/add                        controllers.DataCtrl.systemParameterAdd(lang)
 
 
 
