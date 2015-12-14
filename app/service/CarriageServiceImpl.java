@@ -34,13 +34,13 @@ public class CarriageServiceImpl implements CarriageService{
     }
 
     /**
-     * 根据id获取一条运费信息
-     * @param id
+     * 根据modelCode获取一条运费信息
+     * @param modelCode
      * @return Carriage
      */
     @Override
-    public Carriage getCarriage(Long id) {
-        return carriageMapper.getCarriage(id);
+    public String getModelName(String modelCode) {
+        return carriageMapper. getModelName(modelCode);
     }
 
     /**

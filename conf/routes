@@ -72,14 +72,16 @@ GET             /$lang<(cn|en|kr)>/comm/updateById/:id                      cont
 GET             /carr/search                                                controllers.ItemCtrl.carrModelSearch(lang = "cn")
 GET             /$lang<(cn|en|kr)>/carr/search                              controllers.ItemCtrl.carrModelSearch(lang)
 GET             /carr/add                                                   controllers.ItemCtrl.carrCreate(lang="cn")
+
 GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.carrCreate(lang)
 GET             /carr/pop                                                  controllers.ItemCtrl.carrPop()
+
+GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.carrCreate(lang)
+GET             /carr/pop                                                  controllers.ItemCtrl.carrPop()
+
 GET             /$lang<(cn|en|kr)/comm/search>                              controllers.ItemCtrl.carrCreate(lang)
 GET             /comm/order/search                                          controllers.ItemCtrl.orderList(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/order/search                        controllers.ItemCtrl.orderList(lang)
-
-
-
 
 GET             /                                   controllers.Auth.login
 POST            /authenticate                       controllers.Auth.authenticate

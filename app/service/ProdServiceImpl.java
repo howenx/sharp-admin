@@ -43,7 +43,7 @@ public class ProdServiceImpl implements ProdService {
      */
 
     @Override
-    public Brands getBrands(Integer brandId) {
+    public Brands getBrands(Long brandId) {
 
         return this.brandsMapper.getBrands(brandId);
     }

@@ -30,12 +30,9 @@
         where id = #{id}
     </update>
 
-    <select id="getCarriage" resultType="entity.Carriage" parameterType="java.lang.Long">
-        select
-        <include refid="carriageColumns">
-            <property name="alias" value="t"/>
-        </include>
-        from carriage t where id = ${value}
+    <select id="getModelName" resultType="java.lang.String" parameterType="java.lang.String">
+        select DISTINCT model_name
+        from carriage t where model_code = #{modelCode}
     </select>
 
     <select id="getAllCarriage" resultType="entity.Carriage">

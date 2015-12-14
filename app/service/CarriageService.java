@@ -13,7 +13,7 @@ public interface CarriageService {
 
     void updateCarriage(Carriage carriage);
 
-    Carriage getCarriage(Long id);
+    String getModelName(String modelCode);
 
     List<Carriage> getAllCarriage();
 

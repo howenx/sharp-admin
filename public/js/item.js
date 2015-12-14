@@ -198,11 +198,12 @@ $(function(){
         var i = 1;
         //最后一行有空值不能添加
         for(i=1;i<tds.length;i++) {
-            if (i <=10 && tds[i].getElementsByTagName("input")[0].value=="") break;
+            if (i <=9 && tds[i].getElementsByTagName("input")[0].value=="") break;
             if (i ==16 && trs[index-1].getElementsByClassName("list-img")[0].getElementsByTagName("div").length==1) break;
             if (i ==17 && trs[index-1].getElementsByClassName("preview-img")[0].getElementsByTagName("div").length==1) break;
         }
-        if (i==18){
+        if (true){
+//        if (i==19){
             var tr =  document.createElement("tr");
 
             var tdR = document.createElement("td");
@@ -266,11 +267,26 @@ $(function(){
             inputRA.name = "restrictAmount";
             tdRA.appendChild(inputRA);
 
-            var tdSF = document.createElement("td");
-            var inputSF = document.createElement("input");
-            inputSF.type = "text";
-            inputSF.name = "shipFee";
-            tdSF.appendChild(inputSF);
+            var tdCarr = document.createElement("td");
+            var sel = document.createElement("select");
+            var opt = document.createElement("option");
+            opt.value = "";
+            opt.innerText="请选择";
+            sel.appendChild(opt);
+            var mList = $("#mList").val();
+
+            console.log(mList);
+//            mList.forEach(function(e) {
+//                alert(e);
+//            })
+//            for(var model : mList) {
+//                var option = document.createElement("option");
+//                option.value =model.getModelCode();
+//                option.innerText=model.getModelName();
+//                sel.appendChild(option);
+//            }
+//            sel.appendChild(opt);
+//            tdRA.appendChild(sel);
 
             var tdTRSet = document.createElement("td");
             tdTRSet.innerHTML = '<select class="trset" id="'+index+'"><option value="">请选择</option><option value="S">标准税率</option><option value="F">免税</option><option value="D">自定义</option></select>';
@@ -346,7 +362,7 @@ $(function(){
             tr.appendChild(tdCP);
             tr.appendChild(tdD);
             tr.appendChild(tdRA);
-            tr.appendChild(tdSF);
+            tr.appendChild(tdCarr);
             tr.appendChild(tdTRSet);
             tr.appendChild(tdTRate);
             tr.appendChild(tdTCode);
@@ -472,7 +488,6 @@ $(function(){
         var itemCostPrice = document.getElementsByName("itemCostPrice");
         var itemDiscount = document.getElementsByName("itemDiscount");
         var restrictAmount = document.getElementsByName("restrictAmount");
-        var shipFee = document.getElementsByName("shipFee");
         if (onShelvesAt >= offShelvesAt) {
            isPost = false;
            $("#warn-date").html("日期不正确!");
@@ -481,7 +496,7 @@ $(function(){
         var trs = inventoryTab.getElementsByTagName("tr");
         var tds = trs[trs.length-1].getElementsByTagName("td");
         //验证输入的数量和价格等是否符合规则
-        for(i=1;i<=10;i++) {
+        for(i=1;i<=9;i++) {
             if (tds[i].getElementsByTagName("input")[0].value=="") {
                 isPost = false;
                 $("#warn-inv").html("库存信息不能有空值!");
@@ -490,7 +505,7 @@ $(function(){
         }
         for(i=0;i<amount.length;i++){
             if (!numberReg1.test(invWeight[i].value) || !numberReg1.test(amount[i].value) || !numberReg2.test(itemPrice[i].value) || !numberReg2.test(itemSrcPrice[i].value)
-                || !numberReg2.test(itemCostPrice[i].value) || !numberReg2.test(itemDiscount[i].value) || !numberReg1.test(restrictAmount[i].value) || !numberReg2.test(shipFee[i].value)) {
+                || !numberReg2.test(itemCostPrice[i].value) || !numberReg2.test(itemDiscount[i].value) || !numberReg1.test(restrictAmount[i].value)) {
                 isPost = false;
                 $("#warn-num").text("输入数据不合法!");
                 break;
@@ -591,14 +606,22 @@ $(function(){
             var itemCostPrice = tds[7].getElementsByTagName("input")[0].value;
             var itemDiscount = tds[8].getElementsByTagName("input")[0].value;
             var restrictAmount = tds[9].getElementsByTagName("input")[0].value;
-            var shipFee = tds[10].getElementsByTagName("input")[0].value;
+            var carriageModelCode = tds[10].getElementsByTagName("select")[0].value;
             var tRSet = tds[11].getElementsByTagName("select")[0].value;
+            if($("#itemId").val() == "" && tRSet=="") {
+                isPost = false;
+                $("#warn-num").text("请选择税率设置!");
+            } else $("#warn-num").text("");
+            if(carriageModelCode=="") {
+                isPost = false;
+                $("#warn-num").text("请选择运费模板!");
+            } else $("#warn-num").text("");
             //行邮税率设置 F免税:税率为0,行邮税号不设置; S标准税率:税率不设置,选择行邮税号; D自定义税率:设置税率,行邮税号不设置
             if (tRSet == "S") {
                 if (!numberReg1.test(tds[13].getElementsByTagName("input")[0].value)) {
                     isPost = false;
                     $("#warn-num").text("请输入正确的行邮税号!");
-                } else $("#warn-num").text("!");
+                } else $("#warn-num").text("");
             }
             if (tRSet == "D") {
                 if (!numberReg1.test(tds[12].getElementsByTagName("input")[0].value)) {
@@ -643,7 +666,7 @@ $(function(){
             inventory.itemCostPrice = itemCostPrice;
             inventory.itemDiscount = itemDiscount;
             inventory.restrictAmount = restrictAmount;
-            inventory.shipFee = shipFee;
+            inventory.carriageModelCode = carriageModelCode;
             inventory.postalTaxRate = postalTaxRate;
             inventory.postalTaxCode = postalTaxCode;
             inventory.invArea = invArea;
@@ -652,6 +675,9 @@ $(function(){
             inventory.itemPreviewImgs = itemPreviewImgs;
             if (tds[18].getElementsByTagName("input")[0].value != "") {
                 inventory.id = tds[18].getElementsByTagName("input")[0].value;
+                inventory.soldAmount = tds[18].getElementsByTagName("input")[1].value;
+                inventory.restAmount = tds[18].getElementsByTagName("input")[2].value;
+                inventory.orDestroy = tds[18].getElementsByTagName("input")[3].value;
                 if (tds[0].getElementsByTagName("input")[0].checked==true)
                 item.masterInvId = tds[18].getElementsByTagName("input")[0].value;
             }
@@ -670,6 +696,12 @@ $(function(){
         item.itemFeatures = itemFeatures;
         if ($("#itemId").val() != "") {
             item.id = $("#itemId").val();
+            item.shareCount = $("#shareCount").val();
+            item.collectCount = $("#collectCount").val();
+            item.browseCount = $("#browseCount").val();
+            item.orDestroy = $("#orDestroy").val();
+            item.themeId = $("#themeId").val();
+            item.state = $("#state").val();
         }
 
         itemData.item = item;

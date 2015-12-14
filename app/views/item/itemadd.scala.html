@@ -175,7 +175,8 @@
                                         <input type="text" name="restrictAmount">
                                     </td>
                                     <td>
-                                        <select name="modelSel">
+                                        <input id="mList" type="hidden" value="@modelList">
+                                        <select name="carriageModelCode">
                                             <option value="">请选择</option>
                                             @for(m <- modelList) {
                                             <option value="@m.getModelCode()">@m.getModelName()
@@ -192,10 +193,10 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="text" name="postalTaxRate">
+                                        <input type="text" name="postalTaxRate" disabled>
                                     </td>
                                     <td>
-                                        <input type="text" name="postalTaxCode">
+                                        <input type="text" name="postalTaxCode" disabled>
                                     </td>
                                     <td>
                                         <select name="invArea">

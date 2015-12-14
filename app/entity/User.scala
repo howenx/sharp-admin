@@ -2,6 +2,7 @@ package entity
 
 import anorm._
 import anorm.SqlParser._
+import play.Logger
 import play.api.db.DB
 import play.api.Play.current
 import AnormEnumerationExtension._
@@ -39,6 +40,29 @@ object User {
       sql.as(user.*).headOption
     }
   }
+
+  /**
+    * 根据表的内容取得数据
+    */
+  val parser: RowParser[Map[String, Any]] =
+    SqlParser.folder(Map.empty[String, Any]) { (map, value, meta) =>
+      Right(map + (meta.column.qualified -> value))
+    }
+
+
+//  def test(nickname:String) = {
+//    DB.withConnection("account") { implicit conn =>
+//      SQL( """ select id.user_id as iid, adm.user_id as aid from "ID" as id left join "ID_ADMIN" as adm on id.user_id = adm.user_id where id.nickname = {nickname} """).on("nickname" -> nickname).as((get[Int]("ID.iid") ~ get[Option[Int]]("ID_ADMIN.aid")).map(flatten).*).headOption
+//      //SQL( """ select user_id, nickname from "ID"  where nickname = {nickname} """).on("nickname" -> nickname).as((int(1) ~ str(2)).map(flatten).*).toMap
+//    }
+//  }
+
+//  def test () = {
+//    DB.withConnection("account") { implicit conn =>
+//      SQL(""" select id, value from test """).as((get[Int]("id") ~ get[Double]("value")).map(flatten).*)
+//
+//    }
+//  }
 
 
 }

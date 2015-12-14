@@ -3,7 +3,12 @@
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
+<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
 <script src="/assets/js/search.js"></script>
+
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/rili.js"></script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"comm.search.popup.title")
 
@@ -19,9 +24,88 @@
     </div>
 </div>
 <div class="content-1">
+    <div class="page-title">
+        <span class="title-name">订单管理</span>
+    </div>
+    <form class="form-horizontal">
+        <div class="form-group">
 
+            <label class="col-sm-1 control-label">订单Id</label>
+            <div class="col-sm-3">
+                <input type="number" min="10000" max="99999999" class="form-control"/>
+            </div>
+
+            <label class="col-sm-1 control-label">用户Id</label>
+            <div class="col-sm-3">
+                <input type="number" min="10000" max="99999999" class="form-control"/>
+            </div>
+
+            <label class="col-sm-1 control-label">创建时间</label>
+            <div class="col-sm-3">
+                <div class="input-group date" id='datetimepicker1'>
+                    <input class="form-control col-sm-2" type="text" id="onShelvesAt" name="onShelvesAt">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">订单状态</label>
+            <div class="col-sm-3">
+                <select class="form-control">
+                    <option>未支付</option>
+                    <option>已支付</option>
+                    <option>已下单</option>
+                    <option>未下单</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="btn-s">
+            <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
+            <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
+        </div>
+    </form>
+    <div class="table-content">
+
+        <table id="tb-topic" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>订单Id</th>
+                <th>用户Id</th>
+                <th>创建时间</th>
+                <th>订单总价</th>
+                <th>支付渠道</th>
+                <th>订单状态</th>
+                <th>订单地址</th>
+                <th>订单备注</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><a href="">12324</a></td>
+                <td>52351</td>
+                <td>2020/02/22 20:02:20</td>
+                <td>$1000.00</td>
+                <td>where</td>
+                <td>翼支付</td>
+                <td>xx村xxxx</td>
+                <td>1件 大号</td>
+            </tr>
+            <tr>
+                <td><a href="">12324</a></td>
+                <td>52351</td>
+                <td>2020/02/22 20:02:20</td>
+                <td>$1000.00</td>
+                <td>where</td>
+                <td>翼支付</td>
+                <td>xx村xxxx</td>
+                <td>1件 大号</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-
 <!-- 点击图片预览-->
 <div class="goods-img-bg">
     <div class="goods-bg"></div>

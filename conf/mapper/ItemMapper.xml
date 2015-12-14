@@ -84,7 +84,7 @@
                 insert into items
                 (cate_id,brand_id,item_title,supply_merch,on_shelves_at,off_shelves_at,item_master_img,item_detail_imgs,item_features,theme_id,state,share_url,share_count,collect_count,browse_count,item_notice,or_destroy,destroy_at,update_at,create_at,master_inv_id,publicity)
                 values
-                (#{cateId},#{brandId},#{itemTitle},#{supplyMerch},#{onShelvesAt},#{offShelvesAt},#{itemMasterImg},#{itemDetailImgs}::jsonb,#{itemFeatures}::jsonb,#{themeId},#{state},#{shareUrl},#{shareCount},#{collectCount},#{browseCount},#{itemNotice},#{orDestroy},#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{masterInvId},#{publicity}::jsonb)
+                (#{cateId},#{brandId},#{itemTitle},#{supplyMerch},#{onShelvesAt},#{offShelvesAt},#{itemMasterImg},#{itemDetailImgs}::jsonb,#{itemFeatures}::jsonb,#{themeId},#{state},#{shareUrl},0,0,0,#{itemNotice},#{orDestroy},#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{masterInvId},#{publicity}::jsonb)
         </insert>
 
         <update id="itemUpdate" parameterType="entity.Item">

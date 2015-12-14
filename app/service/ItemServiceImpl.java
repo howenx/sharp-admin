@@ -14,8 +14,8 @@ import play.Logger;
 import play.libs.Json;
 
 import javax.inject.Inject;
-import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -67,7 +67,6 @@ public class ItemServiceImpl implements ItemService{
             if (jsonItem.has("itemFeatures")) {
                 ((ObjectNode) jsonItem).put("itemFeatures",jsonItem.findValue("itemFeatures").toString());
             }
-
             item = Json.fromJson(json.findValue("item"),Item.class);
             item.setState("Y");
             item.setOrDestroy(false);
@@ -85,11 +84,7 @@ public class ItemServiceImpl implements ItemService{
                 }
                 Inventory inventory = Json.fromJson(jsonNode, Inventory.class);
                 inventory.setItemId(item.getId());
-                inventory.setSoldAmount(0);
-                inventory.setRestAmount(inventory.getAmount());
-                inventory.setOrDestroy(false);
                 inventory.setState("Y");
-                inventory.setShipFee(new BigDecimal(0.00));
                 inventory.setInvTitle(item.getItemTitle());
                 Logger.error(inventory.toString());
                 if (jsonNode.has("id")) {
@@ -100,24 +95,15 @@ public class ItemServiceImpl implements ItemService{
                 List<Inventory> inventories = inventoryMapper.getInventoriesByItemId(item.getId());
                 for(Inventory inv : inventories) {
                     if (inv.getOrMasterInv()==true) {
-                        item.setMasterInvId(inv.getId());
-                        itemMapper.itemUpdate(item);
+                        Item item1 = itemMapper.getItem(item.getId());
+                        item1.setMasterInvId(inv.getId());
+                        itemMapper.itemUpdate(item1);
                     }
                 }
                 list.add(inventory.getId());
             }
         }
         return list;
-    }
-
-    /**
-     * 由品牌id得到品牌Brands
-     * @param brandId 品牌id
-     * @return Brands
-     */
-    @Override
-    public Brands getBrand(Long brandId) {
-        return brandsMapper.getBrand(brandId);
     }
 
     /**
@@ -147,5 +133,55 @@ public class ItemServiceImpl implements ItemService{
      */
     @Override
     public List<Item> getItemsAll() { return itemMapper.getItemsAll(); }
+
+    /**
+     * get single brands by id.
+     *
+     * @param brandId Integer
+     * @return entity.Brands
+     */
+
+    @Override
+    public Brands getBrands(Long brandId) {
+
+        return this.brandsMapper.getBrands(brandId);
+    }
+
+    /**
+     * get all brands from table.
+     *
+     * @return List of entity.Brands
+     */
+
+    @Override
+    public List<Brands> getAllBrands() {
+
+        return brandsMapper.getAllBrands();
+    }
+
+    /**
+     * get parent categories.
+     *
+     * @return List of Cates
+     */
+
+    @Override
+    public List<Cates> getParentCates() {
+
+        return catesMapper.getParentCates();
+    }
+
+    /**
+     * get sub categories.
+     *
+     * @param hashMap HashMap
+     * @return List of Cates
+     */
+
+    @Override
+    public List<Cates> getSubCates(HashMap<String, Long> hashMap) {
+
+        return catesMapper.getSubCates(hashMap);
+    }
 
 }

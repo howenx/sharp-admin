@@ -12,10 +12,10 @@
             var $obj = obj;
             var itemTarget = "";
             if(targetType=="D") {
-                itemTarget = "172.28.3.18:9001"+"/comm/detail/"+id;
+                itemTarget = "/comm/detail/"+id;
             }
             if(targetType=="T") {
-                itemTarget = "172.28.3.18:9001"+"/topic/list/"+id;
+                itemTarget = "/topic/list/"+id;
             }
             $obj.attr('data-target', itemTarget);
             $obj.attr('data-type', targetType);
