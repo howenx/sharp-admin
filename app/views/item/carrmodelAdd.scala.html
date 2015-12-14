@@ -34,10 +34,10 @@
                 '<td width="300" class="dataFee"><span>'+cityNameGiven+'</span><a href="javascript:void(0)" class="edit" style="float: right">编辑</a><input type="hidden" value="' +
                 cityCodeGiven +
                 '"></td>' +
-                '<td><input type="text" value=""></td>' +
-                '<td><input type="text" value=""></td>' +
-                '<td><input type="text" value=""></td>' +
-                '<td><input type="text" value=""></td>' +
+                '<td><input type="text" value="" name="firstNum"></td>' +
+                '<td><input type="text" value="" name="firstFee"></td>' +
+                '<td><input type="text" value="" name="addNum"></td>' +
+                '<td><input type="text" value="" name="addFee"></td>' +
                 '<td><a href="javascript:void(0)" class="del">删除</a></td>' +
                 '</tr>')
     }
@@ -116,11 +116,11 @@
                 <span>运送方式</span>
                 <div class="tran-mode">
                     <h5 style="padding-top: 3px">除指定地区外,其余地区的运费采用"默认运费"</h5>
-                    <input type="checkbox" class="express" checked>  快递  <font id="data-warn" style="color:red;margin-left:10px;"></font>
+                    <input id="sel-exp" type="checkbox" class="express" checked>  快递  <font id="data-warn" style="color:red;margin-left:10px;"></font>
                     <table cellspacing="0" id="dataTab">
                         <tr style="background: rgb(224,238,255)" class="dataFee">
                             <td colspan="6">
-                                默认运费: <input type="text">件内, <input type="text">元,每增加<input type="text">件,增加运费 <input type="text">元
+                                默认运费: <input type="text" name="firstNum">件内, <input type="text" name="firstFee">元,每增加<input type="text"  name="addNum">件,增加运费 <input type="text" name="addFee">元
                             </td>
                         </tr>
                         <tr>
@@ -183,7 +183,7 @@
         } else $("#modelName-warn").text("");
         var inputs = document.getElementById("dataTab").getElementsByTagName("input");
         for(i=0;i<inputs.length;i++) {
-            if(!numberReg.test(inputs[i].value)) {
+            if(!numberReg.test(inputs[i].value ) && $("#sel-exp").attr("checked")==false) {
                 isPost = false;
                 $("#data-warn").text("请输入正确的数据");
                 break;
