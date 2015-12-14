@@ -7,10 +7,11 @@
 <link rel="stylesheet" href="/assets/css/carr.css">
 <script src="/assets/js/jquery.min.js"></script>
 <script>
-    function ShowModal(addr,arr) {
+    function ShowModal(addr,arr,arr1) {
         var sharedObject = {};
         sharedObject.cityOriginal_arr = arr;
         sharedObject.addr = addr;
+        sharedObject.cityOriginal_all_arr =arr1;
 
         if (window.showModalDialog) {
             var retValue = showModalDialog("/carr/pop", sharedObject, "dialogWidth:1200px; dialogHeight:600px; dialogLeft:300px;");
@@ -51,14 +52,31 @@
     }
     $(function(){
         $('.add-temp').click(function(){
-            ShowModal();
+            var cityOriginal_all = $('.edit').parent().find("span");
+            var cityOriginal_all_str = '';
+            for(var i=0;i<cityOriginal_all.length;i++){
+                cityOriginal_all_str = cityOriginal_all_str + $(cityOriginal_all[i]).html() + ' ';
+            }
+            cityOriginal_all_arr = cityOriginal_all_str.split(" ");
+            cityOriginal_all_arr.pop();
+            console.log(cityOriginal_all_arr);
+            ShowModal(' ',[],cityOriginal_all_arr);
         });
-        var cityOriginal_arr;
+        var cityOriginal_arr,cityOriginal_all_arr;
         $(document).on('click','.edit',function(){
             var cityOriginal = $(this).parent().find("span").html();
             cityOriginal_arr = cityOriginal.split(" ");
             var addr = $(this).parent().find('span');
-            ShowModal(addr,cityOriginal_arr);
+
+            var cityOriginal_all = $('.edit').parent().find("span").not($(this).parent().find("span"));
+            var cityOriginal_all_str = '';
+            for(var i=0;i<cityOriginal_all.length;i++){
+                cityOriginal_all_str = cityOriginal_all_str + $(cityOriginal_all[i]).html() + ' ';
+            }
+            cityOriginal_all_arr = cityOriginal_all_str.split(" ");
+            cityOriginal_all_arr.pop();
+
+            ShowModal(addr,cityOriginal_arr,cityOriginal_all_arr);
         });
         $(document).on('click','.del',function(){
             $(this).parents('tr').remove();
@@ -131,27 +149,48 @@
                             <td>续费(元)</td>
                             <td>操作</td>
                         </tr>
-                        <!--<tr>-->
-                            <!--<td width="300">-->
-                                <!--<span>北京 上海</span> <a href="javascript:void(0)" class="edit" style="float: right">编辑</a>-->
-                                <!--<input type="hidden" value="BJ,SH">-->
-                            <!--</td>-->
-                            <!--<td>-->
-                                <!--<input type="text" value="5">-->
-                            <!--</td>-->
-                            <!--<td>-->
-                                <!--<input type="text" value="10">-->
-                            <!--</td>-->
-                            <!--<td>-->
-                                <!--<input type="text" value="1">-->
-                            <!--</td>-->
-                            <!--<td>-->
-                                <!--<input type="text" value="10">-->
-                            <!--</td>-->
-                            <!--<td>-->
-                                <!--<a href="javascript:void(0)" class="del">删除</a>-->
-                            <!--</td>-->
-                        <!--</tr>-->
+                        <tr>
+                            <td width="300">
+                                <span>北京 上海</span> <a href="javascript:void(0)" class="edit" style="float: right">编辑</a>
+                                <input type="hidden" value="BJ,SH">
+                            </td>
+                            <td>
+                                <input type="text" value="5">
+                            </td>
+                            <td>
+                                <input type="text" value="10">
+                            </td>
+                            <td>
+                                <input type="text" value="1">
+                            </td>
+                            <td>
+                                <input type="text" value="10">
+                            </td>
+                            <td>
+                                <a href="javascript:void(0)" class="del">删除</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="300">
+                                <span>天津 广东</span> <a href="javascript:void(0)" class="edit" style="float: right">编辑</a>
+                                <input type="hidden" value="TJ,GD">
+                            </td>
+                            <td>
+                                <input type="text" value="5">
+                            </td>
+                            <td>
+                                <input type="text" value="10">
+                            </td>
+                            <td>
+                                <input type="text" value="1">
+                            </td>
+                            <td>
+                                <input type="text" value="10">
+                            </td>
+                            <td>
+                                <a href="javascript:void(0)" class="del">删除</a>
+                            </td>
+                        </tr>
                         <tr>
                             <td colspan="6">
                                 <a href="javascript:void(0)" class="add-temp">为指定地区城市设置运费</a>
