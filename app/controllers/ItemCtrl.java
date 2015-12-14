@@ -274,6 +274,49 @@ public class ItemCtrl extends Controller {
         }
         return ok(views.html.item.ordersearch.render(lang,(User) ctx().args.get("user")));
     }
+
+
+    /**
+     * 品牌列表
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result brandList(String lang){
+        return ok(views.html.item.brandsearch.render(lang,(User) ctx().args.get("user")));
+    }
+
+    /**
+     * 新增品牌
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result brandAdd(String lang){
+        return ok(views.html.item.brandadd.render(lang,(User) ctx().args.get("user")));
+    }
+
+    /**
+     * 商品分类列表
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result cateList(String lang){
+        return ok(views.html.item.catesearch.render(lang,(User) ctx().args.get("user")));
+    }
+
+    /**
+     * 新增商品分类
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result cateAdd(String lang){
+        return ok(views.html.item.cateadd.render(lang,(User) ctx().args.get("user")));
+    }
+
+
 }
 
 
