@@ -24,7 +24,7 @@ public class Test extends Controller{
         Map<String, String > params = new HashMap<>();
         params.put("StartTime","2015-01-01 01:00:00");
         params.put  ("EndTime","2015-11-01 01:00:00");
-//        params.put("ShopId","1");
+        params.put("ShopId","1");
 //        Integer shopId = 1;
 //        Integer orderStatus = 10;
 //        params.put("ShopOrderNo", "1000007");
