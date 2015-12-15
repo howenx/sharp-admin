@@ -48,7 +48,7 @@
         cityName = obj.cityName;
         cityGiven = cityName.join(" ");
         $(obj.addr).html(cityGiven);
-        $(obj.addr).parent().find("input[type=hidden]").val(cityCode.join(","));
+        $(obj.addr).parent().find(".cnm").html(cityCode.join(","));
     }
     $(function(){
         $('.add-temp').click(function(){
