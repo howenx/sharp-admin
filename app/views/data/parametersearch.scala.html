@@ -27,9 +27,39 @@
     <div class="page-title">
         <span class="title-name">系统参数</span>
     </div>
-    <div class="table-content">
-        <input type="button" value="新增系统参数" onclick="javascript:window.location.href='/@lang/data/config/add'"/>
+    <input type="button" value="新增系统参数" onclick="javascript:window.location.href='/@lang/data/config/add'"/>
+    <form class="form-horizontal">
+        <div class="form-group">
 
+            <label class="col-sm-1 control-label">参数Id</label>
+            <div class="col-sm-3">
+                <input type="number" min="10000" max="99999999" class="form-control"/>
+            </div>
+
+            <label class="col-sm-1 control-label">参数代码</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control">
+            </div>
+
+            <label class="col-sm-1 control-label">参数代码</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control">
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">参数代码</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="btn-s">
+            <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
+            <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
+        </div>
+    </form>
+    <div class="table-content">
         <div class="param">
             <table class="table table-bordered">
                 <thead>
