@@ -9,7 +9,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.guice.session.SqlSessionManagerProvider;
 import play.db.DBApi;
-
+import mapper.*;
+import service.*;
 import javax.inject.Provider;
 import javax.sql.DataSource;
 
@@ -32,7 +33,8 @@ public class ShoppingDBModule extends PrivateModule {
                 bindTransactionFactoryType(JdbcTransactionFactory.class);
 
                 //只针对shopping数据库的Mapper,不可以讲一个Mapper多Module进行Add
-//                addMapperClass(OrderMapper.class);
+                addMapperClass(OrderMapper.class);
+                addMapperClass(ShipMapper.class);
 
             }
         });
@@ -45,15 +47,17 @@ public class ShoppingDBModule extends PrivateModule {
          * private SqlSession sqlsession;
          */
         bind(SqlSession.class).annotatedWith(Names.named("shopping")).toProvider(SqlSessionManagerProvider.class).in(Scopes.SINGLETON);
-        expose(SqlSession.class).annotatedWith(Names.named("style"));
+        expose(SqlSession.class).annotatedWith(Names.named("shopping"));
 
         /**
          * bind service for controller or other service inject. 绑定style数据库所对应的Service
          */
-//        bind(OrderService.class).to(OrderServiceImpl.class);
+        bind(OrderService.class).to(OrderServiceImpl.class);
+        bind(ShipService.class).to(ShipServiceImpl.class);
 
         //必须expose
-//        expose(OrderService.class);
+        expose(OrderService.class);
+        expose(ShipService.class);
     }
 
     @Singleton
