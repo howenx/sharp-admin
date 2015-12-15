@@ -9,6 +9,72 @@
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
+<script>
+    $(function(){
+        function previewImage1(obj, file) {
+            var gallery = obj;
+            var imageType = /image.*/;
+
+            if (!file.type.match(imageType)) {
+                throw "File Type must be an image";
+            }
+            var img = document.createElement("img");
+            img.file = file;
+            $(img).width('100%');
+            $(img).height('100%');
+            $(gallery).append($(img));
+            upload(gallery, file);
+            // Using FileReader to display the image content
+            var reader = new FileReader();
+            reader.onload = (function (aImg) {
+                return function (e) {
+                    aImg.src = e.target.result;
+                }
+            })(img);
+            reader.readAsDataURL(file);
+        }
+
+        function upload(thumb, file, id) {
+            var formdata = new FormData();
+            formdata.append("photo", file);
+            formdata.append("params", "minify");
+            var http = new XMLHttpRequest();
+            var url = "http://172.28.3.18:3008/upload";
+            http.open("POST", url, true);
+            http.onreadystatechange = function () {
+                if (http.readyState == 4 && http.status == 200) {
+                    var data = JSON.parse(http.responseText);
+                    console.log(data.minify_url);
+                    var input = document.createElement("input");
+                    imgName = data.imgid;
+                    input.id = imgName.substr(0, imgName.lastIndexOf("."));
+                    input.type = "hidden";
+                    input.name = data.imgid;
+                    input.value = data.path;
+                    $(thumb).find("img").attr('src', data.minify_url);
+                    $(thumb).append(input);
+                    alert(data.message);
+                }
+            }
+            http.send(formdata);
+        }
+        $('.upload-logo').change(function(){
+            var files = this.files;
+            var label_img = $('<span>').css({"width":"300","display":"inline-block"}).appendTo($('.img-logo'));
+            $(this).parent().css("display","none");
+            $("<button>").addClass("close").attr("type", "button").attr("aria-lable", "Close").html('<span aria-hidden="true">' +
+                    '&times;' +
+                    '</span>').appendTo(label_img);
+            for (var i = 0; i < files.length; i++) {
+                previewImage1(label_img, this.files[i]);
+            }
+        })
+        $(document).on('click','.img-logo .close',function(){
+            $(this).parent().remove();
+            $('.upload-logo').parent().css("display","block");
+        })
+    })
+</script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"新增品牌")
 
@@ -51,7 +117,12 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">商品logo</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" placeholder="参数代码">
+                <div class="img-logo">
+                    <button type="button" class="btn btn-primary btn-sm" style="position: relative">
+                        上传图片
+                        <input type="file" class="upload-logo">
+                    </button>
+                </div>
             </div>
         </div>
     </form>
