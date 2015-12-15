@@ -1,17 +1,29 @@
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-<link rel="stylesheet" href="/assets/css/cost.css">
+<link rel="stylesheet" href="/assets/css/carr.css">
 <script src="/assets/js/jquery.min.js"></script>
 <script>
     $(function(){
         var sharedObject = window.dialogArguments;
         var cityOriginal_arr = sharedObject.cityOriginal_arr;
+        var cityOriginal_all_arr = sharedObject.cityOriginal_all_arr;
         var addr = sharedObject.addr;
-        if(cityOriginal_arr){
+        if(cityOriginal_arr&&cityOriginal_arr.length!==0){
+            alert(1);
             var inputs = $('input[type=checkbox]');
             for(var i=0;i<cityOriginal_arr.length;i++){
                 for(var j=0;j<inputs.length;j++){
                     if(cityOriginal_arr[i]==inputs[j].name){
                         $(inputs[j]).prop('checked',true);
+                    }
+                }
+            }
+        }
+        if(cityOriginal_all_arr){
+            var inputs = $('input[type=checkbox]');
+            for(var i=0;i<cityOriginal_all_arr.length;i++){
+                for(var j=0;j<inputs.length;j++){
+                    if(cityOriginal_all_arr[i]==inputs[j].name){
+                        $(inputs[j]).prop('disabled',true).parent().css("background","#ccc");
                     }
                 }
             }
@@ -33,13 +45,15 @@
                 window.returnValue = sharedObject;
             }
             else {
-                if(cityOriginal_arr){
+                if(cityOriginal_arr&&cityOriginal_arr.length!==0){
                     var sharedObject = {};
                     sharedObject.cityCode = cityCode;
                     sharedObject.cityName = cityName;
                     sharedObject.addr = addr;
                     window.opener.UpdateFields1 (sharedObject);
-                }else {
+                }else if(city_selected.length==0){
+
+                } else {
                     // if not modal, we cannot use the returnValue property, we need to update the opener window
                     var sharedObject = {};
                     sharedObject.cityCode = cityCode;

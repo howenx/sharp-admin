@@ -36,6 +36,9 @@ public class ItemCtrl extends Controller {
     @Inject
     private OrderService orderService;
 
+    @Inject
+    private ShipService shipService;
+
 
     /**
      * 商品列表
@@ -268,11 +271,38 @@ public class ItemCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result orderList(String lang){
         //含有物流信息的订单列表
+        List<Object[]> orList = new ArrayList<>();
         List<Order> orderList = orderService.getOrdersAll();
         for(Order order : orderList){
-            //Object[] object =
+            Object[] object = new Object[7];
+            Logger.error(order.toString());
+            Logger.error(order.getOrderId().toString());
+            //Ship ship = shipService.getShipByOrderId(order.getOrderId());
+            //Logger.error(ship.toString());
+            object[0] = order.getOrderId();
+            object[1] = order.getUserId();
+            object[2] = order.getOrderCreateAt();
+            //object[3] = ship.getExpressNum();
+            object[3] = "";
+            object[4] = order.getPayTotal();
+            object[5] = order.getPayMethod();
+            if("I".equals(order.getOrderStatus())){
+                object[6] = "未支付";
+            }
+            if("S".equals(order.getOrderStatus())){
+                object[6] = "已支付";
+            }
+            if("C".equals(order.getOrderStatus())){
+                object[6] = "订单取消";
+            }
+            if("F".equals(order.getOrderStatus())){
+                object[6] = "支付失败";
+            }
+
+            orList.add(object);
+
         }
-        return ok(views.html.item.ordersearch.render(lang,(User) ctx().args.get("user")));
+        return ok(views.html.item.ordersearch.render(lang,orList,(User) ctx().args.get("user")));
     }
 
 

@@ -9,7 +9,5 @@ import mapper.ShipMapper;
 public class ShipServiceImpl implements ShipService{
     private ShipMapper shipMapper;
     @Override
-    public Ship getShipByOrderId(Long orderId) {
-        return shipMapper.getShipByOrderId(orderId);
-    }
+    public Ship getShipByOrderId(Long orderId) {return shipMapper.getShipByOrderId(orderId);}
 }
