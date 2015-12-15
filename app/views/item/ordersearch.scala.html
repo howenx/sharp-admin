@@ -59,6 +59,10 @@
                     <option>未下单</option>
                 </select>
             </div>
+            <label class="col-sm-1 control-label">快递单号</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control">
+            </div>
         </div>
 
         <div class="btn-s">
@@ -71,8 +75,8 @@
         <table id="tb-topic" class="table table-bordered table-hover">
             <thead>
             <tr>
-                <th>订单Id</th>
-                <th>用户Id</th>
+                <th>订单ID</th>
+                <th>用户ID</th>
                 <th>创建时间</th>
                 <th>快递单号</th>
                 <th>订单总价</th>
@@ -83,7 +87,7 @@
             <tbody>
             @for(order <- orList){
             <tr>
-                <td><a href="">@order(0)</a></td>
+                <td><a href="/@lang/comm/order/detail/@order(0)">@order(0)</a></td>
                 <td>@order(1)</td>
                 <td>@order(2)</td>
                 <td>@order(3)</td>
@@ -94,6 +98,15 @@
             }
             </tbody>
         </table>
+        <ul class="pagination">
+            <li><a href="javascript:void(0)">&laquo;</a></li>
+            <li class="active"><a href="javascript:void(0)">1</a></li>
+            <li><a href="javascript:void(0)">2</a></li>
+            <li><a href="javascript:void(0)">3</a></li>
+            <li><a href="javascript:void(0)">4</a></li>
+            <li><a href="javascript:void(0)">5</a></li>
+            <li><a href="javascript:void(0)">&raquo;</a></li>
+        </ul>
     </div>
 </div>
 <!-- 点击图片预览-->

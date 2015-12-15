@@ -83,6 +83,10 @@ GET             /carr/pop                                                  contr
 #order 订单列表
 GET             /comm/order/search                                          controllers.ItemCtrl.orderList(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/order/search                        controllers.ItemCtrl.orderList(lang)
+GET             /comm/order/detail/$id<[0-9]+>                              controllers.ItemCtrl.orderDetail(lang ="cn",id:Long)
+GET             /$lang<(cn|en|kr)>/comm/order/detail/$id<[0-9]+>            controllers.ItemCtrl.orderDetail(lang,id:Long)
+
+
 #brand 品牌
 GET             /comm/brand/search                                          controllers.ItemCtrl.brandList(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/brand/search                        controllers.ItemCtrl.brandList(lang)

@@ -21,8 +21,8 @@
     <select id="getShipByOrderId" resultType="entity.Ship" parameterType="java.lang.Long">
         select
         <include refid="shipColumns">
-            <property name="alias" value="t" />
+            <property name="alias" value="t"/>
         </include>
-        from sp_order_ship where ship_id=${value}
+        from sp_order_ship t where order_id=${value}
     </select>
 </mapper>

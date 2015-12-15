@@ -143,7 +143,7 @@
                 input.name = data.imgid;
                 input.value = data.path;
                 $(thumb).find("img").attr('src', data.minify_url);
-                thumb.appendChild(input);
+                $(thumb).append(input);
                 alert(data.message);
             }
         }
