@@ -140,3 +140,7 @@
 .content-1 input[type=button]{
 	margin-left: 10px;margin-top: 30px;margin-bottom: 20px;
 }
+.upload-logo{
+	position: absolute;;left: 0;top: 0;
+	width: 70px;height: 30px;opacity: 0;
+}
