@@ -47,9 +47,9 @@ public class CarriageServiceImpl implements CarriageService{
     }
 
     /**
-     * 根据modelCode获取一条运费信息
+     * 根据modelCode获得模板名称
      * @param modelCode
-     * @return Carriage
+     * @return modelName
      */
     @Override
     public String getModelName(String modelCode) {
@@ -66,7 +66,7 @@ public class CarriageServiceImpl implements CarriageService{
     }
 
     /**
-     * 获取运费模板
+     * 获取运费模板列表(modelCode,modelName)
      * @return list of Carriage
      */
     @Override
@@ -74,6 +74,11 @@ public class CarriageServiceImpl implements CarriageService{
         return carriageMapper.getModels();
     }
 
+    /**
+     * 由modelCode获取该模板的运费信息
+     * @param modelCode
+     * @return list of Carriage
+     */
     public List<Carriage> getCarrsByModel(String modelCode) {
         return carriageMapper.getCarrsByModel(modelCode);
     }

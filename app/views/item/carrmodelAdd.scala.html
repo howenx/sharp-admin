@@ -110,7 +110,7 @@
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
         <div  id="modelSubmit" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
-        <div id="cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
+        <div id="return" class="btn-white btn-form fr ml20">返回</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
     <!--<h5>单品运费设置</h5>-->
@@ -198,6 +198,10 @@
 }
 
 <script>
+    $("#return").click(function() {
+        window.location.href="/"+window.lang+"/carr/search  ";
+    });
+
     $("#modelSubmit").click(function() {
         var modelData = new Object();
         var carrModels = [];

@@ -197,13 +197,13 @@ $(function(){
         var tds = trs[index-1].getElementsByTagName("td");
         var i = 1;
         //最后一行有空值不能添加
-        for(i=1;i<tds.length;i++) {
+        for(i=1;i<17;i++) {
             if (i <=9 && tds[i].getElementsByTagName("input")[0].value=="") break;
             if (i ==16 && trs[index-1].getElementsByClassName("list-img")[0].getElementsByTagName("div").length==1) break;
             if (i ==17 && trs[index-1].getElementsByClassName("preview-img")[0].getElementsByTagName("div").length==1) break;
         }
         if (true){
-//        if (i==19){
+//        if (i==18){
             var tr =  document.createElement("tr");
 
             var tdR = document.createElement("td");
@@ -344,6 +344,11 @@ $(function(){
             tdPI.appendChild(divPre);
             tdPI.appendChild(spanAdd);
 
+            if($("#itemId").val() != "") {
+                var tdState = document.createElement("td");
+                tdState.innerHTML = "<input type='text' name='state' value='正常' style='font-size:10px;'>"
+            }
+
             var tdDe = document.createElement("td");
             tdDe.classList.add("del");
             tdDe.innerText = "删除";
@@ -370,6 +375,9 @@ $(function(){
             tr.appendChild(tdCus);
             tr.appendChild(tdMI);
             tr.appendChild(tdPI);
+            if($("#itemId").val() != "") {
+                tr.appendChild(tdState);
+            }
             tr.appendChild(tdDe);
             inventory.appendChild(tr);
         }
@@ -669,17 +677,23 @@ $(function(){
             inventory.carriageModelCode = carriageModelCode;
             inventory.postalTaxRate = postalTaxRate;
             inventory.postalTaxCode = postalTaxCode;
+            if(postalTaxRate=="") {inventory.postalTaxRate = null;}
+            if(postalTaxCode=="") {inventory.postalTaxCode = null;}
             inventory.invArea = invArea;
             inventory.invCustoms = invCustoms;
             inventory.invImg = invImg;
             inventory.itemPreviewImgs = itemPreviewImgs;
-            if (tds[18].getElementsByTagName("input")[0].value != "") {
-                inventory.id = tds[18].getElementsByTagName("input")[0].value;
-                inventory.soldAmount = tds[18].getElementsByTagName("input")[1].value;
-                inventory.restAmount = tds[18].getElementsByTagName("input")[2].value;
-                inventory.orDestroy = tds[18].getElementsByTagName("input")[3].value;
+            //sku状态
+            if(tds[19].getElementsByTagName("input")[0].value != "") {
+                inventory.state = tds[18].getElementsByTagName("select")[0].value;
+            }
+            if (tds[19].getElementsByTagName("input")[0].value != "") {
+                inventory.id = tds[19].getElementsByTagName("input")[0].value;
+                inventory.soldAmount = tds[19].getElementsByTagName("input")[1].value;
+                inventory.restAmount = tds[19].getElementsByTagName("input")[2].value;
+                inventory.orDestroy = tds[19].getElementsByTagName("input")[3].value;
                 if (tds[0].getElementsByTagName("input")[0].checked==true)
-                item.masterInvId = tds[18].getElementsByTagName("input")[0].value;
+                item.masterInvId = tds[19].getElementsByTagName("input")[0].value;
             }
             inventories.push(inventory);
         }
