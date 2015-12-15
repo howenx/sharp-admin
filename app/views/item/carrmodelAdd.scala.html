@@ -3,8 +3,8 @@
 
 @scripts = {
 
-<link rel="stylesheet" href="/assets/css/slider.css"/>
 <link rel="stylesheet" href="/assets/css/carr.css">
+<link rel="stylesheet" href="/assets/css/slider.css"/>
 <script src="/assets/js/jquery.min.js"></script>
 <script>
     function ShowModal(addr,arr,arr1) {
@@ -32,9 +32,9 @@
         cityNameGiven = cityName.join(" ");
         cityCodeGiven = cityCode.join(",");
         $('.add-temp').parents("tr").before('<tr>' +
-                '<td width="300" class="dataFee"><span>'+cityNameGiven+'</span><a href="javascript:void(0)" class="edit" style="float: right">编辑</a><input type="hidden" value="' +
+                '<td width="300"><span>'+cityNameGiven+' </span><a href="javascript:void(0)" class="edit" style="float: right">编辑</a><span class="cnm" style="display:none;">'+
                 cityCodeGiven +
-                '"></td>' +
+                '</span></td>' +
                 '<td><input type="text" value="" name="firstNum"></td>' +
                 '<td><input type="text" value="" name="firstFee"></td>' +
                 '<td><input type="text" value="" name="addNum"></td>' +
@@ -107,12 +107,19 @@
     <div class="page-title">
         <span class="title-name">添加运费模板</span>
     </div>
-    <h5>单品运费设置</h5>
-    <div class="hr"></div>
+    <div class="usercenter-option">
+        <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
+        <div  id="modelSubmit" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
+        <div id="cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
+        <span id="js-userinfo-error" class="mt20 alt fr"></span>
+    </div>
+    <!--<h5>单品运费设置</h5>-->
+    <!--<div class="hr"></div>-->
     <div class="row">
         <form class="form-horizontal" method="post" enctype="multipart/form-data">
             <!--运费模版名称-->
             <div class="input-item" style="padding-top: 30px">
+                <input type="hidden" id="modelCode" name="modelCode">
                 <span>运费模版名称:</span>
                 <input type="text" id="modelName" name="modelName" style="color:black;">  请输入汉字、 -、 字母或者数字<font id="modelName-warn" style="color:red;margin-left:10px;"></font>
             </div>
@@ -136,7 +143,7 @@
                     <h5 style="padding-top: 3px">除指定地区外,其余地区的运费采用"默认运费"</h5>
                     <input id="sel-exp" type="checkbox" class="express" checked>  快递  <font id="data-warn" style="color:red;margin-left:10px;"></font>
                     <table cellspacing="0" id="dataTab">
-                        <tr style="background: rgb(224,238,255)" class="dataFee">
+                        <tr style="background: rgb(224,238,255)">
                             <td colspan="6">
                                 默认运费: <input type="text" name="firstNum">件内, <input type="text" name="firstFee">元,每增加<input type="text"  name="addNum">件,增加运费 <input type="text" name="addFee">元
                             </td>
@@ -149,48 +156,27 @@
                             <td>续费(元)</td>
                             <td>操作</td>
                         </tr>
-                        <tr>
-                            <td width="300">
-                                <span>北京 上海</span> <a href="javascript:void(0)" class="edit" style="float: right">编辑</a>
-                                <input type="hidden" value="BJ,SH">
-                            </td>
-                            <td>
-                                <input type="text" value="5">
-                            </td>
-                            <td>
-                                <input type="text" value="10">
-                            </td>
-                            <td>
-                                <input type="text" value="1">
-                            </td>
-                            <td>
-                                <input type="text" value="10">
-                            </td>
-                            <td>
-                                <a href="javascript:void(0)" class="del">删除</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="300">
-                                <span>天津 广东</span> <a href="javascript:void(0)" class="edit" style="float: right">编辑</a>
-                                <input type="hidden" value="TJ,GD">
-                            </td>
-                            <td>
-                                <input type="text" value="5">
-                            </td>
-                            <td>
-                                <input type="text" value="10">
-                            </td>
-                            <td>
-                                <input type="text" value="1">
-                            </td>
-                            <td>
-                                <input type="text" value="10">
-                            </td>
-                            <td>
-                                <a href="javascript:void(0)" class="del">删除</a>
-                            </td>
-                        </tr>
+                        <!--<tr>-->
+                        <!--<td width="300">-->
+                        <!--<span>北京 上海</span> <a href="javascript:void(0)" class="edit" style="float: right">编辑</a>-->
+                        <!--<span class="cnm" style="display:none;">BJ,SH</span>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                        <!--<input type="text" value="5">-->
+                        <!--</td>-->
+                        <!--<td>-->
+                        <!--<input type="text" value="10">-->
+                        <!--</td>-->
+                        <!--<td>-->
+                        <!--<input type="text" value="1">-->
+                        <!--</td>-->
+                        <!--<td>-->
+                        <!--<input type="text" value="10">-->
+                        <!--</td>-->
+                        <!--<td>-->
+                        <!--<a href="javascript:void(0)" class="del">删除</a>-->
+                        <!--</td>-->
+                        <!--</tr>-->
                         <tr>
                             <td colspan="6">
                                 <a href="javascript:void(0)" class="add-temp">为指定地区城市设置运费</a>
@@ -199,10 +185,10 @@
                         </tr>
                     </table>
                     <h5>备注:运费按照商品金额-优惠(直降/单品促销)-返现之后的订单金额收取</h5>
-                    <div class="btns">
-                        <button type="button" id="modelSubmit">保存且返回</button>
-                        <button type="button" style="margin-left: 30px">返回</button>
-                    </div>
+                    <!--<div class="btns">-->
+                    <!--<button type="button" id="modelSubmit">保存且返回</button>-->
+                    <!--<button type="button" style="margin-left: 30px">返回</button>-->
+                    <!--</div>-->
                 </div>
             </div>
         </form>
@@ -213,6 +199,8 @@
 
 <script>
     $("#modelSubmit").click(function() {
+        var modelData = new Object();
+        var carrModels = [];
         var isPost = true;
         var numberReg =    /^-?\d+\.?\d{0,2}$/;   //整数或小数
         var modelName = $("#modelName").val();
@@ -220,14 +208,90 @@
             isPost = false;
             $("#modelName-warn").text("请输入模板名称");
         } else $("#modelName-warn").text("");
-        var inputs = document.getElementById("dataTab").getElementsByTagName("input");
-        for(i=0;i<inputs.length;i++) {
-            if(!numberReg.test(inputs[i].value ) && $("#sel-exp").attr("checked")==false) {
-                isPost = false;
-                $("#data-warn").text("请输入正确的数据");
-                break;
-            } else $("#data-warn").text("");
+        if ($("#sel-exp").is(":checked")) {
+            var inputs = document.getElementById("dataTab").getElementsByTagName("input");
+            for(i=0;i<inputs.length;i++) {
+                if(!numberReg.test(inputs[i].value)) {
+                    isPost = false;
+                    $("#data-warn").text("请输入正确的数据");
+                    break;
+                } else $("#data-warn").text("");
+            }
+        } else $("#data-warn").text("");
+
+        var dataTab = document.getElementById("dataTab");
+        var modelLines = dataTab.getElementsByTagName("tr");
+        var defModel = new Object();
+        var defLine = modelLines[0];
+        defModel.modelName = modelName;
+        defModel.firstNum = defLine.getElementsByTagName("input")[0].value;
+        defModel.firstFee = defLine.getElementsByTagName("input")[1].value;
+        defModel.addNum = defLine.getElementsByTagName("input")[2].value;
+        defModel.addFee = defLine.getElementsByTagName("input")[3].value;
+        defModel.cityCode = "ALL";
+        carrModels.push(defModel);
+        if (modelLines.length>3) {
+            for(i=2;i<modelLines.length-1;i++) {
+                var cnm = dataTab.getElementsByTagName("tr")[i].getElementsByClassName("cnm")[0].innerText;
+                var cnmArr = cnm.split(",");
+                for(j=0;j<cnmArr.length;j++) {
+                    var cityCode = cnmArr[j];
+                    var fn = modelLines[i].getElementsByTagName("input")[0].value;
+                    var ff = modelLines[i].getElementsByTagName("input")[1].value;
+                    var an = modelLines[i].getElementsByTagName("input")[2].value;
+                    var af = modelLines[i].getElementsByTagName("input")[3].value;
+                    var scModel = new Object();
+                    scModel.modelName = modelName;
+                    scModel.firstNum = fn;
+                    scModel.firstFee = ff;
+                    scModel.addNum = an;
+                    scModel.addFee = af;
+                    scModel.cityCode = cityCode;
+                    carrModels.push(scModel);
+                }
+            }
         }
+        <!--modelData.carrModels = carrModels;-->
+        <!--console.log(JSON.stringify(modelData));-->
+        if (isPost) {
+            $.ajax({
+                type :  "POST",
+                url : "/carr/carrSave",
+                contentType: "application/json; charset=utf-8",
+                data : JSON.stringify(carrModels),
+                error : function(request) {
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('保存失败');
+                    } else {
+                        $('#js-userinfo-error').text('Save error');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('')", 2000);
+                },
+                success: function(data) {
+                    $('.usercenter-option > .user-state').css('background-position', '20px -174px');
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                        $('.usercenter-option > .user-state').text('未更改');
+                    } else {
+                        $('#js-userinfo-error').text('Save success');
+                        $('.usercenter-option > .user-state').text('Unchanged');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+                    //运费模板更新, 成功后返回到模板列表页面
+                    if($("#modelCode").val() != "") {
+                        setTimeout("location.href='/"+window.lang+"/carr/search'", 3000);
+                    }
+                    //运费模板添加, 成功后返回到内模板列表页面
+                    else setTimeout("location.href='/"+window.lang+"/carr/search'", 3000);
+                }
+            });
+        }
+
+
+
+
+
+
     });
 
 </script>

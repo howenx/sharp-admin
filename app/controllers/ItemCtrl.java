@@ -125,7 +125,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result itemCreate(String lang) {
-        return ok(views.html.item.itemadd.render(lang,service.getAllBrands(),service.getParentCates(),carriageService.getModel(),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemadd.render(lang,service.getAllBrands(),service.getParentCates(),carriageService.getModels(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -224,7 +224,7 @@ public class ItemCtrl extends Controller {
             object[23] = carriageService.getModelName(inventory.getCarriageModelCode());
             invList.add(object);
         }
-        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,service.getAllBrands(),service.getParentCates(),carriageService.getModel(),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,service.getAllBrands(),service.getParentCates(),carriageService.getModels(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -249,13 +249,27 @@ public class ItemCtrl extends Controller {
     }
 
     /**
+     * 运费模板保存
+     * @return Result
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result carrSave() {
+        JsonNode json = request().body().asJson();
+        carriageService.carrModelSave(json);
+        return ok();
+
+    }
+
+    /**
      * 运费模板列表
      * @param lang 语言
      * @return
      */
     @Security.Authenticated(UserAuth.class)
     public Result carrModelSearch(String lang) {
-        return ok(views.html.item.carrmodelList.render(lang,(User) ctx().args.get("user")));
+        List<Carriage> modelList = carriageService.getModels();
+        List<Carriage> carriageList = carriageService.getAllCarriage();
+        return ok(views.html.item.carrmodelList.render(lang,modelList,carriageList,(User) ctx().args.get("user")));
     }
 
 
