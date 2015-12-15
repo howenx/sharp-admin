@@ -322,6 +322,17 @@ public class ItemCtrl extends Controller {
         return ok(views.html.item.ordersearch.render(lang,orList,(User) ctx().args.get("user")));
     }
 
+    /**
+     * 订单详情
+     * @param lang
+     * @param id
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result orderDetail(String lang,Long id){
+        return ok(views.html.item.orderdetail.render(lang,(User) ctx().args.get("user")));
+    }
+
 
     /**
      * 品牌列表
