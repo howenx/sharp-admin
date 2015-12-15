@@ -43,8 +43,16 @@
         from carriage t where 1 =1
     </select>
 
-    <select id="getModel" resultType="entity.Carriage">
+    <select id="getModels" resultType="entity.Carriage">
         select DISTINCT model_code, model_name FROM carriage
+    </select>
+
+    <select id="getCarrsByModel" resultType="entity.Carriage" parameterType="java.lang.String">
+        select
+        <include refid="carriageColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from carriage t where model_code = #{modelCode}
     </select>
 
 

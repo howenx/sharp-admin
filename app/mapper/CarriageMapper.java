@@ -17,5 +17,8 @@ public interface CarriageMapper {
 
     List<Carriage> getAllCarriage();
 
-    List<Carriage> getModel();
+    List<Carriage> getModels();
+
+    List<Carriage> getCarrsByModel(String modelCode);
+
 }

@@ -1,10 +1,13 @@
 package service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import entity.Carriage;
 import mapper.CarriageMapper;
+import play.libs.Json;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Sunny Wu.
@@ -13,6 +16,16 @@ public class CarriageServiceImpl implements CarriageService{
 
     @Inject
     private CarriageMapper carriageMapper;
+
+    @Override
+    public  void carrModelSave(JsonNode json) {
+        String uuid = UUID.randomUUID().toString();
+        for(final JsonNode jsonNode : json) {
+            Carriage carriage = Json.fromJson(jsonNode, Carriage.class);
+            carriage.setModelCode(uuid);
+            carriageMapper.insertCarriage(carriage);
+        }
+    }
 
     /**
      * 录入一条运费信息
@@ -57,8 +70,12 @@ public class CarriageServiceImpl implements CarriageService{
      * @return list of Carriage
      */
     @Override
-    public List<Carriage> getModel(){
-        return carriageMapper.getModel();
+    public List<Carriage> getModels(){
+        return carriageMapper.getModels();
+    }
+
+    public List<Carriage> getCarrsByModel(String modelCode) {
+        return carriageMapper.getCarrsByModel(modelCode);
     }
 
 }

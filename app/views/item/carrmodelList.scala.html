@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",user:entity.User)
+@(lang:String="cn",modelList:List[entity.Carriage],carriageList:List[entity.Carriage],user:entity.User)
 
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
@@ -37,6 +37,39 @@
     <div class="table-content">
         <input type="button" value="新增运费模板" onclick="javascript:window.location.href='/carr/add'"/>
         <div class="template">
+            @for(ml <- modelList) {
+            <table cellspacing="0">
+                <tr style="background: rgb(224,238,255)">
+                    <td colspan="6">
+                        <span>@ml.getModelName()</span>
+                        <span>最后编辑时间:2015-11-12 15:18 <a href="javascript:void(0)" class="temp-edit">修改</a></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="130">运送方式</td>
+                    <td>运送到</td>
+                    <td>首件(件)</td>
+                    <td>运费(元)</td>
+                    <td>续件(件)</td>
+                    <td>运费(元)</td>
+                </tr>
+                @for(cl <- carriageList) {
+                    @if(cl.getModelCode() == ml.getModelCode()) {
+                    <tr>
+                        <td>快递</td>
+                        <td>
+                            @if(cl.getCityCode()=="ALL") {未被划分的配送地区自动归于默认运费}
+                            @if(cl.getCityCode()!="ALL" ) {@cl.getCityCode()}
+                        </td>
+                        <td>@cl.getFirstNum</td>
+                        <td>@cl.getFirstFee</td>
+                        <td>@cl.getAddNum</td>
+                        <td>@cl.getAddFee</td>
+                    </tr>
+                    }
+                }
+            </table>
+            }
             <!--one-->
             <table cellspacing="0">
                 <tr style="background: rgb(224,238,255)">

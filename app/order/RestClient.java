@@ -35,7 +35,7 @@ public class RestClient {
      * @param params
      * @return
      */
-    public static <T> T post(String url, Map<String, String> headers, Map<String, String> params, Class<T> clazz) {
+    public static <T> T post(String url, Map<String, String> headers, Map<String, Object> params, Class<T> clazz) {
 
         WSRequest request = WS.url(url).setHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
         //设置头部
@@ -43,7 +43,7 @@ public class RestClient {
         StringBuffer sb = new StringBuffer();
 
         params.forEach((k, v) -> {
-            if (StringUtils.isNotEmpty(v)) {
+            if (v!=null && v!="") {
                 if (sb.length() > 0) {
                     sb.append("&");
                 }
@@ -74,14 +74,14 @@ public class RestClient {
      * @param secret
      * @return
      */
-    public static String create_sign(Map<String, String> params, String secret) {
+    public static String create_sign(Map<String, Object> params, String secret) {
         StringBuffer sb = new StringBuffer();
         List<String> keys = new ArrayList<>(params.keySet());
         Collections.sort(keys);
 
         for (String key : keys) {
-            String value = params.get(key);
-            if (StringUtils.isEmpty(key) || StringUtils.isEmpty(value) || key.equals("sign")) {
+            Object value = params.get(key);
+            if (StringUtils.isEmpty(key) || value==null|| value.equals("") || key.equals("sign")) {
                 continue;
             }
             sb.append(String.format("%s%s", key, value));
