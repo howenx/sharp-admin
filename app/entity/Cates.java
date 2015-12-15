@@ -31,7 +31,20 @@ public class Cates implements Serializable {
      */
     private String cateDesc;
 
+    /**
+     * cate cateCode.
+     */
+    private String cateCode;
+
     public Cates() {
+    }
+
+    public Cates(Long cateId, Long pcateId, String cateNm, String cateDesc, String cateCode) {
+        this.cateId = cateId;
+        this.pcateId = pcateId;
+        this.cateNm = cateNm;
+        this.cateDesc = cateDesc;
+        this.cateCode = cateCode;
     }
 
     public Long getCateId() {
@@ -66,12 +79,12 @@ public class Cates implements Serializable {
         this.cateDesc = cateDesc;
     }
 
-    public Cates(Long cateId, Long pcateId, String cateNm, String cateDesc) {
+    public String getCateCode() {
+        return cateCode;
+    }
 
-        this.cateId = cateId;
-        this.pcateId = pcateId;
-        this.cateNm = cateNm;
-        this.cateDesc = cateDesc;
+    public void setCateCode(String cateCode) {
+        this.cateCode = cateCode;
     }
 
     @Override
@@ -81,6 +94,7 @@ public class Cates implements Serializable {
                 ", pcateId=" + pcateId +
                 ", cateNm='" + cateNm + '\'' +
                 ", cateDesc='" + cateDesc + '\'' +
+                ", cateCode='" + cateCode + '\'' +
                 '}';
     }
 }

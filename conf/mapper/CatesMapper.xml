@@ -46,4 +46,10 @@
             AND cate_id = #{cateId}
         </if>
     </select>
+
+    <insert id="insertCates"  parameterType="entity.Cates" useGeneratedKeys="true" keyProperty="cate_id">
+        insert into cates
+        (pcate_id,cate_nm,cate_desc,cate_code)
+        values(#{pcateId},#{cateNm},#{cateDesc},#{cateCode})
+    </insert>
 </mapper>

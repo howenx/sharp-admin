@@ -291,13 +291,16 @@ public class ItemCtrl extends Controller {
             Object[] object = new Object[7];
             Logger.error(order.toString());
             Logger.error(order.getOrderId().toString());
-            //Ship ship = shipService.getShipByOrderId(order.getOrderId());
-            //Logger.error(ship.toString());
+            if(shipService.getShipByOrderId(order.getOrderId()) != null){
+                Ship ship = shipService.getShipByOrderId(order.getOrderId());
+                Logger.error(ship.toString());
+                object[3] = ship.getExpressNum();
+            }else{
+                object[3] = "";
+            }
             object[0] = order.getOrderId();
             object[1] = order.getUserId();
             object[2] = order.getOrderCreateAt();
-            //object[3] = ship.getExpressNum();
-            object[3] = "";
             object[4] = order.getPayTotal();
             object[5] = order.getPayMethod();
             if("I".equals(order.getOrderStatus())){

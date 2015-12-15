@@ -184,4 +184,12 @@ public class ItemServiceImpl implements ItemService{
         return catesMapper.getSubCates(hashMap);
     }
 
+    /**
+     * 新增商品类别
+     * @param cates
+     * @return
+     */
+    @Override
+    public Integer catesSave(Cates cates) {return catesMapper.insertCates(cates);}
+
 }

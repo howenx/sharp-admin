@@ -4,6 +4,7 @@ import entity.Cates;
 
 import java.util.HashMap;
 import java.util.List;
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * CatesMapper.xml for CatesMapper interface.
@@ -33,5 +34,11 @@ public interface CatesMapper {
 		 * @return Cates
 		 */
 		Cates getCate(Long cateId);
+
+		/**
+		 * 新增cates
+		 * @param cates
+		 */
+		Integer insertCates(Cates cates);
 
 }
