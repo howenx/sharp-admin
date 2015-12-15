@@ -10,7 +10,6 @@ import mapper.BrandsMapper;
 import mapper.CatesMapper;
 import mapper.InventoryMapper;
 import mapper.ItemMapper;
-import play.Logger;
 import play.libs.Json;
 
 import javax.inject.Inject;
@@ -56,6 +55,7 @@ public class ItemServiceImpl implements ItemService{
     public List<Long> itemSave(JsonNode json) {
         List<Long> list = new ArrayList<>();
         Item item = new Item();
+        //items表录入数据
         if (json.has("item")) {
             JsonNode jsonItem = json.findValue("item");
             if (jsonItem.has("publicity")) {
@@ -68,29 +68,56 @@ public class ItemServiceImpl implements ItemService{
                 ((ObjectNode) jsonItem).put("itemFeatures",jsonItem.findValue("itemFeatures").toString());
             }
             item = Json.fromJson(json.findValue("item"),Item.class);
-            item.setState("Y");
-            item.setOrDestroy(false);
-            Logger.error(item.toString());
+//            Logger.error(item.toString());
+            //更新商品信息
             if (jsonItem.has("id")) {
+                if(item.getState()=="N") item.setOrDestroy(true);
                 this.itemMapper.itemUpdate(item);
             }
-            else this.itemMapper.itemInsert(item);
+            //录入商品信息
+            else {
+                item.setState("Y");
+                item.setOrDestroy(false);
+                this.itemMapper.itemInsert(item);
+            }
         }
+        //往inventories表插入数据
         if (json.has("inventories")) {
-            //往inventories表插入数据
+            //记录各个sku状态的个数
+            int y_num = 0;
+            int d_num = 0;
+            int k_num = 0;
+            int n_num = 0;
             for(final JsonNode jsonNode : json.findValue("inventories")) {
+                int sku_num = json.findValue("inventories").size();
                 if (jsonNode.has("itemPreviewImgs")) {
                     ((ObjectNode) jsonNode).put("itemPreviewImgs",jsonNode.findValue("itemPreviewImgs").toString());
                 }
                 Inventory inventory = Json.fromJson(jsonNode, Inventory.class);
                 inventory.setItemId(item.getId());
-                inventory.setState("Y");
                 inventory.setInvTitle(item.getItemTitle());
-                Logger.error(inventory.toString());
+//                Logger.error(inventory.toString());
+                //更新库存信息
                 if (jsonNode.has("id")) {
+                    //SKU状态有一个为Y,item状态为Y
+                    if (inventory.getState().equals("Y")) {y_num+=1; item.setState("Y");}
+                    if (inventory.getState().equals("D"))  {d_num+=1;}
+                    if (inventory.getState().equals("K"))  {k_num+=1;}
+                    if (inventory.getState().equals("N"))  {n_num+=1; inventory.setOrDestroy(true);}
+                    //item状态设置为下架的情况
+                    if (d_num > 0 && y_num==0 || (k_num+n_num==sku_num)) {item.setState("D");}
+                    if (k_num == sku_num) {item.setState("K");}
+                    if (n_num == sku_num) {item.setState("N");}
                     this.inventoryMapper.updateInventory(inventory);
+                    this.itemMapper.itemUpdate(item);
                 }
-                else this.inventoryMapper.insertInventory(inventory);
+                //录入库存信息
+                else {
+                    inventory.setState("Y");
+                    item.setOrDestroy(false);
+                    this.inventoryMapper.insertInventory(inventory);
+
+                }
                 //查找该商品的库存中主skuId,更新到items表中masterInvId
                 List<Inventory> inventories = inventoryMapper.getInventoriesByItemId(item.getId());
                 for(Inventory inv : inventories) {
