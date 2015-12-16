@@ -9,5 +9,7 @@ import java.util.List;
  */
 public interface OrderMapper {
 
-    public List<Order> getOrdersAll();
+    List<Order> getOrdersAll();
+    List<Order> getOrderPage(Order order);
+
 }

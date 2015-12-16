@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",orList:List[Array[Object]],user:entity.User)
+@(lang:String="cn",pageSize:Integer,countNum:Integer,pageCount:Integer,orList:List[Array[Object]],user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -10,7 +10,7 @@
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
 }
-@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"comm.search.popup.title")
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"订单查询")
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 <div class="mbread">
@@ -32,12 +32,12 @@
 
             <label class="col-sm-1 control-label">订单Id</label>
             <div class="col-sm-3">
-                <input type="number" min="10000" max="99999999" class="form-control"/>
+                <input id="order-form-id" type="number" min="10000" max="99999999" class="form-control"/>
             </div>
 
             <label class="col-sm-1 control-label">用户Id</label>
             <div class="col-sm-3">
-                <input type="number" min="10000" max="99999999" class="form-control"/>
+                <input  id="order-form-userid" type="number" min="10000" max="99999999" class="form-control"/>
             </div>
 
             <label class="col-sm-1 control-label">创建时间</label>
@@ -52,7 +52,7 @@
         <div class="form-group">
             <label class="col-sm-1 control-label">订单状态</label>
             <div class="col-sm-3">
-                <select class="form-control">
+                <select id="order-form-status" class="form-control">
                     <option>未支付</option>
                     <option>已支付</option>
                     <option>已下单</option>
@@ -61,7 +61,7 @@
             </div>
             <label class="col-sm-1 control-label">快递单号</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control">
+                <input id="order-form-express" type="text" class="form-control">
             </div>
         </div>
 
@@ -96,17 +96,23 @@
                 <td>@order(6)</td>
             </tr>
             }
+            <!---公用模块,id不能改变,只需要改变合并行数-->
+            <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
-        <ul class="pagination">
-            <li><a href="javascript:void(0)">&laquo;</a></li>
-            <li class="active"><a href="javascript:void(0)">1</a></li>
-            <li><a href="javascript:void(0)">2</a></li>
-            <li><a href="javascript:void(0)">3</a></li>
-            <li><a href="javascript:void(0)">4</a></li>
-            <li><a href="javascript:void(0)">5</a></li>
-            <li><a href="javascript:void(0)">&raquo;</a></li>
-        </ul>
+        <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
+        <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
+        <div class="paging">
+            <ul class="pagination">
+                <li class="prev disabled"><a href="javascript:void(0)">&laquo;</a></li>
+                <li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>
+                @for(count <- 1 until pageCount){
+                <li class="page-num"><a href="javascript:void(0)">@(count+1)</a></li>
+                }
+                <li class="next"><a href="javascript:void(0)">&raquo;</a></li>
+            </ul>
+        </div>
+        <!-- 公用模块,直接拷贝-->
     </div>
 </div>
 <!-- 点击图片预览-->

@@ -85,6 +85,10 @@ GET             /comm/order/search                                          cont
 GET             /$lang<(cn|en|kr)>/comm/order/search                        controllers.ItemCtrl.orderList(lang)
 GET             /comm/order/detail/$id<[0-9]+>                              controllers.ItemCtrl.orderDetail(lang ="cn",id:Long)
 GET             /$lang<(cn|en|kr)>/comm/order/detail/$id<[0-9]+>            controllers.ItemCtrl.orderDetail(lang,id:Long)
+POST            /comm/order/search/$pageNum<[0-9]+>                         controllers.ItemCtrl.orderSearchAjax(lang ="cn",pageNum:Int)
+POST            /$lang<(cn|en|kr)>/comm/order/search/$pageNum<[0-9]+>       controllers.ItemCtrl.orderSearchAjax(lang,pageNum:Int)
+
+
 
 
 #brand 品牌

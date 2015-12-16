@@ -40,15 +40,30 @@ public class Brands implements Serializable {
      */
     private String brandNm;
 
+    //分页,每页多少条
+    private Integer pageSize;
+
+    //分页,从第几条开始
+    private Integer offset;
+
+    //按照哪个字段排序
+    private String sort;
+    //排序方式,降序,升序
+    private String order;
+
     public Brands() {
     }
 
-    public Brands(Long brandId, String brandDesc, String logo, Timestamp createDate, String brandNm) {
+    public Brands(Long brandId, String brandDesc, String logo, Timestamp createDate, String brandNm, Integer pageSize, Integer offset, String sort, String order) {
         this.brandId = brandId;
         this.brandDesc = brandDesc;
         this.logo = logo;
         this.createDate = createDate;
         this.brandNm = brandNm;
+        this.pageSize = pageSize;
+        this.offset = offset;
+        this.sort = sort;
+        this.order = order;
     }
 
     @Override
@@ -59,6 +74,10 @@ public class Brands implements Serializable {
                 ", logo='" + logo + '\'' +
                 ", createDate=" + createDate +
                 ", brandNm='" + brandNm + '\'' +
+                ", pageSize=" + pageSize +
+                ", offset=" + offset +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
                 '}';
     }
 
@@ -100,5 +119,37 @@ public class Brands implements Serializable {
 
     public void setBrandNm(String brandNm) {
         this.brandNm = brandNm;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
     }
 }

@@ -284,20 +284,32 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result orderList(String lang){
+        Order order_temp = new Order();
+        order_temp.setPageSize(-1);
+        order_temp.setOffset(-1);
+
+        int countNum = orderService.getOrdersAll().size();
+        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
+        if(countNum%ThemeCtrl.PAGE_SIZE != 0){
+            pageCount =  countNum/ThemeCtrl.PAGE_SIZE + 1;
+        }
+        order_temp.setPageSize(ThemeCtrl.PAGE_SIZE);
+        order_temp.setOffset(0);
+
         //含有物流信息的订单列表
         List<Object[]> orList = new ArrayList<>();
-        List<Order> orderList = orderService.getOrdersAll();
+        List<Order> orderList = orderService.getOrderPage(order_temp);
         for(Order order : orderList){
             Object[] object = new Object[7];
             Logger.error(order.toString());
             Logger.error(order.getOrderId().toString());
-            if(shipService.getShipByOrderId(order.getOrderId()) != null){
-                Ship ship = shipService.getShipByOrderId(order.getOrderId());
-                Logger.error(ship.toString());
-                object[3] = ship.getExpressNum();
-            }else{
+            //if(shipService.getShipByOrderId(order.getOrderId()) != null){
+            //    Ship ship = shipService.getShipByOrderId(order.getOrderId());
+             //   Logger.error(ship.toString());
+             //   object[3] = ship.getExpressNum();
+            //}else{
                 object[3] = "";
-            }
+           // }
             object[0] = order.getOrderId();
             object[1] = order.getUserId();
             object[2] = order.getOrderCreateAt();
@@ -319,7 +331,47 @@ public class ItemCtrl extends Controller {
             orList.add(object);
 
         }
-        return ok(views.html.item.ordersearch.render(lang,orList,(User) ctx().args.get("user")));
+        return ok(views.html.item.ordersearch.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,orList,(User) ctx().args.get("user")));
+
+    }
+
+    /**
+     * 订单Ajax查询
+     * @param lang
+     * @param pageNum
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result orderSearchAjax(String lang,int pageNum){
+        JsonNode json = request().body().asJson();
+        Order order = Json.fromJson(json,Order.class);
+        if(pageNum>=1){
+            //计算从第几条开始取数据
+            int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
+            order.setPageSize(-1);
+            order.setOffset(-1);
+            //取总数
+            int countNum = orderService.getOrderPage(order).size();
+            //共分几页
+            int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
+
+            if(countNum%ThemeCtrl.PAGE_SIZE!=0){
+                pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
+            }
+            order.setPageSize(ThemeCtrl.PAGE_SIZE);
+            order.setOffset(offset);
+            //组装返回数据
+            Map<String,Object> returnMap=new HashMap<>();
+            returnMap.put("order",orderService.getOrderPage(order));
+            returnMap.put("pageNum",pageNum);
+            returnMap.put("countNum",countNum);
+            returnMap.put("pageCount",pageCount);
+            returnMap.put("pageSize",ThemeCtrl.PAGE_SIZE);
+            return ok(Json.toJson(returnMap));
+        }
+        else{
+            return badRequest();
+        }
     }
 
     /**
@@ -341,7 +393,18 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result brandList(String lang){
-        return ok(views.html.item.brandsearch.render(lang,(User) ctx().args.get("user")));
+        Brands brands = new Brands();
+        brands.setPageSize(-1);
+        brands.setOffset(-1);
+
+        int countNum = service.getAllBrands().size();
+        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
+        if(countNum%ThemeCtrl.PAGE_SIZE != 0){
+            pageCount =  countNum/ThemeCtrl.PAGE_SIZE + 1;
+        }
+        brands.setPageSize(ThemeCtrl.PAGE_SIZE);
+        brands.setOffset(0);
+        return ok(views.html.item.brandsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,service.getBrandsPage(brands),(User) ctx().args.get("user")));
     }
 
     /**

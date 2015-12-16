@@ -8,5 +8,6 @@ import java.util.List;
  * Created by tiffany on 15/12/10.
  */
 public interface OrderService {
-    public List<Order> getOrdersAll();
+    List<Order> getOrdersAll();
+    List<Order> getOrderPage(Order order);
 }
