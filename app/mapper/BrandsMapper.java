@@ -26,4 +26,10 @@ public interface BrandsMapper {
 		 */
 		List<Brands> getAllBrands();
 
+		/**
+		 *
+		 * @return
+		 */
+		List<Brands> getBrandsPage(Brands brands);
+
 }

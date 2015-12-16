@@ -60,4 +60,6 @@ public interface ItemService {
      * @return
      */
     Integer catesSave(Cates cates);
+
+    List<Brands>  getBrandsPage(Brands brands);
 }

@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",user:entity.User)
+@(lang:String="cn",url:String,pageSize:Integer,countNum:Integer,pageCount:Integer,brands:List[entity.Brands],user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -66,25 +66,33 @@
                 </tr>
                 </thead>
                 <tbody>
+                @for(brand <- brands){
                 <tr>
-                    <td>1000423</td>
-                    <td>啊等</td>
-                    <td>234</td>
-                    <td>cs123</td>
-                    <td>2015/11/23 12:21:31</td>
+                    <td>@brand.getBrandId()</td>
+                    <td>@brand.getBrandNm()</td>
+                    <td></td>
+                    <td> <img class="main-img" src="@url@brand.getLogo()" alt="" width="50"></td>
+                    <td>@if(brand.getCreateDate()!=null){@(brand.getCreateDate().toString().substring(0,16))}</td>
                 </tr>
+                }
+                <!---公用模块,id不能改变,只需要改变合并行数-->
+                <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
                 </tbody>
             </table>
+            <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
+            <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
+            <div class="paging">
+                <ul class="pagination">
+                    <li class="prev disabled"><a href="javascript:void(0)">&laquo;</a></li>
+                    <li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>
+                    @for(count <- 1 until pageCount){
+                    <li class="page-num"><a href="javascript:void(0)">@(count+1)</a></li>
+                    }
+                    <li class="next"><a href="javascript:void(0)">&raquo;</a></li>
+                </ul>
+            </div>
+            <!-- 公用模块,直接拷贝-->
         </div>
-        <ul class="pagination">
-            <li><a href="javascript:void(0)">&laquo;</a></li>
-            <li class="active"><a href="javascript:void(0)">1</a></li>
-            <li><a href="javascript:void(0)">2</a></li>
-            <li><a href="javascript:void(0)">3</a></li>
-            <li><a href="javascript:void(0)">4</a></li>
-            <li><a href="javascript:void(0)">5</a></li>
-            <li><a href="javascript:void(0)">&raquo;</a></li>
-        </ul>
     </div>
 </div>
 <!-- 点击图片预览-->

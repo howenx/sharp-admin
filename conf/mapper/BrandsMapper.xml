@@ -31,4 +31,18 @@
         </include>
         from brands t where 1=1
     </select>
+    <select id="getBrandsPage" parameterType="entity.Brands" resultType="entity.Brands">
+        select
+        <include refid="brandsColumns">
+            <property name="alias" value="t" />
+        </include>
+        from brands t where 1=1
+        <if test="pageSize == -1 and offset >= -1">
+            LIMIT ALL OFFSET 0
+        </if>
+        <if test="pageSize >= 1 and offset >= 0">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
 </mapper>
