@@ -167,6 +167,7 @@ public class ItemCtrl extends Controller {
             object[15] = inventory.getInvCustoms();
             object[16] = inventory.getInvImg();
             object[17] = inventory.getItemPreviewImgs();
+            object[18] = inventory.getState();
             invList.add(object);
         }
 
