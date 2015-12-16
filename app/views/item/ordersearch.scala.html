@@ -9,6 +9,8 @@
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
+<!-- 此为调用分页所提供的函数名前缀 -->
+<script>window.search_args = 'orderlist'</script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"订单查询")
 
@@ -86,7 +88,7 @@
             </thead>
             <tbody>
             @for(order <- orList){
-            <tr>
+            <tr class = "tb-list-data">
                 <td><a href="/@lang/comm/order/detail/@order(0)">@order(0)</a></td>
                 <td>@order(1)</td>
                 <td>@order(2)</td>
