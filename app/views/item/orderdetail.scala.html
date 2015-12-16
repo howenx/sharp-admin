@@ -10,6 +10,16 @@
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
+<script>
+    $(function(){
+        $('form').css("display","none");
+        $('form').each(function(){
+            if($(this).attr("dis")){
+                $(this).css("display","block");
+            }
+        })
+    })
+</script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"订单详情")
 
@@ -24,8 +34,8 @@
         <span>订单详情</span>
     </div>
 </div>
-<div class="wrap-slider">
-    <form class="form-horizontal" style="background: rgb(144,203,217)">
+<div class="content-1">
+    <form class="form-horizontal">
         <!--订单-->
         <div class="form-group">
             <label class="col-sm-offset-1 col-sm-1 control-label">订单编号:</label>
@@ -94,14 +104,14 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-offset-1 col-sm-6 control-label">物流公司:</label>
+            <label class="col-sm-offset-6 col-sm-1 control-label">物流公司:</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control" disabled>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-sm-offset-1 col-sm-6 control-label">运单号:</label>
+            <label class="col-sm-offset-6 col-sm-1 control-label">运单号:</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control" disabled>
             </div>
@@ -188,7 +198,7 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-offset-1 col-sm-6 control-label">实付款:</label>
+            <label class="col-sm-offset-6 col-sm-1 control-label">实付款:</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control" disabled>
             </div>
@@ -196,7 +206,7 @@
     </form>
 
 
-    <form class="form-horizontal" style="background: rgb(250,191,143)">
+    <form class="form-horizontal" dis="1">
         <div class="form-group">
             <label class="col-sm-offset-1 col-sm-1 control-label">订单编号:</label>
             <div class="col-sm-4">
@@ -303,14 +313,14 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-offset-1 col-sm-6 control-label">物流公司:</label>
+            <label class="col-sm-offset-6 col-sm-1 control-label">物流公司:</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control" disabled>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-sm-offset-1 col-sm-6 control-label">运单号:</label>
+            <label class="col-sm-offset-6 col-sm-1 control-label">运单号:</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control" disabled>
             </div>
@@ -397,7 +407,7 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-offset-1 col-sm-6 control-label">实付款:</label>
+            <label class="col-sm-offset-1 col-sm-1 control-label">实付款:</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control" disabled>
             </div>
@@ -474,14 +484,14 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-offset-1 col-sm-6 control-label">物流公司:</label>
+            <label class="col-sm-offset-6 col-sm-1 control-label">物流公司:</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control" disabled>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-sm-offset-1 col-sm-6 control-label">运单号:</label>
+            <label class="col-sm-offset-6 col-sm-1 control-label">运单号:</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control" disabled>
             </div>
@@ -568,7 +578,7 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-offset-1 col-sm-6 control-label">实付款:</label>
+            <label class="col-sm-offset-6 col-sm-1 control-label">实付款:</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control" disabled>
             </div>
