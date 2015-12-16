@@ -3,6 +3,7 @@
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/carr.css">
 <link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
 <script src="/assets/js/search.js"></script>
 
@@ -24,7 +25,555 @@
     </div>
 </div>
 <div class="wrap-slider">
+    <form class="form-horizontal" style="background: rgb(144,203,217)">
+        <!--订单-->
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">订单编号:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+            <label class="col-sm-1 control-label">创建时间:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+        </div>
 
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">收货人姓名:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">支付方式:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">身份证号:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">支付状态:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">手机号:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">订单状态:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">收货城市:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">报关状态:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">详细收货地址:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">支付报关状态:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-6 control-label">物流公司:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-6 control-label">运单号:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-11">
+                <button type="button" class="btn btn-primary btn-sm pull-right check-logistics">
+                    查看物流
+                    <div class="logistics-info">
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-sm-offset-1 col-sm-10">
+            <h5>商品明细:</h5>
+            <table class="table table-bordered">
+                <tr>
+                    <td>商品</td>
+                    <td>单价(元)</td>
+                    <td>数量</td>
+                    <td>优惠(元)</td>
+                    <td>总价(元)</td>
+                    <td>状态</td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="" alt="" width="40" height="40">
+                        <em>护肤品</em>
+                    </td>
+                    <td>125.9</td>
+                    <td>1</td>
+                    <td>5</td>
+                    <td>120.9</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">运费:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label" style="padding-top: 0">订单总价(含运费和行邮费):</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">行邮税:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">优惠:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-6 control-label">实付款:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+        </div>
+    </form>
+
+
+    <form class="form-horizontal" style="background: rgb(250,191,143)">
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">订单编号:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+            <label class="col-sm-1 control-label">创建时间:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">订单总价(含运费和行邮税):</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">优惠:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">实付款:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-11 control-label">子订单详情(共2个子订单):</label>
+        </div>
+        <!--子订单1-->
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">子订单1:</label>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">子订单编号:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+            <label class="col-sm-1 control-label">创建时间:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">收货人姓名:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">支付方式:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">身份证号:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">支付状态:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">手机号:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">订单状态:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">收货城市:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">报关状态:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">详细收货地址:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">支付报关状态:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-6 control-label">物流公司:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-6 control-label">运单号:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-11">
+                <button type="button" class="btn btn-primary btn-sm pull-right check-logistics">
+                    查看物流
+                    <div class="logistics-info">
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-sm-offset-1 col-sm-10">
+            <h5>商品明细:</h5>
+            <table class="table table-bordered">
+                <tr>
+                    <td>商品</td>
+                    <td>单价(元)</td>
+                    <td>数量</td>
+                    <td>优惠(元)</td>
+                    <td>总价(元)</td>
+                    <td>状态</td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="" alt="" width="40" height="40">
+                        <em>护肤品</em>
+                    </td>
+                    <td>125.9</td>
+                    <td>1</td>
+                    <td>5</td>
+                    <td>120.9</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">运费:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label" style="padding-top: 0">订单总价(含运费和行邮费):</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">行邮税:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">优惠:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-6 control-label">实付款:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+        </div>
+
+        <!--子订单2-->
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">子订单2:</label>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">子订单编号:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+            <label class="col-sm-1 control-label">创建时间:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">收货人姓名:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">支付方式:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">身份证号:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">支付状态:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">手机号:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">订单状态:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">收货城市:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">报关状态:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">详细收货地址:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">支付报关状态:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-6 control-label">物流公司:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-6 control-label">运单号:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-11">
+                <button type="button" class="btn btn-primary btn-sm pull-right check-logistics">
+                    查看物流
+                    <div class="logistics-info">
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-sm-offset-1 col-sm-10">
+            <h5>商品明细:</h5>
+            <table class="table table-bordered">
+                <tr>
+                    <td>商品</td>
+                    <td>单价(元)</td>
+                    <td>数量</td>
+                    <td>优惠(元)</td>
+                    <td>总价(元)</td>
+                    <td>状态</td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="" alt="" width="40" height="40">
+                        <em>护肤品</em>
+                    </td>
+                    <td>125.9</td>
+                    <td>1</td>
+                    <td>5</td>
+                    <td>120.9</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">运费:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label" style="padding-top: 0">订单总价(含运费和行邮费):</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-1 control-label">行邮税:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+            <label class="col-sm-1 control-label">优惠:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-6 control-label">实付款:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" disabled>
+            </div>
+        </div>
+    </form>
 </div>
 <!-- 点击图片预览-->
 <div class="goods-img-bg">
