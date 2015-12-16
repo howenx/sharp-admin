@@ -320,13 +320,22 @@ public class ItemCtrl extends Controller {
                 object[6] = "未支付";
             }
             if("S".equals(order.getOrderStatus())){
-                object[6] = "已支付";
+                object[6] = "支付成功";
             }
             if("C".equals(order.getOrderStatus())){
                 object[6] = "订单取消";
             }
             if("F".equals(order.getOrderStatus())){
                 object[6] = "支付失败";
+            }
+            if("R".equals(order.getOrderStatus())){
+                object[6] = "已签收";
+            }
+            if("D".equals(order.getOrderStatus())){
+                object[6] = "已发货";
+            }
+            if("J".equals(order.getOrderStatus())){
+                object[6] = "拒收";
             }
 
             orList.add(object);
