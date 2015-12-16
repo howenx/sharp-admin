@@ -120,29 +120,18 @@ $(function() {
 			);
 		})
 	}
-
-
-
-
-
-
-
-
-
-
-
        //每个查询页面对应一个相应的组装函数  订单查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Tiffany Zhu
         funcList.orderlist_search = function orderlist_search(pageIndex) {
             var orderDto = new Object();
-            orderDto.id = $("#order-form-id").val();
+            orderDto.orderId = $("#order-form-id").val();
             orderDto.userId = $("#order-form-userid").val();
 
-            orderDto.createAt = $("#onShelvesAt").val();
-            orderDto.status = $("#order-form-status").val();
-            orderDto.express = $("#order-form-express").val();
+            orderDto.orderCreateAt = $("#onShelvesAt").val();
+            orderDto.orderStatus = $("#order-form-status").val();
+            //orderDto.express = $("#order-form-express").val();
             //创建时间如果为空
             if ($("#onShelvesAt").val() == '' || $("#onShelvesAt").val() == null) {
-                orderDto.createAt = "0000-01-01 00:00:00";
+                orderDto.orderCreateAt = "0000-01-01 00:00:00";
             }
             //调用共用ajax,url从根目录开始不需要加上语言
             search("/comm/order/search/" + pageIndex, orderDto);
@@ -157,29 +146,14 @@ $(function() {
                     '<td><a href="javascript:void(0)">' + $(this)[0].orderId + '</a></td>' +
                     '<td>' + $(this)[0].userId + '</td>' +
                     '<td>' + $(this)[0].orderCreateAt + '</td>' +
-                    '<td>' + $(this)[0].startAt + '</td>' +
-                    '<td>' + $(this)[0].endAt + '</td>' +
+                    '<td>' + $(this)[0].orderCreateAt + '</td>' +
+                    '<td>' + $(this)[0].payTotal + '</td>' +
+                    '<td>' + $(this)[0].payMethod + '</td>' +
+                    '<td>' + $(this)[0].orderStatus + '</td>' +
                     '</tr>'
                 );
             })
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	/*********************************公用模块，不需要变更改动，如需变更改动请找howen ****************************************/
 	//点击页数
