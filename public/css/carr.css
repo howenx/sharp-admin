@@ -118,3 +118,34 @@ h5{
 .table-content table>tbody>tr>td span:nth-of-type(2){
     float: right;
 }
+/*************订单详情*************/
+.logistics-info{
+    position: absolute;right: 0;top: 30px;
+    border: 1px solid #ccc;padding: 15px 30px;
+    background: #fff;z-index: 1;
+    display: none;
+}
+.logistics-info h5{
+    margin: 10px 0;color: #000;
+}
+.check-logistics{
+    position: relative;
+}
+.check-logistics:hover .logistics-info{
+    display: block;
+}
+em{
+    font-style: normal;
+}
+.form-group .control-label{
+    text-align: left;
+}
+.form-group input{
+    border: 0;outline: none;
+}
+.form-group input:visited{
+    border: 0;outline: none;
+}
+/*.table-bordered,.table-bordered>tbody>tr>td{*/
+    /*border: 1px solid #000;*/
+/*}*/

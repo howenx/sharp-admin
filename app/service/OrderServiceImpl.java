@@ -15,4 +15,9 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
     @Override
     public List<Order> getOrdersAll(){return orderMapper.getOrdersAll();}
+
+    @Override
+    public List<Order> getOrderPage(Order order) {
+        return orderMapper.getOrderPage(order);
+    }
 }

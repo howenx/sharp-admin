@@ -187,6 +187,15 @@ public class ItemServiceImpl implements ItemService{
     }
 
     /**
+     * get brands page
+     * @param brands
+     * @return
+     */
+    @Override
+    public List<Brands> getBrandsPage(Brands brands) {
+        return brandsMapper.getBrandsPage(brands);
+    }
+    /**
      * get parent categories.
      *
      * @return List of Cates

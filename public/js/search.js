@@ -120,6 +120,63 @@ $(function() {
 			);
 		})
 	}
+       //每个查询页面对应一个相应的组装函数  订单查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Tiffany Zhu
+        funcList.orderlist_search = function orderlist_search(pageIndex) {
+            var orderDto = new Object();
+            orderDto.orderId = $("#order-form-id").val();
+            orderDto.userId = $("#order-form-userid").val();
+
+            orderDto.orderCreateAt = $("#onShelvesAt").val();
+            var selectedOption = $("#order-form-status option:selected");
+            orderDto.orderStatus = selectedOption.value;
+            //orderDto.express = $("#order-form-express").val();
+            //创建时间如果为空
+            if ($("#onShelvesAt").val() == '' || $("#onShelvesAt").val() == null) {
+                orderDto.orderCreateAt = "0000-01-01 00:00:00";
+            }
+            //调用共用ajax,url从根目录开始不需要加上语言
+            search("/comm/order/search/" + pageIndex, orderDto);
+        }
+
+        //每个查询页面对应一个相应的返回时填充函数 订单查询页面       Added by Tiffany Zhu
+        funcList.orderlist_data = function orderlist_data(data) {
+            //填充列表数据
+            $(data).each(function(index, element) {
+                var orderStatus;
+                if($(this)[0].orderStatus == "I"){
+                    orderStatus = "未支付";
+                 }
+                 if($(this)[0].orderStatus == "S"){
+                    orderStatus = "支付成功";
+                 }
+                 if($(this)[0].orderStatus == "C"){
+                    orderStatus = "订单取消";
+                 }
+                 if($(this)[0].orderStatus == "F"){
+                    orderStatus = "支付失败";
+                 }
+                 if($(this)[0].orderStatus == "R"){
+                     orderStatus = "已签收";
+                 }
+                 if($(this)[0].orderStatus == "D"){
+                     orderStatus = "已发货";
+                 }
+                 if($(this)[0].orderStatus == ""){
+                     orderStatus = "拒收";
+                 }
+                $('#tb-topic').find('tbody').append('' +
+                    '<tr class="tb-list-data">' +
+                    '<td><a href="/' + window.lang +'/comm/order/detail/' + $(this)[0].orderId + '">' + $(this)[0].orderId + '</a></td>' +
+                    '<td>' + $(this)[0].userId + '</td>' +
+                    '<td>' + ($(this)[0].orderCreateAt != null && $(this)[0].orderCreateAt != '' ? $(this)[0].orderCreateAt.substr(0, 16) : '') + '</td>}' +
+                    '<td>' + "" + '</td>' +
+                    '<td>' + $(this)[0].payTotal + '</td>' +
+                    '<td>' + $(this)[0].payMethod + '</td>' +
+                    '<td>' + orderStatus + '</td>' +
+                    '</tr>'
+                );
+            })
+        }
 
 	/*********************************公用模块，不需要变更改动，如需变更改动请找howen ****************************************/
 	//点击页数
