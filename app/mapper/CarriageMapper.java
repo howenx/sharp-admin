@@ -11,6 +11,8 @@ public interface CarriageMapper {
 
     Integer insertCarriage(Carriage carriage);
 
+    void delCarrById(Long id);
+
     void updateCarriage(Carriage carriage);
 
     String getModelName(String modelCode);

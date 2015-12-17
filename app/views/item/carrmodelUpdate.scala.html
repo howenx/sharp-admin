@@ -1,0 +1,362 @@
+@import play.i18n._
+@(lang:String="cn",carrList:List[entity.Carriage],user:entity.User)
+
+@scripts = {
+
+<link rel="stylesheet" href="/assets/css/carr.css">
+<link rel="stylesheet" href="/assets/css/slider.css"/>
+<script src="/assets/js/jquery.min.js"></script>
+<script>
+    function ShowModal(addr,arr,arr1) {
+        var sharedObject = {};
+        sharedObject.cityOriginal_arr = arr;
+        sharedObject.addr = addr;
+        sharedObject.cityOriginal_all_arr =arr1;
+
+        if (window.showModalDialog) {
+            var retValue = showModalDialog("/carr/pop", sharedObject, "dialogWidth:1200px; dialogHeight:600px; dialogLeft:300px;");
+            if (retValue) {
+                UpdateFields(retValue);
+            }
+        }
+        else {
+            // for similar functionality in Opera, but it's not modal!
+            var modal = window.open ("/carr/pop", null, "width=1200,height=600,left=300,modal=yes,alwaysRaised=yes", null);
+            modal.dialogArguments = sharedObject;
+        }
+    }
+    function UpdateFields(obj) {
+        var cityCode,cityName,cityNameGiven,cityCodeGiven;
+        cityCode = obj.cityCode;
+        cityName = obj.cityName;
+        cityNameGiven = cityName.join(" ");
+        cityCodeGiven = cityCode.join(",");
+        $('.add-temp').parents("tr").before('<tr>' +
+                '<td width="300"><span>'+cityNameGiven+' </span><a href="javascript:void(0)" class="edit" style="float: right">编辑</a><span class="cnm" style="display:none;">'+
+                cityCodeGiven +
+                '</span></td>' +
+                '<td><input type="text" value="" name="firstNum"></td>' +
+                '<td><input type="text" value="" name="firstFee"></td>' +
+                '<td><input type="text" value="" name="addNum"></td>' +
+                '<td><input type="text" value="" name="addFee"></td>' +
+                '<td><a href="javascript:void(0)" class="del">删除</a></td>' +
+                '</tr>')
+    }
+    function UpdateFields1(obj) {
+        var cityCode,cityName,cityGiven;
+        cityCode = obj.cityCode;
+        cityName = obj.cityName;
+        cityGiven = cityName.join(" ");
+        $(obj.addr).html(cityGiven);
+        $(obj.addr).parent().find(".cnm").html(cityCode.join(","));
+    }
+    $(function(){
+        $('.add-temp').click(function(){
+            var cityOriginal_all = $('.edit').parent().find("span");
+            var cityOriginal_all_str = '';
+            for(var i=0;i<cityOriginal_all.length;i++){
+                cityOriginal_all_str = cityOriginal_all_str + $(cityOriginal_all[i]).html() + ' ';
+            }
+            cityOriginal_all_arr = cityOriginal_all_str.split(" ");
+            cityOriginal_all_arr.pop();
+            <!--console.log(cityOriginal_all_arr);-->
+            ShowModal(' ',[],cityOriginal_all_arr);
+        });
+        var cityOriginal_arr,cityOriginal_all_arr;
+        $(document).on('click','.edit',function(){
+            var cityOriginal = $(this).parent().find("span").html();
+            cityOriginal_arr = cityOriginal.split(" ");
+            var addr = $(this).parent().find('span');
+
+            var cityOriginal_all = $('.edit').parent().find("span").not($(this).parent().find("span"));
+            var cityOriginal_all_str = '';
+            for(var i=0;i<cityOriginal_all.length;i++){
+                cityOriginal_all_str = cityOriginal_all_str + $(cityOriginal_all[i]).html() + ' ';
+            }
+            cityOriginal_all_arr = cityOriginal_all_str.split(" ");
+            cityOriginal_all_arr.pop();
+
+            ShowModal(addr,cityOriginal_arr,cityOriginal_all_arr);
+        });
+        $(document).on('click','.del',function(){
+            $(this).parents('tr').remove();
+        });
+        $(".express").change(function(){
+            $(".tran-mode table").toggle();
+        })
+    })
+</script>
+
+}
+
+@import java.lang.String; var title="运费模板更新"
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
+        <span class="icon-path">&gt;</span>
+        <span>运费模板</span>
+    </div>
+</div>
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">运费模板更新</span>
+    </div>
+    <div class="usercenter-option">
+        <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
+        <div  id="modelSubmit" class="btn-blue btn-form fr ml15">更新</div>
+        <div id="return" class="btn-white btn-form fr ml20">返回</div>
+        <span id="js-userinfo-error" class="mt20 alt fr"></span>
+    </div>
+    <div class="row">
+        <form class="form-horizontal" method="post" enctype="multipart/form-data">
+            <!--运费模版名称-->
+            <div class="input-item" style="padding-top: 30px">
+                <input type="hidden" id="modelCode" name="modelCode" value="@carrList(0).getModelCode()">
+                <span>运费模版名称:</span>
+                <input type="text" id="modelName" name="modelName" value="@carrList(0).getModelName()" style="color:black;">  请输入汉字、 -、 字母或者数字<font id="modelName-warn" style="color:red;margin-left:10px;"></font>
+            </div>
+            <div class="input-item">
+                <span>运送方式:</span>
+                <div class="tran-mode">
+                    <h5 style="margin-top:-30px;margin-left:200px;">除指定地区外,其余地区的运费采用"默认运费"</h5>
+                    <table cellspacing="0" id="dataTab" style="margin-left:200px;">
+                        <tr style="background: rgb(224,238,255)">
+                            <td colspan="6">
+                                @for(cl <- carrList) {
+                                @if(cl.getCityCode()=="ALL") {
+                                默认运费: <input type="text" name="firstNum" value="@cl.getFirstNum()">件内, <input type="text" name="firstFee" value="@cl.getFirstFee()">元,每增加<input type="text"  name="addNum" value="@cl.getAddNum()">件,增加运费 <input type="text" name="addFee" value="@cl.getAddFee()">元
+                                }
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>运送到</td>
+                            <td>首件(件)</td>
+                            <td>首费(元)</td>
+                            <td>续件(件)</td>
+                            <td>续费(元)</td>
+                            <td>操作</td>
+                        </tr>
+                        @for(cl <- carrList) {
+                        @if(cl.getCityCode()!="ALL") {
+                        <tr style="display:;" >
+                            <td width="300">
+                                <span>@cl.getCityCode()</span> <a href="javascript:void(0)" class="edit" style="float: right">编辑</a>
+                                <span class="cnm" style="display:none;">@cl.getCityCode()</span>
+                            </td>
+                            <td>
+                                <input type="text" value="@cl.getFirstNum()">
+                            </td>
+                            <td>
+                                <input type="text" value="@cl.getFirstFee()">
+                            </td>
+                            <td>
+                                <input type="text" value="@cl.getAddNum()">
+                            </td>
+                            <td>
+                                <input type="text" value="@cl.getAddFee()">
+                            </td>
+                            <td>
+                                <a href="javascript:void(0)" class="del">删除</a>
+                            </td>
+                        </tr>
+                        }
+                        }
+                        <tr>
+                            <td colspan="6">
+                                <a href="javascript:void(0)" class="add-temp">为指定地区城市设置运费</a>
+                                <!--<a href="javascript:void(0)">批量操作</a>-->
+                            </td>
+                        </tr>
+                    </table>
+                    <h5 style="margin-left:200px;">备注:运费按照商品金额-优惠(直降/单品促销)-返现之后的订单金额收取</h5>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+}
+
+<script>
+    $("#return").click(function() {
+        window.location.href="/"+window.lang+"/carr/search  ";
+    });
+
+    $("#modelSubmit").click(function() {
+        var modelData = new Object();
+        var carrModels = [];
+        var isPost = true;
+        var numberReg =    /^-?\d+\.?\d{0,2}$/;   //整数或小数
+        var modelName = $("#modelName").val();
+        if (modelName=="") {
+            isPost = false;
+            $("#modelName-warn").text("请输入模板名称");
+        } else $("#modelName-warn").text("");
+        var inputs = document.getElementById("dataTab").getElementsByTagName("input");
+        for(i=0;i<inputs.length;i++) {
+            if(!numberReg.test(inputs[i].value)) {
+                isPost = false;
+                $("#data-warn").text("请输入正确的数据");
+                break;
+            } else $("#data-warn").text("");
+        }
+        var modelCode = $("#modelCode").val();
+        var dataTab = document.getElementById("dataTab");
+        var modelLines = dataTab.getElementsByTagName("tr");
+        var defModel = new Object();
+        var defLine = modelLines[0];
+        defModel.modelName = modelName;
+        defModel.modelCode = modelCode;
+        defModel.firstNum = defLine.getElementsByTagName("input")[0].value;
+        defModel.firstFee = defLine.getElementsByTagName("input")[1].value;
+        defModel.addNum = defLine.getElementsByTagName("input")[2].value;
+        defModel.addFee = defLine.getElementsByTagName("input")[3].value;
+        defModel.cityCode = "ALL";
+        carrModels.push(defModel);
+        if (modelLines.length>3) {
+            for(i=2;i<modelLines.length-1;i++) {
+                if(modelLines[i].style.display=="") {
+                    var cnm = dataTab.getElementsByTagName("tr")[i].getElementsByClassName("cnm")[0].innerText;
+                    var cnmArr = cnm.split(",");
+                    for(j=0;j<cnmArr.length;j++) {
+                        var cityCode = cnmArr[j];
+                        var fn = modelLines[i].getElementsByTagName("input")[0].value;
+                        var ff = modelLines[i].getElementsByTagName("input")[1].value;
+                        var an = modelLines[i].getElementsByTagName("input")[2].value;
+                        var af = modelLines[i].getElementsByTagName("input")[3].value;
+                        var scModel = new Object();
+                        scModel.modelName = modelName;
+                        scModel.modelCode = modelCode;
+                        scModel.firstNum = fn;
+                        scModel.firstFee = ff;
+                        scModel.addNum = an;
+                        scModel.addFee = af;
+                        scModel.cityCode = cityCode;
+                        carrModels.push(scModel);
+                    }
+                }
+            }
+        }
+        console.log(JSON.stringify(carrModels));
+        if (false) {
+            $.ajax({
+                type :  "POST",
+                url : "/carr/carrSave",
+                contentType: "application/json; charset=utf-8",
+                data : JSON.stringify(carrModels),
+                error : function(request) {
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('保存失败');
+                    } else {
+                        $('#js-userinfo-error').text('Save error');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('')", 2000);
+                },
+                success: function(data) {
+                    $('.usercenter-option > .user-state').css('background-position', '20px -174px');
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                        $('.usercenter-option > .user-state').text('未更改');
+                    } else {
+                        $('#js-userinfo-error').text('Save success');
+                        $('.usercenter-option > .user-state').text('Unchanged');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+                    //运费模板更新, 成功后返回到模板列表页面
+                    if($("#modelCode").val() != "") {
+                        setTimeout("location.href='/"+window.lang+"/carr/search'", 3000);
+                    }
+                    //运费模板添加, 成功后返回到内模板列表页面
+                    else setTimeout("location.href='/"+window.lang+"/carr/search'", 3000);
+                }
+            });
+        }
+    });
+
+</script>
+
+<script>
+    $(function(){
+        var arr = [];
+        var obj1 = new Object();  obj1.cityCode = "AH";  obj1.cityName = "安徽";   arr.push(obj1);
+        var obj2 = new Object();  obj2.cityCode = "FJ";  obj2.cityName = "福建";   arr.push(obj2);
+        var obj3 = new Object();  obj3.cityCode = "GS";  obj3.cityName = "甘肃";   arr.push(obj3);
+        var obj4 = new Object();  obj4.cityCode = "GD";  obj4.cityName = "广东";   arr.push(obj4);
+        var obj5 = new Object();  obj5.cityCode = "GX";  obj5.cityName = "广西";   arr.push(obj5);
+        var obj6 = new Object();  obj6.cityCode = "GZ";  obj6.cityName = "贵州";   arr.push(obj6);
+        var obj7 = new Object();  obj7.cityCode = "HI";  obj7.cityName = "海南";   arr.push(obj7);
+        var obj8 = new Object();  obj8.cityCode = "HE";  obj8.cityName = "河北";   arr.push(obj8);
+        var obj9 = new Object();  obj9.cityCode = "HA";  obj9.cityName = "河南";   arr.push(obj9);
+        var obj10 = new Object(); obj10.cityCode = "BJ"; obj10.cityName = "北京";  arr.push(obj10);
+
+        var obj11 = new Object();  obj11.cityCode = "HL";  obj11.cityName = "黑龙江"; arr.push(obj11);
+        var obj12 = new Object();  obj12.cityCode = "HB";  obj12.cityName = "湖北";   arr.push(obj12);
+        var obj13 = new Object();  obj13.cityCode = "HN";  obj13.cityName = "湖南";   arr.push(obj13);
+        var obj14 = new Object();  obj14.cityCode = "JL";  obj14.cityName = "吉林";   arr.push(obj14);
+        var obj15 = new Object();  obj15.cityCode = "JS";  obj15.cityName = "江苏";   arr.push(obj15);
+        var obj16 = new Object();  obj16.cityCode = "JX";  obj16.cityName = "江西";   arr.push(obj16);
+        var obj17 = new Object();  obj17.cityCode = "LN";  obj17.cityName = "辽宁";   arr.push(obj17);
+        var obj18 = new Object();  obj18.cityCode = "NM";  obj18.cityName = "内蒙古"; arr.push(obj18);
+        var obj19 = new Object();  obj19.cityCode = "NX";  obj19.cityName = "宁夏";   arr.push(obj19);
+        var obj20 = new Object();  obj20.cityCode = "QH";  obj20.cityName = "青海";   arr.push(obj20);
+
+        var obj21 = new Object();  obj21.cityCode = "SD";  obj21.cityName = "山东";   arr.push(obj21);
+        var obj22 = new Object();  obj22.cityCode = "SX";  obj22.cityName = "山西";   arr.push(obj22);
+        var obj23 = new Object();  obj23.cityCode = "SN";  obj23.cityName = "陕西";   arr.push(obj23);
+        var obj24 = new Object();  obj24.cityCode = "SH";  obj24.cityName = "上海";   arr.push(obj24);
+        var obj25 = new Object();  obj25.cityCode = "SC";  obj25.cityName = "四川";   arr.push(obj25);
+        var obj26 = new Object();  obj26.cityCode = "TJ";  obj26.cityName = "天津";   arr.push(obj26);
+        var obj27 = new Object();  obj27.cityCode = "XZ";  obj27.cityName = "西藏";   arr.push(obj27);
+        var obj28 = new Object();  obj28.cityCode = "XJ";  obj28.cityName = "新疆";   arr.push(obj28);
+        var obj29 = new Object();  obj29.cityCode = "YN";  obj29.cityName = "云南";   arr.push(obj29);
+        var obj30 = new Object();  obj30.cityCode = "ZJ";  obj30.cityName = "浙江";   arr.push(obj30);
+        var obj31 = new Object();  obj31.cityCode = "CQ";  obj31.cityName = "重庆";   arr.push(obj31);
+        var obj32 = new Object();  obj32.cityCode = "MO";  obj32.cityName = "澳门";   arr.push(obj32);
+        var obj33 = new Object();  obj33.cityCode = "XG";  obj33.cityName = "香港";   arr.push(obj33);
+        var obj34 = new Object();  obj34.cityCode = "TW";  obj34.cityName = "台湾";   arr.push(obj34);
+
+        var obj35 = new Object();  obj35.cityCode = "BSQ";          obj35.cityName = "保税区"; arr.push(obj35);
+        var obj36 = new Object();  obj36.cityCode = "Asia";         obj36.cityName = "亚洲";   arr.push(obj36);
+        var obj37 = new Object();  obj37.cityCode = "Europe";       obj37.cityName = "欧洲";   arr.push(obj37);
+        var obj38 = new Object();  obj38.cityCode = "Africa";       obj38.cityName = "非洲";   arr.push(obj38);
+        var obj39 = new Object();  obj39.cityCode = "NorthAmerica"; obj39.cityName = "北美洲"; arr.push(obj39);
+        var obj40 = new Object();  obj40.cityCode = "SouthAmerica"; obj40.cityName = "南美洲"; arr.push(obj40);
+        var obj41 = new Object();  obj41.cityCode = "Oceania";      obj41.cityName = "大洋洲"; arr.push(obj41);
+
+
+    var dataTab = document.getElementById("dataTab");
+    var trs = document.getElementsByTagName("tr");
+    var index = 2;
+    for(i=2;i<trs.length-1;i++) {
+        //要显示的行的索引
+        trs[2].style.display = "";
+        var city = trs[i].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText;
+        for(j=0;j<arr.length;j++) {
+            if (city==arr[j].cityCode) {
+                trs[i].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText = arr[j].cityName;
+            }
+        }
+        //比较两行的数据是否相同,相同:配送地点合并,不相同:显示该行
+        if (i>2 && trs[i].getElementsByTagName("td")[1].getElementsByTagName("input")[0].value==trs[i-1].getElementsByTagName("td")[1].getElementsByTagName("input")[0].value) {
+            //配送地合并到当前显示行,配送地编码合并到span隐藏域
+            trs[index].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText = trs[index].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText+" "+trs[i].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText;
+            trs[index].getElementsByTagName("td")[0].getElementsByTagName("span")[1].innerText = trs[index].getElementsByTagName("td")[0].getElementsByTagName("span")[1].innerText+","+trs[i].getElementsByTagName("td")[0].getElementsByTagName("span")[1].innerText;
+            trs[i].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText="";
+            trs[i].style.display = "none";
+        }
+        if (i>2 && trs[i].getElementsByTagName("td")[1].getElementsByTagName("input")[0].value!=trs[i-1].getElementsByTagName("td")[1].getElementsByTagName("input")[0].value) {
+            index = i;
+            trs[i].style.display = "";
+        }
+    }
+
+    })
+
+</script>

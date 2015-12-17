@@ -8,7 +8,6 @@ import play.mvc.Result;
 import play.mvc.Security;
 
 import javax.inject.Singleton;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,13 +24,13 @@ public class Test extends Controller{
         Map<String, Object > params = new HashMap<>();
 //        params.put("StartTime","2015-01-01 01:00:00");
 //        params.put  ("EndTime","2015-11-01 01:00:00");
-        params.put("ShopOrderNo", "1000007");
-        params.put("ShopId",1);
-        params.put("MemberNick", "1000012");
-        params.put("OrderStatus", 10);
-        params.put("ShopCreatedTime", new Date());
+//        params.put("ShopOrderNo", "1000007");
+//        params.put("ShopId",1);
+//        params.put("MemberNick", "1000012");
+//        params.put("OrderStatus", 10);
+//        params.put("ShopCreatedTime", new Date());
 
-        String returnVal =B1EC2Client.post("http://121.43.186.32","B1EC2.ShopOrder.Push",params, JsonNode.class).toString();
+        String returnVal =B1EC2Client.post("http://121.43.186.32","B1EC2.Express.Query",params, JsonNode.class).toString();
 
         Logger.debug(returnVal);
 //        Logger.debug(B1EC2Client.post("http://121.43.186.32","B1EC2.SalesOrder.Query",params, JsonNode.class).toString());

@@ -23,6 +23,10 @@
         (#{modelCode},#{modelName},#{firstNum},#{firstFee},#{addNum},#{addFee},#{cityCode})
     </insert>
 
+    <delete id="delCarrById" parameterType="java.lang.Long">
+        delete from carriage where id=#{id}
+    </delete>
+
     <update id="updateCarriage" parameterType="entity.Carriage">
         update carriage
         set
@@ -41,6 +45,7 @@
             <property name="alias" value="t"/>
         </include>
         from carriage t where 1 =1
+        ORDER BY id
     </select>
 
     <select id="getModels" resultType="entity.Carriage">

@@ -14,6 +14,10 @@ public interface CarriageService {
 
     Integer insertCarriage(Carriage carriage);
 
+    void delCarrById(Long id);
+
+    boolean delModelByCode(String modelCode);
+
     void updateCarriage(Carriage carriage);
 
     String getModelName(String modelCode);

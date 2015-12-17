@@ -119,28 +119,27 @@
         <form class="form-horizontal" method="post" enctype="multipart/form-data">
             <!--运费模版名称-->
             <div class="input-item" style="padding-top: 30px">
-                <input type="hidden" id="modelCode" name="modelCode">
                 <span>运费模版名称:</span>
                 <input type="text" id="modelName" name="modelName" style="color:black;">  请输入汉字、 -、 字母或者数字<font id="modelName-warn" style="color:red;margin-left:10px;"></font>
             </div>
             <!--是否包邮-->
-            <div class="input-item">
-                <span>是否包邮:</span>
-                <input type="radio" name="free-shipping" checked>  买家承担运费
-                <input type="radio" name="free-shipping">  卖家承担运费
-            </div>
+            <!--<div class="input-item">-->
+                <!--<span>是否包邮:</span>-->
+                <!--<input type="radio" name="free-shipping" checked>  买家承担运费-->
+                <!--<input type="radio" name="free-shipping">  卖家承担运费-->
+            <!--</div>-->
             <!--计费规则-->
-            <div class="input-item">
-                <span>计费规则:</span>
-                <input type="radio" name="cost-role" checked>  按件数
-                <input type="radio" name="cost-role">  按重量
-                <input type="radio" name="cost-role">  按体积
-            </div>
+            <!--<div class="input-item">-->
+                <!--<span>计费规则:</span>-->
+                <!--<input type="radio" name="cost-role" checked>  按件数-->
+                <!--<input type="radio" name="cost-role">  按重量-->
+                <!--<input type="radio" name="cost-role">  按体积-->
+            <!--</div>-->
             <!--运送方式-->
             <div class="input-item">
-                <span>运送方式</span>
+                <span>运送方式:</span>
                 <div class="tran-mode">
-                    <h5 style="padding-top: 3px">除指定地区外,其余地区的运费采用"默认运费"</h5>
+                    <h5>除指定地区外,其余地区的运费采用"默认运费"</h5>
                     <input id="sel-exp" type="checkbox" class="express" checked>  快递  <font id="data-warn" style="color:red;margin-left:10px;"></font>
                     <table cellspacing="0" id="dataTab">
                         <tr style="background: rgb(224,238,255)">
@@ -180,7 +179,7 @@
                         <tr>
                             <td colspan="6">
                                 <a href="javascript:void(0)" class="add-temp">为指定地区城市设置运费</a>
-                                <a href="javascript:void(0)">批量操作</a>
+                                <!--<a href="javascript:void(0)">批量操作</a>-->
                             </td>
                         </tr>
                     </table>
@@ -203,7 +202,6 @@
     });
 
     $("#modelSubmit").click(function() {
-        var modelData = new Object();
         var carrModels = [];
         var isPost = true;
         var numberReg =    /^-?\d+\.?\d{0,2}$/;   //整数或小数
@@ -255,8 +253,7 @@
                 }
             }
         }
-        <!--modelData.carrModels = carrModels;-->
-        <!--console.log(JSON.stringify(modelData));-->
+        <!--console.log(JSON.stringify(carrModels));-->
         if (isPost) {
             $.ajax({
                 type :  "POST",
@@ -281,21 +278,11 @@
                         $('.usercenter-option > .user-state').text('Unchanged');
                     }
                     setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
-                    //运费模板更新, 成功后返回到模板列表页面
-                    if($("#modelCode").val() != "") {
-                        setTimeout("location.href='/"+window.lang+"/carr/search'", 3000);
-                    }
-                    //运费模板添加, 成功后返回到内模板列表页面
-                    else setTimeout("location.href='/"+window.lang+"/carr/search'", 3000);
+                    //运费模板添加, 成功后返回到运费模板列表页面
+                    setTimeout("location.href='/"+window.lang+"/carr/search'", 3000);
                 }
             });
         }
-
-
-
-
-
-
     });
 
 </script>

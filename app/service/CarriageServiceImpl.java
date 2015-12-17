@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import entity.Carriage;
 import mapper.CarriageMapper;
+import play.Logger;
 import play.libs.Json;
 
 import java.util.List;
@@ -22,8 +23,22 @@ public class CarriageServiceImpl implements CarriageService{
         String uuid = UUID.randomUUID().toString();
         for(final JsonNode jsonNode : json) {
             Carriage carriage = Json.fromJson(jsonNode, Carriage.class);
-            carriage.setModelCode(uuid);
-            carriageMapper.insertCarriage(carriage);
+            //更新模板
+            if(json.has("modelCode")) {
+                //由modelCode得到现有数据库该模板的所有数据,删除数据库中该模板的数据,再添加现有数据
+                String modelCode = carriage.getModelCode();
+                List<Carriage> carrList = carriageMapper.getCarrsByModel(modelCode);
+                for(Carriage carr : carrList) {
+                    Long id = carr.getId();
+                    carriageMapper.delCarrById(id);
+                }
+                carriageMapper.insertCarriage(carriage);
+            }
+            //录入新的模板
+            else {
+                carriage.setModelCode(uuid);
+                carriageMapper.insertCarriage(carriage);
+            }
         }
     }
 
@@ -46,6 +61,33 @@ public class CarriageServiceImpl implements CarriageService{
         carriageMapper.updateCarriage(carriage);
     }
 
+    /**
+     * 由id删除一条运费信息
+     * @param id
+     */
+    @Override
+    public void delCarrById(Long id) {
+        carriageMapper.delCarrById(id);
+    }
+
+    /**
+     * 有modelCode删除运费模板的所有数据
+     * @param modelCode
+     */
+    public boolean delModelByCode(String modelCode) {
+        //由modelCode获得该运费模板的所有记录,由id逐个删除
+        List<Carriage> carrList = carriageMapper.getCarrsByModel(modelCode);
+        Logger.error(carrList.toString());
+        if (null != carrList && !"".equals(carrList)) {
+            for(Carriage carr : carrList) {
+                Long id = carr.getId();
+                Logger.error(id.toString());
+                carriageMapper.delCarrById(id);
+            }
+            return true;
+        }
+        return false;
+    }
     /**
      * 根据modelCode获得模板名称
      * @param modelCode

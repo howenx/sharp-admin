@@ -92,7 +92,11 @@
                         @if(item.getOnShelvesAt()!=null){<td>@(item.getOnShelvesAt().toString().substring(0,16))</td>}
                         @if(item.getOffShelvesAt()!=null){<td>@(item.getOffShelvesAt().toString().substring(0,16))</td>}
                         <td><a href="javascript:void(0)">@(item.getThemeId())</a></td>
-                        <td>@(item.getState())</td>
+                        <td>
+                            @if(item.getState()=="Y"){正常}
+                            @if(item.getState()=="D"){下架}
+                            @if(item.getState()=="K"){售空}
+                        </td>
                     </tr>
                 }
                 <tr id="nodata-td" style="display:none;"><td colspan="9">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>

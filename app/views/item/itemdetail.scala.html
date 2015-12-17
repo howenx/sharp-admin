@@ -184,7 +184,6 @@
                                         @if(obj(18)== "Y") {正常}
                                         @if(obj(18)== "D") {下架}
                                         @if(obj(18)== "K") {售空}
-                                        @if(obj(18)== "N") {删除}
                                     </td>
                                 </tr>
                             }
@@ -199,10 +198,9 @@
             <div class="form-group">
                 <label class="col-sm-1 control-label" ><div class="r">商品状态</div></label>
                 <div class="col-sm-3">
-                @if(item.getState()=="Y"){<input class="form-control" name="state" value="正常" readonly/>}
+                @if(item.getState()=="Y"){<input class="form-control" type="text" name="state" value="正常" readonly/>}
                 @if(item.getState()=="D"){<input class="form-control" type="text" name="state" value="下架" readonly/>}
                 @if(item.getState()=="K"){<input class="form-control" type="text" name="state" value="售空" readonly/>}
-                @if(item.getState()=="N"){<input class="form-control" type="text" name="state" value="删除" readonly/>}
                 </div>
             </div>
             <div class="form-group">
