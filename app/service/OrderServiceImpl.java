@@ -3,7 +3,6 @@ package service;
 import com.google.inject.Inject;
 import entity.Order;
 import mapper.OrderMapper;
-
 import java.util.List;
 
 /**
@@ -20,4 +19,7 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getOrderPage(Order order) {
         return orderMapper.getOrderPage(order);
     }
+
+    @Override
+    public Order getOrderById(Long orderId) {return orderMapper.getOrderById(orderId);}
 }
