@@ -108,6 +108,9 @@ h5{
     margin: 20px 0;
     text-align: center;
 }
+#dataTab input{
+    width: 100px;
+}
 .table-content table>tbody>tr>td{
     border: 1px solid #ccc;
     padding: 6px 8px;
@@ -118,6 +121,7 @@ h5{
 .table-content table>tbody>tr>td span:nth-of-type(2){
     float: right;
 }
+
 /*************订单详情*************/
 .logistics-info{
     position: absolute;right: 0;top: 30px;

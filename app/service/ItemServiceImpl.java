@@ -71,7 +71,6 @@ public class ItemServiceImpl implements ItemService{
 //            Logger.error(item.toString());
             //更新商品信息
             if (jsonItem.has("id")) {
-                if(item.getState()=="N") item.setOrDestroy(true);
                 this.itemMapper.itemUpdate(item);
             }
             //录入商品信息
@@ -87,7 +86,6 @@ public class ItemServiceImpl implements ItemService{
             int y_num = 0;
             int d_num = 0;
             int k_num = 0;
-            int n_num = 0;
             for(final JsonNode jsonNode : json.findValue("inventories")) {
                 int sku_num = json.findValue("inventories").size();
                 if (jsonNode.has("itemPreviewImgs")) {
@@ -103,11 +101,9 @@ public class ItemServiceImpl implements ItemService{
                     if (inventory.getState().equals("Y")) {y_num+=1; item.setState("Y");}
                     if (inventory.getState().equals("D"))  {d_num+=1;}
                     if (inventory.getState().equals("K"))  {k_num+=1;}
-                    if (inventory.getState().equals("N"))  {n_num+=1; inventory.setOrDestroy(true);}
                     //item状态设置为下架的情况
-                    if (d_num > 0 && y_num==0 || (k_num+n_num==sku_num)) {item.setState("D");}
+                    if (d_num > 0 && y_num==0 || k_num==sku_num) {item.setState("D");}
                     if (k_num == sku_num) {item.setState("K");}
-                    if (n_num == sku_num) {item.setState("N");}
                     this.inventoryMapper.updateInventory(inventory);
                     this.itemMapper.itemUpdate(item);
                 }

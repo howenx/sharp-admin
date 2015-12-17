@@ -262,6 +262,29 @@ public class ItemCtrl extends Controller {
     }
 
     /**
+     * 由modeCode得到该模板的所有运费计算方式
+     * @param lang 语言
+     * @param modelCode 模板代码
+     * @return Result
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result findModel(String lang,String modelCode) {
+        List carrList = carriageService.getCarrsByModel(modelCode);
+        return ok(views.html.item.carrmodelUpdate.render(lang,carrList,(User) ctx().args.get("user")));
+    }
+
+    /**
+     * 有modelCode删除运费模板中所有数据
+     * @param modelCode
+     * @return Result
+     */
+    public Result delModel(String modelCode) {
+        boolean bool = carriageService.delModelByCode(modelCode);
+        if(bool==true)  return ok("true");
+        else return ok("false");
+    }
+
+    /**
      * 运费模板列表
      * @param lang 语言
      * @return

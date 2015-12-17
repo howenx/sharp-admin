@@ -105,19 +105,23 @@ $(function() {
 
 		//填充列表数据
 		$(data).each(function(index, element) {
-			$('#tb-topic').find('tbody').append('' +
-				'<tr class="tb-list-data">' +
-				'<td><a href="/'+window.lang+'/comm/findById/'+$(this)[0].id + ' ">' + $(this)[0].id + '</a></td>' +
-				'<td style="width: 20%;">' + $(this)[0].itemTitle + '</td>' +
-				'<td>' +
-				'<img class="main-img" src="' + window.url + $(this)[0].itemMasterImg + '" alt="" width="50">' +
-				'</td>' +
-				'<td>' + ($(this)[0].onShelvesAt != null && $(this)[0].onShelvesAt != '' ? $(this)[0].onShelvesAt.substr(0, 16) : '') + '</td>}' +
-				'<td>' + ($(this)[0].offShelvesAt != null && $(this)[0].offShelvesAt != '' ? $(this)[0].offShelvesAt.substr(0, 16) : '') + '</td>}' +
-				'<td><a href="javascript:void(0)">' + $(this)[0].themeId + '</a></td>' +
-				'<td>' + $(this)[0].state + '</td>' +
-				'</tr>'
-			);
+			var state = "";
+            if($(this)[0].state=="Y"){state="正常"}
+            if($(this)[0].state=="D"){state="下架"}
+            if($(this)[0].state=="K"){state="售空"}
+            $('#tb-topic').find('tbody').append('' +
+                '<tr class="tb-list-data">' +
+                '<td><a href="/'+window.lang+'/comm/findById/'+$(this)[0].id + ' ">' + $(this)[0].id + '</a></td>' +
+                '<td style="width: 20%;">' + $(this)[0].itemTitle + '</td>' +
+                '<td>' +
+                '<img class="main-img" src="' + window.url + $(this)[0].itemMasterImg + '" alt="" width="50">' +
+                '</td>' +
+                '<td>' + ($(this)[0].onShelvesAt != null && $(this)[0].onShelvesAt != '' ? $(this)[0].onShelvesAt.substr(0, 16) : '') + '</td>}' +
+                '<td>' + ($(this)[0].offShelvesAt != null && $(this)[0].offShelvesAt != '' ? $(this)[0].offShelvesAt.substr(0, 16) : '') + '</td>}' +
+                '<td><a href="javascript:void(0)">' + $(this)[0].themeId + '</a></td>' +
+                '<td>' + state + '</td>' +
+                '</tr>'
+            );
 		})
 	}
        //每个查询页面对应一个相应的组装函数  订单查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Tiffany Zhu
