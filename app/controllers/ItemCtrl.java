@@ -2,7 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.*;
-import order.GetLogisticsInfo;
+import order.GetLogistics;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -426,7 +426,7 @@ public class ItemCtrl extends Controller {
         for(OrderSplit orderSplit : orderSplitList){
 
         }
-        String result = GetLogisticsInfo.sendGet("a","a");
+        String result = GetLogistics.sendGet("a","a");
 
 
         return ok(views.html.item.orderdetail.render(lang,(User) ctx().args.get("user")));
