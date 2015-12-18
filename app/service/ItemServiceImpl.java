@@ -10,6 +10,7 @@ import mapper.BrandsMapper;
 import mapper.CatesMapper;
 import mapper.InventoryMapper;
 import mapper.ItemMapper;
+import play.Logger;
 import play.libs.Json;
 
 import javax.inject.Inject;
@@ -55,6 +56,13 @@ public class ItemServiceImpl implements ItemService{
     public List<Long> itemSave(JsonNode json) {
         List<Long> list = new ArrayList<>();
         Item item = new Item();
+        //记录商品的状态
+        String state = "";
+        //记录各个sku状态的个数
+        int y_num = 0;
+        int d_num = 0;
+        int k_num = 0;
+        int sku_num= 0;
         //items表录入数据
         if (json.has("item")) {
             JsonNode jsonItem = json.findValue("item");
@@ -72,6 +80,7 @@ public class ItemServiceImpl implements ItemService{
             //更新商品信息
             if (jsonItem.has("id")) {
                 this.itemMapper.itemUpdate(item);
+                state = item.getState();
             }
             //录入商品信息
             else {
@@ -82,12 +91,8 @@ public class ItemServiceImpl implements ItemService{
         }
         //往inventories表插入数据
         if (json.has("inventories")) {
-            //记录各个sku状态的个数
-            int y_num = 0;
-            int d_num = 0;
-            int k_num = 0;
             for(final JsonNode jsonNode : json.findValue("inventories")) {
-                int sku_num = json.findValue("inventories").size();
+                sku_num = json.findValue("inventories").size();
                 if (jsonNode.has("itemPreviewImgs")) {
                     ((ObjectNode) jsonNode).put("itemPreviewImgs",jsonNode.findValue("itemPreviewImgs").toString());
                 }
@@ -102,8 +107,7 @@ public class ItemServiceImpl implements ItemService{
                     if (inventory.getState().equals("D"))  {d_num+=1;}
                     if (inventory.getState().equals("K"))  {k_num+=1;}
                     //item状态设置为下架的情况
-                    if (d_num > 0 && y_num==0 || k_num==sku_num) {item.setState("D");}
-                    if (k_num == sku_num) {item.setState("K");}
+                    if (d_num>0 && y_num==0 && "Y".equals(state)) {item.setState("D");}
                     this.inventoryMapper.updateInventory(inventory);
                     this.itemMapper.itemUpdate(item);
                 }
@@ -125,6 +129,18 @@ public class ItemServiceImpl implements ItemService{
                 }
                 list.add(inventory.getId());
             }
+        }
+        //item状态若修改为D下架或K售空,该item下的所有sku状态都改为D或K,item状态由D或K改为Y sku状态全改为
+        Long id = item.getId();
+        Logger.error("商品状态:"+state);
+        List<Inventory> invList = inventoryMapper.getInventoriesByItemId(id);
+        if ("D".equals(state) || "K".equals(state) || ("Y".equals(state) && d_num==sku_num) || ("Y".equals(state) && k_num==sku_num)) {
+            for(Inventory inv : invList) {
+                inv.setState(state);
+                inventoryMapper.updateInventory(inv);
+            }
+            item.setState(state);
+            itemMapper.itemUpdate(item);
         }
         return list;
     }

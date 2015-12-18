@@ -124,6 +124,7 @@
                                 <th width="50">税率/税号</th>
                                 <th width="100">库存区域</th>
                                 <th width="80">报关单位</th>
+                                <th width="125">备案号</th>
                                 <th width="80">主图(一张)</th>
                                 <th width="200">详情页预览图</th>
                                 <th width="30">状态</th>
@@ -157,6 +158,19 @@
                                         @if(obj(15)== "shanghai") {上海海关}
                                         @if(obj(15)== "hangzhou") {杭州海关}
                                         @if(obj(15)== "guangzhou") {广州海关}
+                                    </td>
+                                    <td>
+                                        @for(recordCode <- obj(19).toString().substring(1,obj(19).toString().length-1).split(", ")) {
+                                        @if(recordCode.substring(1,recordCode.indexOf(":")-1)=="hangzhou") {
+                                        <div class="record"><span>杭州</span><input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordHZ" style="width:70%;"></div>
+                                        }
+                                        @if(recordCode.substring(1,recordCode.indexOf(":")-1)=="guangzhou") {
+                                        <div class="record"><span>广州</span><input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordGZ" style="width:70%;"></div>
+                                        }
+                                        @if(recordCode.substring(1,recordCode.indexOf(":")-1)=="shanghai") {
+                                        <div class="record"><span>上海</span><input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordSH" style="width:70%;"></div>
+                                        }
+                                        }
                                     </td>
                                     <td class="list-img">
                                         <div >

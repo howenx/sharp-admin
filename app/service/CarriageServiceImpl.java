@@ -21,13 +21,17 @@ public class CarriageServiceImpl implements CarriageService{
     @Override
     public  void carrModelSave(JsonNode json) {
         String uuid = UUID.randomUUID().toString();
+        uuid = uuid.replaceAll("-","");
+        Logger.error(json.toString());
         for(final JsonNode jsonNode : json) {
             Carriage carriage = Json.fromJson(jsonNode, Carriage.class);
             //更新模板
-            if(json.has("modelCode")) {
+            if(jsonNode.has("modelCode")) {
                 //由modelCode得到现有数据库该模板的所有数据,删除数据库中该模板的数据,再添加现有数据
                 String modelCode = carriage.getModelCode();
+                Logger.error("模板code:"+modelCode);
                 List<Carriage> carrList = carriageMapper.getCarrsByModel(modelCode);
+                Logger.error("列表:"+carrList);
                 for(Carriage carr : carrList) {
                     Long id = carr.getId();
                     carriageMapper.delCarrById(id);
@@ -77,7 +81,6 @@ public class CarriageServiceImpl implements CarriageService{
     public boolean delModelByCode(String modelCode) {
         //由modelCode获得该运费模板的所有记录,由id逐个删除
         List<Carriage> carrList = carriageMapper.getCarrsByModel(modelCode);
-        Logger.error(carrList.toString());
         if (null != carrList && !"".equals(carrList)) {
             for(Carriage carr : carrList) {
                 Long id = carr.getId();
