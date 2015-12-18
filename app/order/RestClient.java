@@ -27,7 +27,10 @@ import java.util.regex.Pattern;
  */
 public class RestClient {
 
-    public static final int TIMEOUT = 5 * 1000;
+
+    public static final String test = "";
+
+    public static final int TIMEOUT = 10 * 1000;
 
     /**
      * post form data, 返回String 数据,Json 数据.
@@ -100,7 +103,7 @@ public class RestClient {
             String encode_sign = encode(Base64.encodeBase64String(hashedBytes));
             return encode_sign;
         } catch (NoSuchAlgorithmException | InvalidKeyException | UnsupportedEncodingException e) {
-            e.printStackTrace();
+            Logger.info(e.getMessage());
         }
 
         return null;

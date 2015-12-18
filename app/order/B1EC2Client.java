@@ -1,11 +1,8 @@
 package order;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.xerces.impl.dv.util.Base64;
+import org.apache.commons.codec.binary.Base64;
 
 
 /**
@@ -14,7 +11,7 @@ import org.apache.xerces.impl.dv.util.Base64;
  */
 public class B1EC2Client {
 
-    //这里应该更换成我们的配置
+    //TODO 这里应该更换成我们的配置
     private static String Company = "北京可靠";
     private static String LoginName = "manager";
     private static String Password = "iwilley";
@@ -35,9 +32,9 @@ public class B1EC2Client {
         }
 
         Map<String, String> headers = new HashMap();
-        headers.put("Company", Base64.encode(Company.getBytes()));
-        headers.put("LoginName",Base64.encode(LoginName.getBytes()));
-        headers.put("Password",Base64.encode(Password.getBytes()));
+        headers.put("Company", Base64.encodeBase64String(Company.getBytes()));
+        headers.put("LoginName",Base64.encodeBase64String(LoginName.getBytes()));
+        headers.put("Password",Base64.encodeBase64String(Password.getBytes()));
         headers.put("Method", method);
         //headers.put("Format",Format);
         headers.put("Version","1.0");
