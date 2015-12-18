@@ -20,8 +20,10 @@
         ${alias}.order_desc,
         ${alias}.ship_fee,
         ${alias}.postal_fee,
-        ${alias}.confirm_receive_at
-
+        ${alias}.confirm_receive_at,
+        ${alias}.total_fee,
+        ${alias}.ship_time,
+        ${alias}.client_type
     </sql>
     <select id="getOrdersAll" resultType="entity.Order">
         select

@@ -14,11 +14,11 @@ public class OrderLineServiceImpl implements OrderLineService {
 
     /**
      * 由订单Id获取订单商品
-     * @param splitId
+     * @param orderId
      * @return
      */
     @Override
-    public List<OrderLine> getLineBySplitId(Long splitId) {
-        return orderLineMapper.getLineBySplitId(splitId);
+    public List<OrderLine> getLineByOrderId(Long orderId) {
+        return orderLineMapper.getLineByOrderId(orderId);
     }
 }

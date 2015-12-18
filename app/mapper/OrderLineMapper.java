@@ -10,8 +10,8 @@ import java.util.List;
 public interface OrderLineMapper {
     /**
      * 由订单Id获取订单商品
-     * @param splitId
+     * @param orderId
      * @return
      */
-    List<OrderLine> getLineBySplitId(Long splitId);
+    List<OrderLine> getLineByOrderId(Long orderId);
 }

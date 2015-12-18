@@ -17,12 +17,12 @@
         ${alias}.sku_size,
         ${alias}.sku_color
     </sql>
-    <select id="getLineBySplitId" resultType="entity.OrderLine" parameterType="java.lang.Long">
+    <select id="getLineByOrderId" resultType="entity.OrderLine" parameterType="java.lang.Long">
         select
         <include refid="orderLineColumns">
             <property name="alias" value="t"/>
         </include>
-        from sp_order_line t where split_id = ${value}
+        from sp_order_line t where order_id = ${value}
     </select>
 
 </mapper>
