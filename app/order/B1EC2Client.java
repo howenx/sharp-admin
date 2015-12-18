@@ -1,16 +1,10 @@
 package order;
 
-<<<<<<< HEAD
-import java.util.HashMap;
-import java.util.Map;
+
 import org.apache.commons.codec.binary.Base64;
-=======
-import org.apache.xerces.impl.dv.util.Base64;
 
 import java.util.HashMap;
 import java.util.Map;
->>>>>>> acb2d78a55c5ff328c3417cf2c18cf1433c95898
-
 
 /**
  * Created by handy on 15/12/11.

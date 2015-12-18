@@ -1,5 +1,7 @@
 package order;
 
+import play.libs.ws.WS;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,6 +15,8 @@ public class GetLogisticsInfo {
     private String weburl = "http://www.kiees.cn/";
 
     public static String sendGet(String expType,String param){
+
+        WS.url("http://www.kiees.cn/sf.php?wen=603359393732&action=ajax&rnd=0.0").get().get(1000L);
         String result = "";
         BufferedReader read = null;
         try{
