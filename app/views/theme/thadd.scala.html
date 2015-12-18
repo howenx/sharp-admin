@@ -160,9 +160,16 @@
                     return $helper;
                 },
                 updateIndex = function (e, ui) {
-                    $('td.index', ui.item.parent()).each(function (i) {
-                        $(this).html(i + 2);
-                    });
+                    if($("thead").find('tr').length==2){
+                        alert(1);
+                        $('td.index', ui.item.parent()).each(function (i) {
+                            $(this).html(i + 2);
+                        });
+                    }else{
+                        $('td.index', ui.item.parent()).each(function (i) {
+                            $(this).html(i + 1);
+                        });
+                    }
                 };
         $("#sort tbody").sortable({
             helper: fixHelperModified,
