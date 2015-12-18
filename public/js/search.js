@@ -131,8 +131,7 @@ $(function() {
             orderDto.userId = $("#order-form-userid").val();
 
             orderDto.orderCreateAt = $("#onShelvesAt").val();
-            var selectedOption = $("#order-form-status option:selected");
-            orderDto.orderStatus = selectedOption.value;
+            orderDto.orderStatus = $("#order-form-status option:selected").val();
             //orderDto.express = $("#order-form-express").val();
             //创建时间如果为空
             if ($("#onShelvesAt").val() == '' || $("#onShelvesAt").val() == null) {
@@ -146,7 +145,7 @@ $(function() {
         funcList.orderlist_data = function orderlist_data(data) {
             //填充列表数据
             $(data).each(function(index, element) {
-                var orderStatus;
+                var orderStatus = "";
                 if($(this)[0].orderStatus == "I"){
                     orderStatus = "未支付";
                  }
@@ -173,7 +172,6 @@ $(function() {
                     '<td><a href="/' + window.lang +'/comm/order/detail/' + $(this)[0].orderId + '">' + $(this)[0].orderId + '</a></td>' +
                     '<td>' + $(this)[0].userId + '</td>' +
                     '<td>' + ($(this)[0].orderCreateAt != null && $(this)[0].orderCreateAt != '' ? $(this)[0].orderCreateAt.substr(0, 16) : '') + '</td>}' +
-                    '<td>' + "" + '</td>' +
                     '<td>' + $(this)[0].payTotal + '</td>' +
                     '<td>' + $(this)[0].payMethod + '</td>' +
                     '<td>' + orderStatus + '</td>' +

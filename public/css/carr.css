@@ -1,7 +1,7 @@
 body{
     margin: 0;padding: 0;
 }
-h5{
+h1,h2,h3,h4,h5,h6{
     margin: 0;
 }
 .wrap-slider{
@@ -133,7 +133,10 @@ h5{
     margin: 10px 0;color: #000;
 }
 .check-logistics{
-    position: relative;
+    position: relative;outline: none;
+}
+.check-logistics:active:focus,.check-logistics:focus{
+    outline: none;
 }
 .check-logistics:hover .logistics-info{
     display: block;
@@ -141,15 +144,21 @@ h5{
 em{
     font-style: normal;
 }
-.form-group .control-label{
-    text-align: left;
+
+.form-group{
+    margin-bottom: 10px;
+}
+form>h4,form>h5{
+    padding-left: 80px;
+    margin: 20px 0;
 }
 .form-group input{
-    border: 0;outline: none;
+    border: 0;outline: none;box-shadow: none;
+    width: 60%;margin-left: 10px;
 }
-.form-group input:visited{
-    border: 0;outline: none;
+.form-group input:focus{
+    border: 0;outline: none;box-shadow: none;
 }
-/*.table-bordered,.table-bordered>tbody>tr>td{*/
-    /*border: 1px solid #000;*/
-/*}*/
+.form-group span{
+    float: left;margin-left: 80px;
+}

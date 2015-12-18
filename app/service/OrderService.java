@@ -1,7 +1,6 @@
 package service;
 
 import entity.Order;
-
 import java.util.List;
 
 /**
@@ -10,4 +9,5 @@ import java.util.List;
 public interface OrderService {
     List<Order> getOrdersAll();
     List<Order> getOrderPage(Order order);
+    Order getOrderById(Long orderId);
 }

@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.*;
+import order.GetLogisticsInfo;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -37,7 +38,13 @@ public class ItemCtrl extends Controller {
     private OrderService orderService;
 
     @Inject
-    private ShipService shipService;
+    private OrderSplitService orderSplitService;
+
+    @Inject
+    private OrderLineService orderLineService;
+
+    @Inject
+    private OrderShipService orderShipService;
 
 
     /**
@@ -302,7 +309,7 @@ public class ItemCtrl extends Controller {
         }
 
     /**
-     * 订单列表
+     * 订单列表     Added by Tiffany Zhu
      * @param lang
      * @return
      */
@@ -324,41 +331,34 @@ public class ItemCtrl extends Controller {
         List<Object[]> orList = new ArrayList<>();
         List<Order> orderList = orderService.getOrderPage(order_temp);
         for(Order order : orderList){
-            Object[] object = new Object[7];
+            Object[] object = new Object[6];
             Logger.error(order.toString());
             Logger.error(order.getOrderId().toString());
-            //if(shipService.getShipByOrderId(order.getOrderId()) != null){
-            //    Ship ship = shipService.getShipByOrderId(order.getOrderId());
-             //   Logger.error(ship.toString());
-             //   object[3] = ship.getExpressNum();
-            //}else{
-                object[3] = "";
-           // }
             object[0] = order.getOrderId();
             object[1] = order.getUserId();
             object[2] = order.getOrderCreateAt();
-            object[4] = order.getPayTotal();
-            object[5] = order.getPayMethod();
+            object[3] = order.getPayTotal();
+            object[4] = order.getPayMethod();
             if("I".equals(order.getOrderStatus())){
-                object[6] = "未支付";
+                object[5] = "未支付";
             }
             if("S".equals(order.getOrderStatus())){
-                object[6] = "支付成功";
+                object[5] = "支付成功";
             }
             if("C".equals(order.getOrderStatus())){
-                object[6] = "订单取消";
+                object[5] = "订单取消";
             }
             if("F".equals(order.getOrderStatus())){
-                object[6] = "支付失败";
+                object[5] = "支付失败";
             }
             if("R".equals(order.getOrderStatus())){
-                object[6] = "已签收";
+                object[5] = "已签收";
             }
             if("D".equals(order.getOrderStatus())){
-                object[6] = "已发货";
+                object[5] = "已发货";
             }
             if("J".equals(order.getOrderStatus())){
-                object[6] = "拒收";
+                object[5] = "拒收";
             }
 
             orList.add(object);
@@ -369,7 +369,7 @@ public class ItemCtrl extends Controller {
     }
 
     /**
-     * 订单Ajax查询
+     * 订单Ajax查询     Added by Tiffany Zhu
      * @param lang
      * @param pageNum
      * @return
@@ -408,19 +408,33 @@ public class ItemCtrl extends Controller {
     }
 
     /**
-     * 订单详情
+     * 订单详情     Added by Tiffany Zhu
      * @param lang
      * @param id
      * @return
      */
     @Security.Authenticated(UserAuth.class)
     public Result orderDetail(String lang,Long id){
+        //获取订单
+        Order order = orderService.getOrderById(id);
+        //获取订单收货信息
+        OrderShip orderShip = orderShipService.getShipByOrderId(id);
+        //获取子订单
+        List<OrderSplit> orderSplitList = orderSplitService.getSplitByOrderId(id);
+        //含有报关和产品的子订单
+        List<Object[]> resultList = new ArrayList<>();
+        for(OrderSplit orderSplit : orderSplitList){
+
+        }
+        String result = GetLogisticsInfo.sendGet("a","a");
+
+
         return ok(views.html.item.orderdetail.render(lang,(User) ctx().args.get("user")));
     }
 
 
     /**
-     * 品牌列表
+     * 品牌列表     Added by Tiffany Zhu
      * @param lang
      * @return
      */
@@ -441,7 +455,7 @@ public class ItemCtrl extends Controller {
     }
 
     /**
-     * 新增品牌
+     * 新增品牌     Added by Tiffany Zhu
      * @param lang
      * @return
      */
@@ -451,7 +465,7 @@ public class ItemCtrl extends Controller {
     }
 
     /**
-     * 商品分类列表
+     * 商品分类列表       Added by Tiffany Zhu
      * @param lang
      * @return
      */
@@ -461,7 +475,7 @@ public class ItemCtrl extends Controller {
     }
 
     /**
-     * 新增商品分类
+     * 新增商品分类       Added by Tiffany Zhu
      * @param lang
      * @return
      */
