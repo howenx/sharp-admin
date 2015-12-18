@@ -3,7 +3,6 @@ package order;
 import play.libs.ws.WS;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;

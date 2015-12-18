@@ -24,14 +24,14 @@ public class Test extends Controller{
     public  Result test() {
 
 
-//        Map<String, String > params = new HashMap<>();
- //       params.put("StartTime","2015-01-01 01:00:00");
- //       params.put  ("EndTime","2015-11-01 01:00:00");
- //       params.put("ShopId","1");
+//        Map params = new HashMap<>();
+        //       params.put("StartTime","2015-01-01 01:00:00");
+        //       params.put  ("EndTime","2015-11-01 01:00:00");
+        //       params.put("ShopId","1");
 //        Integer shopId = 1;
 //        Integer orderStatus = 10;
 
-        Map<String, Object > params = new HashMap<>();
+        Map params = new HashMap<>();
 //        params.put("StartTime","2015-01-01 01:00:00");
 //        params.put  ("EndTime","2015-11-01 01:00:00");
 
@@ -43,7 +43,7 @@ public class Test extends Controller{
 
 
 //        Logger.debug(B1EC2Client.post("http://121.43.186.32","B1EC2.ShopOrder.Push",params, JsonNode.class).toString());
-       // Logger.debug(B1EC2Client.post("http://121.43.186.32","B1EC2.SalesOrder.Query",params, JsonNode.class).toString());
+        // Logger.debug(B1EC2Client.post("http://121.43.186.32","B1EC2.SalesOrder.Query",params, JsonNode.class).toString());
 
         String returnVal =B1EC2Client.post("http://121.43.186.32","B1EC2.Express.Query",params, JsonNode.class).toString();
 
