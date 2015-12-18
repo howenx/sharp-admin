@@ -13,5 +13,5 @@ public interface OrderLineService {
      * @param orderId
      * @return
      */
-    List<OrderLine> getLineBySplitId(Long splitId);
+    List<OrderLine> getLineByOrderId(Long orderId);
 }

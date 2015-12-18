@@ -1,8 +1,9 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.deser.std.ObjectArrayDeserializer;
 import entity.*;
-import order.GetLogisticsInfo;
+import order.GetLogistics;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -45,6 +46,7 @@ public class ItemCtrl extends Controller {
 
     @Inject
     private OrderShipService orderShipService;
+
 
 
     /**
@@ -412,6 +414,9 @@ public class ItemCtrl extends Controller {
     /**
      * 订单详情     Added by Tiffany Zhu
      * @param lang
+     *
+     *
+     *
      * @param id
      * @return
      */
@@ -424,14 +429,42 @@ public class ItemCtrl extends Controller {
         //获取子订单
         List<OrderSplit> orderSplitList = orderSplitService.getSplitByOrderId(id);
         //含有报关和产品的子订单
-        List<Object[]> resultList = new ArrayList<>();
+        List<Object> subOrderList = new ArrayList<>();
+
         for(OrderSplit orderSplit : orderSplitList){
+            //子订单基本信息
+            Object[] subOrderPart1 = new Object[9];
+            subOrderPart1[0] = orderSplit.getOrderId();   //子订单编号
+            subOrderPart1[1] = orderSplit.getState();     //子订单报关状态
+            subOrderPart1[2] = orderSplit.getCustomsReturnCode(); //子订单支付报关状态
+            subOrderPart1[3] = orderSplit.getExpressNm(); //快递名称
+            subOrderPart1[4] = orderSplit.getExpressNum();//快递编号
+            subOrderPart1[5] = orderSplit.getShipFee();   //邮费
+            subOrderPart1[6] = orderSplit.getPostalFee(); //行邮税
+            subOrderPart1[7] = orderSplit.getTotalFee();  //商品总价
+            subOrderPart1[8] = orderSplit.getTotalPayFee();//支付费用总计
+            subOrderList.add(subOrderPart1);
 
+            //子订单的全部商品
+            List<OrderLine> orderLineList = orderLineService.getLineByOrderId(orderSplit.getOrderId());
+            //包含商品名的子订单商品
+            List<Object[]> subOrderPart2 = new ArrayList<>();
+            for(OrderLine orderLine : orderLineList){
+                Object[] object = new Object[6];
+                Item item = service.getItem(orderLine.getItemId());
+                object[0] = item.getItemTitle();    //名称
+                object[1] = orderLine.getSkuImg();  //图片
+                object[2] = orderLine.getSkuSize(); //尺码
+                object[3] = orderLine.getSkuColor();//颜色
+                object[4] = orderLine.getPrice();   //价格
+                object[5] = orderLine.getAmount();  //数量
+                subOrderPart2.add(object);
+            }
+            subOrderList.add(subOrderPart2);
         }
-        String result = GetLogisticsInfo.sendGet("a","a");
 
 
-        return ok(views.html.item.orderdetail.render(lang,(User) ctx().args.get("user")));
+        return ok(views.html.item.orderdetail.render(lang,order,orderShip,subOrderList,(User) ctx().args.get("user")));
     }
 
 

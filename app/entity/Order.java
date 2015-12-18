@@ -29,7 +29,10 @@ public class Order implements Serializable {
     private BigDecimal shipFee;         //邮费
     private BigDecimal postalFee;       //行邮税
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
-    private Timestamp confirmReveiveAt;  //用户收货确认时间
+    private Timestamp confirmReveiveAt; //用户收货确认时间
+    private BigDecimal totalFee;        //用户支付的总费用
+    private Integer shipTime;           //配送时间
+    private Integer clientType;         //支付订单客户端类型
 
     //分页,每页多少条
     private Integer pageSize;
@@ -43,7 +46,7 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, BigDecimal shipFee, BigDecimal postalFee, Timestamp confirmReveiveAt, Integer pageSize, Integer offset, String sort, String order) {
+    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, BigDecimal shipFee, BigDecimal postalFee, Timestamp confirmReveiveAt, BigDecimal totalFee, Integer shipTime, Integer clientType, Integer pageSize, Integer offset, String sort, String order) {
         this.orderId = orderId;
         this.userId = userId;
         this.payTotal = payTotal;
@@ -59,6 +62,9 @@ public class Order implements Serializable {
         this.shipFee = shipFee;
         this.postalFee = postalFee;
         this.confirmReveiveAt = confirmReveiveAt;
+        this.totalFee = totalFee;
+        this.shipTime = shipTime;
+        this.clientType = clientType;
         this.pageSize = pageSize;
         this.offset = offset;
         this.sort = sort;
@@ -83,6 +89,9 @@ public class Order implements Serializable {
                 ", shipFee=" + shipFee +
                 ", postalFee=" + postalFee +
                 ", confirmReveiveAt=" + confirmReveiveAt +
+                ", totalFee=" + totalFee +
+                ", shipTime=" + shipTime +
+                ", clientType=" + clientType +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +
@@ -208,6 +217,30 @@ public class Order implements Serializable {
 
     public void setConfirmReveiveAt(Timestamp confirmReveiveAt) {
         this.confirmReveiveAt = confirmReveiveAt;
+    }
+
+    public BigDecimal getTotalFee() {
+        return totalFee;
+    }
+
+    public void setTotalFee(BigDecimal totalFee) {
+        this.totalFee = totalFee;
+    }
+
+    public Integer getShipTime() {
+        return shipTime;
+    }
+
+    public void setShipTime(Integer shipTime) {
+        this.shipTime = shipTime;
+    }
+
+    public Integer getClientType() {
+        return clientType;
+    }
+
+    public void setClientType(Integer clientType) {
+        this.clientType = clientType;
     }
 
     public Integer getPageSize() {

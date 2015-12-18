@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",user:entity.User)
+@(lang:String="cn",order:entity.Order,orderShip:entity.OrderShip,subOrderList:List[Object],user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -36,14 +36,9 @@
 </div>
 <div class="content-1">
     <form class="form-horizontal">
-        <!--订单-->
         <div class="form-group">
             <div class="col-sm-6">
                 <span>订单编号:</span>
-                <input type="text" disabled>
-            </div>
-            <div class="col-sm-6">
-                <span>创建时间:</span>
                 <input type="text" disabled>
             </div>
         </div>
@@ -54,29 +49,29 @@
                 <input type="text" disabled>
             </div>
             <div class="col-sm-6">
-                <span>支付方式:</span>
+                <span>创建时间:</span>
                 <input type="text" disabled>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-sm-6">
-                <span>身份证号:</span>
+                <span>身份证号:(遮挡中间8位)</span>
                 <input type="text" disabled>
             </div>
             <div class="col-sm-6">
-                <span>支付状态:</span>
+                <span>订单总价(含运费和行邮税):</span>
                 <input type="text" disabled>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-sm-6">
-                <span>手机号:</span>
+                <span>手机号:(全显)</span>
                 <input type="text" disabled>
             </div>
             <div class="col-sm-6">
-                <span>订单状态:</span>
+                <span>优惠:</span>
                 <input type="text" disabled>
             </div>
         </div>
@@ -87,7 +82,7 @@
                 <input type="text" disabled>
             </div>
             <div class="col-sm-6">
-                <span>报关状态:</span>
+                <span>实付款:</span>
                 <input type="text" disabled>
             </div>
         </div>
@@ -98,140 +93,13 @@
                 <input type="text" disabled>
             </div>
             <div class="col-sm-6">
-                <span>支付报关状态:</span>
+                <span>支付方式:</span>
                 <input type="text" disabled>
             </div>
         </div>
-
         <div class="form-group">
             <div class="col-sm-offset-6 col-sm-6">
-                <span>物流公司:</span>
-                <input type="text" disabled>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-offset-6 col-sm-6">
-                <span>运单号:</span>
-                <input type="text" disabled>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-11">
-                <button type="button" class="btn btn-primary btn-sm pull-right check-logistics">
-                    查看物流
-                    <div class="logistics-info">
-                        <h6>订单结束</h6>
-                        <h6>已运送到---</h6>
-                        <h6>已揽件---</h6>
-                        <h6>已发货</h6>
-                    </div>
-                </button>
-            </div>
-        </div>
-
-        <div class="col-sm-11" style="padding-left: 80px">
-            <h5>商品明细:</h5>
-            <table class="table table-bordered">
-                <tr>
-                    <td>商品</td>
-                    <td>单价(元)</td>
-                    <td>数量</td>
-                    <td>优惠(元)</td>
-                    <td>总价(元)</td>
-                    <td>状态</td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="" alt="" width="40" height="40">
-                        <em>护肤品</em>
-                    </td>
-                    <td>125.9</td>
-                    <td>1</td>
-                    <td>5</td>
-                    <td>120.9</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-6">
-                <span>运费:</span>
-                <input type="text" disabled>
-            </div>
-            <div class="col-sm-6">
-                <span>支订单总价(含运费和行邮费):</span>
-                <input type="text" style="width: auto" disabled>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-6">
-                <span>行邮税:</span>
-                <input type="text" disabled>
-            </div>
-            <div class="col-sm-6">
-                <span>优惠:</span>
-                <input type="text" disabled>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-offset-6 col-sm-6">
-                <span>实付款:</span>
-                <input type="text" disabled>
-            </div>
-        </div>
-    </form>
-
-
-    <form class="form-horizontal">
-        <div class="form-group">
-            <div class="col-sm-6">
-                <span>订单编号:</span>
-                <input type="text" disabled>
-            </div>
-            <div class="col-sm-6">
-                <span>创建时间:</span>
-                <input type="text" disabled>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-6">
-                <span>订单总价(含运费和行邮税):</span>
-                <input type="text" style="width: auto" disabled>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-6">
-                <span>优惠:</span>
-                <input type="text" disabled>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-6">
-                <span>实付款:</span>
+                <span>支付状态:</span>
                 <input type="text" disabled>
             </div>
         </div>
@@ -246,77 +114,40 @@
                 <span>子订单编号:</span>
                 <input type="text" disabled>
             </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-sm-6">
-                <span>创建时间:</span>
+                <span>子订单编号:</span>
                 <input type="text" disabled>
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-sm-6">
-                <span>收货人姓名:</span>
-                <input type="text" disabled>
-            </div>
-            <div class="col-sm-6">
-                <span>支付方式:</span>
-                <input type="text" disabled>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-6">
-                <span>身份证号:</span>
-                <input type="text" disabled>
-            </div>
-            <div class="col-sm-6">
-                <span>支付状态:</span>
-                <input type="text" disabled>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-6">
-                <span>手机号:</span>
-                <input type="text" disabled>
-            </div>
             <div class="col-sm-6">
                 <span>订单状态:</span>
                 <input type="text" disabled>
             </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-sm-6">
-                <span>收货城市:</span>
-                <input type="text" disabled>
-            </div>
-            <div class="col-sm-6">
-                <span>报关状态:</span>
-                <input type="text" disabled>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-6">
-                <span>详细收货地址:</span>
-                <input type="text" disabled>
-            </div>
-            <div class="col-sm-6">
-                <span>支付报关状态:</span>
-                <input type="text" disabled>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-offset-6 col-sm-6">
                 <span>物流公司:</span>
                 <input type="text" disabled>
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-sm-offset-6 col-sm-6">
+            <div class="col-sm-6">
+                <span>报关状态:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
                 <span>运单号:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>支付报关状态:</span>
                 <input type="text" disabled>
             </div>
         </div>
@@ -406,84 +237,47 @@
         </div>
 
         <!--子订单2-->
-        <h5 style="margin-top: 50px">子订单2:</h5>
+        <h5>子订单2:</h5>
 
         <div class="form-group">
             <div class="col-sm-6">
                 <span>子订单编号:</span>
                 <input type="text" disabled>
             </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-sm-6">
-                <span>创建时间:</span>
+                <span>子订单编号:</span>
                 <input type="text" disabled>
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-sm-6">
-                <span>收货人姓名:</span>
-                <input type="text" disabled>
-            </div>
-            <div class="col-sm-6">
-                <span>支付方式:</span>
-                <input type="text" disabled>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-6">
-                <span>身份证号:</span>
-                <input type="text" disabled>
-            </div>
-            <div class="col-sm-6">
-                <span>支付状态:</span>
-                <input type="text" disabled>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-6">
-                <span>手机号:</span>
-                <input type="text" disabled>
-            </div>
             <div class="col-sm-6">
                 <span>订单状态:</span>
                 <input type="text" disabled>
             </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-sm-6">
-                <span>收货城市:</span>
-                <input type="text" disabled>
-            </div>
-            <div class="col-sm-6">
-                <span>报关状态:</span>
-                <input type="text" disabled>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-6">
-                <span>详细收货地址:</span>
-                <input type="text" disabled>
-            </div>
-            <div class="col-sm-6">
-                <span>支付报关状态:</span>
-                <input type="text" disabled>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-offset-6 col-sm-6">
                 <span>物流公司:</span>
                 <input type="text" disabled>
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-sm-offset-6 col-sm-6">
+            <div class="col-sm-6">
+                <span>报关状态:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
                 <span>运单号:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>支付报关状态:</span>
                 <input type="text" disabled>
             </div>
         </div>
