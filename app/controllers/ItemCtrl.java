@@ -154,7 +154,7 @@ public class ItemCtrl extends Controller {
         //包含modelName的库存列表
         List<Object[]> invList = new ArrayList<>();
         for(Inventory inventory : inventories) {
-            Object[] object = new Object[24];
+            Object[] object = new Object[20];
             object[0] = inventory.getOrMasterInv();
             object[1] = inventory.getItemColor();
             object[2] = inventory.getItemSize();
@@ -175,6 +175,7 @@ public class ItemCtrl extends Controller {
             object[16] = inventory.getInvImg();
             object[17] = inventory.getItemPreviewImgs();
             object[18] = inventory.getState();
+            object[19] = inventory.getRecordCode();
             invList.add(object);
         }
 
@@ -204,7 +205,7 @@ public class ItemCtrl extends Controller {
         //包含modelName的库存列表
         List<Object[]> invList = new ArrayList<>();
         for(Inventory inventory : inventories) {
-            Object[] object = new Object[24];
+            Object[] object = new Object[25];
             object[0] = inventory.getId();
             object[1] = inventory.getItemId();
             object[2] = inventory.getItemColor();
@@ -230,6 +231,7 @@ public class ItemCtrl extends Controller {
             object[22] = inventory.getCarriageModelCode();
             //由库存表的carriageModelCode 得到 modelName
             object[23] = carriageService.getModelName(inventory.getCarriageModelCode());
+            object[24] = inventory.getRecordCode();
             invList.add(object);
         }
         return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,service.getAllBrands(),service.getParentCates(),carriageService.getModels(),(User) ctx().args.get("user")));

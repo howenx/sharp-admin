@@ -22,7 +22,7 @@ public class GetLogistics {
         }catch(Exception e){
             e.printStackTrace();
         }
-r       return result;
+      return result;
 
     }
 }

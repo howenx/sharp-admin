@@ -74,16 +74,17 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
   //  }
   //  }
 
+  /**
+    * 供应商list
+    * @param id
+    * @param stat
+    * @param start
+    * @return
+    */
   def list_supply(id: Option[Int], stat:Option[String],start: Int) = withUser { user => {
     implicit request => {
 
       val m = request.queryString.map { case (k, v) => k -> v.head }
-      //val t = User.test().head._2 * 1.0 == User.test().head._2
-
-
-
-      //Logger.debug(t.toString)
-
       val status:Option[String] = m.get("stat") match {
         case Some("") =>
           None
@@ -127,6 +128,13 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
   }
 
+  /**
+    * 翻译人员list
+    * @param id
+    * @param stat
+    * @param start
+    * @return
+    */
   def list(id: Option[Int], stat:Option[String], start: Int) = withUser { user => {
     implicit request => {
       val m = request.queryString.map { case (k, v) => k -> v.head }
@@ -171,6 +179,13 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
   }
 
+  /**
+    *admin list
+    * @param id
+    * @param stat
+    * @param start
+    * @return
+    */
   def list_admin(id: Option[Int], stat:Option[String], start: Int) = withUser { user => {
     implicit request => {
       val m = request.queryString.map { case (k, v) => k -> v.head }
@@ -230,6 +245,11 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
   }
 
+  /**
+    * 追加
+    * @param id
+    * @return
+    */
   def append(id: Long) = withUser { user => {
     implicit request => {
       Prod.find_by_id(id) match {
@@ -244,6 +264,11 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
   }
 
+
+  /**
+    * 杭州报关单下载
+    * @return
+    */
   def download_hangzhou() = withUser { user => {
     implicit request => {
       val file = new File("/tmp/hangzhou.xlsx")
