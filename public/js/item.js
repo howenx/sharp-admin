@@ -60,6 +60,7 @@ $(function(){
         for(i=1;i<uptrs.length;i++) {
             var uptds = uptrs[i].getElementsByTagName("td");
             uptds[11].getElementsByTagName("select")[0].id = i;
+            uptds[16].id = "rec"+i;
             uptds[17].getElementsByTagName("div")[0].id = "galleryM"+i;
             uptds[17].getElementsByTagName("span")[0].id = "masterImgAddM"+i;
             uptds[17].getElementsByTagName("input")[0].id = "M"+i;
@@ -199,75 +200,44 @@ $(function(){
         //最后一行有空值不能添加
         for(i=1;i<=18;i++) {
             if (i <=9 && tds[i].getElementsByTagName("input")[0].value=="") break;
-            if ((i==10 || i==11) && tds[i].getElementsByTagName("select")[0].value=="" )break;
+            if ((i==10 || i==11) && $("#itemId").val()=="" && tds[i].getElementsByTagName("select")[0].value=="" )break;
+            if (i==10 && $("#itemId").val()!="" && tds[i].getElementsByTagName("select")[0].value=="" )break;
             if (tds[16].getElementsByTagName("input")[0].value==""&&tds[16].getElementsByTagName("input")[1].value==""&&tds[16].getElementsByTagName("input")[2].value=="") break;
             if (i ==17 && trs[index-1].getElementsByClassName("list-img")[0].getElementsByTagName("div").length==1) break;
             if (i ==18 && trs[index-1].getElementsByClassName("preview-img")[0].getElementsByTagName("div").length==1) break;
         }
-        if (true){
-//        if (i==19){
+        if (i==19){
             var tr =  document.createElement("tr");
 
             var tdR = document.createElement("td");
-            var inputR = document.createElement("input");
-            inputR.type = "radio";
-            inputR.name = "orMasterInv";
-            inputR.classList.add("master-radio");
-            tdR.appendChild(inputR);
+            tdR.innerHTML = '<input type="radio" name="orMasterInv" checked="checked" class="master-radio"/>';
 
             var tdC = document.createElement("td");
-            var inputC = document.createElement("input");
-            inputC.type = "text";
-            inputC.name = "itemColor";
-            tdC.appendChild(inputC);
+            tdC.innerHTML = '<input type="text" name="itemColor">';
 
             var tdS = document.createElement("td");
-            var inputS = document.createElement("input");
-            inputS.type = "text";
-            inputS.name = "itemSize";
-            tdS.appendChild(inputS);
+            tdS.innerHTML = '<input type="text" name="itemSize">';
 
             var tdW = document.createElement("td");
-            var inputW = document.createElement("input");
-            inputW.type = "text";
-            inputW.name = "invWeight";
-            tdW.appendChild(inputW);
+            tdW.innerHTML = '<input type="text" name="invWeight">';
 
             var tdA = document.createElement("td");
-            var inputA = document.createElement("input");
-            inputA.type = "text";
-            inputA.name = "amount";
-            tdA.appendChild(inputA);
+            tdA.innerHTML = '<input type="text" name="amount">';
 
             var tdP = document.createElement("td");
-            var inputP = document.createElement("input");
-            inputP.type = "text";
-            inputP.name = "itemPrice";
-            tdP.appendChild(inputP);
+            tdP.innerHTML = '<input type="text" name="itemPrice">';
 
             var tdSP = document.createElement("td");
-            var inputSP = document.createElement("input");
-            inputSP.type = "text";
-            inputSP.name = "itemSrcPrice";
-            tdSP.appendChild(inputSP);
+            tdSP.innerHTML = '<input type="text" name="itemSrcPrice">';
 
             var tdCP = document.createElement("td");
-            var inputCP = document.createElement("input");
-            inputCP.type = "text";
-            inputCP.name = "itemCostPrice";
-            tdCP.appendChild(inputCP);
+            tdCP.innerHTML = '<input type="text" name="itemCostPrice">';
 
             var tdD = document.createElement("td");
-            var inputD = document.createElement("input");
-            inputD.type = "text";
-            inputD.name = "itemDiscount";
-            tdD.appendChild(inputD);
+            tdD.innerHTML = '<input type="text" name="itemDiscount">';
 
             var tdRA = document.createElement("td");
-            var inputRA = document.createElement("input");
-            inputRA.type = "text";
-            inputRA.name = "restrictAmount";
-            tdRA.appendChild(inputRA);
+            tdRA.innerHTML = '<input type="text" name="restrictAmount">';
 
             var tdCarr = document.createElement("td");
             var sel = document.createElement("select");
@@ -276,34 +246,26 @@ $(function(){
             opt.innerText="请选择";
             sel.appendChild(opt);
             var mList = $("#mList").val();
-
-            console.log(mList);
-//            mList.forEach(function(e) {
-//                alert(e);
-//            })
-//            for(var model : mList) {
-//                var option = document.createElement("option");
-//                option.value =model.getModelCode();
-//                option.innerText=model.getModelName();
-//                sel.appendChild(option);
-//            }
-//            sel.appendChild(opt);
-//            tdRA.appendChild(sel);
+            mList = mList.substring(2,mList.length-1).split(", C");
+            for(c=0;c<mList.length;c++) {
+                var carrArr = mList[c].substring(7,mList[c].length).split(", ");
+                var modelCode = carrArr[1]; modelCode = modelCode.substring(11,modelCode.length-1);
+                var modelName = carrArr[2]; modelName = modelName.substring(11,modelName.length-1);
+                var opt = document.createElement("option");
+                opt.value = modelCode;
+                opt.innerText = modelName;
+                sel.appendChild(opt);
+            }
+            tdCarr.appendChild(sel);
 
             var tdTRSet = document.createElement("td");
             tdTRSet.innerHTML = '<select class="trset" id="'+index+'"><option value="">请选择</option><option value="S">标准税率</option><option value="F">免税</option><option value="D">自定义</option></select>';
 
             var tdTRate = document.createElement("td");
-            var inputTRate = document.createElement("input");
-            inputTRate.type = "text";
-            inputTRate.name = "postalTaxRate";
-            tdTRate.appendChild(inputTRate);
+            tdTRate.innerHTML = '<input type="text" name="postalTaxRate">';
 
             var tdTCode = document.createElement("td");
-            var inputTCode = document.createElement("input");
-            inputTCode.type = "text";
-            inputTCode.name = "postalTaxCode";
-            tdTCode.appendChild(inputTCode);
+            tdTCode.innerHTML = '<input type="text" name="postalTaxCode">';
 
             var tdIA = document.createElement("td");
             tdIA.innerHTML = '<select><option value="Z">韩国直邮</option><option value="H">杭州保税仓</option><option value="G">广州保税仓</option><option value="K">海外直邮</option></select>';
@@ -312,8 +274,9 @@ $(function(){
             tdCus.innerHTML = '<select><option value="shanghai">上海海关</option><option value="hangzhou">杭州海关</option><option value="guangzhou">广州海关</option></select>';
 
             var tdRecord = document.createElement("td");
-            tdRecord.innerHTML = '<div class="record"><span>杭州</span><input type="text" name="HZBEI" style="width:70%;"></div>'+
-                                 ' <div class="record"><span>广州</span><input type="text" name="GZBEI" style="width:70%;"></div><div class="record"><span>上海</span><input type="text" name="SHBEI" style="width:70%;"></div>';
+            tdRecord.id = "rec"+index;
+            tdRecord.innerHTML = '<div class="record"><span>杭州 </span><input type="text" name="recordHZ" style="width:70%;"></div>'+
+                                 ' <div class="record"><span>广州 </span><input type="text" name="recordGZ" style="width:70%;"></div><div class="record"><span>上海 </span><input type="text" name="recordSH" style="width:70%;"></div>';
 
             var tdMI = document.createElement("td");
             tdMI.classList.add('list-img');
@@ -350,10 +313,9 @@ $(function(){
             tdPI.appendChild(divPre);
             tdPI.appendChild(spanAdd);
 
-            if($("#itemId").val() != "") {
-                var tdState = document.createElement("td");
-                tdState.innerHTML = "<input type='text' name='state' value='正常' style='font-size:10px;'>"
-            }
+            var tdState = document.createElement("td");
+            if($("#itemId").val() != "") tdState.innerHTML = "<input type='text' name='state' value='正常' style='font-size:10px;'>";
+            else tdState.style.display="none";
 
             var tdDe = document.createElement("td");
             tdDe.classList.add("del");
@@ -382,9 +344,7 @@ $(function(){
             tr.appendChild(tdRecord);
             tr.appendChild(tdMI);
             tr.appendChild(tdPI);
-            if($("#itemId").val() != "") {
-                tr.appendChild(tdState);
-            }
+            tr.appendChild(tdState);
             tr.appendChild(tdDe);
             inventory.appendChild(tr);
         }
@@ -427,6 +387,7 @@ $(function(){
             var uptrs = inventory.getElementsByTagName("tr");
             for(i=1;i<uptrs.length;i++) {
                 var uptds = uptrs[i].getElementsByTagName("td");
+                uptds[16].id = "rec"+i;
                 uptds[11].getElementsByTagName("select")[0].id = i;
                 uptds[17].getElementsByTagName("div")[0].id = "galleryM"+i;
                 uptds[17].getElementsByTagName("span")[0].id = "masterImgAddM"+i;
@@ -524,6 +485,7 @@ $(function(){
             } else $("#warn-inv").html("");
         }
         for(i=0;i<amount.length;i++){
+
             if (!numberReg1.test(invWeight[i].value) || !numberReg1.test(amount[i].value) || !numberReg2.test(itemPrice[i].value) || !numberReg2.test(itemSrcPrice[i].value)
                 || !numberReg2.test(itemCostPrice[i].value) || !numberReg2.test(itemDiscount[i].value) || !numberReg1.test(restrictAmount[i].value)
                 || (!numberReg4.test(recordHZ[i].value) && !numberReg4.test(recordGZ[i].value) && !numberReg4.test(recordSH[i].value))) {
@@ -743,7 +705,7 @@ $(function(){
         console.log(JSON.stringify(inventories));
 //        console.log(JSON.stringify(itemData));
         console.log(isPost);
-        if (false) {
+        if (isPost) {
             $.ajax({
                 type :  "POST",
                 url : "/comm/itemSave",

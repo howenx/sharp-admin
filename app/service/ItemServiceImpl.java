@@ -95,6 +95,7 @@ public class ItemServiceImpl implements ItemService{
                 sku_num = json.findValue("inventories").size();
                 if (jsonNode.has("itemPreviewImgs")) {
                     ((ObjectNode) jsonNode).put("itemPreviewImgs",jsonNode.findValue("itemPreviewImgs").toString());
+                    ((ObjectNode) jsonNode).put("recordCode",jsonNode.findValue("recordCode").toString());
                 }
                 Inventory inventory = Json.fromJson(jsonNode, Inventory.class);
                 inventory.setItemId(item.getId());
@@ -130,17 +131,17 @@ public class ItemServiceImpl implements ItemService{
                 list.add(inventory.getId());
             }
         }
-        //item状态若修改为D下架或K售空,该item下的所有sku状态都改为D或K,item状态由D或K改为Y sku状态全改为
+        //item状态若修改为D下架或K售空,该item下的所有sku状态都改为D或K,item状态由D或K改为Y sku状态全改为Y
         Long id = item.getId();
         Logger.error("商品状态:"+state);
         List<Inventory> invList = inventoryMapper.getInventoriesByItemId(id);
         if ("D".equals(state) || "K".equals(state) || ("Y".equals(state) && d_num==sku_num) || ("Y".equals(state) && k_num==sku_num)) {
             for(Inventory inv : invList) {
                 inv.setState(state);
-                inventoryMapper.updateInventory(inv);
+                this.inventoryMapper.updateInventory(inv);
             }
             item.setState(state);
-            itemMapper.itemUpdate(item);
+            this.itemMapper.itemUpdate(item);
         }
         return list;
     }
