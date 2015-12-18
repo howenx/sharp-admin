@@ -135,7 +135,7 @@
                                 }
                             </td>
                         </tr>
-                        <tr>
+                        <tr class="define">
                             <td>运送到</td>
                             <td>首件(件)</td>
                             <td>首费(元)</td>
@@ -145,7 +145,7 @@
                         </tr>
                         @for(cl <- carrList) {
                         @if(cl.getCityCode()!="ALL") {
-                        <tr style="display:;" >
+                        <tr style="display:;" class="define">
                             <td width="300">
                                 <span>@cl.getCityCode()</span> <a href="javascript:void(0)" class="edit" style="float: right">编辑</a>
                                 <span class="cnm" style="display:none;">@cl.getCityCode()</span>
@@ -168,7 +168,7 @@
                         </tr>
                         }
                         }
-                        <tr>
+                        <tr class="define">
                             <td colspan="6">
                                 <a href="javascript:void(0)" class="add-temp">为指定地区城市设置运费</a>
                                 <!--<a href="javascript:void(0)">批量操作</a>-->
@@ -287,6 +287,7 @@
     //修改默认模板,模板名称不能修改
     if($("#modelName").val()=="默认模板") {
         document.getElementById("modelName").disabled = true;
+        $(".define").hide() ;
     }
         var arr = [];
         var obj1 = new Object();  obj1.cityCode = "AH";  obj1.cityName = "安徽";   arr.push(obj1);

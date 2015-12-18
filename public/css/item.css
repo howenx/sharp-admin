@@ -249,9 +249,11 @@ body {
 .goods-info1{
 	width: 100%;
 	padding-left: 15px;
+	overflow-y: hidden;
 }
 .table>tbody>tr>td,.table>tbody>tr>th{
 	vertical-align: middle;text-align: center;
+	white-space:nowrap;
 }
 .qubian, .pub{
 	border-collapse:collapse;
