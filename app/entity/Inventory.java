@@ -155,6 +155,11 @@ public class Inventory {
      */
     private String carriageModelCode;
 
+    /**
+     * 备案号
+     */
+    private String recordCode;
+
     public Inventory() {}
 
     public Long getId() {
@@ -381,6 +386,14 @@ public class Inventory {
         this.carriageModelCode = carriageModelCode;
     }
 
+    public String getRecordCode() {
+        return recordCode;
+    }
+
+    public void setRecordCode(String recordCode) {
+        this.recordCode = recordCode;
+    }
+
     @Override
     public String toString() {
         return "Inventory{" +
@@ -412,10 +425,11 @@ public class Inventory {
                 ", invWeight=" + invWeight +
                 ", postalTaxRate='" + postalTaxRate + '\'' +
                 ", carriageModelCode='" + carriageModelCode + '\'' +
+                ", recordCode='" + recordCode + '\'' +
                 '}';
     }
 
-    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, BigDecimal shipFee, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxCode, Integer invWeight, String postalTaxRate, String carriageModelCode) {
+    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, BigDecimal shipFee, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxCode, Integer invWeight, String postalTaxRate, String carriageModelCode, String recordCode) {
         this.id = id;
         this.itemId = itemId;
         this.itemColor = itemColor;
@@ -444,5 +458,6 @@ public class Inventory {
         this.invWeight = invWeight;
         this.postalTaxRate = postalTaxRate;
         this.carriageModelCode = carriageModelCode;
+        this.recordCode = recordCode;
     }
 }

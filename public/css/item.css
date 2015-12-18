@@ -329,3 +329,5 @@ body {
 #masterImgAddM1{
 	margin-left: -10px;
 }
+.record span {font-size:10px;width:20%;}
+.record input {border:1px solid #ccc;width:70%;height:20px;margin-top:1px;font-size:10px;}

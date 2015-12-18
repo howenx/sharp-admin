@@ -314,10 +314,9 @@
     $(function() {
         $(".del").click(function() {
             var modelCode = $(this).next().val();
-            alert(modelCode)
             $.ajax({
                 type :  "GET",
-                url : "/carr/delModel/modelCode",
+                url : "/carr/delModel/"+modelCode,
                 contentType: "application/json; charset=utf-8",
                 error : function(request) {
                     alert("删除失败!");
@@ -326,7 +325,7 @@
                     if(data=="true") {
                         alert("删除成功");
                         //运费模板删除, 成功后返回到运费模板列表页面
-                        setTimeout("location.href='/"+window.lang+"/carr/search'", 3000);
+                        setTimeout("location.href='/"+window.lang+"/carr/search'", 100);
                     } else alert("删除失败!");
 
                 }

@@ -44,10 +44,10 @@
             <label class="col-sm-1 control-label">订单状态</label>
             <div class="col-sm-3">
                 <select id="order-form-status" class="form-control">
-                    <option value="X"></option>
+                    <option value=""></option>
                     <option value="I">未支付</option>
                     <option value="S">支付成功</option>
-                    <option value="C">取消订单</option>
+                    <option value="C">订单取消</option>
                     <option value="F">支付失败</option>
                     <option value="R">已收货</option>
                     <option value="D">已发货</option>
@@ -66,10 +66,12 @@
         </div>
 
         <div class="form-group">
+            <!--
             <label class="col-sm-1 control-label">快递单号</label>
             <div class="col-sm-3">
                 <input id="order-form-express" type="text" class="form-control">
             </div>
+            -->
         </div>
 
         <div class="btn-s">
@@ -85,7 +87,6 @@
                 <th>订单ID</th>
                 <th>用户ID</th>
                 <th>创建时间</th>
-                <th>快递单号</th>
                 <th>订单总价</th>
                 <th>支付渠道</th>
                 <th>订单状态</th>
@@ -100,7 +101,6 @@
                 <td>@order(3)</td>
                 <td>@order(4)</td>
                 <td>@order(5)</td>
-                <td>@order(6)</td>
             </tr>
             }
             <!---公用模块,id不能改变,只需要改变合并行数-->

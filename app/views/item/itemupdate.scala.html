@@ -127,7 +127,7 @@
                 <div class="form-group">
                     <div class="col-sm-12">
                         <div class="goods-info1">
-                            <table class="table table-bordered qubian inv" id="inventory">
+                            <table class="table table-bordered qubian inv" id="inventory" style="max-width:104%;width:150%;">
                                 <tr>
                                     <th width="60">设为主商品</th>
                                     <th width="50">颜色分类</th>
@@ -145,8 +145,9 @@
                                     <th width="60">行邮税号</th>
                                     <th width="100">库存区域</th>
                                     <th width="80">报关单位</th>
+                                    <th width="130">备案号</th>
                                     <th width="80">主图(一张)</th>
-                                    <th width="260">详情页预览图(最多6张)</th>
+                                    <th width="180">详情页预览图(最多6张)</th>
                                     <th width="30">状态</th>
                                     <th width="30" class="add-goods add">添加商品</th>
                                 </tr>
@@ -259,6 +260,19 @@
                                             <option value="shanghai">上海海关</option>
                                             <option value="guangzhou">广州海关</option>
                                         </select>
+                                        }
+                                    </td>
+                                    <td>
+                                        @for(recordCode <- obj(24).toString().substring(1,obj(24).toString().length-1).split(", ")) {
+                                        @if(recordCode.substring(1,recordCode.indexOf(":")-1)=="hangzhou") {
+                                        <div class="record"><span>杭州</span><input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordHZ" style="width:70%;"></div>
+                                        }
+                                        @if(recordCode.substring(1,recordCode.indexOf(":")-1)=="guangzhou") {
+                                        <div class="record"><span>广州</span><input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordGZ" style="width:70%;"></div>
+                                        }
+                                        @if(recordCode.substring(1,recordCode.indexOf(":")-1)=="shanghai") {
+                                        <div class="record"><span>上海</span><input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordSH" style="width:70%;"></div>
+                                        }
                                         }
                                     </td>
                                     <td class="list-img">

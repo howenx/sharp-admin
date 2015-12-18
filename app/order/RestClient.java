@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by handy on 15/12/11.
@@ -25,7 +27,10 @@ import java.util.Map;
  */
 public class RestClient {
 
-    public static final int TIMEOUT = 5 * 1000;
+
+    public static final String test = "";
+
+    public static final int TIMEOUT = 10 * 1000;
 
     /**
      * post form data, 返回String 数据,Json 数据.
@@ -96,25 +101,33 @@ public class RestClient {
             byte[] text = pre_sign.getBytes("UTF-8");
             byte[] hashedBytes = mac.doFinal(text);
             String encode_sign = encode(Base64.encodeBase64String(hashedBytes));
-            Logger.debug(encode_sign);
             return encode_sign;
         } catch (NoSuchAlgorithmException | InvalidKeyException | UnsupportedEncodingException e) {
-            e.printStackTrace();
+            Logger.info(e.getMessage());
         }
 
         return null;
 
     }
 
-    public static String encode(String s) throws UnsupportedEncodingException {
+    /**
+     * 改造.net的encode
+     * @param s
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    private static String encode (String s) throws UnsupportedEncodingException {
+        String temp = URLEncoder.encode(s, "utf-8");
 
-        char[] temp = URLEncoder.encode(s, "utf-8").toCharArray();
-        for (int i = 0; i < temp.length - 2; i++) {
-            if (temp[i] == '%') {
-                temp[i + 1] = Character.toLowerCase(temp[i + 1]);
-                temp[i + 2] = Character.toLowerCase(temp[i + 2]);
-            }
+        Pattern p = Pattern.compile("(?<=%)([0-9A-Z]{2})");
+        Matcher m = p.matcher(temp);
+        StringBuffer sb = new StringBuffer();
+        while (m.find()) {
+            m.appendReplacement(sb, m.group().toLowerCase());
         }
-        return new String(temp);
+        m.appendTail(sb);
+        return sb.toString();
     }
+
+
 }
