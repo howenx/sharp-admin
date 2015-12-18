@@ -8,7 +8,6 @@
         var cityOriginal_all_arr = sharedObject.cityOriginal_all_arr;
         var addr = sharedObject.addr;
         if(cityOriginal_arr&&cityOriginal_arr.length!==0){
-            alert(1);
             var inputs = $('input[type=checkbox]');
             for(var i=0;i<cityOriginal_arr.length;i++){
                 for(var j=0;j<inputs.length;j++){
@@ -63,9 +62,12 @@
             }
             window.close ();
         })
+        $(".city-cancel").click(function(){
+            window.close ();
+        });
+
     })
 </script>
-
 <body>
 <div class="container-fluid">
     <div class="row">
@@ -145,4 +147,5 @@
     </div>
 </div>
 <button type="button" class="btn btn-primary city-ok">确认</button>
+<button type="button" class="btn btn-primary city-cancel" style="margin-left:0px;margin-top:17px;">取消</button>
 </body>

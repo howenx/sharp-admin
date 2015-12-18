@@ -1,8 +1,15 @@
 package order;
 
+<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.codec.binary.Base64;
+=======
+import org.apache.xerces.impl.dv.util.Base64;
+
+import java.util.HashMap;
+import java.util.Map;
+>>>>>>> acb2d78a55c5ff328c3417cf2c18cf1433c95898
 
 
 /**
@@ -21,7 +28,7 @@ public class B1EC2Client {
     private static String Secret = "lRINGlxXEAiXC2A9umPSboxW8Y1UArdH";
 
 
-    public static<T> T post (String url, String method, Map<String, String> params, Class<T> clazz) {
+    public static<T> T post (String url, String method, Map<String, Object> params, Class<T> clazz) {
 
         if(!url.toUpperCase().startsWith("HTTP")) {
             url = "http://" + url;

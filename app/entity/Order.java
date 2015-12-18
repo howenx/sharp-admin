@@ -26,8 +26,10 @@ public class Order implements Serializable {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp updatedAt;        //最后修改时间
     private String orderDesc;           //订单备注
-    private Long addId;                 //用户订单地址
     private BigDecimal shipFee;         //邮费
+    private BigDecimal postalFee;       //行邮税
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    private Timestamp confirmReveiveAt;  //用户收货确认时间
 
     //分页,每页多少条
     private Integer pageSize;
@@ -41,7 +43,7 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, Long addId, BigDecimal shipFee, Integer pageSize, Integer offset, String sort, String order) {
+    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, BigDecimal shipFee, BigDecimal postalFee, Timestamp confirmReveiveAt, Integer pageSize, Integer offset, String sort, String order) {
         this.orderId = orderId;
         this.userId = userId;
         this.payTotal = payTotal;
@@ -54,8 +56,9 @@ public class Order implements Serializable {
         this.discount = discount;
         this.updatedAt = updatedAt;
         this.orderDesc = orderDesc;
-        this.addId = addId;
         this.shipFee = shipFee;
+        this.postalFee = postalFee;
+        this.confirmReveiveAt = confirmReveiveAt;
         this.pageSize = pageSize;
         this.offset = offset;
         this.sort = sort;
@@ -77,8 +80,9 @@ public class Order implements Serializable {
                 ", discount=" + discount +
                 ", updatedAt=" + updatedAt +
                 ", orderDesc='" + orderDesc + '\'' +
-                ", addId=" + addId +
                 ", shipFee=" + shipFee +
+                ", postalFee=" + postalFee +
+                ", confirmReveiveAt=" + confirmReveiveAt +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +
@@ -182,20 +186,28 @@ public class Order implements Serializable {
         this.orderDesc = orderDesc;
     }
 
-    public Long getAddId() {
-        return addId;
-    }
-
-    public void setAddId(Long addId) {
-        this.addId = addId;
-    }
-
     public BigDecimal getShipFee() {
         return shipFee;
     }
 
     public void setShipFee(BigDecimal shipFee) {
         this.shipFee = shipFee;
+    }
+
+    public BigDecimal getPostalFee() {
+        return postalFee;
+    }
+
+    public void setPostalFee(BigDecimal postalFee) {
+        this.postalFee = postalFee;
+    }
+
+    public Timestamp getConfirmReveiveAt() {
+        return confirmReveiveAt;
+    }
+
+    public void setConfirmReveiveAt(Timestamp confirmReveiveAt) {
+        this.confirmReveiveAt = confirmReveiveAt;
     }
 
     public Integer getPageSize() {

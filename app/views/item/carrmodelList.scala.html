@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",user:entity.User)
+@(lang:String="cn",modelList:List[entity.Carriage],carriageList:List[entity.Carriage],user:entity.User)
 
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
@@ -11,6 +11,82 @@
         $(".temp-del").click(function(){
             $(this).parents("table").remove();
         })
+
+        var arr = [];
+        var obj1 = new Object();  obj1.cityCode = "AH";  obj1.cityName = "安徽";   arr.push(obj1);
+        var obj2 = new Object();  obj2.cityCode = "FJ";  obj2.cityName = "福建";   arr.push(obj2);
+        var obj3 = new Object();  obj3.cityCode = "GS";  obj3.cityName = "甘肃";   arr.push(obj3);
+        var obj4 = new Object();  obj4.cityCode = "GD";  obj4.cityName = "广东";   arr.push(obj4);
+        var obj5 = new Object();  obj5.cityCode = "GX";  obj5.cityName = "广西";   arr.push(obj5);
+        var obj6 = new Object();  obj6.cityCode = "GZ";  obj6.cityName = "贵州";   arr.push(obj6);
+        var obj7 = new Object();  obj7.cityCode = "HI";  obj7.cityName = "海南";   arr.push(obj7);
+        var obj8 = new Object();  obj8.cityCode = "HE";  obj8.cityName = "河北";   arr.push(obj8);
+        var obj9 = new Object();  obj9.cityCode = "HA";  obj9.cityName = "河南";   arr.push(obj9);
+        var obj10 = new Object(); obj10.cityCode = "BJ"; obj10.cityName = "北京";  arr.push(obj10);
+
+        var obj11 = new Object();  obj11.cityCode = "HL";  obj11.cityName = "黑龙江"; arr.push(obj11);
+        var obj12 = new Object();  obj12.cityCode = "HB";  obj12.cityName = "湖北";   arr.push(obj12);
+        var obj13 = new Object();  obj13.cityCode = "HN";  obj13.cityName = "湖南";   arr.push(obj13);
+        var obj14 = new Object();  obj14.cityCode = "JL";  obj14.cityName = "吉林";   arr.push(obj14);
+        var obj15 = new Object();  obj15.cityCode = "JS";  obj15.cityName = "江苏";   arr.push(obj15);
+        var obj16 = new Object();  obj16.cityCode = "JX";  obj16.cityName = "江西";   arr.push(obj16);
+        var obj17 = new Object();  obj17.cityCode = "LN";  obj17.cityName = "辽宁";   arr.push(obj17);
+        var obj18 = new Object();  obj18.cityCode = "NM";  obj18.cityName = "内蒙古"; arr.push(obj18);
+        var obj19 = new Object();  obj19.cityCode = "NX";  obj19.cityName = "宁夏";   arr.push(obj19);
+        var obj20 = new Object();  obj20.cityCode = "QH";  obj20.cityName = "青海";   arr.push(obj20);
+
+        var obj21 = new Object();  obj21.cityCode = "SD";  obj21.cityName = "山东";   arr.push(obj21);
+        var obj22 = new Object();  obj22.cityCode = "SX";  obj22.cityName = "山西";   arr.push(obj22);
+        var obj23 = new Object();  obj23.cityCode = "SN";  obj23.cityName = "陕西";   arr.push(obj23);
+        var obj24 = new Object();  obj24.cityCode = "SH";  obj24.cityName = "上海";   arr.push(obj24);
+        var obj25 = new Object();  obj25.cityCode = "SC";  obj25.cityName = "四川";   arr.push(obj25);
+        var obj26 = new Object();  obj26.cityCode = "TJ";  obj26.cityName = "天津";   arr.push(obj26);
+        var obj27 = new Object();  obj27.cityCode = "XZ";  obj27.cityName = "西藏";   arr.push(obj27);
+        var obj28 = new Object();  obj28.cityCode = "XJ";  obj28.cityName = "新疆";   arr.push(obj28);
+        var obj29 = new Object();  obj29.cityCode = "YN";  obj29.cityName = "云南";   arr.push(obj29);
+        var obj30 = new Object();  obj30.cityCode = "ZJ";  obj30.cityName = "浙江";   arr.push(obj30);
+        var obj31 = new Object();  obj31.cityCode = "CQ";  obj31.cityName = "重庆";   arr.push(obj31);
+        var obj32 = new Object();  obj32.cityCode = "MO";  obj32.cityName = "澳门";   arr.push(obj32);
+        var obj33 = new Object();  obj33.cityCode = "XG";  obj33.cityName = "香港";   arr.push(obj33);
+        var obj34 = new Object();  obj34.cityCode = "TW";  obj34.cityName = "台湾";   arr.push(obj34);
+
+        var obj35 = new Object();  obj35.cityCode = "BSQ";          obj35.cityName = "保税区"; arr.push(obj35);
+        var obj36 = new Object();  obj36.cityCode = "Asia";         obj36.cityName = "亚洲";   arr.push(obj36);
+        var obj37 = new Object();  obj37.cityCode = "Europe";       obj37.cityName = "欧洲";   arr.push(obj37);
+        var obj38 = new Object();  obj38.cityCode = "Africa";       obj38.cityName = "非洲";   arr.push(obj38);
+        var obj39 = new Object();  obj39.cityCode = "NorthAmerica"; obj39.cityName = "北美洲"; arr.push(obj39);
+        var obj40 = new Object();  obj40.cityCode = "SouthAmerica"; obj40.cityName = "南美洲"; arr.push(obj40);
+        var obj41 = new Object();  obj41.cityCode = "Oceania";      obj41.cityName = "大洋洲"; arr.push(obj41);
+
+
+
+    $(".table-content").find("table").each(function(){
+        var id = $(this).attr("id");
+        //含有配送地的行
+        var trs = document.getElementsByName(id);
+        var index = 0;
+        for(i=0;i<trs.length;i++) {
+            //要显示的行的索引
+            trs[0].style.display = "";
+            var city = trs[i].getElementsByTagName("td")[1].innerText;
+            for(j=0;j<arr.length;j++) {
+                if (city==arr[j].cityCode) {
+                    trs[i].getElementsByTagName("td")[1].innerText = arr[j].cityName;
+                }
+            }
+            //比较两行的数据是否相同,相同:配送地点合并,不相同:显示该行
+            if (i>0 && trs[i].getElementsByTagName("td")[2].innerText==trs[i-1].getElementsByTagName("td")[2].innerText) {
+                //配送地合并到当前显示行
+                trs[index].getElementsByTagName("td")[1].innerText = trs[index].getElementsByTagName("td")[1].innerText+" "+trs[i].getElementsByTagName("td")[1].innerText;
+                trs[i].style.display = "none";
+            }
+            if (i>0 && trs[i].getElementsByTagName("td")[2].innerText!=trs[i-1].getElementsByTagName("td")[2].innerText) {
+                index = i;
+                trs[i].style.display = "";
+            }
+        }
+    });
+
     })
 </script>
 }
@@ -35,14 +111,16 @@
         <span class="title-name">运费模板列表</span>
     </div>
     <div class="table-content">
-        <input type="button" value="新增运费模板" onclick="javascript:window.location.href='/carr/add'"/>
+        <button type="button"  onclick="javascript:window.location.href='/carr/add'">新增运费模板</button>
         <div class="template">
-            <!--one-->
-            <table cellspacing="0">
+            <!--默认模板始终显示-->
+            @for(cl <- carriageList) {
+            @if(cl.getModelName()=="默认模板") {
+            <table cellspacing="0" id="@cl.getModelCode()">
                 <tr style="background: rgb(224,238,255)">
                     <td colspan="6">
                         <span>默认模版</span>
-                        <span>最后编辑时间:2015-11-12 15:18 <a href="javascript:void(0)" class="temp-edit">修改</a></span>
+                        <span><a href="/carr/findModel/@cl.getModelCode()" class="temp-edit">修改</a></span>
                     </td>
                 </tr>
                 <tr>
@@ -56,21 +134,22 @@
                 <tr>
                     <td>快递</td>
                     <td>未被划分的配送地区自动归于默认运费</td>
-                    <td>10</td>
-                    <td>25.00</td>
-                    <td>2</td>
-                    <td>5.00</td>
+                    <td>@cl.getFirstNum</td>
+                    <td>@cl.getFirstFee</td>
+                    <td>@cl.getAddNum</td>
+                    <td>@cl.getAddFee</td>
                 </tr>
             </table>
-            <!--two-->
-            <table cellspacing="0">
+            }
+            }
+            <!--除默认模板之外的模板列表-->
+            @for(ml <- modelList) {
+            @if(ml.getModelName()!="默认模板"){
+            <table cellspacing="0" id="@ml.getModelCode()">
                 <tr style="background: rgb(224,238,255)">
                     <td colspan="6">
-                        <span>化妆品不包邮</span>
-                        <span>最后编辑时间:2015-11-12 15:17
-                            <a href="javascript:void(0)" class="temp-edit">修改</a>
-                            <a href="javascript:void(0)" class="temp-del">删除</a>
-                        </span>
+                        <span>@ml.getModelName()</span>
+                        <span> <a href="/carr/findModel/@ml.getModelCode()" class="temp-edit">修改</a> <a href="javascript:void(0)" class="temp-edit del" >删除</a><input type="hidden" value="@ml.getModelCode()"></span>
                     </td>
                 </tr>
                 <tr>
@@ -81,81 +160,176 @@
                     <td>续件(件)</td>
                     <td>运费(元)</td>
                 </tr>
-                <tr>
-                    <td>快递</td>
-                    <td>未被划分的配送地区自动归于默认运费</td>
-                    <td>3</td>
-                    <td>25.00</td>
-                    <td>1</td>
-                    <td>5.00</td>
-                </tr>
-                <tr>
-                    <td>快递</td>
-                    <td>北京 上海 天津 重庆 河北 山西 河南 辽宁 吉林 黑龙江 江苏</td>
-                    <td>5</td>
-                    <td>25.00</td>
-                    <td>2</td>
-                    <td>5.00</td>
-                </tr>
+                @for(cl <- carriageList) {
+                @if(cl.getModelCode() == ml.getModelCode()) {
+                    @if(cl.getCityCode()=="ALL") {
+                    <tr>
+                        <td>快递</td>
+                        <td>未被划分的配送地区自动归于默认运费</td>
+                        <td>@cl.getFirstNum</td>
+                        <td>@cl.getFirstFee</td>
+                        <td>@cl.getAddNum</td>
+                        <td>@cl.getAddFee</td>
+                    </tr>
+                    }
+                    @if(cl.getCityCode!="ALL") {
+                    <tr style="display:;" name="@cl.getModelCode()">
+                        <td>快递</td>
+                        <td>@cl.getCityCode()</td>
+                        <td>@cl.getFirstNum</td>
+                        <td>@cl.getFirstFee</td>
+                        <td>@cl.getAddNum</td>
+                        <td>@cl.getAddFee</td>
+                    </tr>
+                    }
+                }
+                }
             </table>
-            <!--three-->
-            <table cellspacing="0">
-                <tr style="background: rgb(224,238,255)">
-                    <td colspan="6">
-                        <span>单品包邮</span>
-                        <span>最后编辑时间:2015-11-12 15:15
-                            <a href="javascript:void(0)" class="temp-edit">修改</a>
-                            <a href="javascript:void(0)" class="temp-del">删除</a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="130">运送方式</td>
-                    <td>运送到</td>
-                    <td>首件(件)</td>
-                    <td>运费(元)</td>
-                    <td>续件(件)</td>
-                    <td>运费(元)</td>
-                </tr>
-                <tr>
-                    <td>快递</td>
-                    <td>全国</td>
-                    <td>1</td>
-                    <td>0.00</td>
-                    <td>1</td>
-                    <td>0.00</td>
-                </tr>
-            </table>
-            <!--four-->
-            <table cellspacing="0">
-                <tr style="background: rgb(224,238,255)">
-                    <td colspan="6">
-                        <span>卖家承担运费</span>
-                        <span>最后编辑时间:2015-11-12 17:50
-                            <a href="javascript:void(0)" class="temp-edit">修改</a>
-                            <a href="javascript:void(0)" class="temp-del">删除</a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="130">运送方式</td>
-                    <td>运送到</td>
-                    <td>首件(件)</td>
-                    <td>运费(元)</td>
-                    <td>续件(件)</td>
-                    <td>运费(元)</td>
-                </tr>
-                <tr>
-                    <td>快递</td>
-                    <td>全国</td>
-                    <td>1</td>
-                    <td>0.00</td>
-                    <td>1</td>
-                    <td>0.00</td>
-                </tr>
-            </table>
+            }
+            }
+            <!--&lt;!&ndash;one&ndash;&gt;-->
+            <!--<table cellspacing="0">-->
+                <!--<tr style="background: rgb(224,238,255)">-->
+                    <!--<td colspan="6">-->
+                        <!--<span>默认模版</span>-->
+                        <!--<span>最后编辑时间:2015-11-12 15:18 <a href="javascript:void(0)" class="temp-edit">修改</a></span>-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td width="130">运送方式</td>-->
+                    <!--<td>运送到</td>-->
+                    <!--<td>首件(件)</td>-->
+                    <!--<td>运费(元)</td>-->
+                    <!--<td>续件(件)</td>-->
+                    <!--<td>运费(元)</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td>快递</td>-->
+                    <!--<td>未被划分的配送地区自动归于默认运费</td>-->
+                    <!--<td>10</td>-->
+                    <!--<td>25.00</td>-->
+                    <!--<td>2</td>-->
+                    <!--<td>5.00</td>-->
+                <!--</tr>-->
+            <!--</table>-->
+            <!--&lt;!&ndash;two&ndash;&gt;-->
+            <!--<table cellspacing="0">-->
+                <!--<tr style="background: rgb(224,238,255)">-->
+                    <!--<td colspan="6">-->
+                        <!--<span>化妆品不包邮</span>-->
+                        <!--<span>最后编辑时间:2015-11-12 15:17-->
+                            <!--<a href="javascript:void(0)" class="temp-edit">修改</a>-->
+                            <!--<a href="javascript:void(0)" class="temp-del">删除</a>-->
+                        <!--</span>-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td width="130">运送方式</td>-->
+                    <!--<td>运送到</td>-->
+                    <!--<td>首件(件)</td>-->
+                    <!--<td>运费(元)</td>-->
+                    <!--<td>续件(件)</td>-->
+                    <!--<td>运费(元)</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td>快递</td>-->
+                    <!--<td>未被划分的配送地区自动归于默认运费</td>-->
+                    <!--<td>3</td>-->
+                    <!--<td>25.00</td>-->
+                    <!--<td>1</td>-->
+                    <!--<td>5.00</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td>快递</td>-->
+                    <!--<td>北京 上海 天津 重庆 河北 山西 河南 辽宁 吉林 黑龙江 江苏</td>-->
+                    <!--<td>5</td>-->
+                    <!--<td>25.00</td>-->
+                    <!--<td>2</td>-->
+                    <!--<td>5.00</td>-->
+                <!--</tr>-->
+            <!--</table>-->
+            <!--&lt;!&ndash;three&ndash;&gt;-->
+            <!--<table cellspacing="0">-->
+                <!--<tr style="background: rgb(224,238,255)">-->
+                    <!--<td colspan="6">-->
+                        <!--<span>单品包邮</span>-->
+                        <!--<span>最后编辑时间:2015-11-12 15:15-->
+                            <!--<a href="javascript:void(0)" class="temp-edit">修改</a>-->
+                            <!--<a href="javascript:void(0)" class="temp-del">删除</a>-->
+                        <!--</span>-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td width="130">运送方式</td>-->
+                    <!--<td>运送到</td>-->
+                    <!--<td>首件(件)</td>-->
+                    <!--<td>运费(元)</td>-->
+                    <!--<td>续件(件)</td>-->
+                    <!--<td>运费(元)</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td>快递</td>-->
+                    <!--<td>全国</td>-->
+                    <!--<td>1</td>-->
+                    <!--<td>0.00</td>-->
+                    <!--<td>1</td>-->
+                    <!--<td>0.00</td>-->
+                <!--</tr>-->
+            <!--</table>-->
+            <!--&lt;!&ndash;four&ndash;&gt;-->
+            <!--<table cellspacing="0">-->
+                <!--<tr style="background: rgb(224,238,255)">-->
+                    <!--<td colspan="6">-->
+                        <!--<span>卖家承担运费</span>-->
+                        <!--<span>最后编辑时间:2015-11-12 17:50-->
+                            <!--<a href="javascript:void(0)" class="temp-edit">修改</a>-->
+                            <!--<a href="javascript:void(0)" class="temp-del">删除</a>-->
+                        <!--</span>-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td width="130">运送方式</td>-->
+                    <!--<td>运送到</td>-->
+                    <!--<td>首件(件)</td>-->
+                    <!--<td>运费(元)</td>-->
+                    <!--<td>续件(件)</td>-->
+                    <!--<td>运费(元)</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td>快递</td>-->
+                    <!--<td>全国</td>-->
+                    <!--<td>1</td>-->
+                    <!--<td>0.00</td>-->
+                    <!--<td>1</td>-->
+                    <!--<td>0.00</td>-->
+                <!--</tr>-->
+            <!--</table>-->
         </div>
     </div>
 </div>
 
 }
+
+<script>
+    $(function() {
+        $(".del").click(function() {
+            var modelCode = $(this).next().val();
+            $.ajax({
+                type :  "GET",
+                url : "/carr/delModel/"+modelCode,
+                contentType: "application/json; charset=utf-8",
+                error : function(request) {
+                    alert("删除失败!");
+                },
+                success: function(data) {
+                    if(data=="true") {
+                        alert("删除成功");
+                        //运费模板删除, 成功后返回到运费模板列表页面
+                        setTimeout("location.href='/"+window.lang+"/carr/search'", 100);
+                    } else alert("删除失败!");
+
+                }
+            });
+        });
+    })
+</script>

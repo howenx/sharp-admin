@@ -60,12 +60,12 @@ $(function(){
         for(i=1;i<uptrs.length;i++) {
             var uptds = uptrs[i].getElementsByTagName("td");
             uptds[11].getElementsByTagName("select")[0].id = i;
-            uptds[16].getElementsByTagName("div")[0].id = "galleryM"+i;
-            uptds[16].getElementsByTagName("span")[0].id = "masterImgAddM"+i;
-            uptds[16].getElementsByTagName("input")[0].id = "M"+i;
-            uptds[17].getElementsByTagName("div")[0].id = "galleryP"+i;
-            uptds[17].getElementsByTagName("span")[0].id = "preImgAddP"+i;
-            uptds[17].getElementsByTagName("input")[0].id = "P"+i;
+            uptds[17].getElementsByTagName("div")[0].id = "galleryM"+i;
+            uptds[17].getElementsByTagName("span")[0].id = "masterImgAddM"+i;
+            uptds[17].getElementsByTagName("input")[0].id = "M"+i;
+            uptds[18].getElementsByTagName("div")[0].id = "galleryP"+i;
+            uptds[18].getElementsByTagName("span")[0].id = "preImgAddP"+i;
+            uptds[18].getElementsByTagName("input")[0].id = "P"+i;
         }
     }
 
@@ -197,10 +197,12 @@ $(function(){
         var tds = trs[index-1].getElementsByTagName("td");
         var i = 1;
         //最后一行有空值不能添加
-        for(i=1;i<tds.length;i++) {
+        for(i=1;i<=18;i++) {
             if (i <=9 && tds[i].getElementsByTagName("input")[0].value=="") break;
-            if (i ==16 && trs[index-1].getElementsByClassName("list-img")[0].getElementsByTagName("div").length==1) break;
-            if (i ==17 && trs[index-1].getElementsByClassName("preview-img")[0].getElementsByTagName("div").length==1) break;
+            if ((i==10 || i==11) && tds[i].getElementsByTagName("select")[0].value=="" )break;
+            if (tds[16].getElementsByTagName("input")[0].value==""&&tds[16].getElementsByTagName("input")[1].value==""&&tds[16].getElementsByTagName("input")[2].value=="") break;
+            if (i ==17 && trs[index-1].getElementsByClassName("list-img")[0].getElementsByTagName("div").length==1) break;
+            if (i ==18 && trs[index-1].getElementsByClassName("preview-img")[0].getElementsByTagName("div").length==1) break;
         }
         if (true){
 //        if (i==19){
@@ -309,6 +311,10 @@ $(function(){
             var tdCus = document.createElement("td");
             tdCus.innerHTML = '<select><option value="shanghai">上海海关</option><option value="hangzhou">杭州海关</option><option value="guangzhou">广州海关</option></select>';
 
+            var tdRecord = document.createElement("td");
+            tdRecord.innerHTML = '<div class="record"><span>杭州</span><input type="text" name="HZBEI" style="width:70%;"></div>'+
+                                 ' <div class="record"><span>广州</span><input type="text" name="GZBEI" style="width:70%;"></div><div class="record"><span>上海</span><input type="text" name="SHBEI" style="width:70%;"></div>';
+
             var tdMI = document.createElement("td");
             tdMI.classList.add('list-img');
             var divM = document.createElement("div");
@@ -344,6 +350,11 @@ $(function(){
             tdPI.appendChild(divPre);
             tdPI.appendChild(spanAdd);
 
+            if($("#itemId").val() != "") {
+                var tdState = document.createElement("td");
+                tdState.innerHTML = "<input type='text' name='state' value='正常' style='font-size:10px;'>"
+            }
+
             var tdDe = document.createElement("td");
             tdDe.classList.add("del");
             tdDe.innerText = "删除";
@@ -368,8 +379,12 @@ $(function(){
             tr.appendChild(tdTCode);
             tr.appendChild(tdIA);
             tr.appendChild(tdCus);
+            tr.appendChild(tdRecord);
             tr.appendChild(tdMI);
             tr.appendChild(tdPI);
+            if($("#itemId").val() != "") {
+                tr.appendChild(tdState);
+            }
             tr.appendChild(tdDe);
             inventory.appendChild(tr);
         }
@@ -413,12 +428,12 @@ $(function(){
             for(i=1;i<uptrs.length;i++) {
                 var uptds = uptrs[i].getElementsByTagName("td");
                 uptds[11].getElementsByTagName("select")[0].id = i;
-                uptds[16].getElementsByTagName("div")[0].id = "galleryM"+i;
-                uptds[16].getElementsByTagName("span")[0].id = "masterImgAddM"+i;
-                uptds[16].getElementsByTagName("input")[0].id = "M"+i;
-                uptds[17].getElementsByTagName("div")[0].id = "galleryP"+i;
-                uptds[17].getElementsByTagName("span")[0].id = "preImgAddP"+i;
-                uptds[17].getElementsByTagName("input")[0].id = "P"+i;
+                uptds[17].getElementsByTagName("div")[0].id = "galleryM"+i;
+                uptds[17].getElementsByTagName("span")[0].id = "masterImgAddM"+i;
+                uptds[17].getElementsByTagName("input")[0].id = "M"+i;
+                uptds[18].getElementsByTagName("div")[0].id = "galleryP"+i;
+                uptds[18].getElementsByTagName("span")[0].id = "preImgAddP"+i;
+                uptds[18].getElementsByTagName("input")[0].id = "P"+i;
             }
         }
     });
@@ -463,6 +478,8 @@ $(function(){
         var isPost = true;
         var numberReg1 =    /^-?\d+$/;   //正整数
         var numberReg2 =    /^-?\d+\.?\d{0,2}$/;   //整数或小数
+        var numberReg3 =    /[^/d]/g;   //数字
+        var numberReg4 =    /^[0-9a-zA-Z]*$/g;   //字母和数字
         var item = new Object();
         var inventories = [];
         var itemData = new Object();
@@ -488,6 +505,9 @@ $(function(){
         var itemCostPrice = document.getElementsByName("itemCostPrice");
         var itemDiscount = document.getElementsByName("itemDiscount");
         var restrictAmount = document.getElementsByName("restrictAmount");
+        var recordHZ = document.getElementsByName("recordHZ");
+        var recordGZ = document.getElementsByName("recordGZ");
+        var recordSH = document.getElementsByName("recordSH");
         if (onShelvesAt >= offShelvesAt) {
            isPost = false;
            $("#warn-date").html("日期不正确!");
@@ -505,17 +525,18 @@ $(function(){
         }
         for(i=0;i<amount.length;i++){
             if (!numberReg1.test(invWeight[i].value) || !numberReg1.test(amount[i].value) || !numberReg2.test(itemPrice[i].value) || !numberReg2.test(itemSrcPrice[i].value)
-                || !numberReg2.test(itemCostPrice[i].value) || !numberReg2.test(itemDiscount[i].value) || !numberReg1.test(restrictAmount[i].value)) {
+                || !numberReg2.test(itemCostPrice[i].value) || !numberReg2.test(itemDiscount[i].value) || !numberReg1.test(restrictAmount[i].value)
+                || (!numberReg4.test(recordHZ[i].value) && !numberReg4.test(recordGZ[i].value) && !numberReg4.test(recordSH[i].value))) {
                 isPost = false;
                 $("#warn-num").text("输入数据不合法!");
                 break;
             } else $("#warn-num").text("");
         }
-        if (tds[16].getElementsByTagName("div").length<2) {
+        if (tds[17].getElementsByTagName("div").length<2) {
             isPost = false;
             $("#warn-mas").html("请上传商品主图");
         } else $("#warn-mas").html("");
-        if (tds[17].getElementsByTagName("div").length<2) {
+        if (tds[18].getElementsByTagName("div").length<2) {
             isPost = false;
             $("#warn-pre").html("请上传商品预览图");
         } else $("#warn-pre").html("");
@@ -608,6 +629,13 @@ $(function(){
             var restrictAmount = tds[9].getElementsByTagName("input")[0].value;
             var carriageModelCode = tds[10].getElementsByTagName("select")[0].value;
             var tRSet = tds[11].getElementsByTagName("select")[0].value;
+            var recordHZ = tds[16].getElementsByTagName("input")[0].value;
+            var recordGZ = tds[16].getElementsByTagName("input")[1].value;
+            var recordSH = tds[16].getElementsByTagName("input")[2].value;
+            var recordCode = {};
+            if(recordHZ!="") recordCode["hangzhou"] = recordHZ;
+            if(recordGZ!="") recordCode["guangzhou"] = recordGZ;
+            if(recordSH!="") recordCode["shanghai"] = recordSH;
             if($("#itemId").val() == "" && tRSet=="") {
                 isPost = false;
                 $("#warn-num").text("请选择税率设置!");
@@ -669,17 +697,21 @@ $(function(){
             inventory.carriageModelCode = carriageModelCode;
             inventory.postalTaxRate = postalTaxRate;
             inventory.postalTaxCode = postalTaxCode;
+            if(postalTaxRate=="") {inventory.postalTaxRate = null;}
+            if(postalTaxCode=="") {inventory.postalTaxCode = null;}
             inventory.invArea = invArea;
             inventory.invCustoms = invCustoms;
             inventory.invImg = invImg;
             inventory.itemPreviewImgs = itemPreviewImgs;
-            if (tds[18].getElementsByTagName("input")[0].value != "") {
-                inventory.id = tds[18].getElementsByTagName("input")[0].value;
-                inventory.soldAmount = tds[18].getElementsByTagName("input")[1].value;
-                inventory.restAmount = tds[18].getElementsByTagName("input")[2].value;
-                inventory.orDestroy = tds[18].getElementsByTagName("input")[3].value;
+            inventory.recordCode = recordCode;
+            if (tds[20].getElementsByTagName("input")[0].value != "") {
+                inventory.id = tds[20].getElementsByTagName("input")[0].value;
+                inventory.state = tds[19].getElementsByTagName("select")[0].value;
+                inventory.soldAmount = tds[20].getElementsByTagName("input")[1].value;
+                inventory.restAmount = tds[20].getElementsByTagName("input")[2].value;
+                inventory.orDestroy = tds[20].getElementsByTagName("input")[3].value;
                 if (tds[0].getElementsByTagName("input")[0].checked==true)
-                item.masterInvId = tds[18].getElementsByTagName("input")[0].value;
+                item.masterInvId = tds[20].getElementsByTagName("input")[0].value;
             }
             inventories.push(inventory);
         }
@@ -711,7 +743,7 @@ $(function(){
         console.log(JSON.stringify(inventories));
 //        console.log(JSON.stringify(itemData));
         console.log(isPost);
-        if (isPost) {
+        if (false) {
             $.ajax({
                 type :  "POST",
                 url : "/comm/itemSave",

@@ -24,7 +24,72 @@
     </div>
 </div>
 <div class="content-1">
+    <div class="page-title">
+        <span class="title-name">系统参数</span>
+    </div>
     <input type="button" value="新增系统参数" onclick="javascript:window.location.href='/@lang/data/config/add'"/>
+    <form class="form-horizontal">
+        <div class="form-group">
+
+            <label class="col-sm-1 control-label">参数Id</label>
+            <div class="col-sm-3">
+                <input type="number" min="10000" max="99999999" class="form-control"/>
+            </div>
+
+            <label class="col-sm-1 control-label">参数代码</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control">
+            </div>
+
+            <label class="col-sm-1 control-label">参数代码</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control">
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label">参数代码</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="btn-s">
+            <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
+            <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
+        </div>
+    </form>
+    <div class="table-content">
+        <div class="param">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>参数Id</th>
+                    <th>参数名</th>
+                    <th>参数值</th>
+                    <th>参数代码</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1000423</td>
+                    <td>啊等</td>
+                    <td>234</td>
+                    <td>cs123</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <ul class="pagination">
+            <li><a href="javascript:void(0)">&laquo;</a></li>
+            <li class="active"><a href="javascript:void(0)">1</a></li>
+            <li><a href="javascript:void(0)">2</a></li>
+            <li><a href="javascript:void(0)">3</a></li>
+            <li><a href="javascript:void(0)">4</a></li>
+            <li><a href="javascript:void(0)">5</a></li>
+            <li><a href="javascript:void(0)">&raquo;</a></li>
+        </ul>
+    </div>
 </div>
 <!-- 点击图片预览-->
 <div class="goods-img-bg">

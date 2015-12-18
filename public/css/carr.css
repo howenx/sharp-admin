@@ -1,7 +1,7 @@
 body{
     margin: 0;padding: 0;
 }
-h5{
+h1,h2,h3,h4,h5,h6{
     margin: 0;
 }
 .wrap-slider{
@@ -108,6 +108,9 @@ h5{
     margin: 20px 0;
     text-align: center;
 }
+#dataTab input{
+    width: 100px;
+}
 .table-content table>tbody>tr>td{
     border: 1px solid #ccc;
     padding: 6px 8px;
@@ -117,4 +120,45 @@ h5{
 }
 .table-content table>tbody>tr>td span:nth-of-type(2){
     float: right;
+}
+
+/*************订单详情*************/
+.logistics-info{
+    position: absolute;right: 0;top: 30px;
+    border: 1px solid #ccc;padding: 15px 30px;
+    background: #fff;z-index: 1;
+    display: none;
+}
+.logistics-info h5{
+    margin: 10px 0;color: #000;
+}
+.check-logistics{
+    position: relative;outline: none;
+}
+.check-logistics:active:focus,.check-logistics:focus{
+    outline: none;
+}
+.check-logistics:hover .logistics-info{
+    display: block;
+}
+em{
+    font-style: normal;
+}
+
+.form-group{
+    margin-bottom: 10px;
+}
+form>h4,form>h5{
+    padding-left: 80px;
+    margin: 20px 0;
+}
+.form-group input{
+    border: 0;outline: none;box-shadow: none;
+    width: 60%;margin-left: 10px;
+}
+.form-group input:focus{
+    border: 0;outline: none;box-shadow: none;
+}
+.form-group span{
+    float: left;margin-left: 80px;
 }

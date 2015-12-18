@@ -1,10 +1,14 @@
 package service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import entity.Carriage;
 import mapper.CarriageMapper;
+import play.Logger;
+import play.libs.Json;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Sunny Wu.
@@ -13,6 +17,34 @@ public class CarriageServiceImpl implements CarriageService{
 
     @Inject
     private CarriageMapper carriageMapper;
+
+    @Override
+    public  void carrModelSave(JsonNode json) {
+        String uuid = UUID.randomUUID().toString();
+        uuid = uuid.replaceAll("-","");
+        Logger.error(json.toString());
+        for(final JsonNode jsonNode : json) {
+            Carriage carriage = Json.fromJson(jsonNode, Carriage.class);
+            //更新模板
+            if(jsonNode.has("modelCode")) {
+                //由modelCode得到现有数据库该模板的所有数据,删除数据库中该模板的数据,再添加现有数据
+                String modelCode = carriage.getModelCode();
+                Logger.error("模板code:"+modelCode);
+                List<Carriage> carrList = carriageMapper.getCarrsByModel(modelCode);
+                Logger.error("列表:"+carrList);
+                for(Carriage carr : carrList) {
+                    Long id = carr.getId();
+                    carriageMapper.delCarrById(id);
+                }
+                carriageMapper.insertCarriage(carriage);
+            }
+            //录入新的模板
+            else {
+                carriage.setModelCode(uuid);
+                carriageMapper.insertCarriage(carriage);
+            }
+        }
+    }
 
     /**
      * 录入一条运费信息
@@ -34,9 +66,35 @@ public class CarriageServiceImpl implements CarriageService{
     }
 
     /**
-     * 根据modelCode获取一条运费信息
+     * 由id删除一条运费信息
+     * @param id
+     */
+    @Override
+    public void delCarrById(Long id) {
+        carriageMapper.delCarrById(id);
+    }
+
+    /**
+     * 有modelCode删除运费模板的所有数据
      * @param modelCode
-     * @return Carriage
+     */
+    public boolean delModelByCode(String modelCode) {
+        //由modelCode获得该运费模板的所有记录,由id逐个删除
+        List<Carriage> carrList = carriageMapper.getCarrsByModel(modelCode);
+        if (null != carrList && !"".equals(carrList)) {
+            for(Carriage carr : carrList) {
+                Long id = carr.getId();
+                Logger.error(id.toString());
+                carriageMapper.delCarrById(id);
+            }
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 根据modelCode获得模板名称
+     * @param modelCode
+     * @return modelName
      */
     @Override
     public String getModelName(String modelCode) {
@@ -53,12 +111,21 @@ public class CarriageServiceImpl implements CarriageService{
     }
 
     /**
-     * 获取运费模板
+     * 获取运费模板列表(modelCode,modelName)
      * @return list of Carriage
      */
     @Override
-    public List<Carriage> getModel(){
-        return carriageMapper.getModel();
+    public List<Carriage> getModels(){
+        return carriageMapper.getModels();
+    }
+
+    /**
+     * 由modelCode获取该模板的运费信息
+     * @param modelCode
+     * @return list of Carriage
+     */
+    public List<Carriage> getCarrsByModel(String modelCode) {
+        return carriageMapper.getCarrsByModel(modelCode);
     }
 
 }

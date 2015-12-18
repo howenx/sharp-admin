@@ -1,0 +1,592 @@
+@import play.i18n._
+@(lang:String="cn",user:entity.User)
+@scripts = {
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/carr.css">
+<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
+<script src="/assets/js/search.js"></script>
+
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/rili.js"></script>
+<script>
+    $(function(){
+        $('form').css("display","none");
+        $('form').each(function(){
+            if($(this).attr("dis")){
+                $(this).css("display","block");
+            }
+        })
+    })
+</script>
+}
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"订单详情")
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
+        <span class="icon-path">&gt;</span>
+        <span>订单详情</span>
+    </div>
+</div>
+<div class="content-1">
+    <form class="form-horizontal" dis="1">
+        <!--订单-->
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>订单编号:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>创建时间:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>收货人姓名:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>支付方式:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>身份证号:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>支付状态:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>手机号:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>订单状态:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>收货城市:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>报关状态:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>详细收货地址:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>支付报关状态:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-6 col-sm-6">
+                <span>物流公司:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-6 col-sm-6">
+                <span>运单号:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-11">
+                <button type="button" class="btn btn-primary btn-sm pull-right check-logistics">
+                    查看物流
+                    <div class="logistics-info">
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-sm-offset-1 col-sm-10" style="padding: 0">
+            <h5>商品明细:</h5>
+            <table class="table table-bordered">
+                <tr>
+                    <td>商品</td>
+                    <td>单价(元)</td>
+                    <td>数量</td>
+                    <td>优惠(元)</td>
+                    <td>总价(元)</td>
+                    <td>状态</td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="" alt="" width="40" height="40">
+                        <em>护肤品</em>
+                    </td>
+                    <td>125.9</td>
+                    <td>1</td>
+                    <td>5</td>
+                    <td>120.9</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>运费:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>支订单总价(含运费和行邮费):</span>
+                <input type="text" style="width: auto" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>行邮税:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>优惠:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-6 col-sm-6">
+                <span>实付款:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+    </form>
+
+
+    <form class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>订单编号:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>创建时间:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>订单总价(含运费和行邮税):</span>
+                <input type="text" style="width: auto" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>优惠:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>实付款:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <h4>子订单详情(共2个子订单):</h4>
+
+        <!--子订单1-->
+        <h5>子订单1:</h5>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>子订单编号:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>创建时间:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>收货人姓名:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>支付方式:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>身份证号:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>支付状态:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>手机号:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>订单状态:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>收货城市:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>报关状态:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>详细收货地址:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>支付报关状态:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-6 col-sm-6">
+                <span>物流公司:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-6 col-sm-6">
+                <span>运单号:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-11">
+                <button type="button" class="btn btn-primary btn-sm pull-right check-logistics">
+                    查看物流
+                    <div class="logistics-info">
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-sm-offset-1 col-sm-10">
+            <h5>商品明细:</h5>
+            <table class="table table-bordered">
+                <tr>
+                    <td>商品</td>
+                    <td>单价(元)</td>
+                    <td>数量</td>
+                    <td>优惠(元)</td>
+                    <td>总价(元)</td>
+                    <td>状态</td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="" alt="" width="40" height="40">
+                        <em>护肤品</em>
+                    </td>
+                    <td>125.9</td>
+                    <td>1</td>
+                    <td>5</td>
+                    <td>120.9</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>运费:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>支订单总价(含运费和行邮费):</span>
+                <input type="text" style="width: auto" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>行邮税:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>优惠:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-6 col-sm-6">
+                <span>实付款:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <!--子订单2-->
+        <h5 style="margin-top: 50px">子订单2:</h5>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>子订单编号:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>创建时间:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>收货人姓名:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>支付方式:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>身份证号:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>支付状态:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>手机号:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>订单状态:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>收货城市:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>报关状态:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>详细收货地址:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>支付报关状态:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-6 col-sm-6">
+                <span>物流公司:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-6 col-sm-6">
+                <span>运单号:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-11">
+                <button type="button" class="btn btn-primary btn-sm pull-right check-logistics">
+                    查看物流
+                    <div class="logistics-info">
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                        <h5>给我个外国人饭店服务</h5>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-sm-offset-1 col-sm-10">
+            <h5>商品明细:</h5>
+            <table class="table table-bordered">
+                <tr>
+                    <td>商品</td>
+                    <td>单价(元)</td>
+                    <td>数量</td>
+                    <td>优惠(元)</td>
+                    <td>总价(元)</td>
+                    <td>状态</td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="" alt="" width="40" height="40">
+                        <em>护肤品</em>
+                    </td>
+                    <td>125.9</td>
+                    <td>1</td>
+                    <td>5</td>
+                    <td>120.9</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>运费:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>支订单总价(含运费和行邮费):</span>
+                <input type="text" style="width: auto" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>行邮税:</span>
+                <input type="text" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>优惠:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-6 col-sm-6">
+                <span>实付款:</span>
+                <input type="text" disabled>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- 点击图片预览-->
+<div class="goods-img-bg">
+    <div class="goods-bg"></div>
+    <div class="goods-img">
+        <button type="button" class="close" aria-span="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>
+}

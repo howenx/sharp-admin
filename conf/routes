@@ -68,21 +68,32 @@ GET             /comm/findById/:id                                          cont
 GET             /$lang<(cn|en|kr)>/comm/findById/:id                        controllers.ItemCtrl.findItemById(lang,id:Long)
 GET             /comm/updateById/:id                                        controllers.ItemCtrl.updateItemById(lang = "cn",id:Long)
 GET             /$lang<(cn|en|kr)>/comm/updateById/:id                      controllers.ItemCtrl.updateItemById(lang,id:Long)
+
+
+
 #Carriage --> carr 运费模板设置
 GET             /carr/search                                                controllers.ItemCtrl.carrModelSearch(lang = "cn")
 GET             /$lang<(cn|en|kr)>/carr/search                              controllers.ItemCtrl.carrModelSearch(lang)
 GET             /carr/add                                                   controllers.ItemCtrl.carrCreate(lang="cn")
+GET             /$lang<(cn|en|kr)>/carr/add                                 controllers.ItemCtrl.carrCreate(lang)
+POST            /carr/carrSave                                              controllers.ItemCtrl.carrSave()
+GET             /carr/pop                                                   controllers.ItemCtrl.carrPop()
+GET             /carr/findModel/:modelCode                                  controllers.ItemCtrl.findModel(lang="cn",modelCode:String)
+GET             /$lang<(cn|en|kr)>/carr/findModel/:modelCode                controllers.ItemCtrl.findModel(lang,modelCode:String)
+GET             /carr/delModel/:modelCode                                   controllers.ItemCtrl.delModel(modelCode:String)
 
-GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.carrCreate(lang)
-GET             /carr/pop                                                  controllers.ItemCtrl.carrPop()
 
-GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.carrCreate(lang)
-GET             /carr/pop                                                  controllers.ItemCtrl.carrPop()
-
-GET             /$lang<(cn|en|kr)/comm/search>                              controllers.ItemCtrl.carrCreate(lang)
 #order 订单列表
 GET             /comm/order/search                                          controllers.ItemCtrl.orderList(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/order/search                        controllers.ItemCtrl.orderList(lang)
+GET             /comm/order/detail/$id<[0-9]+>                              controllers.ItemCtrl.orderDetail(lang ="cn",id:Long)
+GET             /$lang<(cn|en|kr)>/comm/order/detail/$id<[0-9]+>            controllers.ItemCtrl.orderDetail(lang,id:Long)
+POST            /comm/order/search/$pageNum<[0-9]+>                         controllers.ItemCtrl.orderSearchAjax(lang ="cn",pageNum:Int)
+POST            /$lang<(cn|en|kr)>/comm/order/search/$pageNum<[0-9]+>       controllers.ItemCtrl.orderSearchAjax(lang,pageNum:Int)
+
+
+
+
 #brand 品牌
 GET             /comm/brand/search                                          controllers.ItemCtrl.brandList(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/brand/search                        controllers.ItemCtrl.brandList(lang)

@@ -30,7 +30,7 @@ public class Carriage {
     /**
      * 首费
      */
-    private BigDecimal fistFee;
+    private BigDecimal firstFee;
 
     /**
      * 续件
@@ -81,12 +81,12 @@ public class Carriage {
         this.firstNum = firstNum;
     }
 
-    public BigDecimal getFistFee() {
-        return fistFee;
+    public BigDecimal getFirstFee() {
+        return firstFee;
     }
 
-    public void setFistFee(BigDecimal fistFee) {
-        this.fistFee = fistFee;
+    public void setFirstFee(BigDecimal firstFee) {
+        this.firstFee = firstFee;
     }
 
     public Integer getAddNum() {
@@ -120,19 +120,19 @@ public class Carriage {
                 ", modelCode='" + modelCode + '\'' +
                 ", modelName='" + modelName + '\'' +
                 ", firstNum=" + firstNum +
-                ", fistFee=" + fistFee +
+                ", fistFee=" + firstFee +
                 ", addNum=" + addNum +
                 ", addFee=" + addFee +
                 ", cityCode='" + cityCode + '\'' +
                 '}';
     }
 
-    public Carriage(Long id, String modelCode, String modelName, Integer firstNum, BigDecimal fistFee, Integer addNum, BigDecimal addFee, String cityCode) {
+    public Carriage(Long id, String modelCode, String modelName, Integer firstNum, BigDecimal firstFee, Integer addNum, BigDecimal addFee, String cityCode) {
         this.id = id;
         this.modelCode = modelCode;
         this.modelName = modelName;
         this.firstNum = firstNum;
-        this.fistFee = fistFee;
+        this.firstFee = firstFee;
         this.addNum = addNum;
         this.addFee = addFee;
         this.cityCode = cityCode;

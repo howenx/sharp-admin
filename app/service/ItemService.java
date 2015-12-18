@@ -53,4 +53,13 @@ public interface ItemService {
     Cates getCate(Long cateId);
 
     List<Item> getItemsAll();
+
+    /**
+     * 新增商品类别
+     * @param cates
+     * @return
+     */
+    Integer catesSave(Cates cates);
+
+    List<Brands>  getBrandsPage(Brands brands);
 }

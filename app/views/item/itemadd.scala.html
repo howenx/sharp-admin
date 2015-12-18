@@ -63,6 +63,7 @@
         <form class="form-horizontal" method="post"   enctype="multipart/form-data">
             <div class="upinfo">
                 <!-- 商品基本信息 -->
+                <input type="hidden" id="itemId" name="itemId" value=""/>
                 <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.basics")</h4>
                 <div class="form-group">
                     <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</div></label>
@@ -139,8 +140,10 @@
                                     <th width="60">行邮税号</th>
                                     <th width="100">库存区域</th>
                                     <th width="80">报关单位</th>
+                                    <th width="125">备案号</th>
                                     <th width="80">主图(一张)</th>
                                     <th width="260">详情页预览图(最多6张)</th>
+                                    <th width="30" style="display:none">状态</th>
                                     <th width="30" class="add-goods add">添加商品</th>
                                 </tr>
                                 <tr>
@@ -193,10 +196,10 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="text" name="postalTaxRate" disabled>
+                                        <input type="text" name="postalTaxRate" readOnly>
                                     </td>
                                     <td>
-                                        <input type="text" name="postalTaxCode" disabled>
+                                        <input type="text" name="postalTaxCode" readOnly>
                                     </td>
                                     <td>
                                         <select name="invArea">
@@ -213,6 +216,11 @@
                                             <option value="guangzhou">广州海关</option>
                                         </select>
                                     </td>
+                                    <td>
+                                        <div class="record"><span>杭州</span><input type="text" value="" name="recordHZ" style="width:70%;"></div>
+                                        <div class="record"><span>广州</span><input type="text" value="" name="recordGZ" style="width:70%;"></div>
+                                        <div class="record"><span>上海</span><input type="text" value="" name="recordSH" style="width:70%;"></div>
+                                    </td>
                                     <td class="list-img">
                                         <div id="galleryM1">
                                         </div>
@@ -226,6 +234,9 @@
                                         <span class="add" id="preImgAddP1">＋
                                             <input type="file" id="P1" name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
                                         </span>
+                                    </td>
+                                    <td style="display:none">
+                                        <select></select>
                                     </td>
                                     <td class="del">
                                         删除

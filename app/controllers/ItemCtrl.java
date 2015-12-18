@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.*;
+import order.GetLogisticsInfo;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -37,7 +38,13 @@ public class ItemCtrl extends Controller {
     private OrderService orderService;
 
     @Inject
-    private ShipService shipService;
+    private OrderSplitService orderSplitService;
+
+    @Inject
+    private OrderLineService orderLineService;
+
+    @Inject
+    private OrderShipService orderShipService;
 
 
     /**
@@ -125,7 +132,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result itemCreate(String lang) {
-        return ok(views.html.item.itemadd.render(lang,service.getAllBrands(),service.getParentCates(),carriageService.getModel(),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemadd.render(lang,service.getAllBrands(),service.getParentCates(),carriageService.getModels(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -147,7 +154,7 @@ public class ItemCtrl extends Controller {
         //包含modelName的库存列表
         List<Object[]> invList = new ArrayList<>();
         for(Inventory inventory : inventories) {
-            Object[] object = new Object[24];
+            Object[] object = new Object[20];
             object[0] = inventory.getOrMasterInv();
             object[1] = inventory.getItemColor();
             object[2] = inventory.getItemSize();
@@ -167,6 +174,8 @@ public class ItemCtrl extends Controller {
             object[15] = inventory.getInvCustoms();
             object[16] = inventory.getInvImg();
             object[17] = inventory.getItemPreviewImgs();
+            object[18] = inventory.getState();
+            object[19] = inventory.getRecordCode();
             invList.add(object);
         }
 
@@ -196,7 +205,7 @@ public class ItemCtrl extends Controller {
         //包含modelName的库存列表
         List<Object[]> invList = new ArrayList<>();
         for(Inventory inventory : inventories) {
-            Object[] object = new Object[24];
+            Object[] object = new Object[25];
             object[0] = inventory.getId();
             object[1] = inventory.getItemId();
             object[2] = inventory.getItemColor();
@@ -222,9 +231,10 @@ public class ItemCtrl extends Controller {
             object[22] = inventory.getCarriageModelCode();
             //由库存表的carriageModelCode 得到 modelName
             object[23] = carriageService.getModelName(inventory.getCarriageModelCode());
+            object[24] = inventory.getRecordCode();
             invList.add(object);
         }
-        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,service.getAllBrands(),service.getParentCates(),carriageService.getModel(),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,service.getAllBrands(),service.getParentCates(),carriageService.getModels(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -249,13 +259,50 @@ public class ItemCtrl extends Controller {
     }
 
     /**
+     * 运费模板保存
+     * @return Result
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result carrSave() {
+        JsonNode json = request().body().asJson();
+        carriageService.carrModelSave(json);
+        return ok();
+
+    }
+
+    /**
+     * 由modeCode得到该模板的所有运费计算方式
+     * @param lang 语言
+     * @param modelCode 模板代码
+     * @return Result
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result findModel(String lang,String modelCode) {
+        List carrList = carriageService.getCarrsByModel(modelCode);
+        return ok(views.html.item.carrmodelUpdate.render(lang,carrList,(User) ctx().args.get("user")));
+    }
+
+    /**
+     * 有modelCode删除运费模板中所有数据
+     * @param modelCode
+     * @return Result
+     */
+    public Result delModel(String modelCode) {
+        boolean bool = carriageService.delModelByCode(modelCode);
+        if(bool==true)  return ok("true");
+        else return ok("false");
+    }
+
+    /**
      * 运费模板列表
      * @param lang 语言
      * @return
      */
     @Security.Authenticated(UserAuth.class)
     public Result carrModelSearch(String lang) {
-        return ok(views.html.item.carrmodelList.render(lang,(User) ctx().args.get("user")));
+        List<Carriage> modelList = carriageService.getModels();
+        List<Carriage> carriageList = carriageService.getAllCarriage();
+        return ok(views.html.item.carrmodelList.render(lang,modelList,carriageList,(User) ctx().args.get("user")));
     }
 
 
@@ -264,60 +311,153 @@ public class ItemCtrl extends Controller {
         }
 
     /**
-     * 订单列表
+     * 订单列表     Added by Tiffany Zhu
      * @param lang
      * @return
      */
     @Security.Authenticated(UserAuth.class)
     public Result orderList(String lang){
+        Order order_temp = new Order();
+        order_temp.setPageSize(-1);
+        order_temp.setOffset(-1);
+
+        int countNum = orderService.getOrdersAll().size();
+        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
+        if(countNum%ThemeCtrl.PAGE_SIZE != 0){
+            pageCount =  countNum/ThemeCtrl.PAGE_SIZE + 1;
+        }
+        order_temp.setPageSize(ThemeCtrl.PAGE_SIZE);
+        order_temp.setOffset(0);
+
         //含有物流信息的订单列表
         List<Object[]> orList = new ArrayList<>();
-        List<Order> orderList = orderService.getOrdersAll();
+        List<Order> orderList = orderService.getOrderPage(order_temp);
         for(Order order : orderList){
-            Object[] object = new Object[7];
+            Object[] object = new Object[6];
             Logger.error(order.toString());
             Logger.error(order.getOrderId().toString());
-            //Ship ship = shipService.getShipByOrderId(order.getOrderId());
-            //Logger.error(ship.toString());
             object[0] = order.getOrderId();
             object[1] = order.getUserId();
             object[2] = order.getOrderCreateAt();
-            //object[3] = ship.getExpressNum();
-            object[3] = "";
-            object[4] = order.getPayTotal();
-            object[5] = order.getPayMethod();
+            object[3] = order.getPayTotal();
+            object[4] = order.getPayMethod();
             if("I".equals(order.getOrderStatus())){
-                object[6] = "未支付";
+                object[5] = "未支付";
             }
             if("S".equals(order.getOrderStatus())){
-                object[6] = "已支付";
+                object[5] = "支付成功";
             }
             if("C".equals(order.getOrderStatus())){
-                object[6] = "订单取消";
+                object[5] = "订单取消";
             }
             if("F".equals(order.getOrderStatus())){
-                object[6] = "支付失败";
+                object[5] = "支付失败";
+            }
+            if("R".equals(order.getOrderStatus())){
+                object[5] = "已签收";
+            }
+            if("D".equals(order.getOrderStatus())){
+                object[5] = "已发货";
+            }
+            if("J".equals(order.getOrderStatus())){
+                object[5] = "拒收";
             }
 
             orList.add(object);
 
         }
-        return ok(views.html.item.ordersearch.render(lang,orList,(User) ctx().args.get("user")));
+        return ok(views.html.item.ordersearch.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,orList,(User) ctx().args.get("user")));
+
+    }
+
+    /**
+     * 订单Ajax查询     Added by Tiffany Zhu
+     * @param lang
+     * @param pageNum
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result orderSearchAjax(String lang,int pageNum){
+        JsonNode json = request().body().asJson();
+        Order order = Json.fromJson(json,Order.class);
+        if(pageNum>=1){
+            //计算从第几条开始取数据
+            int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
+            order.setPageSize(-1);
+            order.setOffset(-1);
+            //取总数
+            int countNum = orderService.getOrderPage(order).size();
+            //共分几页
+            int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
+
+            if(countNum%ThemeCtrl.PAGE_SIZE!=0){
+                pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
+            }
+            order.setPageSize(ThemeCtrl.PAGE_SIZE);
+            order.setOffset(offset);
+            //组装返回数据
+            Map<String,Object> returnMap=new HashMap<>();
+            returnMap.put("topic",orderService.getOrderPage(order));
+            returnMap.put("pageNum",pageNum);
+            returnMap.put("countNum",countNum);
+            returnMap.put("pageCount",pageCount);
+            returnMap.put("pageSize",ThemeCtrl.PAGE_SIZE);
+            return ok(Json.toJson(returnMap));
+        }
+        else{
+            return badRequest();
+        }
+    }
+
+    /**
+     * 订单详情     Added by Tiffany Zhu
+     * @param lang
+     * @param id
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result orderDetail(String lang,Long id){
+        //获取订单
+        Order order = orderService.getOrderById(id);
+        //获取订单收货信息
+        OrderShip orderShip = orderShipService.getShipByOrderId(id);
+        //获取子订单
+        List<OrderSplit> orderSplitList = orderSplitService.getSplitByOrderId(id);
+        //含有报关和产品的子订单
+        List<Object[]> resultList = new ArrayList<>();
+        for(OrderSplit orderSplit : orderSplitList){
+
+        }
+        String result = GetLogisticsInfo.sendGet("a","a");
+
+
+        return ok(views.html.item.orderdetail.render(lang,(User) ctx().args.get("user")));
     }
 
 
     /**
-     * 品牌列表
+     * 品牌列表     Added by Tiffany Zhu
      * @param lang
      * @return
      */
     @Security.Authenticated(UserAuth.class)
     public Result brandList(String lang){
-        return ok(views.html.item.brandsearch.render(lang,(User) ctx().args.get("user")));
+        Brands brands = new Brands();
+        brands.setPageSize(-1);
+        brands.setOffset(-1);
+
+        int countNum = service.getAllBrands().size();
+        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
+        if(countNum%ThemeCtrl.PAGE_SIZE != 0){
+            pageCount =  countNum/ThemeCtrl.PAGE_SIZE + 1;
+        }
+        brands.setPageSize(ThemeCtrl.PAGE_SIZE);
+        brands.setOffset(0);
+        return ok(views.html.item.brandsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,service.getBrandsPage(brands),(User) ctx().args.get("user")));
     }
 
     /**
-     * 新增品牌
+     * 新增品牌     Added by Tiffany Zhu
      * @param lang
      * @return
      */
@@ -327,7 +467,7 @@ public class ItemCtrl extends Controller {
     }
 
     /**
-     * 商品分类列表
+     * 商品分类列表       Added by Tiffany Zhu
      * @param lang
      * @return
      */
@@ -337,7 +477,7 @@ public class ItemCtrl extends Controller {
     }
 
     /**
-     * 新增商品分类
+     * 新增商品分类       Added by Tiffany Zhu
      * @param lang
      * @return
      */

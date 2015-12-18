@@ -19,7 +19,7 @@ public class DataCtrl extends Controller {
     }
 
     /**
-     * 系统参数输入
+     * 新增系统参数
      * @param lang
      * @return
      */

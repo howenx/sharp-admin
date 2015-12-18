@@ -56,6 +56,14 @@ public class ItemServiceImpl implements ItemService{
     public List<Long> itemSave(JsonNode json) {
         List<Long> list = new ArrayList<>();
         Item item = new Item();
+        //记录商品的状态
+        String state = "";
+        //记录各个sku状态的个数
+        int y_num = 0;
+        int d_num = 0;
+        int k_num = 0;
+        int sku_num= 0;
+        //items表录入数据
         if (json.has("item")) {
             JsonNode jsonItem = json.findValue("item");
             if (jsonItem.has("publicity")) {
@@ -68,29 +76,48 @@ public class ItemServiceImpl implements ItemService{
                 ((ObjectNode) jsonItem).put("itemFeatures",jsonItem.findValue("itemFeatures").toString());
             }
             item = Json.fromJson(json.findValue("item"),Item.class);
-            item.setState("Y");
-            item.setOrDestroy(false);
-            Logger.error(item.toString());
+//            Logger.error(item.toString());
+            //更新商品信息
             if (jsonItem.has("id")) {
                 this.itemMapper.itemUpdate(item);
+                state = item.getState();
             }
-            else this.itemMapper.itemInsert(item);
+            //录入商品信息
+            else {
+                item.setState("Y");
+                item.setOrDestroy(false);
+                this.itemMapper.itemInsert(item);
+            }
         }
+        //往inventories表插入数据
         if (json.has("inventories")) {
-            //往inventories表插入数据
             for(final JsonNode jsonNode : json.findValue("inventories")) {
+                sku_num = json.findValue("inventories").size();
                 if (jsonNode.has("itemPreviewImgs")) {
                     ((ObjectNode) jsonNode).put("itemPreviewImgs",jsonNode.findValue("itemPreviewImgs").toString());
                 }
                 Inventory inventory = Json.fromJson(jsonNode, Inventory.class);
                 inventory.setItemId(item.getId());
-                inventory.setState("Y");
                 inventory.setInvTitle(item.getItemTitle());
-                Logger.error(inventory.toString());
+//                Logger.error(inventory.toString());
+                //更新库存信息
                 if (jsonNode.has("id")) {
+                    //SKU状态有一个为Y,item状态为Y
+                    if (inventory.getState().equals("Y")) {y_num+=1; item.setState("Y");}
+                    if (inventory.getState().equals("D"))  {d_num+=1;}
+                    if (inventory.getState().equals("K"))  {k_num+=1;}
+                    //item状态设置为下架的情况
+                    if (d_num>0 && y_num==0 && "Y".equals(state)) {item.setState("D");}
                     this.inventoryMapper.updateInventory(inventory);
+                    this.itemMapper.itemUpdate(item);
                 }
-                else this.inventoryMapper.insertInventory(inventory);
+                //录入库存信息
+                else {
+                    inventory.setState("Y");
+                    item.setOrDestroy(false);
+                    this.inventoryMapper.insertInventory(inventory);
+
+                }
                 //查找该商品的库存中主skuId,更新到items表中masterInvId
                 List<Inventory> inventories = inventoryMapper.getInventoriesByItemId(item.getId());
                 for(Inventory inv : inventories) {
@@ -102,6 +129,18 @@ public class ItemServiceImpl implements ItemService{
                 }
                 list.add(inventory.getId());
             }
+        }
+        //item状态若修改为D下架或K售空,该item下的所有sku状态都改为D或K,item状态由D或K改为Y sku状态全改为
+        Long id = item.getId();
+        Logger.error("商品状态:"+state);
+        List<Inventory> invList = inventoryMapper.getInventoriesByItemId(id);
+        if ("D".equals(state) || "K".equals(state) || ("Y".equals(state) && d_num==sku_num) || ("Y".equals(state) && k_num==sku_num)) {
+            for(Inventory inv : invList) {
+                inv.setState(state);
+                inventoryMapper.updateInventory(inv);
+            }
+            item.setState(state);
+            itemMapper.itemUpdate(item);
         }
         return list;
     }
@@ -160,6 +199,15 @@ public class ItemServiceImpl implements ItemService{
     }
 
     /**
+     * get brands page
+     * @param brands
+     * @return
+     */
+    @Override
+    public List<Brands> getBrandsPage(Brands brands) {
+        return brandsMapper.getBrandsPage(brands);
+    }
+    /**
      * get parent categories.
      *
      * @return List of Cates
@@ -183,5 +231,13 @@ public class ItemServiceImpl implements ItemService{
 
         return catesMapper.getSubCates(hashMap);
     }
+
+    /**
+     * 新增商品类别
+     * @param cates
+     * @return
+     */
+    @Override
+    public Integer catesSave(Cates cates) {return catesMapper.insertCates(cates);}
 
 }

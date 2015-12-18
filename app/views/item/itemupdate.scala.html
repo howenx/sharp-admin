@@ -63,12 +63,11 @@
         <form class="form-horizontal" method="post"   enctype="multipart/form-data">
             <div class="upinfo">
                 <input type="hidden" id="itemId" name="itemId" value="@item.getId()"/>
-                <input type="hidden" id="shareCount" name="itemId" value="@item.getShareCount()"/>
-                <input type="hidden" id="collectCount" name="itemId" value="@item.getCollectCount()"/>
-                <input type="hidden" id="browseCount" name="itemId" value="@item.getBrowseCount()"/>
-                <input type="hidden" id="orDestroy" name="itemId" value="@item.getOrDestroy()"/>
-                <input type="hidden" id="themeId" name="itemId" value="@item.getThemeId()"/>
-                <input type="hidden" id="state" name="state" value="@item.getState()"/>
+                <input type="hidden" id="shareCount" name="shareCount" value="@item.getShareCount()"/>
+                <input type="hidden" id="collectCount" name="collectCount" value="@item.getCollectCount()"/>
+                <input type="hidden" id="browseCount" name="browseCount" value="@item.getBrowseCount()"/>
+                <input type="hidden" id="orDestroy" name="orDestroy" value="@item.getOrDestroy()"/>
+                <input type="hidden" id="themeId" name="themeId" value="@item.getThemeId()"/>
                 <!-- 商品基本信息 -->
                 <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.basics")</h4>
                 <div class="form-group">
@@ -128,7 +127,7 @@
                 <div class="form-group">
                     <div class="col-sm-12">
                         <div class="goods-info1">
-                            <table class="table table-bordered qubian inv" id="inventory">
+                            <table class="table table-bordered qubian inv" id="inventory" style="max-width:104%;width:150%;">
                                 <tr>
                                     <th width="60">设为主商品</th>
                                     <th width="50">颜色分类</th>
@@ -146,8 +145,10 @@
                                     <th width="60">行邮税号</th>
                                     <th width="100">库存区域</th>
                                     <th width="80">报关单位</th>
+                                    <th width="130">备案号</th>
                                     <th width="80">主图(一张)</th>
-                                    <th width="260">详情页预览图(最多6张)</th>
+                                    <th width="180">详情页预览图(最多6张)</th>
+                                    <th width="30">状态</th>
                                     <th width="30" class="add-goods add">添加商品</th>
                                 </tr>
                                 @for(obj <-  invList) {
@@ -261,6 +262,19 @@
                                         </select>
                                         }
                                     </td>
+                                    <td>
+                                        @for(recordCode <- obj(24).toString().substring(1,obj(24).toString().length-1).split(", ")) {
+                                        @if(recordCode.substring(1,recordCode.indexOf(":")-1)=="hangzhou") {
+                                        <div class="record"><span>杭州</span><input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordHZ" style="width:70%;"></div>
+                                        }
+                                        @if(recordCode.substring(1,recordCode.indexOf(":")-1)=="guangzhou") {
+                                        <div class="record"><span>广州</span><input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordGZ" style="width:70%;"></div>
+                                        }
+                                        @if(recordCode.substring(1,recordCode.indexOf(":")-1)=="shanghai") {
+                                        <div class="record"><span>上海</span><input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordSH" style="width:70%;"></div>
+                                        }
+                                        }
+                                    </td>
                                     <td class="list-img">
                                         <div >
                                             <div>
@@ -285,6 +299,25 @@
                                             <input type="file"  name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
                                         </span>
                                     </td>
+                                    <td>
+                                        <select name="state">
+                                            @if(obj(15)=="Y"){
+                                            <option value="Y">正常</option>
+                                            <option value="D">下架</option>
+                                            <option value="K">售空</option>
+                                            }
+                                            @if(obj(15)=="D"){
+                                            <option value="D">下架</option>
+                                            <option value="Y">正常</option>
+                                            <option value="K">售空</option>
+                                            }
+                                            @if(obj(15)=="K"){
+                                            <option value="K">售空</option>
+                                            <option value="Y">正常</option>
+                                            <option value="D">下架</option>
+                                            }
+                                        </select>
+                                    </td>
                                     <td class="del">
                                         删除
                                         <input type="hidden" value="@obj(0)"/>
@@ -303,8 +336,30 @@
                 </div>
                 <h4 class="h4-custom-hmm">商品设置</h4>
                 <div class="form-group">
+                    <label class="col-sm-1 control-label" ><div class="r">商品状态</div></label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="state" name="state">
+                            @if(item.getState()=="Y"){
+                            <option value="Y">正常</option>
+                            <option value="D">下架</option>
+                            <option value="K">售空</option>
+                            }
+                            @if(item.getState()=="D"){
+                            <option value="D">下架</option>
+                            <option value="Y">正常</option>
+                            <option value="K">售空</option>
+                            }
+                            @if(item.getState()=="K"){
+                            <option value="K">售空</option>
+                            <option value="Y">正常</option>
+                            <option value="D">下架</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-1 control-label" ><div class="r">重要通告</div></label>
-                    <div class="col-sm-5">
+                    <div class="col-sm-3">
                         <textarea rows="6"  class="form-control" id="itemNotice" name="itemNotice">@item.getItemNotice()</textarea>
                     </div>
                 </div>
@@ -327,9 +382,7 @@
                         </div>
                         <div id="warn-pub" style="color:red;margin-top:10px;"></div>
                     </div>
-
                 </div>
-
                 <!-- 商品详细信息-->
                 <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.details")</h4>
 
