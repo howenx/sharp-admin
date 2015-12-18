@@ -12,10 +12,7 @@ import play.mvc.Security;
 import service.*;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 商品管理
@@ -428,21 +425,28 @@ public class ItemCtrl extends Controller {
         OrderShip orderShip = orderShipService.getShipByOrderId(id);
         //获取子订单
         List<OrderSplit> orderSplitList = orderSplitService.getSplitByOrderId(id);
-        //含有报关和产品的子订单
-        List<Object> subOrderList = new ArrayList<>();
-
+        //返回的结果集
+        List<List<List<Object[]>>> subOrdersAll = new ArrayList<>();
+        //子订单序号
+        int subOrderNum = 0;
         for(OrderSplit orderSplit : orderSplitList){
+            //含有报关和产品的子订单
+            List<List<Object[]>>  subOrderList = new ArrayList<>();
             //子订单基本信息
-            Object[] subOrderPart1 = new Object[9];
-            subOrderPart1[0] = orderSplit.getOrderId();   //子订单编号
-            subOrderPart1[1] = orderSplit.getState();     //子订单报关状态
-            subOrderPart1[2] = orderSplit.getCustomsReturnCode(); //子订单支付报关状态
-            subOrderPart1[3] = orderSplit.getExpressNm(); //快递名称
-            subOrderPart1[4] = orderSplit.getExpressNum();//快递编号
-            subOrderPart1[5] = orderSplit.getShipFee();   //邮费
-            subOrderPart1[6] = orderSplit.getPostalFee(); //行邮税
-            subOrderPart1[7] = orderSplit.getTotalFee();  //商品总价
-            subOrderPart1[8] = orderSplit.getTotalPayFee();//支付费用总计
+            List<Object[]> subOrderPart1 = new ArrayList<>();
+            Object[] object1 = new Object[10];
+            object1[0] = orderSplit.getOrderId();   //子订单编号
+            object1[1] = orderSplit.getState();     //子订单报关状态
+            object1[2] = orderSplit.getCustomsReturnCode(); //子订单支付报关状态
+            object1[3] = orderSplit.getExpressNm(); //快递名称
+            object1[4] = orderSplit.getExpressNum();//快递编号
+            object1[5] = orderSplit.getShipFee();   //邮费
+            object1[6] = orderSplit.getPostalFee(); //行邮税
+            object1[7] = orderSplit.getTotalFee();  //商品总价
+            object1[8] = orderSplit.getTotalPayFee();//支付费用总计
+            subOrderNum = subOrderNum + 1;
+            object1[9] = subOrderNum;
+            subOrderPart1.add(object1);
             subOrderList.add(subOrderPart1);
 
             //子订单的全部商品
@@ -450,21 +454,21 @@ public class ItemCtrl extends Controller {
             //包含商品名的子订单商品
             List<Object[]> subOrderPart2 = new ArrayList<>();
             for(OrderLine orderLine : orderLineList){
-                Object[] object = new Object[6];
+                Object[] object2 = new Object[6];
                 Item item = service.getItem(orderLine.getItemId());
-                object[0] = item.getItemTitle();    //名称
-                object[1] = orderLine.getSkuImg();  //图片
-                object[2] = orderLine.getSkuSize(); //尺码
-                object[3] = orderLine.getSkuColor();//颜色
-                object[4] = orderLine.getPrice();   //价格
-                object[5] = orderLine.getAmount();  //数量
-                subOrderPart2.add(object);
+                object2[0] = item.getItemTitle();    //名称
+                object2[1] = orderLine.getSkuImg();  //图片url
+                object2[2] = orderLine.getSkuSize(); //尺码
+                object2[3] = orderLine.getSkuColor();//颜色
+                object2[4] = orderLine.getPrice();   //价格
+                object2[5] = orderLine.getAmount();  //数量
+                subOrderPart2.add(object2);
             }
             subOrderList.add(subOrderPart2);
+
+            subOrdersAll.add(subOrderList);
         }
-
-
-        return ok(views.html.item.orderdetail.render(lang,order,orderShip,subOrderList,(User) ctx().args.get("user")));
+        return ok(views.html.item.orderdetail.render(lang,order,orderShip,subOrdersAll,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
     }
 
 
