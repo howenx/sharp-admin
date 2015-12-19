@@ -187,7 +187,7 @@
             </table>
             }
             }
-            <!--&lt;!&ndash;one&ndash;&gt;-->
+            <!--one-->
             <!--<table cellspacing="0">-->
                 <!--<tr style="background: rgb(224,238,255)">-->
                     <!--<td colspan="6">-->
@@ -212,98 +212,6 @@
                     <!--<td>5.00</td>-->
                 <!--</tr>-->
             <!--</table>-->
-            <!--&lt;!&ndash;two&ndash;&gt;-->
-            <!--<table cellspacing="0">-->
-                <!--<tr style="background: rgb(224,238,255)">-->
-                    <!--<td colspan="6">-->
-                        <!--<span>化妆品不包邮</span>-->
-                        <!--<span>最后编辑时间:2015-11-12 15:17-->
-                            <!--<a href="javascript:void(0)" class="temp-edit">修改</a>-->
-                            <!--<a href="javascript:void(0)" class="temp-del">删除</a>-->
-                        <!--</span>-->
-                    <!--</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                    <!--<td width="130">运送方式</td>-->
-                    <!--<td>运送到</td>-->
-                    <!--<td>首件(件)</td>-->
-                    <!--<td>运费(元)</td>-->
-                    <!--<td>续件(件)</td>-->
-                    <!--<td>运费(元)</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                    <!--<td>快递</td>-->
-                    <!--<td>未被划分的配送地区自动归于默认运费</td>-->
-                    <!--<td>3</td>-->
-                    <!--<td>25.00</td>-->
-                    <!--<td>1</td>-->
-                    <!--<td>5.00</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                    <!--<td>快递</td>-->
-                    <!--<td>北京 上海 天津 重庆 河北 山西 河南 辽宁 吉林 黑龙江 江苏</td>-->
-                    <!--<td>5</td>-->
-                    <!--<td>25.00</td>-->
-                    <!--<td>2</td>-->
-                    <!--<td>5.00</td>-->
-                <!--</tr>-->
-            <!--</table>-->
-            <!--&lt;!&ndash;three&ndash;&gt;-->
-            <!--<table cellspacing="0">-->
-                <!--<tr style="background: rgb(224,238,255)">-->
-                    <!--<td colspan="6">-->
-                        <!--<span>单品包邮</span>-->
-                        <!--<span>最后编辑时间:2015-11-12 15:15-->
-                            <!--<a href="javascript:void(0)" class="temp-edit">修改</a>-->
-                            <!--<a href="javascript:void(0)" class="temp-del">删除</a>-->
-                        <!--</span>-->
-                    <!--</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                    <!--<td width="130">运送方式</td>-->
-                    <!--<td>运送到</td>-->
-                    <!--<td>首件(件)</td>-->
-                    <!--<td>运费(元)</td>-->
-                    <!--<td>续件(件)</td>-->
-                    <!--<td>运费(元)</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                    <!--<td>快递</td>-->
-                    <!--<td>全国</td>-->
-                    <!--<td>1</td>-->
-                    <!--<td>0.00</td>-->
-                    <!--<td>1</td>-->
-                    <!--<td>0.00</td>-->
-                <!--</tr>-->
-            <!--</table>-->
-            <!--&lt;!&ndash;four&ndash;&gt;-->
-            <!--<table cellspacing="0">-->
-                <!--<tr style="background: rgb(224,238,255)">-->
-                    <!--<td colspan="6">-->
-                        <!--<span>卖家承担运费</span>-->
-                        <!--<span>最后编辑时间:2015-11-12 17:50-->
-                            <!--<a href="javascript:void(0)" class="temp-edit">修改</a>-->
-                            <!--<a href="javascript:void(0)" class="temp-del">删除</a>-->
-                        <!--</span>-->
-                    <!--</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                    <!--<td width="130">运送方式</td>-->
-                    <!--<td>运送到</td>-->
-                    <!--<td>首件(件)</td>-->
-                    <!--<td>运费(元)</td>-->
-                    <!--<td>续件(件)</td>-->
-                    <!--<td>运费(元)</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                    <!--<td>快递</td>-->
-                    <!--<td>全国</td>-->
-                    <!--<td>1</td>-->
-                    <!--<td>0.00</td>-->
-                    <!--<td>1</td>-->
-                    <!--<td>0.00</td>-->
-                <!--</tr>-->
-            <!--</table>-->
         </div>
     </div>
 </div>
@@ -313,23 +221,25 @@
 <script>
     $(function() {
         $(".del").click(function() {
-            var modelCode = $(this).next().val();
-            $.ajax({
-                type :  "GET",
-                url : "/carr/delModel/"+modelCode,
-                contentType: "application/json; charset=utf-8",
-                error : function(request) {
-                    alert("删除失败!");
-                },
-                success: function(data) {
-                    if(data=="true") {
-                        alert("删除成功");
-                        //运费模板删除, 成功后返回到运费模板列表页面
-                        setTimeout("location.href='/"+window.lang+"/carr/search'", 100);
-                    } else alert("删除失败!");
+            if (window.confirm("确定删除?")) {
+                var modelCode = $(this).next().val();
+                $.ajax({
+                    type :  "GET",
+                    url : "/carr/delModel/"+modelCode,
+                    contentType: "application/json; charset=utf-8",
+                    error : function(request) {
+                        alert("删除失败!");
+                    },
+                    success: function(data) {
+                        if(data=="true") {
+                            alert("删除成功");
+                            //运费模板删除, 成功后返回到运费模板列表页面
+                            setTimeout("location.href='/"+window.lang+"/carr/search'", 100);
+                        } else alert("删除失败!");
 
-                }
-            });
+                    }
+                });
+            }
         });
     })
 </script>
