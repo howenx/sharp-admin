@@ -141,6 +141,9 @@ $(function(){
         http.onreadystatechange = function() {
             if (http.readyState == 4 && http.status == 200) {
                 var data = JSON.parse(http.responseText);
+//            console.log("data.path:"+data.path);
+//            console.log("data.imgid:"+data.imgid);
+//            console.log("data.minify_url:"+data.minify_url);
                 var input= document.createElement("input");
                 imgName = data.imgid;
                 input.id = imgName.substr(0,imgName.lastIndexOf("."));
@@ -149,12 +152,36 @@ $(function(){
                 input.value=data.path;
                 thumb.appendChild(input);
                 alert(data.message);
+
+                if (id.indexOf("D")>=0) {
+                    var http2 = new XMLHttpRequest;
+                    var url2 = "http://172.28.3.18:3008/split/file/"+data.imgid;
+                    http2.open("GET", url2, true);
+                    http2.onreadystatechange = function() {
+                        if (http2.readyState == 4 && http2.status == 200) {
+                            var data2 = JSON.parse(http2.responseText);
+                            var span = document.createElement("span");
+                            span.style.display = "none";
+                            var splitArr = data2.split_url;
+                            splitArr =  splitArr.substring(1,splitArr.length-1);
+                            var splitArr = splitArr.split(",");
+                            var imgArr = [];
+                            for(m=0;m<splitArr.length;m++) {
+                                var imgPath = splitArr[m].substring(splitArr[m].indexOf('/',splitArr[m].indexOf('/')+2),splitArr[m].length-1);
+                                imgArr.push(imgPath);
+                            }
+                            span.innerHTML = imgArr;
+                            thumb.appendChild(span);
+                        }
+                    }
+                    http2.send();
+                }
             }
         }
         http.send(formdata);
     }
 
-    /** 上传图片操作,主图,点击移除的操作 **/
+    /** 商品主图,点击移除的操作 **/
     $(document).on('click','.list-img .close',function(){
         var id = $(this).parent().parent().attr("id");
         //没有商品主图时,上传按钮置为显示
@@ -552,6 +579,8 @@ $(function(){
         }
         var itemDetailImgs = [];
         for(i=0;i<detailImg.length;i++) {
+            var spanArr = [];
+            var spanD = detailImg[i].getElementsByTagName("span");
             var inpD = detailImg[i].getElementsByTagName("input");
             var imgD = detailImg[i].getElementsByTagName("img");
             if(inpD.length==0 && imgD.length!=0) {
@@ -559,8 +588,17 @@ $(function(){
                 detV = detV.substring(detV.indexOf('/',detV.indexOf('/')+2));
                 itemDetailImgs.push(detV);
             }
-            if(inpD.length!=0 && imgD.length!=0) itemDetailImgs.push(inpD[0].value);
+//            if(inpD.length!=0 && imgD.length!=0) itemDetailImgs.push(inpD[0].value);
+            if(inpD.length!=0 && imgD.length!=0) {
+                var spanDArr = spanD[1].innerHTML.split(",");
+                for(s=0;s<spanDArr.length;s++){
+                    spanArr.push(spanDArr[s]);
+                }
+                itemDetailImgs.push(spanArr);
+//                console.log(spanArr);
+            }
         }
+            console.log(itemDetailImgs);
         //遍历所有属性及属性值累加到隐藏域features中且属性名或值不能为空
         var itemFeatures = {};
         var tabFea = document.getElementById("tabFea");
