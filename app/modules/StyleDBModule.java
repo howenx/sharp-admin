@@ -41,6 +41,7 @@ public class StyleDBModule extends PrivateModule{
                 addMapperClass(ItemMapper.class);
                 addMapperClass(InventoryMapper.class);
                 addMapperClass(CarriageMapper.class);
+                addMapperClass(SysParamMapper.class);
             }
         });
 
@@ -62,6 +63,7 @@ public class StyleDBModule extends PrivateModule{
         bind(ItemService.class).to(ItemServiceImpl.class);
         bind(InventoryService.class).to(InventoryServiceImpl.class);
         bind(CarriageService.class).to(CarriageServiceImpl.class);
+        bind(SysParamService.class).to(SysParamServiceImpl.class);
 
         //必须expose
         expose(ThemeService.class);
@@ -69,6 +71,7 @@ public class StyleDBModule extends PrivateModule{
         expose(ItemService.class);
         expose(InventoryService.class);
         expose(CarriageService.class);
+        expose(SysParamService.class);
     }
 
     @Singleton

@@ -39,6 +39,6 @@ public interface CatesMapper {
 		 * 新增cates
 		 * @param cates
 		 */
-		Integer insertCates(Cates cates);
+		void insertCates(Cates cates);
 
 }

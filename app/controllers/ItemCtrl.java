@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.deser.std.ObjectArrayDeserializer;
 import entity.*;
 import order.GetLogistics;
 import play.Logger;
+import play.i18n.Lang;
+import play.i18n.Messages;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -411,9 +413,6 @@ public class ItemCtrl extends Controller {
     /**
      * 订单详情     Added by Tiffany Zhu
      * @param lang
-     *
-     *
-     *
      * @param id
      * @return
      */
@@ -504,6 +503,19 @@ public class ItemCtrl extends Controller {
     }
 
     /**
+     * 保存品牌    Added by Tiffany Zhu
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result brandSave(String lang){
+        JsonNode json = request().body().asJson();
+        Logger.error(json.toString());
+        service.insertBrands(json);
+        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
+    }
+
+    /**
      * 商品分类列表       Added by Tiffany Zhu
      * @param lang
      * @return
@@ -520,7 +532,20 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result cateAdd(String lang){
-        return ok(views.html.item.cateadd.render(lang,(User) ctx().args.get("user")));
+        return ok(views.html.item.cateadd.render(lang,service.getParentCates(),(User) ctx().args.get("user")));
+    }
+
+    /**
+     * 保存商品分类
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result cateSave(String lang){
+        JsonNode json = request().body().asJson();
+        Logger.error(json.toString());
+        service.catesSave(json);
+        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
 

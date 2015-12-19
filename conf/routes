@@ -99,12 +99,17 @@ GET             /comm/brand/search                                          cont
 GET             /$lang<(cn|en|kr)>/comm/brand/search                        controllers.ItemCtrl.brandList(lang)
 GET             /comm/brand/add                                             controllers.ItemCtrl.brandAdd(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/brand/add                           controllers.ItemCtrl.brandAdd(lang)
+POST            /comm/brand/brandSave                                       controllers.ItemCtrl.brandSave(lang = "cn")
+
+
+
+
 #cates -->cate 商品分类
 GET             /comm/cate/search                                           controllers.ItemCtrl.cateList(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/cate/search                         controllers.ItemCtrl.cateList(lang)
 GET             /comm/cate/add                                              controllers.ItemCtrl.cateAdd(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/cate/add                            controllers.ItemCtrl.cateAdd(lang)
-
+POST            /comm/cate/cateSave                                         controllers.ItemCtrl.cateSave(lang = "cn")
 
 
 
@@ -141,6 +146,7 @@ GET             /data/config/search                                       contro
 GET             /$lang<(cn|en|kr)>/data/config/search                     controllers.DataCtrl.systemParameterSearch(lang)
 GET             /data/config/add                                          controllers.DataCtrl.systemParameterAdd(lang ="cn")
 GET             /$lang<(cn|en|kr)>/data/config/add                        controllers.DataCtrl.systemParameterAdd(lang)
+POST            /data/config/paramSave                                    controllers.DataCtrl.paramSave(lang = "cn")
 
 
 

@@ -44,5 +44,11 @@
             LIMIT #{pageSize} OFFSET #{offset}
         </if>
     </select>
+    <insert id="insertBrands" parameterType="entity.Brands" useGeneratedKeys="true" keyColumn="brand_id">
+        insert into brands
+        (brand_desc,logo,create_date,brand_nm)
+        values
+        (#{brandDesc},#{logo},CURRENT_TIMESTAMP(0),#{brandNm})
+    </insert>
 
 </mapper>

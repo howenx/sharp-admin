@@ -3,12 +3,7 @@
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
-<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
-<script src="/assets/js/search.js"></script>
-
-<script src="/assets/js/moment-with-locales.js"></script>
-<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
-<script src="/assets/js/rili.js"></script>
+<script src="/assets/js/jquery.min.js"></script>
 <script>
     $(function(){
         function previewImage1(obj, file) {
@@ -97,7 +92,7 @@
     </div>
     <div class="usercenter-option">
         <div class="user-state fl">未更改</div>
-        <div id="modelSubmit" class="btn-blue btn-form fr ml15">保存</div>
+        <div id="brandSubmit" class="btn-blue btn-form fr ml15">保存</div>
         <div id="cancel" class="btn-white btn-form fr ml20">取消</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
@@ -105,13 +100,13 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">品牌名称</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" placeholder="品牌名称">
+                <input id="brandName" type="text" class="form-control" placeholder="品牌名称">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">品牌描述</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" placeholder="品牌描述">
+                <input type="text" id="brandDesc" class="form-control" placeholder="品牌描述">
             </div>
         </div>
         <div class="form-group">
@@ -120,7 +115,7 @@
                 <div class="img-logo">
                     <button type="button" class="btn btn-primary btn-sm" style="position: relative">
                         上传图片
-                        <input type="file" class="upload-logo">
+                        <input id="logo" type="file" class="upload-logo">
                     </button>
                 </div>
             </div>
@@ -134,4 +129,53 @@
         <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
 </div>
+<script>
+    $("#brandSubmit").click(function(){
+        var isPost = true;
+        if($("#brandName").val() == "")
+        {
+           isPost = false;
+           $("#js-userinfo-error").html("品牌名称不能为空!");
+        }
+
+        var brandName = $("#brandName").val();
+        var brandDesc = $("#brandDesc").val();
+        var url = $("img").attr("src");
+        var logoUrl = url.substring(url.indexOf('/',url.indexOf('/')+2));
+
+        var brand = new Object();
+        brand.brandNm = brandName;
+        brand.brandDesc = brandDesc;
+        brand.logo = logoUrl;
+        if (isPost) {
+                        $.ajax({
+                                type :  "POST",
+                                url : "/comm/brand/brandSave",
+                                contentType: "application/json; charset=utf-8",
+                                data : JSON.stringify(brand),
+                                error : function(request) {
+                                    if (window.lang = 'cn') {
+                                        $('#js-userinfo-error').text('保存失败');
+                                    } else {
+                                        $('#js-userinfo-error').text('Save error');
+                                    }
+                                    setTimeout("$('#js-userinfo-error').text('')", 2000);
+                                },
+                                success: function(data) {
+                                    if (window.lang = 'cn') {
+                                        $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                                    } else {
+                                        $('#js-userinfo-error').text('Save success');
+                                    }
+                                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 1000);
+                                    //主题录入, 成功后返回到主题录入页面
+                                    setTimeout("location.href='/"+window.lang+"/comm/brand/add'", 1000);
+                                }
+                            });
+                        }
+    })
+
+
+
+</script>
 }

@@ -32,4 +32,10 @@ public interface BrandsMapper {
 		 */
 		List<Brands> getBrandsPage(Brands brands);
 
+		/**
+		 * 新增品牌
+		 * @param brands
+		 */
+		void insertBrands(Brands brands);
+
 }

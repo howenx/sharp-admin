@@ -56,10 +56,16 @@ public interface ItemService {
 
     /**
      * 新增商品类别
-     * @param cates
+     * @param json
      * @return
      */
-    Integer catesSave(Cates cates);
+    void catesSave(JsonNode json);
 
     List<Brands>  getBrandsPage(Brands brands);
+
+    /**
+     * 保存品牌
+     * @param json
+     */
+    void insertBrands(JsonNode json);
 }

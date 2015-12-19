@@ -2,10 +2,7 @@ package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import entity.Brands;
-import entity.Cates;
-import entity.Inventory;
-import entity.Item;
+import entity.*;
 import mapper.BrandsMapper;
 import mapper.CatesMapper;
 import mapper.InventoryMapper;
@@ -35,6 +32,7 @@ public class ItemServiceImpl implements ItemService{
 
     @Inject
     private CatesMapper catesMapper;
+
 
     /**
      * 分页查询商品列表
@@ -235,10 +233,24 @@ public class ItemServiceImpl implements ItemService{
 
     /**
      * 新增商品类别
-     * @param cates
+     * @param json
      * @return
      */
     @Override
-    public Integer catesSave(Cates cates) {return catesMapper.insertCates(cates);}
+    public void catesSave(JsonNode json) {
+        Logger.error(json.toString());
+        Cates cates = play.libs.Json.fromJson(json,Cates.class);
+        catesMapper.insertCates(cates);
+    }
 
+    /**
+     * 新增品牌
+     * @param json
+     */
+    @Override
+    public void insertBrands(JsonNode json) {
+        Logger.error(json.toString());
+        Brands brands = play.libs.Json.fromJson(json,Brands.class);
+        brandsMapper.insertBrands(brands);
+    }
 }

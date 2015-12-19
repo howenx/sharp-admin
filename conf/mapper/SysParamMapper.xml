@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.SysParamMapper">
+    <sql id="paramColumns">
+        ${alias}.sys_id,
+        ${alias}.parameter_nm,
+        ${alias}.parameter_val,
+        ${alias}.parameter_code
+    </sql>
+    <insert id="insertParam" parameterType="entity.SystemParam" useGeneratedKeys="true" keyProperty="sys_id">
+        insert into sys_parameter
+        (parameter_nm,parameter_val,parameter_code)
+        values
+        (#{parameterNm},#{parameterVal},#{parameterCode})
+    </insert>
+</mapper>
