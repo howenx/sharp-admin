@@ -145,6 +145,16 @@ $(function() {
         funcList.orderlist_data = function orderlist_data(data) {
             //填充列表数据
             $(data).each(function(index, element) {
+                var payMethod = "";
+                if($(this)[0].payMethod == "JD"){
+                    payMethod = "京东";
+                }
+                if($(this)[0].payMethod == "APAY"){
+                    payMethod = "支付宝";
+                }
+                if($(this)[0].payMethod == "WEIXIN"){
+                     payMethod = "微信";
+                }
                 var orderStatus = "";
                 if($(this)[0].orderStatus == "I"){
                     orderStatus = "未支付";
@@ -173,7 +183,7 @@ $(function() {
                     '<td>' + $(this)[0].userId + '</td>' +
                     '<td>' + ($(this)[0].orderCreateAt != null && $(this)[0].orderCreateAt != '' ? $(this)[0].orderCreateAt.substr(0, 16) : '') + '</td>}' +
                     '<td>' + $(this)[0].payTotal + '</td>' +
-                    '<td>' + $(this)[0].payMethod + '</td>' +
+                    '<td>' + payMethod + '</td>' +
                     '<td>' + orderStatus + '</td>' +
                     '</tr>'
                 );

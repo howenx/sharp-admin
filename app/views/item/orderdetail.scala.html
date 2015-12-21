@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",orderDetail:entity.Order,orderShip:entity.OrderShip,subOrdersAll:List[List[List[Array[Object]]]],url:String,user:entity.User)
+@(lang:String="cn",orderDetail:Array[Object],orderShip:entity.OrderShip,subOrdersAll:List[List[List[Array[Object]]]],url:String,user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -42,7 +42,7 @@
         <div class="form-group">
             <div class="col-sm-6">
                 <span>订单编号:</span>
-                <input type="text" value="@orderDetail.getOrderId()" disabled>
+                <input type="text" value="@orderDetail(0)" disabled>
             </div>
         </div>
 
@@ -53,7 +53,7 @@
             </div>
             <div class="col-sm-6">
                 <span>创建时间:</span>
-                <input type="text" value="@if(orderDetail.getOrderCreateAt()!=null){@(orderDetail.getOrderCreateAt().toString().substring(0,16))}" disabled>
+                <input type="text" value="@if(orderDetail(1)!=null){@(orderDetail(1).toString().substring(0,16))}" disabled>
             </div>
         </div>
 
@@ -64,7 +64,7 @@
             </div>
             <div class="col-sm-6">
                 <span>订单总价:</span>
-                <input type="text" value="@orderDetail.getPayTotal()" disabled>
+                <input type="text" value="@orderDetail(2)" disabled>
             </div>
         </div>
 
@@ -75,7 +75,7 @@
             </div>
             <div class="col-sm-6">
                 <span>优惠:</span>
-                <input type="text" value="@orderDetail.getDiscount()" disabled>
+                <input type="text" value="@orderDetail(3)" disabled>
             </div>
         </div>
 
@@ -86,7 +86,7 @@
             </div>
             <div class="col-sm-6">
                 <span>实付款:</span>
-                <input type="text" value="@orderDetail.getTotalFee()" disabled>
+                <input type="text" value="@orderDetail(4)" disabled>
             </div>
         </div>
 
@@ -97,13 +97,13 @@
             </div>
             <div class="col-sm-6">
                 <span>支付方式:</span>
-                <input type="text" value="@orderDetail.getPayMethod()" disabled>
+                <input type="text" value="@orderDetail(5)" disabled>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-6 col-sm-6">
                 <span>支付状态:</span>
-                <input type="text" value="@orderDetail.getOrderStatus()" disabled>
+                <input type="text" value="@orderDetail(6)" disabled>
             </div>
         </div>
 

@@ -1,7 +1,6 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.ObjectArrayDeserializer;
 import entity.*;
 import order.GetLogistics;
 import play.Logger;
@@ -341,7 +340,17 @@ public class ItemCtrl extends Controller {
             object[1] = order.getUserId();
             object[2] = order.getOrderCreateAt();
             object[3] = order.getPayTotal();
-            object[4] = order.getPayMethod();
+            //支付方式
+            if("JD".equals(order.getPayMethod())) {
+                object[4] =  "京东";
+            }
+            if("APAY".equals(order.getPayMethod())) {
+                object[4] =  "支付宝";
+            }
+            if("WEIXIN".equals(order.getPayMethod())) {
+                object[4] =  "微信";
+            }
+            //订单状态
             if("I".equals(order.getOrderStatus())){
                 object[5] = "未支付";
             }
@@ -420,8 +429,52 @@ public class ItemCtrl extends Controller {
     public Result orderDetail(String lang,Long id){
         //获取订单
         Order order = orderService.getOrderById(id);
+        Object[] orderArray = new Object[7];
+        orderArray[0] = order.getOrderId();       //订单Id
+        orderArray[1] = order.getOrderCreateAt(); //订单创建时间
+        orderArray[2] = order.getPayTotal();      //订单总费用
+        orderArray[3] = order.getDiscount();      //优惠
+        orderArray[4] = order.getTotalFee();      //支付的总费用
+        //支付方式
+        if("JD".equals(order.getPayMethod())) {
+            orderArray[5] =  "京东";
+        }
+        if("APAY".equals(order.getPayMethod())) {
+            orderArray[5] =  "支付宝";
+        }
+        if("WEIXIN".equals(order.getPayMethod())) {
+            orderArray[5] =  "微信";
+        }
+        //支付状态
+        if ("I".equals(order.getOrderStatus())) {
+            orderArray[6] =  "未支付";
+        }
+        if ("S".equals(order.getOrderStatus())) {
+            orderArray[6] =  "支付成功";
+        }
+        if ("C".equals(order.getOrderStatus())) {
+            orderArray[6] =  "订单取消";
+        }
+        if ("F".equals(order.getOrderStatus())) {
+            orderArray[6] =  "支付失败";
+        }
+        if ("R".equals(order.getOrderStatus())) {
+            orderArray[6] =  "已签收";
+        }
+        if ("D".equals(order.getOrderStatus())) {
+            orderArray[6] = "已发货";
+        }
+        if ("J".equals(order.getOrderStatus())) {
+            orderArray[6] =  "拒收";
+        }
         //获取订单收货信息
         OrderShip orderShip = orderShipService.getShipByOrderId(id);
+        //遮挡身份证号中间8位
+        if(orderShip.getDeliveryCardNum() != null && !orderShip.getDeliveryCardNum().equals("")){
+            String subCardNum = orderShip.getDeliveryCardNum().substring(6,14);
+            String rstCardNum = orderShip.getDeliveryCardNum().replace(subCardNum,"********");
+            orderShip.setDeliveryCardNum(rstCardNum);
+        }
         //获取子订单
         List<OrderSplit> orderSplitList = orderSplitService.getSplitByOrderId(id);
         //返回的结果集
@@ -435,7 +488,16 @@ public class ItemCtrl extends Controller {
             List<Object[]> subOrderPart1 = new ArrayList<>();
             Object[] object1 = new Object[10];
             object1[0] = orderSplit.getSplitId();   //子订单编号
-            object1[1] = orderSplit.getState();     //子订单报关状态
+            //子订单报关状态
+            if("I".equals(orderSplit.getState())){
+                object1[1] = "初始化";
+            }
+            if("Y".equals(orderSplit.getState())){
+                object1[1] = "报关成功";
+            }
+            if("N".equals(orderSplit.getState())){
+                object1[1] = "报关失败";
+            }
             object1[2] = orderSplit.getCustomsReturnCode(); //子订单支付报关状态
             object1[3] = orderSplit.getExpressNm(); //快递名称
             object1[4] = orderSplit.getExpressNum();//快递编号
@@ -443,7 +505,7 @@ public class ItemCtrl extends Controller {
             object1[6] = orderSplit.getPostalFee(); //行邮税
             object1[7] = orderSplit.getTotalFee();  //商品总价
             object1[8] = orderSplit.getTotalPayFee();//支付费用总计
-            subOrderNum = subOrderNum + 1;
+            subOrderNum = subOrderNum + 1;          //子订单序号
             object1[9] = subOrderNum;
             subOrderPart1.add(object1);
             subOrderList.add(subOrderPart1);
@@ -465,9 +527,13 @@ public class ItemCtrl extends Controller {
             }
             subOrderList.add(subOrderPart2);
 
+            //子订单物流
+            //subOrderList.add(GetLogistics.sendGet(""));
+
+            //全部的子订单信息
             subOrdersAll.add(subOrderList);
         }
-        return ok(views.html.item.orderdetail.render(lang,order,orderShip,subOrdersAll,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
+        return ok(views.html.item.orderdetail.render(lang,orderArray,orderShip,subOrdersAll,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
     }
 
 
