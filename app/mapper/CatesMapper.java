@@ -41,4 +41,10 @@ public interface CatesMapper {
 		 */
 		void insertCates(Cates cates);
 
+		/**
+		 * 商品分类列表
+		 * @return
+		 */
+		List<Cates> getCatesAll();
+
 }
