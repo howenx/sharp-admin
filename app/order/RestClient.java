@@ -27,9 +27,6 @@ import java.util.regex.Pattern;
  */
 public class RestClient {
 
-
-    public static final String test = "";
-
     public static final int TIMEOUT = 10 * 1000;
 
     /**
