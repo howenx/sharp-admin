@@ -55,6 +55,12 @@ public interface ItemService {
     List<Item> getItemsAll();
 
     /**
+     * 商品分类列表
+     * @return
+     */
+    List<Cates> getCatesAll();
+
+    /**
      * 新增商品类别
      * @param json
      * @return

@@ -25,7 +25,7 @@ public class DataCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result systemParameterSearch(String lang){
-        return ok(views.html.data.sysparamsearch.render(lang,(User) ctx().args.get("user")));
+        return ok(views.html.data.sysparamsearch.render(lang,sysParamService.getParamAll(),(User) ctx().args.get("user")));
     }
 
     /**

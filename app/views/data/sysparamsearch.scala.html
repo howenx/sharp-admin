@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",user:entity.User)
+@(lang:String="cn",params:List[entity.SystemParam],user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -28,6 +28,7 @@
         <span class="title-name">系统参数</span>
     </div>
     <input type="button" value="新增系统参数" onclick="javascript:window.location.href='/@lang/data/config/add'"/>
+    <!--
     <form class="form-horizontal">
         <div class="form-group">
 
@@ -59,6 +60,7 @@
             <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
         </div>
     </form>
+    -->
     <div class="table-content">
         <div class="param">
             <table class="table table-bordered">
@@ -71,24 +73,17 @@
                 </tr>
                 </thead>
                 <tbody>
+                @for(param <- params){
                 <tr>
-                    <td>1000423</td>
-                    <td>啊等</td>
-                    <td>234</td>
-                    <td>cs123</td>
+                    <td>@param.getSysId()</td>
+                    <td>@param.getParameterNm()</td>
+                    <td>@param.getParameterVal()</td>
+                    <td>@param.getParameterCode()</td>
                 </tr>
+                }
                 </tbody>
             </table>
         </div>
-        <ul class="pagination">
-            <li><a href="javascript:void(0)">&laquo;</a></li>
-            <li class="active"><a href="javascript:void(0)">1</a></li>
-            <li><a href="javascript:void(0)">2</a></li>
-            <li><a href="javascript:void(0)">3</a></li>
-            <li><a href="javascript:void(0)">4</a></li>
-            <li><a href="javascript:void(0)">5</a></li>
-            <li><a href="javascript:void(0)">&raquo;</a></li>
-        </ul>
     </div>
 </div>
 <!-- 点击图片预览-->

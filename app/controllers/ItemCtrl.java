@@ -434,7 +434,7 @@ public class ItemCtrl extends Controller {
             //子订单基本信息
             List<Object[]> subOrderPart1 = new ArrayList<>();
             Object[] object1 = new Object[10];
-            object1[0] = orderSplit.getOrderId();   //子订单编号
+            object1[0] = orderSplit.getSplitId();   //子订单编号
             object1[1] = orderSplit.getState();     //子订单报关状态
             object1[2] = orderSplit.getCustomsReturnCode(); //子订单支付报关状态
             object1[3] = orderSplit.getExpressNm(); //快递名称
@@ -449,7 +449,7 @@ public class ItemCtrl extends Controller {
             subOrderList.add(subOrderPart1);
 
             //子订单的全部商品
-            List<OrderLine> orderLineList = orderLineService.getLineByOrderId(orderSplit.getOrderId());
+            List<OrderLine> orderLineList = orderLineService.getLineBySplitId(orderSplit.getSplitId().longValue());
             //包含商品名的子订单商品
             List<Object[]> subOrderPart2 = new ArrayList<>();
             for(OrderLine orderLine : orderLineList){
@@ -478,18 +478,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result brandList(String lang){
-        Brands brands = new Brands();
-        brands.setPageSize(-1);
-        brands.setOffset(-1);
-
-        int countNum = service.getAllBrands().size();
-        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
-        if(countNum%ThemeCtrl.PAGE_SIZE != 0){
-            pageCount =  countNum/ThemeCtrl.PAGE_SIZE + 1;
-        }
-        brands.setPageSize(ThemeCtrl.PAGE_SIZE);
-        brands.setOffset(0);
-        return ok(views.html.item.brandsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,service.getBrandsPage(brands),(User) ctx().args.get("user")));
+        return ok(views.html.item.brandsearch.render(lang,ThemeCtrl.IMAGE_URL,service.getAllBrands(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -522,7 +511,25 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result cateList(String lang){
-        return ok(views.html.item.catesearch.render(lang,(User) ctx().args.get("user")));
+
+        List<Cates> catesList= service.getCatesAll();
+        //含有父类名的分类列表
+        List<Object[]> caList = new ArrayList<>();
+        for(Cates cates : catesList){
+            Object[] object = new Object[6];        //类别Id
+            object[0] = cates.getCateId();          //类别名
+            object[1] = cates.getCateNm();          //父类Id
+            object[2] = cates.getPcateId();         //父类名
+            if(service.getCate(cates.getPcateId()) != null) {
+                object[3] = service.getCate(cates.getPcateId()).getCateNm();//类别描述
+            }else{
+                object[3] = "";//类别描述
+            }
+            object[4] = cates.getCateDesc();        //类别描述
+            object[5] = cates.getCateCode();        //类别Code
+            caList.add(object);
+        }
+        return ok(views.html.item.catesearch.render(lang,caList,(User) ctx().args.get("user")));
     }
 
     /**

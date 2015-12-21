@@ -232,6 +232,15 @@ public class ItemServiceImpl implements ItemService{
     }
 
     /**
+     * 商品分类列表
+     * @return
+     */
+    @Override
+    public List<Cates> getCatesAll() {
+        return catesMapper.getCatesAll();
+    }
+
+    /**
      * 新增商品类别
      * @param json
      * @return
