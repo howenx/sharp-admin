@@ -1,8 +1,14 @@
 package order;
 
-
+import com.fasterxml.jackson.databind.JsonNode;
+import play.Logger;
+import play.libs.Json;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -10,19 +16,40 @@ import play.libs.ws.WSResponse;
  */
 public class GetLogistics {
 
-    public static String sendGet(String expCode,String param){
-        String url = "http://www.kiees.cn/" + expCode + ".php?wen=" + param + "&action=ajax&rnd=0.0";
-        String result = "";
-        try{
-            WSResponse response = WS.url(url).get().get(1000L);         //http://www.kiees.cn/sf.php?wen=603359393732&action=ajax&rnd=0.0
-            result = new String(response.getBody().getBytes("ISO8859-1"),"utf-8");
-            int endIndex = result.indexOf("|");
-            result = result.substring(1,endIndex);
-            System.out.print(result);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-      return result;
+    public static List<Object[]> sendGet(String expNum){
+        String url = "http://www.baidu.com/";    //请求地址
 
+        Map<String,String> params = new HashMap();  //参数
+        params.put("appname","");   //商户名称
+        params.put("appid","");     //威盛快递分配给商户的ID
+        params.put("TrackingID",expNum);//威盛快递单号
+        JsonNode jsonParams = Json.toJson(params);
+        WSResponse response = WS.url(url).post(jsonParams).get(1000L);
+        Logger.error(response.toString());
+        List<Object[]> logisticsList = new ArrayList<>();
+
+        /*
+        if(response.getStatus()==200)
+        {
+            System.out.print(response);
+            JsonNode jsonResponse = response.asJson();
+            Logger.error(jsonResponse.toString());
+            //取得物流信息
+            if(jsonResponse.has("rtnList")){
+             JsonNode jsonRtn   =  jsonResponse.findValue("rtnList");
+                if(jsonRtn != null){
+                    for(JsonNode json: jsonRtn){
+                        if(json.isArray()){
+                            Object[] object = new Object[2];
+                            object[0] = json.get("Createtime");
+                            object[1] = json.get("Remark");
+                            logisticsList.add(object);
+                        }
+                    }
+                }
+            }
+        }
+        */
+        return logisticsList;
     }
 }
