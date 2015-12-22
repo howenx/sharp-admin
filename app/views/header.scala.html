@@ -1,4 +1,4 @@
-@import play.i18n._
+ @import play.i18n._
 @(user:entity.User, lang:String)
 
 <header id="js-header" class="header else">
@@ -83,10 +83,10 @@
                                 <span class="info-inner db">@Messages.get(new Lang(Lang.forCode(lang)),"nav.users")<i class="ml5 caret caret-down caret-b-9b"></i></span>
                                 <ul class="header-dropdown-list fs13 js-header-list">
                                     <li class="header-dropdown-item">
-                                        <a href="/@lang/prodCreate" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.users.menu1")</a>
+                                        <a href="javascript:void(0)" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.users.menu1")</a>
                                     </li>
                                     <li class="header-dropdown-item">
-                                        <a href="/@lang/prodsList" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.myproducts.menu2")</a>
+                                        <a href="javascript:void(0)" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.myproducts.menu2")</a>
                                     </li>
                                     <li class="header-dropdown-item">
                                         <a href="javascript:void(0)" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.myproducts.menu3")</a>
