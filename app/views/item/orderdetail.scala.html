@@ -10,16 +10,13 @@
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
-<!--<script>-->
-    <!--$(function(){-->
-        <!--$('form').css("display","none");-->
-        <!--$('form').each(function(){-->
-            <!--if($(this).attr("dis")){-->
-                <!--$(this).css("display","block");-->
-            <!--}-->
-        <!--})-->
-    <!--})-->
-<!--</script>-->
+<script>
+    $(function(){
+        if($()){
+
+        }
+    })
+</script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"订单详情")
 
@@ -108,7 +105,7 @@
         </div>
 
 
-        <h4>子订单详情(共@(subOrdersAll.size)个子订单):</h4>
+        <h4 style="font-size: 15px">子订单详情(共@(subOrdersAll.size)个子订单):</h4>
         @for(subOrder <- subOrdersAll){
         @for(part1Detail <- subOrder(0)){
         <h5>子订单@part1Detail(9):</h5>
