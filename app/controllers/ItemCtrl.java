@@ -430,7 +430,7 @@ public class ItemCtrl extends Controller {
     public Result orderDetail(String lang,Long id){
         //获取订单
         Order order = orderService.getOrderById(id);
-        Object[] orderArray = new Object[7];
+        Object[] orderArray = new Object[9];
         orderArray[0] = order.getOrderId();       //订单Id
         orderArray[1] = order.getOrderCreateAt(); //订单创建时间
         orderArray[2] = order.getPayTotal();      //订单总费用
@@ -468,6 +468,8 @@ public class ItemCtrl extends Controller {
         if ("J".equals(order.getOrderStatus())) {
             orderArray[6] =  "拒收";
         }
+        orderArray[7] = order.getShipFee();     //邮费
+        orderArray[8] = order.getPostalFee();   //行邮税
         //获取订单收货信息
         OrderShip orderShip = orderShipService.getShipByOrderId(id);
         //遮挡身份证号中间8位
