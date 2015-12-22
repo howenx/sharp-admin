@@ -64,7 +64,7 @@
             </div>
             <div class="col-sm-6">
                 <span>订单总价:</span>
-                <input type="text" value="@orderDetail(2)" disabled>
+                <input type="text" value="@orderDetail(4)" disabled>
             </div>
         </div>
 
@@ -85,8 +85,8 @@
                 <input type="text" value="@orderShip.getDeliveryCity()" disabled>
             </div>
             <div class="col-sm-6">
-                <span>实付款:</span>
-                <input type="text" value="@orderDetail(4)" disabled>
+                <span>实付款(含运费和行邮税):</span>
+                <input type="text" value="@orderDetail(2)" disabled>
             </div>
         </div>
 
@@ -110,7 +110,7 @@
 
         <h4>子订单详情(共@(subOrdersAll.size)个子订单):</h4>
         @for(subOrder <- subOrdersAll){
-        @for(part1Detail <- subOrder.head){
+        @for(part1Detail <- subOrder(0)){
         <h5>子订单@part1Detail(9):</h5>
         <div class="form-group">
             <div class="col-sm-6">
@@ -164,7 +164,7 @@
                     <td>优惠(元)</td>
                     <td>总价(元)</td>
                 </tr>
-                @for(part2Detail <- subOrder.last){
+                @for(part2Detail <- subOrder(1)){
                 <tr>
                     <td>
                         <img src="@url@part2Detail(1)" alt="" width="40" height="40">
@@ -172,8 +172,8 @@
                     </td>
                     <td>@part2Detail(4)</td>
                     <td>@part2Detail(5)</td>
-                    <td>5</td>
-                    <td>120.9</td>
+                    <td>@part2Detail(6)</td>
+                    <td>@part2Detail(7)</td>
                 </tr>
                 }
             </table>
@@ -196,7 +196,7 @@
                 <input type="text" value="@part1Detail(6)" disabled>
             </div>
             <div class="col-sm-6">
-                <span>实付款:</span>
+                <span>实付款(含运费和行邮税):</span>
                 <input type="text" value="@part1Detail(8)" disabled>
             </div>
         </div>
