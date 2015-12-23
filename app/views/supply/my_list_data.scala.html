@@ -17,7 +17,7 @@
         <div class="col-md-3 input-group pull-right" >
             <span class="input-group-addon">状态(상태):</span>
             <select id="stat" class="form-control" onchange="javascript:stat(this, @category_id);">
-                <option @{status match {case None=>{"selected"} case _=>{}}} value=""></option>
+                <option @{status match {case None=>{"selected"} case _=>{}}} value="">全部(모두)</option>
               <option @{status match {case Some("I")=>{"selected"} case _=>{}}} value="I">未翻译(미번역)</option>
                 <option @{status match {case Some("T")=>{"selected"} case _=>{}}} value="T">已翻译(번역완료)</option>
                 <option  @{status match {case Some("A")=>{"selected"} case _=>{}}} value="A">已追加(보충했음)</option>
