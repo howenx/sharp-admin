@@ -410,11 +410,20 @@
                     <div class="col-sm-4">
                         <div class="detail-img" style="border:1px solid #ccc;">
                             <div id="galleryD" style="margin-bottom:10px;margin-top:15px;">
-                                @for(detail <- item.getItemDetailImgs().substring(1,item.getItemDetailImgs().length()-1).split(", ")) {
-                                <div>
-                                    <img class="main-img" src="@url@detail.substring(1,detail.length()-1)" alt="">
+                                <!--@for(detail <- item.getItemDetailImgs().substring(1,item.getItemDetailImgs().length()-1).split(", ")) {-->
+                                <!--<div>-->
+                                    <!--<img class="main-img" src="@url@detail.substring(1,detail.length()-1)" alt="">-->
+                                    <!--<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                                <!--</div>-->
+                                <!--}-->
+                                @for(detail <- item.getItemDetailImgs().substring(1,item.getItemDetailImgs().length()-2).split("], ")) {
+                                <div style="display:inline-block; border:1px solid #ccc" >
+                                    @for(d <- detail.substring(1,detail.length()).split(", ")) {
+                                         <img class="main-img"  src="@url@d.substring(1,d.length()-1)" alt="" style="border:0px;height:16.7px;">
+                                    }
                                     <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
+
                                 }
                             </div>
                             <span class="add" style="margin:15px 5px;">＋

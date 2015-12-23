@@ -141,21 +141,24 @@ $(function(){
         http.onreadystatechange = function() {
             if (http.readyState == 4 && http.status == 200) {
                 var data = JSON.parse(http.responseText);
-//            console.log("data.path:"+data.path);
-//            console.log("data.imgid:"+data.imgid);
-//            console.log("data.minify_url:"+data.minify_url);
+//                console.log("data.oss_prefix:"+data.oss_prefix);
+//                console.log("data.oss_url:"+data.oss_url);
+//                console.log("data.path:"+data.path);
+//                console.log("data.imgid:"+data.imgid);
+//                console.log("data.minify_url:"+data.minify_url);
                 var input= document.createElement("input");
-                imgName = data.imgid;
+                imgName = data.oss_url;
                 input.id = imgName.substr(0,imgName.lastIndexOf("."));
                 input.type="hidden";
-                input.name=data.imgid;
-                input.value=data.path;
+                input.name=data.oss_url;
+                input.value=data.oss_url;
                 thumb.appendChild(input);
                 alert(data.message);
 
+                //上传商品详细图分割
                 if (id.indexOf("D")>=0) {
                     var http2 = new XMLHttpRequest;
-                    var url2 = "http://172.28.3.18:3008/split/file/"+data.imgid;
+                    var url2 = "http://172.28.3.18:3008/split/file/"+data.oss_url;
                     http2.open("GET", url2, true);
                     http2.onreadystatechange = function() {
                         if (http2.readyState == 4 && http2.status == 200) {
@@ -163,14 +166,16 @@ $(function(){
                             var span = document.createElement("span");
                             span.style.display = "none";
                             var splitArr = data2.split_url;
+//                            console.log("data.split_url:"+data2.split_url);
                             splitArr =  splitArr.substring(1,splitArr.length-1);
                             var splitArr = splitArr.split(",");
                             var imgArr = [];
                             for(m=0;m<splitArr.length;m++) {
-                                var imgPath = splitArr[m].substring(splitArr[m].indexOf('/',splitArr[m].indexOf('/')+2),splitArr[m].length-1);
+                                var imgPath = splitArr[m].substring(splitArr[m].lastIndexOf('/')+1,splitArr[m].length-1);
                                 imgArr.push(imgPath);
                             }
                             span.innerHTML = imgArr;
+//                            console.log("imgArr:"+imgArr);
                             thumb.appendChild(span);
                         }
                     }
@@ -513,7 +518,7 @@ $(function(){
         }
         for(i=0;i<amount.length;i++){
 
-            if (!numberReg1.test(invWeight[i].value) || !numberReg1.test(amount[i].value) || !numberReg2.test(itemPrice[i].value) || !numberReg2.test(itemSrcPrice[i].value)
+            if (!numberReg2.test(invWeight[i].value) || !numberReg1.test(amount[i].value) || !numberReg2.test(itemPrice[i].value) || !numberReg2.test(itemSrcPrice[i].value)
                 || !numberReg2.test(itemCostPrice[i].value) || !numberReg2.test(itemDiscount[i].value) || !numberReg1.test(restrictAmount[i].value)
                 || (!numberReg4.test(recordHZ[i].value) && !numberReg4.test(recordGZ[i].value) && !numberReg4.test(recordSH[i].value))) {
                 isPost = false;
@@ -565,7 +570,7 @@ $(function(){
         if (inpT.length==0 && imgT.length!=0) {
             itemMasterImg = imgT[0].src;
             //截取图片的url
-            itemMasterImg  = itemMasterImg.substring(itemMasterImg.indexOf('/',itemMasterImg.indexOf('/')+2));
+            itemMasterImg  = itemMasterImg.substring(itemMasterImg.lastIndexOf('/')+1,itemMasterImg.length);
         }
         if (inpT.length!=0 && imgT.length!=0) itemMasterImg = inpT[0].value;
         //商品详细图
@@ -585,7 +590,7 @@ $(function(){
             var imgD = detailImg[i].getElementsByTagName("img");
             if(inpD.length==0 && imgD.length!=0) {
                 var detV  = imgD[0].src;
-                detV = detV.substring(detV.indexOf('/',detV.indexOf('/')+2));
+                detV = detV.substring(detV.lastIndexOf('/')+1,detV.length);
                 itemDetailImgs.push(detV);
             }
 //            if(inpD.length!=0 && imgD.length!=0) itemDetailImgs.push(inpD[0].value);
@@ -598,7 +603,7 @@ $(function(){
 //                console.log(spanArr);
             }
         }
-            console.log(itemDetailImgs);
+//            console.log(itemDetailImgs);
         //遍历所有属性及属性值累加到隐藏域features中且属性名或值不能为空
         var itemFeatures = {};
         var tabFea = document.getElementById("tabFea");
@@ -667,7 +672,9 @@ $(function(){
             var imgM = document.getElementById("galleryM"+i).getElementsByTagName("img");
             if (inpM.length==0 && imgM.length!=0) {
                 invImg = imgM[0].src;
-                invImg  = invImg.substring(invImg.indexOf('/',invImg.indexOf('/')+2));
+                var imgPath = splitArr[m].substring(splitArr[m].lastIndexOf('/')+1,splitArr[m].length-1);
+//                invImg  = invImg.substring(invImg.indexOf('/',invImg.indexOf('/')+2));
+                invImg  = invImg.substring(invImg.lastIndexOf('/')+1,invImg.length);
             }
            if (inpM.length!=0 && imgM.length!=0) invImg = inpM[0].value;
             //sku预览图
@@ -677,7 +684,7 @@ $(function(){
                 var imgP = imgs[j].getElementsByTagName("img");
                 if (inpP.length==0 && imgP.length!=0) {
                     imgsV = imgP[0].src;
-                    imgsV = imgsV.substring(imgsV.indexOf('/',imgsV.indexOf('/')+2));
+                    imgsV = imgsV.substring(imgsV.lastIndexOf('/')+1,imgsV.length);
                     itemPreviewImgs.push(imgsV);
                 }
                 if (inpP.length!=0 && imgP.length!=0) itemPreviewImgs.push(inpP[0].value);
@@ -741,6 +748,8 @@ $(function(){
 
         console.log(JSON.stringify(item));
         console.log(JSON.stringify(inventories));
+//        console.log(item.itemMasterImg);
+//        console.log(item.itemDetailImgs);
 //        console.log(JSON.stringify(itemData));
         console.log(isPost);
         if (isPost) {
