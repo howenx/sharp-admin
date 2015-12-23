@@ -155,7 +155,7 @@ form>h4,form>h5{
 }
 .form-group input{
     border: 0;outline: none;box-shadow: none;
-    width: 60%;margin-left: 10px;
+    width: 50%;margin-left: 10px;
 }
 .form-group input:focus{
     border: 0;outline: none;box-shadow: none;

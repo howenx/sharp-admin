@@ -13,6 +13,7 @@ import play.mvc.Security;
 import service.*;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -429,7 +430,7 @@ public class ItemCtrl extends Controller {
     public Result orderDetail(String lang,Long id){
         //获取订单
         Order order = orderService.getOrderById(id);
-        Object[] orderArray = new Object[7];
+        Object[] orderArray = new Object[9];
         orderArray[0] = order.getOrderId();       //订单Id
         orderArray[1] = order.getOrderCreateAt(); //订单创建时间
         orderArray[2] = order.getPayTotal();      //订单总费用
@@ -467,6 +468,8 @@ public class ItemCtrl extends Controller {
         if ("J".equals(order.getOrderStatus())) {
             orderArray[6] =  "拒收";
         }
+        orderArray[7] = order.getShipFee();     //邮费
+        orderArray[8] = order.getPostalFee();   //行邮税
         //获取订单收货信息
         OrderShip orderShip = orderShipService.getShipByOrderId(id);
         //遮挡身份证号中间8位
@@ -515,7 +518,7 @@ public class ItemCtrl extends Controller {
             //包含商品名的子订单商品
             List<Object[]> subOrderPart2 = new ArrayList<>();
             for(OrderLine orderLine : orderLineList){
-                Object[] object2 = new Object[6];
+                Object[] object2 = new Object[8];
                 Item item = service.getItem(orderLine.getItemId());
                 object2[0] = item.getItemTitle();    //名称
                 object2[1] = orderLine.getSkuImg();  //图片url
@@ -523,6 +526,9 @@ public class ItemCtrl extends Controller {
                 object2[3] = orderLine.getSkuColor();//颜色
                 object2[4] = orderLine.getPrice();   //价格
                 object2[5] = orderLine.getAmount();  //数量
+                object2[6] = 0;                      //优惠
+                BigDecimal amount = new BigDecimal(orderLine.getAmount());
+                object2[7] = orderLine.getPrice().multiply(amount);//总价
                 subOrderPart2.add(object2);
             }
             subOrderList.add(subOrderPart2);

@@ -317,9 +317,9 @@ $(function() {
 	}
 
 	$(".grid").on("click","input[type=radio]",function(){
-		//if($(".grid thead").find("tr").length==2){
-		$(".grid thead").find("tr").eq(1).prependTo(".grid tbody");
-		//}
+		if($(".grid thead").find("tr").length==2){
+			$(".grid thead").find("tr").eq(1).prependTo(".grid tbody");
+		}
 		$(this).parent().prev().html(1);
 		var arr= $(this).parents("tr").prevAll("tr");
 		for(var i=0;i<arr.length;i++){

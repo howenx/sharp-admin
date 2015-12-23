@@ -10,16 +10,13 @@
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
-<!--<script>-->
-    <!--$(function(){-->
-        <!--$('form').css("display","none");-->
-        <!--$('form').each(function(){-->
-            <!--if($(this).attr("dis")){-->
-                <!--$(this).css("display","block");-->
-            <!--}-->
-        <!--})-->
-    <!--})-->
-<!--</script>-->
+<script>
+    $(function(){
+        if($()){
+
+        }
+    })
+</script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"订单详情")
 
@@ -44,6 +41,20 @@
                 <span>订单编号:</span>
                 <input type="text" value="@orderDetail(0)" disabled>
             </div>
+            <div class="col-sm-6">
+                <span>商品总价:</span>
+                <input type="text" value="@orderDetail(4)" disabled>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-6">
+                <span>创建时间:</span>
+                <input type="text" value="@if(orderDetail(1)!=null){@(orderDetail(1).toString().substring(0,16))}" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>邮费:</span>
+                <input type="text" value="@orderDetail(7)" disabled>
+            </div>
         </div>
 
         <div class="form-group">
@@ -52,8 +63,8 @@
                 <input type="text" value="@orderShip.getDeliveryName()" disabled>
             </div>
             <div class="col-sm-6">
-                <span>创建时间:</span>
-                <input type="text" value="@if(orderDetail(1)!=null){@(orderDetail(1).toString().substring(0,16))}" disabled>
+                <span>行邮税:</span>
+                <input type="text" value="@orderDetail(8)" disabled>
             </div>
         </div>
 
@@ -63,8 +74,8 @@
                 <input type="text" value="@orderShip.getDeliveryCardNum()" disabled>
             </div>
             <div class="col-sm-6">
-                <span>订单总价:</span>
-                <input type="text" value="@orderDetail(2)" disabled>
+                <span>优惠:</span>
+                <input type="text" value="@orderDetail(3)" disabled>
             </div>
         </div>
 
@@ -74,9 +85,10 @@
                 <input type="text" value="@orderShip.getDeliveryTel()" disabled>
             </div>
             <div class="col-sm-6">
-                <span>优惠:</span>
-                <input type="text" value="@orderDetail(3)" disabled>
+                <span>实付款(含运费和行邮税):</span>
+                <input type="text" value="@orderDetail(2)" disabled>
             </div>
+
         </div>
 
         <div class="form-group">
@@ -85,9 +97,10 @@
                 <input type="text" value="@orderShip.getDeliveryCity()" disabled>
             </div>
             <div class="col-sm-6">
-                <span>实付款:</span>
-                <input type="text" value="@orderDetail(4)" disabled>
+                <span>支付方式:</span>
+                <input type="text" value="@orderDetail(5)" disabled>
             </div>
+
         </div>
 
         <div class="form-group">
@@ -96,26 +109,26 @@
                 <input type="text" value="@orderShip.getDeliveryAddress()" disabled>
             </div>
             <div class="col-sm-6">
-                <span>支付方式:</span>
-                <input type="text" value="@orderDetail(5)" disabled>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-6 col-sm-6">
                 <span>支付状态:</span>
                 <input type="text" value="@orderDetail(6)" disabled>
             </div>
+
         </div>
 
 
-        <h4>子订单详情(共@(subOrdersAll.size)个子订单):</h4>
+
+        <h4 style="font-size: 15px">子订单详情(共@(subOrdersAll.size)个子订单):</h4>
         @for(subOrder <- subOrdersAll){
-        @for(part1Detail <- subOrder.head){
+        @for(part1Detail <- subOrder(0)){
         <h5>子订单@part1Detail(9):</h5>
         <div class="form-group">
             <div class="col-sm-6">
                 <span>子订单编号:</span>
                 <input type="text" value="@part1Detail(0)" disabled>
+            </div>
+            <div class="col-sm-6">
+                <span>物流公司:</span>
+                <input type="text" value="@part1Detail(3)" disabled>
             </div>
         </div>
         <div class="form-group">
@@ -124,8 +137,8 @@
                 <input type="text" value="@part1Detail(1)" disabled>
             </div>
             <div class="col-sm-6">
-                <span>物流公司:</span>
-                <input type="text" value="@part1Detail(3)" disabled>
+                <span>运单号:</span>
+                <input type="text" value="@part1Detail(4)" disabled>
             </div>
         </div>
 
@@ -134,13 +147,6 @@
                 <span>支付报关状态:</span>
                 <input type="text" value="@part1Detail(2)" disabled>
             </div>
-            <div class="col-sm-6">
-                <span>运单号:</span>
-                <input type="text" value="@part1Detail(4)" disabled>
-            </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-sm-11">
                 <button type="button" class="btn btn-primary btn-sm pull-right check-logistics">
                     查看物流
@@ -153,6 +159,10 @@
                 </button>
             </div>
         </div>
+
+        <div class="form-group">
+
+        </div>
         }
         <div class="col-sm-11" style="padding-left: 80px">
             <h5>商品明细:</h5>
@@ -164,7 +174,7 @@
                     <td>优惠(元)</td>
                     <td>总价(元)</td>
                 </tr>
-                @for(part2Detail <- subOrder.last){
+                @for(part2Detail <- subOrder(1)){
                 <tr>
                     <td>
                         <img src="@url@part2Detail(1)" alt="" width="40" height="40">
@@ -172,8 +182,8 @@
                     </td>
                     <td>@part2Detail(4)</td>
                     <td>@part2Detail(5)</td>
-                    <td>5</td>
-                    <td>120.9</td>
+                    <td>@part2Detail(6)</td>
+                    <td>@part2Detail(7)</td>
                 </tr>
                 }
             </table>
@@ -185,7 +195,7 @@
                 <input type="text" value="@part1Detail(5)" disabled>
             </div>
             <div class="col-sm-6">
-                <span>订单总价:</span>
+                <span>商品总价:</span>
                 <input type="text" style="width: auto"  value="@part1Detail(7)" disabled>
             </div>
         </div>
@@ -196,7 +206,7 @@
                 <input type="text" value="@part1Detail(6)" disabled>
             </div>
             <div class="col-sm-6">
-                <span>实付款:</span>
+                <span>实付款(含运费和行邮税):</span>
                 <input type="text" value="@part1Detail(8)" disabled>
             </div>
         </div>
