@@ -170,14 +170,7 @@ $(function(){
 //                console.log("data.path:"+data.path);
 //                console.log("data.imgid:"+data.imgid);
 //                console.log("data.minify_url:"+data.minify_url);
-                var input= document.createElement("input");
-                imgName = data.oss_url;
-                input.id = imgName.substr(0,imgName.lastIndexOf("."));
-                input.type="hidden";
-                input.name=data.oss_url;
-                input.value=data.oss_url;
-                thumb.appendChild(input);
-                alert(data.message);
+                thumb.getElementsByTagName("img")[0].src = data.oss_prefix+data.oss_url;
 
                 //上传商品详细图分割
                 if (id.indexOf("D")>=0) {
@@ -187,10 +180,9 @@ $(function(){
                     http2.onreadystatechange = function() {
                         if (http2.readyState == 4 && http2.status == 200) {
                             var data2 = JSON.parse(http2.responseText);
-                            var span = document.createElement("span");
-                            span.style.display = "none";
+                            var input = document.createElement("input");
+                            input.type="hidden";
                             var splitArr = data2.split_url;
-//                            console.log("data.split_url:"+data2.split_url);
                             splitArr =  splitArr.substring(1,splitArr.length-1);
                             var splitArr = splitArr.split(",");
                             var imgArr = [];
@@ -198,9 +190,8 @@ $(function(){
                                 var imgPath = splitArr[m].substring(splitArr[m].lastIndexOf('/')+1,splitArr[m].length-1);
                                 imgArr.push(imgPath);
                             }
-                            span.innerHTML = imgArr;
-//                            console.log("imgArr:"+imgArr);
-                            thumb.appendChild(span);
+                            input.value = imgArr;
+                            thumb.appendChild(input);
                         }
                     }
                     http2.send();
@@ -591,15 +582,10 @@ $(function(){
             $("#warn-masthimg").text("");
         }
 
-        var inpT = galleryT.getElementsByTagName("input");
         var imgT = galleryT.getElementsByTagName("img");
-        //主题宣传图 来源为读取商品图片/上传新图片
-        if (inpT.length==0 && imgT.length!=0) {
-            itemMasterImg = imgT[0].src;
-            //截取图片的url
-            itemMasterImg  = itemMasterImg.substring(itemMasterImg.lastIndexOf('/')+1,itemMasterImg.length);
-        }
-        if (inpT.length!=0 && imgT.length!=0) itemMasterImg = inpT[0].value;
+        //主题宣传图
+        itemMasterImg = imgT[0].src;
+        itemMasterImg  = itemMasterImg.substring(itemMasterImg.lastIndexOf('/')+1,itemMasterImg.length);
         //商品详细图
         var galleryD = document.getElementById("galleryD");
         var detailImg = galleryD.getElementsByTagName("div");
@@ -626,14 +612,14 @@ $(function(){
                 itemDetailImgs.push(imgArr);
             }
             if(inpD.length!=0 && imgD.length!=0) {
-                var spanDArr = spanD[1].innerHTML.split(",");
-                for(s=0;s<spanDArr.length;s++){
-                    spanArr.push(spanDArr[s]);
+                var inpDArr = inpD[0].value.split(",");
+                for(s=0;s<inpDArr.length;s++){
+                    spanArr.push(inpDArr[s]);
                 }
                 itemDetailImgs.push(spanArr);
             }
         }
-//            console.log(itemDetailImgs.toString());
+            console.log(itemDetailImgs.toString());
         //遍历所有属性及属性值累加到隐藏域features中且属性名或值不能为空
         var itemFeatures = {};
         var tabFea = document.getElementById("tabFea");
@@ -696,26 +682,18 @@ $(function(){
             var postalTaxCode = tds[13].getElementsByTagName("input")[0].value;
             var invArea = tds[14].getElementsByTagName("select")[0].value;
             var invCustoms = tds[15].getElementsByTagName("select")[0].value;
-            //sku主图 来源为读取商品图片/上传新图片
+            //sku主图
             var invImg = "";
-            var inpM = document.getElementById("galleryM"+i).getElementsByTagName("input");
             var imgM = document.getElementById("galleryM"+i).getElementsByTagName("img");
-            if (inpM.length==0 && imgM.length!=0) {
-                invImg = imgM[0].src;
-                invImg  = invImg.substring(invImg.lastIndexOf('/')+1,invImg.length);
-            }
-           if (inpM.length!=0 && imgM.length!=0) invImg = inpM[0].value;
-            //sku预览图 来源为读取商品图片/上传新图片
+            invImg = imgM[0].src;
+            invImg  = invImg.substring(invImg.lastIndexOf('/')+1,invImg.length);
+            //sku预览图
             imgs = document.getElementById("galleryP"+i).getElementsByTagName("div");
             for(j=0;j<imgs.length;j++) {
-                var inpP = imgs[j].getElementsByTagName("input");
                 var imgP = imgs[j].getElementsByTagName("img");
-                if (inpP.length==0 && imgP.length!=0) {
-                    imgsV = imgP[0].src;
-                    imgsV = imgsV.substring(imgsV.lastIndexOf('/')+1,imgsV.length);
-                    itemPreviewImgs.push(imgsV);
-                }
-                if (inpP.length!=0 && imgP.length!=0) itemPreviewImgs.push(inpP[0].value);
+                imgsV = imgP[0].src;
+                imgsV = imgsV.substring(imgsV.lastIndexOf('/')+1,imgsV.length);
+                itemPreviewImgs.push(imgsV);
             }
             //拼装成一条数据
             var inventory = new Object();

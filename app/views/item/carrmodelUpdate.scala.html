@@ -31,7 +31,7 @@
         cityName = obj.cityName;
         cityNameGiven = cityName.join(" ");
         cityCodeGiven = cityCode.join(",");
-        $('.add-temp').parents("tr").before('<tr>' +
+        $('.add-temp').parents("tr").before('<tr style="display:;">' +
                 '<td width="300"><span>'+cityNameGiven+' </span><a href="javascript:void(0)" class="edit" style="float: right">编辑</a><span class="cnm" style="display:none;">'+
                 cityCodeGiven +
                 '</span></td>' +
@@ -273,8 +273,6 @@
                     if($("#modelCode").val() != "") {
                         setTimeout("location.href='/"+window.lang+"/carr/search'", 3000);
                     }
-                    //运费模板添加, 成功后返回到内模板列表页面
-                    else setTimeout("location.href='/"+window.lang+"/carr/search'", 3000);
                 }
             });
         }
@@ -284,11 +282,13 @@
 
 <script>
     $(function(){
-    //修改默认模板,模板名称不能修改
-    if($("#modelName").val()=="默认模板") {
-        document.getElementById("modelName").disabled = true;
-        $(".define").hide() ;
-    }
+
+        //修改默认模板,模板名称不能修改
+        if($("#modelName").val()=="默认模板") {
+            document.getElementById("modelName").disabled = true;
+            $(".define").hide() ;
+        }
+
         var arr = [];
         var obj1 = new Object();  obj1.cityCode = "AH";  obj1.cityName = "安徽";   arr.push(obj1);
         var obj2 = new Object();  obj2.cityCode = "FJ";  obj2.cityName = "福建";   arr.push(obj2);
@@ -335,33 +335,31 @@
         var obj40 = new Object();  obj40.cityCode = "SouthAmerica"; obj40.cityName = "南美洲"; arr.push(obj40);
         var obj41 = new Object();  obj41.cityCode = "Oceania";      obj41.cityName = "大洋洲"; arr.push(obj41);
 
-
-
-    var dataTab = document.getElementById("dataTab");
-    var trs = document.getElementsByTagName("tr");
-    var index = 2;
-    for(i=2;i<trs.length-1;i++) {
-        //要显示的行的索引
-        trs[2].style.display = "";
-        var city = trs[i].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText;
-        for(j=0;j<arr.length;j++) {
-            if (city==arr[j].cityCode) {
-                trs[i].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText = arr[j].cityName;
+        var dataTab = document.getElementById("dataTab");
+        var trs = document.getElementsByTagName("tr");
+        var index = 2;
+        for(i=2;i<trs.length-1;i++) {
+            //要显示的行的索引
+            trs[2].style.display = "";
+            var city = trs[i].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText;
+            for(j=0;j<arr.length;j++) {
+                if (city==arr[j].cityCode) {
+                    trs[i].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText = arr[j].cityName;
+                }
+            }
+            //比较两行的数据是否相同,相同:配送地点合并,不相同:显示该行
+            if (i>2 && trs[i].getElementsByTagName("td")[1].getElementsByTagName("input")[0].value==trs[i-1].getElementsByTagName("td")[1].getElementsByTagName("input")[0].value) {
+                //配送地合并到当前显示行,配送地编码合并到span隐藏域
+                trs[index].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText = trs[index].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText+" "+trs[i].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText;
+                trs[index].getElementsByTagName("td")[0].getElementsByTagName("span")[1].innerText = trs[index].getElementsByTagName("td")[0].getElementsByTagName("span")[1].innerText+","+trs[i].getElementsByTagName("td")[0].getElementsByTagName("span")[1].innerText;
+                trs[i].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText="";
+                trs[i].style.display = "none";
+            }
+            if (i>2 && trs[i].getElementsByTagName("td")[1].getElementsByTagName("input")[0].value!=trs[i-1].getElementsByTagName("td")[1].getElementsByTagName("input")[0].value) {
+                index = i;
+                trs[i].style.display = "";
             }
         }
-        //比较两行的数据是否相同,相同:配送地点合并,不相同:显示该行
-        if (i>2 && trs[i].getElementsByTagName("td")[1].getElementsByTagName("input")[0].value==trs[i-1].getElementsByTagName("td")[1].getElementsByTagName("input")[0].value) {
-            //配送地合并到当前显示行,配送地编码合并到span隐藏域
-            trs[index].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText = trs[index].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText+" "+trs[i].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText;
-            trs[index].getElementsByTagName("td")[0].getElementsByTagName("span")[1].innerText = trs[index].getElementsByTagName("td")[0].getElementsByTagName("span")[1].innerText+","+trs[i].getElementsByTagName("td")[0].getElementsByTagName("span")[1].innerText;
-            trs[i].getElementsByTagName("td")[0].getElementsByTagName("span")[0].innerText="";
-            trs[i].style.display = "none";
-        }
-        if (i>2 && trs[i].getElementsByTagName("td")[1].getElementsByTagName("input")[0].value!=trs[i-1].getElementsByTagName("td")[1].getElementsByTagName("input")[0].value) {
-            index = i;
-            trs[i].style.display = "";
-        }
-    }
 
     })
 
