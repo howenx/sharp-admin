@@ -35,7 +35,7 @@
         }
         else {
             // for similar functionality in Opera, but it's not modal!
-            var modal = window.open ("/topic/add/popup", null, "width=1200,height=600,left=300,modal=yes,alwaysRaised=yes", null);
+            var modal = window.open("/topic/add/popup", null, "width=1200,height=600,left=300,modal=yes,alwaysRaised=yes", null);
             modal.dialogArguments = sharedObject;
         }
     }
@@ -51,7 +51,7 @@
         }
         else {
             // for similar functionality in Opera, but it's not modal!
-            var modal = window.open ("/topic/add/popup", null, "width=1200,height=600,left=300,modal=yes,alwaysRaised=yes", null);
+            var modal = window.open("/topic/add/popup", null, "width=1200,height=600,left=300,modal=yes,alwaysRaised=yes", null);
             modal.dialogArguments = sharedObject;
         }
     }
@@ -112,7 +112,7 @@
         img.file = file;
         $(img).width('100%');
         $(img).height('100%');
-        $(img).css("float","left");
+        $(img).css("float", "left");
         $(gallery).append($(img));
         upload(gallery, file);
         // Using FileReader to display the image content
@@ -160,11 +160,11 @@
                     return $helper;
                 },
                 updateIndex = function (e, ui) {
-                    if($("thead").find('tr').length==2){
+                    if ($("thead").find('tr').length == 2) {
                         $('td.index', ui.item.parent()).each(function (i) {
                             $(this).html(i + 2);
                         });
-                    }else{
+                    } else {
                         $('td.index', ui.item.parent()).each(function (i) {
                             $(this).html(i + 1);
                         });
@@ -200,11 +200,11 @@
         });
 //        upload-lable
         $(document).on('change', '#upload-label', function () {
-            if($(this).val()){
+            if ($(this).val()) {
                 var files = this.files;
                 var label_img = $('#dragon-container');
                 $(label_img).find("img").remove();
-            }else{
+            } else {
                 var label_img = $('#dragon-container');
             }
             for (var i = 0; i < files.length; i++) {
@@ -314,7 +314,7 @@
                             <label class="radio">拼购打折1</label>
                             <input type="radio" data-xr='q_youjipin2' class="set-main temp_radio_class" name="setMain">
                             <label class="radio">拼购打折2</label>
-                            <input type="radio" data-xr='shop_unpack' class="set-main temp_radio_class" name="setMain">
+                            <input type="radio" data-xr='shop_unpack' class="set-main temp_radio_class" name="setMain" checked>
                             <label class="radio">批购</label>
                             <input type="radio" data-xr='upload-img' class="set-main temp_radio_class" name="setMain">
                             <label class="radio">上传</label>
@@ -542,27 +542,45 @@
                                 </div>
                             </div>
                             <!--pigou1111111111111-->
-                            <div class='li-dv'>
+                            <input type="file" class="unpack_img" style="display: none">
+                            <div class='li-dv' style='display: block;'>
                                 <div id='shop_unpack' name="temp_unpack" class="li sync-hide auto">
                                     <div class='li unpack-temp-img' id='unpack_img'>
-                                        <img class=".main-img"
-                                             src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8"
-                                             alt="">
                                     </div>
                                     <div id='unpack_title' class='unpack-title-container'>
-                                        <span>
-                                            <b id='unpack_discount' style="font-weight: normal;">20</b>
-                                            <b style="font-size: 17px;font-weight: normal;">%</b>
-                                        </span>
-
+						<span>
+							<b id='unpack_discount' style="font-weight: normal;">20</b>
+							<b style="font-size: 17px;font-weight: normal;">%</b>
+						</span>
                                         <div id='unpack_price_origin'>￥600.00</div>
                                         <div id='unpack_price_current'>￥480.00</div>
                                         <div id='unpack_vertical_line'></div>
-                                        <div id='unpack_span'>拼购打折<b style="font-size: xx-small;font-weight:normal;">(最低)</b>
+                                        <div id='unpack_span'>拼购打你吗<b style="font-size: xx-small;font-weight:normal;">(最低)</b>
                                         </div>
                                         <div id='unpack_price_unpack'>￥400.00</div>
                                     </div>
                                 </div>
+
+                                <!--<div id='shop_unpack' name="temp_unpack" class="li sync-hide auto">-->
+                                <!--<div class='li unpack-temp-img' id='unpack_img'>-->
+                                <!--<img class=".main-img"-->
+                                <!--src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8"-->
+                                <!--alt="">-->
+                                <!--</div>-->
+                                <!--<div id='unpack_title' class='unpack-title-container'>-->
+                                <!--<span>-->
+                                <!--<b id='unpack_discount' style="font-weight: normal;">20</b>-->
+                                <!--<b style="font-size: 17px;font-weight: normal;">%</b>-->
+                                <!--</span>-->
+
+                                <!--<div id='unpack_price_origin'>￥600.00</div>-->
+                                <!--<div id='unpack_price_current'>￥480.00</div>-->
+                                <!--<div id='unpack_vertical_line'></div>-->
+                                <!--<div id='unpack_span'>拼购打折<b style="font-size: xx-small;font-weight:normal;">(最低)</b>-->
+                                <!--</div>-->
+                                <!--<div id='unpack_price_unpack'>￥400.00</div>-->
+                                <!--</div>-->
+                                <!--</div>-->
                                 <!--<div class="pre_temp sync-hide" >-->
                                 <!--<label>折扣：<input style='width: 235px;' type="text"></label>-->
                                 <!--<label>原价：<input style='width: 235px;' type="text"></label>-->

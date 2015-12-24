@@ -46,7 +46,29 @@ $(function() {
 			$(this).parent().parent().next().next().children().last().children().first().first().prop('disabled', false);
 		}
 	})
-	
+	/*****品购模版******/
+	$("#unpack_img").click(function(){
+		$(".unpack_img").click();
+	})
+	$(".unpack_img").change(function(){
+		var file = this.files[0];
+
+		var formdata = new FormData();
+		formdata.append("photo", file);
+		formdata.append("params", "minify");
+		var http = new XMLHttpRequest();
+		var url = "http://172.28.3.18:3008/upload";
+		http.open("POST", url, true);
+		http.onreadystatechange = function () {
+			if (http.readyState == 4 && http.status == 200) {
+				var data = JSON.parse(http.responseText);
+				console.log(data);
+				var str = data.oss_prefix+data.oss_url;
+				$("#unpack_img").css({"background":"url("+ str +")","backgroundSize":"100%"})
+			}
+		}
+		http.send(formdata);
+	})
 	/**** preview the template event.. ****/
 	$(document).on("click", "a[name='pre_unpack_bt']", function() {
 		data_array.length = 0;
@@ -218,11 +240,12 @@ $(function() {
 			data_array.length = 0;
 			data_array.push($("#upload-img").find("img").attr("src"));
 			console.log(data_array);
-		}else if($("input[data-xr=shop_unpack]").is(':checked')){
-			data_array.length = 0;
-			data_array.push($("#shop_unpack").find("img").attr("src"));
-			console.log(data_array);
 		}
+		//else if($("input[data-xr=shop_unpack]").is(':checked')){
+		//	data_array.length = 0;
+		//	data_array.push($("#shop_unpack").find("img").attr("src"));
+		//	console.log(data_array);
+		//}
 		//console.log(JSON.parse(JSON.stringify(data_array)));
 		$check = $('input[name=setMain]:checked');
 		//console.log($('#' + $check.attr('data-xr')).width());
