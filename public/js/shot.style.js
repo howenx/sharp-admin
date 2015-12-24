@@ -212,8 +212,13 @@ $(function() {
 		console.log(data_array);
 	})
 
+
+
+
+
 	/** submit to nwjs shootscreen. **/
 	$('#submit').on("click", function() {
+	    /*
 		if($("input[data-xr=upload-img]").is(':checked')){
 			data_array.length = 0;
 			data_array.push($("#upload-img").find("img").attr("src"));
@@ -254,6 +259,42 @@ $(function() {
 		} else {
 			alert('Please check the templates.');
 		}
+		*/
+
+           var html = $("#q_youjipin2").outerHTML;
+           var width = $("#q_youjipin2").width();
+           var height = $("#q_youjipin2").height();
+          $check = $('input[name=setMain]:checked');
+          console.log(html);
+          console.log(width);
+          console.log(height);
+
+          if ($check.length === 1) {
+             $.ajax({
+                         url: "http://172.28.3.51:3008/cut", //Server script to process data
+                         type: 'post',
+                         data: {
+                            html: '' +,
+                            width:width,
+                            height:height
+                         },
+                         success: function(data) {
+                            console.log(JSON.stringify(data));
+                            themeImg = data.oss_url;
+                            window.open(data.shot_url,'_blank');
+                         },
+                         error: function(data, error, errorThrown) {
+                            if (data.status && data.status >= 400) {
+                               alert(data.responseText);
+                            } else {
+                               alert("Something went wrong");
+                            }
+                         }
+                      });
+          } else {
+             alert('Please check the templates.');
+          }
+
 
 	});
 
