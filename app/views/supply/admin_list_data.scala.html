@@ -27,10 +27,10 @@
         <div class="col-md-2 input-group" >
             <span class="input-group-addon">状态:</span>
             <select id="stat" class="form-control" onchange="javascript:state(this, @category_id);">
-                <option @{status match {case None=>{"selected"} case _=>{}}} value=""></option>
-                <option @{status match {case Some("I")=>{"selected"} case _=>{}}} value="I">未翻译(미번역)</option>
-                <option @{status match {case Some("T")=>{"selected"} case _=>{}}} value="T">已翻译(번역완료)</option>
-                <option  @{status match {case Some("A")=>{"selected"} case _=>{}}} value="A">已追加(보충했음)</option>
+                <option @{status match {case None=>{"selected"} case _=>{}}} value="">全部</option>
+                <option @{status match {case Some("I")=>{"selected"} case _=>{}}} value="I">未翻译</option>
+                <option @{status match {case Some("T")=>{"selected"} case _=>{}}} value="T">已翻译</option>
+                <option  @{status match {case Some("A")=>{"selected"} case _=>{}}} value="A">已追加</option>
             </select>
         </div>
             <input id="search_cat@(category_id)" type="hidden" class="form-control" value="@(category_id)">
