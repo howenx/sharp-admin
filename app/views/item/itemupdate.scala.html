@@ -144,7 +144,7 @@
                                     <th>设为主商品</th>
                                     <th>颜色分类</th>
                                     <th>尺寸分类</th>
-                                    <th>重量(克)</th>
+                                    <th>重量(整数:克)</th>
                                     <th>库存数量</th>
                                     <th>现价(￥)</th>
                                     <th>原价(￥)</th>
@@ -197,10 +197,15 @@
                                     <td>
                                         <input id="mList" type="hidden" value="@modelList">
                                         <select name="carriageModelCode">
-                                            <option value="@obj(22)">@obj(23)</option>
                                             @for(m <- modelList) {
-                                            <option value="@m.getModelCode()">@m.getModelName()
-                                            </option>
+                                                @if(obj(22)==m.getModelCode()) {
+                                                <option value="@m.getModelCode()" selected>@m.getModelName()
+                                                </option>
+                                                }
+                                                @if(obj(22)!=m.getModelCode()) {
+                                                <option value="@m.getModelCode()">@m.getModelName()
+                                                </option>
+                                                }
                                             }
                                         </select>
                                     </td>
@@ -232,8 +237,8 @@
                                         }
                                         @if(obj(16)== "HZ") {
                                         <select name="invArea">
-                                            <option value="HZ">杭州保税仓直邮</option>
                                             <option value="H">杭州保税仓备案</option>
+                                            <option value="HZ" selected>杭州保税仓直邮</option>
                                             <option value="G">广州保税仓备案</option>
                                             <option value="GZ">广州保税仓直邮</option>
                                             <option value="S">上海保税仓备案</option>
@@ -243,9 +248,9 @@
                                         }
                                         @if(obj(16)== "G") {
                                         <select name="invArea">
-                                            <option value="G">广州保税仓备案</option>
-                                            <option value="HZ">杭州保税仓直邮</option>
                                             <option value="H">杭州保税仓备案</option>
+                                            <option value="HZ">杭州保税仓直邮</option>
+                                            <option value="G" selected>广州保税仓备案</option>
                                             <option value="GZ">广州保税仓直邮</option>
                                             <option value="S">上海保税仓备案</option>
                                             <option value="SZ">上海保税仓直邮</option>
@@ -254,10 +259,10 @@
                                         }
                                         @if(obj(16)== "GZ") {
                                         <select name="invArea">
-                                            <option value="GZ">广州保税仓直邮</option>
-                                            <option value="HZ">杭州保税仓直邮</option>
                                             <option value="H">杭州保税仓备案</option>
+                                            <option value="HZ">杭州保税仓直邮</option>
                                             <option value="G">广州保税仓备案</option>
+                                            <option value="GZ" selected>广州保税仓直邮</option>
                                             <option value="S">上海保税仓备案</option>
                                             <option value="SZ">上海保税仓直邮</option>
                                             <option value="K">海外直邮</option>
@@ -265,58 +270,58 @@
                                         }
                                         @if(obj(16)== "S") {
                                         <select name="invArea">
-                                            <option value="S">上海保税仓备案</option>
                                             <option value="H">杭州保税仓备案</option>
                                             <option value="HZ">杭州保税仓直邮</option>
                                             <option value="G">广州保税仓备案</option>
                                             <option value="GZ">广州保税仓直邮</option>
+                                            <option value="S" selected>上海保税仓备案</option>
                                             <option value="SZ">上海保税仓直邮</option>
                                             <option value="K">海外直邮</option>
                                         </select>
                                         }
                                         @if(obj(16)== "SZ") {
                                         <select name="invArea">
-                                            <option value="SZ">上海保税仓直邮</option>
                                             <option value="H">杭州保税仓备案</option>
                                             <option value="HZ">杭州保税仓直邮</option>
                                             <option value="G">广州保税仓备案</option>
                                             <option value="GZ">广州保税仓直邮</option>
                                             <option value="S">上海保税仓备案</option>
+                                            <option value="SZ" selected>上海保税仓直邮</option>
                                             <option value="K">海外直邮</option>
                                         </select>
                                         }
                                         @if(obj(16)== "K") {
                                         <select name="invArea">
-                                            <option value="K">海外直邮</option>
                                             <option value="H">杭州保税仓备案</option>
                                             <option value="HZ">杭州保税仓直邮</option>
                                             <option value="G">广州保税仓备案</option>
                                             <option value="GZ">广州保税仓直邮</option>
                                             <option value="S">上海保税仓备案</option>
                                             <option value="SZ">上海保税仓直邮</option>
+                                            <option value="K" selected>海外直邮</option>
                                         </select>
                                         }
                                     </td>
                                     <td>
                                         @if(obj(18)== "shanghai") {
                                         <select name="invCustoms">
-                                            <option value="shanghai">上海海关</option>
+                                            <option value="shanghai" selected>上海海关</option>
                                             <option value="hangzhou">杭州海关</option>
+                                            <option value="guangzhou">广州海关</option>
+                                        </select>
+                                        }
+                                        @if(obj(18)== "hangzhou") {
+                                        <select name="invCustoms">
+                                            <option value="shanghai">上海海关</option>
+                                            <option value="hangzhou" selected>杭州海关</option>
                                             <option value="guangzhou">广州海关</option>
                                         </select>
                                         }
                                         @if(obj(18)== "guangzhou") {
                                         <select name="invCustoms">
-                                            <option value="guangzhou">广州海关</option>
                                             <option value="shanghai">上海海关</option>
                                             <option value="hangzhou">杭州海关</option>
-                                        </select>
-                                        }
-                                        @if(obj(18)== "hangzhou") {
-                                        <select name="invCustoms">
-                                            <option value="hangzhou">杭州海关</option>
-                                            <option value="shanghai">上海海关</option>
-                                            <option value="guangzhou">广州海关</option>
+                                            <option value="guangzhou" selected>广州海关</option>
                                         </select>
                                         }
                                     </td>

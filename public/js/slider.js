@@ -83,7 +83,9 @@ $(function() {
 				slider.id = $(this).attr('data-index');
 				slider.sortNu = $(this).attr('data-sort');
 				var regex = new RegExp(window.url,"gi");
-				slider.img = $(this).attr('src').replace(regex,'');
+//				slider.img = $(this).attr('src').replace(regex,'');
+                var imgUrl = $(this).attr('src');
+				slider.img = imgUrl.substring(imgUrl.lastIndexOf('/')+1,imgUrl.length);
 				slider.itemTarget = $(this).attr('data-target');
                 slider.targetType = $(this).attr('data-type');
 				slider_array.push(slider);
@@ -186,9 +188,12 @@ $(function() {
 			http.onreadystatechange = function() {
 				if (http.readyState == 4 && http.status == 200) {
 					var data = JSON.parse(http.responseText);
+//					console.log("data.oss_prefix:"+data.oss_prefix);
+//                    console.log("data.oss_url:"+data.oss_url);
+//                    console.log("data.path:"+data.path);
+//                    console.log("data.imgid:"+data.imgid);
+//                    console.log("data.minify_url:"+data.minify_url);
 
-					// console.log(data);
-					
 					change_flag=true;
 					
 					$('.usercenter-option > .user-state').css('background-position', '20px -73px');
@@ -200,7 +205,7 @@ $(function() {
 					}
 					
 					//替换dataURL为返回的服务器保存的url
-					$thumb.find('.slider-content-img').attr('src', data.minify_url);
+					$thumb.find('.slider-content-img').attr('src', data.oss_prefix+data.oss_url);
 
 					if (window.lang = 'cn') {
 						$('#js-userinfo-error').text('图片上传成功').css('color', '#2fa900')

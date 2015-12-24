@@ -15,6 +15,7 @@
             $(".goods-img").css("left", ($(window).width() - 1200) / 2);
             $(this).clone().appendTo($(".goods-img")).css({
                 "width": "100%",
+                "height":"800px",
                 "z-index": 1000
             });
         })
@@ -113,7 +114,7 @@
                                 <th>是否主商品</th>
                                 <th>颜色分类</th>
                                 <th>尺寸分类</th>
-                                <th>重量(克)</th>
+                                <th>重量(整数:克)</th>
                                 <th>库存数量</th>
                                 <th>现价(￥)</th>
                                 <th>原价(￥)</th>
