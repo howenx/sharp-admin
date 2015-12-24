@@ -273,7 +273,7 @@ body {
 }
 .qubian .preview-img div,.qubian .list-img div, .master-img div, .detail-img div{
 	display:inline-block;position: relative;
-	margin-top:0px;margin-left: 5px;
+	margin-top:3px;margin-left: 5px;
 }
 .qubian .preview-img .add,.qubian .list-img .add, .master-img .add, .detail-img .add{
 	width: 40px;height:25px;display: inline-block;line-height: 22px;

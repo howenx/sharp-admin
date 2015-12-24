@@ -53,8 +53,8 @@ $(function(){
         });
     });
 
-    /** 修改主图和预览图所在div的id值,修改页面使用 **/
     if ($("#itemId").val() != "") {
+        //修改主图和预览图所在div的id值,修改页面使用
         var upInv = document.getElementById("inventory");
         var uptrs = inventory.getElementsByTagName("tr");
         for(i=1;i<uptrs.length;i++) {
@@ -68,6 +68,30 @@ $(function(){
             uptds[18].getElementsByTagName("span")[0].id = "preImgAddP"+i;
             uptds[18].getElementsByTagName("input")[0].id = "P"+i;
         }
+
+        //修改页面二级类别列表加载数据
+        var pcid = $("#categorySelect").val();
+        $.ajax({
+            type: "get",
+            data: "pcid="+ pcid,
+            url: "/getSubcates",
+            success: function(data) {
+                if (typeof data != undefined && data.length > 0 && data != null) {
+                    $('#categorySubSelect').empty();
+                    $.each(data, function (i, item) {
+                            if (item.cateId==$("#catesId").val()) {
+                                $('#categorySubSelect').append("<option selected value=" + item.cateId + ">" + item.cateNm + "</option>");
+                            }
+                            if (item.cateId!=$("#catesId").val()) {
+                                $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNm + "</option>");
+                            }
+                    });
+                }
+                else {
+                    $("#categorySubSelect").empty();
+                }
+            }
+        });
     }
 
     /** 上传图片 **/
@@ -238,11 +262,12 @@ $(function(){
             if (i ==17 && trs[index-1].getElementsByClassName("list-img")[0].getElementsByTagName("div").length==1) break;
             if (i ==18 && trs[index-1].getElementsByClassName("preview-img")[0].getElementsByTagName("div").length==1) break;
         }
-        if (i==19){
+//        if (i==19){
+        if (true){
             var tr =  document.createElement("tr");
 
             var tdR = document.createElement("td");
-            tdR.innerHTML = '<input type="radio" name="orMasterInv" checked="checked" class="master-radio"/>';
+            tdR.innerHTML = '<input type="radio" name="orMasterInv" class="master-radio"/>';
 
             var tdC = document.createElement("td");
             tdC.innerHTML = '<input type="text" name="itemColor">';
@@ -294,13 +319,14 @@ $(function(){
             tdTRSet.innerHTML = '<select class="trset" id="'+index+'"><option value="">请选择</option><option value="S">标准税率</option><option value="F">免税</option><option value="D">自定义</option></select>';
 
             var tdTRate = document.createElement("td");
-            tdTRate.innerHTML = '<input type="text" name="postalTaxRate">';
+            tdTRate.innerHTML = '<input type="text" name="postalTaxRate" readOnly>';
 
             var tdTCode = document.createElement("td");
-            tdTCode.innerHTML = '<input type="text" name="postalTaxCode">';
+            tdTCode.innerHTML = '<input type="text" name="postalTaxCode" readOnly>';
 
             var tdIA = document.createElement("td");
-            tdIA.innerHTML = '<select><option value="Z">韩国直邮</option><option value="H">杭州保税仓</option><option value="G">广州保税仓</option><option value="K">海外直邮</option></select>';
+            tdIA.innerHTML = '<select><option value="H">杭州保税仓备案</option><option value="HZ">杭州保税仓直邮</option><option value="G">广州保税仓备案</option><option value="GZ">广州保税仓直邮</option>'+
+                                      '<option value="S">上海保税仓备案</option><option value="SZ">上海保税仓直邮</option><option value="K">海外直邮</option></select>';
 
             var tdCus = document.createElement("td");
             tdCus.innerHTML = '<select><option value="shanghai">上海海关</option><option value="hangzhou">杭州海关</option><option value="guangzhou">广州海关</option></select>';
@@ -328,7 +354,7 @@ $(function(){
             tdMI.appendChild(spanAdd);
 
             var tdPI = document.createElement("td");
-            tdPI.width="146px";
+            tdPI.style.whiteSpace = "nowrap";
             tdPI.classList.add('preview-img');
             var divPre = document.createElement("div");
             divPre.id = "galleryP"+index;
@@ -564,9 +590,10 @@ $(function(){
         } else {
             $("#warn-masthimg").text("");
         }
-        //修改页面图片来源为读取商品的信息不是上传  商品主题图
+
         var inpT = galleryT.getElementsByTagName("input");
         var imgT = galleryT.getElementsByTagName("img");
+        //主题宣传图 来源为读取商品图片/上传新图片
         if (inpT.length==0 && imgT.length!=0) {
             itemMasterImg = imgT[0].src;
             //截取图片的url
@@ -588,22 +615,25 @@ $(function(){
             var spanD = detailImg[i].getElementsByTagName("span");
             var inpD = detailImg[i].getElementsByTagName("input");
             var imgD = detailImg[i].getElementsByTagName("img");
+            //图片来源为读取商品图片/上传新图片
             if(inpD.length==0 && imgD.length!=0) {
-                var detV  = imgD[0].src;
-                detV = detV.substring(detV.lastIndexOf('/')+1,detV.length);
-                itemDetailImgs.push(detV);
+                var imgArr = [];
+                for(d=0;d<imgD.length;d++) {
+                    var detV  = imgD[d].src;
+                    detV = detV.substring(detV.lastIndexOf('/')+1,detV.length);
+                    imgArr.push(detV);
+                }
+                itemDetailImgs.push(imgArr);
             }
-//            if(inpD.length!=0 && imgD.length!=0) itemDetailImgs.push(inpD[0].value);
             if(inpD.length!=0 && imgD.length!=0) {
                 var spanDArr = spanD[1].innerHTML.split(",");
                 for(s=0;s<spanDArr.length;s++){
                     spanArr.push(spanDArr[s]);
                 }
                 itemDetailImgs.push(spanArr);
-//                console.log(spanArr);
             }
         }
-//            console.log(itemDetailImgs);
+//            console.log(itemDetailImgs.toString());
         //遍历所有属性及属性值累加到隐藏域features中且属性名或值不能为空
         var itemFeatures = {};
         var tabFea = document.getElementById("tabFea");
@@ -666,18 +696,16 @@ $(function(){
             var postalTaxCode = tds[13].getElementsByTagName("input")[0].value;
             var invArea = tds[14].getElementsByTagName("select")[0].value;
             var invCustoms = tds[15].getElementsByTagName("select")[0].value;
-            //sku主图
+            //sku主图 来源为读取商品图片/上传新图片
             var invImg = "";
             var inpM = document.getElementById("galleryM"+i).getElementsByTagName("input");
             var imgM = document.getElementById("galleryM"+i).getElementsByTagName("img");
             if (inpM.length==0 && imgM.length!=0) {
                 invImg = imgM[0].src;
-                var imgPath = splitArr[m].substring(splitArr[m].lastIndexOf('/')+1,splitArr[m].length-1);
-//                invImg  = invImg.substring(invImg.indexOf('/',invImg.indexOf('/')+2));
                 invImg  = invImg.substring(invImg.lastIndexOf('/')+1,invImg.length);
             }
            if (inpM.length!=0 && imgM.length!=0) invImg = inpM[0].value;
-            //sku预览图
+            //sku预览图 来源为读取商品图片/上传新图片
             imgs = document.getElementById("galleryP"+i).getElementsByTagName("div");
             for(j=0;j<imgs.length;j++) {
                 var inpP = imgs[j].getElementsByTagName("input");
