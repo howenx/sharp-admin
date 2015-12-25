@@ -66,7 +66,7 @@ $(function() {
 				var data = JSON.parse(http.responseText);
 				console.log(data);
 				var str = data.oss_prefix+data.oss_url;
-				$("#unpack_img").css({"background":"url("+ str +")","backgroundSize":"100%"})
+				$("#unpack_img").css({"background-image":"url("+ str +")"})
 			}
 		}
 		http.send(formdata);
@@ -208,11 +208,14 @@ $(function() {
 					$temp_div.find("#unpack_price_current").text($(this).val());
 					data_array.push($(this).val());
 
-				} else if (index === 3 && $(this).val()!=null && $(this).val()!='') {
+				}  else if (index === 3 && $(this).val()!=null && $(this).val()!='') {
 
 					$temp_div.find("#unpack_price_unpack").text($(this).val());
 					data_array.push($(this).val());
-				} else {
+				}else if (index === 4 && $(this).val()!=null && $(this).val()!='') {
+					$temp_div.find("#unpack_img").css("background-size",$(this).val()+"px");
+					alert(1);
+				}else {
 					alert('Please check exists null value.');
 					return false;
 				}
