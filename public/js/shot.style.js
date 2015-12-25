@@ -230,7 +230,7 @@ $(function() {
 
 	/** submit to nwjs shootscreen. **/
 	$('#submit').on("click", function() {
-
+	    /*
 		if($("input[data-xr=upload-img]").is(':checked')){
 			data_array.length = 0;
 			data_array.push($("#upload-img").find("img").attr("src"));
@@ -272,8 +272,8 @@ $(function() {
 		} else {
 			alert('Please check the templates.');
 		}
+		*/
 
-/*
            var html = $("#q_youjipin2").outerHTML;
            var width = $("#q_youjipin2").width();
            var height = $("#q_youjipin2").height();
@@ -287,7 +287,7 @@ $(function() {
                          url: "http://172.28.3.51:3008/cut", //Server script to process data
                          type: 'post',
                          data: {
-                            html: '' +,
+                            html: '' +html,
                             width:width,
                             height:height
                          },
@@ -307,7 +307,7 @@ $(function() {
           } else {
              alert('Please check the templates.');
           }
-*/
+
 
 	});
 
