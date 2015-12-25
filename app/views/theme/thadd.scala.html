@@ -311,16 +311,14 @@
                             <input type="radio" data-xr='u_youjipin' class="set-main temp_radio_class" name="setMain">
                             <label class="radio">宽版</label>
                             <input type="radio" data-xr='q_youjipin' class="set-main temp_radio_class" name="setMain">
-                            <label class="radio">拼购打折1</label>
-                            <input type="radio" data-xr='q_youjipin2' class="set-main temp_radio_class" name="setMain">
-                            <label class="radio">拼购打折2</label>
+                            <label class="radio">拼购打折</label>
                             <input type="radio" data-xr='shop_unpack' class="set-main temp_radio_class" name="setMain" checked>
                             <label class="radio">批购</label>
                             <input type="radio" data-xr='upload-img' class="set-main temp_radio_class" name="setMain">
                             <label class="radio">上传</label>
                         </div>
                         <div class='compress-div'>
-                            <!--</div>-->
+                            <!--宽版-->
                             <div class='li-dv'>
                                 <div id='u_youjipin' class="goods_list_img">
                                     <div class="img">
@@ -384,11 +382,6 @@
                             <!--拼购打折-->
                             <div class='li-dv'>
                                 <div id="q_youjipin" class="pingou">
-                                    <!--<div class="img">-->
-                                    <!--<a class="track">-->
-                                    <!--<img data-index='4' src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8" width="100%" style="display: inline;">-->
-                                    <!--</a>-->
-                                    <!--</div>-->
                                     <div class="img">
                                         <a href="javascript:void(0)" class="upload-a btn-primary">
                                             上传图片
@@ -399,7 +392,6 @@
                                         <div class="illustrate-box">
                                             <div class="illustrate-l">
                                                 <div class="sale">
-                                                    <!--	<span class="sale-rate">20</span><i>%</i>-->
                                                     <span class="sale-rate">
                                                         <span data-index='0'>20%</span>
                                                         <i>打折率:</i>
@@ -460,117 +452,17 @@
                                     </table>
                                 </div>
                             </div>
-                            <!---->
-                            <div class='li-dv'>
-                                <div id="q_youjipin2" class="pingou">
-                                    <!--<div class="img">-->
-                                    <!--<a class="track">-->
-                                    <!--<img data-index='4' src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8" width="100%" style="display: inline;">-->
-                                    <!--</a>-->
-                                    <!--</div>-->
-                                    <!--
-                                    <div class="img">
-                                        <a href="javascript:void(0)" class="upload-a btn-primary">
-                                            上传图片
-                                            <input type="file" class="upload1">
-                                        </a>
-                                    </div>
-                                    <div class="text">
-                                        <div class="illustrate-box">
-                                            <div class="illustrate-l">
-                                                <div class="sale">
-                                                    <!--	<span class="sale-rate">20</span><i>%</i>-->
-                                                    <!--
-                                                    <span class="sale-rate">
-                                                        <span data-index='0'>20</span>
-                                                        <span style="font-size: 16px">%</span>
-                                                        <!--<i>打折率:</i>-->
-                                                         <!--
-                                                    </span>
-
-                                                </div>
-                                                <div class="money">
-                                                    <span class="money-raw">市场价:<i data-index='1'>￥600</i></span>
-                                                    <span class="now">折扣价:<i data-index='2'>￥480</i></span>
-                                                </div>
-
-                                            </div>
-                                            <div class="illustrate-r">
-                                                <span class="one">拼购打折<i>(最低)</i></span>
-                                                <span class="two" data-index='3'>2人拼购</span>
-                                                <br>
-                                                <span class="three" data-index='4'>￥400</span>
-                                                <span class="four" data-index='5'>已拼购2345人</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                      -->
-                                    <div id='shop_unpack' name="temp_unpack" class="li sync-hide auto">
-                                        <div class='li unpack-temp-img' id='unpack_img'>
-                                        </div>
-                                        <div id='unpack_title' class='unpack-title-container'>
-                                            <span>
-                                                <b id='unpack_discount' style="font-weight: normal;">20</b>
-                                                <b style="font-size: 17px;font-weight: normal;">%</b>
-                                            </span>
-                                            <div id='unpack_price_origin'>￥600.00</div>
-                                            <div id='unpack_price_current'>￥480.00</div>
-                                            <div id='unpack_vertical_line'></div>
-                                            <div id='unpack_span'>拼购打你吗<b style="font-size: xx-small;font-weight:normal;">(最低)</b></div>
-                                            <div id='unpack_price_unpack'>￥400.00</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="pre_temp">
-                                    <table>
-                                        <tbody>
-                                        <tr>
-                                            <th>折扣率:</th>
-                                            <td><input class='input-area' type="text"></td>
-                                        </tr>
-                                        <tr>
-                                            <th>市场价:</th>
-                                            <td><input class='input-area' type="text"></td>
-                                        </tr>
-                                        <tr>
-                                            <th>折扣价:</th>
-                                            <td><input class='input-area' type="text"></td>
-                                        </tr>
-                                        <tr>
-                                            <th>拼购人数:</th>
-                                            <td><input class='input-area' type="text"></td>
-                                        </tr>
-                                        <tr>
-                                            <th>拼购价格:</th>
-                                            <td><input class='input-area' type="text"></td>
-                                        </tr>
-                                        <tr>
-                                            <th>已拼购人数:</th>
-                                            <td><input class='input-area' type="text"></td>
-                                        </tr>
-                                        <tr style="display: none">
-                                            <th>图片url:</th>
-                                            <td><input class='input-area' type="text"></td>
-                                        </tr>
-                                        <tr>
-                                            <th></th>
-                                            <td><a name='pre_unpack_bt' class="small blue-light button">预览</a></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <!--pigou1111111111111-->
+                            <!--拼购-->
                             <input type="file" class="unpack_img" style="display: none">
                             <div class='li-dv' style='display: block;'>
                                 <div id='shop_unpack' name="temp_unpack" class="li sync-hide auto">
                                     <div class='li unpack-temp-img' id='unpack_img'>
                                     </div>
                                     <div id='unpack_title' class='unpack-title-container'>
-						<span>
-							<b id='unpack_discount' style="font-weight: normal;">20</b>
-							<b style="font-size: 17px;font-weight: normal;">%</b>
-						</span>
+                                        <span>
+                                            <b id='unpack_discount' style="font-weight: normal;">20</b>
+                                            <b style="font-size: 17px;font-weight: normal;">%</b>
+                                        </span>
                                         <div id='unpack_price_origin'>￥600.00</div>
                                         <div id='unpack_price_current'>￥480.00</div>
                                         <div id='unpack_vertical_line'></div>
@@ -579,40 +471,32 @@
                                         <div id='unpack_price_unpack'>￥400.00</div>
                                     </div>
                                 </div>
-
-                                <!--<div id='shop_unpack' name="temp_unpack" class="li sync-hide auto">-->
-                                <!--<div class='li unpack-temp-img' id='unpack_img'>-->
-                                <!--<img class=".main-img"-->
-                                <!--src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8"-->
-                                <!--alt="">-->
-                                <!--</div>-->
-                                <!--<div id='unpack_title' class='unpack-title-container'>-->
-                                <!--<span>-->
-                                <!--<b id='unpack_discount' style="font-weight: normal;">20</b>-->
-                                <!--<b style="font-size: 17px;font-weight: normal;">%</b>-->
-                                <!--</span>-->
-
-                                <!--<div id='unpack_price_origin'>￥600.00</div>-->
-                                <!--<div id='unpack_price_current'>￥480.00</div>-->
-                                <!--<div id='unpack_vertical_line'></div>-->
-                                <!--<div id='unpack_span'>拼购打折<b style="font-size: xx-small;font-weight:normal;">(最低)</b>-->
-                                <!--</div>-->
-                                <!--<div id='unpack_price_unpack'>￥400.00</div>-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="pre_temp sync-hide" >-->
-                                <!--<label>折扣：<input style='width: 235px;' type="text"></label>-->
-                                <!--<label>原价：<input style='width: 235px;' type="text"></label>-->
-                                <!--<label>现价：<input style='width: 235px;' type="text"></label>-->
-                                <!--<label>拼购价：<input style='width: 235px;' type="text"></label>-->
-                                <!--<label>标题占宽度百分比：<input style='width: 235px;' type="text"></label>-->
-                                <!--<label>标题距左侧百分比：<input style='width: 235px;' type="text"></label>-->
-                                <!--<label>图片名称：<input style='width: 270px;' type="text"></label>-->
-                                <!--<label>宽度：<input name='custom_w' type="text"></label>-->
-                                <!--<label>高度：<input name='custom_h' type="text"></label>-->
-                                <!--<label>原始宽高<input name='origin_wh' type="checkbox"></label>-->
-                                <!--<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>-->
-                                <!--</div>-->
+                            </div>
+                            <div class="pre_temp shop_unpack">
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <th>折扣率:</th>
+                                        <td><input class='input-area' type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>原价:</th>
+                                        <td><input class='input-area' type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>现价:</th>
+                                        <td><input class='input-area' type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>拼购价:</th>
+                                        <td><input class='input-area' type="text"></td>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <td><a name='pre_unpack_bt' class="small blue-light button">预览</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                             <!--上传-->
                             <div class='li-dv'>

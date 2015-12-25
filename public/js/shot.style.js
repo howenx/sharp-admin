@@ -18,6 +18,8 @@ $(function() {
 		if ($(this).prop('checked')) {
 			$('.li-dv').hide();
 			$('#' + $(this).attr('data-xr')).parent().css('display', 'table');
+			$(".pre_temp").css("display","none");
+			$('.' + $(this).attr('data-xr')).css("display","block");
 			if ($(this).attr('data-xr') === 'shop_unpack') {
 				$('#' + $(this).attr('data-xr')).parent().css('display', 'block');
 			}
@@ -73,7 +75,8 @@ $(function() {
 	$(document).on("click", "a[name='pre_unpack_bt']", function() {
 		data_array.length = 0;
 		/** u_youjipin ***/
-		$temp_div = $(this).parents(".pre_temp").prev();
+		$temp_div = $(this).parents(".pre_temp").prev().children();
+		console.log($temp_div)
 
 		if ($temp_div.attr('id') == 'u_youjipin') {
 
@@ -189,42 +192,26 @@ $(function() {
 					return false;
 				}
 			})
-		}else if ($temp_div.attr('id') == 'q_youjipin2') {
-
-			$(this).parent().parent().parent().find(".input-area").each(function(index, element) {
+		}else if($temp_div.attr('id') == 'shop_unpack'){
+			$(this).parents(".shop_unpack").find(".input-area").each(function(index, element) {
 				if (index === 0 && $(this).val()!=null && $(this).val()!='') {
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					$temp_div.find("#unpack_discount").text($(this).val());
 					data_array.push($(this).val());
 
 				} else if (index === 1 && $(this).val()!=null && $(this).val()!='') {
 
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					$temp_div.find("#unpack_price_origin").text($(this).val());
 					data_array.push($(this).val());
 
 				} else if (index === 2 && $(this).val()!=null && $(this).val()!='') {
 
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					$temp_div.find("#unpack_price_current").text($(this).val());
 					data_array.push($(this).val());
 
 				} else if (index === 3 && $(this).val()!=null && $(this).val()!='') {
 
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					$temp_div.find("#unpack_price_unpack").text($(this).val());
 					data_array.push($(this).val());
-
-				} else if (index === 4 && $(this).val()!=null && $(this).val()!='') {
-
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
-					data_array.push($(this).val());
-
-				} else if (index === 5 && $(this).val()!=null && $(this).val()!='') {
-
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
-					console.log($(this));
-					data_array.push($(this).val());
-
-				} else if (index === 6) {
-					var img_val = $("#q_youjipin2").find("[data-index='" + index + "']").attr('src');
-					data_array.push(img_val);
 				} else {
 					alert('Please check exists null value.');
 					return false;
