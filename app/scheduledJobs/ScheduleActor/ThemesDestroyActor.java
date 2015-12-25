@@ -11,16 +11,14 @@ import javax.inject.Inject;
 public class ThemesDestroyActor extends UntypedActor{
 
     @Inject
-    private final ThemeService themeService;
-
-    public ThemesDestroyActor(ThemeService themeService) {
-        this.themeService = themeService;
+    ThemeService themeService;
+    public ThemesDestroyActor() {
     }
 
     @Override
     public void onReceive(Object arg) throws Exception {
         System.out.print("<<<<<<<<<<");
-        System.out.println(themeService);
+
         System.out.print(">>>>>>>>>>");
     }
 

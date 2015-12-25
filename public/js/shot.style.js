@@ -271,9 +271,9 @@ $(function() {
 		}
 		*/
 
-           var html = $("#q_youjipin2").outerHTML;
-           var width = $("#q_youjipin2").width();
-           var height = $("#q_youjipin2").height();
+           var html = $("#shop_unpack").prop("outerHTML");
+           var width = $("#shop_unpack").width();
+           var height = $("#shop_unpack").height();
           $check = $('input[name=setMain]:checked');
           console.log(html);
           console.log(width);
@@ -408,10 +408,11 @@ $(function() {
             alert("基本信息不能为空!");
             return false;
         }
-        if(themeImg == "")
+        var background = $("#unpack_img").css("background");
+        if(background.indexOf("/assets/images/upload_iezdinbygzqwmoldgmzdambqmmyde_750x316.jpg")>0)
         {
             isPost = false;
-            alert("请选择主题并上传图片!");
+            alert("请上传主题图片!");
             return false;
         }
         if(document.getElementById("dragon-container").getElementsByClassName("dragon-contained ui-draggable ui-draggable-handle").length == 0)
@@ -433,10 +434,8 @@ $(function() {
         var themeImgFinal = themeImg.substring(themeImg.indexOf('/',themeImg.indexOf('/')+2));
         //排序
         var sortNu = 1;
-        //主题原背景图片
-        var obj = document.getElementById("u_youjipin").getElementsByTagName("img");
-        var url = obj[0].src;
-        var themeSrcImg = url.substring(url.indexOf('/',url.indexOf('/')+2));
+        //主题源背景图片
+        var themeSrcImg = background.substring(background.indexOf('url("')+5,background.indexOf('url("','")'));
         //主题的配置信息
         var themeConfig = [];
         /*
@@ -525,13 +524,13 @@ $(function() {
                             setTimeout("$('#js-userinfo-error').text('')", 2000);
                         },
                         success: function(data) {
-                            alert("Save Success");
+                            //alert("Save Success");
                             if (window.lang = 'cn') {
                                 $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
                             } else {
                                 $('#js-userinfo-error').text('Save success');
                             }
-                            setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 1000);
+                            setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
                             //主题录入, 成功后返回到主题录入页面
                             setTimeout("location.href='/"+window.lang+"/topic/add'", 1000);
                         }

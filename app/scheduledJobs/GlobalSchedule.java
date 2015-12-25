@@ -27,7 +27,7 @@ public class GlobalSchedule extends GlobalSettings{
             super.onStart(application);
 
             ActorRef actor = Akka.system().actorOf(
-                    Props.create(ThemesDestroyActor.class,themeService)
+                    Props.create(ThemesDestroyActor.class)
             );
             canceller = Akka.system().scheduler().schedule(
                     FiniteDuration.create(2,TimeUnit.SECONDS), //schedule开始到第一次执行的时间
