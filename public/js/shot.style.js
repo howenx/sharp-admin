@@ -18,6 +18,8 @@ $(function() {
 		if ($(this).prop('checked')) {
 			$('.li-dv').hide();
 			$('#' + $(this).attr('data-xr')).parent().css('display', 'table');
+			$(".pre_temp").css("display","none");
+			$('.' + $(this).attr('data-xr')).css("display","block");
 			if ($(this).attr('data-xr') === 'shop_unpack') {
 				$('#' + $(this).attr('data-xr')).parent().css('display', 'block');
 			}
@@ -46,12 +48,35 @@ $(function() {
 			$(this).parent().parent().next().next().children().last().children().first().first().prop('disabled', false);
 		}
 	})
-	
+	/*****品购模版******/
+	$("#unpack_img").click(function(){
+		$(".unpack_img").click();
+	})
+	$(".unpack_img").change(function(){
+		var file = this.files[0];
+
+		var formdata = new FormData();
+		formdata.append("photo", file);
+		formdata.append("params", "minify");
+		var http = new XMLHttpRequest();
+		var url = "http://172.28.3.18:3008/upload";
+		http.open("POST", url, true);
+		http.onreadystatechange = function () {
+			if (http.readyState == 4 && http.status == 200) {
+				var data = JSON.parse(http.responseText);
+				console.log(data);
+				var str = data.oss_prefix+data.oss_url;
+				$("#unpack_img").css({"background":"url("+ str +")","backgroundSize":"100%"})
+			}
+		}
+		http.send(formdata);
+	})
 	/**** preview the template event.. ****/
 	$(document).on("click", "a[name='pre_unpack_bt']", function() {
 		data_array.length = 0;
 		/** u_youjipin ***/
-		$temp_div = $(this).parents(".pre_temp").prev();
+		$temp_div = $(this).parents(".pre_temp").prev().children();
+		console.log($temp_div)
 
 		if ($temp_div.attr('id') == 'u_youjipin') {
 
@@ -167,42 +192,26 @@ $(function() {
 					return false;
 				}
 			})
-		}else if ($temp_div.attr('id') == 'q_youjipin2') {
-
-			$(this).parent().parent().parent().find(".input-area").each(function(index, element) {
+		}else if($temp_div.attr('id') == 'shop_unpack'){
+			$(this).parents(".shop_unpack").find(".input-area").each(function(index, element) {
 				if (index === 0 && $(this).val()!=null && $(this).val()!='') {
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					$temp_div.find("#unpack_discount").text($(this).val());
 					data_array.push($(this).val());
 
 				} else if (index === 1 && $(this).val()!=null && $(this).val()!='') {
 
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					$temp_div.find("#unpack_price_origin").text($(this).val());
 					data_array.push($(this).val());
 
 				} else if (index === 2 && $(this).val()!=null && $(this).val()!='') {
 
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					$temp_div.find("#unpack_price_current").text($(this).val());
 					data_array.push($(this).val());
 
 				} else if (index === 3 && $(this).val()!=null && $(this).val()!='') {
 
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					$temp_div.find("#unpack_price_unpack").text($(this).val());
 					data_array.push($(this).val());
-
-				} else if (index === 4 && $(this).val()!=null && $(this).val()!='') {
-
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
-					data_array.push($(this).val());
-
-				} else if (index === 5 && $(this).val()!=null && $(this).val()!='') {
-
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
-					console.log($(this));
-					data_array.push($(this).val());
-
-				} else if (index === 6) {
-					var img_val = $("#q_youjipin2").find("[data-index='" + index + "']").attr('src');
-					data_array.push(img_val);
 				} else {
 					alert('Please check exists null value.');
 					return false;
@@ -223,11 +232,12 @@ $(function() {
 			data_array.length = 0;
 			data_array.push($("#upload-img").find("img").attr("src"));
 			console.log(data_array);
-		}else if($("input[data-xr=shop_unpack]").is(':checked')){
-			data_array.length = 0;
-			data_array.push($("#shop_unpack").find("img").attr("src"));
-			console.log(data_array);
 		}
+		//else if($("input[data-xr=shop_unpack]").is(':checked')){
+		//	data_array.length = 0;
+		//	data_array.push($("#shop_unpack").find("img").attr("src"));
+		//	console.log(data_array);
+		//}
 		//console.log(JSON.parse(JSON.stringify(data_array)));
 		$check = $('input[name=setMain]:checked');
 		//console.log($('#' + $check.attr('data-xr')).width());
