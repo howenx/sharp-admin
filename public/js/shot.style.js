@@ -18,6 +18,8 @@ $(function() {
 		if ($(this).prop('checked')) {
 			$('.li-dv').hide();
 			$('#' + $(this).attr('data-xr')).parent().css('display', 'table');
+			$(".pre_temp").css("display","none");
+			$('.' + $(this).attr('data-xr')).css("display","block");
 			if ($(this).attr('data-xr') === 'shop_unpack') {
 				$('#' + $(this).attr('data-xr')).parent().css('display', 'block');
 			}
@@ -64,7 +66,7 @@ $(function() {
 				var data = JSON.parse(http.responseText);
 				console.log(data);
 				var str = data.oss_prefix+data.oss_url;
-				$("#unpack_img").css({"background":"url("+ str +")","backgroundSize":"100%"})
+				$("#unpack_img").css({"background-image":"url("+ str +")"})
 			}
 		}
 		http.send(formdata);
@@ -73,7 +75,8 @@ $(function() {
 	$(document).on("click", "a[name='pre_unpack_bt']", function() {
 		data_array.length = 0;
 		/** u_youjipin ***/
-		$temp_div = $(this).parents(".pre_temp").prev();
+		$temp_div = $(this).parents(".pre_temp").prev().children();
+		console.log($temp_div)
 
 		if ($temp_div.attr('id') == 'u_youjipin') {
 
@@ -189,43 +192,30 @@ $(function() {
 					return false;
 				}
 			})
-		}else if ($temp_div.attr('id') == 'q_youjipin2') {
-
-			$(this).parent().parent().parent().find(".input-area").each(function(index, element) {
+		}else if($temp_div.attr('id') == 'shop_unpack'){
+			$(this).parents(".shop_unpack").find(".input-area").each(function(index, element) {
 				if (index === 0 && $(this).val()!=null && $(this).val()!='') {
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					$temp_div.find("#unpack_discount").text($(this).val());
 					data_array.push($(this).val());
 
 				} else if (index === 1 && $(this).val()!=null && $(this).val()!='') {
 
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					$temp_div.find("#unpack_price_origin").text($(this).val());
 					data_array.push($(this).val());
 
 				} else if (index === 2 && $(this).val()!=null && $(this).val()!='') {
 
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					$temp_div.find("#unpack_price_current").text($(this).val());
 					data_array.push($(this).val());
 
-				} else if (index === 3 && $(this).val()!=null && $(this).val()!='') {
+				}  else if (index === 3 && $(this).val()!=null && $(this).val()!='') {
 
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
+					$temp_div.find("#unpack_price_unpack").text($(this).val());
 					data_array.push($(this).val());
-
-				} else if (index === 4 && $(this).val()!=null && $(this).val()!='') {
-
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
-					data_array.push($(this).val());
-
-				} else if (index === 5 && $(this).val()!=null && $(this).val()!='') {
-
-					$temp_div.find("[data-index='" + index + "']").text($(this).val());
-					console.log($(this));
-					data_array.push($(this).val());
-
-				} else if (index === 6) {
-					var img_val = $("#q_youjipin2").find("[data-index='" + index + "']").attr('src');
-					data_array.push(img_val);
-				} else {
+				}else if (index === 4 && $(this).val()!=null && $(this).val()!='') {
+					$temp_div.find("#unpack_img").css("background-size",$(this).val()+"px");
+					alert(1);
+				}else {
 					alert('Please check exists null value.');
 					return false;
 				}
@@ -240,7 +230,7 @@ $(function() {
 
 	/** submit to nwjs shootscreen. **/
 	$('#submit').on("click", function() {
-
+	    /*
 		if($("input[data-xr=upload-img]").is(':checked')){
 			data_array.length = 0;
 			data_array.push($("#upload-img").find("img").attr("src"));
@@ -282,11 +272,11 @@ $(function() {
 		} else {
 			alert('Please check the templates.');
 		}
+		*/
 
-/*
-           var html = $("#q_youjipin2").outerHTML;
-           var width = $("#q_youjipin2").width();
-           var height = $("#q_youjipin2").height();
+           var html = $("#shop_unpack").prop("outerHTML");
+           var width = $("#shop_unpack").width();
+           var height = $("#shop_unpack").height();
           $check = $('input[name=setMain]:checked');
           console.log(html);
           console.log(width);
@@ -297,7 +287,7 @@ $(function() {
                          url: "http://172.28.3.51:3008/cut", //Server script to process data
                          type: 'post',
                          data: {
-                            html: '' +,
+                            html: '' +html,
                             width:width,
                             height:height
                          },
@@ -317,7 +307,7 @@ $(function() {
           } else {
              alert('Please check the templates.');
           }
-*/
+
 
 	});
 
@@ -421,10 +411,11 @@ $(function() {
             alert("基本信息不能为空!");
             return false;
         }
-        if(themeImg == "")
+        var background = $("#unpack_img").css("background");
+        if(background.indexOf("/assets/images/upload_iezdinbygzqwmoldgmzdambqmmyde_750x316.jpg")>0)
         {
             isPost = false;
-            alert("请选择主题并上传图片!");
+            alert("请上传主题图片!");
             return false;
         }
         if(document.getElementById("dragon-container").getElementsByClassName("dragon-contained ui-draggable ui-draggable-handle").length == 0)
@@ -446,10 +437,8 @@ $(function() {
         var themeImgFinal = themeImg.substring(themeImg.indexOf('/',themeImg.indexOf('/')+2));
         //排序
         var sortNu = 1;
-        //主题原背景图片
-        var obj = document.getElementById("u_youjipin").getElementsByTagName("img");
-        var url = obj[0].src;
-        var themeSrcImg = url.substring(url.indexOf('/',url.indexOf('/')+2));
+        //主题源背景图片
+        var themeSrcImg = background.substring(background.indexOf('url("')+5,background.indexOf('url("','")'));
         //主题的配置信息
         var themeConfig = [];
         /*
@@ -538,13 +527,13 @@ $(function() {
                             setTimeout("$('#js-userinfo-error').text('')", 2000);
                         },
                         success: function(data) {
-                            alert("Save Success");
+                            //alert("Save Success");
                             if (window.lang = 'cn') {
                                 $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
                             } else {
                                 $('#js-userinfo-error').text('Save success');
                             }
-                            setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 1000);
+                            setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
                             //主题录入, 成功后返回到主题录入页面
                             setTimeout("location.href='/"+window.lang+"/topic/add'", 1000);
                         }

@@ -302,10 +302,11 @@ label.radio {
 	display: block;
 	position: relative;
 	width: 730px;
-	background: url("/assets/images/upload_iezdinbygzqwmoldgmzdambqmmyde_750x316.jpg");
+	background-image: url("/assets/images/upload_iezdinbygzqwmoldgmzdambqmmyde_750x316.jpg");
+	background-position: center;
+	background-repeat: no-repeat;
 	overflow: auto;
 	background-size: 100%;
-	/*	height: auto;*/
 }
 .unpack-title-container {
 	background: rgb(230, 224, 224);
