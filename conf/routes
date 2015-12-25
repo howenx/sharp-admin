@@ -69,8 +69,8 @@ GET             /$lang<(cn|en|kr)>/comm/findById/:id                        cont
 GET             /comm/updateById/:id                                        controllers.ItemCtrl.updateItemById(lang = "cn",id:Long)
 GET             /$lang<(cn|en|kr)>/comm/updateById/:id                      controllers.ItemCtrl.updateItemById(lang,id:Long)
 
-
-
+#ItemInfo  --> item erp中商品
+GET             /itemInfoAll/search                                         controllers.ItemInfoAllCtrl.getItemInfo(lang="cn")
 #Carriage --> carr 运费模板设置
 GET             /carr/search                                                controllers.ItemCtrl.carrModelSearch(lang = "cn")
 GET             /$lang<(cn|en|kr)>/carr/search                              controllers.ItemCtrl.carrModelSearch(lang)
