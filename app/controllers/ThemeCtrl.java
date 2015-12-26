@@ -30,7 +30,7 @@ import java.util.Map;
 public class ThemeCtrl extends Controller {
 
     //每页固定的取数
-    public static final int PAGE_SIZE = 4;
+    public static final int PAGE_SIZE = 10;
 
     //图片服务器url
     public static final String IMAGE_URL = play.Play.application().configuration().getString("image.server.url");

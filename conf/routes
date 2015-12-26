@@ -69,8 +69,20 @@ GET             /$lang<(cn|en|kr)>/comm/findById/:id                        cont
 GET             /comm/updateById/:id                                        controllers.ItemCtrl.updateItemById(lang = "cn",id:Long)
 GET             /$lang<(cn|en|kr)>/comm/updateById/:id                      controllers.ItemCtrl.updateItemById(lang,id:Long)
 
-#ItemInfo  --> item erp中商品
-GET             /itemInfoAll/search                                         controllers.ItemInfoAllCtrl.getItemInfo(lang="cn")
+
+
+
+
+#erp中商品,订单
+GET             /itemInfo/search                                            controllers.ItemInfoCtrl.getItemInfo(lang="cn")
+GET             /shopOrder/push                                             controllers.ShopOrderCtrl.ShopOrderPush
+
+
+
+
+
+
+
 #Carriage --> carr 运费模板设置
 GET             /carr/search                                                controllers.ItemCtrl.carrModelSearch(lang = "cn")
 GET             /$lang<(cn|en|kr)>/carr/search                              controllers.ItemCtrl.carrModelSearch(lang)
@@ -83,6 +95,9 @@ GET             /$lang<(cn|en|kr)>/carr/findModel/:modelCode                cont
 GET             /carr/delModel/:modelCode                                   controllers.ItemCtrl.delModel(modelCode:String)
 
 
+
+
+
 #order 订单列表
 GET             /comm/order/search                                          controllers.ItemCtrl.orderList(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/order/search                        controllers.ItemCtrl.orderList(lang)
@@ -90,6 +105,8 @@ GET             /comm/order/detail/$id<[0-9]+>                              cont
 GET             /$lang<(cn|en|kr)>/comm/order/detail/$id<[0-9]+>            controllers.ItemCtrl.orderDetail(lang,id:Long)
 POST            /comm/order/search/$pageNum<[0-9]+>                         controllers.ItemCtrl.orderSearchAjax(lang ="cn",pageNum:Int)
 POST            /$lang<(cn|en|kr)>/comm/order/search/$pageNum<[0-9]+>       controllers.ItemCtrl.orderSearchAjax(lang,pageNum:Int)
+
+
 
 
 
@@ -110,6 +127,7 @@ GET             /$lang<(cn|en|kr)>/comm/cate/search                         cont
 GET             /comm/cate/add                                              controllers.ItemCtrl.cateAdd(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/cate/add                            controllers.ItemCtrl.cateAdd(lang)
 POST            /comm/cate/cateSave                                         controllers.ItemCtrl.cateSave(lang = "cn")
+
 
 
 
