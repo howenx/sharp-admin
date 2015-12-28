@@ -3,6 +3,8 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.*;
 import play.Logger;
+import play.data.DynamicForm;
+import play.data.Form;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
@@ -49,6 +51,20 @@ public class ItemCtrl extends Controller {
     private OrderShipService orderShipService;
 
 
+    /**
+     * Ajax for get sub category.
+     *
+     * @return Result
+     *
+     */
+
+    public Result getSubCategory() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Long pcid = Long.parseLong(form.get("pcid"));
+        HashMap<String, Long> hashMap = new HashMap<String, Long>();
+        hashMap.put("parentCateId", pcid);
+        return ok(Json.toJson(service.getSubCates(hashMap)));
+    }
 
     /**
      * 商品列表
@@ -74,7 +90,7 @@ public class ItemCtrl extends Controller {
 
         item.setPageSize(ThemeCtrl.PAGE_SIZE);
         item.setOffset(0);
-        Logger.error("所有商品:"+service.itemSearch(item).toString());
+//        Logger.error("所有商品:"+service.itemSearch(item).toString());
 
         return ok(views.html.item.itemsearch.render(lang,"http://hmm-images.oss-cn-beijing.aliyuncs.com/",ThemeCtrl.PAGE_SIZE,countNum,pageCount,service.itemSearch(item),(User) ctx().args.get("user")));
     }
@@ -246,7 +262,7 @@ public class ItemCtrl extends Controller {
      */
     public Result itemSave() {
         JsonNode json = request().body().asJson();
-        Logger.error(json.toString());
+//        Logger.error(json.toString());
         List<Long> list = service.itemSave(json);
         return ok(list.toString());
     }
