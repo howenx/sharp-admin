@@ -9,16 +9,12 @@ import akka.actor.ActorRef;
 import akka.actor.Props;
 import play.libs.Akka;
 import scheduledJobs.ScheduleActor.ThemesDestroyActor;
-import service.ThemeService;
-import javax.inject.Inject;
 
 /**
  * Created by tiffany on 15/12/25.
  */
 public class GlobalSchedule extends GlobalSettings{
         private Cancellable canceller = null;
-        @Inject
-        ThemeService themeService;
 
         @Override
         public void onStart(play.Application application) {

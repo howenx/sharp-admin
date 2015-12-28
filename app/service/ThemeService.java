@@ -21,4 +21,6 @@ public interface ThemeService {
      void themeSave(JsonNode json);
 
      List<Theme> getThemesAll();
+
+     void themesDestroy();
 }
