@@ -65,7 +65,7 @@ $(function() {
 				var data = JSON.parse(http.responseText);
 				console.log(data);
 				var str = data.oss_prefix+data.oss_url;
-				$("#unpack_img").css({"background-image":"url("+ str +")"})
+				$("#unpack_img").css({"background-image":"url("+ str +")","width":"730px","background-size":"cover"})
 
 			}
 		}
@@ -224,55 +224,8 @@ $(function() {
 		console.log(data_array);
 	})
 
-
-
-
-
 	/** submit to nwjs shootscreen. **/
 	$('#submit').on("click", function() {
-	    /*
-		if($("input[data-xr=upload-img]").is(':checked')){
-			data_array.length = 0;
-			data_array.push($("#upload-img").find("img").attr("src"));
-			console.log(data_array);
-		}
-		//else if($("input[data-xr=shop_unpack]").is(':checked')){
-		//	data_array.length = 0;
-		//	data_array.push($("#shop_unpack").find("img").attr("src"));
-		//	console.log(data_array);
-		//}
-		//console.log(JSON.parse(JSON.stringify(data_array)));
-		$check = $('input[name=setMain]:checked');
-		//console.log($('#' + $check.attr('data-xr')).width());
-		//console.log($('#' + $check.attr('data-xr')).height());
-		console.log(JSON.stringify(data_array));
-		if ($check.length === 1) {
-			$.ajax({
-				//url: 'http://172.28.3.47:3008/nw',
-				url: 'http://172.28.3.18:3008/nw',
-				//url:window.url+"/nw",
-				type: 'POST',
-				data: {
-					tempid: '' + $check.attr('data-xr'),
-					img_width: $('#' + $check.attr('data-xr')).find(".main-img").width(),
-					img_height: $('#' + $check.attr('data-xr')).find(".main-img").height(),
-					xr_width: $('#' + $check.attr('data-xr')).width(),
-					xr_height: $('#' + $check.attr('data-xr')).height(),
-					array:JSON.stringify(data_array)
-				},
-				success: function(data) {
-					$('#mask').hide();
-					alert(data.error + ' ' + data.message + ' ' + data.shot_url);
-					themeImg = data.shot_url;
-					$check.prop('checked', false);
-					window.open(data.shot_url);
-					return false;
-				}
-			})
-		} else {
-			alert('Please check the templates.');
-		}
-		*/
 		  var background = $("#unpack_img").css("background");
           if(background.indexOf("/assets/images/upload_iezdinbygzqwmoldgmzdambqmmyde_750x316.jpg")>0)
           {
@@ -300,6 +253,14 @@ $(function() {
                          success: function(data) {
                             console.log(JSON.stringify(data));
                             themeImg = data.oss_url;
+                            //主题图片大小
+                            var image = new Image();
+                            image.onload = function(){
+                                var imgWidth = image.width;
+                                var imgHeight = image.height;
+                            }
+                            image.src = data.shot_url;
+                            themeImgShot = data.shot_url;
                             window.open(data.shot_url,'_blank');
                          },
                          error: function(data, error, errorThrown) {
@@ -412,6 +373,7 @@ $(function() {
   	$("#push").click(function(){
 
         var isPost = true;
+
         if($("#themeTitle").val() == "" || $("#onShelvesAt").val() == "" || $("#offShelvesAt").val() == "")
         {
             isPost = false;
@@ -423,7 +385,6 @@ $(function() {
             alert("日期不正确!");
             return false;
         }
-
         var background = $("#unpack_img").css("background");
         if(themeImg == "")
         {
@@ -431,38 +392,50 @@ $(function() {
             alert("请提交主题图片!");
             return false;
         }
-
         if(document.getElementById("sort").rows.length == 1){
             isPost = false;
             alert("请添加商品!");
             return false;
         }
-
         if(document.getElementById("sort").rows[1].cells[1].getElementsByTagName("input")[0].checked == false){
             isPost = false;
             alert("请选择主商品!");
             return false;
         }
-
         if(document.getElementById("dragon-container").innerHTML.indexOf("img")<0)
         {
             isPost = false;
             alert("请上传标签的背景图片!");
             return false;
         }
-
         if($("#input_imgurl").val() == "")
         {
             isPost = false;
             alert("请添加标签中的商品ID!");
             return false;
         }
-
-
         if(document.getElementById("dragon-container").getElementsByClassName("dragon-contained ui-draggable ui-draggable-handle").length == 0)
         {
             isPost = false;
             alert("请添加标签!");
+            return false;
+        }
+        //检查主商品是否重复
+        var itemFlag = false;
+        var items = document.getElementById("sort");
+        var itemCount = items.getElementsByTagName("tr").length;
+        for(i=1;i<itemCount;i++){
+            for(j=1;j<itemCount;j++){
+                if(i != j && items.rows[i].cells[2].innerText == items.rows[j].cells[2].innerText){
+                    items.rows[i].style.backgroundColor = "skyblue";
+                    items.rows[j].style.backgroundColor = "skyblue";
+                    itemFlag = true;
+                }
+            }
+        }
+        if(itemFlag){
+            isPost = false;
+            alert("有重复的商品ID!");
             return false;
         }
         var theme = new Object();
@@ -481,39 +454,8 @@ $(function() {
         //主题源背景图片
         var themeSrcImgTemp = background.substring(background.indexOf('url("')+5,background.indexOf('")'));
         var themeSrcImg = themeSrcImgTemp.substring(themeSrcImgTemp.indexOf('/',themeSrcImgTemp.indexOf('/')+2));
-        //主题图片大小
-        debugger;
-        var image = new Image();
-        image.src = themeSrcImgTemp;
-        //image.onload =function(){
-        var imgWidth = image.width;
-        var imgHeight = image.height;
-        //}
         //主题的配置信息
         var themeConfig = [];
-        /*
-        var config1 = document.getElementsByClassName("pre_temp")[0];
-        if(config1.getElementsByTagName("input")[0].value != "")
-        {
-           themeConfig.push("仅剩:" + config1.getElementsByTagName("input")[0].value);
-           themeConfig.push("标题:" + config1.getElementsByTagName("input")[1].value);
-           themeConfig.push("价格/折扣:" + config1.getElementsByTagName("input")[2].value);
-           themeConfig.push("元/折起:" + config1.getElementsByTagName("input")[3].value);
-
-        }
-        var config2 = document.getElementsByClassName("pre_temp")[1];
-        if(config2.getElementsByTagName("input")[0].value != "")
-        {
-           themeConfig.push("折扣率:" + config2.getElementsByTagName("input")[0].value);
-           themeConfig.push("市场价:" + config2.getElementsByTagName("input")[1].value);
-           themeConfig.push("折扣价:" + config2.getElementsByTagName("input")[2].value);
-           themeConfig.push("拼购人数:" + config2.getElementsByTagName("input")[3].value);
-           themeConfig.push("拼购价格:" + config2.getElementsByTagName("input")[4].value);
-           themeConfig.push("已拼购人数:" + config2.getElementsByTagName("input")[5].value);
-
-        }
-        */
-
         //主题包含的商品信息
         var themeItems = [];
         var items = document.getElementById("sort");
@@ -554,6 +496,7 @@ $(function() {
         theme.title = title;
         theme.startAt = onShelvesAt;
         theme.endAt = offShelvesAt;
+        //theme.themeImg = '{"url": "' + themeImgFinal + '", "width:" "' + imgWidth + '", "height": "' + imgHeight + '"}';
         theme.themeImg = themeImgFinal;
         theme.sortNu = sortNu;
         //theme.orDestory = false;
