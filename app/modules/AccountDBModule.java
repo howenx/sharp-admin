@@ -3,15 +3,10 @@ package modules;
 import com.google.inject.PrivateModule;
 import com.google.inject.Scopes;
 import com.google.inject.name.Names;
-import mapper.*;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.guice.session.SqlSessionManagerProvider;
 import play.db.DBApi;
-import service.ProdService;
-import service.ProdServiceImpl;
-import service.ThemeService;
-import service.ThemeServiceImpl;
 
 import javax.inject.Inject;
 import javax.inject.Provider;

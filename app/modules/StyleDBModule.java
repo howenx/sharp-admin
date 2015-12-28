@@ -35,9 +35,7 @@ public class StyleDBModule extends PrivateModule{
                 //只针对style数据库的Mapper,不可以将一个Mapper多Module进行Add
                 addMapperClass(BrandsMapper.class);
                 addMapperClass(CatesMapper.class);
-                addMapperClass(ProductsMapper.class);
                 addMapperClass(ThemeMapper.class);
-                addMapperClass(StockMapper.class);
                 addMapperClass(ItemMapper.class);
                 addMapperClass(InventoryMapper.class);
                 addMapperClass(CarriageMapper.class);
@@ -58,7 +56,6 @@ public class StyleDBModule extends PrivateModule{
         /**
          * bind service for controller or other service inject. 绑定style数据库所对应的Service
          */
-        bind(ProdService.class).to(ProdServiceImpl.class);
         bind(ThemeService.class).to(ThemeServiceImpl.class);
         bind(ItemService.class).to(ItemServiceImpl.class);
         bind(InventoryService.class).to(InventoryServiceImpl.class);
@@ -67,7 +64,6 @@ public class StyleDBModule extends PrivateModule{
 
         //必须expose
         expose(ThemeService.class);
-        expose(ProdService.class);
         expose(ItemService.class);
         expose(InventoryService.class);
         expose(CarriageService.class);

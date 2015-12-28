@@ -4,15 +4,6 @@
 # Home page
 GET				/front                                                  controllers.Application.welcome(lang= "cn")
 GET				/$lang<(cn|en|kr)>/front                                controllers.Application.welcome(lang)
-GET				/prodCreate              	                            controllers.ProductCtrl.prodCreate(lang = "cn")
-GET				/$lang<(cn|en|kr)>/prodCreate                           controllers.ProductCtrl.prodCreate(lang)
-GET             /getSubcates                                            controllers.ProductCtrl.getSubCategory
-POST            /insertProducts                                         controllers.ProductCtrl.insertProducts
-POST            /$lang<(cn|en|kr)>/prodsList/$currPage<[0-9]+>          controllers.ProductCtrl.prodSearchAjax(lang,currPage:Int)
-GET             /prodsList                                              controllers.ProductCtrl.prodsList(lang = "cn")
-GET             /$lang<(cn|en|kr)>/prodsList                            controllers.ProductCtrl.prodsList(lang)
-GET             /prodsDetail/:id                                        controllers.ProductCtrl.prodsDetail(lang = "cn",id:Long)
-GET             /$lang<(cn|en|kr)>/prodsDetail/:id                      controllers.ProductCtrl.prodsDetail(lang,id:Long)
 
 
 
@@ -55,6 +46,7 @@ POST            /$lang<(cn|en|kr)>/topic/add/themeSave                      cont
 
 
 #Item -----> commodity,简写comm
+GET             /getSubcates                                                controllers.ItemCtrl.getSubCategory
 GET             /comm/search                                                controllers.ItemCtrl.itemList(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.itemList(lang)
 GET             /comm/search/popup                                          controllers.ItemCtrl.itemSearchPopup(lang ="cn")
