@@ -222,6 +222,9 @@
             $(this).parents(".li-dv").find(".text").css("display", "none");
             $(this).remove();
         });
+        $(document).on("click",".th-del",function(){
+            $(this).parents("tr").remove();
+        })
     })
 </script>
 
@@ -586,6 +589,9 @@
                                 折扣
                                 <span class="glyphicon glyphicon-chevron-up"></span>
                                 <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                            </th>
+                            <th>
+                                删除
                             </th>
                         </tr>
                         </thead>
