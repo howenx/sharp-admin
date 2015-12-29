@@ -270,7 +270,8 @@ $(function() {
 
           if ($check.length === 1) {
              $.ajax({
-                         url: "http://172.28.3.51:3008/cut", //Server script to process data
+                         //url: "http://172.28.3.51:3008/cut", //Server script to process data
+                         url: "http://172.28.3.18:3008/cut", //Server script to process data
                          type: 'post',
                          data: {
                             html: '' +html,
@@ -281,7 +282,9 @@ $(function() {
                             console.log(JSON.stringify(data));
                             themeImg = data.oss_url;
                             themeImgShot = data.shot_url;
-                            window.open(data.shot_url,'_blank');
+                            alert(data.oss_prefix + data.oss_url);
+                            //window.open(data.shot_url,'_blank');
+                            //window.open(data.oss_prefix + data.oss_url,'_blank');
                          },
                          error: function(data, error, errorThrown) {
                             if (data.status && data.status >= 400) {
@@ -513,13 +516,13 @@ $(function() {
         //主题主图片
         var themeImgContent = {};
         themeImgContent.url = themeImgFinal;
-        themeImgContent.width = uploadImgWidth;
-        themeImgContent.height = uploadImgHeight;
+        themeImgContent.width = uploadImgWidth.toString();
+        themeImgContent.height = uploadImgHeight.toString();
         //主题tag背景图
         var themeMasterImgContent = {};
         themeMasterImgContent.url = themeMasterImg;
-        themeMasterImgContent.width = labelImgWidth;
-        themeMasterImgContent.height = labelImgHeight;
+        themeMasterImgContent.width = labelImgWidth.toString();
+        themeMasterImgContent.height = labelImgHeight.toString();
 
         theme.masterItemId = masterItemId;
         theme.title = title;
