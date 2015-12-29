@@ -2,6 +2,8 @@ $(function() {
 	/*** template params array.****/
 	var data_array = [];
 	var themeImg = "";
+	var uploadImgWidth;
+    var uploadImgHeight;
 	/***** replace file click event. *****/
 	$('#upbn').on("click", function() {
 		if($(':radio[name=select-minify]').is(':checked')){
@@ -53,7 +55,32 @@ $(function() {
 		$(".unpack_img").click();
 	})
 	$(".unpack_img").change(function(){
+	    var img = document.createElement("img");
         var file = this.files[0];
+        //获取图片文件信息
+        var reader = new FileReader();
+        reader.onload = (function(aImg) {
+            return function(e) {
+                aImg.src = e.target.result;
+                var image = new Image();
+                image.src = e.target.result;
+                alert(["图片大小是: width:"+image.width+", height:"+image.height]);
+                if(image.width >= 730){
+                    uploadImgWidth = image.width;
+                }else{
+                     uploadImgWidth = 730;
+                }
+                if(image.height >= 254){
+                    uploadImgHeight = image.height;
+                }else{
+                    uploadImgHeight = 254;
+                }
+
+                //aImg.width = image.width;
+                //aImg.height = image.height;
+                 }
+         })(img);
+        reader.readAsDataURL(file);
 		var formdata = new FormData();
 		formdata.append("photo", file);
 		formdata.append("params", "minify");
@@ -65,7 +92,7 @@ $(function() {
 				var data = JSON.parse(http.responseText);
 				console.log(data);
 				var str = data.oss_prefix+data.oss_url;
-				$("#unpack_img").css({"background-image":"url("+ str +")","width":"730px","background-size":"cover"})
+				$("#unpack_img").css({"background-image":"url("+ str +")","width":uploadImgWidth,"height":uploadImgHeight,"background-size":"cover"})
 
 			}
 		}
@@ -253,13 +280,6 @@ $(function() {
                          success: function(data) {
                             console.log(JSON.stringify(data));
                             themeImg = data.oss_url;
-                            //主题图片大小
-                            var image = new Image();
-                            image.onload = function(){
-                                var imgWidth = image.width;
-                                var imgHeight = image.height;
-                            }
-                            image.src = data.shot_url;
                             themeImgShot = data.shot_url;
                             window.open(data.shot_url,'_blank');
                          },
@@ -496,8 +516,8 @@ $(function() {
         theme.title = title;
         theme.startAt = onShelvesAt;
         theme.endAt = offShelvesAt;
-        //theme.themeImg = '{"url": "' + themeImgFinal + '", "width:" "' + imgWidth + '", "height": "' + imgHeight + '"}';
-        theme.themeImg = themeImgFinal;
+        theme.themeImg = '{"url": "' + themeImgFinal + '", "width:" "' + uploadImgWidth + '", "height": "' + uploadImgHeight + '"}';
+        //theme.themeImg = themeImgFinal;
         theme.sortNu = sortNu;
         //theme.orDestory = false;
         theme.themeSrcImg = themeSrcImg;
