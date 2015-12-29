@@ -26,6 +26,8 @@
 <script>
     function ShowModal() {
         var sharedObject = {};
+        var labelImgWidth;
+        var labelImgHeight;
 
         if (window.showModalDialog) {
             var retValue = showModalDialog("/topic/add/popup", sharedObject, "dialogWidth:1200px; dialogHeight:600px; dialogLeft:300px;");
@@ -101,10 +103,11 @@
         })(img);
         reader.readAsDataURL(file);
     }
+
     function previewImage1(obj, file) {
+
         var gallery = obj;
         var imageType = /image.*/;
-
         if (!file.type.match(imageType)) {
             throw "File Type must be an image";
         }
@@ -120,7 +123,10 @@
         reader.onload = (function (aImg) {
             return function (e) {
                 aImg.src = e.target.result;
-            }
+                alert(["图片大小是: width:"+aImg.width+", height:"+aImg.height]);
+                labelImgWidth = aImg.width;
+                labelImgHeight = aImg.height;
+               }
         })(img);
         reader.readAsDataURL(file);
     }
@@ -198,6 +204,7 @@
                 previewImage(li_dv, this.files[i], id);
             }
         });
+
 //        upload-lable
         $(document).on('change', '#upload-label', function () {
             if ($(this).val()) {
@@ -211,6 +218,8 @@
                 previewImage1(label_img, this.files[i]);
             }
         });
+
+
         $(document).on("click", ".img .close", function () {
             if ($(this).parent().find(".onlyday")) {
                 $(this).parents(".img").find(".upload2").val("");

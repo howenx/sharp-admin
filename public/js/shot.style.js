@@ -389,7 +389,6 @@ $(function() {
   			return false;
   		}
   	}
-
   	$("#push").click(function(){
 
         var isPost = true;
@@ -511,12 +510,22 @@ $(function() {
         //主题列表主宣传图
         var imgUrl = document.getElementById("dragon-container").getElementsByTagName("img")[0].src;
         var themeMasterImg = imgUrl.substring(imgUrl.indexOf('/',imgUrl.indexOf('/')+2));
+        //主题主图片
+        var themeImgContent = {};
+        themeImgContent.url = themeImgFinal;
+        themeImgContent.width = uploadImgWidth;
+        themeImgContent.height = uploadImgHeight;
+        //主题tag背景图
+        var themeMasterImgContent = {};
+        themeMasterImgContent.url = themeMasterImg;
+        themeMasterImgContent.width = labelImgWidth;
+        themeMasterImgContent.height = labelImgHeight;
 
         theme.masterItemId = masterItemId;
         theme.title = title;
         theme.startAt = onShelvesAt;
         theme.endAt = offShelvesAt;
-        theme.themeImg = '{"url": "' + themeImgFinal + '", "width:" "' + uploadImgWidth + '", "height": "' + uploadImgHeight + '"}';
+        theme.themeImg = JSON.stringify(themeImgContent);
         //theme.themeImg = themeImgFinal;
         theme.sortNu = sortNu;
         //theme.orDestory = false;
@@ -524,7 +533,8 @@ $(function() {
         theme.themeDesc = themeConfig;
         theme.themeItem = themeItems;
         theme.themeTags = masterItemTag;
-        theme.themeMasterImg = themeMasterImg;
+        //theme.themeMasterImg = themeMasterImg;
+        theme.themeMasterImg = JSON.stringify(themeMasterImgContent);
 
 
         if (isPost) {
