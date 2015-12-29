@@ -70,7 +70,7 @@ $(function() {
                 }else{
                      uploadImgWidth = 730;
                 }
-                if(image.height >= 254){
+               if(image.height >= 254){
                     uploadImgHeight = image.height;
                 }else{
                     uploadImgHeight = 254;
@@ -283,7 +283,7 @@ $(function() {
                             themeImg = data.oss_url;
                             themeImgShot = data.shot_url;
                             alert(data.oss_prefix + data.oss_url);
-                            //window.open(data.shot_url,'_blank');
+                            window.open(data.shot_url,'_blank');
                             //window.open(data.oss_prefix + data.oss_url,'_blank');
                          },
                          error: function(data, error, errorThrown) {

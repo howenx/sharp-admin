@@ -107,12 +107,5 @@ public class ThemeServiceImpl implements ThemeService {
         return themeMapper.getThemesAll();
     }
 
-    /**
-     * 设置超出日期的主题
-     * Added by Tiffany Zhu 15/12/25
-     */
-    @Override
-    public void themesDestroy() {
-        themeMapper.themesDestroy();
-    }
+
 }
