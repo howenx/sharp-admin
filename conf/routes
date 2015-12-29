@@ -66,10 +66,10 @@ GET             /$lang<(cn|en|kr)>/comm/updateById/:id                      cont
 
 
 #erp中商品,订单
-GET             /itemInfo/search                                            controllers.ItemInfoCtrl.getItemInfo(lang="cn")
+GET             /itemInfo/search                                            controllers.ItemInfoCtrl.itemInfoList(lang="cn")
+POST            /itemInfo/search/$pageNum<[0-9]+>                           controllers.ItemInfoCtrl.itemInfoSearchAjax(lang ="cn",pageNum:Int)
+POST            /$lang<(cn|en|kr)>/itemInfo/search/$pageNum<[0-9]+>         controllers.ItemInfoCtrl.itemInfoSearchAjax(lang, pageNum:Int)
 GET             /shopOrder/push                                             controllers.ShopOrderCtrl.ShopOrderPush
-
-
 
 
 

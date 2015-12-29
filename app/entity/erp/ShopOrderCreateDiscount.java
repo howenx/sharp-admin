@@ -1,11 +1,13 @@
 package entity.erp;
 
+import java.io.Serializable;
+
 /**
  * Created by Sunny Wu 15/12/26.
  *
  * 订单商品折扣信息
  */
-public class ShopOrderCreateDiscount {
+public class ShopOrderCreateDiscount implements Serializable {
 
     private String DiscountName;    //折扣名称
     private Double DiscountFee;     //折扣额

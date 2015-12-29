@@ -1,9 +1,11 @@
 package entity.erp;
 
+import java.io.Serializable;
+
 /**
  * Created by Sunny Wu 15/12/25.
  */
-public class SKU {
+public class SKU implements Serializable {
 
     private Integer SkuId;      //SKUId
     private Integer ItemId;

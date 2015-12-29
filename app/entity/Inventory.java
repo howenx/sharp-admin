@@ -2,6 +2,7 @@ package entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
@@ -10,7 +11,7 @@ import java.sql.Timestamp;
  *
  * Created by Sunny Wu.
  */
-public class Inventory {
+public class Inventory implements Serializable{
 
     /**
      * 主键id

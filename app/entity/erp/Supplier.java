@@ -1,9 +1,11 @@
 package entity.erp;
 
+import java.io.Serializable;
+
 /**
  * Created by Sunny Wu 15/12/25.
  */
-public class Supplier {
+public class Supplier implements Serializable {
 
     private Integer SupplierId; //供应商Id
     private String SupplierCode;//供应商代码

@@ -1,11 +1,13 @@
 package entity.erp;
 
+import java.io.Serializable;
+
 /**
  * Created by Sunny Wu 15/12/26.
  *
  * 订单商品信息
  */
-public class ShopOrderCreateLine {
+public class ShopOrderCreateLine implements Serializable {
 
     private String ShopLineNo;  //平台订单行号
     private String OuterId;     //外部代码

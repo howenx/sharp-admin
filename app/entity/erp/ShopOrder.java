@@ -1,5 +1,6 @@
 package entity.erp;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by Sunny Wu on 15/12/26.
  * 商品订单
  */
-public class ShopOrder {
+public class ShopOrder implements Serializable{
 
     private String ShopOrderNo;     //平台订单号
     private Integer ShopId;         //店铺Id
