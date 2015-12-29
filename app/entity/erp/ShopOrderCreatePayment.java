@@ -1,11 +1,13 @@
 package entity.erp;
 
+import java.io.Serializable;
+
 /**
  * Created by Sunny Wu 15/12/26.
  *
  * 订单付款信息
  */
-public class ShopOrderCreatePayment {
+public class ShopOrderCreatePayment implements Serializable {
 
     private Integer PaymentId;      //付款方式 (1.现金支付2.银行转账3.网上支付4.支付宝5.天猫积分6.货到付款7.账户支付)
     private Double PaymentTotal;    //付款金额

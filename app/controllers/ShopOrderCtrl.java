@@ -35,13 +35,10 @@ public class ShopOrderCtrl extends Controller {
         Map params = new HashMap<>();
         params.put("ShopOrderNo", "77700232");
         params.put("ShopId", 1);
-        params.put("MemberNick", "xiaomaolv");
+        params.put("MemberNick", "zhangsan");
         params.put("OrderStatus", 10);
         params.put("ShopCreatedTime", "2015-12-25 16:01:28");
         params.put("ItemLineInfo", ItemLineInfo);
-
-
-
 
         String ShopOrderNo = B1EC2Client.post("http://121.43.186.32", "B1EC2.ShopOrder.Push", params, JsonNode.class).toString();
 

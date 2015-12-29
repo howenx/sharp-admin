@@ -3,6 +3,7 @@ package entity.erp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ItemInfo {
+public class ItemInfo implements Serializable{
     private Integer ItemId;     //商品Id
     private String ItemCode;    //货号
     private String ItemName;    //商品名称
@@ -49,7 +50,7 @@ public class ItemInfo {
     private Supplier Supplier;      //供应商
     private Integer SupplierId;     //供应商Id
     private Integer SupplierCode;   //供应商代码
-    private List<SKU> Lines;           //商品库存
+    private List<SKU> Lines;        //商品库存
     private String Property1;      //自定义属性1
     private String Property2;      //自定义属性2
     private String Property3;      //自定义属性3
@@ -63,118 +64,14 @@ public class ItemInfo {
     private String Property11;      //自定义属性11
     private String Property12;      //自定义属性12
 
+    private Timestamp StartTime;    //商品修改开始时间
+    private Timestamp EndTime;      //商品修改结束时间
+
+
     public ItemInfo() {
     }
 
-    @Override
-    public String toString() {
-        return "ItemInfo{" +
-                "ItemId=" + ItemId +
-                ", ItemCode='" + ItemCode + '\'' +
-                ", ItemName='" + ItemName + '\'' +
-                ", PictureUrl='" + PictureUrl + '\'' +
-                ", BarCode='" + BarCode + '\'' +
-                ", CatCode=" + CatCode +
-                ", CatName='" + CatName + '\'' +
-                ", CatName1='" + CatName1 + '\'' +
-                ", CatName2='" + CatName2 + '\'' +
-                ", CatPath='" + CatPath + '\'' +
-                ", PurchasePrice=" + PurchasePrice +
-                ", SalesPrice=" + SalesPrice +
-                ", LowestPrice=" + LowestPrice +
-                ", MarketPrice=" + MarketPrice +
-                ", Unit='" + Unit + '\'' +
-                ", InvoiceName='" + InvoiceName + '\'' +
-                ", Size=" + Size +
-                ", Weight=" + Weight +
-                ", IsAgent=" + IsAgent +
-                ", IsVirtual=" + IsVirtual +
-                ", IsStopProducte=" + IsStopProducte +
-                ", IsSerialNumber=" + IsSerialNumber +
-                ", Memo='" + Memo + '\'' +
-                ", CreatedTime=" + CreatedTime +
-                ", UpdateTime=" + UpdateTime +
-                ", UserSign='" + UserSign + '\'' +
-                ", Brand=" + Brand +
-                ", BrandId=" + BrandId +
-                ", Proportion=" + Proportion +
-                ", Status=" + Status +
-                ", ItemStatusEnum=" + ItemStatusEnum +
-                ", ShelfLife=" + ShelfLife +
-                ", PurchaseUnit='" + PurchaseUnit + '\'' +
-                ", Supplier=" + Supplier +
-                ", SupplierId=" + SupplierId +
-                ", SupplierCode=" + SupplierCode +
-                ", Lines=" + Lines +
-                ", Property1='" + Property1 + '\'' +
-                ", Property2='" + Property2 + '\'' +
-                ", Property3='" + Property3 + '\'' +
-                ", Property4='" + Property4 + '\'' +
-                ", Property5='" + Property5 + '\'' +
-                ", Property6='" + Property6 + '\'' +
-                ", Property7='" + Property7 + '\'' +
-                ", Property8='" + Property8 + '\'' +
-                ", Property9='" + Property9 + '\'' +
-                ", Property10='" + Property10 + '\'' +
-                ", Property11='" + Property11 + '\'' +
-                ", Property12='" + Property12 + '\'' +
-                '}';
-    }
-
-    public ItemInfo(Integer itemId, String itemCode, String itemName, String pictureUrl, String barCode, Integer catCode, String catName, String catName1, String catName2, String catPath, Double purchasePrice, Double salesPrice, Double lowestPrice, Double marketPrice, String unit, String invoiceName, Double size, Double weight, Boolean isAgent, Boolean isVirtual, Boolean isStopProducte, Boolean isSerialNumber, String memo, Timestamp createdTime, Timestamp updateTime, String userSign, entity.erp.Brand brand, Integer brandId, Integer proportion, Integer status, Integer itemStatusEnum, Integer shelfLife, String purchaseUnit, entity.erp.Supplier supplier, Integer supplierId, Integer supplierCode, List<SKU> lines, String property1, String property2, String property3, String property4, String property5, String property6, String property7, String property8, String property9, String property10, String property11, String property12) {
-        ItemId = itemId;
-        ItemCode = itemCode;
-        ItemName = itemName;
-        PictureUrl = pictureUrl;
-        BarCode = barCode;
-        CatCode = catCode;
-        CatName = catName;
-        CatName1 = catName1;
-        CatName2 = catName2;
-        CatPath = catPath;
-        PurchasePrice = purchasePrice;
-        SalesPrice = salesPrice;
-        LowestPrice = lowestPrice;
-        MarketPrice = marketPrice;
-        Unit = unit;
-        InvoiceName = invoiceName;
-        Size = size;
-        Weight = weight;
-        IsAgent = isAgent;
-        IsVirtual = isVirtual;
-        IsStopProducte = isStopProducte;
-        IsSerialNumber = isSerialNumber;
-        Memo = memo;
-        CreatedTime = createdTime;
-        UpdateTime = updateTime;
-        UserSign = userSign;
-        Brand = brand;
-        BrandId = brandId;
-        Proportion = proportion;
-        Status = status;
-        ItemStatusEnum = itemStatusEnum;
-        ShelfLife = shelfLife;
-        PurchaseUnit = purchaseUnit;
-        Supplier = supplier;
-        SupplierId = supplierId;
-        SupplierCode = supplierCode;
-        Lines = lines;
-        Property1 = property1;
-        Property2 = property2;
-        Property3 = property3;
-        Property4 = property4;
-        Property5 = property5;
-        Property6 = property6;
-        Property7 = property7;
-        Property8 = property8;
-        Property9 = property9;
-        Property10 = property10;
-        Property11 = property11;
-        Property12 = property12;
-    }
-
     public Integer getItemId() {
-
         return ItemId;
     }
 
@@ -564,6 +461,133 @@ public class ItemInfo {
 
     public void setProperty12(String property12) {
         Property12 = property12;
+    }
+
+    public Timestamp getStartTime() {
+        return StartTime;
+    }
+
+    public void setStartTime(Timestamp startTime) {
+        StartTime = startTime;
+    }
+
+    public Timestamp getEndTime() {
+        return EndTime;
+    }
+
+    public void setEndTime(Timestamp endTime) {
+        EndTime = endTime;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemInfo{" +
+                "ItemId=" + ItemId +
+                ", ItemCode='" + ItemCode + '\'' +
+                ", ItemName='" + ItemName + '\'' +
+                ", PictureUrl='" + PictureUrl + '\'' +
+                ", BarCode='" + BarCode + '\'' +
+                ", CatCode=" + CatCode +
+                ", CatName='" + CatName + '\'' +
+                ", CatName1='" + CatName1 + '\'' +
+                ", CatName2='" + CatName2 + '\'' +
+                ", CatPath='" + CatPath + '\'' +
+                ", PurchasePrice=" + PurchasePrice +
+                ", SalesPrice=" + SalesPrice +
+                ", LowestPrice=" + LowestPrice +
+                ", MarketPrice=" + MarketPrice +
+                ", Unit='" + Unit + '\'' +
+                ", InvoiceName='" + InvoiceName + '\'' +
+                ", Size=" + Size +
+                ", Weight=" + Weight +
+                ", IsAgent=" + IsAgent +
+                ", IsVirtual=" + IsVirtual +
+                ", IsStopProducte=" + IsStopProducte +
+                ", IsSerialNumber=" + IsSerialNumber +
+                ", Memo='" + Memo + '\'' +
+                ", CreatedTime=" + CreatedTime +
+                ", UpdateTime=" + UpdateTime +
+                ", UserSign='" + UserSign + '\'' +
+                ", Brand=" + Brand +
+                ", BrandId=" + BrandId +
+                ", Proportion=" + Proportion +
+                ", Status=" + Status +
+                ", ItemStatusEnum=" + ItemStatusEnum +
+                ", ShelfLife=" + ShelfLife +
+                ", PurchaseUnit='" + PurchaseUnit + '\'' +
+                ", Supplier=" + Supplier +
+                ", SupplierId=" + SupplierId +
+                ", SupplierCode=" + SupplierCode +
+                ", Lines=" + Lines +
+                ", Property1='" + Property1 + '\'' +
+                ", Property2='" + Property2 + '\'' +
+                ", Property3='" + Property3 + '\'' +
+                ", Property4='" + Property4 + '\'' +
+                ", Property5='" + Property5 + '\'' +
+                ", Property6='" + Property6 + '\'' +
+                ", Property7='" + Property7 + '\'' +
+                ", Property8='" + Property8 + '\'' +
+                ", Property9='" + Property9 + '\'' +
+                ", Property10='" + Property10 + '\'' +
+                ", Property11='" + Property11 + '\'' +
+                ", Property12='" + Property12 + '\'' +
+                ", StartTime=" + StartTime +
+                ", EndTime=" + EndTime +
+                '}';
+    }
+
+    public ItemInfo(Integer itemId, String itemCode, String itemName, String pictureUrl, String barCode, Integer catCode, String catName, String catName1, String catName2, String catPath, Double purchasePrice, Double salesPrice, Double lowestPrice, Double marketPrice, String unit, String invoiceName, Double size, Double weight, Boolean isAgent, Boolean isVirtual, Boolean isStopProducte, Boolean isSerialNumber, String memo, Timestamp createdTime, Timestamp updateTime, String userSign, entity.erp.Brand brand, Integer brandId, Integer proportion, Integer status, Integer itemStatusEnum, Integer shelfLife, String purchaseUnit, entity.erp.Supplier supplier, Integer supplierId, Integer supplierCode, List<SKU> lines, String property1, String property2, String property3, String property4, String property5, String property6, String property7, String property8, String property9, String property10, String property11, String property12, Timestamp startTime, Timestamp endTime) {
+        ItemId = itemId;
+        ItemCode = itemCode;
+        ItemName = itemName;
+        PictureUrl = pictureUrl;
+        BarCode = barCode;
+        CatCode = catCode;
+        CatName = catName;
+        CatName1 = catName1;
+        CatName2 = catName2;
+        CatPath = catPath;
+        PurchasePrice = purchasePrice;
+        SalesPrice = salesPrice;
+        LowestPrice = lowestPrice;
+        MarketPrice = marketPrice;
+        Unit = unit;
+        InvoiceName = invoiceName;
+        Size = size;
+        Weight = weight;
+        IsAgent = isAgent;
+        IsVirtual = isVirtual;
+        IsStopProducte = isStopProducte;
+        IsSerialNumber = isSerialNumber;
+        Memo = memo;
+        CreatedTime = createdTime;
+        UpdateTime = updateTime;
+        UserSign = userSign;
+        Brand = brand;
+        BrandId = brandId;
+        Proportion = proportion;
+        Status = status;
+        ItemStatusEnum = itemStatusEnum;
+        ShelfLife = shelfLife;
+        PurchaseUnit = purchaseUnit;
+        Supplier = supplier;
+        SupplierId = supplierId;
+        SupplierCode = supplierCode;
+        Lines = lines;
+        Property1 = property1;
+        Property2 = property2;
+        Property3 = property3;
+        Property4 = property4;
+        Property5 = property5;
+        Property6 = property6;
+        Property7 = property7;
+        Property8 = property8;
+        Property9 = property9;
+        Property10 = property10;
+        Property11 = property11;
+        Property12 = property12;
+        StartTime = startTime;
+        EndTime = endTime;
     }
 }
 
