@@ -20,7 +20,6 @@ import scheduledJobs.ScheduleActor.ThemesDestroyActor;
  */
 public class GlobalSchedule extends GlobalSettings{
         private Cancellable canceller = null;
-
         @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
         Timestamp nowDate = new Timestamp(new Date().getTime());
 
@@ -42,7 +41,6 @@ public class GlobalSchedule extends GlobalSettings{
                     null
             );
         }
-
         @Override
         public void onStop(play.Application application) {
             System.out.println("END GREETING");
