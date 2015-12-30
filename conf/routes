@@ -159,6 +159,17 @@ GET             /$lang<(cn|en|kr)>/data/config/add                        contro
 POST            /data/config/paramSave                                    controllers.DataCtrl.paramSave(lang = "cn")
 
 
+#Coupons -->coup 优惠券
+GET             /coup/add                                                  controllers.CoupCtrl.coupCreate(lang="cn")
+GET             /$lang<(cn|en|kr)>/coup/add                                controllers.CoupCtrl.coupCreate(lang)
+GET             /coup/add/popup                                            controllers.CoupCtrl.coupaddPop()
+
+
+#ID  --> user 用户
+GET             /user/search                                                controllers.IDCtrl.userSearch(lang="cn")
+GET             /$lang<(cn|en|kr)>/user/search                              controllers.IDCtrl.userSearch(lang)
+
+
 
 
 

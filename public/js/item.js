@@ -796,7 +796,7 @@ $(function(){
 //        console.log(item.itemDetailImgs);
 //        console.log(JSON.stringify(itemData));
         console.log(isPost);
-        if (false) {
+        if (isPost) {
             $.ajax({
                 type :  "POST",
                 url : "/comm/itemSave",

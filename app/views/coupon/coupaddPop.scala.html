@@ -1,0 +1,88 @@
+@(idList:List[entity.ID], url:String)
+
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<!--self-->
+<link rel="stylesheet" href="/assets/css/search.css">
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var sharedObject = window.dialogArguments;
+        if (sharedObject.flag) {
+            $("input[type=checkbox]").attr('type','radio');
+        }
+        $(".return").click(function(){
+            var id=$("input[type=checkbox]:checked").parents("tr");
+            $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo(id);
+            $(id).find("input[type=checkbox]:checked").parent().remove();
+            var lable_id=$("input[type=radio]:checked").parent().next().html();
+            if (window.showModalDialog) {
+                var sharedObject = {};
+                sharedObject.id = id;
+                if(lable_id.value!==""){
+                    sharedObject.lable_id = lable_id;
+                }
+                window.returnValue = sharedObject;
+            }
+            else {
+                // if not modal, we cannot use the returnValue property, we need to update the opener window
+                var sharedObject = {};
+                sharedObject.id = id;
+                sharedObject.lable_id = lable_id;
+                console.log(lable_id);
+                window.opener.UpdateFields (sharedObject);
+            }
+            window.close ();
+        })
+    })
+</script>
+<style>
+    .table-bordered.table-hover{
+    width: 1100px;margin-left: 50px;
+    }
+</style>
+<body>
+<h3>用户查询</h3>
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>选择用户</th>
+        <th>用户ID</th>
+        <th>用户名称</th>
+        <th>头像</th>
+        <th>性别</th>
+        <th>邮箱</th>
+        <th>电话号码</th>
+        <th>生日</th>
+        <th>真实姓名</th>
+        <th>证件类型</th>
+        <th>证件号码</th>
+        <th>注册时间</th>
+        <th>是否激活</th>
+        <th>是否实名认证</th>
+    </tr>
+    @for(id <- idList){
+    <tr>
+        <td>
+            <input type="checkbox" name="users">
+        </td>
+        <td>@id.getUserId()</td>
+        <td>@id.getNickname()</td>
+        <td> <img class="main-img" src="@url@id.getPhotoUrl()" alt="" width="50"></td>
+        <td>@id.getGender()</td>
+        <td>@id.getEmail()</td>
+        <td>@id.getPhoneNum()</td>
+        @if(id.getBirthday!=null){<td>@(id.getBirthday().toString().substring(0,10))</td>}
+        <td>@id.getRealName()</td>
+        <td>@id.getCardType()</td>
+        <td>@id.getCardNum()</td>
+        @if(id.getRegDt!=null){<td>@(id.getRegDt().toString().substring(0,16))</td>}
+        @if(id.getActiveYN()=="Y"){<td>是</td>}
+        @if(id.getActiveYN()=="N"){<td>否</td>}
+        @if(id.getRealYN()=="Y"){<td>是</td>}
+        @if(id.getRealYN()=="N"){<td>否</td>}
+    </tr>
+    }
+</table>
+<button class="return btn btn-primary" style="margin-left: 50px;margin-bottom: 10px">确认添加</button>
+</body>

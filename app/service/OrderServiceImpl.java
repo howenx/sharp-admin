@@ -1,8 +1,9 @@
 package service;
 
-import com.google.inject.Inject;
 import entity.Order;
 import mapper.OrderMapper;
+
+import javax.inject.Inject;
 import java.util.List;
 
 /**

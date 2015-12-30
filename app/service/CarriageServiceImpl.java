@@ -1,12 +1,12 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.inject.Inject;
 import entity.Carriage;
 import mapper.CarriageMapper;
 import play.Logger;
 import play.libs.Json;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 
