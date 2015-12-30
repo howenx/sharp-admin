@@ -36,6 +36,8 @@ GET             /topic/slider/popup                                         cont
 GET             /topic/add/popup                                            controllers.ThemeCtrl.thaddPop()
 POST            /topic/add/themeSave                                        controllers.ThemeCtrl.themeSave(lang = "cn")
 POST            /$lang<(cn|en|kr)>/topic/add/themeSave                      controllers.ThemeCtrl.themeSave(lang)
+GET             /topic/updateById/:id                                       controllers.ThemeCtrl.updateThemeById(lang = "cn",id:Long)
+GET             /$lang<(cn|en|kr)>/topic/updateById/:id                     controllers.ThemeCtrl.updateThemeById(lang,id:Long)
 
 
 

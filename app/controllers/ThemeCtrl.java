@@ -232,7 +232,7 @@ public class ThemeCtrl extends Controller {
     }
 
     /**
-     * 添加主题
+     * 添加主题   Added by Tiffany Zhu
      * @return Result
      */
     @Security.Authenticated(UserAuth.class)
@@ -241,6 +241,16 @@ public class ThemeCtrl extends Controller {
         Logger.error(json.toString());
         service.themeSave(json);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
+    }
+
+    /**
+     * 通过themeId更新主题  Added by Tiffany Zhu 2015.12.30
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result updateThemeById(String lang,Long id){
+        return ok(views.html.theme.themeUpdate.render(lang,(User) ctx().args.get("user")));
     }
 
 
