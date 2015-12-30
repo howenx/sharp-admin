@@ -512,7 +512,8 @@ $(function() {
         }
         //主题列表主宣传图
         var imgUrl = document.getElementById("dragon-container").getElementsByTagName("img")[0].src;
-        var themeMasterImg = imgUrl.substring(imgUrl.indexOf('/',imgUrl.indexOf('/')+2));
+        var themeMasterImg = imgUrl.substring(imgUrl.indexOf('/',imgUrl.indexOf('/')+2) + 1);
+
         //主题主图片
         var themeImgContent = {};
         themeImgContent.url = themeImgFinal;

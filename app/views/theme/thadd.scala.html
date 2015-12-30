@@ -148,7 +148,7 @@
                 input.type = "hidden";
                 input.name = data.imgid;
                 input.value = data.path;
-                $(thumb).find("img").attr('src', data.minify_url);
+                $(thumb).find("img").attr('src', data.oss_prefix+data.oss_url);
                 $(thumb).append(input);
                 alert(data.message);
             }
