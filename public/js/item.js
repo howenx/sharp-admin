@@ -115,13 +115,6 @@ $(function(){
             throw "File Type must be an image";
         }
 
-
-
-//        var width = image.width;
-//        var height = image.height;
-//        console.log(image.src);
-//        console.log("width="+width+" height="+height);
-
         var thumb = document.createElement("div");
         var img = document.createElement("img");
 
@@ -159,7 +152,7 @@ $(function(){
                 aImg.src = e.target.result;
                 var image = new Image();
                 image.src = e.target.result;
-//                alert(["图片大小是: width:"+image.width+", height:"+image.height]);
+                alert(["图片大小是: width:"+image.width+", height:"+image.height]);
                 aImg.width = image.width;
                 aImg.height = image.height;
             }
@@ -698,10 +691,16 @@ $(function(){
             var invArea = tds[14].getElementsByTagName("select")[0].value;
             var invCustoms = tds[15].getElementsByTagName("select")[0].value;
             //sku主图
-            var invImg = "";
+            var invImg = {};
             var imgM = document.getElementById("galleryM"+i).getElementsByTagName("img");
-            invImg = imgM[0].src;
-            invImg  = invImg.substring(invImg.lastIndexOf('/')+1,invImg.length);
+            var imgSrc = imgM[0].src;
+            var imgWidth = imgM[0].getAttribute("width");
+            var imgHeight = imgM[0].getAttribute("height");
+            invImg["url"] = imgSrc.substring(imgSrc.lastIndexOf('/')+1,imgSrc.length);
+            invImg["width"] = imgWidth;
+            invImg["height"] = imgHeight;
+//            invImg = imgM[0].src;
+//            invImg  = invImg.substring(invImg.lastIndexOf('/')+1,invImg.length);
             //sku预览图
             imgs = document.getElementById("galleryP"+i).getElementsByTagName("div");
             for(j=0;j<imgs.length;j++) {
@@ -711,10 +710,10 @@ $(function(){
 //                itemPreviewImgs.push(imgsV);
                 //sku预览图保存图片的url,宽和高
                 var imgsV = {};
-                var src = imgP[0].src;
+                var preSrc = imgP[0].src;
                 var width = imgP[0].getAttribute("width");
                 var height = imgP[0].getAttribute("height");
-                imgsV["url"] = src.substring(src.lastIndexOf('/')+1,src.length);
+                imgsV["url"] = preSrc.substring(preSrc.lastIndexOf('/')+1,preSrc.length);
                 imgsV["width"] = width;
                 imgsV["height"] = height;
                 itemPreviewImgs.push(imgsV);
@@ -728,7 +727,7 @@ $(function(){
                     var width = img.getAttribute("width");
                     var height = img.getAttribute("height");
                     if (width!=preWidth && height!=preHeight) {
-                        if (window.confirm("上传预览图尺寸不一致,是否继续?")) {}
+                        if (window.confirm("第"+i+"条库存上传的预览图尺寸不一致,是否继续?")) {}
                         else isPost = false;
                         break;
                     }
@@ -753,7 +752,7 @@ $(function(){
             if(postalTaxCode=="") {inventory.postalTaxCode = null;}
             inventory.invArea = invArea;
             inventory.invCustoms = invCustoms;
-            inventory.invImg = invImg;
+            inventory.invImg = JSON.stringify(invImg);
             inventory.itemPreviewImgs = itemPreviewImgs;
             inventory.recordCode = recordCode;
             if (tds[20].getElementsByTagName("input")[0].value != "") {
@@ -791,13 +790,13 @@ $(function(){
         itemData.item = item;
         itemData.inventories = inventories;
 
-//        console.log(JSON.stringify(item));
+        console.log(JSON.stringify(item));
         console.log(JSON.stringify(inventories));
 //        console.log(item.itemMasterImg);
 //        console.log(item.itemDetailImgs);
 //        console.log(JSON.stringify(itemData));
         console.log(isPost);
-        if (isPost) {
+        if (false) {
             $.ajax({
                 type :  "POST",
                 url : "/comm/itemSave",

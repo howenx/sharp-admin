@@ -7,93 +7,94 @@ import java.io.Serializable;
  */
 public class Supplier implements Serializable {
 
-    private Integer SupplierId; //供应商Id
-    private String SupplierCode;//供应商代码
-    private String SupplierName;//供应商名称
-    private String Province;    //省份
-    private String City;        //城市
-    private String District;    //区
-    private String Address;     //地址
+    private Integer supplierId; //供应商Id
+    private String supplierCode;//供应商代码
+    private String supplierName;//供应商名称
+    private String province;    //省份
+    private String city;        //城市
+    private String district;    //区
+    private String address;     //地址
 
     public Supplier() {
-    }
-
-    public Integer getSupplierId() {
-        return SupplierId;
-    }
-
-    public void setSupplierId(Integer supplierId) {
-        SupplierId = supplierId;
-    }
-
-    public String getSupplierCode() {
-        return SupplierCode;
-    }
-
-    public void setSupplierCode(String supplierCode) {
-        SupplierCode = supplierCode;
-    }
-
-    public String getSupplierName() {
-        return SupplierName;
-    }
-
-    public void setSupplierName(String supplierName) {
-        SupplierName = supplierName;
-    }
-
-    public String getProvince() {
-        return Province;
-    }
-
-    public void setProvince(String province) {
-        Province = province;
-    }
-
-    public String getCity() {
-        return City;
-    }
-
-    public void setCity(String city) {
-        City = city;
-    }
-
-    public String getDistrict() {
-        return District;
-    }
-
-    public void setDistrict(String district) {
-        District = district;
-    }
-
-    public String getAddress() {
-        return Address;
-    }
-
-    public void setAddress(String address) {
-        Address = address;
     }
 
     @Override
     public String toString() {
         return "Supplier{" +
-                "SupplierId=" + SupplierId +
-                ", SupplierCode='" + SupplierCode + '\'' +
-                ", SupplierName='" + SupplierName + '\'' +
-                ", Province='" + Province + '\'' +
-                ", City='" + City + '\'' +
-                ", District='" + District + '\'' +
-                ", Address='" + Address + '\'' +
+                "supplierId=" + supplierId +
+                ", supplierCode='" + supplierCode + '\'' +
+                ", supplierName='" + supplierName + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", district='" + district + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 
+    public Integer getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Integer supplierId) {
+        this.supplierId = supplierId;
+    }
+
+    public String getSupplierCode() {
+        return supplierCode;
+    }
+
+    public void setSupplierCode(String supplierCode) {
+        this.supplierCode = supplierCode;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public Supplier(Integer supplierId, String supplierCode, String supplierName, String province, String city, String district, String address) {
-        SupplierId = supplierId;
-        SupplierCode = supplierCode;
-        SupplierName = supplierName;
-        Province = province;
-        City = city;
-        District = district;
-        Address = address;
+
+        this.supplierId = supplierId;
+        this.supplierCode = supplierCode;
+        this.supplierName = supplierName;
+        this.province = province;
+        this.city = city;
+        this.district = district;
+        this.address = address;
     }
 }

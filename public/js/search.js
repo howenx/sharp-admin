@@ -194,14 +194,14 @@ $(function() {
         //每个查询页面对应一个相应的组装函数  erp商品资料查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Sunny Wu
         funcList.itemInfoList_search = function orderlist_search(pageIndex) {
             var itemInfoDto = new Object();
-            itemInfoDto.StartTime = $("#itemInfo-form-starttime").val();
-            itemInfoDto.EndTime = $("#itemInfo-form-endtime").val();
+            itemInfoDto.startTime = $("#itemInfo-form-starttime").val();
+            itemInfoDto.endTime = $("#itemInfo-form-endtime").val();
             //起止时间如果为空
             if ($("#itemInfo-form-starttime").val() == '' || $("#itemInfo-form-starttime").val() == null) {
-                itemInfoDto.StartTime = "0000-01-01 00:00:00";
+                itemInfoDto.startTime = "2015-01-01 00:00:00";
             }
             if ($("#itemInfo-form-endtime").val() == '' || $("#itemInfo-form-endtime").val() == null) {
-                itemInfoDto.StartTime = "99999-12-31 23:59:59";
+                itemInfoDto.endTime = "2020-12-31 23:59:59";
             }
             //调用共用ajax,url从根目录开始不需要加上语言
             search("/itemInfo/search/" + pageIndex, itemInfoDto);

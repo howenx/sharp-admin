@@ -7,69 +7,96 @@ import java.io.Serializable;
  */
 public class SKU implements Serializable {
 
-    private Integer SkuId;      //SKUId
-    private Integer ItemId;
-    private String SkuCode;     //规格编码
-    private String SkuName;     //规格名称
-    private String BarCode;     //条形码
+    private Integer skuId;      //SKUId
+    private Integer itemId;
+    private String skuCode;     //规格编码
+    private String skuName;     //规格名称
+    private String barCode;     //条形码
     private String property1;   //销售属性1
-    private String Property2;   //销售属性2
-    private Double PurchasePrice;//采购价格
-    private Double SalesPrice;  //销售价格
-    private Double LowestPrice;  //最低售价
-    private Double MarketPrice;  //吊牌价格
-    private Double Size;         //体积(立方米)
-    private Double Weight;       //重量(千克)
-    private String Unit;
-    private String SupplierCode;
-    private Integer Proportion;
-    private String UserDefinedField1;
-    private String UserDefinedField2;
-    private String UserDefinedField3;
-    private String UserDefinedField4;
-    private String UserDefinedField5;
+    private String property2;   //销售属性2
+    private Double purchasePrice;//采购价格
+    private Double salesPrice;  //销售价格
+    private Double lowestPrice;  //最低售价
+    private Double marketPrice;  //吊牌价格
+    private Double size;         //体积(立方米)
+    private Double weight;       //重量(千克)
+    private String unit;
+    private String supplierCode;
+    private Integer proportion;
+    private String userDefinedField1;
+    private String userDefinedField2;
+    private String userDefinedField3;
+    private String userDefinedField4;
+    private String userDefinedField5;
 
     public SKU() {
     }
 
+    @Override
+    public String toString() {
+        return "SKU{" +
+                "skuId=" + skuId +
+                ", itemId=" + itemId +
+                ", skuCode='" + skuCode + '\'' +
+                ", skuName='" + skuName + '\'' +
+                ", barCode='" + barCode + '\'' +
+                ", property1='" + property1 + '\'' +
+                ", property2='" + property2 + '\'' +
+                ", purchasePrice=" + purchasePrice +
+                ", salesPrice=" + salesPrice +
+                ", lowestPrice=" + lowestPrice +
+                ", marketPrice=" + marketPrice +
+                ", size=" + size +
+                ", weight=" + weight +
+                ", unit='" + unit + '\'' +
+                ", supplierCode='" + supplierCode + '\'' +
+                ", proportion=" + proportion +
+                ", userDefinedField1='" + userDefinedField1 + '\'' +
+                ", userDefinedField2='" + userDefinedField2 + '\'' +
+                ", userDefinedField3='" + userDefinedField3 + '\'' +
+                ", userDefinedField4='" + userDefinedField4 + '\'' +
+                ", userDefinedField5='" + userDefinedField5 + '\'' +
+                '}';
+    }
+
     public Integer getSkuId() {
-        return SkuId;
+        return skuId;
     }
 
     public void setSkuId(Integer skuId) {
-        SkuId = skuId;
+        this.skuId = skuId;
     }
 
     public Integer getItemId() {
-        return ItemId;
+        return itemId;
     }
 
     public void setItemId(Integer itemId) {
-        ItemId = itemId;
+        this.itemId = itemId;
     }
 
     public String getSkuCode() {
-        return SkuCode;
+        return skuCode;
     }
 
     public void setSkuCode(String skuCode) {
-        SkuCode = skuCode;
+        this.skuCode = skuCode;
     }
 
     public String getSkuName() {
-        return SkuName;
+        return skuName;
     }
 
     public void setSkuName(String skuName) {
-        SkuName = skuName;
+        this.skuName = skuName;
     }
 
     public String getBarCode() {
-        return BarCode;
+        return barCode;
     }
 
     public void setBarCode(String barCode) {
-        BarCode = barCode;
+        this.barCode = barCode;
     }
 
     public String getProperty1() {
@@ -81,174 +108,147 @@ public class SKU implements Serializable {
     }
 
     public String getProperty2() {
-        return Property2;
+        return property2;
     }
 
     public void setProperty2(String property2) {
-        Property2 = property2;
+        this.property2 = property2;
     }
 
     public Double getPurchasePrice() {
-        return PurchasePrice;
+        return purchasePrice;
     }
 
     public void setPurchasePrice(Double purchasePrice) {
-        PurchasePrice = purchasePrice;
+        this.purchasePrice = purchasePrice;
     }
 
     public Double getSalesPrice() {
-        return SalesPrice;
+        return salesPrice;
     }
 
     public void setSalesPrice(Double salesPrice) {
-        SalesPrice = salesPrice;
+        this.salesPrice = salesPrice;
     }
 
     public Double getLowestPrice() {
-        return LowestPrice;
+        return lowestPrice;
     }
 
     public void setLowestPrice(Double lowestPrice) {
-        LowestPrice = lowestPrice;
+        this.lowestPrice = lowestPrice;
     }
 
     public Double getMarketPrice() {
-        return MarketPrice;
+        return marketPrice;
     }
 
     public void setMarketPrice(Double marketPrice) {
-        MarketPrice = marketPrice;
+        this.marketPrice = marketPrice;
     }
 
     public Double getSize() {
-        return Size;
+        return size;
     }
 
     public void setSize(Double size) {
-        Size = size;
+        this.size = size;
     }
 
     public Double getWeight() {
-        return Weight;
+        return weight;
     }
 
     public void setWeight(Double weight) {
-        Weight = weight;
+        this.weight = weight;
     }
 
     public String getUnit() {
-        return Unit;
+        return unit;
     }
 
     public void setUnit(String unit) {
-        Unit = unit;
+        this.unit = unit;
     }
 
     public String getSupplierCode() {
-        return SupplierCode;
+        return supplierCode;
     }
 
     public void setSupplierCode(String supplierCode) {
-        SupplierCode = supplierCode;
+        this.supplierCode = supplierCode;
     }
 
     public Integer getProportion() {
-        return Proportion;
+        return proportion;
     }
 
     public void setProportion(Integer proportion) {
-        Proportion = proportion;
+        this.proportion = proportion;
     }
 
     public String getUserDefinedField1() {
-        return UserDefinedField1;
+        return userDefinedField1;
     }
 
     public void setUserDefinedField1(String userDefinedField1) {
-        UserDefinedField1 = userDefinedField1;
+        this.userDefinedField1 = userDefinedField1;
     }
 
     public String getUserDefinedField2() {
-        return UserDefinedField2;
+        return userDefinedField2;
     }
 
     public void setUserDefinedField2(String userDefinedField2) {
-        UserDefinedField2 = userDefinedField2;
+        this.userDefinedField2 = userDefinedField2;
     }
 
     public String getUserDefinedField3() {
-        return UserDefinedField3;
+        return userDefinedField3;
     }
 
     public void setUserDefinedField3(String userDefinedField3) {
-        UserDefinedField3 = userDefinedField3;
+        this.userDefinedField3 = userDefinedField3;
     }
 
     public String getUserDefinedField4() {
-        return UserDefinedField4;
+        return userDefinedField4;
     }
 
     public void setUserDefinedField4(String userDefinedField4) {
-        UserDefinedField4 = userDefinedField4;
+        this.userDefinedField4 = userDefinedField4;
     }
 
     public String getUserDefinedField5() {
-        return UserDefinedField5;
+        return userDefinedField5;
     }
 
     public void setUserDefinedField5(String userDefinedField5) {
-        UserDefinedField5 = userDefinedField5;
-    }
-
-    @Override
-    public String toString() {
-        return "SKU{" +
-                "SkuId=" + SkuId +
-                ", ItemId=" + ItemId +
-                ", SkuCode='" + SkuCode + '\'' +
-                ", SkuName='" + SkuName + '\'' +
-                ", BarCode='" + BarCode + '\'' +
-                ", property1='" + property1 + '\'' +
-                ", Property2='" + Property2 + '\'' +
-                ", PurchasePrice=" + PurchasePrice +
-                ", SalesPrice=" + SalesPrice +
-                ", LowestPrice=" + LowestPrice +
-                ", MarketPrice=" + MarketPrice +
-                ", Size=" + Size +
-
-                ", Weight=" + Weight +
-                ", Unit='" + Unit + '\'' +
-                ", SupplierCode='" + SupplierCode + '\'' +
-                ", Proportion=" + Proportion +
-                ", UserDefinedField1='" + UserDefinedField1 + '\'' +
-                ", UserDefinedField2='" + UserDefinedField2 + '\'' +
-                ", UserDefinedField3='" + UserDefinedField3 + '\'' +
-                ", UserDefinedField4='" + UserDefinedField4 + '\'' +
-                ", UserDefinedField5='" + UserDefinedField5 + '\'' +
-                '}';
+        this.userDefinedField5 = userDefinedField5;
     }
 
     public SKU(Integer skuId, Integer itemId, String skuCode, String skuName, String barCode, String property1, String property2, Double purchasePrice, Double salesPrice, Double lowestPrice, Double marketPrice, Double size, Double weight, String unit, String supplierCode, Integer proportion, String userDefinedField1, String userDefinedField2, String userDefinedField3, String userDefinedField4, String userDefinedField5) {
-        SkuId = skuId;
-        ItemId = itemId;
-        SkuCode = skuCode;
-        SkuName = skuName;
-        BarCode = barCode;
+
+        this.skuId = skuId;
+        this.itemId = itemId;
+        this.skuCode = skuCode;
+        this.skuName = skuName;
+        this.barCode = barCode;
         this.property1 = property1;
-        Property2 = property2;
-        PurchasePrice = purchasePrice;
-        SalesPrice = salesPrice;
-        LowestPrice = lowestPrice;
-        MarketPrice = marketPrice;
-        Size = size;
-        Weight = weight;
-        Unit = unit;
-        SupplierCode = supplierCode;
-        Proportion = proportion;
-        UserDefinedField1 = userDefinedField1;
-        UserDefinedField2 = userDefinedField2;
-        UserDefinedField3 = userDefinedField3;
-        UserDefinedField4 = userDefinedField4;
-        UserDefinedField5 = userDefinedField5;
+        this.property2 = property2;
+        this.purchasePrice = purchasePrice;
+        this.salesPrice = salesPrice;
+        this.lowestPrice = lowestPrice;
+        this.marketPrice = marketPrice;
+        this.size = size;
+        this.weight = weight;
+        this.unit = unit;
+        this.supplierCode = supplierCode;
+        this.proportion = proportion;
+        this.userDefinedField1 = userDefinedField1;
+        this.userDefinedField2 = userDefinedField2;
+        this.userDefinedField3 = userDefinedField3;
+        this.userDefinedField4 = userDefinedField4;
+        this.userDefinedField5 = userDefinedField5;
     }
 }
