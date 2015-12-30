@@ -27,6 +27,4 @@ public interface ThemeMapper {
 
      void updateTheme(Theme theme);
 
-     void themesDestroy();
-
 }

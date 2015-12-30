@@ -22,5 +22,4 @@ public interface ThemeService {
 
      List<Theme> getThemesAll();
 
-     void themesDestroy();
 }

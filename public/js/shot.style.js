@@ -2,6 +2,8 @@ $(function() {
 	/*** template params array.****/
 	var data_array = [];
 	var themeImg = "";
+	var uploadImgWidth;
+    var uploadImgHeight;
 	/***** replace file click event. *****/
 	$('#upbn').on("click", function() {
 		if($(':radio[name=select-minify]').is(':checked')){
@@ -53,7 +55,32 @@ $(function() {
 		$(".unpack_img").click();
 	})
 	$(".unpack_img").change(function(){
+	    var img = document.createElement("img");
         var file = this.files[0];
+        //获取图片文件信息
+        var reader = new FileReader();
+        reader.onload = (function(aImg) {
+            return function(e) {
+                aImg.src = e.target.result;
+                var image = new Image();
+                image.src = e.target.result;
+                alert(["图片大小是: width:"+image.width+", height:"+image.height]);
+                if(image.width >= 730){
+                    uploadImgWidth = image.width;
+                }else{
+                     uploadImgWidth = 730;
+                }
+               if(image.height >= 254){
+                    uploadImgHeight = image.height;
+                }else{
+                    uploadImgHeight = 254;
+                }
+
+                //aImg.width = image.width;
+                //aImg.height = image.height;
+                 }
+         })(img);
+        reader.readAsDataURL(file);
 		var formdata = new FormData();
 		formdata.append("photo", file);
 		formdata.append("params", "minify");
@@ -65,7 +92,7 @@ $(function() {
 				var data = JSON.parse(http.responseText);
 				console.log(data);
 				var str = data.oss_prefix+data.oss_url;
-				$("#unpack_img").css({"background-image":"url("+ str +")","width":"730px","background-size":"cover"})
+				$("#unpack_img").css({"background-image":"url("+ str +")","width":uploadImgWidth,"height":uploadImgHeight,"background-size":"cover"})
 
 			}
 		}
@@ -243,7 +270,8 @@ $(function() {
 
           if ($check.length === 1) {
              $.ajax({
-                         url: "http://172.28.3.51:3008/cut", //Server script to process data
+                         //url: "http://172.28.3.51:3008/cut", //Server script to process data
+                         url: "http://172.28.3.18:3008/cut", //Server script to process data
                          type: 'post',
                          data: {
                             html: '' +html,
@@ -253,15 +281,10 @@ $(function() {
                          success: function(data) {
                             console.log(JSON.stringify(data));
                             themeImg = data.oss_url;
-                            //主题图片大小
-                            var image = new Image();
-                            image.onload = function(){
-                                var imgWidth = image.width;
-                                var imgHeight = image.height;
-                            }
-                            image.src = data.shot_url;
                             themeImgShot = data.shot_url;
+                            alert(data.oss_prefix + data.oss_url);
                             window.open(data.shot_url,'_blank');
+                            //window.open(data.oss_prefix + data.oss_url,'_blank');
                          },
                          error: function(data, error, errorThrown) {
                             if (data.status && data.status >= 400) {
@@ -369,7 +392,6 @@ $(function() {
   			return false;
   		}
   	}
-
   	$("#push").click(function(){
 
         var isPost = true;
@@ -491,20 +513,31 @@ $(function() {
         //主题列表主宣传图
         var imgUrl = document.getElementById("dragon-container").getElementsByTagName("img")[0].src;
         var themeMasterImg = imgUrl.substring(imgUrl.indexOf('/',imgUrl.indexOf('/')+2));
+        //主题主图片
+        var themeImgContent = {};
+        themeImgContent.url = themeImgFinal;
+        themeImgContent.width = uploadImgWidth.toString();
+        themeImgContent.height = uploadImgHeight.toString();
+        //主题tag背景图
+        var themeMasterImgContent = {};
+        themeMasterImgContent.url = themeMasterImg;
+        themeMasterImgContent.width = labelImgWidth.toString();
+        themeMasterImgContent.height = labelImgHeight.toString();
 
         theme.masterItemId = masterItemId;
         theme.title = title;
         theme.startAt = onShelvesAt;
         theme.endAt = offShelvesAt;
-        //theme.themeImg = '{"url": "' + themeImgFinal + '", "width:" "' + imgWidth + '", "height": "' + imgHeight + '"}';
-        theme.themeImg = themeImgFinal;
+        theme.themeImg = JSON.stringify(themeImgContent);
+        //theme.themeImg = themeImgFinal;
         theme.sortNu = sortNu;
         //theme.orDestory = false;
         theme.themeSrcImg = themeSrcImg;
         theme.themeDesc = themeConfig;
         theme.themeItem = themeItems;
         theme.themeTags = masterItemTag;
-        theme.themeMasterImg = themeMasterImg;
+        //theme.themeMasterImg = themeMasterImg;
+        theme.themeMasterImg = JSON.stringify(themeMasterImgContent);
 
 
         if (isPost) {

@@ -115,11 +115,7 @@
                 values
                 (#{masterItemId},#{title},#{startAt},#{endAt},#{themeImg},#{sortNu},CURRENT_TIMESTAMP(0),#{themeItem}::jsonb,#{themeTags}::jsonb,#{themeMasterImg})
         </insert>
-        <update id="themesDestroy">
-                update themes
-                set or_destroy = true
-                where end_at &lt;= CURRENT_TIMESTAMP(0)
-        </update>
+
         <update id="updateTheme" parameterType="entity.Theme">
                 update themes
                 set master_item_id=#{masterItemId},title=#{title},start_at=#{startAt},end_at=#{endAt},theme_img=#{themeImg},sort_nu=#{sortNu},
