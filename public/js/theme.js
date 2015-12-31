@@ -73,13 +73,18 @@ function previewImage(obj, file, id) {
     reader.onload = (function (aImg) {
         return function (e) {
             aImg.src = e.target.result;
+            alert("Width:"+aImg.width+"Height:"+aImg.height);
         }
     })(img);
     reader.readAsDataURL(file);
+    $(img).css({"background-image":"url("+ str +")","width":uploadImgWidth,"height":uploadImgHeight,"background-size":"cover"})
+
 }
 
 function previewImage1(obj, file) {
 
+    var width;
+    var height;
     var gallery = obj;
     var imageType = /image.*/;
     if (!file.type.match(imageType)) {
@@ -89,21 +94,20 @@ function previewImage1(obj, file) {
     img.file = file;
     $(img).width('100%');
     $(img).height('100%');
-    $(img).css("float", "left");
+    $(img).css({"float":"left"});
     $(gallery).append($(img));
     upload(gallery, file);
     // Using FileReader to display the image content
     var reader = new FileReader();
-    reader.onload = (function (aImg) {
-        return function (e) {
-            aImg.src = e.target.result;
-            alert(["图片大小是: width:"+aImg.width+", height:"+aImg.height]);
-            labelImgWidth = aImg.width;
-            labelImgHeight = aImg.height;
-        }
-    })(img);
-    reader.readAsDataURL(file);
-}
+            reader.onload = (function (aImg) {
+                return function (e) {
+                    aImg.src = e.target.result;
+                }
+            })(img);
+            reader.readAsDataURL(file);
+   }
+
+
 
 function upload(thumb, file, id) {
     var formdata = new FormData();
@@ -117,6 +121,13 @@ function upload(thumb, file, id) {
             var data = JSON.parse(http.responseText);
             console.log(data.minify_url);
             var input = document.createElement("input");
+            var img = new Image;
+            img.onload = function(){
+             alert(["图片大小是: width:"+img.width+", height:"+img.height]);
+            labelImgWidth = img.width;
+            labelImgHeight = img.height;
+            }
+            img.src = data.oss_prefix+data.oss_url;
             imgName = data.imgid;
             input.id = imgName.substr(0, imgName.lastIndexOf("."));
             input.type = "hidden";
@@ -124,6 +135,7 @@ function upload(thumb, file, id) {
             input.value = data.path;
             $(thumb).find("img").attr('src', data.oss_prefix+data.oss_url);
             $(thumb).append(input);
+            alert(data.oss_prefix+data.oss_url);
             alert(data.message);
         }
     }
