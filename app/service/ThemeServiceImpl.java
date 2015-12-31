@@ -96,6 +96,16 @@ public class ThemeServiceImpl implements ThemeService {
         themeMapper.insertTheme(theme);
     }
 
+    /**
+     * Added By Tiffany Zhu 2015.12.30
+     * 通过主题ID获取主题内容
+     * @param id
+     * @return
+     */
+    @Override
+    public Theme getThemeById(Long id) {
+        return themeMapper.getThemeById(id);
+    }
 
     /**
      * Added by Sunny Wu 15/12/1

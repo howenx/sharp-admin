@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.deser.std.ObjectArrayDeserializer;
 import entity.Inventory;
 import entity.Item;
 import entity.Theme;
@@ -12,6 +13,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import scala.util.parsing.json.JSONArray;
 import service.InventoryService;
 import service.ItemService;
 import service.ThemeService;
@@ -244,13 +246,82 @@ public class ThemeCtrl extends Controller {
     }
 
     /**
-     * 通过themeId更新主题  Added by Tiffany Zhu 2015.12.30
+     * 通过Id更新主题  Added by Tiffany Zhu 2015.12.30
      * @param lang
      * @return
      */
     @Security.Authenticated(UserAuth.class)
     public Result updateThemeById(String lang,Long id){
-        return ok(views.html.theme.themeUpdate.render(lang,(User) ctx().args.get("user")));
+        String oss_prefix = "http://hmm-images.oss-cn-beijing.aliyuncs.com/";
+
+        Theme theme = service.getThemeById(id);
+        Logger.error(theme.toString());
+        //主题的商品
+        List<Object[]> itemList = new ArrayList<>();
+        JsonNode itemIds = Json.parse(theme.getThemeItem());
+        for(JsonNode itemId : itemIds){
+            Object[] object = new Object[8];
+            Item item = itemService.getItem(itemId.asLong());
+            Logger.error(item.toString());
+            Inventory inventory = inventoryService.getInventory(item.getMasterInvId());
+            Logger.error(inventory.toString());
+            object[0] = item.getId();
+            object[1] = item.getItemTitle();
+            object[2] = item.getItemMasterImg();
+            object[3] = item.getOnShelvesAt();
+            object[4] = item.getState();
+            object[5] = inventory.getItemPrice();
+            object[6] = inventory.getItemSrcPrice();
+            object[7] = inventory.getItemDiscount();
+            itemList.add(object);
+        }
+        //主题的主宣传图
+        JsonNode themeImg = Json.parse(theme.getThemeImg());
+        Object[] themeImgObject = new Object[3];
+        //url
+        String themeImgUrl = themeImg.get("url").toString();
+        themeImgObject[0] = themeImgUrl.substring(2,themeImgUrl.length()-1);
+        //width
+        String themeImgWidth = themeImg.get("width").toString();
+        themeImgObject[1] = themeImgWidth.substring(2,themeImgWidth.length()-1);
+        //height
+        String themeImgHeight =  themeImg.get("height").toString();
+        themeImgObject[2] = themeImgHeight.substring(2,themeImgHeight.length()-1);
+
+        //主题的首页主图
+        JsonNode themeMasterImg = Json.parse(theme.getThemeMasterImg());
+        Object[] masterImgObject = new Object[3];
+        //url
+        String masterImgUrl = themeMasterImg.get("url").toString();
+        masterImgObject[0] = masterImgUrl.substring(2,masterImgUrl.length()-1);
+        //width
+        String masterImgWidth = themeMasterImg.get("width").toString();
+        masterImgObject[1] = masterImgWidth.substring(2,masterImgWidth.length()-1);
+        //height
+        String masterImgHeight = themeMasterImg.get("height").toString();
+        masterImgObject[2] = masterImgHeight.substring(2,masterImgHeight.length()-1);
+
+        //主题的首页主图的标签
+        List<Object[]> tagList = new ArrayList<>();
+        JsonNode itemMasterTag = Json.parse(theme.getMasterItemTag());
+        for(JsonNode tag : itemMasterTag){
+            Object[] tagObject = new Object[5];
+            //top
+            tagObject[0] = tag.get("top");
+            //url
+            String tag_url = tag.get("url").toString();
+            tagObject[1] = tag_url.substring(2,tag_url.length()-1);
+            //left
+            tagObject[2] = tag.get("left");
+            //name
+            String tag_name = tag.get("name").toString();
+            tagObject[3] = tag_name.substring(2,tag_name.length()-1);
+            //angle
+            tagObject[4] = tag.get("angle");
+            tagList.add(tagObject);
+        }
+
+        return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,oss_prefix,(User) ctx().args.get("user")));
     }
 
 

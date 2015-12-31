@@ -65,17 +65,8 @@ $(function() {
                 var image = new Image();
                 image.src = e.target.result;
                 alert(["图片大小是: width:"+image.width+", height:"+image.height]);
-                if(image.width >= 730){
                     uploadImgWidth = image.width;
-                }else{
-                     uploadImgWidth = 730;
-                }
-               if(image.height >= 254){
                     uploadImgHeight = image.height;
-                }else{
-                    uploadImgHeight = 254;
-                }
-
                 //aImg.width = image.width;
                 //aImg.height = image.height;
                  }
@@ -240,6 +231,9 @@ $(function() {
 					$temp_div.find("#unpack_price_unpack").text($(this).val());
 					data_array.push($(this).val());
 				}else if (index === 4 && $(this).val()!=null && $(this).val()!='') {
+
+				    //$temp_div.find("#unpack_span").text($(this).val());
+                	//data_array.push($(this).val());
 					//$temp_div.find("#unpack_img").css("background-size",$(this).val()+"px");
 					//alert(1);
 				}else {
