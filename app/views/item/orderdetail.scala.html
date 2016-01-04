@@ -4,19 +4,50 @@
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
 <link rel="stylesheet" href="/assets/css/carr.css">
-<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
-<script src="/assets/js/search.js"></script>
-
-<script src="/assets/js/moment-with-locales.js"></script>
-<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
-<script src="/assets/js/rili.js"></script>
 <script>
     $(function(){
-        if($()){
+        //取消超时订单
+        $("#orderCancel").click(function(){
+            var isPost = false;
+            if(confirm("确定取消订单?")){
+                isPost = true;
+            }else{
+                return false;
+            }
 
-        }
+            var id = $("#orderId").val();
+
+            if(isPost){
+                 $.ajax({
+                            type :  "POST",
+                            url : "/"+window.lang+"/comm/order/cancel",
+                            contentType: "application/json; charset=utf-8",
+                            data : JSON.stringify(id),
+                            error : function(request) {
+                                if (window.lang = 'cn') {
+                                    alert("订单取消失败!");
+                                } else {
+                                    alert("Order cancel failed!");
+                                }
+                                setTimeout("$('#js-userinfo-error').text('')", 2000);
+                            },
+                            success: function(data) {
+                                if (window.lang = 'cn') {
+                                   alert("订单取消成功!");
+                                } else {
+                                    alert("Order cancel failed!");
+                                }
+                                setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
+                                //返回订单详细页面
+                                setTimeout("location.href='/"+window.lang+"/comm/order/detail/"+id+"'", 1000);
+                            }
+                        });
+             }
+          })
+
     })
 </script>
+
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"订单详情")
 
@@ -39,7 +70,7 @@
         <div class="form-group">
             <div class="col-sm-6">
                 <span>订单编号:</span>
-                <input type="text" value="@orderDetail(0)" disabled>
+                <input type="text" id="orderId" value="@orderDetail(0)" disabled>
             </div>
             <div class="col-sm-6">
                 <span>商品总价:</span>
@@ -111,11 +142,14 @@
             <div class="col-sm-6">
                 <span>支付状态:</span>
                 <input type="text" value="@orderDetail(6)" disabled>
+                @if(orderDetail(6) == "订单已超时"){
+                <button type="button" id="orderCancel" class="btn btn-primary btn-sm pull-right check-logistics">
+                    取消订单
+                </button>
+                }
+
             </div>
-
         </div>
-
-
 
         <h4 style="font-size: 15px">子订单详情(共@(subOrdersAll.size)个子订单):</h4>
         @for(subOrder <- subOrdersAll){
