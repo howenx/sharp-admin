@@ -15,7 +15,6 @@
             for(j=1;j<trs.length;j++) {
                 if (user_arr[i]==trs[j].getElementsByTagName("td")[1].innerText) {
                     $(trs[j].getElementsByTagName("td")[0].getElementsByTagName("input")[0]).attr("disabled",'true');
-                    $(trs[j].getElementsByTagName("td")[0].getElementsByTagName("input")[0]).attr("enable",'false');
                     $(trs[j]).css("background","#f5f5f5");
                 }
             }

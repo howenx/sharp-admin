@@ -170,9 +170,6 @@ GET             /coup/add/popup                                            contr
 POST            /coup/coupSave                                             controllers.CoupCtrl.coupSave
 
 
-#ID  --> user 用户
-GET             /user/search                                                controllers.IDCtrl.userSearch(lang="cn")
-GET             /$lang<(cn|en|kr)>/user/search                              controllers.IDCtrl.userSearch(lang)
 
 
 
