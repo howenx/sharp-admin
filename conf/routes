@@ -4,6 +4,7 @@
 # Home page
 GET				/front                                                  controllers.Application.welcome(lang= "cn")
 GET				/$lang<(cn|en|kr)>/front                                controllers.Application.welcome(lang)
+GET				/summary                                                controllers.Application.summary
 
 
 

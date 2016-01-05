@@ -51,13 +51,21 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
         case User_Type.TRANSLATION =>
           Redirect(routes.Application.list(None,None))
         case User_Type.ADMIN =>
-          Redirect(routes.Application.list_admin(None,None))
+          Redirect(routes.Application.summary())
         case _ =>
           Ok(views.html.welcome(lang, user))
       }
 
     }
   }
+  }
+
+  def summary() = withUser { user => {
+    implicit request => {
+      Ok(views.html.summary.summary("cn", user))
+    }
+  }
+
   }
 
   //  def welcome() = withUser { user => {
