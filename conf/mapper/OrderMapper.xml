@@ -46,7 +46,13 @@
             and t.user_id = #{userId}
         </if>
         <if test="orderStatus != null and orderStatus != ''">
-            and t.order_status = '${orderStatus}'
+           <if test="orderStatus != 'TO'">
+               and t.order_status = '${orderStatus}'
+           </if>
+
+            <if test="orderStatus == 'TO'">
+                and t.order_status = 'I' and t.order_create_at &lt;= CURRENT_TIMESTAMP - interval '1 day'
+            </if>
         </if>
         order by t.order_create_at DESC
         <if test="pageSize == -1 and offset >= -1">
@@ -64,4 +70,9 @@
         </include>
         from sp_order t where order_id = ${value}
     </select>
+
+    <update id="orderCancel" parameterType="java.lang.Long">
+        update sp_order set order_status = 'C' where order_id = ${value}
+    </update>
+
 </mapper>

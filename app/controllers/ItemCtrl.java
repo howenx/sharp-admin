@@ -15,10 +15,8 @@ import service.*;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * 商品管理
@@ -348,7 +346,7 @@ public class ItemCtrl extends Controller {
         order_temp.setPageSize(ThemeCtrl.PAGE_SIZE);
         order_temp.setOffset(0);
 
-        //含有物流信息的订单列表
+        //订单列表
         List<Object[]> orList = new ArrayList<>();
         List<Order> orderList = orderService.getOrderPage(order_temp);
         for(Order order : orderList){
@@ -370,26 +368,34 @@ public class ItemCtrl extends Controller {
                 object[4] =  "微信";
             }
             //订单状态
-            if("I".equals(order.getOrderStatus())){
-                object[5] = "未支付";
+            //当前时间减去24小时
+            Timestamp time = new Timestamp(System.currentTimeMillis() - 1*24*3600*1000L);
+            if(order.getOrderCreateAt().before(time) && "I".equals(order.getOrderStatus())){
+                object[5] = "订单已超时";
+
             }
-            if("S".equals(order.getOrderStatus())){
-                object[5] = "支付成功";
-            }
-            if("C".equals(order.getOrderStatus())){
-                object[5] = "订单取消";
-            }
-            if("F".equals(order.getOrderStatus())){
-                object[5] = "支付失败";
-            }
-            if("R".equals(order.getOrderStatus())){
-                object[5] = "已签收";
-            }
-            if("D".equals(order.getOrderStatus())){
-                object[5] = "已发货";
-            }
-            if("J".equals(order.getOrderStatus())){
-                object[5] = "拒收";
+            else{
+                if("I".equals(order.getOrderStatus())){
+                    object[5] = "未支付";
+                }
+                if("S".equals(order.getOrderStatus())){
+                    object[5] = "支付成功";
+                }
+                if("C".equals(order.getOrderStatus())){
+                    object[5] = "订单取消";
+                }
+                if("F".equals(order.getOrderStatus())){
+                    object[5] = "支付失败";
+                }
+                if("R".equals(order.getOrderStatus())){
+                    object[5] = "已签收";
+                }
+                if("D".equals(order.getOrderStatus())){
+                    object[5] = "已发货";
+                }
+                if("J".equals(order.getOrderStatus())){
+                    object[5] = "拒收";
+                }
             }
 
             orList.add(object);
@@ -465,26 +471,36 @@ public class ItemCtrl extends Controller {
             orderArray[5] =  "微信";
         }
         //支付状态
-        if ("I".equals(order.getOrderStatus())) {
-            orderArray[6] =  "未支付";
-        }
-        if ("S".equals(order.getOrderStatus())) {
-            orderArray[6] =  "支付成功";
-        }
-        if ("C".equals(order.getOrderStatus())) {
-            orderArray[6] =  "订单取消";
-        }
-        if ("F".equals(order.getOrderStatus())) {
-            orderArray[6] =  "支付失败";
-        }
-        if ("R".equals(order.getOrderStatus())) {
-            orderArray[6] =  "已签收";
-        }
-        if ("D".equals(order.getOrderStatus())) {
-            orderArray[6] = "已发货";
-        }
-        if ("J".equals(order.getOrderStatus())) {
-            orderArray[6] =  "拒收";
+        Timestamp time = new Timestamp(System.currentTimeMillis() - 1*24*3600*1000L);
+        if(order.getOrderCreateAt().before(time) && "I".equals(order.getOrderStatus())){
+            orderArray[6] = "订单已超时";
+
+        }else{
+            if ("I".equals(order.getOrderStatus())) {
+                orderArray[6] =  "未支付";
+            }
+            if ("S".equals(order.getOrderStatus())) {
+                orderArray[6] =  "支付成功";
+            }
+            if ("C".equals(order.getOrderStatus())) {
+                orderArray[6] =  "订单取消";
+            }
+            if ("F".equals(order.getOrderStatus())) {
+                orderArray[6] =  "支付失败";
+            }
+            if ("R".equals(order.getOrderStatus())) {
+                orderArray[6] =  "已签收";
+            }
+            if ("D".equals(order.getOrderStatus())) {
+                orderArray[6] = "已发货";
+            }
+            if ("J".equals(order.getOrderStatus())) {
+                orderArray[6] =  "拒收";
+            }
+            if ("N".equals(order.getOrderStatus())) {
+                orderArray[6] =  "已删除";
+            }
+
         }
         orderArray[7] = order.getShipFee();     //邮费
         orderArray[8] = order.getPostalFee();   //行邮税
@@ -560,6 +576,19 @@ public class ItemCtrl extends Controller {
         return ok(views.html.item.orderdetail.render(lang,orderArray,orderShip,subOrdersAll,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
     }
 
+    /**
+     * 取消订单     Added by Tiffany Zhu 2016.01.04
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result orderCancel(String lang){
+        JsonNode json = request().body().asJson();
+        Logger.error(json.toString());
+        Long id = json.asLong();
+        orderService.orderCancel(id);
+        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
+    }
 
     /**
      * 品牌列表     Added by Tiffany Zhu

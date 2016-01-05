@@ -2,6 +2,8 @@ function ShowModal() {
     var sharedObject = {};
     var labelImgWidth;
     var labelImgHeight;
+    var themeImgWidth;
+    var themeImgHeight;
 
     if (window.showModalDialog) {
         var retValue = showModalDialog("/topic/add/popup", sharedObject, "dialogWidth:1200px; dialogHeight:600px; dialogLeft:300px;");
@@ -73,11 +75,10 @@ function previewImage(obj, file, id) {
     reader.onload = (function (aImg) {
         return function (e) {
             aImg.src = e.target.result;
-            alert("Width:"+aImg.width+"Height:"+aImg.height);
         }
     })(img);
     reader.readAsDataURL(file);
-    $(img).css({"background-image":"url("+ str +")","width":uploadImgWidth,"height":uploadImgHeight,"background-size":"cover"})
+
 
 }
 
@@ -110,6 +111,7 @@ function previewImage1(obj, file) {
 
 
 function upload(thumb, file, id) {
+    console.log(id);
     var formdata = new FormData();
     formdata.append("photo", file);
     formdata.append("params", "minify");
@@ -123,9 +125,14 @@ function upload(thumb, file, id) {
             var input = document.createElement("input");
             var img = new Image;
             img.onload = function(){
-             alert(["图片大小是: width:"+img.width+", height:"+img.height]);
-            labelImgWidth = img.width;
-            labelImgHeight = img.height;
+                 alert(["图片大小是: width:"+img.width+", height:"+img.height]);
+                 if(id == null){
+                    labelImgWidth = img.width;
+                    labelImgHeight = img.height;
+                }else{
+                    themeImgWidth = img.width;
+                    themeImgHeight = img.height;
+                }
             }
             img.src = data.oss_prefix+data.oss_url;
             imgName = data.imgid;

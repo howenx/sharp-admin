@@ -402,6 +402,7 @@ $(function() {
             return false;
         }
         var background = $("#unpack_img").css("background");
+        themeImg = $(".main-img")[0].src;
         if(themeImg == "")
         {
             isPost = false;
@@ -511,8 +512,15 @@ $(function() {
         //主题主图片
         var themeImgContent = {};
         themeImgContent.url = themeImgFinal;
-        themeImgContent.width = uploadImgWidth.toString();
-        themeImgContent.height = uploadImgHeight.toString();
+        if(uploadImgWidth != null && uploadImgHeight != null){
+               themeImgContent.width = uploadImgWidth.toString();
+               themeImgContent.height = uploadImgHeight.toString();
+        }else{
+                 themeImgContent.width = themeImgWidth.toString();
+                 themeImgContent.height = themeImgHeight.toString();
+        }
+
+
         //主题tag背景图
         var themeMasterImgContent = {};
         themeMasterImgContent.url = themeMasterImg;
