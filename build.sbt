@@ -6,7 +6,7 @@ version := "0.1.0"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.7"
 
 libraryDependencies ++= Seq(
   javaJdbc,
@@ -23,8 +23,6 @@ routesGenerator := InjectedRoutesGenerator
 libraryDependencies += "org.postgresql" % "postgresql" % "9.4-1205-jdbc42" withSources() withJavadoc()
 
 libraryDependencies += "org.mybatis" % "mybatis" % "3.3.0" withSources() withJavadoc()
-
-libraryDependencies += "com.google.inject" % "guice" % "4.0" withSources() withJavadoc()
 
 libraryDependencies += "org.mybatis" % "mybatis-guice" % "3.6" withSources() withJavadoc()
 
