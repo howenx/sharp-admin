@@ -98,7 +98,7 @@
             <tbody>
             @for(order <- orList){
             <tr class = "tb-list-data">
-                <td><a href="/@lang/comm/order/detail/@order(0)">@order(0)</a></td>
+                <td><a href="/@lang/comm/order/detail/@order(0)" target="_blank">@order(0)</a></td>
                 <td>@order(1)</td>
                 @if(order(2)!=null){<td>@(order(2).toString().substring(0,16))</td>}
                 <td>@order(3)</td>

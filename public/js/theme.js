@@ -1,9 +1,6 @@
+var jsFileShareContent = {};
 function ShowModal() {
     var sharedObject = {};
-    var labelImgWidth;
-    var labelImgHeight;
-    var themeImgWidth;
-    var themeImgHeight;
 
     if (window.showModalDialog) {
         var retValue = showModalDialog("/topic/add/popup", sharedObject, "dialogWidth:1200px; dialogHeight:600px; dialogLeft:300px;");
@@ -126,12 +123,13 @@ function upload(thumb, file, id) {
             var img = new Image;
             img.onload = function(){
                  alert(["图片大小是: width:"+img.width+", height:"+img.height]);
-                 if(id == null){
-                    labelImgWidth = img.width;
-                    labelImgHeight = img.height;
+                 if(id == "uploadDirect"){
+                    jsFileShareContent.ulpDirectImgWidth = img.width;
+                    jsFileShareContent.ulpDirectImgHeight = img.height;
+
                 }else{
-                    themeImgWidth = img.width;
-                    themeImgHeight = img.height;
+                     jsFileShareContent.labelImgWidth = img.width;
+                     jsFileShareContent.labelImgHeight = img.height;
                 }
             }
             img.src = data.oss_prefix+data.oss_url;
@@ -150,6 +148,7 @@ function upload(thumb, file, id) {
 }
 
 $(function () {
+
     var fixHelperModified = function (e, tr) {
             var $originals = tr.children();
             var $helper = tr.clone();
@@ -175,7 +174,8 @@ $(function () {
     }).disableSelection();
 
     $(document).on('change', '.upload1', function () {
-        var id = window.event.srcElement.id;
+        //var id = window.event.srcElement.id;
+        var id = window.event.srcElement.id || window.event.target.id;
         var files = this.files;
         var li_dv = $(this).parent().parent();
         $(this).parent().css("display", "none");

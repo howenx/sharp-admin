@@ -1,9 +1,7 @@
 $(function() {
 	/*** template params array.****/
 	var data_array = [];
-	var themeImg = "";
-	var uploadImgWidth;
-    var uploadImgHeight;
+	data_array.selectedRadio = $(':radio[name=setMain]').attr('data-xr');
 	/***** replace file click event. *****/
 	$('#upbn').on("click", function() {
 		if($(':radio[name=select-minify]').is(':checked')){
@@ -22,6 +20,7 @@ $(function() {
 			$('#' + $(this).attr('data-xr')).parent().css('display', 'table');
 			$(".pre_temp").css("display","none");
 			$('.' + $(this).attr('data-xr')).css("display","block");
+			data_array.selectedRadio = $(this).attr('data-xr');
 			if ($(this).attr('data-xr') === 'shop_unpack') {
 				$('#' + $(this).attr('data-xr')).parent().css('display', 'block');
 			}
@@ -65,8 +64,8 @@ $(function() {
                 var image = new Image();
                 image.src = e.target.result;
                 alert(["图片大小是: width:"+image.width+", height:"+image.height]);
-                    uploadImgWidth = image.width;
-                    uploadImgHeight = image.height;
+                    data_array.uploadImgWidth = image.width;
+                    data_array.uploadImgHeight = image.height;
                 //aImg.width = image.width;
                 //aImg.height = image.height;
                  }
@@ -83,7 +82,7 @@ $(function() {
 				var data = JSON.parse(http.responseText);
 				console.log(data);
 				var str = data.oss_prefix+data.oss_url;
-				$("#unpack_img").css({"background-image":"url("+ str +")","width":uploadImgWidth,"height":uploadImgHeight,"background-size":"cover"})
+				$("#unpack_img").css({"background-image":"url("+ str +")","width":data_array.uploadImgWidth,"height":data_array.uploadImgHeight,"background-size":"cover"})
 
 			}
 		}
@@ -274,7 +273,7 @@ $(function() {
                          },
                          success: function(data) {
                             console.log(JSON.stringify(data));
-                            themeImg = data.oss_url;
+                            data_array.themeImg = data.oss_url;
                             themeImgShot = data.shot_url;
                             alert(data.oss_prefix + data.oss_url);
                             window.open(data.shot_url,'_blank');
@@ -402,13 +401,26 @@ $(function() {
             return false;
         }
         var background = $("#unpack_img").css("background");
-        themeImg = $(".main-img")[0].src;
-        if(themeImg == "")
-        {
-            isPost = false;
-            alert("请提交主题图片!");
-            return false;
+
+        if(data_array.selectedRadio == 'shop_unpack'){
+            if(data_array.themeImg == null || data_array.themeImg == "")
+                    {
+                        isPost = false;
+                        alert("请提交主题图片!");
+                        return false;
+                    }
+
         }
+        if(data_array.selectedRadio == 'upload-img'){
+
+            if($(".main-img")[0] == null || $(".main-img")[0] == ""){
+                isPost = false;
+                alert("请上传主题图片!");
+                return false;
+            }
+            data_array.themeImg = $(".main-img")[0].src;
+        }
+
         if(document.getElementById("sort").rows.length == 1){
             isPost = false;
             alert("请添加商品!");
@@ -465,7 +477,13 @@ $(function() {
         //结束日期
         var offShelvesAt = $("#offShelvesAt").val();
         //主题图片,主页显示图片
-        var themeImgFinal = themeImg.substring(themeImg.indexOf('/',themeImg.indexOf('/')+2));
+        if(data_array.themeImg.indexOf("http://") >= 0){
+            var themeImgFinal = data_array.themeImg.substring(data_array.themeImg.indexOf('/',data_array.themeImg.indexOf('/')+2)+1);
+        }
+        else{
+            var themeImgFinal = data_array.themeImg.substring(data_array.themeImg.indexOf('/',data_array.themeImg.indexOf('/')+2));
+        }
+
         //排序
         var sortNu = 1;
         //主题源背景图片
@@ -512,20 +530,20 @@ $(function() {
         //主题主图片
         var themeImgContent = {};
         themeImgContent.url = themeImgFinal;
-        if(uploadImgWidth != null && uploadImgHeight != null){
-               themeImgContent.width = uploadImgWidth.toString();
-               themeImgContent.height = uploadImgHeight.toString();
+        if(data_array.uploadImgWidth != null && data_array.uploadImgHeight != null){
+               themeImgContent.width = data_array.uploadImgWidth.toString();
+               themeImgContent.height = data_array.uploadImgHeight.toString();
         }else{
-                 themeImgContent.width = themeImgWidth.toString();
-                 themeImgContent.height = themeImgHeight.toString();
+                 themeImgContent.width = jsFileShareContent.ulpDirectImgWidth.toString();
+                 themeImgContent.height = jsFileShareContent.ulpDirectImgHeight.toString();
         }
 
 
         //主题tag背景图
         var themeMasterImgContent = {};
         themeMasterImgContent.url = themeMasterImg;
-        themeMasterImgContent.width = labelImgWidth.toString();
-        themeMasterImgContent.height = labelImgHeight.toString();
+        themeMasterImgContent.width = jsFileShareContent.labelImgWidth.toString();
+        themeMasterImgContent.height = jsFileShareContent.labelImgHeight.toString();
 
         theme.masterItemId = masterItemId;
         theme.title = title;
