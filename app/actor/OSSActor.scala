@@ -20,7 +20,7 @@ class OSSActor @Inject() (oss_client : OSSClientProvider,configuration: Configur
 
   override def receive = {
     case oss:OSS =>
-      val is = new FileInputStream(oss.file.file.getPath)
+      val is = new FileInputStream(oss.file.file)
       val objMetadata = new ObjectMetadata()
       objMetadata.setContentLength(oss.file.file.length())
       objMetadata.setContentType(oss.file.file.getName.replaceFirst("^[^.]*", ""))

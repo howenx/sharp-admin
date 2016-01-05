@@ -21,4 +21,7 @@ public interface ThemeService {
      void themeSave(JsonNode json);
 
      List<Theme> getThemesAll();
+
+     Theme getThemeById(Long id);
+
 }

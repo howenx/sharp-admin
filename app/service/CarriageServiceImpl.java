@@ -1,12 +1,12 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.inject.Inject;
 import entity.Carriage;
 import mapper.CarriageMapper;
 import play.Logger;
 import play.libs.Json;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,27 +53,6 @@ public class CarriageServiceImpl implements CarriageService{
             }
         }
 
-//        for(final JsonNode jsonNode : json) {
-//            Carriage carriage = Json.fromJson(jsonNode, Carriage.class);
-//            //更新模板
-//            if(jsonNode.has("modelCode")) {
-//                //由modelCode得到现有数据库该模板的所有数据,删除数据库中该模板的数据,再添加现有数据
-//                String modelCode = carriage.getModelCode();
-//                Logger.error("模板code:"+modelCode);
-//                List<Carriage> carrList = carriageMapper.getCarrsByModel(modelCode);
-//                Logger.error("列表:"+carrList);
-//                for(Carriage carr : carrList) {
-//                    Long id = carr.getId();
-//                    carriageMapper.delCarrById(id);
-//                }
-//                carriageMapper.insertCarriage(carriage);
-//            }
-//            //录入新的模板
-//            else {
-//                carriage.setModelCode(uuid);
-//                carriageMapper.insertCarriage(carriage);
-//            }
-//        }
     }
 
     /**

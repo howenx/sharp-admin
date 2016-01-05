@@ -1,0 +1,249 @@
+@import play.i18n._
+@(lang:String="cn",user:entity.User)
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/screenshot.css">
+<link rel="stylesheet" href="/assets/css/button.css">
+<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script>
+    $(function(){
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+    })
+</script>
+
+<script>
+    function ShowModal() {
+        var sharedObject = {};
+        var user_arr = [];
+        var users = $(".table tbody").find("tr");
+        for(i=0;i<users.length;i++) {
+            var user_id = users[i].getElementsByTagName("td")[0].innerText;
+            user_arr.push(user_id);
+        }
+        sharedObject.user_arr = user_arr;
+        if (window.showModalDialog) {
+            var retValue = showModalDialog("/coup/add/popup", sharedObject, "dialogWidth:1300px; dialogHeight:600px; dialogLeft:300px;");
+            if (retValue) {
+                UpdateFields(retValue);
+            }
+        }
+        else {
+            // for similar functionality in Opera, but it's not modal!
+            var modal = window.open("/coup/add/popup", null, "width=1300,height=600,left=300,modal=yes,alwaysRaised=yes", null);
+            modal.dialogArguments = sharedObject;
+        }
+    }
+
+    function UpdateFields(obj) {
+        var obj1 = obj.id;
+        for (var i = 0; i < $(obj1).length; i++) {
+            $(obj1).eq(i).appendTo($(".table"));
+        }
+    }
+</script>
+}
+
+@import java.lang.String; var title="发放优惠券"
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+
+<div class="mbread" style="width:60%">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
+        <span class="icon-path">&gt;</span>
+        <span>发放优惠券</span>
+    </div>
+</div>
+
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">发放优惠券</span>
+    </div>
+    <div class="usercenter-option">
+        <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
+        <div id="submit" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
+        <div id="cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
+        <span id="js-userinfo-error" class="mt20 alt fr"></span>
+    </div>
+    <div class="row">
+        <form class="form-horizontal" method="post" enctype="multipart/form-data">
+            <div class="upinfo">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" >类别</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="cateId" name="cateId">
+                            <option value="">请选择</option>
+                            <option value="153">化妆品类商品适用券</option>
+                            <option value="172">配饰类商品适用券</option>
+                            <option value="165">服饰类商品适用券</option>
+                            <option value="555">全场通用券</option>
+                            <option value="777">新人优惠券</option>
+                            <option value="211">指定商品适用券</option>
+                            <option value="999">免邮券</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label" >限额(￥)</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="limitQuota" name="limitQuota">
+                    </div>
+                    <label class="col-sm-1 control-label" >面值(￥)</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="denomination" name="denomination">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" >使用期限</label>
+                    <div class="col-sm-3">
+                        <div class="input-group date" id='datetimepicker1'>
+                            <input class="form-control col-sm-2"  type="text"  id="startAt" name="startAt">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-1" style="font-size: 24px;width:30px;margin-left:30px;margin-right:30px;">~</div>
+                    <div class="col-sm-3">
+                        <div class="input-group date" id='datetimepicker2'>
+                            <input class="form-control col-sm-2"  type="text"  id="endAt" name="endAt">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <hr style="margin-top:50px;"/>
+                <h3>选择用户</h3>
+                <hr/>
+                <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModal()">添加用户</button>
+                <div class="bgk">
+                    <table class="table table-bordered table-hover grid" id="user-add" title="Kurt Vonnegut novels" style="margin-top:0px;">
+                        <thead>
+                        <tr>
+                            <th>用户ID</th>
+                            <th>用户名称</th>
+                            <th>头像</th>
+                            <th>性别</th>
+                            <th>邮箱</th>
+                            <th>电话号码</th>
+                            <th>生日</th>
+                            <th>真实姓名</th>
+                            <th>证件类型</th>
+                            <th>证件号码</th>
+                            <th>注册时间</th>
+                            <th>是否激活</th>
+                            <th>是否实名认证</th>
+                            <th>删除</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+}
+
+<script>
+     $(document).on("click",".cou-del",function(){
+        $(this).parents("tr").remove();
+    })
+
+    /** 数据提交 **/
+    $("#submit").click(function(){
+        var isPost = true;
+        var numberReg1 = /^-?\d+\.?\d{0,2}$/;   //整数或小数
+        var coupon_list = [];
+        var cateId = $("#cateId").val();
+        var cateNm = "";
+        var limitQuota = $("#limitQuota").val();
+        var startAt = $("#startAt").val();
+        var endAt = $("#endAt").val();
+        var denomination = $("#denomination").val();
+        var users = $(".table tbody").find("tr");
+        //验证是否选择用户
+        if (users.length==0) {
+            isPost = false;
+             $('#js-userinfo-error').text('请选择用户');
+        }
+        //验证使用期限
+        if (startAt >= endAt) {
+           isPost = false;
+           $('#js-userinfo-error').text('日期不正确');
+        }
+        //验证必填项及数据正确性
+        if (cateId=="" || startAt=="" || endAt=="" || !numberReg1.test(limitQuota) || !numberReg1.test(denomination)) {
+            isPost=false;
+            $('#js-userinfo-error').text('必填项有误');
+        }
+        if (isPost) {$('#js-userinfo-error').text('');}
+
+        for(i=0;i<users.length;i++) {
+            var coupon = new Object();
+            var userId = users[i].getElementsByTagName("td")[0].innerText;
+            coupon.cateId = cateId;
+            if (cateId == 153) cateNm =  "化妆品类商品适用券";
+            else if (cateId == 172) cateNm =  "配饰类商品适用券";
+            else if (cateId == 165) cateNm =  "服饰类商品适用券";
+            else if (cateId == 555) cateNm =  "全场通用券";
+            else if (cateId == 777) cateNm =  "新人优惠券";
+            else if (cateId == 211) cateNm =  "指定商品适用券";
+            else if (cateId == 999) cateNm =  "免邮券";
+            coupon.cateNm = cateNm;
+            coupon.limitQuota = limitQuota;
+            coupon.startAt = startAt;
+            coupon.endAt = endAt;
+            coupon.denomination = denomination;
+            coupon.userId = userId;
+            coupon_list.push(coupon);
+        }
+        console.log(isPost);
+        console.log(JSON.stringify(coupon_list));
+        if (isPost) {
+            $.ajax({
+                type :  "POST",
+                url : "/coup/coupSave",
+                contentType: "application/json; charset=utf-8",
+                data : JSON.stringify(coupon_list),
+                error : function(request) {
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('保存失败');
+                    } else {
+                        $('#js-userinfo-error').text('Save error');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('')", 2000);
+                },
+                success: function(data) {
+                    $('.usercenter-option > .user-state').css('background-position', '20px -174px');
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                        $('.usercenter-option > .user-state').text('未更改');
+                    } else {
+                        $('#js-userinfo-error').text('Save success');
+                        $('.usercenter-option > .user-state').text('Unchanged');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+                    setTimeout("location.href='/"+window.lang+"/coup/add'", 3000);
+                }
+            });
+        }
+
+    });
+
+</script>

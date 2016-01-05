@@ -42,6 +42,7 @@ public class Theme implements Serializable{
     private String themeSrcImg;
     private String themeItem;
     private String themeMasterImg;
+    private String masterItemTag;
 
     //分页,每页多少条
     private Integer pageSize;
@@ -57,7 +58,7 @@ public class Theme implements Serializable{
     public Theme() {
     }
 
-    public Theme(Long id, Long masterItemId, String title, String themeDesc, Timestamp startAt, Timestamp endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean orDestory, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, String themeItem, String themeMasterImg, Integer pageSize, Integer offset, String sort, String order) {
+    public Theme(Long id, Long masterItemId, String title, String themeDesc, Timestamp startAt, Timestamp endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean orDestory, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, String themeItem, String themeMasterImg, String masterItemTag, Integer pageSize, Integer offset, String sort, String order) {
         this.id = id;
         this.masterItemId = masterItemId;
         this.title = title;
@@ -83,10 +84,47 @@ public class Theme implements Serializable{
         this.themeSrcImg = themeSrcImg;
         this.themeItem = themeItem;
         this.themeMasterImg = themeMasterImg;
+        this.masterItemTag = masterItemTag;
         this.pageSize = pageSize;
         this.offset = offset;
         this.sort = sort;
         this.order = order;
+    }
+
+    @Override
+    public String toString() {
+        return "Theme{" +
+                "id=" + id +
+                ", masterItemId=" + masterItemId +
+                ", title='" + title + '\'' +
+                ", themeDesc='" + themeDesc + '\'' +
+                ", startAt=" + startAt +
+                ", endAt=" + endAt +
+                ", themeDiscountUp=" + themeDiscountUp +
+                ", itemPriceTop=" + itemPriceTop +
+                ", itemPriceLow=" + itemPriceLow +
+                ", themeImg='" + themeImg + '\'' +
+                ", themeUrl='" + themeUrl + '\'' +
+                ", themeTags='" + themeTags + '\'' +
+                ", itemCount=" + itemCount +
+                ", themeTagCount=" + themeTagCount +
+                ", sortNu=" + sortNu +
+                ", orDestory=" + orDestory +
+                ", destoryUid=" + destoryUid +
+                ", destoryAt=" + destoryAt +
+                ", updateAt=" + updateAt +
+                ", updateUid=" + updateUid +
+                ", createAt=" + createAt +
+                ", createUid=" + createUid +
+                ", themeSrcImg='" + themeSrcImg + '\'' +
+                ", themeItem='" + themeItem + '\'' +
+                ", themeMasterImg='" + themeMasterImg + '\'' +
+                ", masterItemTag='" + masterItemTag + '\'' +
+                ", pageSize=" + pageSize +
+                ", offset=" + offset +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
+                '}';
     }
 
     public Long getId() {
@@ -281,6 +319,22 @@ public class Theme implements Serializable{
         this.themeItem = themeItem;
     }
 
+    public String getThemeMasterImg() {
+        return themeMasterImg;
+    }
+
+    public void setThemeMasterImg(String themeMasterImg) {
+        this.themeMasterImg = themeMasterImg;
+    }
+
+    public String getMasterItemTag() {
+        return masterItemTag;
+    }
+
+    public void setMasterItemTag(String masterItemTag) {
+        this.masterItemTag = masterItemTag;
+    }
+
     public Integer getPageSize() {
         return pageSize;
     }
@@ -311,48 +365,5 @@ public class Theme implements Serializable{
 
     public void setOrder(String order) {
         this.order = order;
-    }
-
-    public String getThemeMasterImg() {
-        return themeMasterImg;
-    }
-
-    public void setThemeMasterImg(String themeMasterImg) {
-        this.themeMasterImg = themeMasterImg;
-    }
-
-    @Override
-    public String toString() {
-        return "Theme{" +
-                "id=" + id +
-                ", masterItemId=" + masterItemId +
-                ", title='" + title + '\'' +
-                ", themeDesc='" + themeDesc + '\'' +
-                ", startAt=" + startAt +
-                ", endAt=" + endAt +
-                ", themeDiscountUp=" + themeDiscountUp +
-                ", itemPriceTop=" + itemPriceTop +
-                ", itemPriceLow=" + itemPriceLow +
-                ", themeImg='" + themeImg + '\'' +
-                ", themeUrl='" + themeUrl + '\'' +
-                ", themeTags='" + themeTags + '\'' +
-                ", itemCount=" + itemCount +
-                ", themeTagCount=" + themeTagCount +
-                ", sortNu=" + sortNu +
-                ", orDestory=" + orDestory +
-                ", destoryUid=" + destoryUid +
-                ", destoryAt=" + destoryAt +
-                ", updateAt=" + updateAt +
-                ", updateUid=" + updateUid +
-                ", createAt=" + createAt +
-                ", createUid=" + createUid +
-                ", themeSrcImg='" + themeSrcImg + '\'' +
-                ", themeItem='" + themeItem + '\'' +
-                ", themeMasterImg='" + themeMasterImg + '\'' +
-                ", pageSize=" + pageSize +
-                ", offset=" + offset +
-                ", sort='" + sort + '\'' +
-                ", order='" + order + '\'' +
-                '}';
     }
 }

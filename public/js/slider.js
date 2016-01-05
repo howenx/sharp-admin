@@ -84,8 +84,13 @@ $(function() {
 				slider.sortNu = $(this).attr('data-sort');
 				var regex = new RegExp(window.url,"gi");
 //				slider.img = $(this).attr('src').replace(regex,'');
+                var img = {};
+                var imgSrc = $(this).attr('src');
+                img["url"] = imgSrc.substring(imgSrc.lastIndexOf('/')+1,imgSrc.length);
+                img["width"] = $(this).attr('width');
+                img["height"] = $(this).attr('height');
                 var imgUrl = $(this).attr('src');
-				slider.img = imgUrl.substring(imgUrl.lastIndexOf('/')+1,imgUrl.length);
+				slider.img = JSON.stringify(img);
 				slider.itemTarget = $(this).attr('data-target');
                 slider.targetType = $(this).attr('data-type');
 				slider_array.push(slider);
@@ -93,7 +98,7 @@ $(function() {
 
 			sliderdto.update = slider_array;
 			sliderdto.del = del_array;
-			// console.log(JSON.stringify(sliderdto));
+			 console.log(JSON.stringify(sliderdto));
 			$.ajax({
 			            type : 'POST',
 			            url : "/"+window.lang+"/topic/slider/update",
@@ -145,6 +150,9 @@ $(function() {
 
 	/**	预览 **/
 	$(document).on('change', '#fileinput', function() {
+	    var file = $(this);
+        file.after(file.clone().val(""));
+        file.remove();
 		var files = $(this)[0].files;
 		for (var i = 0; i < files.length; i++) {
 			previewImage($(this)[0].files[i]);
@@ -160,13 +168,18 @@ $(function() {
 		var reader = new FileReader();
 		reader.readAsDataURL(file);
 		reader.onload = function(e) {
+            var image = new Image();
+            image.src = e.target.result;
+            alert(["图片大小是: width:"+image.width+", height:"+image.height]);
+            var width = image.width;
+            var height = image.height;
 			$('.slider-li-upload').before('<li class="slider-single-li">' +
 				'<div class="slider-hover-div">' +
 				'<div class="slider-label">' +
 				'<div class="slider-label-image-up"></div>' +
 				'<div class="slider-label-image-del"></div>' +
 				'</div>' +
-				'<img data-index="-1" data-sort="' + $("#usercenter-info > ul").children().length + '" class="slider-content-img" src="' + this.result + '">' +
+				'<img data-index="-1" data-sort="' + $("#usercenter-info > ul").children().length + '" class="slider-content-img" width="'+width+'"  height="'+height+'" src="' + this.result + '">' +
 				'</div>' +
 				'</li>');
 			upload($('.slider-li-upload').prev(), file);

@@ -1,7 +1,12 @@
 package scheduledJobs;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import play.GlobalSettings;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import scala.concurrent.duration.FiniteDuration;
 import akka.actor.Cancellable;
@@ -9,16 +14,14 @@ import akka.actor.ActorRef;
 import akka.actor.Props;
 import play.libs.Akka;
 import scheduledJobs.ScheduleActor.ThemesDestroyActor;
-import service.ThemeService;
-import javax.inject.Inject;
 
 /**
  * Created by tiffany on 15/12/25.
  */
 public class GlobalSchedule extends GlobalSettings{
         private Cancellable canceller = null;
-        @Inject
-        ThemeService themeService;
+        @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+        Timestamp nowDate = new Timestamp(new Date().getTime());
 
         @Override
         public void onStart(play.Application application) {
@@ -27,7 +30,7 @@ public class GlobalSchedule extends GlobalSettings{
             super.onStart(application);
 
             ActorRef actor = Akka.system().actorOf(
-                    Props.create(ThemesDestroyActor.class)
+                    Props.create(ThemesDestroyActor.class,nowDate)
             );
             canceller = Akka.system().scheduler().schedule(
                     FiniteDuration.create(2,TimeUnit.SECONDS), //schedule开始到第一次执行的时间
@@ -38,7 +41,6 @@ public class GlobalSchedule extends GlobalSettings{
                     null
             );
         }
-
         @Override
         public void onStop(play.Application application) {
             System.out.println("END GREETING");

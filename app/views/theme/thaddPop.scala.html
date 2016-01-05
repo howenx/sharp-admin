@@ -13,12 +13,13 @@
         }
         $(".return").click(function(){
             var id=$("input[type=checkbox]:checked").parents("tr");
+            $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo(id);
             $(id).find("input[type=checkbox]:checked").parent().remove();
             var lable_id=$("input[type=radio]:checked").parent().next().html();
             if (window.showModalDialog) {
                 var sharedObject = {};
                 sharedObject.id = id;
-                if(lable_id.value!==""){
+                if(lable_id.value!=""){
                     sharedObject.lable_id = lable_id;
                 }
                 window.returnValue = sharedObject;
@@ -33,6 +34,11 @@
             }
             window.close ();
         })
+
+         $(".cancel").click(function(){
+            window.close ();
+        });
+
     })
 </script>
 <style>
@@ -41,7 +47,7 @@
     }
 </style>
 <body>
-<h3>商品查询</h3>
+<h3 style="margin-left:20px;">商品查询</h3>
 <table class="table table-bordered table-hover">
     <tr>
         <th>选择商品</th>
@@ -50,11 +56,14 @@
             <span class="glyphicon glyphicon-chevron-up"></span>
             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
         </th>
+        <!--
         <th>
             商品名称
             <span class="glyphicon glyphicon-chevron-up"></span>
             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+        <!--
         </th>
+        -->
         <th>
             商品标题
         </th>
@@ -87,7 +96,6 @@
             <input type="checkbox" name="goods">
         </td>
         <td>@item(0)</td>
-        <td></td>
         <td>@item(1)</td>
         <td> <img class="main-img" src="@url@item(2)" alt="" width="50"></td>
         @if(item(3)!=null){<td>@(item(3).toString().substring(0,16))</td>}
@@ -99,4 +107,5 @@
     }
 </table>
 <button class="return btn btn-primary" style="margin-left: 50px;margin-bottom: 10px">确认添加</button>
+<button class="cancel btn btn-primary" style="margin-left: 10px;margin-bottom: 10px">返回</button>
 </body>

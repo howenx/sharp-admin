@@ -96,7 +96,44 @@
 
     }
 
+    $(document).on('change', '.btn-file :file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+});
+
+$(document).ready( function() {
+    $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+        //console.log(numFiles);
+        //console.log(label);
+        $("#form_upload").submit();
+    });
+});
+
 </script>
+
+<style>
+    .btn-file {
+    position: relative;
+    overflow: hidden;
+    }
+    .btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+    }
+</style>
 }
 
 @body = {
@@ -108,7 +145,13 @@
             case User_Type.SELLER => {
             <div class="pull-right col-md-2">
                 <input type="button" onclick="javascript:add();" class="btn btn-primary btn-block" value="新增(증가)">
+
             </div>
+               <form id="form_upload" action="/supply/upload" method="post" enctype="multipart/form-data">
+                <span class="pull-right btn btn-primary btn-file col-md-2">导入 <input name="upload_file" type="file"></span>
+               </form>
+
+
             }
             case User_Type.TRANSLATION => {
             <div class="pull-right col-md-2">

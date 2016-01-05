@@ -1,7 +1,7 @@
 package controllers
 
 
-import java.io.{File, FileOutputStream}
+import java.io.{FileInputStream, File, FileOutputStream}
 import java.net.{URI, URLEncoder}
 import javax.inject.{Named, Inject, Singleton}
 import actor.OSS
@@ -9,9 +9,9 @@ import akka.actor.ActorRef
 import com.fasterxml.jackson.databind.JsonNode
 import entity.{User, Prod_Type, Prod, User_Type}
 import modules.OSSClientProvider
-import order.B1EC2Client
+
 import org.apache.poi.ss.util.CellRangeAddress
-import org.apache.poi.ss.usermodel.{CellStyle, IndexedColors}
+import org.apache.poi.ss.usermodel.{Cell, CellStyle, IndexedColors}
 import org.apache.poi.xssf.usermodel.{XSSFCellStyle, XSSFWorkbook}
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -22,6 +22,7 @@ import play.api.Play.current
 import play.api.i18n.{Lang, MessagesApi, I18nSupport}
 
 
+import scala.collection.immutable.HashMap
 import scala.util.Try
 
 /**
@@ -50,13 +51,21 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
         case User_Type.TRANSLATION =>
           Redirect(routes.Application.list(None,None))
         case User_Type.ADMIN =>
-          Redirect(routes.Application.list_admin(None,None))
+          Redirect(routes.Application.summary())
         case _ =>
           Ok(views.html.welcome(lang, user))
       }
 
     }
   }
+  }
+
+  def summary() = withUser { user => {
+    implicit request => {
+      Ok(views.html.summary.summary("cn", user))
+    }
+  }
+
   }
 
   //  def welcome() = withUser { user => {
@@ -745,6 +754,49 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
 
   }
+
+  def upload() = withUser { user => {
+    implicit request => {
+      request.body.asMultipartFormData match {
+
+        case Some(map) =>
+          //var filename: String = null
+          map.files.map { f =>
+            Logger.debug("update file " + f.filename)
+            val filein = new FileInputStream(f.ref.file)
+            val workbook = new XSSFWorkbook(filein)
+            val sheet = workbook.getSheetAt(0)
+            val row_iter = sheet.rowIterator()
+            while (row_iter.hasNext()) {
+              val row = row_iter.next()
+              if(row.getRowNum == 0) {
+                //key interator
+                val cell_iter = row.cellIterator()
+                //val header =
+              }else {
+                // value interator
+                val cell_iter = row.cellIterator()
+                while(cell_iter.hasNext()) {
+                  val cell = cell_iter.next()
+                  cell.getCellType match {
+                    case Cell.CELL_TYPE_NUMERIC =>
+                      Logger.debug(cell.getNumericCellValue.toString)
+                    case Cell.CELL_TYPE_STRING =>
+                      Logger.debug(cell.getStringCellValue)
+                  }
+                }
+              }
+
+            }
+
+          }
+      }
+    }
+      Redirect(routes.Application.list_supply(None,None))
+  }
+  }
+
+  val hzp_map =  HashMap("URL"->"url", "상품명칭"->"name", "상품명칭(english)"->"英文名称", "브랜드"->"品牌", "바코드"->"bar_code", "원가（KRW）"->"price","판매가격（KRW）"->"market_price", "원가（USD）"->"")
 
   //val HEX_CHARS = Array( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' )
 

@@ -345,7 +345,7 @@
                                     <td class="list-img">
                                         <div >
                                             <div>
-                                                <img class="main-img" src="@url@obj(11)" alt="">
+                                                <img class="main-img" src='@url@obj(11).toString.substring(1,obj(11).toString.length-1).split(",")(0).substring(7,obj(11).toString.substring(1,obj(11).toString.length-1).split(",")(0).length-1)'  width='@obj(11).toString.substring(1,obj(11).toString.length-1).split(",")(1).substring(9,obj(11).toString.substring(1,obj(11).toString.length-1).split(",")(1).length-1)' height='@obj(11).toString.substring(1,obj(11).toString.length-1).split(",")(2).substring(10,obj(11).toString.substring(1,obj(11).toString.length-1).split(",")(2).length-1)' alt="">
                                                 <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </div>
                                         </div>
@@ -355,9 +355,9 @@
                                     </td>
                                     <td width="146" class="preview-img">
                                         <div >
-                                            @for(pre <- obj(12).toString().substring(1,obj(12).toString().length()-1).split(", ")) {
+                                            @for(pre <- obj(12).toString().substring(1,obj(12).toString().length()-2).split("}, ")) {
                                             <div>
-                                                <img class="main-img" src="@url@pre.substring(1,pre.length()-1)" alt="">
+                                                <img class="main-img" src='@url@pre.substring(1,pre.length).split(", ")(0).substring(8,pre.substring(1,pre.length).split(", ")(0).length-1)' width='@pre.substring(1,pre.length).split(", ")(1).substring(10,pre.substring(1,pre.length).split(", ")(1).length-1)' height='@pre.substring(1,pre.length).split(", ")(2).substring(11,pre.substring(1,pre.length).split(", ")(2).length-1)'  alt="">
                                                 <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </div>
                                             }

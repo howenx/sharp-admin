@@ -22,210 +22,9 @@
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
-
-<script>
-    function ShowModal() {
-        var sharedObject = {};
-
-        if (window.showModalDialog) {
-            var retValue = showModalDialog("/topic/add/popup", sharedObject, "dialogWidth:1200px; dialogHeight:600px; dialogLeft:300px;");
-            if (retValue) {
-                UpdateFields(retValue);
-            }
-        }
-        else {
-            // for similar functionality in Opera, but it's not modal!
-            var modal = window.open("/topic/add/popup", null, "width=1200,height=600,left=300,modal=yes,alwaysRaised=yes", null);
-            modal.dialogArguments = sharedObject;
-        }
-    }
-    function ShowModal1() {
-        var sharedObject = {};
-        sharedObject.flag = true;
-
-        if (window.showModalDialog) {
-            var retValue = showModalDialog("/topic/add/popup", sharedObject, "dialogWidth:1200px; dialogHeight:600px; dialogLeft:300px;");
-            if (retValue) {
-                UpdateFields(retValue);
-            }
-        }
-        else {
-            // for similar functionality in Opera, but it's not modal!
-            var modal = window.open("/topic/add/popup", null, "width=1200,height=600,left=300,modal=yes,alwaysRaised=yes", null);
-            modal.dialogArguments = sharedObject;
-        }
-    }
-    function UpdateFields(obj) {
-        var obj1 = obj.id;
-        var index1 = $(".table tbody").find("tr").length,
-                index2 = $(".table thead").find("tr").length;
-        var index = index1 + index2;
-        for (var i = 0; i < $(obj1).length; i++) {
-            $(obj1).eq(i).prepend($("<td class='index'>" + (Number(index) + i) + "</td><td><input type='radio'  name='goods-main'></td>")).appendTo($(".table"));
-        }
-
-        $('#input_imgurl').val(obj.lable_id);
-    }
-
-    function previewImage(obj, file, id) {
-        var gallery = obj;
-        var imageType = /image.*/;
-
-        if (!file.type.match(imageType)) {
-            throw "File Type must be an image";
-        }
-
-        var thumb = document.createElement("a");
-        thumb.classList.add('track');
-        var img = document.createElement("img");
-        img.classList.add('main-img');
-        img.file = file;
-        $(img).attr('data-index', '6');
-        $(thumb).append($(img));
-        $(gallery).append($(thumb));
-        $("<button>").addClass("close").css({
-            "position": "absolute",
-            "top": "10px",
-            "right": "10px"
-        }).attr("type", "button").attr("aria-lable", "Close").html('<span aria-hidden="true">' +
-                '&times;' +
-                '</span>').appendTo($(obj));
-
-        upload(thumb, file, id);
-        // Using FileReader to display the image content
-        var reader = new FileReader();
-        reader.onload = (function (aImg) {
-            return function (e) {
-                aImg.src = e.target.result;
-            }
-        })(img);
-        reader.readAsDataURL(file);
-    }
-    function previewImage1(obj, file) {
-        var gallery = obj;
-        var imageType = /image.*/;
-
-        if (!file.type.match(imageType)) {
-            throw "File Type must be an image";
-        }
-        var img = document.createElement("img");
-        img.file = file;
-        $(img).width('100%');
-        $(img).height('100%');
-        $(img).css("float", "left");
-        $(gallery).append($(img));
-        upload(gallery, file);
-        // Using FileReader to display the image content
-        var reader = new FileReader();
-        reader.onload = (function (aImg) {
-            return function (e) {
-                aImg.src = e.target.result;
-            }
-        })(img);
-        reader.readAsDataURL(file);
-    }
-
-    function upload(thumb, file, id) {
-        var formdata = new FormData();
-        formdata.append("photo", file);
-        formdata.append("params", "minify");
-        var http = new XMLHttpRequest();
-        var url = "http://172.28.3.18:3008/upload";
-        http.open("POST", url, true);
-        http.onreadystatechange = function () {
-            if (http.readyState == 4 && http.status == 200) {
-                var data = JSON.parse(http.responseText);
-                console.log(data.minify_url);
-                var input = document.createElement("input");
-                imgName = data.imgid;
-                input.id = imgName.substr(0, imgName.lastIndexOf("."));
-                input.type = "hidden";
-                input.name = data.imgid;
-                input.value = data.path;
-                $(thumb).find("img").attr('src', data.minify_url);
-                $(thumb).append(input);
-                alert(data.message);
-            }
-        }
-        http.send(formdata);
-    }
-
-    $(function () {
-        var fixHelperModified = function (e, tr) {
-                    var $originals = tr.children();
-                    var $helper = tr.clone();
-                    $helper.children().each(function (index) {
-                        $(this).width($originals.eq(index).width())
-                    });
-                    return $helper;
-                },
-                updateIndex = function (e, ui) {
-                    if ($("thead").find('tr').length == 2) {
-                        $('td.index', ui.item.parent()).each(function (i) {
-                            $(this).html(i + 2);
-                        });
-                    } else {
-                        $('td.index', ui.item.parent()).each(function (i) {
-                            $(this).html(i + 1);
-                        });
-                    }
-                };
-        $("#sort tbody").sortable({
-            helper: fixHelperModified,
-            stop: updateIndex
-        }).disableSelection();
-
-        $(document).on('change', '.upload1', function () {
-            var id = window.event.srcElement.id;
-            var files = this.files;
-            var li_dv = $(this).parent().parent();
-            $(this).parent().css("display", "none");
-            $(this).parents(".li-dv").find(".text").css("display", "block");
-            console.log(li_dv);
-            for (var i = 0; i < files.length; i++) {
-                previewImage(li_dv, this.files[i], id);
-            }
-        });
-        $(document).on('change', '.upload2', function () {
-            var id = window.event.srcElement.id;
-            var files = this.files;
-            var li_dv = $(this).parent().parent();
-            $(this).parent().css("display", "none");
-            $(this).parent().next().css("display", "block");
-            $(this).parents(".li-dv").find(".text").css("display", "block");
-            console.log(li_dv);
-            for (var i = 0; i < files.length; i++) {
-                previewImage(li_dv, this.files[i], id);
-            }
-        });
-//        upload-lable
-        $(document).on('change', '#upload-label', function () {
-            if ($(this).val()) {
-                var files = this.files;
-                var label_img = $('#dragon-container');
-                $(label_img).find("img").remove();
-            } else {
-                var label_img = $('#dragon-container');
-            }
-            for (var i = 0; i < files.length; i++) {
-                previewImage1(label_img, this.files[i]);
-            }
-        });
-        $(document).on("click", ".img .close", function () {
-            if ($(this).parent().find(".onlyday")) {
-                $(this).parents(".img").find(".upload2").val("");
-                $(this).parent().find(".onlyday").css("display", "none");
-            }
-            $(this).parents(".img").find(".upload1").val("");
-            $(this).parents(".img").find(".btn-primary").css("display", "block");
-            $(this).parents(".img").find(".track").remove();
-            $(this).parents(".li-dv").find(".text").css("display", "none");
-            $(this).remove();
-        });
-    })
-</script>
-
+<script src="/assets/js/theme.js"></script>
 <script>window.url = "@url"</script>
+
 
 }
 
@@ -308,14 +107,18 @@
 
                     <div class="col-sm-9">
                         <div class="rec_sku-title">
+                            <!--
                             <input type="radio" data-xr='u_youjipin' class="set-main temp_radio_class" name="setMain">
                             <label class="radio">宽版</label>
                             <input type="radio" data-xr='q_youjipin' class="set-main temp_radio_class" name="setMain">
                             <label class="radio">拼购打折</label>
+                            -->
                             <input type="radio" data-xr='shop_unpack' class="set-main temp_radio_class" name="setMain" checked>
                             <label class="radio">批购</label>
+
                             <input type="radio" data-xr='upload-img' class="set-main temp_radio_class" name="setMain">
                             <label class="radio">上传</label>
+
                         </div>
                         <div class='compress-div'>
                             <!--宽版-->
@@ -466,7 +269,7 @@
                                         <div id='unpack_price_origin'>￥600.00</div>
                                         <div id='unpack_price_current'>￥480.00</div>
                                         <div id='unpack_vertical_line'></div>
-                                        <div id='unpack_span'>拼购打你吗<b style="font-size: xx-small;font-weight:normal;">(最低)</b>
+                                        <div id='unpack_span'>年终狂欢<b style="font-size: xx-small;font-weight:normal;">(最低)</b>
                                         </div>
                                         <div id='unpack_price_unpack'>￥400.00</div>
                                     </div>
@@ -491,10 +294,12 @@
                                         <th>拼购价:</th>
                                         <td><input class='input-area' type="text"></td>
                                     </tr>
+                                    <!--
                                     <tr>
-                                        <th>宽度:</th>
+                                        <th>描述:</th>
                                         <td><input class='input-area' type="text"></td>
                                     </tr>
+                                    -->
                                     <tr>
                                         <th></th>
                                         <td><a name='pre_unpack_bt' class="small blue-light button">预览</a></td>
@@ -508,15 +313,17 @@
                                     <div class="img">
                                         <a href="javascript:void(0)" class="upload-a btn-primary">
                                             上传图片
-                                            <input type="file" class="upload1">
+                                            <input type="file" id="uploadDirect" class="upload1">
                                         </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class='submit-area'>
                             <a class="large blue-light button" id='submit'>提交</a>
                         </div>
+                        
                     </div>
                 </div>
 
@@ -548,11 +355,14 @@
                                 <span class="glyphicon glyphicon-chevron-up"></span>
                                 <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
                             </th>
+                            <!--
                             <th>
                                 商品名称
                                 <span class="glyphicon glyphicon-chevron-up"></span>
                                 <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                            <!--
                             </th>
+                            -->
                             <th>
                                 商品标题
                             </th>
@@ -577,6 +387,9 @@
                                 折扣
                                 <span class="glyphicon glyphicon-chevron-up"></span>
                                 <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                            </th>
+                            <th>
+                                删除
                             </th>
                         </tr>
                         </thead>
@@ -616,7 +429,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">图片url:</label>
+                    <label class="col-sm-2 control-label">商品ID:</label>
 
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="input_imgurl" disabled>

@@ -1,0 +1,31 @@
+package mapper;
+
+import entity.ID;
+
+import java.util.List;
+
+/**
+ * Created by Sunny Wu on 15/12/30.
+ */
+public interface IDMapper {
+
+    /**
+     * 由userId 查询出一条用户信息
+     * @param userId 用户id
+     * @return ID
+     */
+    ID getID(Integer userId);
+
+    /**
+     * 查询所有的用户信息
+     * @return list of ID
+     */
+    List<ID> getAllID();
+
+    /**
+     * 查询出一页用户信息
+     * @param id ID
+     * @return list of ID
+     */
+    List<ID> getIDPage(ID id);
+}

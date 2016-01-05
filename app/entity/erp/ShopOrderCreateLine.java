@@ -1,25 +1,39 @@
-package entity;
+package entity.erp;
+
+import java.io.Serializable;
 
 /**
- * Created by Sunny Wu.
+ * Created by Sunny Wu 15/12/26.
+ *
+ * 订单商品信息
  */
-public class ShopOrderCreateLine {
+public class ShopOrderCreateLine implements Serializable {
 
-    private String shopLineNo;
+    private String shopLineNo;  //平台订单行号
+    private String outerId;     //外部代码
+    private Integer quantity;    //数量
+    private Double price;       //价格
+    private String lineUdf1;    //自定义字段1
+    private String lineUdf2;    //自定义字段2
+    private String itemName;    //商品名称
+    private String skuName;     //规格名称
 
-    private String outerId;
+    public ShopOrderCreateLine() {
+    }
 
-    private Double quantity;
-
-    private Double price;
-
-    private String lineUdf1;
-
-    private String lineUdf2;
-
-    private String itemName;
-
-    private String skuName;
+    @Override
+    public String toString() {
+        return "ShopOrderCreateLine{" +
+                "shopLineNo='" + shopLineNo + '\'' +
+                ", outerId='" + outerId + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", lineUdf1='" + lineUdf1 + '\'' +
+                ", lineUdf2='" + lineUdf2 + '\'' +
+                ", itemName='" + itemName + '\'' +
+                ", skuName='" + skuName + '\'' +
+                '}';
+    }
 
     public String getShopLineNo() {
         return shopLineNo;
@@ -37,11 +51,11 @@ public class ShopOrderCreateLine {
         this.outerId = outerId;
     }
 
-    public Double getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
@@ -85,7 +99,7 @@ public class ShopOrderCreateLine {
         this.skuName = skuName;
     }
 
-    public ShopOrderCreateLine(String shopLineNo, String outerId, Double quantity, Double price, String lineUdf1, String lineUdf2, String itemName, String skuName) {
+    public ShopOrderCreateLine(String shopLineNo, String outerId, Integer quantity, Double price, String lineUdf1, String lineUdf2, String itemName, String skuName) {
 
         this.shopLineNo = shopLineNo;
         this.outerId = outerId;

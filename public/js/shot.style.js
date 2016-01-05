@@ -1,7 +1,7 @@
 $(function() {
 	/*** template params array.****/
 	var data_array = [];
-	var themeImg = "";
+	data_array.selectedRadio = $(':radio[name=setMain]').attr('data-xr');
 	/***** replace file click event. *****/
 	$('#upbn').on("click", function() {
 		if($(':radio[name=select-minify]').is(':checked')){
@@ -20,6 +20,7 @@ $(function() {
 			$('#' + $(this).attr('data-xr')).parent().css('display', 'table');
 			$(".pre_temp").css("display","none");
 			$('.' + $(this).attr('data-xr')).css("display","block");
+			data_array.selectedRadio = $(this).attr('data-xr');
 			if ($(this).attr('data-xr') === 'shop_unpack') {
 				$('#' + $(this).attr('data-xr')).parent().css('display', 'block');
 			}
@@ -53,8 +54,23 @@ $(function() {
 		$(".unpack_img").click();
 	})
 	$(".unpack_img").change(function(){
-		var file = this.files[0];
-
+	    var img = document.createElement("img");
+        var file = this.files[0];
+        //获取图片文件信息
+        var reader = new FileReader();
+        reader.onload = (function(aImg) {
+            return function(e) {
+                aImg.src = e.target.result;
+                var image = new Image();
+                image.src = e.target.result;
+                alert(["图片大小是: width:"+image.width+", height:"+image.height]);
+                    data_array.uploadImgWidth = image.width;
+                    data_array.uploadImgHeight = image.height;
+                //aImg.width = image.width;
+                //aImg.height = image.height;
+                 }
+         })(img);
+        reader.readAsDataURL(file);
 		var formdata = new FormData();
 		formdata.append("photo", file);
 		formdata.append("params", "minify");
@@ -66,7 +82,8 @@ $(function() {
 				var data = JSON.parse(http.responseText);
 				console.log(data);
 				var str = data.oss_prefix+data.oss_url;
-				$("#unpack_img").css({"background-image":"url("+ str +")"})
+				$("#unpack_img").css({"background-image":"url("+ str +")","width":data_array.uploadImgWidth,"height":data_array.uploadImgHeight,"background-size":"cover"})
+
 			}
 		}
 		http.send(formdata);
@@ -213,8 +230,11 @@ $(function() {
 					$temp_div.find("#unpack_price_unpack").text($(this).val());
 					data_array.push($(this).val());
 				}else if (index === 4 && $(this).val()!=null && $(this).val()!='') {
-					$temp_div.find("#unpack_img").css("background-size",$(this).val()+"px");
-					alert(1);
+
+				    //$temp_div.find("#unpack_span").text($(this).val());
+                	//data_array.push($(this).val());
+					//$temp_div.find("#unpack_img").css("background-size",$(this).val()+"px");
+					//alert(1);
 				}else {
 					alert('Please check exists null value.');
 					return false;
@@ -224,59 +244,18 @@ $(function() {
 		console.log(data_array);
 	})
 
-
-
-
-
 	/** submit to nwjs shootscreen. **/
 	$('#submit').on("click", function() {
-	    /*
-		if($("input[data-xr=upload-img]").is(':checked')){
-			data_array.length = 0;
-			data_array.push($("#upload-img").find("img").attr("src"));
-			console.log(data_array);
-		}
-		//else if($("input[data-xr=shop_unpack]").is(':checked')){
-		//	data_array.length = 0;
-		//	data_array.push($("#shop_unpack").find("img").attr("src"));
-		//	console.log(data_array);
-		//}
-		//console.log(JSON.parse(JSON.stringify(data_array)));
-		$check = $('input[name=setMain]:checked');
-		//console.log($('#' + $check.attr('data-xr')).width());
-		//console.log($('#' + $check.attr('data-xr')).height());
-		console.log(JSON.stringify(data_array));
-		if ($check.length === 1) {
-			$.ajax({
-				//url: 'http://172.28.3.47:3008/nw',
-				url: 'http://172.28.3.18:3008/nw',
-				//url:window.url+"/nw",
-				type: 'POST',
-				data: {
-					tempid: '' + $check.attr('data-xr'),
-					img_width: $('#' + $check.attr('data-xr')).find(".main-img").width(),
-					img_height: $('#' + $check.attr('data-xr')).find(".main-img").height(),
-					xr_width: $('#' + $check.attr('data-xr')).width(),
-					xr_height: $('#' + $check.attr('data-xr')).height(),
-					array:JSON.stringify(data_array)
-				},
-				success: function(data) {
-					$('#mask').hide();
-					alert(data.error + ' ' + data.message + ' ' + data.shot_url);
-					themeImg = data.shot_url;
-					$check.prop('checked', false);
-					window.open(data.shot_url);
-					return false;
-				}
-			})
-		} else {
-			alert('Please check the templates.');
-		}
-		*/
-
-           var html = $("#shop_unpack").prop("outerHTML");
-           var width = $("#shop_unpack").width();
-           var height = $("#shop_unpack").height();
+		  var background = $("#unpack_img").css("background");
+          if(background.indexOf("/assets/images/upload_iezdinbygzqwmoldgmzdambqmmyde_750x316.jpg")>0)
+          {
+            isPost = false;
+            alert("请点击默认图片,上传主题图片!");
+            return false;
+          }
+          var html = $("#shop_unpack").prop("outerHTML");
+          var width = $("#shop_unpack").width();
+          var height = $("#shop_unpack").height();
           $check = $('input[name=setMain]:checked');
           console.log(html);
           console.log(width);
@@ -284,7 +263,8 @@ $(function() {
 
           if ($check.length === 1) {
              $.ajax({
-                         url: "http://172.28.3.51:3008/cut", //Server script to process data
+                         //url: "http://172.28.3.51:3008/cut", //Server script to process data
+                         url: "http://172.28.3.18:3008/cut", //Server script to process data
                          type: 'post',
                          data: {
                             html: '' +html,
@@ -293,8 +273,11 @@ $(function() {
                          },
                          success: function(data) {
                             console.log(JSON.stringify(data));
-                            themeImg = data.oss_url;
+                            data_array.themeImg = data.oss_url;
+                            themeImgShot = data.shot_url;
+                            alert(data.oss_prefix + data.oss_url);
                             window.open(data.shot_url,'_blank');
+                            //window.open(data.oss_prefix + data.oss_url,'_blank');
                          },
                          error: function(data, error, errorThrown) {
                             if (data.status && data.status >= 400) {
@@ -402,26 +385,86 @@ $(function() {
   			return false;
   		}
   	}
-
   	$("#push").click(function(){
+
         var isPost = true;
+
         if($("#themeTitle").val() == "" || $("#onShelvesAt").val() == "" || $("#offShelvesAt").val() == "")
         {
             isPost = false;
             alert("基本信息不能为空!");
             return false;
         }
+        if($("#onShelvesAt").val()>$("#offShelvesAt").val()){
+            isPost = false;
+            alert("日期不正确!");
+            return false;
+        }
         var background = $("#unpack_img").css("background");
-        if(background.indexOf("/assets/images/upload_iezdinbygzqwmoldgmzdambqmmyde_750x316.jpg")>0)
+
+        if(data_array.selectedRadio == 'shop_unpack'){
+            if(data_array.themeImg == null || data_array.themeImg == "")
+                    {
+                        isPost = false;
+                        alert("请提交主题图片!");
+                        return false;
+                    }
+
+        }
+        if(data_array.selectedRadio == 'upload-img'){
+
+            if($(".main-img")[0] == null || $(".main-img")[0] == ""){
+                isPost = false;
+                alert("请上传主题图片!");
+                return false;
+            }
+            data_array.themeImg = $(".main-img")[0].src;
+        }
+
+        if(document.getElementById("sort").rows.length == 1){
+            isPost = false;
+            alert("请添加商品!");
+            return false;
+        }
+        if(document.getElementById("sort").rows[1].cells[1].getElementsByTagName("input")[0].checked == false){
+            isPost = false;
+            alert("请选择主商品!");
+            return false;
+        }
+        if(document.getElementById("dragon-container").innerHTML.indexOf("img")<0)
         {
             isPost = false;
-            alert("请上传主题图片!");
+            alert("请上传标签的背景图片!");
+            return false;
+        }
+        if($("#input_imgurl").val() == "")
+        {
+            isPost = false;
+            alert("请添加标签中的商品ID!");
             return false;
         }
         if(document.getElementById("dragon-container").getElementsByClassName("dragon-contained ui-draggable ui-draggable-handle").length == 0)
         {
             isPost = false;
             alert("请添加标签!");
+            return false;
+        }
+        //检查主商品是否重复
+        var itemFlag = false;
+        var items = document.getElementById("sort");
+        var itemCount = items.getElementsByTagName("tr").length;
+        for(i=1;i<itemCount;i++){
+            for(j=1;j<itemCount;j++){
+                if(i != j && items.rows[i].cells[2].innerText == items.rows[j].cells[2].innerText){
+                    items.rows[i].style.backgroundColor = "skyblue";
+                    items.rows[j].style.backgroundColor = "skyblue";
+                    itemFlag = true;
+                }
+            }
+        }
+        if(itemFlag){
+            isPost = false;
+            alert("有重复的商品ID!");
             return false;
         }
         var theme = new Object();
@@ -434,35 +477,20 @@ $(function() {
         //结束日期
         var offShelvesAt = $("#offShelvesAt").val();
         //主题图片,主页显示图片
-        var themeImgFinal = themeImg.substring(themeImg.indexOf('/',themeImg.indexOf('/')+2));
+        if(data_array.themeImg.indexOf("http://") >= 0){
+            var themeImgFinal = data_array.themeImg.substring(data_array.themeImg.indexOf('/',data_array.themeImg.indexOf('/')+2)+1);
+        }
+        else{
+            var themeImgFinal = data_array.themeImg.substring(data_array.themeImg.indexOf('/',data_array.themeImg.indexOf('/')+2));
+        }
+
         //排序
         var sortNu = 1;
         //主题源背景图片
-        var themeSrcImg = background.substring(background.indexOf('url("')+5,background.indexOf('url("','")'));
+        var themeSrcImgTemp = background.substring(background.indexOf('url("')+5,background.indexOf('")'));
+        var themeSrcImg = themeSrcImgTemp.substring(themeSrcImgTemp.indexOf('/',themeSrcImgTemp.indexOf('/')+2));
         //主题的配置信息
         var themeConfig = [];
-        /*
-        var config1 = document.getElementsByClassName("pre_temp")[0];
-        if(config1.getElementsByTagName("input")[0].value != "")
-        {
-           themeConfig.push("仅剩:" + config1.getElementsByTagName("input")[0].value);
-           themeConfig.push("标题:" + config1.getElementsByTagName("input")[1].value);
-           themeConfig.push("价格/折扣:" + config1.getElementsByTagName("input")[2].value);
-           themeConfig.push("元/折起:" + config1.getElementsByTagName("input")[3].value);
-
-        }
-        var config2 = document.getElementsByClassName("pre_temp")[1];
-        if(config2.getElementsByTagName("input")[0].value != "")
-        {
-           themeConfig.push("折扣率:" + config2.getElementsByTagName("input")[0].value);
-           themeConfig.push("市场价:" + config2.getElementsByTagName("input")[1].value);
-           themeConfig.push("折扣价:" + config2.getElementsByTagName("input")[2].value);
-           themeConfig.push("拼购人数:" + config2.getElementsByTagName("input")[3].value);
-           themeConfig.push("拼购价格:" + config2.getElementsByTagName("input")[4].value);
-           themeConfig.push("已拼购人数:" + config2.getElementsByTagName("input")[5].value);
-
-        }
-        */
         //主题包含的商品信息
         var themeItems = [];
         var items = document.getElementById("sort");
@@ -497,20 +525,41 @@ $(function() {
         }
         //主题列表主宣传图
         var imgUrl = document.getElementById("dragon-container").getElementsByTagName("img")[0].src;
-        var themeMasterImg = imgUrl.substring(imgUrl.indexOf('/',imgUrl.indexOf('/')+2));
+        var themeMasterImg = imgUrl.substring(imgUrl.indexOf('/',imgUrl.indexOf('/')+2) + 1);
+
+        //主题主图片
+        var themeImgContent = {};
+        themeImgContent.url = themeImgFinal;
+        if(data_array.uploadImgWidth != null && data_array.uploadImgHeight != null){
+               themeImgContent.width = data_array.uploadImgWidth.toString();
+               themeImgContent.height = data_array.uploadImgHeight.toString();
+        }else{
+                 themeImgContent.width = jsFileShareContent.ulpDirectImgWidth.toString();
+                 themeImgContent.height = jsFileShareContent.ulpDirectImgHeight.toString();
+        }
+
+
+        //主题tag背景图
+        var themeMasterImgContent = {};
+        themeMasterImgContent.url = themeMasterImg;
+        themeMasterImgContent.width = jsFileShareContent.labelImgWidth.toString();
+        themeMasterImgContent.height = jsFileShareContent.labelImgHeight.toString();
 
         theme.masterItemId = masterItemId;
         theme.title = title;
         theme.startAt = onShelvesAt;
         theme.endAt = offShelvesAt;
-        theme.themeImg = themeImgFinal;
+        theme.themeImg = JSON.stringify(themeImgContent);
+        //theme.themeImg = themeImgFinal;
         theme.sortNu = sortNu;
         //theme.orDestory = false;
         theme.themeSrcImg = themeSrcImg;
         theme.themeDesc = themeConfig;
         theme.themeItem = themeItems;
         theme.themeTags = masterItemTag;
-        theme.themeMasterImg = themeMasterImg;
+        //theme.themeMasterImg = themeMasterImg;
+        theme.themeMasterImg = JSON.stringify(themeMasterImgContent);
+
 
         if (isPost) {
                     $.ajax({
@@ -527,7 +576,7 @@ $(function() {
                             setTimeout("$('#js-userinfo-error').text('')", 2000);
                         },
                         success: function(data) {
-                            //alert("Save Success");
+                            alert("Save Success");
                             if (window.lang = 'cn') {
                                 $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
                             } else {

@@ -4,15 +4,7 @@
 # Home page
 GET				/front                                                  controllers.Application.welcome(lang= "cn")
 GET				/$lang<(cn|en|kr)>/front                                controllers.Application.welcome(lang)
-GET				/prodCreate              	                            controllers.ProductCtrl.prodCreate(lang = "cn")
-GET				/$lang<(cn|en|kr)>/prodCreate                           controllers.ProductCtrl.prodCreate(lang)
-GET             /getSubcates                                            controllers.ProductCtrl.getSubCategory
-POST            /insertProducts                                         controllers.ProductCtrl.insertProducts
-POST            /$lang<(cn|en|kr)>/prodsList/$currPage<[0-9]+>          controllers.ProductCtrl.prodSearchAjax(lang,currPage:Int)
-GET             /prodsList                                              controllers.ProductCtrl.prodsList(lang = "cn")
-GET             /$lang<(cn|en|kr)>/prodsList                            controllers.ProductCtrl.prodsList(lang)
-GET             /prodsDetail/:id                                        controllers.ProductCtrl.prodsDetail(lang = "cn",id:Long)
-GET             /$lang<(cn|en|kr)>/prodsDetail/:id                      controllers.ProductCtrl.prodsDetail(lang,id:Long)
+GET				/summary                                                controllers.Application.summary
 
 
 
@@ -45,6 +37,8 @@ GET             /topic/slider/popup                                         cont
 GET             /topic/add/popup                                            controllers.ThemeCtrl.thaddPop()
 POST            /topic/add/themeSave                                        controllers.ThemeCtrl.themeSave(lang = "cn")
 POST            /$lang<(cn|en|kr)>/topic/add/themeSave                      controllers.ThemeCtrl.themeSave(lang)
+GET             /topic/updateById/:id                                       controllers.ThemeCtrl.updateThemeById(lang = "cn",id:Long)
+GET             /$lang<(cn|en|kr)>/topic/updateById/:id                     controllers.ThemeCtrl.updateThemeById(lang,id:Long)
 
 
 
@@ -55,6 +49,7 @@ POST            /$lang<(cn|en|kr)>/topic/add/themeSave                      cont
 
 
 #Item -----> commodity,简写comm
+GET             /getSubcates                                                controllers.ItemCtrl.getSubCategory
 GET             /comm/search                                                controllers.ItemCtrl.itemList(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.itemList(lang)
 GET             /comm/search/popup                                          controllers.ItemCtrl.itemSearchPopup(lang ="cn")
@@ -69,8 +64,20 @@ GET             /$lang<(cn|en|kr)>/comm/findById/:id                        cont
 GET             /comm/updateById/:id                                        controllers.ItemCtrl.updateItemById(lang = "cn",id:Long)
 GET             /$lang<(cn|en|kr)>/comm/updateById/:id                      controllers.ItemCtrl.updateItemById(lang,id:Long)
 
-#ItemInfo  --> item erp中商品
-GET             /itemInfoAll/search                                         controllers.ItemInfoAllCtrl.getItemInfo(lang="cn")
+
+
+
+
+#erp中商品,订单
+GET             /itemInfo/search                                            controllers.ItemInfoCtrl.itemInfoList(lang="cn")
+POST            /itemInfo/search/$pageNum<[0-9]+>                           controllers.ItemInfoCtrl.itemInfoSearchAjax(lang ="cn",pageNum:Int)
+POST            /$lang<(cn|en|kr)>/itemInfo/search/$pageNum<[0-9]+>         controllers.ItemInfoCtrl.itemInfoSearchAjax(lang, pageNum:Int)
+GET             /shopOrder/push                                             controllers.ShopOrderCtrl.ShopOrderPush
+
+
+
+
+
 #Carriage --> carr 运费模板设置
 GET             /carr/search                                                controllers.ItemCtrl.carrModelSearch(lang = "cn")
 GET             /$lang<(cn|en|kr)>/carr/search                              controllers.ItemCtrl.carrModelSearch(lang)
@@ -83,6 +90,9 @@ GET             /$lang<(cn|en|kr)>/carr/findModel/:modelCode                cont
 GET             /carr/delModel/:modelCode                                   controllers.ItemCtrl.delModel(modelCode:String)
 
 
+
+
+
 #order 订单列表
 GET             /comm/order/search                                          controllers.ItemCtrl.orderList(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/order/search                        controllers.ItemCtrl.orderList(lang)
@@ -90,6 +100,10 @@ GET             /comm/order/detail/$id<[0-9]+>                              cont
 GET             /$lang<(cn|en|kr)>/comm/order/detail/$id<[0-9]+>            controllers.ItemCtrl.orderDetail(lang,id:Long)
 POST            /comm/order/search/$pageNum<[0-9]+>                         controllers.ItemCtrl.orderSearchAjax(lang ="cn",pageNum:Int)
 POST            /$lang<(cn|en|kr)>/comm/order/search/$pageNum<[0-9]+>       controllers.ItemCtrl.orderSearchAjax(lang,pageNum:Int)
+POST            /comm/order/cancel                                          controllers.ItemCtrl.orderCancel(lang ="cn")
+POST            /$lang<(cn|en|kr)>/comm/order/cancel                        controllers.ItemCtrl.orderCancel(lang)
+
+
 
 
 
@@ -113,6 +127,7 @@ POST            /comm/cate/cateSave                                         cont
 
 
 
+
 GET             /                                   controllers.Auth.login
 POST            /authenticate                       controllers.Auth.authenticate
 GET             /logout                             controllers.Auth.logout
@@ -132,6 +147,7 @@ GET             /supply/$id<[0-9]+>                controllers.Application.show(
 POST            /supply/append/add                 controllers.Application.append_add
 GET             /supply/download/shanghai                 controllers.Application.download_shanghai
 GET             /supply/download/hangzhou                 controllers.Application.download_hangzhou
+POST            /supply/upload                             controllers.Application.upload
 
 
 
@@ -147,6 +163,15 @@ GET             /$lang<(cn|en|kr)>/data/config/search                     contro
 GET             /data/config/add                                          controllers.DataCtrl.systemParameterAdd(lang ="cn")
 GET             /$lang<(cn|en|kr)>/data/config/add                        controllers.DataCtrl.systemParameterAdd(lang)
 POST            /data/config/paramSave                                    controllers.DataCtrl.paramSave(lang = "cn")
+
+
+#Coupons -->coup 优惠券
+GET             /coup/add                                                  controllers.CoupCtrl.coupCreate(lang="cn")
+GET             /$lang<(cn|en|kr)>/coup/add                                controllers.CoupCtrl.coupCreate(lang)
+GET             /coup/add/popup                                            controllers.CoupCtrl.coupaddPop()
+POST            /coup/coupSave                                             controllers.CoupCtrl.coupSave
+
+
 
 
 

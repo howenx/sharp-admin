@@ -52,6 +52,8 @@
                     <option value="R">已收货</option>
                     <option value="D">已发货</option>
                     <option value="J">拒收</option>
+                    <option value="N">已删除</option>
+                    <option value="TO">订单已超时</option>
                 </select>
             </div>
             <!--
@@ -90,17 +92,19 @@
                 <th>订单总价(元)</th>
                 <th>支付渠道</th>
                 <th>订单状态</th>
+                <!--<th>操作</th>-->
             </tr>
             </thead>
             <tbody>
             @for(order <- orList){
             <tr class = "tb-list-data">
-                <td><a href="/@lang/comm/order/detail/@order(0)">@order(0)</a></td>
+                <td><a href="/@lang/comm/order/detail/@order(0)" target="_blank">@order(0)</a></td>
                 <td>@order(1)</td>
                 @if(order(2)!=null){<td>@(order(2).toString().substring(0,16))</td>}
                 <td>@order(3)</td>
                 <td>@order(4)</td>
                 <td>@order(5)</td>
+                <!--<td>@if(order(5) == "订单已超时"){<a href="/@lang/comm/order/detail/@order(0)">取消订单</a>}</td>-->
             </tr>
             }
             <!---公用模块,id不能改变,只需要改变合并行数-->

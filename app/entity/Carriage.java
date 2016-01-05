@@ -1,11 +1,12 @@
 package entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Created by Sunny Wu 15/12/9.
  */
-public class Carriage {
+public class Carriage implements Serializable{
 
     /**
      * 主键id

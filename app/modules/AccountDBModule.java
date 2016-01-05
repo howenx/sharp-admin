@@ -3,15 +3,13 @@ package modules;
 import com.google.inject.PrivateModule;
 import com.google.inject.Scopes;
 import com.google.inject.name.Names;
-import mapper.*;
+import mapper.IDMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.guice.session.SqlSessionManagerProvider;
 import play.db.DBApi;
-import service.ProdService;
-import service.ProdServiceImpl;
-import service.ThemeService;
-import service.ThemeServiceImpl;
+import service.IDService;
+import service.IDServiceImpl;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -41,6 +39,7 @@ public class AccountDBModule extends PrivateModule {
 //                addMapperClass(ProductsMapper.class);
 //                addMapperClass(ThemeMapper.class);
 //                addMapperClass(StockMapper.class);
+                addMapperClass(IDMapper.class);
             }
         });
 
@@ -51,14 +50,16 @@ public class AccountDBModule extends PrivateModule {
         expose(SqlSession.class).annotatedWith(Names.named("account"));
 
         /**
-         * bind service for controller or other service inject. 绑定style数据库所对应的Service
+         * bind service for controller or other service inject. 绑定account数据库所对应的Service
          */
 //        bind(ProdService.class).to(ProdServiceImpl.class);
 //        bind(ThemeService.class).to(ThemeServiceImpl.class);
+        bind(IDService.class).to(IDServiceImpl.class);
 
         //必须expose
 //        expose(ThemeService.class);
 //        expose(ProdService.class);
+        expose(IDService.class);
     }
 
     @Singleton
