@@ -3,7 +3,7 @@ package entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Timestamp;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Created by Sunny Wu on 15/12/30.
@@ -15,7 +15,6 @@ public class ID {
     private String cardNum;     //证件号码
     private String cardImg;     //证件图片(A:正面 B:反面)
     private String regIp;       //注册IP
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp regDt;    //注册时间
     private String activeYN;    //是否激活(默认:N)
     private String realYN;      //是否实名认证(默认:N)

@@ -1,7 +1,9 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import entity.ID;
 import entity.User;
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -41,6 +43,17 @@ public class CoupCtrl extends Controller {
         List<ID> idList = idService.getAllID();
         String IMAGE_URL = "http://img.hanmimei.com";
         return ok(views.html.coupon.coupaddPop.render(idList,IMAGE_URL));
+    }
+
+    /**
+     * 保存优惠券
+     * @return Result
+     */
+    public Result coupSave() {
+        JsonNode json = request().body().asJson();
+        Logger.error("优惠券"+json.toString());
+        couponsService.couponsSave(json);
+        return ok();
     }
 
 }

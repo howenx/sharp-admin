@@ -1,5 +1,6 @@
 package service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import entity.Coupons;
 
 import java.util.List;
@@ -10,10 +11,10 @@ import java.util.List;
 public interface CouponsService {
 
     /**
-     * 生成一张优惠券
-     * @param coupons 优惠券
+     * 优惠券保存
+     * @param json
      */
-    void insertCoupons(Coupons coupons);
+    void couponsSave(JsonNode json);
 
     /**
      * 由id 获得一条优惠券信息

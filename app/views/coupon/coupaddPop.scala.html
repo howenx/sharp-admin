@@ -9,41 +9,48 @@
 <script type="text/javascript">
     $(function(){
         var sharedObject = window.dialogArguments;
-        if (sharedObject.flag) {
-            $("input[type=checkbox]").attr('type','radio');
+        var user_arr = sharedObject.user_arr;
+        for(i=0;i<user_arr.length;i++) {
+            var trs = $(".table tbody").find("tr");
+            for(j=1;j<trs.length;j++) {
+                if (user_arr[i]==trs[j].getElementsByTagName("td")[1].innerText) {
+                    $(trs[j].getElementsByTagName("td")[0].getElementsByTagName("input")[0]).attr("disabled",'true');
+                    $(trs[j].getElementsByTagName("td")[0].getElementsByTagName("input")[0]).attr("enable",'false');
+                    $(trs[j]).css("background","#f5f5f5");
+                }
+            }
         }
         $(".return").click(function(){
             var id=$("input[type=checkbox]:checked").parents("tr");
-            $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo(id);
+            $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("cou-del").appendTo(id);
             $(id).find("input[type=checkbox]:checked").parent().remove();
-            var lable_id=$("input[type=radio]:checked").parent().next().html();
             if (window.showModalDialog) {
                 var sharedObject = {};
                 sharedObject.id = id;
-                if(lable_id.value!==""){
-                    sharedObject.lable_id = lable_id;
-                }
                 window.returnValue = sharedObject;
             }
             else {
                 // if not modal, we cannot use the returnValue property, we need to update the opener window
                 var sharedObject = {};
                 sharedObject.id = id;
-                sharedObject.lable_id = lable_id;
-                console.log(lable_id);
                 window.opener.UpdateFields (sharedObject);
             }
             window.close ();
         })
+
+         $(".cancel").click(function(){
+            window.close ();
+        });
+
     })
 </script>
 <style>
     .table-bordered.table-hover{
-    width: 1100px;margin-left: 50px;
+    width: 1250px;margin-left: 50px;
     }
 </style>
 <body>
-<h3>用户查询</h3>
+<h3 style="margin-left:20px;">用户查询</h3>
 <table class="table table-bordered table-hover">
     <tr>
         <th>选择用户</th>
@@ -64,7 +71,7 @@
     @for(id <- idList){
     <tr>
         <td>
-            <input type="checkbox" name="users">
+            <input type="checkbox" name="users" enable="true">
         </td>
         <td>@id.getUserId()</td>
         <td>@id.getNickname()</td>
@@ -72,11 +79,11 @@
         <td>@id.getGender()</td>
         <td>@id.getEmail()</td>
         <td>@id.getPhoneNum()</td>
-        @if(id.getBirthday!=null){<td>@(id.getBirthday().toString().substring(0,10))</td>}
+        @if(id.getBirthday!=null){<td>@( id.getBirthday().toString().substring(0,10))</td>}
         <td>@id.getRealName()</td>
         <td>@id.getCardType()</td>
         <td>@id.getCardNum()</td>
-        @if(id.getRegDt!=null){<td>@(id.getRegDt().toString().substring(0,16))</td>}
+        @if(id.getRegDt!=null){<td>@(id.getRegDt().toString().substring(0,19))</td>}
         @if(id.getActiveYN()=="Y"){<td>是</td>}
         @if(id.getActiveYN()=="N"){<td>否</td>}
         @if(id.getRealYN()=="Y"){<td>是</td>}
@@ -85,4 +92,5 @@
     }
 </table>
 <button class="return btn btn-primary" style="margin-left: 50px;margin-bottom: 10px">确认添加</button>
+<button class="cancel btn btn-primary" style="margin-left: 10px;margin-bottom: 10px">返回</button>
 </body>

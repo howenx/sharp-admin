@@ -1,7 +1,9 @@
 package service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import entity.Coupons;
 import mapper.CouponsMapper;
+import play.libs.Json;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -15,12 +17,19 @@ public class CouponsServiceImpl implements CouponsService {
     private CouponsMapper couponsMapper;
 
     /**
-     * 生成一张优惠券
-     * @param coupons 优惠券
+     * 优惠券保存
+     * @param json
      */
     @Override
-    public void insertCoupons(Coupons coupons) {
-        couponsMapper.insertCoupons(coupons);
+    public void couponsSave(JsonNode json) {
+        for(JsonNode jsonNode : json) {
+            Coupons coupons = Json.fromJson(jsonNode, Coupons.class);
+            Long cateId = coupons.getCateId();
+            String coupId = coupons.GetCode(cateId, 8);
+            coupons.setCoupId(coupId);
+            coupons.setState("N");
+            couponsMapper.insertCoupons(coupons);
+        }
     }
 
     /**
