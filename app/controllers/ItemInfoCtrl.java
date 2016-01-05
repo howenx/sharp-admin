@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import entity.User;
 import entity.erp.ItemInfo;
 import order.B1EC2Client;
-import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -32,26 +31,22 @@ public class ItemInfoCtrl extends Controller {
 
         JsonNode json = B1EC2Client.post("http://121.43.186.32", "B1EC2.ItemInfo.Query", params, JsonNode.class);
 
-//        Logger.error(json.toString());
-
-
-
         List<ItemInfo> itemInfoList = new ArrayList<>();
         for (final JsonNode jsonNode : json.findValue("ItemInfos")) {
-            Logger.error("修改前:"+jsonNode.toString());
-//            JsonNode itemNode = null;
+//            Logger.error("修改前:"+jsonNode.toString());
+            JsonNode itemNode = null;
             Iterator<String> keys = jsonNode.fieldNames();
             while(keys.hasNext()){
                 String fieldName = keys.next();
                 char[] array = fieldName.toCharArray();
                 array[0] += 32;
-                String lfn = String.valueOf(array);
+                String newFieldName = String.valueOf(array);
                 String fieldValue = jsonNode.findValue(fieldName).toString();
-//                ((ObjectNode) itemNode).put(lfn,fieldValue);
+//                ((ObjectNode)itemNode).put(newFieldName,fieldValue)
             }
 //            Logger.error("修改后:"+itemNode.toString());
-            ItemInfo itemInfo = Json.fromJson(jsonNode, ItemInfo.class);
-            itemInfoList.add(itemInfo);
+//            ItemInfo itemInfo = Json.fromJson(itemNode, ItemInfo.class);
+//            itemInfoList.add(itemInfo);
         }
 
         //取总数

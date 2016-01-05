@@ -50,17 +50,21 @@
 
         <sql id="themeColumns">
                 ${alias}.id,
-                ${alias}.master_item_id,
-                ${alias}.title,
-                ${alias}.start_at,
-                ${alias}.end_at,
                 ${alias}.theme_img,
                 ${alias}.sort_nu,
                 ${alias}.or_destroy,
                 ${alias}.destroy_at,
                 ${alias}.update_at,
+                ${alias}.master_item_id,
                 ${alias}.create_at,
-                ${alias}.theme_src_img
+                ${alias}.theme_src_img,
+                ${alias}.theme_config_info,
+                ${alias}.theme_item,
+                ${alias}.master_item_tag,
+                ${alias}.title,
+                ${alias}.theme_master_img,
+                ${alias}.start_at,
+                ${alias}.end_at
         </sql>
 
         <select id="getThemePage" parameterType="entity.Theme" resultType="entity.Theme">
@@ -107,6 +111,15 @@
                         <property name="alias" value="t"/>
                 </include>
                 from themes t where 1=1
+        </select>
+
+        <select id="getThemeById" resultType="entity.Theme" parameterType="java.lang.Long">
+                select
+                <include refid="themeColumns">
+                        <property name="alias" value="t"/>
+                </include>
+                from themes t where id = ${value}
+
         </select>
 
         <insert id="insertTheme" parameterType="entity.Theme" useGeneratedKeys="true" keyProperty="id">

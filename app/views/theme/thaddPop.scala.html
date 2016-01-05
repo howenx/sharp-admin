@@ -19,7 +19,7 @@
             if (window.showModalDialog) {
                 var sharedObject = {};
                 sharedObject.id = id;
-                if(lable_id.value!==""){
+                if(lable_id.value!=""){
                     sharedObject.lable_id = lable_id;
                 }
                 window.returnValue = sharedObject;
@@ -34,6 +34,11 @@
             }
             window.close ();
         })
+
+         $(".cancel").click(function(){
+            window.close ();
+        });
+
     })
 </script>
 <style>
@@ -42,7 +47,7 @@
     }
 </style>
 <body>
-<h3>商品查询</h3>
+<h3 style="margin-left:20px;">商品查询</h3>
 <table class="table table-bordered table-hover">
     <tr>
         <th>选择商品</th>
@@ -102,4 +107,5 @@
     }
 </table>
 <button class="return btn btn-primary" style="margin-left: 50px;margin-bottom: 10px">确认添加</button>
+<button class="cancel btn btn-primary" style="margin-left: 10px;margin-bottom: 10px">返回</button>
 </body>

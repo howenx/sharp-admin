@@ -22,4 +22,6 @@ public interface ThemeService {
 
      List<Theme> getThemesAll();
 
+     Theme getThemeById(Long id);
+
 }

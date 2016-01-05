@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.CouponsMapper">
+    <!--enable mybatis default cache configure reference:
+        https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
+    -->
+    <sql id="couponsColumns">
+        ${alias}.coup_id,
+        ${alias}.user_id,
+        ${alias}.cate_id,
+        ${alias}.denomination,
+        ${alias}.start_at,
+        ${alias}.end_at,
+        ${alias}.state,
+        ${alias}.order_id,
+        ${alias}.use_at,
+        ${alias}.limit_quota,
+        ${alias}.cate_nm
+    </sql>
+
+    <insert id="insertCoupons" parameterType="entity.Coupons">
+        insert into sp_coupons
+        (coup_id,user_id,cate_id,denomination,start_at,end_at,state,order_id,use_at,limit_quota,cate_nm)
+        values
+        (#{coupId},#{userId},#{cateId},#{denomination},#{startAt},#{endAt},#{state},#{orderId},#{useAt},#{limitQuota},#{cateNm})
+    </insert>
+
+    <select id="getCoupons" resultType="entity.Coupons" parameterType="java.lang.String">
+        select
+        <include refid="couponsColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_coupons t where coup_id=${value}
+    </select>
+
+    <select id="getAllCoupons" resultType="entity.Coupons">
+        select
+        <include refid="couponsColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_coupons t where 1=1
+    </select>
+
+    <select id="getCouponsPage" parameterType="entity.Coupons" resultType="entity.Coupons">
+        select
+        <include refid="couponsColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_coupons t where 1=1
+        <if test="pageSize == -1 and offset >= -1">
+            LIMIT ALL OFFSET 0
+        </if>
+        <if test="pageSize >= 1 and offset >= 0">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+</mapper>

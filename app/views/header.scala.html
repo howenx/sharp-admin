@@ -10,10 +10,14 @@
                 
                 <ul class="header-navi-list clearfix">
                     <li class="header-navi-item fl">
-                        <a href="/@lang/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
+                        <a href="javascript:void(0)" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
 						<i class="header-nav-border-relative"></i>
                     </li>
                     @if(user.role==entity.User_Type.ADMIN) {
+                        <li class="header-navi-item fl">
+                            <a href="/supply/admin" class="header-link tdn">供应管理</a>
+                            <i class="header-nav-border-relative"></i>
+                        </li>
                         <li class="header-navi-item fl">
                             <div class="user-info fl js-header-dropmenu">
                                 <span class="info-inner db">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes")<i class="ml5 caret caret-down caret-b-9b"></i></span>
@@ -44,6 +48,9 @@
                                     </li>
                                     <li class="header-dropdown-item">
                                         <a href="/itemInfo/search" class="info-link">商品导入</a>
+                                    </li>
+                                    <li class="header-dropdown-item">
+                                        <a href="/coup/add" class="info-link">发放优惠券</a>
                                     </li>
                                     <li class="header-dropdown-item">
                                         <a href="/@lang/carr/search" class="info-link">运费模板</a>

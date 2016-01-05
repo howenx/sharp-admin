@@ -133,7 +133,6 @@ $(function() {
 
             orderDto.orderCreateAt = $("#onShelvesAt").val();
             orderDto.orderStatus = $("#order-form-status option:selected").val();
-            //orderDto.express = $("#order-form-express").val();
             //创建时间如果为空
             if ($("#onShelvesAt").val() == '' || $("#onShelvesAt").val() == null) {
                 orderDto.orderCreateAt = "0000-01-01 00:00:00";
@@ -157,27 +156,40 @@ $(function() {
                      payMethod = "微信";
                 }
                 var orderStatus = "";
-                if($(this)[0].orderStatus == "I"){
-                    orderStatus = "未支付";
-                 }
-                 if($(this)[0].orderStatus == "S"){
-                    orderStatus = "支付成功";
-                 }
-                 if($(this)[0].orderStatus == "C"){
-                    orderStatus = "订单取消";
-                 }
-                 if($(this)[0].orderStatus == "F"){
-                    orderStatus = "支付失败";
-                 }
-                 if($(this)[0].orderStatus == "R"){
-                     orderStatus = "已签收";
-                 }
-                 if($(this)[0].orderStatus == "D"){
-                     orderStatus = "已发货";
-                 }
-                 if($(this)[0].orderStatus == ""){
-                     orderStatus = "拒收";
-                 }
+                //当前时间减去24小时
+                var time = new Date($.now() - 1*24*3600*1000);
+                var createdTime = new Date($(this)[0].orderCreateAt);
+                console.log(time);
+                console.log(createdTime);
+
+                if(createdTime < time && $(this)[0].orderStatus == "I"){
+                    orderStatus = "订单已超时";
+                }else{
+                    if($(this)[0].orderStatus == "I"){
+                        orderStatus = "未支付";
+                    }
+                    if($(this)[0].orderStatus == "S"){
+                        orderStatus = "支付成功";
+                    }
+                    if($(this)[0].orderStatus == "C"){
+                        orderStatus = "订单取消";
+                    }
+                    if($(this)[0].orderStatus == "F"){
+                        orderStatus = "支付失败";
+                    }
+                    if($(this)[0].orderStatus == "R"){
+                        orderStatus = "已签收";
+                    }
+                    if($(this)[0].orderStatus == "D"){
+                        orderStatus = "已发货";
+                    }
+                    if($(this)[0].orderStatus == "J"){
+                        orderStatus = "拒收";
+                    }
+                    if($(this)[0].orderStatus == "N"){
+                        orderStatus = "已删除";
+                    }
+                }
                 $('#tb-topic').find('tbody').append('' +
                     '<tr class="tb-list-data">' +
                     '<td><a href="/' + window.lang +'/comm/order/detail/' + $(this)[0].orderId + '">' + $(this)[0].orderId + '</a></td>' +
@@ -186,6 +198,7 @@ $(function() {
                     '<td>' + $(this)[0].payTotal + '</td>' +
                     '<td>' + payMethod + '</td>' +
                     '<td>' + orderStatus + '</td>' +
+                    //'<td>' + (orderStatus == "订单已超时" ? '<a href="/' + window.lang +'/comm/order/detail/' + $(this)[0].orderId + '">取消订单</a>' : '') + '</td>}' +
                     '</tr>'
                 );
             })

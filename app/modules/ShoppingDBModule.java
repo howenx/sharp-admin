@@ -37,6 +37,7 @@ public class ShoppingDBModule extends PrivateModule {
                 addMapperClass(OrderShipMapper.class);
                 addMapperClass(OrderLineMapper.class);
                 addMapperClass(OrderSplitMapper.class);
+                addMapperClass(CouponsMapper.class);
 
             }
         });
@@ -52,18 +53,20 @@ public class ShoppingDBModule extends PrivateModule {
         expose(SqlSession.class).annotatedWith(Names.named("shopping"));
 
         /**
-         * bind service for controller or other service inject. 绑定style数据库所对应的Service
+         * bind service for controller or other service inject. 绑定shopping数据库所对应的Service
          */
         bind(OrderService.class).to(OrderServiceImpl.class);
         bind(OrderShipService.class).to(OrderShipServiceImpl.class);
         bind(OrderLineService.class).to(OrderLineServiceImpl.class);
         bind(OrderSplitService.class).to(OrderSplitServiceImpl.class);
+        bind(CouponsService.class).to(CouponsServiceImpl.class);
 
         //必须expose
         expose(OrderService.class);
         expose(OrderShipService.class);
         expose(OrderLineService.class);
         expose(OrderSplitService.class);
+        expose(CouponsService.class);
     }
 
     @Singleton

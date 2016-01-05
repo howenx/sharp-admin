@@ -1,0 +1,95 @@
+@(idList:List[entity.ID], url:String)
+
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<!--self-->
+<link rel="stylesheet" href="/assets/css/search.css">
+<script src="/assets/js/search.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var sharedObject = window.dialogArguments;
+        var user_arr = sharedObject.user_arr;
+        for(i=0;i<user_arr.length;i++) {
+            var trs = $(".table tbody").find("tr");
+            for(j=1;j<trs.length;j++) {
+                if (user_arr[i]==trs[j].getElementsByTagName("td")[1].innerText) {
+                    $(trs[j].getElementsByTagName("td")[0].getElementsByTagName("input")[0]).attr("disabled",'true');
+                    $(trs[j]).css("background","#f5f5f5");
+                }
+            }
+        }
+        $(".return").click(function(){
+            var id=$("input[type=checkbox]:checked").parents("tr");
+            $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("cou-del").appendTo(id);
+            $(id).find("input[type=checkbox]:checked").parent().remove();
+            if (window.showModalDialog) {
+                var sharedObject = {};
+                sharedObject.id = id;
+                window.returnValue = sharedObject;
+            }
+            else {
+                // if not modal, we cannot use the returnValue property, we need to update the opener window
+                var sharedObject = {};
+                sharedObject.id = id;
+                window.opener.UpdateFields (sharedObject);
+            }
+            window.close ();
+        })
+
+         $(".cancel").click(function(){
+            window.close ();
+        });
+
+    })
+</script>
+<style>
+    .table-bordered.table-hover{
+    width: 1250px;margin-left: 50px;
+    }
+</style>
+<body>
+<h3 style="margin-left:20px;">用户查询</h3>
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>选择用户</th>
+        <th>用户ID</th>
+        <th>用户名称</th>
+        <th>头像</th>
+        <th>性别</th>
+        <th>邮箱</th>
+        <th>电话号码</th>
+        <th>生日</th>
+        <th>真实姓名</th>
+        <th>证件类型</th>
+        <th>证件号码</th>
+        <th>注册时间</th>
+        <th>是否激活</th>
+        <th>是否实名认证</th>
+    </tr>
+    @for(id <- idList){
+    <tr>
+        <td>
+            <input type="checkbox" name="users" enable="true">
+        </td>
+        <td>@id.getUserId()</td>
+        <td>@id.getNickname()</td>
+        <td> <img class="main-img" src="@url@id.getPhotoUrl()" alt="" width="50"></td>
+        <td>@id.getGender()</td>
+        <td>@id.getEmail()</td>
+        <td>@id.getPhoneNum()</td>
+        @if(id.getBirthday!=null){<td>@( id.getBirthday().toString().substring(0,10))</td>}
+        <td>@id.getRealName()</td>
+        <td>@id.getCardType()</td>
+        <td>@id.getCardNum()</td>
+        @if(id.getRegDt!=null){<td>@(id.getRegDt().toString().substring(0,19))</td>}
+        @if(id.getActiveYN()=="Y"){<td>是</td>}
+        @if(id.getActiveYN()=="N"){<td>否</td>}
+        @if(id.getRealYN()=="Y"){<td>是</td>}
+        @if(id.getRealYN()=="N"){<td>否</td>}
+    </tr>
+    }
+</table>
+<button class="return btn btn-primary" style="margin-left: 50px;margin-bottom: 10px">确认添加</button>
+<button class="cancel btn btn-primary" style="margin-left: 10px;margin-bottom: 10px">返回</button>
+</body>

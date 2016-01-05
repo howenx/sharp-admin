@@ -27,4 +27,6 @@ public interface ThemeMapper {
 
      void updateTheme(Theme theme);
 
+     Theme getThemeById(Long id);
+
 }
