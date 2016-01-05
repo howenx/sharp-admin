@@ -144,6 +144,7 @@ GET             /supply/$id<[0-9]+>                controllers.Application.show(
 POST            /supply/append/add                 controllers.Application.append_add
 GET             /supply/download/shanghai                 controllers.Application.download_shanghai
 GET             /supply/download/hangzhou                 controllers.Application.download_hangzhou
+POST            /supply/upload                             controllers.Application.upload
 
 
 

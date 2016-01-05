@@ -1,17 +1,16 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import order.B1EC2Client;
-import play.Logger;
+
+import akka.actor.ActorRef;
+
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 /**
  * Created by handy on 15/11/3.
@@ -20,8 +19,15 @@ import java.util.regex.Pattern;
 @Singleton
 public class Test extends Controller{
 
+    @Inject @Named("send")
+    private ActorRef send;
+
     @Security.Authenticated(UserAuth.class)
     public  Result test() {
+
+        //ActorRef ar = Akka.system().actorOf(Props.create(SendActor.class));
+//        GetActor.GetData data = new GetActor.SendData("test",0);
+//        Akka.system().scheduler().scheduleOnce(Duration.create(10, TimeUnit.SECONDS), send, data, Akka.system().dispatcher(), ActorRef.noSender());
 
 
 //        Map params = new HashMap<>();
@@ -31,7 +37,7 @@ public class Test extends Controller{
 //        Integer shopId = 1;
 //        Integer orderStatus = 10;
 
-        Map params = new HashMap<>();
+//        Map params = new HashMap<>();
 //        params.put("StartTime","2015-01-01 01:00:00");
 //        params.put  ("EndTime","2015-11-01 01:00:00");
 
@@ -45,9 +51,9 @@ public class Test extends Controller{
 //        Logger.debug(B1EC2Client.post("http://121.43.186.32","B1EC2.ShopOrder.Push",params, JsonNode.class).toString());
         // Logger.debug(B1EC2Client.post("http://121.43.186.32","B1EC2.SalesOrder.Query",params, JsonNode.class).toString());
 
-        String returnVal =B1EC2Client.post("http://121.43.186.32","B1EC2.Express.Query",params, JsonNode.class).toString();
+       // String returnVal =B1EC2Client.post("http://121.43.186.32","B1EC2.Express.Query",params, JsonNode.class).toString();
 
-        Logger.debug(returnVal);
+       // Logger.debug(returnVal);
 //        Logger.debug(B1EC2Client.post("http://121.43.186.32","B1EC2.SalesOrder.Query",params, JsonNode.class).toString());
 
 //        Logger.debug(ctx().args.get("user").toString());
@@ -59,9 +65,10 @@ public class Test extends Controller{
 //            Logger.debug("not match");
 //        }
 
-        return ok(returnVal);
+        return ok("1");
 
     }
+
 
 
 }
