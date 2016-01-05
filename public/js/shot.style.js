@@ -21,8 +21,10 @@ $(function() {
 			$(".pre_temp").css("display","none");
 			$('.' + $(this).attr('data-xr')).css("display","block");
 			data_array.selectedRadio = $(this).attr('data-xr');
+			$(".submit-area").css("display","none");
 			if ($(this).attr('data-xr') === 'shop_unpack') {
 				$('#' + $(this).attr('data-xr')).parent().css('display', 'block');
+				$(".submit-area").css("display","block");
 			}
 		}
 	});
