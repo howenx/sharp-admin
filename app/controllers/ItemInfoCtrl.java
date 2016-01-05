@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import entity.User;
 import entity.erp.ItemInfo;
 import order.B1EC2Client;
-import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -45,9 +44,9 @@ public class ItemInfoCtrl extends Controller {
                 String fieldValue = jsonNode.findValue(fieldName).toString();
 //                ((ObjectNode)itemNode).put(newFieldName,fieldValue)
             }
-            Logger.error("修改后:"+itemNode.toString());
-            ItemInfo itemInfo = Json.fromJson(itemNode, ItemInfo.class);
-            itemInfoList.add(itemInfo);
+//            Logger.error("修改后:"+itemNode.toString());
+//            ItemInfo itemInfo = Json.fromJson(itemNode, ItemInfo.class);
+//            itemInfoList.add(itemInfo);
         }
 
         //取总数

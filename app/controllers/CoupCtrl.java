@@ -3,7 +3,6 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.ID;
 import entity.User;
-import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -51,7 +50,6 @@ public class CoupCtrl extends Controller {
      */
     public Result coupSave() {
         JsonNode json = request().body().asJson();
-        Logger.error("优惠券"+json.toString());
         couponsService.couponsSave(json);
         return ok();
     }

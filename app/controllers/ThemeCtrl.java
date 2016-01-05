@@ -1,7 +1,6 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.ObjectArrayDeserializer;
 import entity.Inventory;
 import entity.Item;
 import entity.Theme;
@@ -13,13 +12,11 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-import scala.util.parsing.json.JSONArray;
 import service.InventoryService;
 import service.ItemService;
 import service.ThemeService;
 
 import javax.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +29,7 @@ import java.util.Map;
 public class ThemeCtrl extends Controller {
 
     //每页固定的取数
-    public static final int PAGE_SIZE = 4;
+    public static final int PAGE_SIZE = 10;
 
     //图片服务器url
     public static final String IMAGE_URL = play.Play.application().configuration().getString("image.server.url");
