@@ -72,8 +72,8 @@ GET             /$lang<(cn|en|kr)>/comm/updateById/:id                      cont
 GET             /itemInfo/search                                            controllers.ItemInfoCtrl.itemInfoList(lang="cn")
 POST            /itemInfo/search/$pageNum<[0-9]+>                           controllers.ItemInfoCtrl.itemInfoSearchAjax(lang ="cn",pageNum:Int)
 POST            /$lang<(cn|en|kr)>/itemInfo/search/$pageNum<[0-9]+>         controllers.ItemInfoCtrl.itemInfoSearchAjax(lang, pageNum:Int)
-GET             /shopOrder/push                                             controllers.ShopOrderCtrl.ShopOrderPush
-
+GET             /shopOrder/push                                             controllers.ShopOrderCtrl.shopOrderPush
+GET             /shopItem/push                                              controllers.ShopItemCtrl.shopItemPush
 
 
 

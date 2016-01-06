@@ -90,7 +90,7 @@ public class ItemCtrl extends Controller {
         item.setOffset(0);
 //        Logger.error("所有商品:"+service.itemSearch(item).toString());
 
-        return ok(views.html.item.itemsearch.render(lang,"http://hmm-images.oss-cn-beijing.aliyuncs.com/",ThemeCtrl.PAGE_SIZE,countNum,pageCount,service.itemSearch(item),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,service.itemSearch(item),(User) ctx().args.get("user")));
     }
 
     /**
@@ -196,7 +196,7 @@ public class ItemCtrl extends Controller {
             invList.add(object);
         }
 
-        return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,"http://hmm-images.oss-cn-beijing.aliyuncs.com/",lang,(User) ctx().args.get("user")));
+        return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,(User) ctx().args.get("user")));
     }
 
     /**
@@ -251,7 +251,7 @@ public class ItemCtrl extends Controller {
             object[24] = inventory.getRecordCode();
             invList.add(object);
         }
-        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,"http://hmm-images.oss-cn-beijing.aliyuncs.com/",lang,service.getAllBrands(),service.getParentCates(),carriageService.getModels(),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,service.getAllBrands(),service.getParentCates(),carriageService.getModels(),(User) ctx().args.get("user")));
     }
 
     /**
