@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class ShopOrderCtrl extends Controller {
 
-    public Result ShopOrderPush() {
+    public Result shopOrderPush() {
 
         List<ShopOrderCreateLine> ItemLineInfo = new ArrayList<>();
         ShopOrderCreateLine shopOrderCreateLine = new ShopOrderCreateLine();
