@@ -3,8 +3,6 @@
 @import entity.User
 
 @(lang:String="cn", user:User)
-
-
 @scripts = {
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
 <link rel="shortcut icon" type="image/png" href="/assets/images/favicon.ico">
@@ -60,7 +58,7 @@
                     <ul>
                         <li>
                             <p>订单:</p>
-                            <a href="">待支付超时<span>(0)</span></a>
+                            <a href="/@lang/comm/order/unpaidOrders">待支付超时<span>(0)</span></a>
                             <a href="javascript:;" class="f6">待发货<span class="f7">(3)</span></a>
                             <a href="javascript:;">新留言订单<span>(0)</span></a>
 

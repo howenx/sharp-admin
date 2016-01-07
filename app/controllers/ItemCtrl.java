@@ -585,8 +585,12 @@ public class ItemCtrl extends Controller {
     public Result orderCancel(String lang){
         JsonNode json = request().body().asJson();
         Logger.error(json.toString());
-        Long id = json.asLong();
-        orderService.orderCancel(id);
+        Long ids[] = new Long[json.size()];
+        for(int i=0;i<json.size();i++){
+            ids[i] = (json.get(i)).asLong();
+            Logger.error(ids[i].toString());
+        }
+        orderService.orderCancel(ids);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
@@ -674,6 +678,42 @@ public class ItemCtrl extends Controller {
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
+    /**
+     * 未支付超时订单列表 Added by Tiffany Zhu 2016.01.07
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result unpaidOrders(String lang){
+        List<Object[]> orList = new ArrayList<>();
+        List<Order> orderList = orderService.getOutTimeOrders();
+        for(Order order : orderList) {
+            Object[] object = new Object[6];
+            Logger.error(order.toString());
+            Logger.error(order.getOrderId().toString());
+            object[0] = order.getOrderId();
+            object[1] = order.getUserId();
+            object[2] = order.getOrderCreateAt();
+            object[3] = order.getPayTotal();
+            //支付方式
+            if ("JD".equals(order.getPayMethod())) {
+                object[4] = "京东";
+            }
+            if ("APAY".equals(order.getPayMethod())) {
+                object[4] = "支付宝";
+            }
+            if ("WEIXIN".equals(order.getPayMethod())) {
+                object[4] = "微信";
+            }
+            Timestamp time = new Timestamp(System.currentTimeMillis() - 1 * 24 * 3600 * 1000L);
+            if (order.getOrderCreateAt().before(time) && "I".equals(order.getOrderStatus())) {
+                object[5] = "订单已超时";
+            }
+            orList.add(object);
+
+        }
+        return ok(views.html.item.outTimeUnpaidOrders.render(lang,orList,(User) ctx().args.get("user")));
+    }
 
 }
 

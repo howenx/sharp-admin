@@ -35,7 +35,7 @@ public interface OrderMapper {
     void orderCancel(Long orderId);
 
     /**
-     * 超过24小时未支付的订单     Added by Tiffany Zhu
+     * 超过24小时未支付的订单     Added by Tiffany Zhu 2016.01.05
      * @return
      */
     List<Order> getOutTimeOrders();
