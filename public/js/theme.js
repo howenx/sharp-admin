@@ -225,6 +225,20 @@ $(function () {
         $(this).remove();
     });
     $(document).on("click",".th-del",function(){
+        //商品总数
+        var itemCount = $("#sort").find("tr").length - 1;
+        console.log("商品总数itemCount:" + itemCount);
+        //被删除行的编号
+        var delColNum = $(this).parents("tr").find("td:eq(0)").text();
+        console.log("被删除行编号delColNum:" + delColNum);
+
+        if(itemCount > delColNum){
+            for(var i = parseInt(delColNum);i < itemCount;i++){
+                var j = i + 1;
+                $("#sort").find("tr:eq("+j+")").find("td:eq(0)").text(i);
+            }
+        }
         $(this).parents("tr").remove();
+
     })
 })

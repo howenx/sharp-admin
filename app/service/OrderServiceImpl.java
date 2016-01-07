@@ -2,7 +2,6 @@ package service;
 
 import entity.Order;
 import mapper.OrderMapper;
-
 import javax.inject.Inject;
 import java.util.List;
 
@@ -45,5 +44,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void orderCancel(Long orderId) {
         orderMapper.orderCancel(orderId);
+    }
+
+    /**
+     * 超过24小时未支付的订单     Added by Tiffany Zhu 2016.01.05
+     * @return
+     */
+    @Override
+    public List<Order> getOutTimeOrders() {
+        return orderMapper.getOutTimeOrders();
     }
 }

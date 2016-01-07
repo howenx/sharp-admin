@@ -9,12 +9,80 @@
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
 <link rel="shortcut icon" type="image/png" href="/assets/images/favicon.ico">
 <link href='http://fonts.useso.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
+<link href="/assets/css/index.css" rel="stylesheet">
 <script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>
 }
 
 @body = {
     <div class="container">
-        summary
+        <div class="box clearfix">
+            <div class="box-left">
+                <div class="box-t">
+                    <p class="hd">业务订单</p>
+                    <ul>
+                        <li>
+                            <p>订单:</p>
+                            <a href="javascript:;">今日订单<span>(0)</span></a>
+                            <a href="javascript:;" class="f6">昨日订单<span class="f7">(3)</span></a>
+                            <a href="javascript:;">今日已付款<span>(0)</span></a>
+                            <a href="javascript:;">昨日已付款<span>(0)</span></a>
+                        </li>
+                        <li>
+                            <p>会员:</p>
+                            <a href="javascript:;">今日新增<span>(0)</span></a>
+                            <a href="javascript:;">昨日新增<span>(3)</span></a>
+                            <a href="javascript:;" class="f6">会员总数<span class="f7">(10)</span></a>
+
+                        </li>
+                        <li>
+                            <p>商品:</p>
+                            <a href="javascript:;">商品总数<span>(0)</span></a>
+                            <a href="javascript:;" class="f6">已下架商品<span class="f7">(3)</span></a>
+                            <a href="javascript:;">缺货商品<span>(0)</span></a>
+                            <a href="javascript:;">库存预警<span>(0)</span></a>
+                        </li>
+                        <li>
+                            <p>促销:</p>
+                            <a href="javascript:;">商品促销<span>(0)</span></a>
+                            <a href="javascript:;" class="f6">订单促销<span class="f7">(100)</span></a>
+                            <a href="javascript:;">优惠券<span>(0)</span></a>
+                            <a href="javascript:;">积分兑换赠品<span>(0)</span></a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="box-right">
+                <div class="box-t">
+                    <p class="hd">待处理事项</p>
+                    <ul>
+                        <li>
+                            <p>订单:</p>
+                            <a href="">待支付超时<span>(0)</span></a>
+                            <a href="javascript:;" class="f6">待发货<span class="f7">(3)</span></a>
+                            <a href="javascript:;">新留言订单<span>(0)</span></a>
+
+                        </li>
+                        <li>
+                            <p>会员:</p>
+                            <a href="javascript:;">新咨询<span>(0)</span></a>
+                            <a href="javascript:;">新评论<span>(3)</span></a>
+                            <a href="javascript:;">新消息<span>(3)</span></a>
+                        </li>
+                        <li>
+                            <p>商品:</p>
+                            <a href="javascript:;">库存报警<span>(0)</span></a>
+                            <a href="javascript:;" class="f6">到货通知<span class="f7">(3)</span></a>
+
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 }
 @layout(lang=lang,title="summary", user=user)(scripts) {
