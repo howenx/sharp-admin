@@ -44,10 +44,12 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public void orderCancel(Long[] orderIds) {
-        int length = orderIds.length;
-        for(int i=0;i<length;i++){
+
+        orderMapper.orderCancel(orderIds);
+        //int length = orderIds.length;
+        //for(int i=0;i<length;i++){
             //orderMapper.orderCancel(orderIds[i]);
-        }
+        //}
     }
 
     /**
