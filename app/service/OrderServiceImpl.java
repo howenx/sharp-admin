@@ -2,8 +2,6 @@ package service;
 
 import entity.Order;
 import mapper.OrderMapper;
-import play.Logger;
-
 import javax.inject.Inject;
 import java.util.List;
 
