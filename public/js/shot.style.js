@@ -428,11 +428,13 @@ $(function() {
             alert("请添加商品!");
             return false;
         }
+        /*
         if(document.getElementById("sort").rows[1].cells[1].getElementsByTagName("input")[0].checked == false){
             isPost = false;
             alert("请选择主商品!");
             return false;
         }
+        */
         if(document.getElementById("dragon-container").innerHTML.indexOf("img")<0)
         {
             isPost = false;
@@ -471,7 +473,8 @@ $(function() {
         }
         var theme = new Object();
         //主商品ID
-        var masterItemId = parseInt(document.getElementById("sort").rows[1].cells[2].innerHTML);
+        //var masterItemId = parseInt(document.getElementById("sort").rows[1].cells[2].innerHTML);
+        var masterItemId = "";
         //主题标题
         var title = $("#themeTitle").val();
         //开始日期
@@ -495,11 +498,19 @@ $(function() {
         var themeConfig = [];
         //主题包含的商品信息
         var themeItems = [];
+        $("#sort").find("tr").each(function(){
+            var itemId = $(this).find("td:eq(1)").text();
+            if( itemId!= null && itemId != ""){
+                themeItems.push(itemId);
+            }
+        })
+        /*
         var items = document.getElementById("sort");
         for(i=1;i<items.getElementsByTagName("tr").length;i++){
             var itemId = parseInt(items.rows[i].cells[2].innerText);
             themeItems.push(itemId);
             }
+            */
         //主题主宣传图上的标签
         var masterItemTag = [];
         var tagsContainer = document.getElementById("dragon-container");
@@ -514,7 +525,8 @@ $(function() {
             var tagTop =  parseInt(style.substring(style.indexOf("top: ")+5,style.length-3)) - 50;
 
             tag.left = parseFloat((tagLeft/containerWidth).toFixed(2));
-            tag.url = "/comm/detail/" + masterItemId;
+            //tag.url = "/comm/detail/" + masterItemId;
+            tag.url = "/comm/detail/" + $("#input_imgurl").val();
             tag.top = parseFloat((tagTop/containerHeight).toFixed(2));
             tag.name = tags[i].getElementsByTagName("p")[0].innerText;
             if(tags[i].getElementsByClassName("dragon-graph")[0].style.cssText.indexOf(180)>0)

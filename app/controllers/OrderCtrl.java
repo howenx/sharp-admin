@@ -108,7 +108,7 @@ public class OrderCtrl extends Controller {
             orList.add(object);
 
         }
-        return ok(views.html.item.ordersearch.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,orList,(User) ctx().args.get("user")));
+        return ok(views.html.order.ordersearch.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,orList,(User) ctx().args.get("user")));
 
     }
 
@@ -280,7 +280,7 @@ public class OrderCtrl extends Controller {
             //全部的子订单信息
             subOrdersAll.add(subOrderList);
         }
-        return ok(views.html.item.orderdetail.render(lang,orderArray,orderShip,subOrdersAll,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
+        return ok(views.html.order.orderdetail.render(lang,orderArray,orderShip,subOrdersAll,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
     }
 
     /**
@@ -335,7 +335,7 @@ public class OrderCtrl extends Controller {
             orList.add(object);
 
         }
-        return ok(views.html.item.outTimeUnpaidOrders.render(lang,orList,(User) ctx().args.get("user")));
+        return ok(views.html.order.outTimeUnpaidOrders.render(lang,orList,(User) ctx().args.get("user")));
     }
 
 }
