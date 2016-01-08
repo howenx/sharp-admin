@@ -115,7 +115,7 @@ $(function() {
                 '<td><a href="/'+window.lang+'/comm/findById/'+$(this)[0].id + ' ">' + $(this)[0].id + '</a></td>' +
                 '<td style="width: 20%;">' + $(this)[0].itemTitle + '</td>' +
                 '<td>' +
-                '<img class="main-img" src="' + window.url + $(this)[0].itemMasterImg + '" alt="" width="50">' +
+                '<img class="main-img" src="' + window.url + $(this)[0].itemMasterImg.substring(1,$(this)[0].itemMasterImg.length-1).split(",")[0].substring(7,$(this)[0].itemMasterImg.substring(1,$(this)[0].itemMasterImg.length-1).split(",")[0].length-1) + '" alt="" width="50">' +
                 '</td>' +
                 '<td>' + ($(this)[0].onShelvesAt != null && $(this)[0].onShelvesAt != '' ? $(this)[0].onShelvesAt.substr(0, 16) : '') + '</td>}' +
                 '<td>' + ($(this)[0].offShelvesAt != null && $(this)[0].offShelvesAt != '' ? $(this)[0].offShelvesAt.substr(0, 16) : '') + '</td>}' +

@@ -248,26 +248,20 @@
             <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.details")</h4>
 
             <div class="form-group">
-                <label class="col-sm-1 control-label"><div class="r" style="padding:3px;">*</div><div class="r">主题宣传图</div><div style="margin-top:20px;margin-right:30px;">(一张)</div></label>
-                <div class="col-sm-2">
-                    <div class="master-img" style="border:1px solid #ccc; height:80px;">
-                        <div id="galleryT" style="margin-top:15px;margin-left:10px;">
-                            <div>
-                                <img class="main-img" src="@url@item.getItemMasterImg()" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!--<label class="col-sm-1 control-label"><div class="r" style="padding:3px;">*</div><div class="r">主题宣传图</div><div style="margin-top:20px;margin-right:30px;">(一张)</div></label>-->
+                <!--<div class="col-sm-2">-->
+                    <!--<div class="master-img" style="border:1px solid #ccc; height:80px;">-->
+                        <!--<div id="galleryT" style="margin-top:15px;margin-left:10px;">-->
+                            <!--<div>-->
+                                <!--<img class="main-img" src="@url@item.getItemMasterImg()" alt="">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
                 <div class="col-sm-4">
                     <div class="detail-img" style="border:1px solid #ccc;">
-                        <div id="galleryD" style="margin-bottom:10px;margin-top:15px;">
-                            <!--@for(detail <- item.getItemDetailImgs().substring(1,item.getItemDetailImgs().length()-1).split(", ")) {-->
-                            <!--<div>-->
-                                <!--<img class="main-img" src="@url@detail.substring(1,detail.length()-1)" alt="">-->
-                            <!--</div>-->
-                            <!--}-->
-
+                        <div id="galleryD">
                             @for(detail <- item.getItemDetailImgs().substring(1,item.getItemDetailImgs().length()-2).split("], ")) {
                                 <div style="display:inline-block; border:1px solid #ccc">
                                     @for(d <- detail.substring(1,detail.length()).split(", ")) {
@@ -280,7 +274,7 @@
                 </div>
             </div>
 
-            <div class="form-group" style="margin-top:70px;">
+            <div class="form-group" style="margin-top:20px;">
                 <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">商品参数</div></label>
                 <div class="col-sm-7" >
                     <input type="hidden" class="form-control" id="features" name="features">

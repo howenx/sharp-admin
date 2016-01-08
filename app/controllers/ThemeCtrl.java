@@ -164,15 +164,16 @@ public class ThemeCtrl extends Controller {
     public Result sliderPop(){
         //主题列表
         List<Theme> themeList = service.getThemesAll();
-        //含有主商品图的主题列表
+        //含有主商品的主sku图的主题列表
         List<Object[]> thList = new ArrayList<>();
         for(Theme theme : themeList) {
             Object[] object = new Object[6];
             Item item = itemService.getItem(theme.getMasterItemId());
+            Inventory inventory = inventoryService.getInventoriesByItemId(item.getId()).get(0);
             object[0] = theme.getId();
             object[1] = theme.getThemeImg();
             object[2] = theme.getMasterItemId();
-            object[3] = item.getItemMasterImg();
+            object[3] = inventory.getInvImg();
             object[4] = theme.getStartAt();
             object[5] = theme.getEndAt();
             thList.add(object);
@@ -184,9 +185,8 @@ public class ThemeCtrl extends Controller {
         for(Item item : itemList) {
             Object[] object = new Object[9];
             Logger.error(item.toString());
-            Logger.error(item.getMasterInvId().toString());
-            Inventory inventory = inventoryService.getInventory(item.getMasterInvId());
-            Logger.error(inventory.toString());
+            List<Inventory> inventoryList = inventoryService.getInventoriesByItemId(item.getId());
+            Inventory inventory = inventoryList.get(0);
             object[0] = item.getId();
             object[1] = item.getItemTitle();
             object[2] = item.getItemMasterImg();
