@@ -134,9 +134,9 @@ $(function(){
          }
 
          //添加主题宣传图后,添加图片按钮隐藏
-         if (document.getElementById("galleryT").getElementsByTagName("div").length>0) {
-            $("#T").parent().css("display","none");
-         }
+//         if (document.getElementById("galleryT").getElementsByTagName("div").length>0) {
+//            $("#T").parent().css("display","none");
+//         }
 
          //商品预览图最多为6张
          if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==6) {
@@ -221,13 +221,13 @@ $(function(){
     });
 
     /** 主题宣传图,点击移除的操作 **/
-    $(document).on('click','.master-img .close',function(){
-        //没有主题宣传图时,上传按钮置为显示
-        if (document.getElementById("galleryT").getElementsByTagName("div").length==1) {
-            $("#T").parent().css("display","inline-block");
-        }
-        $(this).parent().remove();
-    });
+//    $(document).on('click','.master-img .close',function(){
+//        //没有主题宣传图时,上传按钮置为显示
+//        if (document.getElementById("galleryT").getElementsByTagName("div").length==1) {
+//            $("#T").parent().css("display","inline-block");
+//        }
+//        $(this).parent().remove();
+//    });
 
     /** 预览图 点击移除的操作 **/
     $(document).on('click','.preview-img .close',function(){
@@ -261,8 +261,8 @@ $(function(){
             if (i ==17 && trs[index-1].getElementsByClassName("list-img")[0].getElementsByTagName("div").length==1) break;
             if (i ==18 && trs[index-1].getElementsByClassName("preview-img")[0].getElementsByTagName("div").length==1) break;
         }
-//        if (i==19){
-        if (true){
+        if (i==19){
+//        if (true){
             var tr =  document.createElement("tr");
 
             var tdR = document.createElement("td");
@@ -580,20 +580,20 @@ $(function(){
         for(i=1;i<pubtr.length;i++) {
             publicity.push(pubtr[i].getElementsByTagName("td")[0].innerText);
         }
-        var itemMasterImg = "";
-        var galleryT = document.getElementById("galleryT");
-        var masterThImg = galleryT.getElementsByTagName("div");
-        if (masterThImg.length<1) {
-            isPost = false;
-            $("#warn-masthimg").text("请上传主题宣传图!");
-        } else {
-            $("#warn-masthimg").text("");
-        }
+//        var itemMasterImg = "";
+//        var galleryT = document.getElementById("galleryT");
+//        var masterThImg = galleryT.getElementsByTagName("div");
+//        if (masterThImg.length<1) {
+//            isPost = false;
+//            $("#warn-masthimg").text("请上传主题宣传图!");
+//        } else {
+//            $("#warn-masthimg").text("");
+//        }
 
-        var imgT = galleryT.getElementsByTagName("img");
+//        var imgT = galleryT.getElementsByTagName("img");
         //主题宣传图
-        itemMasterImg = imgT[0].src;
-        itemMasterImg  = itemMasterImg.substring(itemMasterImg.lastIndexOf('/')+1,itemMasterImg.length);
+//        itemMasterImg = imgT[0].src;
+//        itemMasterImg  = itemMasterImg.substring(itemMasterImg.lastIndexOf('/')+1,itemMasterImg.length);
         //商品详细图
         var galleryD = document.getElementById("galleryD");
         var detailImg = galleryD.getElementsByTagName("div");
@@ -774,7 +774,7 @@ $(function(){
         item.offShelvesAt = offShelvesAt;
         item.itemNotice = itemNotice;
         item.publicity = publicity;
-        item.itemMasterImg = itemMasterImg;
+//        item.itemMasterImg = itemMasterImg;
         item.itemDetailImgs = itemDetailImgs;
         item.itemFeatures = itemFeatures;
         if ($("#itemId").val() != "") {

@@ -79,8 +79,11 @@
         from sp_order t where t.order_status = 'I' and t.order_create_at &lt;= CURRENT_TIMESTAMP - interval '1 day'
     </select>
 
-    <update id="orderCancel" parameterType="java.lang.Long">
-        update sp_order set order_status = 'C' where order_id = ${value}
+    <update id="orderCancel" parameterType="java.util.Arrays">
+        update sp_order set order_status = 'C' where order_id in
+        <foreach collection= "array" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </update>
 
 </mapper>

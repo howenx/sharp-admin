@@ -118,14 +118,14 @@ public class ItemServiceImpl implements ItemService{
 
                 }
                 //查找该商品的库存中主skuId,更新到items表中masterInvId
-                List<Inventory> inventories = inventoryMapper.getInventoriesByItemId(item.getId());
-                for(Inventory inv : inventories) {
-                    if (inv.getOrMasterInv()==true) {
-                        Item item1 = itemMapper.getItem(item.getId());
-                        item1.setMasterInvId(inv.getId());
-                        itemMapper.itemUpdate(item1);
-                    }
-                }
+//                List<Inventory> inventories = inventoryMapper.getInventoriesByItemId(item.getId());
+//                for(Inventory inv : inventories) {
+//                    if (inv.getOrMasterInv()==true) {
+//                        Item item1 = itemMapper.getItem(item.getId());
+//                        item1.setMasterInvId(inv.getId());
+//                        itemMapper.itemUpdate(item1);
+//                    }
+//                }
                 list.add(inventory.getId());
             }
         }

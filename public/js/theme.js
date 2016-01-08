@@ -36,7 +36,8 @@ function UpdateFields(obj) {
         index2 = $(".table thead").find("tr").length;
     var index = index1 + index2;
     for (var i = 0; i < $(obj1).length; i++) {
-        $(obj1).eq(i).prepend($("<td class='index'>" + (Number(index) + i) + "</td><td><input type='radio'  name='goods-main'></td>")).appendTo($(".table"));
+        $(obj1).eq(i).prepend($("<td class='index'>" + (Number(index) + i) + "</td>")).appendTo($(".table"));
+        //<td><input type='radio'  name='goods-main'></td>
     }
 
     $('#input_imgurl').val(obj.lable_id);

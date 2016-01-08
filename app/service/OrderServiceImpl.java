@@ -5,6 +5,7 @@ import mapper.OrderMapper;
 import javax.inject.Inject;
 import java.util.List;
 
+
 /**
  * Created by tiffany on 15/12/10.
  */
@@ -39,11 +40,16 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 取消支付超时的订单 Added  by Tiffany Zhu
-     * @param orderId
+     * @param orderIds
      */
     @Override
-    public void orderCancel(Long orderId) {
-        orderMapper.orderCancel(orderId);
+    public void orderCancel(Long[] orderIds) {
+
+        orderMapper.orderCancel(orderIds);
+        //int length = orderIds.length;
+        //for(int i=0;i<length;i++){
+            //orderMapper.orderCancel(orderIds[i]);
+        //}
     }
 
     /**

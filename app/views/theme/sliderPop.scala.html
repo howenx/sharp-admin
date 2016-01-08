@@ -88,7 +88,7 @@
                 <th>选择商品</th>
                 <th>商品ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
                 <th>商品标题</th>
-                <th>商品主图</th>
+                <th>主sku图</th>
                 <th>上架时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
                 <th>下架时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
                 <th>商品状态</th>
@@ -101,7 +101,7 @@
                 <td><input type="radio" name="selectItem"></td>
                 <td>@obj(0)</td>
                 <td>@obj(1)</td>
-                <td><img class="main-img" src="http://hmm-images.oss-cn-beijing.aliyuncs.com/@obj(2)" alt="" width="50"></td>
+                <td><img class="main-img" src='@url@obj(2).toString.substring(1,obj(2).toString.length-1).split(",")(0).substring(7,obj(2).toString.substring(1,obj(2).toString.length-1).split(",")(0).length-1)' alt="" width="50"></td>
                 <td>@(obj(3).toString().substring(0,16))</td>
                 <td>@(obj(4).toString().substring(0,16))</td>
                 <td>@obj(5)</td>
@@ -118,7 +118,7 @@
                         <th>主题ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
                         <th>主题图片</th>
                         <th>主商品ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
-                        <th>主商品图片</th>
+                        <th>商品主sku图</th>
                         <th>开始时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
                         <th>结束时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
                 </tr>
@@ -126,9 +126,9 @@
                 <tr>
                         <td><input type="radio" name="selectTheme"></td>
                         <td>@obj(0)</td>
-                        <td><img class="main-img" src="http://hmm-images.oss-cn-beijing.aliyuncs.com/@obj(1)" alt="" width="50"></td>
+                        <td><img class="main-img" src='@url@obj(1).toString.substring(1,obj(1).toString.length-1).split(",")(0).substring(7,obj(1).toString.substring(1,obj(1).toString.length-1).split(",")(0).length-1)' alt="" width="50"></td>
                         <td>@obj(2)</td>
-                        <td><img class="main-img" src="http://hmm-images.oss-cn-beijing.aliyuncs.com/@obj(3)" alt="" width="50"></td>
+                        <td><img class="main-img" src='@url@obj(3).toString.substring(1,obj(3).toString.length-1).split(",")(0).substring(7,obj(3).toString.substring(1,obj(3).toString.length-1).split(",")(0).length-1)' alt="" width="50"></td>
                         <td>@(obj(4).toString().substring(0,16))</td>
                         <td>@(obj(5).toString().substring(0,16))</td>
                 </tr>

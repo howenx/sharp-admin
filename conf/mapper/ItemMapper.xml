@@ -18,7 +18,7 @@
                 ${alias}.supply_merch ,
                 ${alias}.on_shelves_at ,
                 ${alias}.off_shelves_at ,
-                ${alias}.item_master_img ,
+                (select inv_img from inventories i where i.item_id=t.id and or_master_inv=true ) as item_master_img ,
                 ${alias}.item_detail_imgs ::text,
                 ${alias}.item_features ::text,
                 ${alias}.theme_id ,

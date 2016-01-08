@@ -1,0 +1,73 @@
+@import play.i18n._
+@(lang:String="cn",orList:List[Array[Object]],user:entity.User)
+@scripts = {
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
+
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/order.js"></script>
+
+}
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"超时订单")
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">订单</span>
+        <span class="icon-path">&gt;</span>
+        <span class="current">超时订单</span>
+    </div>
+</div>
+
+<div class="content-1">
+    <div class="page-title">
+        <span class="title-name">超时订单</span>
+    </div>
+    <div>
+    <input type="button" value="取消订单" id="cancel"/>
+    </div>
+    <div class="table-content">
+        <div class="param">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" name="selAll">全选</th>
+                    <th>订单ID</th>
+                    <th>用户ID</th>
+                    <th>创建时间</th>
+                    <th>订单总价(元)</th>
+                    <th>支付渠道</th>
+                    <th>订单状态</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                @for(order <- orList){
+                <tr>
+                    <td> <input type="checkbox" name="outTimeOrder"></td>
+                    <td><a href="/@lang/comm/order/detail/@order(0)">@order(0)</a></td>
+                    <td>@order(1)</td>
+                    <td>@order(2)</td>
+                    <td>@order(3)</td>
+                    <td>@order(4)</td>
+                    <td>@order(5)</td>
+                </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- 点击图片预览-->
+<div class="goods-img-bg">
+    <div class="goods-bg"></div>
+    <div class="goods-img">
+        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>
+}
