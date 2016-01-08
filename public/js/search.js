@@ -68,7 +68,7 @@ $(function() {
 		$(data).each(function(index, element) {
 			$('#tb-topic').find('tbody').append('' +
 				'<tr class="tb-list-data">' +
-				'<td><a href="javascript:void(0)">' + $(this)[0].id + '</a></td>' +
+				'<td><a href="/' + window.lang +'/topic/updateById/' + $(this)[0].id + '" target="_blank" >' + $(this)[0].id + '</a></td>' +      //Modified by Tiffany Zhu 2016.01.06
 				'<td>' +
 				'<img class="main-img" src="' + window.url + $(this)[0].themeImg + '" alt="" width="50">' +
 				'</td>' +
@@ -115,7 +115,7 @@ $(function() {
                 '<td><a href="/'+window.lang+'/comm/findById/'+$(this)[0].id + ' ">' + $(this)[0].id + '</a></td>' +
                 '<td style="width: 20%;">' + $(this)[0].itemTitle + '</td>' +
                 '<td>' +
-                '<img class="main-img" src="' + window.url + $(this)[0].itemMasterImg + '" alt="" width="50">' +
+                '<img class="main-img" src="' + window.url + $(this)[0].itemMasterImg.substring(1,$(this)[0].itemMasterImg.length-1).split(",")[0].substring(7,$(this)[0].itemMasterImg.substring(1,$(this)[0].itemMasterImg.length-1).split(",")[0].length-1) + '" alt="" width="50">' +
                 '</td>' +
                 '<td>' + ($(this)[0].onShelvesAt != null && $(this)[0].onShelvesAt != '' ? $(this)[0].onShelvesAt.substr(0, 16) : '') + '</td>}' +
                 '<td>' + ($(this)[0].offShelvesAt != null && $(this)[0].offShelvesAt != '' ? $(this)[0].offShelvesAt.substr(0, 16) : '') + '</td>}' +

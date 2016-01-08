@@ -1,0 +1,130 @@
+em,i{font-style:normal;}
+ul,ol,li{list-style:none;}
+body,div,ul,li,ol,h1,h2,h3,h4,h5,h6,input,textarea,select,p,dl,dt,dd,a,img,button,form,table,th,tr,td,tbody,article,
+aside, details,figcaption,figure,footer,header,hgroup, menu,nav,section{margin:0; padding:0; border:none;}
+.clearfix:after{content:""; display:block; visibility:hidden; height:0; clear:both;}
+.clearfix{zoom:1;}
+a{text-decoration:none; color:#969696; font-family:Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC",sans-self;}
+a:hover{text-decoration:none;}
+*{box-sizing:border-box;}
+.box{
+    width:1190px;
+    margin:20px auto;
+
+}
+
+.icon{
+   margin:5px 0 0 600px;
+}
+.icon i{
+    display: inline-block;
+}
+.icon .icon-s{
+    width: 20px;
+    height: 20px;
+    background: url("../images/shuaxin.png") no-repeat;
+}
+.icon .icon-x{
+
+    width: 20px;
+    height: 20px;
+    background: url("../images/off.png") no-repeat;
+}
+.box-top ul li{
+    width: 257px;
+    height:70px;
+    float: left;
+    text-align: center;
+    background-color:#F06C83;
+    margin-right:40px;
+    padding:10px 0 0 0;
+}
+.box-top ul .first{
+    background-color: #B1A1C6;
+}
+
+.box-top ul .second{
+     background-color: #76D1E6;
+ }
+
+.box-top ul .third{
+    background-color:#D9E3BE;
+}
+
+.box-top ul span{
+    display: block;
+}
+.box-top ul .one{
+    margin: 0 0 10px 0;
+}
+.box-left{
+    width:700px;
+    float:left;
+    margin:30px 0 0 0;
+
+}
+.box-t{
+    border: 1px solid #ccc;
+    border-top:2px solid #8299CB;
+    padding:0 20px 30px ;
+}
+.box-t ul{
+    padding:0 20px;
+}
+
+.box-t ul li{
+    height:52px;
+    border-bottom: 1px solid #ccc;
+}
+
+.box-t a{
+    float: left;
+    width: 120px;
+    text-align: center;
+}
+.box-t .box-t-left{
+    padding:10px 0 0 0;
+}
+.box-t .box-t-right{
+    float: right;
+    height:50px;
+    padding:20px 0 0 0;
+}
+.box-t a span{
+    width: 120px;
+    display: block;
+}
+.box-t-right i{
+    float: left;
+}
+
+.box-t-right .number{
+    width:50px;
+}
+
+.box-t-right .upload{
+    width: 20px;
+    height:20px;
+    background: url("../images/shangchuan.png") no-repeat;
+    margin: 2px 0 0 5px;
+}
+
+.f6{
+    color:#8299CB;
+}
+.f7{
+    color:#666;
+}
+
+.box-right{
+    width:480px;
+    float: right;
+    margin: 30px 0 0 0;
+}
+
+.box-right .hd{
+    width: 120px;
+}
+.box-right .icon{
+    margin: 5px 0 0 378px;
+}

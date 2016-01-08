@@ -36,7 +36,8 @@ function UpdateFields(obj) {
         index2 = $(".table thead").find("tr").length;
     var index = index1 + index2;
     for (var i = 0; i < $(obj1).length; i++) {
-        $(obj1).eq(i).prepend($("<td class='index'>" + (Number(index) + i) + "</td><td><input type='radio'  name='goods-main'></td>")).appendTo($(".table"));
+        $(obj1).eq(i).prepend($("<td class='index'>" + (Number(index) + i) + "</td>")).appendTo($(".table"));
+        //<td><input type='radio'  name='goods-main'></td>
     }
 
     $('#input_imgurl').val(obj.lable_id);
@@ -225,6 +226,20 @@ $(function () {
         $(this).remove();
     });
     $(document).on("click",".th-del",function(){
+        //商品总数
+        var itemCount = $("#sort").find("tr").length - 1;
+        console.log("商品总数itemCount:" + itemCount);
+        //被删除行的编号
+        var delColNum = $(this).parents("tr").find("td:eq(0)").text();
+        console.log("被删除行编号delColNum:" + delColNum);
+
+        if(itemCount > delColNum){
+            for(var i = parseInt(delColNum);i < itemCount;i++){
+                var j = i + 1;
+                $("#sort").find("tr:eq("+j+")").find("td:eq(0)").text(i);
+            }
+        }
         $(this).parents("tr").remove();
+
     })
 })
