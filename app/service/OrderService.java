@@ -26,7 +26,13 @@ public interface OrderService {
     Order getOrderById(Long orderId);
     /**
      * 取消支付超时的订单 Added  by Tiffany Zhu
-     * @param orderId
+     * @param orderIds
      */
-    void orderCancel(Long orderId);
+    void orderCancel(Long[] orderIds);
+
+    /**
+     * 超过24小时未支付的订单     Added by Tiffany Zhu 2016.01.05
+     * @return
+     */
+    List<Order> getOutTimeOrders();
 }

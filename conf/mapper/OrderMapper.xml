@@ -71,6 +71,14 @@
         from sp_order t where order_id = ${value}
     </select>
 
+    <select id="getOutTimeOrders" resultType="entity.Order">
+        select
+        <include refid="orderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_order t where t.order_status = 'I' and t.order_create_at &lt;= CURRENT_TIMESTAMP - interval '1 day'
+    </select>
+
     <update id="orderCancel" parameterType="java.lang.Long">
         update sp_order set order_status = 'C' where order_id = ${value}
     </update>

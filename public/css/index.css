@@ -1,0 +1,64 @@
+em,i{font-style:normal;}
+ul,ol,li{list-style:none;}
+body,div,ul,li,ol,h1,h2,h3,h4,h5,h6,input,textarea,select,p,dl,dt,dd,a,img,button,form,table,th,tr,td,tbody,article,
+aside, details,figcaption,figure,footer,header,hgroup, menu,nav,section{margin:0; padding:0; border:none;}
+.clearfix:after{content:""; display:block; visibility:hidden; height:0; clear:both;}
+.clearfix{zoom:1;}
+a{text-decoration:none; color:#969696; font-family:Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC",sans-self;}
+a:hover{text-decoration:none;}
+*{box-sizing:border-box;}
+.box{
+    width:1190px;
+    margin:20px auto;
+
+}
+
+.box-left{
+    width:700px;
+    float:left;
+}
+.box-t .hd{
+    width: 100px;
+    padding:10px 10px;
+    font-size: 20px;
+    background-color:#F76757 ;
+}
+
+.box-t ul{
+    margin:10px 0 ;
+    border: 1px solid #ccc;
+    border-bottom:0 none ;
+    border-top:2px solid #8299CB;
+
+}
+
+.box-t ul p{
+    font-size: 16px;
+    margin: 0 0 10px 0;
+}
+.box-t .f6{
+    color:#8299CB;
+}
+.box-t .f7{
+    color:#F76757;
+}
+.box-t ul li{
+    margin:20px 0;
+    border-bottom: 1px solid #ccc;
+    padding:0 10px 10px 10px;
+}
+
+.box-t a{
+    display: inline-block;
+   width: 120px;
+}
+
+.box-right{
+    width:480px;
+    height: 600px;
+    float: right;
+}
+
+.box-right .hd{
+    width: 120px;
+}

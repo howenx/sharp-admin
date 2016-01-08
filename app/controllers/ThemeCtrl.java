@@ -256,8 +256,10 @@ public class ThemeCtrl extends Controller {
         //主题的商品
         List<Object[]> itemList = new ArrayList<>();
         JsonNode itemIds = Json.parse(theme.getThemeItem());
+        int itemNum = 0;
         for(JsonNode itemId : itemIds){
-            Object[] object = new Object[8];
+            itemNum = itemNum + 1;
+            Object[] object = new Object[9];
             Item item = itemService.getItem(itemId.asLong());
             Logger.error(item.toString());
             Inventory inventory = inventoryService.getInventory(item.getMasterInvId());
@@ -270,6 +272,7 @@ public class ThemeCtrl extends Controller {
             object[5] = inventory.getItemPrice();
             object[6] = inventory.getItemSrcPrice();
             object[7] = inventory.getItemDiscount();
+            object[8] = itemNum;
             itemList.add(object);
         }
         //主题的主宣传图
@@ -298,6 +301,9 @@ public class ThemeCtrl extends Controller {
         String masterImgHeight = themeMasterImg.get("height").toString();
         masterImgObject[2] = masterImgHeight.substring(2,masterImgHeight.length()-1);
 
+        //标签链接到的商品ID
+        String tagLinkedItem = "";
+
         //主题的首页主图的标签
         List<Object[]> tagList = new ArrayList<>();
         JsonNode itemMasterTag = Json.parse(theme.getMasterItemTag());
@@ -308,6 +314,7 @@ public class ThemeCtrl extends Controller {
             //url
             String tag_url = tag.get("url").toString();
             tagObject[1] = tag_url.substring(2,tag_url.length()-1);
+            tagLinkedItem = (tag_url.substring(2,tag_url.length()-1)).substring(12);
             //left
             tagObject[2] = tag.get("left");
             //name
@@ -318,7 +325,7 @@ public class ThemeCtrl extends Controller {
             tagList.add(tagObject);
         }
 
-        return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,oss_prefix,(User) ctx().args.get("user")));
+        return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,tagLinkedItem,oss_prefix,(User) ctx().args.get("user")));
     }
 
 

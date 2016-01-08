@@ -14,15 +14,16 @@
             }else{
                 return false;
             }
-
+            var ids = [];
             var id = $("#orderId").val();
+            ids.push(id);
 
             if(isPost){
                  $.ajax({
                             type :  "POST",
                             url : "/"+window.lang+"/comm/order/cancel",
                             contentType: "application/json; charset=utf-8",
-                            data : JSON.stringify(id),
+                            data : JSON.stringify(ids),
                             error : function(request) {
                                 if (window.lang = 'cn') {
                                     alert("订单取消失败!");

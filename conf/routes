@@ -102,6 +102,8 @@ POST            /comm/order/search/$pageNum<[0-9]+>                         cont
 POST            /$lang<(cn|en|kr)>/comm/order/search/$pageNum<[0-9]+>       controllers.ItemCtrl.orderSearchAjax(lang,pageNum:Int)
 POST            /comm/order/cancel                                          controllers.ItemCtrl.orderCancel(lang ="cn")
 POST            /$lang<(cn|en|kr)>/comm/order/cancel                        controllers.ItemCtrl.orderCancel(lang)
+GET             /comm/order/unpaidOrders                                    controllers.ItemCtrl.unpaidOrders(lang ="cn")
+GET             /$lang<(cn|en|kr)>/comm/order/unpaidOrders                  controllers.ItemCtrl.unpaidOrders(lang)
 
 
 

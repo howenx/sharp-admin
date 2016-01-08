@@ -68,7 +68,7 @@ $(function() {
 		$(data).each(function(index, element) {
 			$('#tb-topic').find('tbody').append('' +
 				'<tr class="tb-list-data">' +
-				'<td><a href="javascript:void(0)">' + $(this)[0].id + '</a></td>' +
+				'<td><a href="/' + window.lang +'/topic/updateById/' + $(this)[0].id + '" target="_blank" >' + $(this)[0].id + '</a></td>' +      //Modified by Tiffany Zhu 2016.01.06
 				'<td>' +
 				'<img class="main-img" src="' + window.url + $(this)[0].themeImg + '" alt="" width="50">' +
 				'</td>' +
