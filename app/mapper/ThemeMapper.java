@@ -2,6 +2,7 @@ package mapper;
 
 import entity.Slider;
 import entity.Theme;
+import entity.ThemeTemplate;
 
 import java.util.List;
 
@@ -28,5 +29,11 @@ public interface ThemeMapper {
      void updateTheme(Theme theme);
 
      Theme getThemeById(Long id);
+
+    /**
+     * 获取全部主题模板 Added by Tiffany Zhu 2016.01.08
+     * @return
+     */
+     List<ThemeTemplate> getTemplatesAll();
 
 }

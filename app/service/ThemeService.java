@@ -3,6 +3,7 @@ package service;
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.Slider;
 import entity.Theme;
+import entity.ThemeTemplate;
 
 import java.util.List;
 
@@ -23,5 +24,11 @@ public interface ThemeService {
      List<Theme> getThemesAll();
 
      Theme getThemeById(Long id);
+
+    /**
+     * 获取全部的主题模板 Added by Tiffany Zhu 2016.01.09
+     * @return
+     */
+    List<ThemeTemplate> getTemplatesAll();
 
 }
