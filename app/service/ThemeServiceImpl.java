@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.Slider;
 import entity.Theme;
+import entity.ThemeTemplate;
 import mapper.InventoryMapper;
 import mapper.ThemeMapper;
 import play.Logger;
@@ -117,5 +118,12 @@ public class ThemeServiceImpl implements ThemeService {
         return themeMapper.getThemesAll();
     }
 
-
+    /**
+     * 获取全部的主题模板 Added by Tiffany Zhu 2016.01.09
+     * @return
+     */
+    @Override
+    public List<ThemeTemplate> getTemplatesAll() {
+        return themeMapper.getTemplatesAll();
+    }
 }

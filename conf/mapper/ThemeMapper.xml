@@ -135,4 +135,22 @@
                     update_at=CURRENT_TIMESTAMP(0),theme_config_info=#{themeDesc},theme_item=#{itemCount},master_item_tag=#{themeTags}
                 where id = #{id}
         </update>
+
+
+        <!---  主题模板    -->
+        <sql id="templateColumns">
+                ${alias}.id,
+                ${alias}.html,
+                ${alias}.url
+        </sql>
+        <select id="getTemplatesAll" resultType="entity.ThemeTemplate">
+                select
+                <include refid="templateColumns">
+                        <property name="alias" value="t"/>
+                </include>
+                from theme_templates t where 1=1
+        </select>
+
+
+
 </mapper>

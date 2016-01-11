@@ -1,10 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import entity.Inventory;
-import entity.Item;
-import entity.Theme;
-import entity.User;
+import entity.*;
 import play.Logger;
 import play.i18n.Lang;
 import play.i18n.Messages;
@@ -241,6 +238,22 @@ public class ThemeCtrl extends Controller {
         service.themeSave(json);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
+
+    /**
+     * 主题模板 Added by Tiffany Zhu 2016.01.09
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result themeTemplates(String lang){
+        String oss_prefix = "http://hmm-images.oss-cn-beijing.aliyuncs.com/";
+        List<ThemeTemplate> templateList = service.getTemplatesAll();
+        return ok(views.html.theme.templates.render(lang,templateList,oss_prefix,(User) ctx().args.get("user")));
+
+    }
+
+
+
 
     /**
      * 通过Id更新主题  Added by Tiffany Zhu 2015.12.30

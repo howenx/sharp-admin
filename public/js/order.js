@@ -6,7 +6,7 @@ $(function(){
         $("input[name='outTimeOrder']").prop('checked',$(this).prop("checked"));
 
     });
-
+    //超时订单列表--取消订单
     $("#cancel").click(function(){
         var isPost = true;
         if($("input[name='outTimeOrder']:checked").length <= 0){
@@ -45,9 +45,9 @@ $(function(){
                     if (window.lang = 'cn') {
                         alert("订单取消成功!");
                     } else {
-                        alert("Order cancel failed!");
+                        alert("Order cancel success!");
                     }
-                setTimeout("location.reload()", 3000);
+                setTimeout("location.reload()", 1000);
                 }
             });
         }
