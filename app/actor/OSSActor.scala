@@ -16,6 +16,8 @@ import play.api.libs.Files.TemporaryFile
   */
 case class OSS (file:TemporaryFile,key:String)
 
+//case class OSS_PART (file:FilePart, key:String)
+
 class OSSActor @Inject() (oss_client : OSSClientProvider,configuration: Configuration) extends Actor{
 
   override def receive = {
@@ -26,6 +28,14 @@ class OSSActor @Inject() (oss_client : OSSClientProvider,configuration: Configur
       objMetadata.setContentType(oss.file.file.getName.replaceFirst("^[^.]*", ""))
       val result = oss_client.get.putObject(configuration.getString("oss.bucket").getOrElse(""), oss.key, is, objMetadata)
       Logger.debug("oss import success " + result.getETag)
+
+//    case oss:OSS_PART =>
+//      val is = new FileInputStream(oss.file)
+//      val objMetadata = new ObjectMetadata()
+//      objMetadata.setContentLength(oss.file.file.length())
+//      objMetadata.setContentType(oss.file.file.getName.replaceFirst("^[^.]*", ""))
+//      val result = oss_client.get.putObject(configuration.getString("oss.bucket").getOrElse(""), oss.key, is, objMetadata)
+//      Logger.debug("oss import success " + result.getETag)
 
   }
 
