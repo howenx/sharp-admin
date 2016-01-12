@@ -11127,19 +11127,19 @@ UE.commands['insertimage'] = {
                     (ci.alt && ci.alt != "" ? ' alt="' + ci.alt + '"' : '') +
                     (ci.hspace && ci.hspace != "0" ? ' hspace = "' + ci.hspace + '"' : '') +
                     (ci.vspace && ci.vspace != "0" ? ' vspace = "' + ci.vspace + '"' : '') + '/>';
-                if (ci['floatStyle'] == 'center') {
-                    str = '<p style="text-align: center">' + str + '</p>';
-                }
+//                if (ci['floatStyle'] == 'center') {
+//                    str = '<p style="text-align: center">' + str + '</p>';
+//                }
                 html.push(str);
 
             } else {
                 for (var i = 0; ci = opt[i++];) {
-                    str = '<p ' + (ci['floatStyle'] == 'center' ? 'style="text-align: center" ' : '') + '><img src="' + ci.src + '" ' +
+                    str = '<img src="' + ci.src + '" ' +
                         (ci.width ? 'width="' + ci.width + '" ' : '') + (ci._src ? ' _src="' + ci._src + '" ' : '') +
                         (ci.height ? ' height="' + ci.height + '" ' : '') +
                         ' style="' + (ci['floatStyle'] && ci['floatStyle'] != 'center' ? 'float:' + ci['floatStyle'] + ';' : '') +
                         (ci.border || '') + '" ' +
-                        (ci.title ? ' title="' + ci.title + '"' : '') + ' /></p>';
+                        (ci.title ? ' title="' + ci.title + '"' : '') + ' />';
                     html.push(str);
                 }
             }
@@ -24447,17 +24447,17 @@ UE.plugin.register('simpleupload', function (){
             var input = btnIframeDoc.getElementById('edui_input_' + timestrap);
             var iframe = btnIframeDoc.getElementById('edui_iframe_' + timestrap);
 
+
+
+
             domUtils.on(input, 'change', function(){
                 if(!input.value) return;
                 var loadingId = 'loading_' + (+new Date()).toString(36);
                 var params = utils.serializeParam(me.queryCommandValue('serverparam')) || '';
-
                 var imageActionUrl = me.getActionUrl(me.getOpt('imageActionName'));
                 var allowFiles = me.getOpt('imageAllowFiles');
-
-                me.focus();
-                me.execCommand('inserthtml', '<img class="loadingclass" id="' + loadingId + '" src="' + me.options.themePath + me.options.theme +'/images/spacer.gif" title="' + (me.getLang('simpleupload.loading') || '') + '" >');
-
+//                me.focus();
+//                me.execCommand('inserthtml', '<img class="loadingclass" id="' + loadingId + '" src="' + me.options.themePath + me.options.theme +'/images/spacer.gif" title="' + (me.getLang('simpleupload.loading') || '') + '" >');
                 function callback(){
                     try{
                         var link, json, loader,
@@ -24509,9 +24509,55 @@ UE.plugin.register('simpleupload', function (){
                 }
 
                 domUtils.on(iframe, 'load', callback);
-                form.action = utils.formatUrl(imageActionUrl + (imageActionUrl.indexOf('?') == -1 ? '?':'&') + params);
-                form.submit();
+//                form.action = utils.formatUrl(imageActionUrl + (imageActionUrl.indexOf('?') == -1 ? '?':'&') + params);
+//                form.submit();
+
+//                console.dir($(this));
+//                console.dir(input);
+                var input2 = form.appendChild(document.createElement("input"));
+                input2.outerHTML = input.outerHTML;
+                var inputs = form.getElementsByTagName("input");
+                form.removeChild(inputs[inputs.length-1]);
+//                file.after(file.clone().val(""));
+//                file.remove();
+
+                upload(input.files[0]);
             });
+
+            function upload(file) {
+                document.getElementById("mask").style.display = 'block';
+                var formdata = new FormData();
+                formdata.append("photo", file);
+                formdata.append("params", "minify");
+                var http = new XMLHttpRequest();
+                var url = "http://172.28.3.18:3008/upload";
+                http.open("POST", url, true);
+
+                http.onreadystatechange = function() {
+                    if (http.readyState == 4 && http.status == 200) {
+                        var data = JSON.parse(http.responseText);
+                        //上传商品详细图分割
+                        var http2 = new XMLHttpRequest;
+                        var url2 = "http://172.28.3.18:3008/split/file/"+data.oss_url;
+
+                        http2.open("GET", url2, true);
+                        http2.onreadystatechange = setTimeout(function() {
+                            if (http2.readyState == 4 && http2.status == 200) {
+                                var data2 = JSON.parse(http2.responseText);
+                                var array_oss_url = JSON.parse(data2.oss_url);
+                                me.focus();
+                                me.execCommand('inserthtml', '<img src="' + data2.oss_prefix+array_oss_url[0] + '" width="100%" height="auto">'
+                                + '<img src="' + data2.oss_prefix+array_oss_url[1] + '" width="100%" height="auto" style="margin-top:-4px;" >'
+                                + ' <img src="' + data2.oss_prefix+array_oss_url[2] + '" width="100%" height="auto" style="margin-top:-4px;" >');
+                            }
+                            document.getElementById("mask").style.display = 'none';
+                        },5000);
+                        http2.send();
+                    }
+                }
+                http.send(formdata);
+            }
+
 
             var stateTimer;
             me.addListener('selectionchange', function () {
@@ -24530,6 +24576,7 @@ UE.plugin.register('simpleupload', function (){
 
         btnIframe.style.cssText = btnStyle;
         containerBtn.appendChild(btnIframe);
+
     }
 
     return {

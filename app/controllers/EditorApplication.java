@@ -11,7 +11,6 @@ import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
-import play.mvc.Http;
 import play.mvc.Result;
 
 import java.io.File;
@@ -30,7 +29,7 @@ public class EditorApplication extends Controller{
 		DynamicForm form   = Form.form().bindFromRequest();
 		String action = form.get("action");
 		//根据上传人得不同，上传目录不同，列出图片目录不同
-		String userId = "1000038";
+//		String userId = "1000038";
 //		if(StringUtils.isEmpty(userId)){
 //			return redirect("/login");
 //		}
@@ -43,12 +42,11 @@ public class EditorApplication extends Controller{
 		else if(action.equals("config")){
 			return ok(config);
 		}
-		else if(action.equals(json.get("imageActionName").textValue())){
-			Http.MultipartFormData body = request().body().asMultipartFormData();
-			Logger.error("body:"+body.getFile(json.get("imageFieldName").textValue()));
-//			return ok(body.toString());
-			return ok(Json.toJson(EditorService.getInstance().editorUploadFile(body.getFile(json.get("imageFieldName").textValue()), json.get("imagePathFormat").textValue()+"/"+userId)));
-		}
+//		else if(action.equals(json.get("imageActionName").textValue())){
+//			Http.MultipartFormData body = request().body().asMultipartFormData();
+//			Logger.error("body:"+body.getFile(json.get("imageFieldName").textValue()));
+//			return ok(Json.toJson(EditorService.getInstance().editorUploadFile(body.getFile(json.get("imageFieldName").textValue()), json.get("imagePathFormat").textValue())));
+//		}
 //		else if(action.equals(json.get("videoActionName").textValue())){
 //			MultipartFormData body = request().body().asMultipartFormData();
 //			return ok(Json.toJson(EditorService.getInstance().editorUploadFile(body.getFile(json.get("videoFieldName").textValue()), json.get("videoPathFormat").textValue()+"/"+userId)));

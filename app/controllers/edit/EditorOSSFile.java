@@ -80,7 +80,7 @@ public class EditorOSSFile {
     }
      **/
 
-//    public void save (String key) {
+    public void save (String key) {
 //        if(OSSPlugin.oss_client == null) {
 //            Logger.error("Could not save because OSS client was null");
 //            throw new RuntimeException("Could not save");
@@ -100,9 +100,9 @@ public class EditorOSSFile {
 //            }
 //
 //        }
-//    }
-//
-//    public void saveInputStream (String key) {
+    }
+
+    public void saveInputStream (String key) {
 //        if(OSSPlugin.oss_client == null) {
 //            Logger.error("Could not save because OSS client was null");
 //            throw new RuntimeException("Could not save");
@@ -119,9 +119,9 @@ public class EditorOSSFile {
 //                 Logger.debug(e.toString());
 //             }
 //        }
-//    }
-//
-//    public void saveInputStreamLenth (String key,int length) {
+    }
+
+    public void saveInputStreamLenth (String key,int length) {
 //        if(OSSPlugin.oss_client == null) {
 //            Logger.error("Could not save because OSS client was null");
 //            throw new RuntimeException("Could not save");
@@ -138,16 +138,16 @@ public class EditorOSSFile {
 //                 Logger.debug(e.toString());
 //             }
 //        }
-//    }
-//
-//    //TODO 放到具体的下载功能中实现
-//    //oss_client get object 返回文件流和content_type，实际中具体实现中比较方便
-//    public void download(String key) {
-//
-//    }
-//
-//
-//    public void delete(String key) {
+    }
+
+    //TODO 放到具体的下载功能中实现
+    //oss_client get object 返回文件流和content_type，实际中具体实现中比较方便
+    public void download(String key) {
+
+    }
+
+
+    public void delete(String key) {
 //        if(OSSPlugin.oss_client == null) {
 //            Logger.error("Could not delete because OSS client was null");
 //            throw new RuntimeException("Could not delete");
@@ -157,7 +157,7 @@ public class EditorOSSFile {
 //            OSSPlugin.oss_client.deleteObject(bucket,key);
 //        }
 //
-//    }
+    }
     
     
 

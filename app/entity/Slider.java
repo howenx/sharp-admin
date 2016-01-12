@@ -11,15 +11,15 @@ import java.sql.Timestamp;
  */
 public class Slider implements Serializable{
 
-    private Long id;
-    private String img;
-    private Integer sortNu;
+    private Long id;    //主键ID
+    private String img; //滚动图URL
+    private Integer sortNu;//排序号
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
-    private Timestamp createAt;
+    private Timestamp createAt;//创建时间
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
-    private Timestamp updateAt;
-    private String itemTarget;
-    private String targetType;
+    private Timestamp updateAt;//更新时间
+    private String itemTarget;  //商品目标地址
+    private String targetType;  //目标类型(T主题, D详细页面)
 
     public Slider(){}
 

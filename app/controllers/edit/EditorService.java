@@ -1,14 +1,21 @@
 package controllers.edit;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringEscapeUtils;
+import play.Logger;
 import play.Play;
+import play.libs.Json;
 import play.mvc.Http;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.script.ScriptException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -31,8 +38,8 @@ public class EditorService {
 		return result;
 	}
 	
-//	public String uploadImage(FilePart picture,String typeName) {
-//		String imageUrl = "";
+	public String uploadImage(Http.MultipartFormData.FilePart picture, String typeName) {
+		String imageUrl = "";
 //		 if(picture != null){
 //			 if (picture.getContentType().startsWith("image")) {
 //				 EditorOSSFile oss_file = new EditorOSSFile();
@@ -45,8 +52,8 @@ public class EditorService {
 //	                imageUrl = "/"+key;
 //		        }
 //		}
-//		return imageUrl;
-//	}
+		return imageUrl;
+	}
 	
 	/**
 	 * 得到上传文件所对应的各个参数,数组结构
@@ -63,22 +70,30 @@ public class EditorService {
 	
 	public HashMap<String,String> editorUploadFile(Http.MultipartFormData.FilePart picture, String typeName) throws Exception{
 
-		ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
-		String jsFileName = "edit_img_upload.js";   // 读取js文件
-		FileReader reader = new FileReader(jsFileName);   // 执行指定脚本
-		engine.eval(reader);
-		String url = "";
-		if(engine instanceof Invocable) {
-			Invocable invoke = (Invocable)engine;    // 调用merge方法，并传入两个参数
-			url = (String)invoke.invokeFunction("upload", picture, "D");
+		ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
+		   Reader scriptReader = new InputStreamReader(EditorService.class.getResourceAsStream("/public/js/edit_img_upload.js"));
+		if (engine != null) {
+			try {
+				// JS引擎解析文件
+				engine.eval(scriptReader);
+				if (engine instanceof Invocable) {
+					Invocable invocable = (Invocable) engine;
+					// JS引擎调用方法
+					Object result = invocable.invokeFunction("upload", scriptReader, "D");
+					System.out.println("The result is: " + result);
+				}
+			} catch (ScriptException e) {
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			} finally {
+				scriptReader.close();
+			}
+		} else {
+			System.out.println("ScriptEngine create error!");
 		}
-		reader.close();
-
-
-//		File file = Play.application().getFile("/assets/js/edit_img_upload.js");
-//		engine.eval(new FileReader("script.js"));
 		HashMap<String,String> map = new HashMap<String,String>();
-		String imageUrl = "";
+		String url = "";
 		if(picture != null){
 			EditorOSSFile oss_file = new EditorOSSFile();
             oss_file.prefix = typeName;
@@ -117,39 +132,39 @@ public class EditorService {
 	 * )
 	 * String:editor插件上传的string typeName 上传oss后文件夹名称
 	 */
-//	public HashMap<String,Object> editorUploadBase64File(String str,String typeName) {
-//		HashMap<String,Object> map = new HashMap<String,Object>();
-//		String imageUrl = "";
-//		try {
-//			byte[] deCode = Base64.decodeBase64(str.getBytes());
-//			InputStream is = new ByteArrayInputStream(deCode);
-//			EditorOSSFile oss_file = new EditorOSSFile();
-//            oss_file.prefix = typeName;
-//            oss_file.content_type = "image/png";
-//            oss_file.is = is;
-//            oss_file.name = "";//name
-//
-//            Random rnd = new Random();
-//            int n = 100 + rnd.nextInt(900);
-//            String filename = "" + System.currentTimeMillis() + n;
-//            String extension = ".png";
-//            String key = oss_file.getKey(filename+extension);
+	public HashMap<String,Object> editorUploadBase64File(String str,String typeName) {
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		String imageUrl = "";
+		try {
+			byte[] deCode = Base64.decodeBase64(str.getBytes());
+			InputStream is = new ByteArrayInputStream(deCode);
+			EditorOSSFile oss_file = new EditorOSSFile();
+            oss_file.prefix = typeName;
+            oss_file.content_type = "image/png";
+            oss_file.is = is;
+            oss_file.name = "";//name
+
+            Random rnd = new Random();
+            int n = 100 + rnd.nextInt(900);
+            String filename = "" + System.currentTimeMillis() + n;
+            String extension = ".png";
+            String key = oss_file.getKey(filename+extension);
 //            oss_file.saveInputStreamLenth(key,deCode.length);
-//            is.close();
-//
-//            imageUrl = "/"+key;
-//            map.put("state", "SUCCESS");
-//    		map.put("url", STATIC_URL+imageUrl);
-//    		map.put("title", filename+extension);
-//    		map.put("original", "");// old name
-//    		map.put("type", "image/png");
-//    		map.put("size", deCode.length);
-//    		return map;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
+            is.close();
+
+            imageUrl = "/"+key;
+            map.put("state", "SUCCESS");
+    		map.put("url", STATIC_URL+imageUrl);
+    		map.put("title", filename+extension);
+    		map.put("original", "");// old name
+    		map.put("type", "image/png");
+    		map.put("size", deCode.length);
+    		return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	/**
 	 * 得到上传文件所对应的各个参数,数组结构
@@ -165,55 +180,55 @@ public class EditorService {
 	 */
 	
 
-//	public ArrayList<JsonNode> catchImage(String[] listPath,String typeName){
-//		ArrayList<JsonNode> list = new ArrayList<JsonNode>();
-//		for(int i =0;i<listPath.length;i++){
-//			String path = listPath[i];
-//			Logger.info("远程文件路径："+path);
-//			HashMap<String,Object> map = new HashMap<String,Object>();
-//			try {
-//				HttpURLConnection conn = null;
-//	            InputStream is = null;
-//	            URL picUrl = new URL(path);
-//	            conn = (HttpURLConnection) picUrl.openConnection();
-//	            conn.setConnectTimeout(2000);
-//	            conn.setReadTimeout(2000);
-//	            conn.connect();
-//	            int lenth = conn.getContentLength();
-//	            is = conn.getInputStream();
-//				EditorOSSFile oss_file = new EditorOSSFile();
-//		        oss_file.prefix = typeName;
-//		        oss_file.content_type = "image/png";
-//		        oss_file.is = is;
-//		        oss_file.name = "";//name
-//
-//		        Random rnd = new Random();
-//		        int n = 100 + rnd.nextInt(900);
-//		        String filename = "" + System.currentTimeMillis() + n;
-//		        String extension = ".png";
-//
-//		        String key = oss_file.getKey(filename+extension);
+	public ArrayList<JsonNode> catchImage(String[] listPath, String typeName){
+		ArrayList<JsonNode> list = new ArrayList<JsonNode>();
+		for(int i =0;i<listPath.length;i++){
+			String path = listPath[i];
+			Logger.info("远程文件路径："+path);
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			try {
+				HttpURLConnection conn = null;
+	            InputStream is = null;
+	            URL picUrl = new URL(path);
+	            conn = (HttpURLConnection) picUrl.openConnection();
+	            conn.setConnectTimeout(2000);
+	            conn.setReadTimeout(2000);
+	            conn.connect();
+	            int lenth = conn.getContentLength();
+	            is = conn.getInputStream();
+				EditorOSSFile oss_file = new EditorOSSFile();
+		        oss_file.prefix = typeName;
+		        oss_file.content_type = "image/png";
+		        oss_file.is = is;
+		        oss_file.name = "";//name
+
+		        Random rnd = new Random();
+		        int n = 100 + rnd.nextInt(900);
+		        String filename = "" + System.currentTimeMillis() + n;
+		        String extension = ".png";
+
+		        String key = oss_file.getKey(filename+extension);
 //		        oss_file.saveInputStreamLenth(key,lenth);
-//		        is.close();
-//		        String imageUrl = "/"+key;
-//		        map.put("state", "SUCCESS");
-//				map.put("url", STATIC_URL+imageUrl);
-//				map.put("size", lenth);
-//				map.put("title", filename+extension);
-//				map.put("original", "");// old name
-//				map.put("source", StringEscapeUtils.unescapeJava(path));
-//				Logger.info(STATIC_URL+imageUrl);
-//				list.add(Json.toJson(map));
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//				return null;
-//			}
-//		}
-//		return list;
-//
-//	}
+		        is.close();
+		        String imageUrl = "/"+key;
+		        map.put("state", "SUCCESS");
+				map.put("url", STATIC_URL+imageUrl);
+				map.put("size", lenth);
+				map.put("title", filename+extension);
+				map.put("original", "");// old name
+				map.put("source", StringEscapeUtils.unescapeJava(path));
+				Logger.info(STATIC_URL+imageUrl);
+				list.add(Json.toJson(map));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		return list;
+
+	}
 	
-//	/* 返回数据 */
+	/* 返回数据 */
 //	$result = json_encode(array(
 //	    "state" => "SUCCESS",
 //	    "list" => $list,
@@ -234,7 +249,7 @@ public class EditorService {
 //		return map;
 //	}
 	
-	//获取指定目录下边的文件
+//	获取指定目录下边的文件
 //	public  ArrayList<JsonNode> listObjects(String path) {
 //        // 初始化OSSClient
 //    	if(OSSPlugin.oss_client == null) {

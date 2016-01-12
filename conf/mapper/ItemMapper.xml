@@ -33,13 +33,14 @@
                 ${alias}.update_at ,
                 ${alias}.create_at ,
                 ${alias}.master_inv_id ,
+                ${alias}.item_detail ,
                 ${alias}.publicity::text,
                 count(*) over() item_num
         </sql>
 
         <select id="getItem" resultType="entity.Item" parameterType="java.lang.Long">
                 select
-                id,cate_id,brand_id,item_title,supply_merch,on_shelves_at,off_shelves_at,item_master_img,item_detail_imgs,item_features,theme_id,state,share_url,share_count,collect_count,browse_count,item_notice,or_destroy,destroy_at,update_at,create_at,master_inv_id,publicity
+                id,cate_id,brand_id,item_title,supply_merch,on_shelves_at,off_shelves_at,item_master_img,item_detail_imgs,item_features,theme_id,state,share_url,share_count,collect_count,browse_count,item_notice,or_destroy,destroy_at,update_at,create_at,master_inv_id,item_detail,publicity
                 from items t where id=${value}
         </select>
 
@@ -83,14 +84,14 @@
 
         <insert id="itemInsert" parameterType="entity.Item" useGeneratedKeys="true" keyProperty="id">
                 insert into items
-                (cate_id,brand_id,item_title,supply_merch,on_shelves_at,off_shelves_at,item_master_img,item_detail_imgs,item_features,theme_id,state,share_url,share_count,collect_count,browse_count,item_notice,or_destroy,destroy_at,update_at,create_at,master_inv_id,publicity)
+                (cate_id,brand_id,item_title,supply_merch,on_shelves_at,off_shelves_at,item_master_img,item_detail_imgs,item_features,theme_id,state,share_url,share_count,collect_count,browse_count,item_notice,or_destroy,destroy_at,update_at,create_at,master_inv_id,item_detail,publicity)
                 values
-                (#{cateId},#{brandId},#{itemTitle},#{supplyMerch},#{onShelvesAt},#{offShelvesAt},#{itemMasterImg},#{itemDetailImgs}::jsonb,#{itemFeatures}::jsonb,#{themeId},#{state},#{shareUrl},0,0,0,#{itemNotice},false,#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{masterInvId},#{publicity}::jsonb)
+                (#{cateId},#{brandId},#{itemTitle},#{supplyMerch},#{onShelvesAt},#{offShelvesAt},#{itemMasterImg},#{itemDetailImgs}::jsonb,#{itemFeatures}::jsonb,#{themeId},#{state},#{shareUrl},0,0,0,#{itemNotice},false,#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{masterInvId},#{itemDetail},#{publicity}::jsonb)
         </insert>
 
         <update id="itemUpdate" parameterType="entity.Item">
                 update items
-                set cate_id=#{cateId},brand_id=#{brandId},item_title=#{itemTitle},supply_merch=#{supplyMerch},on_shelves_at=#{onShelvesAt},off_shelves_at=#{offShelvesAt},item_master_img=#{itemMasterImg},item_detail_imgs=#{itemDetailImgs}::jsonb,item_features=#{itemFeatures}::jsonb,theme_id=#{themeId},state=#{state},share_url=#{shareUrl},share_count=#{shareCount},collect_count=#{collectCount},browse_count=#{browseCount},item_notice=#{itemNotice},or_destroy=#{orDestroy},destroy_at=#{destroyAt},update_at=CURRENT_TIMESTAMP(0),master_inv_id=#{masterInvId},publicity=#{publicity}::jsonb
+                set cate_id=#{cateId},brand_id=#{brandId},item_title=#{itemTitle},supply_merch=#{supplyMerch},on_shelves_at=#{onShelvesAt},off_shelves_at=#{offShelvesAt},item_master_img=#{itemMasterImg},item_detail_imgs=#{itemDetailImgs}::jsonb,item_features=#{itemFeatures}::jsonb,theme_id=#{themeId},state=#{state},share_url=#{shareUrl},share_count=#{shareCount},collect_count=#{collectCount},browse_count=#{browseCount},item_notice=#{itemNotice},or_destroy=#{orDestroy},destroy_at=#{destroyAt},update_at=CURRENT_TIMESTAMP(0),master_inv_id=#{masterInvId},item_detail=#{itemDetail},publicity=#{publicity}::jsonb
                 where id = #{id}
         </update>
 
