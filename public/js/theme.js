@@ -242,4 +242,18 @@ $(function () {
         $(this).parents("tr").remove();
 
     })
+
+
+    $("#getTemplate").click(function(){
+        var sharedObject = {};
+        var modal = window.open("/"+window.lang+"/topic/add/templates", null, null, null);
+        modal.dialogArguments = sharedObject;
+
+    });
+
 })
+
+function updateThemeImg(obj){
+    $("#themeImg").css({"background-image":"url("+ obj.url +")","background-size":"cover"});
+
+}

@@ -39,8 +39,8 @@ POST            /topic/add/themeSave                                        cont
 POST            /$lang<(cn|en|kr)>/topic/add/themeSave                      controllers.ThemeCtrl.themeSave(lang)
 GET             /topic/updateById/:id                                       controllers.ThemeCtrl.updateThemeById(lang = "cn",id:Long)
 GET             /$lang<(cn|en|kr)>/topic/updateById/:id                     controllers.ThemeCtrl.updateThemeById(lang,id:Long)
-GET             /topic/templates                                            controllers.ThemeCtrl.themeTemplates(lang ="cn")
-GET             /$lang<(cn|en|kr)>/topic/templates                          controllers.ThemeCtrl.themeTemplates(lang)
+GET             /topic/add/templates                                        controllers.ThemeCtrl.themeTemplates(lang ="cn")
+GET             /$lang<(cn|en|kr)>/topic/add/templates                      controllers.ThemeCtrl.themeTemplates(lang)
 POST            /topic/templates/save                                       controllers.ThemeCtrl.themeTemplateSave(lang ="cn")
 POST            /$lang<(cn|en|kr)>/topic/templates/save                     controllers.ThemeCtrl.themeTemplateSave(lang)
 

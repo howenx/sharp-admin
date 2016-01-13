@@ -37,7 +37,7 @@ $(".upload").change(function(){
             input.type = "hidden";
             input.name = data.imgid;
             input.value = data.path;
-            $(obj).find("img").attr("src",data.minify_url);
+            $(obj).find("img").attr("src",data.oss_prefix+data.oss_url);
             for(var i=0;i<obj.length;i++){
                 obj[i].appendChild(input);
             }
@@ -552,22 +552,21 @@ $(function(){
         righthit(this);
     })
 
+    //保存
     $("#save").click(function(){
-            var width = $(".templates").find("li:visible").find("img").eq(0).width();
-            //$(".templates").find("li:visible").find(".temp-img").width(width);
 
+            var width = $(".templates").find("li:visible").find("img").eq(0).width();
             var height = $(".templates").find("li:visible").find(".drag-img").height();
-            //$(".templates").find("li:visible").find(".temp-img").height(height);
             var html = $(".templates").find("li:visible").find(".temp-img").prop("outerHTML");
             alert("html:" + html);
             alert("图片宽度:" + width + "图片高度:" + height );
 
             if(html == null || html == ""){
-
                 isPost = false;
                 alert("请添加模板!");
                 return false;
             }
+
              if(isPost){
                  $.ajax({
                     url: "http://172.28.3.51:3008/cut", //Server script to process data
@@ -597,4 +596,15 @@ $(function(){
                  });
               }
         })
+
+    $("#nextStep").click(function(){
+       var sharedObject = window.dialogArguments;
+       var url = $(".templates").find("li:visible").find("img").eq(0).attr("src");
+       sharedObject = {};
+       sharedObject.url = url;
+       window.opener.updateThemeImg (sharedObject);
+       window.close();
+    })
+
+
 });
