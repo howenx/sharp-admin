@@ -187,19 +187,11 @@ $(function(){
                     http2.onreadystatechange = function() {
                         if (http2.readyState == 4 && http2.status == 200) {
                             var data2 = JSON.parse(http2.responseText);
+//                            console.log(data2);
                             var input = document.createElement("input");
                             input.type="hidden";
-                            var splitArr = data2.split_url;
-                            splitArr =  splitArr.substring(1,splitArr.length-1);
-                            var splitArr = splitArr.split(",");
-                            var imgArr = [];
-                            for(m=0;m<splitArr.length;m++) {
-                                var imgPath = splitArr[m].substring(splitArr[m].lastIndexOf('/')+1,splitArr[m].length-1);
-                                imgArr.push(imgPath);
-                            }
-                            input.value = imgArr;
+                            input.value = JSON.parse(data2.oss_url);
                             thumb.appendChild(input);
-
                         }
                     }
                     http2.send();
@@ -501,12 +493,6 @@ $(function(){
         var item = new Object();
         var inventories = [];
         var itemData = new Object();
-        //必填项不能有空值
-        if ( $("#categorySubSelect").val()=="" || $("#bandSelect").val()=="" || $("#productName").val()=="" || $("#supplyMerch").val()=="" || $("#itemTitle").val()==""
-            || $("#onShelvesAt").val()=="" || $("#offShelvesAt").val()=="" ) {
-            isPost=false;
-            alert("必填项不能为空");
-        }
         var cateId = "";
         if($("#categorySubSelect").text()=="") cateId=$("#categorySelect").val();
         else cateId=$("#categorySubSelect").val();
@@ -516,6 +502,7 @@ $(function(){
         var onShelvesAt = $("#onShelvesAt").val();
         var offShelvesAt = $("#offShelvesAt").val();
         var itemNotice = $("#itemNotice").val();
+        var itemDetail = UE.getEditor('editor').getContent();
         var invWeight = document.getElementsByName("invWeight");
         var amount = document.getElementsByName("amount");
         var itemPrice = document.getElementsByName("itemPrice");
@@ -526,6 +513,11 @@ $(function(){
         var recordHZ = document.getElementsByName("recordHZ");
         var recordGZ = document.getElementsByName("recordGZ");
         var recordSH = document.getElementsByName("recordSH");
+        //必填项不能有空值
+        if ( cateId=="" || brandId=="" || itemTitle=="" || supplyMerch=="" ||onShelvesAt=="" || offShelvesAt=="" || itemDetail=="" ) {
+            isPost=false;
+            alert("必填项不能为空");
+        }
         if (onShelvesAt >= offShelvesAt) {
            isPost = false;
            $("#warn-date").html("日期不正确!");
@@ -777,6 +769,7 @@ $(function(){
 //        item.itemMasterImg = itemMasterImg;
         item.itemDetailImgs = itemDetailImgs;
         item.itemFeatures = itemFeatures;
+        item.itemDetail = itemDetail;
         if ($("#itemId").val() != "") {
             item.id = $("#itemId").val();
             item.shareCount = $("#shareCount").val();
@@ -790,11 +783,9 @@ $(function(){
         itemData.item = item;
         itemData.inventories = inventories;
 
-        console.log(JSON.stringify(item));
-        console.log(JSON.stringify(inventories));
-//        console.log(item.itemMasterImg);
-//        console.log(item.itemDetailImgs);
-//        console.log(JSON.stringify(itemData));
+        console.log(JSON.stringify(itemData));
+//        console.log(JSON.stringify(item));
+//        console.log(JSON.stringify(inventories));
         console.log(isPost);
         if (isPost) {
             $.ajax({

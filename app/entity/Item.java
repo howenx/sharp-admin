@@ -11,34 +11,36 @@ import java.sql.Timestamp;
  */
 public class Item implements Serializable{
 
-    private Long id                  ;
-    private Long cateId             ;
-    private Long brandId            ;
-    private String itemTitle         ;
-    private String supplyMerch           ;
+    private Long id;        //商品ID
+    private Long cateId;    //类别ID
+    private Long brandId;   //品牌ID
+    private String itemTitle;//商品标题
+    private String supplyMerch;//供应商名称
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
-    private Timestamp onShelvesAt       ;
+    private Timestamp onShelvesAt;//上架时间
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
-    private Timestamp offShelvesAt      ;
-    private String itemMasterImg   ;
-    private String itemDetailImgs    ;
-    private String itemFeatures       ;
-    private Long themeId            ;
-    private String state               ;
-    private String shareUrl           ;
-    private Integer shareCount         ;
-    private Integer collectCount       ;
-    private Integer browseCount        ;
-    private String itemNotice         ;
-    private Boolean orDestroy          ;
+    private Timestamp offShelvesAt;//下架时间
+    private String itemMasterImg;   //商品主图
+    private String itemDetailImgs;  //商品详细图
+    private String itemFeatures;    //商品参数
+    private Long themeId;           //主题ID
+    private String state;           //状态
+    private String shareUrl;        //分享的链接
+    private Integer shareCount;     //分享次数
+    private Integer collectCount;   //收藏次数
+    private Integer browseCount;    //浏览次数
+    private String itemNotice;      //商品重要通告
+    private Boolean orDestroy;      //是否删除
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
-    private Timestamp destroyAt          ;
+    private Timestamp destroyAt;    //删除时间
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
-    private Timestamp updateAt           ;
+    private Timestamp updateAt;     //更新时间
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
-    private Timestamp createAt           ;
-    private Long masterInvId             ;
-    private String publicity             ;
+    private Timestamp createAt;     //创建时间
+    private Long masterInvId;       //主SKU ID
+    private String publicity;       //优惠信息
+    private String itemDetail;      //详情页HTML
+
     //分页,每页多少条
     private Integer pageSize;
 
@@ -51,6 +53,43 @@ public class Item implements Serializable{
     private String order;
 
     private Integer itemNum;
+
+    public Item(){}
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", cateId=" + cateId +
+                ", brandId=" + brandId +
+                ", itemTitle='" + itemTitle + '\'' +
+                ", supplyMerch='" + supplyMerch + '\'' +
+                ", onShelvesAt=" + onShelvesAt +
+                ", offShelvesAt=" + offShelvesAt +
+                ", itemMasterImg='" + itemMasterImg + '\'' +
+                ", itemDetailImgs='" + itemDetailImgs + '\'' +
+                ", itemFeatures='" + itemFeatures + '\'' +
+                ", themeId=" + themeId +
+                ", state='" + state + '\'' +
+                ", shareUrl='" + shareUrl + '\'' +
+                ", shareCount=" + shareCount +
+                ", collectCount=" + collectCount +
+                ", browseCount=" + browseCount +
+                ", itemNotice='" + itemNotice + '\'' +
+                ", orDestroy=" + orDestroy +
+                ", destroyAt=" + destroyAt +
+                ", updateAt=" + updateAt +
+                ", createAt=" + createAt +
+                ", masterInvId=" + masterInvId +
+                ", publicity='" + publicity + '\'' +
+                ", itemDetail='" + itemDetail + '\'' +
+                ", pageSize=" + pageSize +
+                ", offset=" + offset +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
+                ", itemNum=" + itemNum +
+                '}';
+    }
 
     public Long getId() {
         return id;
@@ -236,6 +275,14 @@ public class Item implements Serializable{
         this.publicity = publicity;
     }
 
+    public String getItemDetail() {
+        return itemDetail;
+    }
+
+    public void setItemDetail(String itemDetail) {
+        this.itemDetail = itemDetail;
+    }
+
     public Integer getPageSize() {
         return pageSize;
     }
@@ -276,41 +323,8 @@ public class Item implements Serializable{
         this.itemNum = itemNum;
     }
 
-    @Override
-    public String toString() {
-        return "Item{" +
-                "id=" + id +
-                ", cateId=" + cateId +
-                ", brandId=" + brandId +
-                ", itemTitle='" + itemTitle + '\'' +
-                ", supplyMerch='" + supplyMerch + '\'' +
-                ", onShelvesAt=" + onShelvesAt +
-                ", offShelvesAt=" + offShelvesAt +
-                ", itemMasterImg='" + itemMasterImg + '\'' +
-                ", itemDetailImgs='" + itemDetailImgs + '\'' +
-                ", itemFeatures='" + itemFeatures + '\'' +
-                ", themeId=" + themeId +
-                ", state='" + state + '\'' +
-                ", shareUrl='" + shareUrl + '\'' +
-                ", shareCount=" + shareCount +
-                ", collectCount=" + collectCount +
-                ", browseCount=" + browseCount +
-                ", itemNotice='" + itemNotice + '\'' +
-                ", orDestroy=" + orDestroy +
-                ", destroyAt=" + destroyAt +
-                ", updateAt=" + updateAt +
-                ", createAt=" + createAt +
-                ", masterInvId=" + masterInvId +
-                ", publicity='" + publicity + '\'' +
-                ", pageSize=" + pageSize +
-                ", offset=" + offset +
-                ", sort='" + sort + '\'' +
-                ", order='" + order + '\'' +
-                ", itemNum=" + itemNum +
-                '}';
-    }
+    public Item(Long id, Long cateId, Long brandId, String itemTitle, String supplyMerch, Timestamp onShelvesAt, Timestamp offShelvesAt, String itemMasterImg, String itemDetailImgs, String itemFeatures, Long themeId, String state, String shareUrl, Integer shareCount, Integer collectCount, Integer browseCount, String itemNotice, Boolean orDestroy, Timestamp destroyAt, Timestamp updateAt, Timestamp createAt, Long masterInvId, String publicity, String itemDetail, Integer pageSize, Integer offset, String sort, String order, Integer itemNum) {
 
-    public Item(Long id, Long cateId, Long brandId, String itemTitle, String supplyMerch, Timestamp onShelvesAt, Timestamp offShelvesAt, String itemMasterImg, String itemDetailImgs, String itemFeatures, Long themeId, String state, String shareUrl, Integer shareCount, Integer collectCount, Integer browseCount, String itemNotice, Boolean orDestroy, Timestamp destroyAt, Timestamp updateAt, Timestamp createAt, Long masterInvId, String publicity, Integer pageSize, Integer offset, String sort, String order, Integer itemNum) {
         this.id = id;
         this.cateId = cateId;
         this.brandId = brandId;
@@ -334,11 +348,11 @@ public class Item implements Serializable{
         this.createAt = createAt;
         this.masterInvId = masterInvId;
         this.publicity = publicity;
+        this.itemDetail = itemDetail;
         this.pageSize = pageSize;
         this.offset = offset;
         this.sort = sort;
         this.order = order;
         this.itemNum = itemNum;
     }
-    public Item(){}
 }

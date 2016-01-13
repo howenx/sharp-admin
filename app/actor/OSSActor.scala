@@ -26,7 +26,6 @@ class OSSActor @Inject() (oss_client : OSSClientProvider,configuration: Configur
       objMetadata.setContentType(oss.file.file.getName.replaceFirst("^[^.]*", ""))
       val result = oss_client.get.putObject(configuration.getString("oss.bucket").getOrElse(""), oss.key, is, objMetadata)
       Logger.debug("oss import success " + result.getETag)
-
   }
 
 }
