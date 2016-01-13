@@ -4,6 +4,7 @@ var temp_img = $(".temp-img").parents("ul").find("li:nth-child(1)").children().f
 var temp_index = 0;
 var drag_img_index;
 var div,nw, w,sw, s,se, e,ne,n;
+$(".templates-choose").find(".temp-img").height($(".templates-choose").find(".temp-img").children().height());
 $(".upload").change(function(){
     var obj = $(templates_img).find(".drag-img:nth-of-type(1)");
     console.log(obj);
@@ -46,7 +47,7 @@ $(".upload").change(function(){
     http.send(formdata);
 });
 $(".add-upload").change(function(){
-    var obj = $("<div class='drag-img' onmousedown='righthit()'>").css({"width":"50%"}).appendTo($(templates_img));
+    var obj = $("<div class='drag-img' onmousedown='righthit(this)'>").css({"width":"50%"}).appendTo($(templates_img));
     $(obj).eq(1).on("click",function(){
         dire(this);
     }).on("dblclick",function(){
@@ -110,13 +111,11 @@ $(document).on("mousedown",function(e){
     var img_top = parseInt($(obj).parent().css("top"));
     var img_left = parseInt($(obj).parent().css("left"));
     ///*****img 大 小*******/
-    var temp_height = $(templates_img).eq(1).height();
     var temp_width = $(templates_img).eq(1).width();
+    var xtemp_width = $(templates_img).eq(0).width();
 
-    var ximg_height = $(templates_img).eq(0).find("img").eq(drag_img_index).parent().height();
-    var ximg_width = $(templates_img).eq(0).find("img").eq(drag_img_index).parent().width();
-    var ximg_top = img_top*(ximg_width/temp_width);
-    var ximg_left = img_left*(ximg_width/temp_width);
+    var ximg_height = $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).height();
+    var ximg_width = $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).width();
 
     $(document).on("mousemove",function(e){
         var xxx = e.pageX;
@@ -130,181 +129,208 @@ $(document).on("mousedown",function(e){
             var index = $(obj).index($(obj).parents(templates_img).find(".drag"));
             $(templates_img).eq(0).find(".drag").eq(index).css({"left":aa,"top":bb});
         }else if(obj.tagName=="IMG"){
-            $(temp_img).eq(0).parent().css({
-                "top":ximg_top+(yyy-y)*(ximg_height/temp_height),
-                "left":ximg_left+(xxx-x)*(ximg_width/temp_width)
-            });
-            $(templates_img).find("img").eq(drag_img_index).parent().css({
-                "top":ximg_top+(yyy-y)*(ximg_height/temp_height),
-                "left":ximg_left+(xxx-x)*(ximg_width/temp_width)
+            $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).css({
+                "top":(img_top+(yyy-y))*(xtemp_width/temp_width),
+                "left":(img_left+(xxx-x))*(xtemp_width/temp_width)
             })
             $(obj).parent().css({
                 "top":img_top+yyy-y,
                 "left":img_left+xxx-x
             })
         }else if(obj.className=="n"){
-            /******* div大小变化 ******/
-            $(div).css({"height":div_height+(y-yyy),"top":div_top-(y-yyy)});
-            $(templates_img).eq(0).find("div.drag").css({
-                "height":(div_height+(y-yyy))/img_height*100+"%",
-                "top":(div_top-(y-yyy))/img_height*100+"%"
-            });
-            /***图片大小变化***/
-            $(templates_img).eq(0).find("img").eq(drag_img_index).parent().css({
-                "width":ximg_width,
-                "height":ximg_height-(yyy-y)*(ximg_width/img_width),
-                "top":ximg_top+(yyy-y)*(ximg_width/img_width)
-            });
-            $(obj).parent().css({
-                "width":img_width,
-                "height":img_height-(yyy-y),
-                "top":img_top+yyy-y
-            })
+
+            if($(obj).parent()[0].className=="drag"){
+                /******* div大小变化 ******/
+                $(div).css({"height":div_height+(y-yyy),"top":div_top-(y-yyy)});
+                $(templates_img).eq(0).find("div.drag").css({
+                    "height":(div_height+(y-yyy))*(ximg_width/temp_width),
+                    "top":(div_top-(y-yyy))*(ximg_width/temp_width)
+                });
+            }else if($(obj).parent()[0].className=="drag-img"){
+                /***图片大小变化***/
+                $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).css({
+                    "width":ximg_width,
+                    "height":ximg_height-(yyy-y)*(ximg_width/img_width),
+                    "top":(img_top+yyy-y)*(ximg_width/img_width)
+                });
+                $(obj).parent().css({
+                    "width":img_width,
+                    "height":img_height-(yyy-y),
+                    "top":img_top+yyy-y
+                })
+            }
+
         }else if(obj.className=="w"){
-            $(div).css({
-                "width":div_width-(xxx-x),
-                "left":div_left+(xxx-x)
-            });
-            $(templates_img).eq(0).find("div.drag").css({
-                "width":(div_width-(xxx-x))/img_width*100+"%",
-                "left":(div_left+(xxx-x))/img_width*100+"%"
-            });
-            /***图片大小变化***/
-            $(templates_img).eq(0).find("img").eq(drag_img_index).parent().css({
-                "width":ximg_width-(xxx-x)*(ximg_width/img_width),
-                "height":ximg_height,
-                "left":ximg_left+(xxx-x)*(ximg_width/img_width)
-            });
-            $(obj).parent().css({
-                "width":img_width-(xxx-x),
-                "height":img_height,
-                "left":img_left+xxx-x
-            });
+            if($(obj).parent()[0].className=="drag"){
+                /******* div大小变化 ******/
+                $(div).css({
+                    "width":div_width-(xxx-x),
+                    "left":div_left+(xxx-x)
+                });
+                $(templates_img).eq(0).find("div.drag").css({
+                    "width":(div_width-(xxx-x))*(ximg_width/temp_width),
+                    "left":(div_left+(xxx-x))*(ximg_width/temp_width)
+                });
+            }else if($(obj).parent()[0].className=="drag-img"){
+                /***图片大小变化***/
+                $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).css({
+                    "width":ximg_width-(xxx-x)*(ximg_width/img_width),
+                    "height":ximg_height,
+                    "left":(img_left+xxx-x)*(ximg_width/img_width)
+                });
+                $(obj).parent().css({
+                    "width":img_width-(xxx-x),
+                    "height":img_height,
+                    "left":img_left+xxx-x
+                });
+            }
         }else if(obj.className=="s"){
-            $(div).css({"height":div_height+(yyy-y)});
-            $(templates_img).eq(0).find("div.drag").css({
-                "height":(div_height+(yyy-y))/img_height*100+"%"
-            })
-            /***图片大小变化***/
-            $(templates_img).eq(0).find("img").eq(drag_img_index).parent().css({
-                "width":ximg_width,
-                "height":ximg_height+(yyy-y)*(ximg_width/img_width)
-            });
-            $(obj).parent().css({
-                "width":img_width,
-                "height":img_height+(yyy-y)
-            })
+            if($(obj).parent()[0].className=="drag"){
+                /******* div大小变化 ******/
+                $(div).css({"height":div_height+(yyy-y)});
+                $(templates_img).eq(0).find("div.drag").css({
+                    "height":(div_height+(yyy-y))*(ximg_width/temp_width)
+                })
+            }else if($(obj).parent()[0].className=="drag-img"){
+                /***图片大小变化***/
+                $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).css({
+                    "width":ximg_width,
+                    "height":ximg_height+(yyy-y)*(ximg_width/img_width)
+                });
+                $(obj).parent().css({
+                    "width":img_width,
+                    "height":img_height+(yyy-y)
+                })
+            }
         }else if(obj.className=="e"){
-            $(div).css({"width":div_width+(xxx-x)});
-            $(templates_img).eq(0).find("div.drag").css({
-                "width":(div_width+(xxx-x))/img_width*100+"%"
-            })
-            /***图片大小变化***/
-            $(templates_img).eq(0).find("img").eq(drag_img_index).parent().css({
-                "width":ximg_width-(x-xxx)*(ximg_width/img_width),
-                "height":ximg_height,
-            });
-            $(obj).parent().css({
-                "width":img_width-(x-xxx),
-                "height":img_height,
-            });
+            if($(obj).parent()[0].className=="drag"){
+                /******* div大小变化 ******/
+                $(div).css({"width":div_width+(xxx-x)});
+                $(templates_img).eq(0).find("div.drag").css({
+                    "width":(div_width+(xxx-x))*(ximg_width/temp_width)
+                })
+            }else if($(obj).parent()[0].className=="drag-img"){
+                /***图片大小变化***/
+                $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).css({
+                    "width":ximg_width-(x-xxx)*(ximg_width/img_width),
+                    "height":ximg_height,
+                });
+                $(obj).parent().css({
+                    "width":img_width-(x-xxx),
+                    "height":img_height,
+                });
+            }
         }else if(obj.className=="nw"){
-            $(div).css({
-                "width":div_width-(xxx-x),
-                "height":(div_width-(xxx-x))*(div_height/div_width),
-                "top":div_top+(div_height-(div_width-(xxx-x))*(div_height/div_width)),
-                "left":div_left+(xxx-x)
-            });
-            $(templates_img).eq(0).find("div.drag").css({
-                "width":(div_width-(xxx-x))/img_width*100+"%",
-                "height":(div_width-(xxx-x))*(div_height/div_width)/img_height*100+"%",
-                "top":(div_top+(div_height-(div_width-(xxx-x))*(div_height/div_width)))/img_height*100+"%",
-                "left":(div_left+(xxx-x))/img_width*100+"%"
-            });
-            /***图片大小变化***/
-            $(templates_img).eq(0).find("img").eq(drag_img_index).parent().css({
-                "width":ximg_width-(xxx-x)*(ximg_width/img_width),
-                "height":(ximg_width-(xxx-x)*(ximg_width/img_width))*(ximg_height/ximg_width),
-                "top":ximg_top+(yyy-y)*(ximg_width/img_width),
-                "left":ximg_left+(xxx-x)*(ximg_width/img_width),
-            });
-            $(obj).parent().css({
-                "width":img_width-(xxx-x),
-                "height":(img_width-(xxx-x))*(img_height/img_width),
-                "top":img_top+(xxx-x)*(img_height/img_width),
-                "left":img_left+xxx-x,
-            })
+            if($(obj).parent()[0].className=="drag"){
+                /******* div大小变化 ******/
+                $(div).css({
+                    "width":div_width-(xxx-x),
+                    "height":(div_width-(xxx-x))*(div_height/div_width),
+                    "top":div_top+(div_height-(div_width-(xxx-x))*(div_height/div_width)),
+                    "left":div_left+(xxx-x)
+                });
+                $(templates_img).eq(0).find("div.drag").css({
+                    "width":(div_width-(xxx-x))*(ximg_width/temp_width),
+                    "height":(div_width-(xxx-x))*(div_height/div_width)*(ximg_width/temp_width),
+                    "top":(div_top+(div_height-(div_width-(xxx-x))*(div_height/div_width)))*(ximg_width/temp_width),
+                    "left":(div_left+(xxx-x))*(ximg_width/temp_width),
+                });
+            }else if($(obj).parent()[0].className=="drag-img"){
+                /***图片大小变化***/
+                $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).css({
+                    "width":ximg_width-(xxx-x)*(ximg_width/img_width),
+                    "height":(ximg_width-(xxx-x)*(ximg_width/img_width))*(ximg_height/ximg_width),
+                    "top":(img_top+(xxx-x)*(img_height/img_width))*(ximg_width/img_width),
+                    "left":(img_left+xxx-x)*(ximg_width/img_width),
+                });
+                $(obj).parent().css({
+                    "width":img_width-(xxx-x),
+                    "height":(img_width-(xxx-x))*(img_height/img_width),
+                    "top":img_top+(xxx-x)*(img_height/img_width),
+                    "left":img_left+xxx-x,
+                })
+            }
         }else if(obj.className=="ne"){
             if($(obj).parent()[0].className=="drag"){
+                /******* div大小变化 ******/
                 $(obj).parent().css({
                     "width":div_width+(xxx-x),
                     "height":(div_width+(xxx-x))*(div_height/div_width),
                     "top":div_top-(div_height-(div_width-(xxx-x))*(div_height/div_width))
                 });
                 $(templates_img).eq(0).find("div.drag").css({
-                    "width":(div_width+(xxx-x))/img_width*100+"%",
-                    "height":(div_width+(xxx-x))*(div_height/div_width) /img_height*100+"%",
-                    "top":(div_top-(div_height-(div_width-(xxx-x))*(div_height/div_width)))/img_height*100+"%"
+                    "width":(div_width+(xxx-x))*(ximg_width/temp_width),
+                    "height":(div_width+(xxx-x))*(div_height/div_width) *(ximg_width/temp_width),
+                    "top":(div_top-(div_height-(div_width-(xxx-x))*(div_height/div_width)))*(ximg_width/temp_width),
+                })
+            }else if($(obj).parent()[0].className=="drag-img"){
+                /***图片大小变化***/
+                $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).css({
+                    "width":ximg_width+(xxx-x)*(ximg_width/img_width),
+                    "height":(ximg_width+(xxx-x)*(ximg_width/img_width))*(img_height/img_width),
+                    "top":(img_top+(x-xxx)*(img_height/img_width))*(ximg_width/img_width),
+                });
+                $(obj).parent().css({
+                    "width":img_width+(xxx-x),
+                    "height":(img_width+(xxx-x))*(img_height/img_width),
+                    "top":img_top+(x-xxx)*(img_height/img_width),
                 })
             }
-            /***图片大小变化***/
-            $(templates_img).eq(0).find("img").eq(drag_img_index).parent().css({
-                "width":ximg_width+(xxx-x)*(ximg_width/img_width),
-                "height":(ximg_width+(xxx-x)*(ximg_width/img_width))*(img_height/img_width),
-                "top":ximg_top+(yyy-y)*(ximg_width/img_width),
-            });
-            $(obj).parent().css({
-                "width":img_width+(xxx-x),
-                "height":(img_width+(xxx-x))*(img_height/img_width),
-                "top":img_top+(x-xxx)*(img_height/img_width),
-            })
         }else if(obj.className=="sw"){
-            $(div).css({
-                "width":div_width-(xxx-x),
-                "height":(div_width-(xxx-x))*(div_height/div_width),
-                "left":div_left+(xxx-x)
-            });
-            $(templates_img).eq(0).find("div.drag").css({
-                "width":(div_width-(xxx-x))/img_width*100+"%",
-                "height":(div_width-(xxx-x))*(div_height/div_width)/img_height*100+"%",
-                "left":(div_left+(xxx-x))/img_width*100+"%"
-            })
-            /***图片大小变化***/
-            $(templates_img).eq(0).find("img").eq(drag_img_index).parent().css({
-                "width":ximg_width-(xxx-x)*(ximg_width/img_width),
-                "height":(ximg_width-(xxx-x)*(ximg_width/img_width))*(img_height/img_width),
-                "left":ximg_left+(xxx-x)*(ximg_width/img_width),
-            });
-            $(obj).parent().css({
-                "width":img_width-(xxx-x),
-                "height":(img_width-(xxx-x))*(img_height/img_width),
-                "left":img_left+xxx-x,
-            })
+            if($(obj).parent()[0].className=="drag"){
+                /******* div大小变化 ******/
+                $(div).css({
+                    "width":div_width-(xxx-x),
+                    "height":(div_width-(xxx-x))*(div_height/div_width),
+                    "left":div_left+(xxx-x)
+                });
+                $(templates_img).eq(0).find("div.drag").css({
+                    "width":(div_width-(xxx-x))*(ximg_width/temp_width),
+                    "height":(div_width-(xxx-x))*(div_height/div_width)*(ximg_width/temp_width),
+                    "left":(div_left+(xxx-x))*(ximg_width/temp_width),
+                })
+            }else if($(obj).parent()[0].className=="drag-img"){
+                /***图片大小变化***/
+                $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).css({
+                    "width":ximg_width-(xxx-x)*(ximg_width/img_width),
+                    "height":(ximg_width-(xxx-x)*(ximg_width/img_width))*(img_height/img_width),
+                    "left":(img_left+xxx-x)*(ximg_width/img_width),
+                });
+                $(obj).parent().css({
+                    "width":img_width-(xxx-x),
+                    "height":(img_width-(xxx-x))*(img_height/img_width),
+                    "left":img_left+xxx-x,
+                })
+            }
         }else if(obj.className=="se"){
-            $(div).css({
-                "width":div_width+(xxx-x),
-                "height":(div_width+(xxx-x))*(div_height/div_width)
-            });
-            $(templates_img).eq(0).find("div.drag").css({
-                "width":(div_width+(xxx-x))/img_width*100+"%",
-                "height":(div_width+(xxx-x))*(div_height/div_width)/img_height*100+"%"
-            });
-            /***图片大小变化***/
-            $(templates_img).eq(0).find("img").eq(drag_img_index).parent().css({
-                "width":ximg_width-(x-xxx)*(ximg_width/img_width),
-                "height":(ximg_width-(x-xxx)*(ximg_width/img_width))*(img_height/img_width),
-            });
-            $(obj).parent().css({
-                "width":img_width-(x-xxx),
-                "height":(img_width-(x-xxx))*(img_height/img_width),
-            })
+            if($(obj).parent()[0].className=="drag"){
+                /******* div大小变化 ******/
+                $(div).css({
+                    "width":div_width+(xxx-x),
+                    "height":(div_width+(xxx-x))*(div_height/div_width)
+                });
+                $(templates_img).eq(0).find("div.drag").css({
+                    "width":(div_width+(xxx-x))*(ximg_width/temp_width),
+                    "height":(div_width+(xxx-x))*(div_height/div_width)*(ximg_width/temp_width),
+                });
+            }else if($(obj).parent()[0].className=="drag-img"){
+                /***图片大小变化***/
+                $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).css({
+                    "width":ximg_width-(x-xxx)*(ximg_width/img_width),
+                    "height":(ximg_width-(x-xxx)*(ximg_width/img_width))*(img_height/img_width),
+                });
+                $(obj).parent().css({
+                    "width":img_width-(x-xxx),
+                    "height":(img_width-(x-xxx))*(img_height/img_width),
+                })
+            }
         }
     }).on("mouseup",function(){
         $(document).off("mousemove").off("mouseup");
     })
 })
 /*右键删除*/
-function righthit(){
+function righthit(element){
     var e = window.event||event.target;
     if (e.button===2){
         var obj = e.target;
@@ -321,10 +347,15 @@ function righthit(){
         $(document).off("click",".right-del");
         $(document).on("click",".right-del",function(){
             if(obj.tagName=="P"){
-                $(obj).remove();
+                var index = $(obj).index($(obj).parent().find("p"));
+                $(".templates-choose li").eq(temp_index).find("p").eq(index).remove();
             }else if(obj.tagName=="IMG"){
-                $(obj).parent().remove();
+                var index = $(obj).parents("li").find(".drag-img").index($(obj).parent());
+                $(".templates-choose li").eq(temp_index).find(".drag-img").eq(index).remove();
+            }else if(obj.className=="drag"){
+                $(".templates-choose li").eq(temp_index).find(".drag").remove();
             }
+            $(element).remove();
         })
     }
 }
@@ -366,7 +397,7 @@ function changeColor(element) {
 /*添加文本*/
 function addElement(){
     if($(".addText").prev().val()){
-        var p = $("<p onmousedown='righthit()'>").addClass("drag").html($(".addText").prev().val()).appendTo($(templates_img));
+        var p = $("<p onmousedown='righthit(this)'>").addClass("drag").html($(".addText").prev().val()).appendTo($(templates_img));
         $(p).css({"color":$("input[type=color]").val(),"font-family":$(".font-fam").find("option:selected").html(),"font-size":$(".font-siz").find("option:selected").html(),"z-index":1});
     }
 }
@@ -392,8 +423,42 @@ function dire(obj){
 function delDire(obj){
     $(obj).find("div[dire=true]").remove();
 }
+
+function templateSave(url){
+    var template = {};
+        template.url = url;
+        template.html = $(".templates").find("li:visible").find(".temp-img").prop("outerHTML");
+
+        $.ajax({
+           type :  "POST",
+           url : "/topic/templates/save",
+           contentType: "application/json; charset=utf-8",
+           data : JSON.stringify(template),
+           error : function(request) {
+             if (window.lang = 'cn') {
+                 $('#js-userinfo-error').text('保存失败');
+             } else {
+                 $('#js-userinfo-error').text('Save error');
+             }
+                 setTimeout("$('#js-userinfo-error').text('')", 2000);
+             },
+           success: function(data) {
+             alert("Save Success");
+             if (window.lang = 'cn') {
+                 $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+             } else {
+                 $('#js-userinfo-error').text('Save success');
+             }
+             setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
+             //主题录入, 成功后返回到主题录入页面
+            // setTimeout("location.href='/"+window.lang+"/topic/templates'", 1000);
+           }
+        });
+}
+
 /*$(function(){})*/
 $(function(){
+    var isPost = true;
     /***关闭***/
     $(templates_img).eq(1).css({
         "height":$(temp_img).eq(1).height()
@@ -421,7 +486,11 @@ $(function(){
             $(templates_img).eq(0).find("p.drag").eq(index).css("font-size",$(this).find("option:selected").html());
         });
         $(document).on("click",".through",function(){
-            $(obj).css("text-decoration","line-through");
+            if($(obj).css("text-decoration")=="line-through"){
+                $(obj).css("text-decoration","none");
+            }else{
+                $(obj).css("text-decoration","line-through");
+            }
             $(templates_img).eq(0).find("p.drag").eq(index).css("text-decoration","line-through");
         })
     });
@@ -432,7 +501,7 @@ $(function(){
 
     /*新建div*/
     $(".new-div").click(function(){
-        div = $("<div class='drag'>");
+        div = $("<div class='drag' onmousedown='righthit(this)'>");
         $(div).css({"position":"absolute","left":0,"top":"80%","background":"#ccc","height":"20%","width":"100%"}).appendTo($(templates_img)).on("click",function(){
             obj = this;
             dire(div);
@@ -478,4 +547,54 @@ $(function(){
         $("<li>").html(html_li).appendTo($(this).prev());
         $("<li>").html(html_li_1).appendTo(".templates");
     });
+    $(".templates-choose li").on("mousedown",function(){
+        var index = $(".templates-choose li").index($(this));
+        righthit(this);
+    })
+
+    $("#save").click(function(){
+            var width = $(".templates").find("li:visible").find("img").eq(0).width();
+            //$(".templates").find("li:visible").find(".temp-img").width(width);
+
+            var height = $(".templates").find("li:visible").find(".drag-img").height();
+            //$(".templates").find("li:visible").find(".temp-img").height(height);
+            var html = $(".templates").find("li:visible").find(".temp-img").prop("outerHTML");
+            alert("html:" + html);
+            alert("图片宽度:" + width + "图片高度:" + height );
+
+            if(html == null || html == ""){
+
+                isPost = false;
+                alert("请添加模板!");
+                return false;
+            }
+             if(isPost){
+                 $.ajax({
+                    url: "http://172.28.3.51:3008/cut", //Server script to process data
+                    //url: "http://172.28.3.18:3008/cut", //Server script to process data
+                    type: 'post',
+                    data: {
+                        html: '' +html,
+                        width:width,
+                        height:height
+                    },
+                    success: function(data) {
+                        templateSave(data.oss_url);
+                        console.log(JSON.stringify(data));
+                        url = data.oss_url;
+                        alert(data.oss_prefix + data.oss_url);
+                        window.open(data.shot_url,'_blank');
+
+                        //window.open(data.oss_prefix + data.oss_url,'_blank');
+                    },
+                    error: function(data, error, errorThrown) {
+                        if (data.status && data.status >= 400) {
+                            alert(data.responseText);
+                        } else {
+                            alert("Something went wrong");
+                        }
+                    }
+                 });
+              }
+        })
 });

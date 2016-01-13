@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/templates.css">
     <script src="/assets/js/jquery-1.11.3.min.js"></script>
-
 </head>
 <body oncontextmenu="return false">
 <div class="container">
@@ -16,8 +15,8 @@
             <h2>选择模版</h2>
         </div>
         <div class="col-sm-10 btns">
-            <button type="button" class="btn btn-primary">保存</button>
-            <button type="button" class="btn btn-primary">下一步</button>
+            <button type="button" class="btn btn-primary" id="save">保存</button>
+            <button type="button" class="btn btn-primary" id="">下一步</button>
         </div>
     </div>
     <div class="row">
@@ -27,7 +26,7 @@
                 <li>
                     <div class="temp-img">
                         <div class="drag-img">
-                            <img src="@url@template.getUrl()" alt="">
+                            <img src="@url@template.getUrl()">
                         </div>
                     </div>
                 </li>
@@ -37,22 +36,12 @@
         </div>
         <div class="col-sm-8">
             <ul class="templates">
-                <!--
-                <li>
-                    <div class="temp-img">
-                        <div class="drag-img" onclick="dire(this)" ondblclick="delDire(this)">
-                            <img src="" alt="">
-                        </div>
-                    </div>
+                @for(template <- templateList){
+                <li id="@template.getId()">
+                   @Html(template.getHtml())
+
                 </li>
-                <li>
-                    <div class="temp-img">
-                        <div class="drag-img" onclick="dire(this)" ondblclick="delDire(this)">
-                            <img src="" alt="">
-                        </div>
-                    </div>
-                </li>
-                -->
+                }
             </ul>
         </div>
         <div class="col-sm-2">

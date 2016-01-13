@@ -126,4 +126,13 @@ public class ThemeServiceImpl implements ThemeService {
     public List<ThemeTemplate> getTemplatesAll() {
         return themeMapper.getTemplatesAll();
     }
+
+    /**
+     * 添加主题模板 Added by Tiffany Zhu 2016.01.13
+     * @param themeTemplate
+     */
+    @Override
+    public void themeTemplateSave(ThemeTemplate themeTemplate) {
+        themeMapper.insertTemplate(themeTemplate);
+    }
 }
