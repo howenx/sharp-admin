@@ -151,6 +151,11 @@
                 from theme_templates t where 1=1
         </select>
 
-
+        <insert id="insertTemplate" parameterType="entity.ThemeTemplate" useGeneratedKeys="true" keyProperty="id">
+                insert into theme_templates
+                (html,url)
+                values
+                (#{html},#{url}::text)
+        </insert>
 
 </mapper>

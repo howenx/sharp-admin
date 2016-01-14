@@ -38,10 +38,10 @@ ul.templates-choose li img{
 }
 /********* templates *********/
 ul.templates{
-    width: 100%;height: 100%;position: relative;
+    width: 100%;height: auto;position: relative;
 }
 ul.templates>li{
-    width: 100%;height:auto;position: absolute;
+    width: 100%;height: auto;position: absolute;
     left: 0;top: 0;padding: 15px;
 }
 ul.templates>li:nth-child(1){
@@ -84,7 +84,6 @@ ul.templates .drag-img{
 }
 ul.templates-choose .drag,ul.templates-choose .drag-img{
     position: absolute;
-    height:100%;
 }
 .add-temp{
     margin-left: 30%;

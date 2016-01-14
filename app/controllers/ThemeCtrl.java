@@ -240,7 +240,7 @@ public class ThemeCtrl extends Controller {
     }
 
     /**
-     * 主题模板 Added by Tiffany Zhu 2016.01.09
+     * 获取主题模板 Added by Tiffany Zhu 2016.01.09
      * @param lang
      * @return
      */
@@ -250,6 +250,20 @@ public class ThemeCtrl extends Controller {
         List<ThemeTemplate> templateList = service.getTemplatesAll();
         return ok(views.html.theme.templates.render(lang,templateList,oss_prefix,(User) ctx().args.get("user")));
 
+    }
+
+    /**
+     * 保存主题模板 Added by Tiffany Zhu 2016.01.13
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result themeTemplateSave(String lang){
+        JsonNode json = request().body().asJson();
+        Logger.error(json.toString());
+        ThemeTemplate themeTemplate = Json.fromJson(json,ThemeTemplate.class);
+        service.themeTemplateSave(themeTemplate);
+        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
 
