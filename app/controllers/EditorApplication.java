@@ -87,7 +87,7 @@ public class EditorApplication extends Controller{
 	
 	//获取配置信息
 	public static String getConfig(){
-		File file = Play.application().getFile("/conf/config.json");
+		File file = Play.application().getFile("/public/editorphp/php/config.json");
         InputStream in = null;
 		String config = "";
 		if(Cache.get("editorConfig")!=null){

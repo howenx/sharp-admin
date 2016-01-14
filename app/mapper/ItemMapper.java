@@ -12,7 +12,7 @@ public interface ItemMapper {
 
     List<Item> getItemPage(Item item);
 
-    Integer itemInsert(Item item);
+    Long itemInsert(Item item);
 
     Item getItem(Long id);
 

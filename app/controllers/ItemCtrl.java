@@ -11,12 +11,16 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-import service.*;
+import service.CarriageService;
+import service.InventoryService;
+import service.ItemService;
+import service.ThemeService;
 
 import javax.inject.Inject;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 商品管理
@@ -249,6 +253,7 @@ public class ItemCtrl extends Controller {
      * @return Result
      */
     public Result itemSave() {
+//        request().remoteAddress();
         JsonNode json = request().body().asJson();
 //        Logger.error(json.toString());
         List<Long> list = service.itemSave(json);
