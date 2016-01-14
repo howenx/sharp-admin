@@ -16,6 +16,7 @@
             <h2>选择模版</h2>
         </div>
         <div class="col-sm-10 btns">
+            <button type="button" class="btn btn-primary" id="createImg">生成图片</button>
             <button type="button" class="btn btn-primary" id="save">保存</button>
             <button type="button" class="btn btn-primary" id="nextStep">下一步</button>
         </div>
@@ -24,13 +25,7 @@
         <div class="col-sm-2">
             <ul class="templates-choose">
                 @for(template <- templateList){
-                    <li onmousedown="righthit(this);">
-                        <div class="temp-img">
-                            <div class="bg-img">
-                                <img src="@url@template.getUrl()" alt="">
-                            </div>
-                        </div>
-                    </li>
+                   @Html(template.getNavigatorHtml())
                 }
             </ul>
             <button type="button" class="add-temp btn btn-primary">新增模版</button>
@@ -39,7 +34,7 @@
             <ul class="templates">
                 @for(template <- templateList){
                     <li id="@template.getId()">
-                        @Html(template.getHtml())
+                        @Html(template.getContentHtml())
                     </li>
                 }
             </ul>

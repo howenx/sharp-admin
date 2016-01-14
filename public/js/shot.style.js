@@ -481,19 +481,26 @@ $(function() {
         var onShelvesAt = $("#onShelvesAt").val();
         //结束日期
         var offShelvesAt = $("#offShelvesAt").val();
+
+
         //主题图片,主页显示图片
+        /*
         if(data_array.themeImg.indexOf("http://") >= 0){
             var themeImgFinal = data_array.themeImg.substring(data_array.themeImg.indexOf('/',data_array.themeImg.indexOf('/')+2)+1);
         }
         else{
             var themeImgFinal = data_array.themeImg.substring(data_array.themeImg.indexOf('/',data_array.themeImg.indexOf('/')+2));
         }
+        */
+
 
         //排序
         var sortNu = 1;
         //主题源背景图片
+        /*
         var themeSrcImgTemp = background.substring(background.indexOf('url("')+5,background.indexOf('")'));
         var themeSrcImg = themeSrcImgTemp.substring(themeSrcImgTemp.indexOf('/',themeSrcImgTemp.indexOf('/')+2));
+        */
         //主题的配置信息
         var themeConfig = [];
         //主题包含的商品信息
@@ -543,6 +550,14 @@ $(function() {
 
         //主题主图片
         var themeImgContent = {};
+        var url = $("#themeImg").find("input").attr("id");
+        themeImgContent.url = url.substring(url.indexOf('/',url.indexOf('/')+2) + 1);
+        themeImgContent.width = $("#themeImg").find("input").width().toString();
+        themeImgContent.height = $("#themeImg").find("input").height().toString();
+
+
+
+        /*
         themeImgContent.url = themeImgFinal;
         if(data_array.uploadImgWidth != null && data_array.uploadImgHeight != null){
                themeImgContent.width = data_array.uploadImgWidth.toString();
@@ -551,6 +566,7 @@ $(function() {
                  themeImgContent.width = jsFileShareContent.ulpDirectImgWidth.toString();
                  themeImgContent.height = jsFileShareContent.ulpDirectImgHeight.toString();
         }
+        */
 
 
         //主题tag背景图
@@ -567,7 +583,7 @@ $(function() {
         //theme.themeImg = themeImgFinal;
         theme.sortNu = sortNu;
         //theme.orDestory = false;
-        theme.themeSrcImg = themeSrcImg;
+        theme.themeSrcImg = "";
         theme.themeDesc = themeConfig;
         theme.themeItem = themeItems;
         theme.themeTags = masterItemTag;
