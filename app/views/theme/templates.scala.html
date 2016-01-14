@@ -25,7 +25,9 @@
         <div class="col-sm-2">
             <ul class="templates-choose">
                 @for(template <- templateList){
-                   @Html(template.getNavigatorHtml())
+                    <li onmousedown="righthit(this);">
+                         @Html(template.getNavigatorHtml())
+                    </li>
                 }
             </ul>
             <button type="button" class="add-temp btn btn-primary">新增模版</button>

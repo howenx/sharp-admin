@@ -159,4 +159,10 @@
                 (#{url},#{navigatorHtml}::text,#{contentHtml}::text)
         </insert>
 
+        <update id="updateTemplate" parameterType="entity.ThemeTemplate">
+                update theme_templates
+                set url = #{url},navigator_html = #{navigatorHtml}::text,content_html = #{contentHtml}::text
+                where id = #{id}
+        </update>
+
 </mapper>

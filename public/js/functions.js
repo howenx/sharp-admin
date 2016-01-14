@@ -514,8 +514,11 @@ $(function(){
     });
     /*********新增模版**********/
     $(".add-temp").click(function(){
-        var height1 = $(templates_img).eq(0).height();
-        var height2 = $(templates_img).eq(1).height();
+        //var height1 = $(templates_img).eq(0).height();
+        //var height2 = $(templates_img).eq(1).height();
+        var height1 = 116;
+        var height2 = 519;
+
         var html_li ='<div class="temp-img" style="height:'+height1+'px;">' +
             '<div class="bg-img" onmousedown="righthit(this.childNodes)"></div>' +
             '</div>';
@@ -596,14 +599,21 @@ $(function(){
             var template = {};
             var url = "";
             var navigatorHtml = "";
+            var id = 0;
             $(".templates-choose").find("li").each(function(){
                 if($(this).css("border-top-style") == "solid"){
                     if($(this).find("input").length != 0){
                         url = $(this).find("input").attr("id");
                     }
-                    navigatorHtml = $(this).prop("outerHTML");
+                    navigatorHtml = $(this).html();
                 }
             })
+
+            if($(".templates").find("li:visible").attr("id") != null){
+                id = Number($(".templates").find("li:visible").attr("id"));
+            }
+
+            template.id = id;
             template.url = url.substring(url.indexOf('/',url.indexOf('/')+2)+1);
             template.navigatorHtml = navigatorHtml;
             template.contentHtml = $(".templates").find("li:visible").find(".temp-img").prop("outerHTML");

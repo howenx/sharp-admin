@@ -128,11 +128,16 @@ public class ThemeServiceImpl implements ThemeService {
     }
 
     /**
-     * 添加主题模板 Added by Tiffany Zhu 2016.01.13
+     * 保存主题模板 Added by Tiffany Zhu 2016.01.13
      * @param themeTemplate
      */
     @Override
     public void themeTemplateSave(ThemeTemplate themeTemplate) {
-        themeMapper.insertTemplate(themeTemplate);
+        Logger.error(themeTemplate.getId().toString());
+        if (themeTemplate.getId() == 0){
+            themeMapper.insertTemplate(themeTemplate);
+        }else{
+            themeMapper.updateTemplate(themeTemplate);
+        }
     }
 }
