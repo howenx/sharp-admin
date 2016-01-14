@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.DataLogMapper">
+    <!--enable mybatis default cache configure reference:
+        https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
+    -->
+    <sql id="dataLogColumns">
+        ${alias}.id,
+        ${alias}.operate_user,
+        ${alias}.operate_ip ::text,
+        ${alias}.operate_type,
+        ${alias}.log_content,
+        ${alias}.original_data ::text,
+        ${alias}.new_data ::text,
+        ${alias}.operate_time
+    </sql>
+
+    <insert id="insertDataLog" parameterType="entity.DataLog" useGeneratedKeys="true" keyProperty="id">
+        insert into data_log
+        (operate_user,operate_ip,operate_type,log_content,original_data,new_data,operate_time)
+        values
+        (#{operateUser},#{operateIp},#{operateType},#{logContent},#{originalData},#{newData},#{operateTime})
+    </insert>
+
+    <select id="getDataLog" resultType="entity.DataLog" parameterType="java.lang.Long">
+        select
+        <include refid="dataLogColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from data_log t where id=${value}
+    </select>
+
+    <select id="getAllDataLogs" resultType="entity.DataLog">
+        select
+        <include refid="dataLogColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from data_log t where 1=1
+    </select>
+
+    <select id="getDataLogPage" parameterType="entity.DataLog" resultType="entity.DataLog">
+        select
+        <include refid="dataLogColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from data_log t where 1=1
+        <if test="pageSize == -1 and offset >= -1">
+            LIMIT ALL OFFSET 0
+        </if>
+        <if test="pageSize >= 1 and offset >= 0">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+</mapper>

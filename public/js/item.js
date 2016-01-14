@@ -492,6 +492,8 @@ $(function(){
         var numberReg4 =    /^[0-9a-zA-Z]*$/g;   //字母和数字
         var item = new Object();
         var inventories = [];
+        //日志记录
+        var dataLog = new Object();
         var itemData = new Object();
         var cateId = "";
         if($("#categorySubSelect").text()=="") cateId=$("#categorySelect").val();
@@ -779,6 +781,9 @@ $(function(){
             item.themeId = $("#themeId").val();
             item.state = $("#state").val();
         }
+
+        dataLog.operateUser = window.user;
+        dataLog.
 
         itemData.item = item;
         itemData.inventories = inventories;
