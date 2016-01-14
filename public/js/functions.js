@@ -2,11 +2,13 @@
 var templates_img = $(".temp-img").parents("ul").find("li:nth-child(1)").children();
 var temp_img = $(".temp-img").parents("ul").find("li:nth-child(1)").children().find("img");
 var temp_index = 0;
-var drag_img_index;
+var drag_img_index,
+    div_index,
+    p_index;
 var div,nw, w,sw, s,se, e,ne,n;
 $(".templates-choose").find(".temp-img").height($(".templates-choose").find(".temp-img").children().height());
 $(".upload").change(function(){
-    var obj = $(templates_img).find(".drag-img:nth-of-type(1)");
+    var obj = $(templates_img).find(".bg-img");
     console.log(obj);
     if($(this).val()){
         $(obj).find("img").remove();
@@ -37,7 +39,7 @@ $(".upload").change(function(){
             input.type = "hidden";
             input.name = data.imgid;
             input.value = data.path;
-            $(obj).find("img").attr("src",data.oss_prefix+data.oss_url);
+            $(obj).find("img").attr("src",data.minify_url);
             for(var i=0;i<obj.length;i++){
                 obj[i].appendChild(input);
             }
@@ -47,8 +49,8 @@ $(".upload").change(function(){
     http.send(formdata);
 });
 $(".add-upload").change(function(){
-    var obj = $("<div class='drag-img' onmousedown='righthit(this)'>").css({"width":"50%"}).appendTo($(templates_img));
-    $(obj).eq(1).on("click",function(){
+    var obj = $("<div class='drag-img' onmousedown='righthit(this)'>").css({"width":"50%","top":0,"left":0}).appendTo($(templates_img));
+    $(obj).eq(1).width(($(templates_img).eq(1).width()/2)).on("click",function(){
         dire(this);
     }).on("dblclick",function(){
         delDire(this);
@@ -58,7 +60,6 @@ $(".add-upload").change(function(){
         var file = this.files[0];
         var img = document.createElement("img");
         img.file = file;
-        $(img).width = "50%";
         obj[i].appendChild(img);
     }
     temp_img = $(obj).find("img");
@@ -94,7 +95,11 @@ $(document).on("mousedown",function(e){
     var obj = e.target;
     if(obj.tagName=="IMG"){
         drag_img_index = $(obj).parents(".temp-img").find(".drag-img").index($(obj).parent());
-        console.log(drag_img_index);
+    }else if(obj.className=="drag"&&obj.tagName=="DIV"){
+        div_index = $(obj).parents(".temp-img").find("div.drag").index($(obj));
+    }else if(obj.className=="drag"&&obj.tagName=="P"){
+        p_index = $(obj).parents(".temp-img").find("p.drag").index($(obj));
+        console.log(p_index);
     }
     var x = e.pageX;
     var y = e.pageY;
@@ -112,39 +117,49 @@ $(document).on("mousedown",function(e){
     var img_left = parseInt($(obj).parent().css("left"));
     ///*****img 大 小*******/
     var temp_width = $(templates_img).eq(1).width();
+    var temp_height = $(templates_img).eq(1).height();
     var xtemp_width = $(templates_img).eq(0).width();
 
     var ximg_height = $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).height();
     var ximg_width = $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).width();
-
     $(document).on("mousemove",function(e){
         var xxx = e.pageX;
         var yyy = e.pageY;
         var fnix = xxx - xx;
         var fniy = yyy - yy;
-        if(obj.className=="drag"){
-            $(obj).offset({"left":fnix,"top":fniy});
+        if(obj.className=="drag"&&obj.tagName=="P"){
             var aa = (xxx-xx-$(templates_img).eq(1).offset().left)/$(templates_img).eq(1).width()*100+"%";
             var bb = (yyy-yy-$(templates_img).eq(1).offset().top)/$(templates_img).eq(1).height()*100+"%";
-            var index = $(obj).index($(obj).parents(templates_img).find(".drag"));
-            $(templates_img).eq(0).find(".drag").eq(index).css({"left":aa,"top":bb});
+            $(obj).offset({"left":fnix,"top":fniy});
+            $(templates_img).eq(0).find("p.drag").eq(p_index).css({"left":aa,"top":bb});
+        }else if(obj.className=="drag"&&obj.tagName=="DIV"){
+            var aa = (xxx-xx-$(templates_img).eq(1).offset().left)/$(templates_img).eq(1).width()*100+"%";
+            var bb = (yyy-yy-$(templates_img).eq(1).offset().top)/$(templates_img).eq(1).height()*100+"%";
+            $(obj).offset({"left":fnix,"top":fniy});
+            $(templates_img).eq(0).find("div.drag").eq(div_index).css({"left":aa,"top":bb});
         }else if(obj.tagName=="IMG"){
-            $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).css({
-                "top":(img_top+(yyy-y))*(xtemp_width/temp_width),
-                "left":(img_left+(xxx-x))*(xtemp_width/temp_width)
-            })
-            $(obj).parent().css({
-                "top":img_top+yyy-y,
-                "left":img_left+xxx-x
-            })
+            e.preventDefault();
+            if($(obj).parent()[0].className=="drag-img"){
+                if((img_top+(yyy-y)<0||img_top+(yyy-y)>temp_height-img_height||img_left+xxx-x<0||img_left+xxx-x>temp_width-img_width)){
+                    return;
+                }
+                $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).css({
+                    "top":(img_top+(yyy-y))*(xtemp_width/temp_width),
+                    "left":(img_left+(xxx-x))*(xtemp_width/temp_width)
+                })
+                $(obj).parent().css({
+                    "top":img_top+yyy-y,
+                    "left":img_left+xxx-x
+                })
+            }
         }else if(obj.className=="n"){
 
             if($(obj).parent()[0].className=="drag"){
                 /******* div大小变化 ******/
-                $(div).css({"height":div_height+(y-yyy),"top":div_top-(y-yyy)});
+                $(obj).parent().css({"height":div_height+(y-yyy),"top":div_top-(y-yyy)});
                 $(templates_img).eq(0).find("div.drag").css({
-                    "height":(div_height+(y-yyy))*(ximg_width/temp_width),
-                    "top":(div_top-(y-yyy))*(ximg_width/temp_width)
+                    "height":(div_height+(y-yyy))*(xtemp_width/temp_width),
+                    "top":(div_top-(y-yyy))*(xtemp_width/temp_width)
                 });
             }else if($(obj).parent()[0].className=="drag-img"){
                 /***图片大小变化***/
@@ -163,13 +178,13 @@ $(document).on("mousedown",function(e){
         }else if(obj.className=="w"){
             if($(obj).parent()[0].className=="drag"){
                 /******* div大小变化 ******/
-                $(div).css({
+                $(obj).parent().css({
                     "width":div_width-(xxx-x),
                     "left":div_left+(xxx-x)
                 });
                 $(templates_img).eq(0).find("div.drag").css({
-                    "width":(div_width-(xxx-x))*(ximg_width/temp_width),
-                    "left":(div_left+(xxx-x))*(ximg_width/temp_width)
+                    "width":(div_width-(xxx-x))*(xtemp_width/temp_width),
+                    "left":(div_left+(xxx-x))*(xtemp_width/temp_width)
                 });
             }else if($(obj).parent()[0].className=="drag-img"){
                 /***图片大小变化***/
@@ -187,9 +202,9 @@ $(document).on("mousedown",function(e){
         }else if(obj.className=="s"){
             if($(obj).parent()[0].className=="drag"){
                 /******* div大小变化 ******/
-                $(div).css({"height":div_height+(yyy-y)});
+                $(obj).parent().css({"height":div_height+(yyy-y)});
                 $(templates_img).eq(0).find("div.drag").css({
-                    "height":(div_height+(yyy-y))*(ximg_width/temp_width)
+                    "height":(div_height+(yyy-y))*(xtemp_width/temp_width)
                 })
             }else if($(obj).parent()[0].className=="drag-img"){
                 /***图片大小变化***/
@@ -205,9 +220,9 @@ $(document).on("mousedown",function(e){
         }else if(obj.className=="e"){
             if($(obj).parent()[0].className=="drag"){
                 /******* div大小变化 ******/
-                $(div).css({"width":div_width+(xxx-x)});
+                $(obj).parent().css({"width":div_width+(xxx-x)});
                 $(templates_img).eq(0).find("div.drag").css({
-                    "width":(div_width+(xxx-x))*(ximg_width/temp_width)
+                    "width":(div_width+(xxx-x))*(xtemp_width/temp_width)
                 })
             }else if($(obj).parent()[0].className=="drag-img"){
                 /***图片大小变化***/
@@ -223,17 +238,17 @@ $(document).on("mousedown",function(e){
         }else if(obj.className=="nw"){
             if($(obj).parent()[0].className=="drag"){
                 /******* div大小变化 ******/
-                $(div).css({
+                $(obj).parent().css({
                     "width":div_width-(xxx-x),
                     "height":(div_width-(xxx-x))*(div_height/div_width),
                     "top":div_top+(div_height-(div_width-(xxx-x))*(div_height/div_width)),
                     "left":div_left+(xxx-x)
                 });
                 $(templates_img).eq(0).find("div.drag").css({
-                    "width":(div_width-(xxx-x))*(ximg_width/temp_width),
-                    "height":(div_width-(xxx-x))*(div_height/div_width)*(ximg_width/temp_width),
-                    "top":(div_top+(div_height-(div_width-(xxx-x))*(div_height/div_width)))*(ximg_width/temp_width),
-                    "left":(div_left+(xxx-x))*(ximg_width/temp_width),
+                    "width":(div_width-(xxx-x))*(xtemp_width/temp_width),
+                    "height":(div_width-(xxx-x))*(div_height/div_width)*(xtemp_width/temp_width),
+                    "top":(div_top+(div_height-(div_width-(xxx-x))*(div_height/div_width)))*(xtemp_width/temp_width),
+                    "left":(div_left+(xxx-x))*(xtemp_width/temp_width),
                 });
             }else if($(obj).parent()[0].className=="drag-img"){
                 /***图片大小变化***/
@@ -259,9 +274,9 @@ $(document).on("mousedown",function(e){
                     "top":div_top-(div_height-(div_width-(xxx-x))*(div_height/div_width))
                 });
                 $(templates_img).eq(0).find("div.drag").css({
-                    "width":(div_width+(xxx-x))*(ximg_width/temp_width),
-                    "height":(div_width+(xxx-x))*(div_height/div_width) *(ximg_width/temp_width),
-                    "top":(div_top-(div_height-(div_width-(xxx-x))*(div_height/div_width)))*(ximg_width/temp_width),
+                    "width":(div_width+(xxx-x))*(xtemp_width/temp_width),
+                    "height":(div_width+(xxx-x))*(div_height/div_width) *(xtemp_width/temp_width),
+                    "top":(div_top-(div_height-(div_width-(xxx-x))*(div_height/div_width)))*(xtemp_width/temp_width),
                 })
             }else if($(obj).parent()[0].className=="drag-img"){
                 /***图片大小变化***/
@@ -279,15 +294,15 @@ $(document).on("mousedown",function(e){
         }else if(obj.className=="sw"){
             if($(obj).parent()[0].className=="drag"){
                 /******* div大小变化 ******/
-                $(div).css({
+                $(obj).parent().css({
                     "width":div_width-(xxx-x),
                     "height":(div_width-(xxx-x))*(div_height/div_width),
                     "left":div_left+(xxx-x)
                 });
                 $(templates_img).eq(0).find("div.drag").css({
-                    "width":(div_width-(xxx-x))*(ximg_width/temp_width),
-                    "height":(div_width-(xxx-x))*(div_height/div_width)*(ximg_width/temp_width),
-                    "left":(div_left+(xxx-x))*(ximg_width/temp_width),
+                    "width":(div_width-(xxx-x))*(xtemp_width/temp_width),
+                    "height":(div_width-(xxx-x))*(div_height/div_width)*(xtemp_width/temp_width),
+                    "left":(div_left+(xxx-x))*(xtemp_width/temp_width),
                 })
             }else if($(obj).parent()[0].className=="drag-img"){
                 /***图片大小变化***/
@@ -305,13 +320,13 @@ $(document).on("mousedown",function(e){
         }else if(obj.className=="se"){
             if($(obj).parent()[0].className=="drag"){
                 /******* div大小变化 ******/
-                $(div).css({
+                $(obj).parent().css({
                     "width":div_width+(xxx-x),
                     "height":(div_width+(xxx-x))*(div_height/div_width)
                 });
                 $(templates_img).eq(0).find("div.drag").css({
-                    "width":(div_width+(xxx-x))*(ximg_width/temp_width),
-                    "height":(div_width+(xxx-x))*(div_height/div_width)*(ximg_width/temp_width),
+                    "width":(div_width+(xxx-x))*(xtemp_width/temp_width),
+                    "height":(div_width+(xxx-x))*(div_height/div_width)*(xtemp_width/temp_width),
                 });
             }else if($(obj).parent()[0].className=="drag-img"){
                 /***图片大小变化***/
@@ -346,14 +361,23 @@ function righthit(element){
         })
         $(document).off("click",".right-del");
         $(document).on("click",".right-del",function(){
-            if(obj.tagName=="P"){
-                var index = $(obj).index($(obj).parent().find("p"));
-                $(".templates-choose li").eq(temp_index).find("p").eq(index).remove();
-            }else if(obj.tagName=="IMG"){
+            if(obj.tagName=="P"&&obj.className=="drag"){
+                var index = $(obj).index($(obj).parent().find("p.drag"));
+                console.log(index)
+                $(".templates-choose li").eq(temp_index).find("p.drag").eq(index).remove();
+            }else if($(obj).parent()[0].className=="drag-img"){
                 var index = $(obj).parents("li").find(".drag-img").index($(obj).parent());
                 $(".templates-choose li").eq(temp_index).find(".drag-img").eq(index).remove();
-            }else if(obj.className=="drag"){
-                $(".templates-choose li").eq(temp_index).find(".drag").remove();
+            }else if(obj.className=="drag"&&obj.tagName=="DIV"){
+                var index = $(obj).index($(obj).parent().find("div.drag"));
+                $(".templates-choose li").eq(temp_index).find("div.drag").eq(index).remove();
+            }else if($(obj).parent().parent().parent().parent()[0].className=="templates"){
+                var index = $(obj).parents("ul.templates").find(".bg-img").index($(obj).parent());
+                $(".templates-choose").find(".bg-img").eq(index).children().remove();
+            }else if($(obj).parent().parent().parent().parent()[0].className=="templates-choose"){
+                var index = $(obj).parents("ul.templates-choose").find(".bg-img").index($(obj).parent());
+                $(".templates").find("li").eq(index).remove();
+                alert(1)
             }
             $(element).remove();
         })
@@ -376,7 +400,6 @@ function ShowElement(element) {
     element.innerHTML = '';
     element.appendChild(newobj);
     newobj.focus();
-    $(element).css({"color":$("input[type=color]").val()});
 }
 /****颜色****/
 function changeColor(element) {
@@ -456,42 +479,41 @@ function templateSave(url){
         });
 }
 
+
+
 /*$(function(){})*/
 $(function(){
-    var isPost = true;
     /***关闭***/
-    $(templates_img).eq(1).css({
+    $("ul.templates").find(".temp-img").css({
         "height":$(temp_img).eq(1).height()
-    })
+    });
     //console.log($(templates_img).eq(1));
     $(".templates-choose").find(".drag").off("mousedown");
     $(".addText").click(function(){
         addElement();
     });
-    var obj;
     $(document).on("dblclick","p.drag",function(){
         ShowElement(this);
-        obj = this;
-        var index = $(obj).index($(obj).parents(templates_img).find("p.drag"));
         $("input[type=color]").off("change");
         $("input[type=color]").change(function(){
-            console.log(obj);
-            $(obj).css("color",$(this).val());
-            $(templates_img).eq(0).find("p.drag").eq(index).css("color",$(this).val());
+            $(templates_img).eq(1).find("p.drag").eq(p_index).css("color",$(this).val());
+            $(templates_img).eq(0).find("p.drag").eq(p_index).css("color",$(this).val());
         });
         $("select").change(function(){
-            $(obj).css("font-family",$(this).find("option:selected").html());
-            $(obj).css("font-size",$(this).find("option:selected").html());
-            $(templates_img).eq(0).find("p.drag").eq(index).css("font-family",$(this).find("option:selected").html());
-            $(templates_img).eq(0).find("p.drag").eq(index).css("font-size",$(this).find("option:selected").html());
+            $(templates_img).eq(1).find("p.drag").eq(p_index).css("font-family",$(this).find("option:selected").html());
+            $(templates_img).eq(1).find("p.drag").eq(p_index).css("font-size",$(this).find("option:selected").html());
+            $(templates_img).eq(0).find("p.drag").eq(p_index).css("font-family",$(this).find("option:selected").html());
+            $(templates_img).eq(0).find("p.drag").eq(p_index).css("font-size",$(this).find("option:selected").html());
         });
-        $(document).on("click",".through",function(){
-            if($(obj).css("text-decoration")=="line-through"){
-                $(obj).css("text-decoration","none");
+        $(".through").off("click");
+        $(".through").on("click",function(){
+            if($(templates_img).eq(1).find("p.drag").eq(p_index).css("text-decoration")=="none"){
+                $(templates_img).eq(1).find("p.drag").eq(p_index).css("text-decoration","line-through");
+                $(templates_img).eq(0).find("p.drag").eq(p_index).css("text-decoration","line-through");
             }else{
-                $(obj).css("text-decoration","line-through");
+                $(templates_img).eq(1).find("p.drag").eq(p_index).css("text-decoration","none");
+                $(templates_img).eq(0).find("p.drag").eq(p_index).css("text-decoration","none");
             }
-            $(templates_img).eq(0).find("p.drag").eq(index).css("text-decoration","line-through");
         })
     });
 
@@ -501,110 +523,113 @@ $(function(){
 
     /*新建div*/
     $(".new-div").click(function(){
-        div = $("<div class='drag' onmousedown='righthit(this)'>");
+        div = $("<div class='drag' onmousedown='righthit(this)' onclick='dire(this)' ondblclick='delDire(this)'>");
         $(div).css({"position":"absolute","left":0,"top":"80%","background":"#ccc","height":"20%","width":"100%"}).appendTo($(templates_img)).on("click",function(){
-            obj = this;
-            dire(div);
-            var index = $(obj).index($(obj).parents(templates_img).find("div.drag"));
             $("input[type=color]").off("change").change(function(){
-                $(obj).css("background",$(this).val());
-                $(templates_img).eq(0).find("div.drag").eq(index).css("background",$(this).val());
+                $(templates_img).eq(1).find("div.drag").eq(div_index).css("background",$(this).val());
+                $(templates_img).eq(0).find("div.drag").eq(div_index).css("background",$(this).val());
             });
             $(".opa").change(function(){
-                $(obj).css("opacity",$(this).val()/100);
-                $(templates_img).eq(0).find("div.drag").eq(index).css("opacity",$(this).val()/100);
+                $(templates_img).eq(1).find("div.drag").eq(div_index).css("opacity",$(this).val()/100);
+                $(templates_img).eq(0).find("div.drag").eq(div_index).css("opacity",$(this).val()/100);
             });
-        }).on("dblclick",function(){
-            $("div[dire=true]").remove();
-        });
+        })
         $(div).off("mousedown");
     })
-    $(document).on("click",".templates-choose li",function(){
+    $(document).on("click",".templates-choose li",function(e){
         temp_index = $(this).index(".templates-choose li");
         $(".templates li").css("display","none");
         $(".templates li").eq(temp_index).css("display","block");
         $(".templates-choose li").css("border","none");
         $(this).css("border","1px solid #ccc");
-        ///*****取类名*****/
-        //var str = $(this).children()[0].className;
-        //templates_img = str.split(" ")[1];
         /****保存对象****/
         templates_img = $(".temp-img").parents("ul").find("li:nth-child("+(temp_index+1)+")").children();
         temp_img = $(templates_img).find("img");
-        /*厨师高度*/
-        $(templates_img).eq(1).css({
-            "height":$(temp_img).eq(1).height()
-        });
     });
     /*********新增模版**********/
     $(".add-temp").click(function(){
-        var html_li ='<div class="temp-img">' +
-            '<div class="drag-img"></div>' +
+        var height1 = $(templates_img).eq(0).height();
+        var height2 = $(templates_img).eq(1).height();
+        var html_li ='<div class="temp-img" style="height:'+height1+'px;">' +
+            '<div class="bg-img" onmousedown="righthit(this.childNodes)"></div>' +
             '</div>';
-        var html_li_1 ='<div class="temp-img">' +
-            '<div class="drag-img" onclick="dire(this)" ondblclick="delDire(this)"></div>' +
+        var html_li_1 ='<div class="temp-img" style="height:'+height2+'px;">' +
+            '<div class="bg-img" onmousedown="righthit(this.childNodes)"></div>' +
             '</div>';
-        $("<li>").html(html_li).appendTo($(this).prev());
+        $("<li onmousedown='righthit(this);'>").html(html_li).appendTo($(this).prev());
         $("<li>").html(html_li_1).appendTo(".templates");
     });
-    $(".templates-choose li").on("mousedown",function(){
-        var index = $(".templates-choose li").index($(this));
-        righthit(this);
-    })
 
-    //保存
-    $("#save").click(function(){
-
-            var width = $(".templates").find("li:visible").find("img").eq(0).width();
-            var height = $(".templates").find("li:visible").find(".drag-img").height();
-            var html = $(".templates").find("li:visible").find(".temp-img").prop("outerHTML");
-            alert("html:" + html);
-            alert("图片宽度:" + width + "图片高度:" + height );
-
-            if(html == null || html == ""){
-                isPost = false;
-                alert("请添加模板!");
-                return false;
-            }
-
-             if(isPost){
-                 $.ajax({
-                    url: "http://172.28.3.51:3008/cut", //Server script to process data
-                    //url: "http://172.28.3.18:3008/cut", //Server script to process data
-                    type: 'post',
-                    data: {
-                        html: '' +html,
-                        width:width,
-                        height:height
-                    },
-                    success: function(data) {
-                        templateSave(data.oss_url);
-                        console.log(JSON.stringify(data));
-                        url = data.oss_url;
-                        alert(data.oss_prefix + data.oss_url);
-                        window.open(data.shot_url,'_blank');
-
-                        //window.open(data.oss_prefix + data.oss_url,'_blank');
-                    },
-                    error: function(data, error, errorThrown) {
-                        if (data.status && data.status >= 400) {
-                            alert(data.responseText);
-                        } else {
-                            alert("Something went wrong");
-                        }
-                    }
-                 });
-              }
+    $(document).on("click","ul.templates .bg-img",function(){
+        //$("input[type=color]").click();
+        $("input[type=color]").change(function(){
+            $(templates_img).eq(1).find(".bg-img").css("background",$(this).val());
+            $(templates_img).eq(0).find(".bg-img").css("background",$(this).val());
         })
-
-    $("#nextStep").click(function(){
-       var sharedObject = window.dialogArguments;
-       var url = $(".templates").find("li:visible").find("img").eq(0).attr("src");
-       sharedObject = {};
-       sharedObject.url = url;
-       window.opener.updateThemeImg (sharedObject);
-       window.close();
+    })
+    $(".changewh").click(function(){
+        if(!(!$(".setwidth").val()&&!$(".setheight").val())){
+            $(templates_img).eq(1).css({
+                "width":$(".setwidth").val(),
+                "height":$(".setheight").val()
+            })
+        }
     })
 
+
+    //保存    Added by Tiffany Zhu
+        $("#save").click(function(){
+                var isPost = true;
+                var width = $(".templates").find("li:visible").find("img").eq(0).width();
+                var height = $(".templates").find("li:visible").find(".drag-img").height();
+                var html = $(".templates").find("li:visible").find(".temp-img").prop("outerHTML");
+                alert("html:" + html);
+                alert("图片宽度:" + width + "图片高度:" + height );
+
+                if(html == null || html == ""){
+                    isPost = false;
+                    alert("请添加模板!");
+                    return false;
+                }
+
+                 if(isPost){
+                     $.ajax({
+                        url: "http://172.28.3.51:3008/cut", //Server script to process data
+                        //url: "http://172.28.3.18:3008/cut", //Server script to process data
+                        type: 'post',
+                        data: {
+                            html: '' +html,
+                            width:width,
+                            height:height
+                        },
+                        success: function(data) {
+                            templateSave(data.oss_url);
+                            console.log(JSON.stringify(data));
+                            url = data.oss_url;
+                            alert(data.oss_prefix + data.oss_url);
+                            window.open(data.shot_url,'_blank');
+
+                            //window.open(data.oss_prefix + data.oss_url,'_blank');
+                        },
+                        error: function(data, error, errorThrown) {
+                            if (data.status && data.status >= 400) {
+                                alert(data.responseText);
+                            } else {
+                                alert("Something went wrong");
+                            }
+                        }
+                     });
+                  }
+            })
+
+        //下一步   Added by Tiffany Zhu
+        $("#nextStep").click(function(){
+           var sharedObject = window.dialogArguments;
+           var url = $(".templates").find("li:visible").find("img").eq(0).attr("src");
+           sharedObject = {};
+           sharedObject.url = url;
+           window.opener.updateThemeImg (sharedObject);
+           window.close();
+        })
 
 });
