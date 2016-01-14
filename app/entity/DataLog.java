@@ -13,8 +13,8 @@ public class DataLog implements Serializable {
     private String operateIp;   //操作ip
     private String operateType; //操作类型
     private String logContent;  //日志内容
-    private String originalData;//原数据
-    private String newlData;    //新数据
+    private String originData;//原数据
+    private String newData;    //新数据
     private String operateTime; //操作时间
 
     public DataLog() {
@@ -60,20 +60,20 @@ public class DataLog implements Serializable {
         this.logContent = logContent;
     }
 
-    public String getOriginalData() {
-        return originalData;
+    public String getOriginData() {
+        return originData;
     }
 
-    public void setOriginalData(String originalData) {
-        this.originalData = originalData;
+    public void setOriginData(String originData) {
+        this.originData = originData;
     }
 
-    public String getNewlData() {
-        return newlData;
+    public String getNewData() {
+        return newData;
     }
 
-    public void setNewlData(String newlData) {
-        this.newlData = newlData;
+    public void setNewData(String newData) {
+        this.newData = newData;
     }
 
     public String getOperateTime() {
@@ -92,20 +92,20 @@ public class DataLog implements Serializable {
                 ", operateIp='" + operateIp + '\'' +
                 ", operateType='" + operateType + '\'' +
                 ", logContent='" + logContent + '\'' +
-                ", originalData='" + originalData + '\'' +
-                ", newlData='" + newlData + '\'' +
+                ", originData='" + originData + '\'' +
+                ", newData='" + newData + '\'' +
                 ", operateTime='" + operateTime + '\'' +
                 '}';
     }
 
-    public DataLog(Long id, String operateUser, String operateIp, String operateType, String logContent, String originalData, String newlData, String operateTime) {
+    public DataLog(Long id, String operateUser, String operateIp, String operateType, String logContent, String originData, String newData, String operateTime) {
         this.id = id;
         this.operateUser = operateUser;
         this.operateIp = operateIp;
         this.operateType = operateType;
         this.logContent = logContent;
-        this.originalData = originalData;
-        this.newlData = newlData;
+        this.originData = originData;
+        this.newData = newData;
         this.operateTime = operateTime;
     }
 }

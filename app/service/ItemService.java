@@ -46,7 +46,18 @@ public interface ItemService {
 
     List<Item> itemSearch(Item item);
 
-    List<Long> itemSave(JsonNode json);
+    /**
+     * 录入或更新商品信息和库存信息
+     * @param json 商品和库存信息json串
+     * @param user 操作人员
+     * @param operateIp 操作人员ip
+     * @return
+     */
+    List<Long> itemSave(JsonNode json, String user, String operateIp);
+
+    Long itemInsert(Item item);
+
+    void itemUpdate(Item item);
 
     Item getItem(Long id);
 

@@ -1,17 +1,18 @@
 package modules;
 
-import com.google.inject.Inject;
 import com.google.inject.PrivateModule;
 import com.google.inject.Scopes;
-import com.google.inject.Singleton;
 import com.google.inject.name.Names;
+import mapper.*;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.guice.session.SqlSessionManagerProvider;
 import play.db.DBApi;
-import mapper.*;
 import service.*;
+
+import javax.inject.Inject;
 import javax.inject.Provider;
+import javax.inject.Singleton;
 import javax.sql.DataSource;
 
 /**
@@ -32,7 +33,7 @@ public class ShoppingDBModule extends PrivateModule {
                 bindDataSourceProviderType(ShoppingDataSourceProvider.class);
                 bindTransactionFactoryType(JdbcTransactionFactory.class);
 
-                //只针对shopping数据库的Mapper,不可以讲一个Mapper多Module进行Add
+                //只针对shopping数据库的Mapper,不可以将一个Mapper多Module进行Add
                 addMapperClass(OrderMapper.class);
                 addMapperClass(OrderShipMapper.class);
                 addMapperClass(OrderLineMapper.class);
