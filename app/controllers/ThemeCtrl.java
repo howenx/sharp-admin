@@ -211,17 +211,17 @@ public class ThemeCtrl extends Controller {
         for(Item item : itemList) {
             Object[] object = new Object[8];
             Logger.error(item.toString());
-            Logger.error(item.getMasterInvId().toString());
-            Inventory inventory = inventoryService.getInventory(item.getMasterInvId());
-            Logger.error(inventory.toString());
+            Logger.error(item.getId().toString());
+            //Inventory inventory = inventoryService.getMasterInventory(item.getId());
+            //Logger.error(inventory.toString());
             object[0] = item.getId();
             object[1] = item.getItemTitle();
             object[2] = item.getItemMasterImg();
             object[3] = item.getOnShelvesAt();
             object[4] = item.getState();
-            object[5] = inventory.getItemPrice();
-            object[6] = inventory.getItemSrcPrice();
-            object[7] = inventory.getItemDiscount();
+            //object[5] = inventory.getItemPrice();
+            //object[6] = inventory.getItemSrcPrice();
+            //object[7] = inventory.getItemDiscount();
             itList.add(object);
         }
         return ok(views.html.theme.thaddPop.render(itList,IMAGE_URL));

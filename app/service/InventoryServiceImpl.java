@@ -62,4 +62,13 @@ public class InventoryServiceImpl implements InventoryService {
         return  inventoryMapper.getAllInventories();
     }
 
+    /**
+     * 获取商品主sku Added by Tiffany Zhu 2016.01.14
+     * @param itemId
+     * @return
+     */
+    @Override
+    public Inventory getMasterInventory(Long itemId) {
+        return inventoryMapper.getMasterInventory(itemId);
+    }
 }

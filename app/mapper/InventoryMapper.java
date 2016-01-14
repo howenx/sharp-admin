@@ -30,4 +30,11 @@ public interface InventoryMapper {
 
     List<Inventory> getAllInventories();
 
+    /**
+     * 获取商品的主sku  Added by Tiffany ZHu 2016.01.14
+     * @param itemId
+     * @return
+     */
+    Inventory getMasterInventory(Long itemId);
+
 }

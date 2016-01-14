@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/templates.css">
     <script src="/assets/js/jquery-1.11.3.min.js"></script>
+    <!--<script src="js/angular.min.js"></script>-->
 </head>
 <body oncontextmenu="return false">
 <div class="container">
@@ -15,6 +16,7 @@
             <h2>选择模版</h2>
         </div>
         <div class="col-sm-10 btns">
+            <button type="button" class="btn btn-primary" id="createImg">生成图片</button>
             <button type="button" class="btn btn-primary" id="save">保存</button>
             <button type="button" class="btn btn-primary" id="nextStep">下一步</button>
         </div>
@@ -22,14 +24,8 @@
     <div class="row">
         <div class="col-sm-2">
             <ul class="templates-choose">
-               @for(template <- templateList){
-                <li>
-                    <div class="temp-img">
-                        <div class="drag-img">
-                            <img src="@url@template.getUrl()">
-                        </div>
-                    </div>
-                </li>
+                @for(template <- templateList){
+                   @Html(template.getNavigatorHtml())
                 }
             </ul>
             <button type="button" class="add-temp btn btn-primary">新增模版</button>
@@ -37,10 +33,9 @@
         <div class="col-sm-8">
             <ul class="templates">
                 @for(template <- templateList){
-                <li id="@template.getId()">
-                   @Html(template.getHtml())
-
-                </li>
+                    <li id="@template.getId()">
+                        @Html(template.getContentHtml())
+                    </li>
                 }
             </ul>
         </div>
@@ -48,17 +43,17 @@
             <form>
                 <div class="form-group">
                     <label>上传图片</label>
-                    <button type="button" class="form-control btn btn-primary" style="position: relative">
+                    <a class="form-control btn btn-primary" style="position: relative">
                         上传图片
                         <input type="file" class="upload">
-                    </button>
+                    </a>
                 </div>
                 <div class="form-group">
                     <label>添加图片</label>
-                    <button type="button" class="form-control btn btn-primary" style="position: relative">
+                    <a class="form-control btn btn-primary" style="position: relative">
                         添加图片
                         <input type="file" class="add-upload">
-                    </button>
+                    </a>
                 </div>
                 <!-- 新建div -->
                 <div class="form-group">
@@ -88,9 +83,23 @@
                 <div class="form-group">
                     <label>字体尺寸</label>
                     <select class="form-control font-siz">
+                        <option value="">10px</option>
+                        <option value="">11px</option>
+                        <option value="">12px</option>
                         <option value="">14px</option>
-                        <option value="">15px</option>
+                        <option value="">16px</option>
+                        <option value="">18px</option>
+                        <option value="">20px</option>
+                        <option value="">24px</option>
+                        <option value="">32px</option>
+                        <option value="" selected>36px</option>
                         <option value="">40px</option>
+                        <option value="">44px</option>
+                        <option value="">48px</option>
+                        <option value="">54px</option>
+                        <option value="">60px</option>
+                        <option value="">66px</option>
+                        <option value="">72px</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -103,11 +112,14 @@
                 </div>
                 <div class="form-group">
                     <label>宽度</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control setwidth">
                 </div>
                 <div class="form-group">
                     <label>高度</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control setheight">
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary changewh">改变宽高</button>
                 </div>
             </form>
         </div>

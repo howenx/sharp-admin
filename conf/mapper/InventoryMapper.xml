@@ -76,4 +76,12 @@
         ORDER BY id
     </select>
 
+    <select id="getMasterInventory" resultType="entity.Inventory" parameterType="java.lang.Long">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where item_id=${value} and or_master_inv = true
+    </select>
+
 </mapper>

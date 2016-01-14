@@ -253,7 +253,17 @@ $(function () {
 
 })
 
+//返回模板中选中的图片 Added by Tiffany Zhu
 function updateThemeImg(obj){
-    $("#themeImg").css({"background-image":"url("+ obj.url +")","background-size":"cover"});
-
+    $("#themeImg").find("img").attr("src",obj.url);
+    //$("#themeImg").css({"background-image":"url("+ obj.url +")","background-size":"cover"});
+    if($("#themeImg").find("input").length != 0){
+            $("#themeImg").find("input").remove();
+        }
+    var input = document.createElement("input");
+    input.id = obj.url;
+    input.type = "hidden";
+    input.width = obj.width;
+    input.height = obj.height;
+    $("#themeImg").append(input);
 }

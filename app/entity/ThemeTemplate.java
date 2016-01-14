@@ -7,24 +7,27 @@ import java.io.Serializable;
  */
 public class ThemeTemplate implements Serializable {
     private Long id;
-    private String html;
     private String url;
+    private String navigatorHtml;
+    private String contentHtml;
 
     public ThemeTemplate() {
     }
 
-    public ThemeTemplate(Long id, String html, String url) {
+    public ThemeTemplate(Long id, String url, String navigatorHtml, String contentHtml) {
         this.id = id;
-        this.html = html;
         this.url = url;
+        this.navigatorHtml = navigatorHtml;
+        this.contentHtml = contentHtml;
     }
 
     @Override
     public String toString() {
         return "ThemeTemplate{" +
                 "id=" + id +
-                ", html='" + html + '\'' +
                 ", url='" + url + '\'' +
+                ", navigatorHtml='" + navigatorHtml + '\'' +
+                ", contentHtml='" + contentHtml + '\'' +
                 '}';
     }
 
@@ -36,19 +39,27 @@ public class ThemeTemplate implements Serializable {
         this.id = id;
     }
 
-    public String getHtml() {
-        return html;
-    }
-
-    public void setHtml(String html) {
-        this.html = html;
-    }
-
     public String getUrl() {
         return url;
     }
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getNavigatorHtml() {
+        return navigatorHtml;
+    }
+
+    public void setNavigatorHtml(String navigatorHtml) {
+        this.navigatorHtml = navigatorHtml;
+    }
+
+    public String getContentHtml() {
+        return contentHtml;
+    }
+
+    public void setContentHtml(String contentHtml) {
+        this.contentHtml = contentHtml;
     }
 }
