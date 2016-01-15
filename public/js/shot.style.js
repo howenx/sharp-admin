@@ -453,24 +453,7 @@ $(function() {
             alert("请添加标签!");
             return false;
         }
-        //检查主商品是否重复
-        var itemFlag = false;
-        var items = document.getElementById("sort");
-        var itemCount = items.getElementsByTagName("tr").length;
-        for(i=1;i<itemCount;i++){
-            for(j=1;j<itemCount;j++){
-                if(i != j && items.rows[i].cells[2].innerText == items.rows[j].cells[2].innerText){
-                    items.rows[i].style.backgroundColor = "skyblue";
-                    items.rows[j].style.backgroundColor = "skyblue";
-                    itemFlag = true;
-                }
-            }
-        }
-        if(itemFlag){
-            isPost = false;
-            alert("有重复的商品ID!");
-            return false;
-        }
+
         var theme = new Object();
         //主商品ID
         //var masterItemId = parseInt(document.getElementById("sort").rows[1].cells[2].innerHTML);

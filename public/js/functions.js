@@ -6,7 +6,6 @@ var drag_img_index,
     div_index,
     p_index;
 var div,nw, w,sw, s,se, e,ne,n;
-$(".templates-choose").find(".temp-img").height($(".templates-choose").find(".temp-img").children().height());
 $(".upload").change(function(){
     var obj = $(templates_img).find(".bg-img");
     console.log(obj);
@@ -21,8 +20,6 @@ $(".upload").change(function(){
         img.file = file;
         obj[i].appendChild(img);
     }
-    console.log(file.name);
-
     var formdata = new FormData();
     formdata.append("photo", file);
     formdata.append("params", "minify");
@@ -47,6 +44,8 @@ $(".upload").change(function(){
         }
     }
     http.send(formdata);
+    $(obj).parent().height("100%");
+    $(this).val("");
 });
 $(".add-upload").change(function(){
     var obj = $("<div class='drag-img' onmousedown='righthit(this)'>").css({"width":"50%","top":0,"left":0}).appendTo($(templates_img));
@@ -89,10 +88,17 @@ $(".add-upload").change(function(){
         }
     }
     http.send(formdata);
+    $(this).val("");
 })
 /*拖拽*/
 $(document).on("mousedown",function(e){
     var obj = e.target;
+    if($(obj).parents("ul")[0].className=="templates-choose"){
+        return;
+    }
+    if($(templates_img).find(".bg-img").children().length==0){
+        var bgnheight = $(templates_img).eq(1).height();
+    }
     if(obj.tagName=="IMG"){
         drag_img_index = $(obj).parents(".temp-img").find(".drag-img").index($(obj).parent());
     }else if(obj.className=="drag"&&obj.tagName=="DIV"){
@@ -106,10 +112,10 @@ $(document).on("mousedown",function(e){
     var xx = x - $(obj).offset().left;
     var yy = y - $(obj).offset().top;
     /*div old属性*/
-    var div_width = $(div).width();
-    var div_height = $(div).height();
-    var div_left = parseInt($(div).css("left"));
-    var div_top = parseInt($(div).css("top"));
+    var div_width = $(templates_img).eq(1).find("div.drag").eq(div_index).width();
+    var div_height = $(templates_img).eq(1).find("div.drag").eq(div_index).height();
+    var div_left = parseInt($(templates_img).eq(1).find("div.drag").eq(div_index).css("left"));
+    var div_top = parseInt($(templates_img).eq(1).find("div.drag").eq(div_index).css("top"));
     /*drag-img属性*/
     var img_height = $(obj).parent().height();
     var img_width = $(obj).parent().width();
@@ -157,7 +163,7 @@ $(document).on("mousedown",function(e){
             if($(obj).parent()[0].className=="drag"){
                 /******* div大小变化 ******/
                 $(obj).parent().css({"height":div_height+(y-yyy),"top":div_top-(y-yyy)});
-                $(templates_img).eq(0).find("div.drag").css({
+                $(templates_img).eq(0).find("div.drag").eq(div_index).css({
                     "height":(div_height+(y-yyy))*(xtemp_width/temp_width),
                     "top":(div_top-(y-yyy))*(xtemp_width/temp_width)
                 });
@@ -182,7 +188,7 @@ $(document).on("mousedown",function(e){
                     "width":div_width-(xxx-x),
                     "left":div_left+(xxx-x)
                 });
-                $(templates_img).eq(0).find("div.drag").css({
+                $(templates_img).eq(0).find("div.drag").eq(div_index).css({
                     "width":(div_width-(xxx-x))*(xtemp_width/temp_width),
                     "left":(div_left+(xxx-x))*(xtemp_width/temp_width)
                 });
@@ -190,7 +196,7 @@ $(document).on("mousedown",function(e){
                 /***图片大小变化***/
                 $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).css({
                     "width":ximg_width-(xxx-x)*(ximg_width/img_width),
-                    "height":ximg_height,
+                    "height":img_height*(ximg_width/img_width),
                     "left":(img_left+xxx-x)*(ximg_width/img_width)
                 });
                 $(obj).parent().css({
@@ -203,7 +209,7 @@ $(document).on("mousedown",function(e){
             if($(obj).parent()[0].className=="drag"){
                 /******* div大小变化 ******/
                 $(obj).parent().css({"height":div_height+(yyy-y)});
-                $(templates_img).eq(0).find("div.drag").css({
+                $(templates_img).eq(0).find("div.drag").eq(div_index).css({
                     "height":(div_height+(yyy-y))*(xtemp_width/temp_width)
                 })
             }else if($(obj).parent()[0].className=="drag-img"){
@@ -216,19 +222,27 @@ $(document).on("mousedown",function(e){
                     "width":img_width,
                     "height":img_height+(yyy-y)
                 })
+            }else if($(obj).parent().find(".bg-img").children().length==0){
+                /******单独写的高度*****/
+                $(obj).parent().css({
+                    "height":bgnheight+(yyy-y),
+                })
+                $(templates_img).eq(0).css({
+                    "height":(bgnheight+(yyy-y))*(xtemp_width/temp_width),
+                })
             }
         }else if(obj.className=="e"){
             if($(obj).parent()[0].className=="drag"){
                 /******* div大小变化 ******/
                 $(obj).parent().css({"width":div_width+(xxx-x)});
-                $(templates_img).eq(0).find("div.drag").css({
+                $(templates_img).eq(0).find("div.drag").eq(div_index).css({
                     "width":(div_width+(xxx-x))*(xtemp_width/temp_width)
                 })
             }else if($(obj).parent()[0].className=="drag-img"){
                 /***图片大小变化***/
                 $(templates_img).eq(0).find(".drag-img").eq(drag_img_index).css({
                     "width":ximg_width-(x-xxx)*(ximg_width/img_width),
-                    "height":ximg_height,
+                    "height":img_height*(ximg_width/img_width),
                 });
                 $(obj).parent().css({
                     "width":img_width-(x-xxx),
@@ -244,7 +258,7 @@ $(document).on("mousedown",function(e){
                     "top":div_top+(div_height-(div_width-(xxx-x))*(div_height/div_width)),
                     "left":div_left+(xxx-x)
                 });
-                $(templates_img).eq(0).find("div.drag").css({
+                $(templates_img).eq(0).find("div.drag").eq(div_index).css({
                     "width":(div_width-(xxx-x))*(xtemp_width/temp_width),
                     "height":(div_width-(xxx-x))*(div_height/div_width)*(xtemp_width/temp_width),
                     "top":(div_top+(div_height-(div_width-(xxx-x))*(div_height/div_width)))*(xtemp_width/temp_width),
@@ -273,7 +287,7 @@ $(document).on("mousedown",function(e){
                     "height":(div_width+(xxx-x))*(div_height/div_width),
                     "top":div_top-(div_height-(div_width-(xxx-x))*(div_height/div_width))
                 });
-                $(templates_img).eq(0).find("div.drag").css({
+                $(templates_img).eq(0).find("div.drag").eq(div_index).css({
                     "width":(div_width+(xxx-x))*(xtemp_width/temp_width),
                     "height":(div_width+(xxx-x))*(div_height/div_width) *(xtemp_width/temp_width),
                     "top":(div_top-(div_height-(div_width-(xxx-x))*(div_height/div_width)))*(xtemp_width/temp_width),
@@ -299,7 +313,7 @@ $(document).on("mousedown",function(e){
                     "height":(div_width-(xxx-x))*(div_height/div_width),
                     "left":div_left+(xxx-x)
                 });
-                $(templates_img).eq(0).find("div.drag").css({
+                $(templates_img).eq(0).find("div.drag").eq(div_index).css({
                     "width":(div_width-(xxx-x))*(xtemp_width/temp_width),
                     "height":(div_width-(xxx-x))*(div_height/div_width)*(xtemp_width/temp_width),
                     "left":(div_left+(xxx-x))*(xtemp_width/temp_width),
@@ -324,7 +338,7 @@ $(document).on("mousedown",function(e){
                     "width":div_width+(xxx-x),
                     "height":(div_width+(xxx-x))*(div_height/div_width)
                 });
-                $(templates_img).eq(0).find("div.drag").css({
+                $(templates_img).eq(0).find("div.drag").eq(div_index).css({
                     "width":(div_width+(xxx-x))*(xtemp_width/temp_width),
                     "height":(div_width+(xxx-x))*(div_height/div_width)*(xtemp_width/temp_width),
                 });
@@ -362,22 +376,23 @@ function righthit(element){
         $(document).off("click",".right-del");
         $(document).on("click",".right-del",function(){
             if(obj.tagName=="P"&&obj.className=="drag"){
-                var index = $(obj).index($(obj).parent().find("p.drag"));
-                console.log(index)
-                $(".templates-choose li").eq(temp_index).find("p.drag").eq(index).remove();
+                $(".templates-choose li").eq(temp_index).find("p.drag").eq(p_index).remove();
             }else if($(obj).parent()[0].className=="drag-img"){
-                var index = $(obj).parents("li").find(".drag-img").index($(obj).parent());
-                $(".templates-choose li").eq(temp_index).find(".drag-img").eq(index).remove();
+                $(".templates-choose li").eq(temp_index).find(".drag-img").eq(drag_img_index).remove();
             }else if(obj.className=="drag"&&obj.tagName=="DIV"){
-                var index = $(obj).index($(obj).parent().find("div.drag"));
-                $(".templates-choose li").eq(temp_index).find("div.drag").eq(index).remove();
+                $(".templates-choose li").eq(temp_index).find("div.drag").eq(div_index).remove();
             }else if($(obj).parent().parent().parent().parent()[0].className=="templates"){
                 var index = $(obj).parents("ul.templates").find(".bg-img").index($(obj).parent());
                 $(".templates-choose").find(".bg-img").eq(index).children().remove();
             }else if($(obj).parent().parent().parent().parent()[0].className=="templates-choose"){
                 var index = $(obj).parents("ul.templates-choose").find(".bg-img").index($(obj).parent());
                 $(".templates").find("li").eq(index).remove();
-                alert(1)
+
+                $(".templates-choose").find("li").css("border","none");
+                $(".templates-choose").find("li").eq(index+1).css("border","1px solid #ccc");
+                //if(index!==0){
+                //    $(".templates").find("li").eq(index-1).css("display","block");
+                //}
             }
             $(element).remove();
         })
@@ -395,6 +410,7 @@ function ShowElement(element) {
 //为新增元素添加类型
     newobj.onblur = function(){
         element.innerHTML = this.value ? this.value : oldhtml;
+        $(templates_img).eq(0).find("p.drag").eq(p_index).html(this.value ? this.value : oldhtml);
 //当触发时判断新增元素值是否为空，为空则不修改，并返回原有值
     }
     element.innerHTML = '';
@@ -446,15 +462,8 @@ function dire(obj){
 function delDire(obj){
     $(obj).find("div[dire=true]").remove();
 }
-
 /*$(function(){})*/
 $(function(){
-    /***关闭***/
-    $("ul.templates").find(".temp-img").css({
-        "height":$(temp_img).eq(1).height()
-    });
-    //console.log($(templates_img).eq(1));
-    $(".templates-choose").find(".drag").off("mousedown");
     $(".addText").click(function(){
         addElement();
     });
@@ -515,12 +524,21 @@ $(function(){
     /*********新增模版**********/
     $(".add-temp").click(function(){
         var height1 = $(templates_img).eq(0).height();
+        var width1 = $("ul.templates-choose").width();
         var height2 = $(templates_img).eq(1).height();
+        var width2 = $("ul.templates").width();
+        if(height1==null||height2==null){
+            height1 = width1/1.5;
+            height2 = width2/1.5;
+        }
+
         var html_li ='<div class="temp-img" style="height:'+height1+'px;">' +
-            '<div class="bg-img" onmousedown="righthit(this.childNodes)"></div>' +
+            '<div class="bg-img" onmousedown="righthit(this.childNodes)">' +
+            '</div>' +
             '</div>';
         var html_li_1 ='<div class="temp-img" style="height:'+height2+'px;">' +
-            '<div class="bg-img" onmousedown="righthit(this.childNodes)"></div>' +
+            '<div class="bg-img" onmousedown="righthit(this.childNodes)">' +
+            '</div>' +
             '</div>';
         $("<li onmousedown='righthit(this);'>").html(html_li).appendTo($(this).prev());
         $("<li>").html(html_li_1).appendTo(".templates");
@@ -541,130 +559,138 @@ $(function(){
             })
         }
     })
+    $("ul.templates").on("click",$(templates_img).find(".bg-img"),function(){
+        if($(templates_img).find(".bg-img").children().length==0){
+            dire($(templates_img).eq(1));
+        }
+    }).on("dblclick",$(templates_img).find(".bg-img"),function(){
+        if($(templates_img).find(".bg-img").children().length==0){
+            delDire($(templates_img).eq(1));
+        }
+    })
 
+    //生成图片    Added by Tiffany Zhu
+            $("#createImg").click(function(){
+                    var isPost = true;
+                    var width = $(".templates").find("li:visible").find(".temp-img").width();
+                    var height = $(".templates").find("li:visible").find(".temp-img").height();
+                    var html = $(".templates").find("li:visible").find(".temp-img").prop("outerHTML");
+                    alert("html:" + html);
+                    alert("图片宽度:" + width + "图片高度:" + height );
 
-        //生成图片    Added by Tiffany Zhu
-        $("#createImg").click(function(){
-                var isPost = true;
-                var width = $(".templates").find("li:visible").find(".temp-img").width();
-                var height = $(".templates").find("li:visible").find(".temp-img").height();
-                var html = $(".templates").find("li:visible").find(".temp-img").prop("outerHTML");
-                alert("html:" + html);
-                alert("图片宽度:" + width + "图片高度:" + height );
-
-                if(html == null || html == ""){
-                    isPost = false;
-                    alert("请添加模板!");
-                    return false;
-                }
-                 if(isPost){
-                     $.ajax({
-                        url: "http://172.28.3.51:3008/cut", //Server script to process data
-                        //url: "http://172.28.3.18:3008/cut", //Server script to process data
-                        type: 'post',
-                        data: {
-                            html: '' +html,
-                            width:width,
-                            height:height
-                        },
-                        success: function(data) {
-                            console.log(JSON.stringify(data));
-                            var input = document.createElement("input");
-                            input.id = data.oss_prefix + data.oss_url;
-                            input.type = "hidden";
-                            $(".templates-choose").find("li").each(function(){
-                                if($(this).css("border-top-style") == "solid"){
-                                    $(this).append(input);
+                    if(html == null || html == ""){
+                        isPost = false;
+                        alert("请添加模板!");
+                        return false;
+                    }
+                     if(isPost){
+                         $.ajax({
+                            url: "http://172.28.3.51:3008/cut", //Server script to process data
+                            //url: "http://172.28.3.18:3008/cut", //Server script to process data
+                            type: 'post',
+                            data: {
+                                html: '' +html,
+                                width:width,
+                                height:height
+                            },
+                            success: function(data) {
+                                console.log(JSON.stringify(data));
+                                var input = document.createElement("input");
+                                input.id = data.oss_prefix + data.oss_url;
+                                input.type = "hidden";
+                                $(".templates-choose").find("li").each(function(){
+                                    if($(this).css("border-top-style") == "solid"){
+                                        $(this).append(input);
+                                    }
+                                })
+                                alert(data.oss_prefix + data.oss_url);
+                                window.open(data.shot_url,'_blank');
+                                //window.open(data.oss_prefix + data.oss_url,'_blank');
+                            },
+                            error: function(data, error, errorThrown) {
+                                if (data.status && data.status >= 400) {
+                                    alert(data.responseText);
+                                } else {
+                                    alert("Something went wrong");
                                 }
-                            })
-                            alert(data.oss_prefix + data.oss_url);
-                            window.open(data.shot_url,'_blank');
-                            //window.open(data.oss_prefix + data.oss_url,'_blank');
-                        },
-                        error: function(data, error, errorThrown) {
-                            if (data.status && data.status >= 400) {
-                                alert(data.responseText);
-                            } else {
-                                alert("Something went wrong");
                             }
+                         });
+                      }
+                })
+            //保存 Added by Tiffany Zhu
+            $("#save").click(function(){
+                var template = {};
+                var url = "";
+                var navigatorHtml = "";
+                var id = 0;
+                $(".templates-choose").find("li").each(function(){
+                    if($(this).css("border-top-style") == "solid"){
+                        if($(this).find("input").length != 0){
+                            url = $(this).find("input").attr("id");
                         }
-                     });
-                  }
-            })
-        //保存 Added by Tiffany Zhu
-        $("#save").click(function(){
-            var template = {};
-            var url = "";
-            var navigatorHtml = "";
-            var id = 0;
-            $(".templates-choose").find("li").each(function(){
-                if($(this).css("border-top-style") == "solid"){
-                    if($(this).find("input").length != 0){
-                        url = $(this).find("input").attr("id");
+                        navigatorHtml = $(this).html();
                     }
-                    navigatorHtml = $(this).html();
+                })
+
+                if($(".templates").find("li:visible").attr("id") != null){
+                    id = Number($(".templates").find("li:visible").attr("id"));
                 }
+
+                template.id = id;
+                template.url = url.substring(url.indexOf('/',url.indexOf('/')+2)+1);
+                template.navigatorHtml = navigatorHtml;
+                template.contentHtml = $(".templates").find("li:visible").find(".temp-img").prop("outerHTML");
+
+                $.ajax({
+                   type :  "POST",
+                   url : "/topic/templates/save",
+                   contentType: "application/json; charset=utf-8",
+                   data : JSON.stringify(template),
+                   error : function(request) {
+                     if (window.lang = 'cn') {
+                         $('#js-userinfo-error').text('保存失败');
+                     } else {
+                         $('#js-userinfo-error').text('Save error');
+                     }
+                         setTimeout("$('#js-userinfo-error').text('')", 2000);
+                     },
+                   success: function(data) {
+                     alert("Save Success");
+                     if (window.lang = 'cn') {
+                         $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                     } else {
+                         $('#js-userinfo-error').text('Save success');
+                     }
+                     //setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
+
+                   }
+                });
             })
 
-            if($(".templates").find("li:visible").attr("id") != null){
-                id = Number($(".templates").find("li:visible").attr("id"));
-            }
+            //下一步   Added by Tiffany Zhu
+            $("#nextStep").click(function(){
+               var sharedObject = window.dialogArguments;
+               var isNext = true;
+               var url = "";
+               $(".templates-choose").find("li").each(function(){
+                   if($(this).css("border-top-style") == "solid"){
+                        url = $(this).find("input").attr("id");
+                        if(url == "" || url == null){
+                        alert("请先生成图片!");
+                          isNext = false;
+                        }
+                   }
+               })
 
-            template.id = id;
-            template.url = url.substring(url.indexOf('/',url.indexOf('/')+2)+1);
-            template.navigatorHtml = navigatorHtml;
-            template.contentHtml = $(".templates").find("li:visible").find(".temp-img").prop("outerHTML");
-
-            $.ajax({
-               type :  "POST",
-               url : "/topic/templates/save",
-               contentType: "application/json; charset=utf-8",
-               data : JSON.stringify(template),
-               error : function(request) {
-                 if (window.lang = 'cn') {
-                     $('#js-userinfo-error').text('保存失败');
-                 } else {
-                     $('#js-userinfo-error').text('Save error');
-                 }
-                     setTimeout("$('#js-userinfo-error').text('')", 2000);
-                 },
-               success: function(data) {
-                 alert("Save Success");
-                 if (window.lang = 'cn') {
-                     $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
-                 } else {
-                     $('#js-userinfo-error').text('Save success');
-                 }
-                 //setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
-
+               if(isNext){
+                    var width = $(".templates").find("li:visible").find(".temp-img").width();
+                    var height = $(".templates").find("li:visible").find(".temp-img").height();
+                    sharedObject = {};
+                    sharedObject.url = url;
+                    sharedObject.width = width;
+                    sharedObject.height = height;
+                    window.opener.updateThemeImg (sharedObject);
+                    window.close();
                }
-            });
-        })
-
-        //下一步   Added by Tiffany Zhu
-        $("#nextStep").click(function(){
-           var sharedObject = window.dialogArguments;
-           var isNext = true;
-           var url = "";
-           $(".templates-choose").find("li").each(function(){
-               if($(this).css("border-top-style") == "solid"){
-                    url = $(this).find("input").attr("id");
-                    if(url == "" || url == null){
-                    alert("请先生成图片!");
-                      isNext = false;
-                    }
-               }
-           })
-
-           if(isNext){
-                var width = $(".templates").find("li:visible").find(".temp-img").width();
-                var height = $(".templates").find("li:visible").find(".temp-img").height();
-                sharedObject = {};
-                sharedObject.url = url;
-                sharedObject.width = width;
-                sharedObject.height = height;
-                window.opener.updateThemeImg (sharedObject);
-                window.close();
-           }
-        })
+            })
 });
