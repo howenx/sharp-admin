@@ -1,0 +1,130 @@
+@import play.i18n._
+@(lang:String="cn", pageSize:Integer, countNum:Integer, pageCount:Integer, logList:List[entity.DataLog],user:entity.User)
+@scripts = {
+<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/search.js"></script>
+<!-- 此为调用分页所提供的函数名前缀 -->
+<script>window.search_args = 'loglist'</script>
+<script>
+        $(function () {
+            $('#datetimepicker-startAt').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+            $('#datetimepicker-endAt').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+</script>
+}
+@import java.lang.String; val title="日志查询"
+
+@layout(lang=lang, title=title,user=user)(scripts) {
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@user.nickname</span>
+        <span class="icon-path">&gt;</span>
+        <span>操作日志</span>
+    </div>
+</div>
+<div class="content-1">
+    <div class="page-title">
+        <span class="title-name">操作日志</span>
+    </div>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <!--id-->
+            <label class="col-sm-1 control-label">ID</label>
+            <div class="col-sm-3">
+                <input id = "log-id" type="number" min="10000" max="99999999" class="form-control"/>
+            </div>
+            <!--操作人员-->
+            <label class="col-sm-1 control-label">操作人员</label>
+            <div class="col-sm-3">
+                <input id = "operate-user" type="text" class="form-control"/>
+            </div>
+            <!--操作类型-->
+            <label class="col-sm-1 control-label">操作类型</label>
+            <div class="col-sm-3">
+                <input id = "operate-type" type="text" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <!--开始-->
+            <label class="col-sm-1 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition3")</label>
+
+            <div class="col-sm-3">
+                <div id="datetimepicker-startAt" class="input-group date">
+                    <input id = "log-form-starAt" class="form-control col-sm-2"  type="text">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+            <!--结束-->
+            <label class="col-sm-1 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition4")</label>
+            <div class="col-sm-3">
+                <div id="datetimepicker-endAt" class="input-group date">
+                    <input id = "log-form-endAt" class="form-control col-sm-2"  type="text">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-s">
+            <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
+            <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
+        </div>
+    </form>
+    <div class="table-content">
+        <!--id必须为tb-topic 公用js需要使用-->
+        <table id="tb-topic" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                <th>操作人员</th>
+                <th>操作IP</th>
+                <th>操作类型</th>
+                <th>日志内容</th>
+                <th>操作时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            @for(dataLog <- logList){
+            <!--必须使用tb-list-data类名，公用-->
+            <tr class = "tb-list-data">
+                <td><a href="/@lang/log/findLog/@dataLog.getId()">@dataLog.getId()</a></td>
+                <td>@dataLog.getOperateUser()</td>
+                <td>@dataLog.getOperateIp()</td>
+                <td>@dataLog.getOperateType()</td>
+                <td>@dataLog.getLogContent()</td>
+                <td>@(dataLog.getOperateTime().toString().substring(0,16))</td>
+            </tr>
+            }
+            <tr id="nodata-td" style="display:none;"><td colspan="9">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            </tbody>
+        </table>
+
+        <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
+        <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
+        <div class="paging">
+            <ul class="pagination">
+                <li class="prev"><a href="javascript:void(0)">&laquo;</a></li>
+                <li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>
+                @for(count <- 1 until pageCount){
+                <li class="page-num"><a href="javascript:void(0)">@(count+1)</a></li>
+                }
+                <li class="next"><a href="javascript:void(0)">&raquo;</a></li>
+            </ul>
+        </div>
+        <!-- 公用模块,直接拷贝-->
+    </div>
+</div>
+}

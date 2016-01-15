@@ -22,7 +22,7 @@ GET             /assets/*file                 controllers.Assets.versioned(path=
 
 
 
-# Theme--->topic,为了不使url暴露代码内部用名
+# Theme--->topic, 主题 为了不使url暴露代码内部用名
 GET             /topic/slider                                               controllers.ThemeCtrl.slider(lang = "cn")
 GET             /$lang<(cn|en|kr)>/topic/slider                             controllers.ThemeCtrl.slider(lang)
 GET             /topic/add                                                  controllers.ThemeCtrl.thadd(lang = "cn")
@@ -52,7 +52,7 @@ POST            /$lang<(cn|en|kr)>/topic/templates/save                     cont
 
 
 
-#Item -----> commodity,简写comm
+#Item -----> commodity,简写comm 商品
 GET             /getSubcates                                                controllers.ItemCtrl.getSubCategory
 GET             /comm/search                                                controllers.ItemCtrl.itemList(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.itemList(lang)
@@ -124,7 +124,7 @@ POST            /comm/brand/brandSave                                       cont
 
 
 
-#cates -->cate 商品分类
+#cates -->cate 商品类别
 GET             /comm/cate/search                                           controllers.ItemCtrl.cateList(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/cate/search                         controllers.ItemCtrl.cateList(lang)
 GET             /comm/cate/add                                              controllers.ItemCtrl.cateAdd(lang ="cn")
@@ -177,10 +177,19 @@ GET             /$lang<(cn|en|kr)>/coup/add                                contr
 GET             /coup/add/popup                                            controllers.CoupCtrl.coupaddPop()
 POST            /coup/coupSave                                             controllers.CoupCtrl.coupSave
 
+#edit   编辑器
+GET             /editorController			                                controllers.EditorApplication.editorController()
+POST            /editorController			                                controllers.EditorApplication.editorController()
+GET             /editor						                                controllers.EditorApplication.editor()
 
-GET     /editorController			controllers.EditorApplication.editorController()
-POST    /editorController			controllers.EditorApplication.editorController()
-GET     /editor						controllers.EditorApplication.editor()
+#DataLog    --> log 日志
+GET             /log/search                                                 controllers.DataLogCtrl.dataLogSearch(lang = "cn")
+GET             /$lang<(cn|en|kr)>/log/search                               controllers.DataLogCtrl.dataLogSearch(lang)
+POST            /log/search/$pageNum<[0-9]+>                                controllers.DataLogCtrl.dataLogSearchAjax(lang ="cn", pageNum:Int)
+POST            /$lang<(cn|en|kr)>/log/search/$pageNum<[0-9]+>              controllers.DataLogCtrl.dataLogSearchAjax(lang, pageNum:Int)
+GET             /log/findLog/:id                                            controllers.DataLogCtrl.findDataLogById(lang = "cn", id:Long)
+GET             /$lang<(cn|en|kr)>/log/findLog/:id                          controllers.DataLogCtrl.findDataLogById(lang, id:Long)
+
 
 
 
