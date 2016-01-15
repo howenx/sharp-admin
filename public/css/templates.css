@@ -14,7 +14,7 @@ ul,li{
     width: 100%;
 }
 .btns{
-    width: 270px;
+    width: 300px;
     padding-top: 20px;float: right;
 }
 /********* templates-choose *********/
@@ -31,7 +31,8 @@ ul.templates-choose li:nth-of-type(1){
     border: 1px solid #ccc;
 }
 ul.templates-choose li img{
-    width: 100%;height: 100%;
+    width: 100%;
+    height: 100%;
 }
 /********* templates *********/
 ul.templates{
@@ -48,11 +49,12 @@ ul.templates>li:not(:nth-child(1)){
     display: none;
 }
 ul.templates>li .temp-img{
-    width: 100%;height: 100%;position: relative;
+    width: 100%;position: relative;
     background: #fff;border: 1px solid #ccc;
 }
 ul.templates>li img{
-    width: 100%;height: 100%;
+    width: 100%;
+    height: 100%;
 }
 /*input*/
 .upload,.add-upload{
@@ -65,13 +67,16 @@ ul.templates>li img{
 }
 /*** .drag **/
 .templates-choose li p.drag{
+    word-wrap: break-word;
+    white-space:nowrap;
     transform-origin:left top;
-    transform: scale(0.21,0.21);
+    transform: scale(0.2265,0.2265);
 }
 ul.templates p{
     display: inline-block;cursor:move;
     position: absolute;top: 50%;left: 50%;
     word-wrap: break-word;
+    white-space:nowrap;
 }
 ul.templates .drag,ul.templates .drag-img{
     position: absolute;top: 0;left: 0;
@@ -86,5 +91,5 @@ ul.templates-choose .drag,ul.templates-choose .drag-img{
     margin-left: 30%;
 }
 ul.templates-choose .bg-img,ul.templates .bg-img{
-    width: 100%;height: 100%;
+    width: 100%;
 }
