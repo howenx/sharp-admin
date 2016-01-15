@@ -514,11 +514,8 @@ $(function(){
     });
     /*********新增模版**********/
     $(".add-temp").click(function(){
-        //var height1 = $(templates_img).eq(0).height();
-        //var height2 = $(templates_img).eq(1).height();
-        var height1 = 116;
-        var height2 = 519;
-
+        var height1 = $(templates_img).eq(0).height();
+        var height2 = $(templates_img).eq(1).height();
         var html_li ='<div class="temp-img" style="height:'+height1+'px;">' +
             '<div class="bg-img" onmousedown="righthit(this.childNodes)"></div>' +
             '</div>';
