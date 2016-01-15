@@ -8,9 +8,27 @@
 <script type="text/javascript">
     $(function(){
         var sharedObject = window.dialogArguments;
+
+        if(sharedObject.flag == null){
+            var selected_items = sharedObject.selected_items;
+            for(i=0;i<selected_items.length;i++){
+                $(".table").find("tr").each(function(){
+                    var id = $(this).find("td:eq(1)").text();
+                    if(selected_items[i] == id){
+                        $(this).find("td:eq(0)").find("input").attr("disabled",'true');
+                        $(this).css("background","#f5f5f5");
+                    }
+                })
+            }
+
+        }
+
+
         if (sharedObject.flag) {
             $("input[type=checkbox]").attr('type','radio');
         }
+
+
         $(".return").click(function(){
             var id=$("input[type=checkbox]:checked").parents("tr");
             $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo(id);
@@ -19,9 +37,13 @@
             if (window.showModalDialog) {
                 var sharedObject = {};
                 sharedObject.id = id;
-                if(lable_id.value!=""){
+
+
+                if(lable_id != null && lable_id.value!=""){
                     sharedObject.lable_id = lable_id;
                 }
+
+
                 window.returnValue = sharedObject;
             }
             else {

@@ -192,7 +192,7 @@ $(function() {
                 }
                 $('#tb-topic').find('tbody').append('' +
                     '<tr class="tb-list-data">' +
-                    '<td><a href="/' + window.lang +'/comm/order/detail/' + $(this)[0].orderId + '" target="_blank" >' + $(this)[0].orderId + '</a></td>' +
+                    '<td><a href="/' + window.lang +'/comm/order/detail/' + $(this)[0].orderId + '">' + $(this)[0].orderId + '</a></td>' +
                     '<td>' + $(this)[0].userId + '</td>' +
                     '<td>' + ($(this)[0].orderCreateAt != null && $(this)[0].orderCreateAt != '' ? $(this)[0].orderCreateAt.substr(0, 16) : '') + '</td>}' +
                     '<td>' + $(this)[0].payTotal + '</td>' +

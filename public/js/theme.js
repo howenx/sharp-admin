@@ -2,6 +2,13 @@ var jsFileShareContent = {};
 function ShowModal() {
     var sharedObject = {};
 
+    var selected_items = [];
+    $("#sort").find("tr").each(function(){
+        var id = $(this).find("td:eq(1)").text();
+        selected_items.push(id);
+    })
+    sharedObject.selected_items = selected_items;
+
     if (window.showModalDialog) {
         var retValue = showModalDialog("/topic/add/popup", sharedObject, "dialogWidth:1200px; dialogHeight:600px; dialogLeft:300px;");
         if (retValue) {
@@ -257,13 +264,8 @@ $(function () {
 function updateThemeImg(obj){
     $("#themeImg").find("img").attr("src",obj.url);
     //$("#themeImg").css({"background-image":"url("+ obj.url +")","background-size":"cover"});
-    if($("#themeImg").find("input").length != 0){
-            $("#themeImg").find("input").remove();
-        }
-    var input = document.createElement("input");
-    input.id = obj.url;
-    input.type = "hidden";
-    input.width = obj.width;
-    input.height = obj.height;
-    $("#themeImg").append(input);
+    var input = $("#themeImg").find("input");
+    $(input).attr("id",obj.url);
+    $(input).width(obj.width);
+    $(input).height(obj.height);
 }

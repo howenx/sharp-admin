@@ -212,16 +212,16 @@ public class ThemeCtrl extends Controller {
             Object[] object = new Object[8];
             Logger.error(item.toString());
             Logger.error(item.getId().toString());
-            //Inventory inventory = inventoryService.getMasterInventory(item.getId());
-            //Logger.error(inventory.toString());
+            Inventory inventory = inventoryService.getMasterInventory(item.getId());
+            Logger.error(inventory.toString());
             object[0] = item.getId();
             object[1] = item.getItemTitle();
             object[2] = item.getItemMasterImg();
             object[3] = item.getOnShelvesAt();
             object[4] = item.getState();
-            //object[5] = inventory.getItemPrice();
-            //object[6] = inventory.getItemSrcPrice();
-            //object[7] = inventory.getItemDiscount();
+            object[5] = inventory.getItemPrice();
+            object[6] = inventory.getItemSrcPrice();
+            object[7] = inventory.getItemDiscount();
             itList.add(object);
         }
         return ok(views.html.theme.thaddPop.render(itList,IMAGE_URL));
@@ -276,8 +276,6 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result updateThemeById(String lang,Long id){
-        String oss_prefix = "http://hmm-images.oss-cn-beijing.aliyuncs.com/";
-
         Theme theme = service.getThemeById(id);
         Logger.error(theme.toString());
         //主题的商品
@@ -307,26 +305,26 @@ public class ThemeCtrl extends Controller {
         Object[] themeImgObject = new Object[3];
         //url
         String themeImgUrl = themeImg.get("url").toString();
-        themeImgObject[0] = themeImgUrl.substring(2,themeImgUrl.length()-1);
+        themeImgObject[0] = themeImgUrl.substring(1,themeImgUrl.length()-1);
         //width
         String themeImgWidth = themeImg.get("width").toString();
-        themeImgObject[1] = themeImgWidth.substring(2,themeImgWidth.length()-1);
+        themeImgObject[1] = themeImgWidth.substring(1,themeImgWidth.length()-1);
         //height
         String themeImgHeight =  themeImg.get("height").toString();
-        themeImgObject[2] = themeImgHeight.substring(2,themeImgHeight.length()-1);
+        themeImgObject[2] = themeImgHeight.substring(1,themeImgHeight.length()-1);
 
         //主题的首页主图
         JsonNode themeMasterImg = Json.parse(theme.getThemeMasterImg());
         Object[] masterImgObject = new Object[3];
         //url
         String masterImgUrl = themeMasterImg.get("url").toString();
-        masterImgObject[0] = masterImgUrl.substring(2,masterImgUrl.length()-1);
+        masterImgObject[0] = masterImgUrl.substring(1,masterImgUrl.length()-1);
         //width
         String masterImgWidth = themeMasterImg.get("width").toString();
-        masterImgObject[1] = masterImgWidth.substring(2,masterImgWidth.length()-1);
+        masterImgObject[1] = masterImgWidth.substring(1,masterImgWidth.length()-1);
         //height
         String masterImgHeight = themeMasterImg.get("height").toString();
-        masterImgObject[2] = masterImgHeight.substring(2,masterImgHeight.length()-1);
+        masterImgObject[2] = masterImgHeight.substring(1,masterImgHeight.length()-1);
 
         //标签链接到的商品ID
         String tagLinkedItem = "";
@@ -352,7 +350,7 @@ public class ThemeCtrl extends Controller {
             tagList.add(tagObject);
         }
 
-        return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,tagLinkedItem,oss_prefix,(User) ctx().args.get("user")));
+        return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,tagLinkedItem,IMAGE_URL,(User) ctx().args.get("user")));
     }
 
 
