@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.*;
+import middle.ItemMiddle;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -11,10 +12,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-import service.CarriageService;
-import service.InventoryService;
-import service.ItemService;
-import service.ThemeService;
+import service.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -40,8 +38,8 @@ public class ItemCtrl extends Controller {
     @Inject
     private CarriageService carriageService;
 
-
-
+    @Inject
+    private DataLogService dataLogService;
 
     /**
      * Ajax for get sub category.
@@ -252,11 +250,16 @@ public class ItemCtrl extends Controller {
      * 添加商品
      * @return Result
      */
+    @Security.Authenticated(UserAuth.class)
     public Result itemSave() {
-//        request().remoteAddress();
+        //操作人员的ip
+        String operateIp = request().remoteAddress();
+        String nickName = ((User) ctx().args.get("user")).nickname();
+        Logger.error("用户名是什么呢?:"+nickName);
+        Logger.error("ip地址是什么呢?:"+operateIp);
         JsonNode json = request().body().asJson();
 //        Logger.error(json.toString());
-        List<Long> list = service.itemSave(json);
+        List<Long> list = ItemMiddle.itemSave(service, inventoryService, dataLogService, json, nickName, operateIp);
         return ok(list.toString());
     }
 

@@ -51,8 +51,11 @@
 
     function UpdateFields(obj) {
         var obj1 = obj.id;
+        var index1 = $(".table tbody").find("tr").length,
+            index2 = $(".table thead").find("tr").length;
+        var index = index1 + index2;
         for (var i = 0; i < $(obj1).length; i++) {
-            $(obj1).eq(i).appendTo($(".table"));
+            $(obj1).eq(i).prepend($("<td class='index'>" + (Number(index) + i) + "</td>")).appendTo($(".table"));
         }
     }
 </script>
@@ -133,6 +136,7 @@
                     <table class="table table-bordered table-hover grid" id="user-add" title="Kurt Vonnegut novels" style="margin-top:0px;">
                         <thead>
                         <tr>
+                            <th class="index">序号</th>
                             <th>用户ID</th>
                             <th>用户名称</th>
                             <th>头像</th>
@@ -162,6 +166,18 @@
 
 <script>
      $(document).on("click",".cou-del",function(){
+        //用户总数
+        var userCount = $("#user-add").find("tr").length - 1;
+        console.log("用户总数userCount:" + userCount);
+        //被删除行的编号
+        var delColNum = $(this).parents("tr").find("td:eq(0)").text();
+        console.log("被删除行编号delColNum:" + delColNum);
+        if(userCount > delColNum){
+            for(i=parseInt(delColNum);i<userCount;i++){
+                var j = i + 1;
+                $("#user-add").find("tr:eq("+j+")").find("td:eq(0)").text(i);
+            }
+        }
         $(this).parents("tr").remove();
     })
 

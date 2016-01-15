@@ -1,18 +1,19 @@
 package modules;
 
-import com.google.inject.Inject;
 import com.google.inject.PrivateModule;
 import com.google.inject.Scopes;
-import com.google.inject.Singleton;
 import com.google.inject.name.Names;
-import mapper.*;
+import mapper.DataLogMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.guice.session.SqlSessionManagerProvider;
 import play.db.DBApi;
-import service.*;
+import service.DataLogService;
+import service.DataLogServiceImpl;
 
+import javax.inject.Inject;
 import javax.inject.Provider;
+import javax.inject.Singleton;
 import javax.sql.DataSource;
 
 /**
@@ -33,7 +34,7 @@ public class RecordDBModule extends PrivateModule {
                 bindDataSourceProviderType(RecordDataSourceProvider.class);
                 bindTransactionFactoryType(JdbcTransactionFactory.class);
 
-                //只针对record数据库的Mapper,不可以讲一个Mapper多Module进行Add
+                //只针对record数据库的Mapper,不可以将一个Mapper多Module进行Add
                 addMapperClass(DataLogMapper.class);
 
             }

@@ -484,7 +484,8 @@ $(function(){
     });
 
     /** 数据提交 **/
-    $("#submitItem").click(function(){
+    $(".saveItem").click(function(){
+        var divId = window.event.srcElement.id;
         var isPost = true;
         var numberReg1 =    /^-?\d+$/;   //正整数
         var numberReg2 =    /^-?\d+\.?\d{0,2}$/;   //整数或小数
@@ -492,8 +493,6 @@ $(function(){
         var numberReg4 =    /^[0-9a-zA-Z]*$/g;   //字母和数字
         var item = new Object();
         var inventories = [];
-        //日志记录
-        var dataLog = new Object();
         var itemData = new Object();
         var cateId = "";
         if($("#categorySubSelect").text()=="") cateId=$("#categorySelect").val();
@@ -749,7 +748,7 @@ $(function(){
             inventory.invImg = JSON.stringify(invImg);
             inventory.itemPreviewImgs = itemPreviewImgs;
             inventory.recordCode = recordCode;
-            if (tds[20].getElementsByTagName("input")[0].value != "") {
+            if (tds[20].getElementsByTagName("input")[0].value != "" && divId =="submitItem") {
                 inventory.id = tds[20].getElementsByTagName("input")[0].value;
                 inventory.state = tds[19].getElementsByTagName("select")[0].value;
                 inventory.soldAmount = tds[20].getElementsByTagName("input")[1].value;
@@ -772,7 +771,7 @@ $(function(){
         item.itemDetailImgs = itemDetailImgs;
         item.itemFeatures = itemFeatures;
         item.itemDetail = itemDetail;
-        if ($("#itemId").val() != "") {
+        if ($("#itemId").val() != "" && divId=="submitItem") {
             item.id = $("#itemId").val();
             item.shareCount = $("#shareCount").val();
             item.collectCount = $("#collectCount").val();
@@ -781,9 +780,6 @@ $(function(){
             item.themeId = $("#themeId").val();
             item.state = $("#state").val();
         }
-
-        dataLog.operateUser = window.user;
-        dataLog.
 
         itemData.item = item;
         itemData.inventories = inventories;

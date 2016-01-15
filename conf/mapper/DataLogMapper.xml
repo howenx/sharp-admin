@@ -13,16 +13,16 @@
         ${alias}.operate_ip ::text,
         ${alias}.operate_type,
         ${alias}.log_content,
-        ${alias}.original_data ::text,
+        ${alias}.origin_data ::text,
         ${alias}.new_data ::text,
         ${alias}.operate_time
     </sql>
 
     <insert id="insertDataLog" parameterType="entity.DataLog" useGeneratedKeys="true" keyProperty="id">
         insert into data_log
-        (operate_user,operate_ip,operate_type,log_content,original_data,new_data,operate_time)
+        (operate_user,operate_ip,operate_type,log_content,origin_data,new_data,operate_time)
         values
-        (#{operateUser},#{operateIp},#{operateType},#{logContent},#{originalData},#{newData},#{operateTime})
+        (#{operateUser},#{operateIp}::cidr,#{operateType},#{logContent},#{originData}::jsonb,#{newData}::jsonb,CURRENT_TIMESTAMP(0))
     </insert>
 
     <select id="getDataLog" resultType="entity.DataLog" parameterType="java.lang.Long">
