@@ -269,7 +269,7 @@ $(function() {
             $(data).each(function(index, element) {
                 $('#tb-topic').find('tbody').append('' +
                     '<tr class="tb-list-data">' +
-                    '<td><a href="/@lang/log/findLog/@dataLog.getId()">' + $(this)[0].id + '</a></td>' +
+                    '<td><a href="/'+window.lang+'/log/findLog/'+$(this)[0].id+'">' + $(this)[0].id + '</a></td>' +
                     '<td>' + $(this)[0].operateUser + '</td>' +
                     '<td>' + $(this)[0].operateIp + '</td>' +
                     '<td>' + $(this)[0].operateType + '</td>' +
