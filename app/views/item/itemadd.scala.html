@@ -21,6 +21,24 @@
 <script src="/assets/js/item.js"></script>
 <script>window.user</script>
 <script>
+    function ShowModal(addr,arr,arr1) {
+        var sharedObject = {};
+        sharedObject.cityOriginal_arr = arr;
+        sharedObject.addr = addr;
+        sharedObject.cityOriginal_all_arr =arr1;
+
+        if (window.showModalDialog) {
+            var retValue = showModalDialog("/comm/pop", sharedObject, "dialogWidth:900px; dialogHeight:600px; dialogLeft:300px;");
+            if (retValue) {
+                UpdateFields(retValue);
+            }
+        }
+        else {
+            // for similar functionality in Opera, but it's not modal!
+            var modal = window.open ("/comm/pop", null, "width=900,height=600,left=300,modal=yes,alwaysRaised=yes", null);
+            modal.dialogArguments = sharedObject;
+        }
+    }
     $(function(){
         $(function () {
             $('#datetimepicker1').datetimepicker({
@@ -257,7 +275,7 @@
                                     </td>
                                 </tr>
                             </table>
-                            <button type="button" class="btn btn-primary">添加规格</button>
+                            <button type="button" class="btn btn-primary" onclick="ShowModal()">添加规格</button>
                         </div>
                     </div>
                 </div>
