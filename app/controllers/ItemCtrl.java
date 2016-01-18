@@ -255,12 +255,18 @@ public class ItemCtrl extends Controller {
         //操作人员的ip
         String operateIp = request().remoteAddress();
         String nickName = ((User) ctx().args.get("user")).nickname();
-        Logger.error("用户名是什么呢?:"+nickName);
-        Logger.error("ip地址是什么呢?:"+operateIp);
         JsonNode json = request().body().asJson();
 //        Logger.error(json.toString());
         List<Long> list = ItemMiddle.itemSave(service, inventoryService, dataLogService, json, nickName, operateIp);
         return ok(list.toString());
+    }
+
+    /**
+     * 添加商品, 弹窗商品添加规格       Added by Sunny.Wu
+     * @return view
+     */
+    public Result itemAddPop() {
+        return ok(views.html.item.itemaddPop.render());
     }
 
     /**

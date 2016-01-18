@@ -67,7 +67,7 @@ GET             /comm/findById/:id                                          cont
 GET             /$lang<(cn|en|kr)>/comm/findById/:id                        controllers.ItemCtrl.findItemById(lang,id:Long)
 GET             /comm/updateById/:id                                        controllers.ItemCtrl.updateItemById(lang = "cn",id:Long)
 GET             /$lang<(cn|en|kr)>/comm/updateById/:id                      controllers.ItemCtrl.updateItemById(lang,id:Long)
-
+GET             /comm/pop                                                   controllers.ItemCtrl.itemAddPop()
 
 
 
