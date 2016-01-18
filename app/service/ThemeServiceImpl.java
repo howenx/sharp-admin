@@ -74,7 +74,7 @@ public class ThemeServiceImpl implements ThemeService {
 
     /**
      * Added by Tiffany Zhu 15/11/30.
-     * 录入主题信息
+     * 保存主题
      * @param json JsonNode
      */
     @Override
@@ -94,7 +94,12 @@ public class ThemeServiceImpl implements ThemeService {
         Logger.error(json.toString());
         Theme theme = play.libs.Json.fromJson(json,Theme.class);
         theme.setOrDestory(false);
-        themeMapper.insertTheme(theme);
+        if(theme.getId() == null){
+            themeMapper.insertTheme(theme);
+        }else{
+            themeMapper.updateTheme(theme);
+        }
+
     }
 
     /**
