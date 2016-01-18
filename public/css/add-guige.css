@@ -1,0 +1,60 @@
+ul,li{
+    padding: 0;margin: 0;list-style: none;
+}
+.row{
+    padding-top: 10px;padding-bottom: 10px;
+}
+label.control-label{
+    text-align: right;
+}
+.l-pad{
+    padding: 6px 8px;
+}
+.size,.add-size,
+.color,.add-color{
+    float: left;
+}
+.add-size,
+.add-color{
+    margin-left: 10px;
+    margin-top: 6px;
+}
+.size li,
+.color li{
+    border: 1px solid #ccc;float: left;
+    padding: 6px 8px;
+}
+.size li:not(:nth-of-type(1)),
+.color li:not(:nth-of-type(1)){
+    margin-left: 10px;
+}
+.size li .close,
+.color li .close{
+    font-size: 18px;margin-left: 5px;
+    display: none;
+}
+.size li:hover .close,
+.color li:hover .close{
+    display: block;
+}
+.guige{
+    width: 500px;
+    display: none;
+}
+.block{
+    display: table;
+}
+.guige th,.guige td{
+    text-align: center;
+}
+.guige th:last-of-type{
+     width: 100px;cursor: pointer;
+     text-align: center;
+     background: #0e90d2;
+ }
+.guige td:last-of-type{
+    text-align: center;background: #ccc;cursor: pointer;
+}
+.guige td input[type="text"]{
+    border: 0;
+}

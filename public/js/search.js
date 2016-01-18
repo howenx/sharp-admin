@@ -244,6 +244,42 @@ $(function() {
             })
         }
 
+        //每个查询页面对应一个相应的组装函数  日志查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Sunny Wu
+        funcList.loglist_search = function loglist_search(pageIndex) {
+            var dataLogDto = new Object();
+            dataLogDto.id = $("#log-id").val();
+            dataLogDto.operateUser = $("#operate-user").val();
+            dataLogDto.operateType = $("#operate-type").val();
+            dataLogDto.startAt = $("#log-form-starAt").val();
+            dataLogDto.endAt = $("#log-form-endAt").val();
+            //起止时间如果为空
+            if ($("#log-form-starAt").val() == '' || $("#log-form-starAt").val() == null) {
+                dataLogDto.startAt = "0000-01-01 00:00:00";
+            }
+            if ($("#log-form-endAt").val() == '' || $("#log-form-endAt").val() == null) {
+                dataLogDto.endAt = "99999-12-31 23:59:59";
+            }
+            //调用共用ajax,url从根目录开始不需要加上语言
+            search("/log/search/" + pageIndex, dataLogDto);
+        }
+
+        //每个查询页面对应一个相应的返回时填充函数 日志查询页面   Added By Sunny Wu
+        funcList.loglist_data = function loglist_data(data) {
+            //填充列表数据
+            $(data).each(function(index, element) {
+                $('#tb-topic').find('tbody').append('' +
+                    '<tr class="tb-list-data">' +
+                    '<td><a href="/'+window.lang+'/log/findLog/'+$(this)[0].id+'">' + $(this)[0].id + '</a></td>' +
+                    '<td>' + $(this)[0].operateUser + '</td>' +
+                    '<td>' + $(this)[0].operateIp + '</td>' +
+                    '<td>' + $(this)[0].operateType + '</td>' +
+                    '<td>' + $(this)[0].logContent + '</td>' +
+                    '<td>' + $(this)[0].operateTime.substr(0, 16) + '</td>' +
+                    '</tr>'
+                );
+            })
+        }
+
 
 	/*********************************公用模块，不需要变更改动，如需变更改动请找howen ****************************************/
 	//点击页数

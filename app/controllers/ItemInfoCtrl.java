@@ -23,7 +23,7 @@ public class ItemInfoCtrl extends Controller {
     /**
      * ERP 商品资料查询
      * @param lang 语言
-     * @return Result
+     * @return view
      */
     @Security.Authenticated(UserAuth.class)
     public Result itemInfoList(String lang) throws ApiException, ParseException {
@@ -81,7 +81,7 @@ public class ItemInfoCtrl extends Controller {
      * ERP 商品资料分页查询
      * @param lang 语言
      * @param pageNum 当前页
-     * @return Result
+     * @return json
      */
     @Security.Authenticated(UserAuth.class)
     public Result itemInfoSearchAjax(String lang, int pageNum) {

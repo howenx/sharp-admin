@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/add-guige.css">
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/add-guige.js"></script>
+</head>
+<body>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        添加规格
+    </div>
+    <div class="panel-body">
+        <div class="container-fluid">
+            <div class="row">
+
+                <label class="col-sm-2 control-label l-pad">颜色</label>
+
+                <div class="col-sm-10">
+                    <ul class="color clearfix">
+                        <li>
+                            <span>白的</span>
+                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </li>
+                        <li>
+                            <span>紫色</span>
+                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </li>
+                        <li>
+                            <span>蓝色</span>
+                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </li>
+                    </ul>
+                    <button type="button" class="btn btn-primary btn-xs add-color">添加</button>
+                </div>
+            </div>
+            <div class="row clearfix">
+
+                <label class="col-sm-2 control-label l-pad">尺寸</label>
+
+                <div class="col-sm-10">
+                    <ul class="size clearfix">
+                        <li>
+                            <span>110ml</span>
+                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </li>
+                        <li>
+                            <span>220ml</span>
+                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </li>
+                        <li>
+                            <span>330ml</span>
+                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </li>
+                    </ul>
+                    <button type="button" class="btn btn-primary btn-xs add-size">添加</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <label>
+                        <input type="checkbox" class="YN" checked> 开启多样化价格
+                    </label>
+                </div>
+                <div class="col-sm-offset-2 col-sm-10">
+                    <table class="table table-bordered guige block">
+                        <tr>
+                            <th>价格</th>
+                            <th>数量</th>
+                            <th class="addTr">添加</th>
+                        </tr>
+                        <tr>
+                            <td>SADAS</td>
+                            <td>124</td>
+                            <td class="delTr">删除</td>
+                        </tr>
+                        <tr>
+                            <td>ASD</td>
+                            <td></td>
+                            <td class="delTr">删除</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

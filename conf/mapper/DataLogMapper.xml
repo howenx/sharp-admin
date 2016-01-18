@@ -47,6 +47,21 @@
             <property name="alias" value="t"/>
         </include>
         from data_log t where 1=1
+        <if test="id != null">
+            and t.id = #{id}
+        </if>
+        <if test='operateUser != null and operateUser != "null" and operateUser != "" '>
+            and t.operate_user like '%${operateUser}%'
+        </if>
+        <if test='operateType != null and operateType != "null" and operateType != "" '>
+            and t.operate_type like '%${operateType}%'
+        </if>
+        <if test="startAt != null">
+            and t.operate_time &gt;= #{startAt} ::timestamp
+        </if>
+        <if test="endAt != null">
+            and t.operate_time &lt;= #{endAt} ::timestamp
+        </if>
         <if test="pageSize == -1 and offset >= -1">
             LIMIT ALL OFFSET 0
         </if>
