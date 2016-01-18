@@ -148,7 +148,7 @@ public class ItemCtrl extends Controller {
      *  由商品id获得单个商品及其库存信息展示在详情页面
      * @param lang 语言
      * @param id 商品id
-     * @return
+     * @return view
      */
     @Security.Authenticated(UserAuth.class)
     public Result findItemById(String lang,Long id) {
@@ -195,7 +195,7 @@ public class ItemCtrl extends Controller {
      * 由商品id获得单个商品及其库存信息展示在修改页面
      * @param lang 语言
      * @param id 商品id
-     * @return
+     * @return view
      */
     @Security.Authenticated(UserAuth.class)
     public Result updateItemById(String lang,Long id) {
@@ -289,7 +289,7 @@ public class ItemCtrl extends Controller {
      * 由modeCode得到该模板的所有运费计算方式
      * @param lang 语言
      * @param modelCode 模板代码
-     * @return Result
+     * @return view
      */
     @Security.Authenticated(UserAuth.class)
     public Result findModel(String lang,String modelCode) {
@@ -311,7 +311,7 @@ public class ItemCtrl extends Controller {
     /**
      * 运费模板列表
      * @param lang 语言
-     * @return
+     * @return view
      */
     @Security.Authenticated(UserAuth.class)
     public Result carrModelSearch(String lang) {

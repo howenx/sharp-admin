@@ -22,14 +22,20 @@
 <script src="/assets/js/rili.js"></script>
 <script src="/assets/js/theme.js"></script>
 <script>
-    $(document).ready(function(){
-       // $("#unpack_img").css({"background-image":"url("+ @url@themeImgObject(0) +")","width":@themeImgObject(1),"height":@themeImgObject(2),"background-size":"cover"})
+    $(function(){
+        //主题主宣传图
+        $("#themeImg").find("img").attr("id","@url@themeImgObject(0)");
+        $("#themeImg").find("input").width("@themeImgObject(1)");
+        $("#themeImg").find("input").height("@themeImgObject(2)");
+
+        //主题列表主图
+        var img = document.createElement("img");
+        $(img).attr("src","@url@masterImgObject(0)");
+        $(img).css({"width":"100%","height":"100%","float":"left"});
+        $("#dragon-container").append(img);
 
 
     })
-
-
-
 </script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"主题详情")
@@ -92,6 +98,18 @@
             <h4 class="h4-custom-hmm">选择主题</h4>
 
             <div class="form-group">
+                <div class="col-sm-2">
+                    <a href="javascript:void(0)" id="getTemplate" class="upload-label btn-primary btn-xs" style="float: right">
+                        主题模板
+                    </a>
+                </div>
+                <div class="col-sm-9">
+                    <div id="themeImg" style="width: 100%;height: 300px;border: 1px solid #ccc">
+                        <img src="@url@themeImgObject(0)" width="100%" height="100%"/>
+                        <input id="@url@themeImgObject(0)" type="hidden" width="@themeImgObject(1)" height="@themeImgObject(2)">
+                    </div>
+                </div>
+                <!--
                 <label class="col-sm-2 control-label">选择主题</label>
 
                 <div class="col-sm-9">
@@ -102,15 +120,18 @@
                         <input type="radio" data-xr='q_youjipin' class="set-main temp_radio_class" name="setMain">
                         <label class="radio">拼购打折</label>
                         -->
+                <!--
                         <input type="radio" data-xr='shop_unpack' class="set-main temp_radio_class" name="setMain" checked>
                         <label class="radio">批购</label>
                         <!--
                         <input type="radio" data-xr='upload-img' class="set-main temp_radio_class" name="setMain">
                         <label class="radio">上传</label>
-                        -->
+                     -->
+                <!--
                     </div>
                     <div class='compress-div'>
                         <!--宽版-->
+                <!--
                         <div class='li-dv'>
                             <div id='u_youjipin' class="goods_list_img">
                                 <div class="img">
@@ -172,6 +193,7 @@
                             </div>
                         </div>
                         <!--拼购打折-->
+                <!--
                         <div class='li-dv'>
                             <div id="q_youjipin" class="pingou">
                                 <div class="img">
@@ -245,6 +267,7 @@
                             </div>
                         </div>
                         <!--拼购-->
+                <!--
                         <input type="file" class="unpack_img" style="display: none">
                         <div class='li-dv' style='display: block;'>
                             <div id='shop_unpack' name="temp_unpack" class="li sync-hide auto">
@@ -289,6 +312,7 @@
                                     <td><input class='input-area' type="text"></td>
                                 </tr>
                                 -->
+                <!--
                                 <tr>
                                     <th></th>
                                     <td><a name='pre_unpack_bt' class="small blue-light button">预览</a></td>
@@ -297,6 +321,7 @@
                             </table>
                         </div>
                         <!--上传-->
+                <!--
                         <div class='li-dv'>
                             <div id="upload-img">
                                 <div class="img">
@@ -312,8 +337,9 @@
                         <a class="large blue-light button" id='submit'>提交</a>
                     </div>
                 </div>
+                -->
             </div>
-
+            <!--
             <div id="mask" class="ui-mask" style="display: none;">
                 <div id="circularG">
                     <div id="circularG_1" class="circularG"></div>
@@ -326,8 +352,10 @@
                     <div id="circularG_8" class="circularG"></div>
                 </div>
             </div>
+            -->
             <hr/>
             <!--商品选择-->
+
             <h3>商品选择</h3>
             <hr/>
             <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModal()">添加商品</button>
@@ -453,7 +481,7 @@
                     <a class="large blue button" id='mark-bt'>创建</a>
 
                     <div id='dragon-container'></div>
-                    <!--<a class="large red button" id="push">Push Data</a>-->
+                    <a class="large red button" id="push">保存</a>
 
                     <div class="thumb"
                          style='position: relative;margin-top: 10px;margin-bottom:50px;display:block;'></div>

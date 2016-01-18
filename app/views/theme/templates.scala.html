@@ -25,7 +25,9 @@
         <div class="col-sm-2">
             <ul class="templates-choose">
                 @for(template <- templateList){
-                   @Html(template.getNavigatorHtml())
+                <li onmousedown="righthit(this);">
+                    @Html(template.getNavigatorHtml())
+                </li>
                 }
             </ul>
             <button type="button" class="add-temp btn btn-primary">新增模版</button>
@@ -33,9 +35,9 @@
         <div class="col-sm-8">
             <ul class="templates">
                 @for(template <- templateList){
-                    <li id="@template.getId()">
-                        @Html(template.getContentHtml())
-                    </li>
+                <li id="@template.getId()">
+                    @Html(template.getContentHtml())
+                </li>
                 }
             </ul>
         </div>
@@ -103,7 +105,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>字体颜色</label>
+                    <label>颜色</label>
                     <input type="color" class="form-control">
                 </div>
                 <div class="form-group">

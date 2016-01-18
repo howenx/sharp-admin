@@ -42,4 +42,10 @@ public interface ThemeMapper {
      */
     void insertTemplate(ThemeTemplate themeTemplate);
 
+    /**
+     * 更新主题模板 Added by Tiffany Zhu 2016.01.14
+     * @param themeTemplate
+     */
+    void updateTemplate(ThemeTemplate themeTemplate);
+
 }

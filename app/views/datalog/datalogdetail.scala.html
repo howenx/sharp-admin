@@ -1,0 +1,87 @@
+@import play.i18n._
+@(lang:String="cn", dataLog:entity.DataLog, user:entity.User)
+
+@scripts = {
+
+<link href="/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/slider.css"/>
+<link rel="stylesheet" href="/assets/css/item.css"/>
+}
+
+@import java.lang.String; var title="日志详情"
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@user.nickname</span>
+        <span class="icon-path">&gt;</span>
+        <span>日志详情</span>
+    </div>
+</div>
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">日志详情</span>
+    </div>
+    <div class="usercenter-option">
+        <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
+        <div id="return" class="btn-white btn-form fr ml20">返回</div>
+        <span id="js-userinfo-error" class="mt20 alt fr"></span>
+    </div>
+    <div class="row">
+        <form class="form-horizontal" method="post"   enctype="multipart/form-data">
+            <div class="upinfo">
+                <h4 class="h4-custom-hmm">日志基本信息</h4>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" ><div class="r">操作人</div></label>
+                    <div class="col-sm-2">
+                        <input class="form-control" value="@dataLog.getOperateUser()" readonly/>
+                    </div>
+                    <label class="col-sm-1 control-label" ><div class="r">操作ip</div></label>
+                    <div class="col-sm-2">
+                        <input class="form-control" value="@dataLog.getOperateIp()" readonly/>
+                    </div>
+                    <label class="col-sm-1 control-label" ><div class="r">操作类型</div></label>
+                    <div class="col-sm-2">
+                        <input class="form-control" value="@dataLog.getOperateType()" readonly/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" ><div class="r">日志内容</div></label>
+                    <div class="col-sm-2">
+                        <input class="form-control" value="@dataLog.getLogContent()" readonly/>
+                    </div>
+                    <label class="col-sm-1 control-label" ><div class="r">操作时间</div></label>
+                    <div class="col-sm-2">
+                        <input class="form-control" value="@(dataLog.getOperateTime().toString().substring(0,19))"  style="width:156px;" readonly/>
+                    </div>
+                </div>
+                <h4 class="h4-custom-hmm">日志详细信息</h4>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" ><div class="r">原数据</div></label>
+                    <div class="col-sm-2">
+                        <textarea rows="15" cols="120" draggable=true disabled>@dataLog.getOriginData()</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" ><div class="r">新数据</div></label>
+                    <div class="col-sm-2">
+                        <textarea rows="15" cols="120" draggable=true disabled>@dataLog.getNewData()</textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+}
+
+<script>
+	/** 点击返回按钮,返回到列表查询页面 **/
+	$("#return").on("click", function() {
+	    location.href="/"+window.lang+"/log/search";
+	});
+</script>
