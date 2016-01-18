@@ -4,12 +4,15 @@ import com.google.inject.PrivateModule;
 import com.google.inject.Scopes;
 import com.google.inject.name.Names;
 import mapper.DataLogMapper;
+import mapper.ItemStatisMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.guice.session.SqlSessionManagerProvider;
 import play.db.DBApi;
 import service.DataLogService;
 import service.DataLogServiceImpl;
+import service.ItemStatisService;
+import service.ItemStatisServiceImpl;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -36,7 +39,7 @@ public class RecordDBModule extends PrivateModule {
 
                 //只针对record数据库的Mapper,不可以将一个Mapper多Module进行Add
                 addMapperClass(DataLogMapper.class);
-
+                addMapperClass(ItemStatisMapper.class);
             }
         });
 
@@ -54,9 +57,11 @@ public class RecordDBModule extends PrivateModule {
          * bind service for controller or other service inject. 绑定record数据库所对应的Service
          */
         bind(DataLogService.class).to(DataLogServiceImpl.class);
+        bind(ItemStatisService.class).to(ItemStatisServiceImpl.class);
 
         //必须expose
         expose(DataLogService.class);
+        expose(ItemStatisService.class);
     }
 
     @Singleton
