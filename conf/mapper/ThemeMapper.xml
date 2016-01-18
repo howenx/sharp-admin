@@ -131,8 +131,8 @@
 
         <update id="updateTheme" parameterType="entity.Theme">
                 update themes
-                set master_item_id=#{masterItemId},title=#{title},start_at=#{startAt},end_at=#{endAt},theme_img=#{themeImg},sort_nu=#{sortNu},
-                    update_at=CURRENT_TIMESTAMP(0),theme_config_info=#{themeDesc},theme_item=#{itemCount},master_item_tag=#{themeTags}
+                set title=#{title},start_at=#{startAt},end_at=#{endAt},theme_img=#{themeImg},sort_nu=#{sortNu},
+                    update_at=CURRENT_TIMESTAMP(0),theme_item=#{themeItem}::jsonb,master_item_tag=#{themeTags}::jsonb
                 where id = #{id}
         </update>
 

@@ -87,6 +87,12 @@
   			} else {
   				alert('Please choose correct rotate degree.');
   			}
+
+  			if($("#input_imgurl") != null && $("#input_imgurl") != ""){
+
+  			}else{
+  			    alert('Please choose the item ID.');
+  			}
   		} else alert('Please input the length less than 24 characters and more than 1 character.');
   	});
   	/*Push the mark info by json.*/

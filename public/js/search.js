@@ -68,11 +68,11 @@ $(function() {
 		$(data).each(function(index, element) {
 			$('#tb-topic').find('tbody').append('' +
 				'<tr class="tb-list-data">' +
-				'<td><a href="/' + window.lang +'/topic/updateById/' + $(this)[0].id + '" target="_blank" >' + $(this)[0].id + '</a></td>' +      //Modified by Tiffany Zhu 2016.01.06
+				'<td><a href="/' + window.lang +'/topic/updateById/' + $(this)[0].id + '">' + $(this)[0].id + '</a></td>' +
 				'<td>' +
 				'<img class="main-img" src="' + window.url + $(this)[0].themeImg + '" alt="" width="50">' +
 				'</td>' +
-				'<td>' + $(this)[0].masterItemId + '</td>' +
+				//'<td>' + $(this)[0].masterItemId + '</td>' +      //Modified by Tiffany Zhu 2016.01.18
 				'<td>' + $(this)[0].title + '</td>' +
 				'<td>' + $(this)[0].startAt + '</td>' +
 				'<td>' + $(this)[0].endAt + '</td>' +
