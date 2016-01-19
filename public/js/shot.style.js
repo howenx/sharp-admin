@@ -387,7 +387,7 @@ $(function() {
   			return false;
   		}
   	}
-  	$("#push").click(function(){
+  	$("#js-usercenter-submit").click(function(){
 
         var isPost = true;
 
@@ -441,12 +441,7 @@ $(function() {
             alert("请上传标签的背景图片!");
             return false;
         }
-        if($("#input_imgurl").val() == "")
-        {
-            isPost = false;
-            alert("请添加标签中的商品ID!");
-            return false;
-        }
+
         if(document.getElementById("dragon-container").getElementsByClassName("dragon-contained ui-draggable ui-draggable-handle").length == 0)
         {
             isPost = false;
@@ -458,6 +453,9 @@ $(function() {
         //主商品ID
         //var masterItemId = parseInt(document.getElementById("sort").rows[1].cells[2].innerHTML);
         var masterItemId = "";
+
+        //主题ID
+        var themeId = $("#themeId").val();
         //主题标题
         var title = $("#themeTitle").val();
         //开始日期
@@ -555,10 +553,16 @@ $(function() {
         //主题tag背景图
         var themeMasterImgContent = {};
         themeMasterImgContent.url = themeMasterImg;
-        themeMasterImgContent.width = jsFileShareContent.labelImgWidth.toString();
-        themeMasterImgContent.height = jsFileShareContent.labelImgHeight.toString();
+        if(jsFileShareContent.labelImgWidth != null && jsFileShareContent.labelImgHeight != null){
+            themeMasterImgContent.width = jsFileShareContent.labelImgWidth.toString();
+            themeMasterImgContent.height = jsFileShareContent.labelImgHeight.toString();
+        }else{
+            themeMasterImgContent.width = $("#dragon-container").find("input").width();
+            themeMasterImgContent.height = $("#dragon-container").find("input").height();
+        }
 
         theme.masterItemId = masterItemId;
+        theme.id = themeId;
         theme.title = title;
         theme.startAt = onShelvesAt;
         theme.endAt = offShelvesAt;
@@ -596,8 +600,13 @@ $(function() {
                                 $('#js-userinfo-error').text('Save success');
                             }
                             setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
-                            //主题录入, 成功后返回到主题录入页面
-                            setTimeout("location.href='/"+window.lang+"/topic/add'", 1000);
+                            if(themeId != null){
+                                //主题修改, 成功后返回到主题修改页面
+                                setTimeout("location.href='/"+window.lang+"/topic/updateById/"+ themeId +"'", 3000);
+                            }else{
+                                 //主题录入, 成功后返回到主题录入页面
+                                 setTimeout("location.href='/"+window.lang+"/topic/add'", 3000);
+                            }
                         }
                     });
                 }

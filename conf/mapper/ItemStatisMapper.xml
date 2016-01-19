@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.ItemStatisMapper">
+    <!--enable mybatis default cache configure reference:
+        https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
+    -->
+    <sql id="itemStatisColumns">
+        ${alias}.id,
+        ${alias}.create_date,
+        ${alias}.sku_id,
+        ${alias}.cost_price,
+        ${alias}.src_price,
+        ${alias}.sale_price,
+        ${alias}.amount,
+        ${alias}.sold_amount,
+        ${alias}.rest_amount
+    </sql>
+
+    <insert id="insertItemStatis" parameterType="entity.ItemStatis" useGeneratedKeys="true" keyProperty="id">
+        insert into item_statis
+        (create_date, sku_id, cost_price, src_price, sale_price, amount, sold_amount, rest_amount)
+        values
+        (#{createDate},#{skuId},#{costPrice},#{srcPrice},#{salePrice},#{amount},#{soldAmount},#{restAmount})
+    </insert>
+
+    <select id="getItemStatis" resultType="entity.ItemStatis" parameterType="java.lang.Long">
+        select
+        <include refid="itemStatisColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from item_statis t where id=${value}
+    </select>
+
+    <select id="getAllItemStatis" resultType="entity.ItemStatis">
+        select
+        <include refid="itemStatisColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from item_statis t where 1=1
+    </select>
+
+</mapper>

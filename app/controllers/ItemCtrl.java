@@ -41,6 +41,9 @@ public class ItemCtrl extends Controller {
     @Inject
     private DataLogService dataLogService;
 
+    @Inject
+    private ItemStatisService itemStatisService;
+
     /**
      * Ajax for get sub category.
      *
@@ -257,7 +260,7 @@ public class ItemCtrl extends Controller {
         String nickName = ((User) ctx().args.get("user")).nickname();
         JsonNode json = request().body().asJson();
 //        Logger.error(json.toString());
-        List<Long> list = ItemMiddle.itemSave(service, inventoryService, dataLogService, json, nickName, operateIp);
+        List<Long> list = ItemMiddle.itemSave(service, inventoryService, dataLogService, itemStatisService, json, nickName, operateIp);
         return ok(list.toString());
     }
 

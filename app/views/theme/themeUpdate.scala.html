@@ -1,26 +1,28 @@
 @import play.i18n._
-@(lang:String="cn",theme:entity.Theme,itList:List[Array[Object]],themeImgObject:Array[Object],masterImgObject:Array[Object],tagList:List[Array[Object]],tagLinkedItem:String,url:String,user:entity.User)
+@(lang:String="cn",theme:entity.Theme,itList:List[Array[Object]],themeImgObject:Array[Object],masterImgObject:Array[Object],tagList:List[Array[Object]],url:String,user:entity.User)
+@import play.api.libs.json.Json
 @scripts = {
+
+<link rel="stylesheet" href="/assets/css/jquery-ui.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
 <link rel="stylesheet" href="/assets/css/screenshot.css">
 <link rel="stylesheet" href="/assets/css/upload.css">
 <link rel="stylesheet" href="/assets/css/button.css">
+<link rel="stylesheet" href="/assets/css/font-face.css">
 <link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
 
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/jquery-ui.min.js"></script>
-
 <script src="/assets/js/Math.uuid.js"></script>
-
 <script src="/assets/js/upload.style.js"></script>
 <script src="/assets/js/shot.style.js"></script>
-
 <script src="/assets/js/slider.js"></script>
 <script src="/assets/js/search.js"></script>
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
 <script src="/assets/js/theme.js"></script>
+
 <script>
     $(function(){
         //主题主宣传图
@@ -33,7 +35,17 @@
         $(img).attr("src","@url@masterImgObject(0)");
         $(img).css({"width":"100%","height":"100%","float":"left"});
         $("#dragon-container").append(img);
-
+        //主题列表主图宽高
+        var input = document.createElement("input");
+        input.id = "@url@masterImgObject(0)";
+        input.type = "hidden";
+        $(input).width(@masterImgObject(1));
+        $(input).height(@masterImgObject(2));
+        $("#dragon-container").append(input);
+        //启动tag拖拽功能
+        $('div.dragon-contained').draggable({
+  		    containment: "parent"
+  		});
 
     })
 </script>
@@ -57,15 +69,23 @@
     </div>
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
-        <div  id="updateItem" class="btn-blue btn-form fr ml15">修改</div>
-        <div id="return" class="btn-white btn-form fr ml20">返回</div>
+        <div  id="js-usercenter-submit" class="btn-blue btn-form fr ml15">@Messages.get(new
+            Lang(Lang.forCode(lang)),"themes.slider.save")</div>
+        <div id="js-usercenter-cancel" class="btn-white btn-form fr ml20">@Messages.get(new
+            Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
     <div class="row">
         <form class="form-horizontal">
             <!-- 基本信息-->
             <h4 class="h4-custom-hmm">基本信息</h4>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">主题ID</label>
 
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" value="@theme.getId()" id="themeId" disabled/>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">主题标题</label>
 
@@ -467,7 +487,7 @@
                 <label class="col-sm-2 control-label">商品ID:</label>
 
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="input_imgurl"  value="@tagLinkedItem" disabled>
+                    <input type="text" class="form-control" id="input_imgurl"  disabled>
                 </div>
 
                 <div class="col-sm-1">
@@ -480,8 +500,56 @@
                 <div class="col-sm-9">
                     <a class="large blue button" id='mark-bt'>创建</a>
 
-                    <div id='dragon-container'></div>
-                    <a class="large red button" id="push">保存</a>
+                    <div id='dragon-container'>
+                        <!-- Added by Tiffany Zhu -->
+                        @for(tag <- tagList){
+                            @if(tag(4).equals("0")){
+                                <div class="dragon-contained ui-draggable ui-draggable-handle" style="left: @tag(2)px; top: @tag(0)px;">
+                                    <div class="dragon-graph" style="transform: rotate(0deg);">
+                                        <div class="dragon-circle">
+                                            <div class="dragon-circle-inner">
+                                            </div>
+                                        </div>
+                                        <div class="dragon-rectangle">
+                                            <div class="dragon-trangle">
+                                            </div>
+                                            <div class="dragon-text">
+                                                <p class="dragon-p">@tag(3)</p>
+                                                <input name = @tag(1) type="hidden">
+                                            </div>
+                                        </div>
+                                        <div class="dragon-close">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                            @if(tag(4).equals("180")){
+                                <div class="dragon-contained ui-draggable ui-draggable-handle" style="left: @tag(0)px; top: @tag(2)px;">
+                                    <div class="dragon-graph" style="transform: rotate(180deg);">
+                                        <div class="dragon-circle"><div class="dragon-circle-inner">
+
+                                        </div>
+                                        </div>
+                                        <div class="dragon-rectangle">
+                                            <div class="dragon-trangle">
+                                            </div>
+                                            <div class="dragon-text" style="transform: rotate(180deg); left: 0px;">
+                                            <p class="dragon-p">@tag(3)</p>
+                                            <input name=@tag(1) type="hidden">
+                                        </div>
+                                        </div>
+                                        <div class="dragon-close">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                        }
+                        <!-- Added by Tiffany Zhu -->
+
+                    </div>
+                    <!--<a class="large red button" id="push">Push Data</a> -->
 
                     <div class="thumb"
                          style='position: relative;margin-top: 10px;margin-bottom:50px;display:block;'></div>
