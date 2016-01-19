@@ -16,6 +16,7 @@
         ${alias}.city_code
     </sql>
 
+    <!-- 录入一条运费信息 -->
     <insert id="insertCarriage" parameterType="entity.Carriage" useGeneratedKeys="true" keyProperty="id">
         insert into carriage
         (model_code,model_name,first_num,first_fee,add_num,add_fee,city_code)
@@ -23,10 +24,12 @@
         (#{modelCode},#{modelName},#{firstNum},#{firstFee},#{addNum},#{addFee},#{cityCode})
     </insert>
 
+    <!-- 由id删除一条运费信息 -->
     <delete id="delCarrById" parameterType="java.lang.Long">
         delete from carriage where id=#{id}
     </delete>
 
+    <!-- 更新一条运费信息 -->
     <update id="updateCarriage" parameterType="entity.Carriage">
         update carriage
         set
@@ -34,11 +37,13 @@
         where id = #{id}
     </update>
 
+    <!-- 由modelCode获得运费模板名称 -->
     <select id="getModelName" resultType="java.lang.String" parameterType="java.lang.String">
         select DISTINCT model_name
         from carriage t where model_code = #{modelCode}
     </select>
 
+    <!-- 获取所有的运费信息 -->
     <select id="getAllCarriage" resultType="entity.Carriage">
         select
         <include refid="carriageColumns">
@@ -48,10 +53,12 @@
         ORDER BY id
     </select>
 
+   <!-- 获取运费模板 -->
     <select id="getModels" resultType="entity.Carriage">
         select DISTINCT model_code, model_name FROM carriage
     </select>
 
+    <!-- 由modelCode获取运费信息 -->
     <select id="getCarrsByModel" resultType="entity.Carriage" parameterType="java.lang.String">
         select
         <include refid="carriageColumns">
@@ -59,6 +66,5 @@
         </include>
         from carriage t where model_code = #{modelCode}
     </select>
-
 
 </mapper>
