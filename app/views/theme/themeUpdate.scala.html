@@ -1,5 +1,6 @@
 @import play.i18n._
 @(lang:String="cn",theme:entity.Theme,itList:List[Array[Object]],themeImgObject:Array[Object],masterImgObject:Array[Object],tagList:List[Array[Object]],url:String,user:entity.User)
+@import play.api.libs.json.Json
 @scripts = {
 
 <link rel="stylesheet" href="/assets/css/jquery-ui.css">
@@ -41,6 +42,11 @@
         $(input).width(@masterImgObject(1));
         $(input).height(@masterImgObject(2));
         $("#dragon-container").append(input);
+        //启动tag拖拽功能
+        $('div.dragon-contained').draggable({
+  		    containment: "parent"
+  		});
+
     })
 </script>
 }
@@ -509,11 +515,13 @@
                                             </div>
                                             <div class="dragon-text">
                                                 <p class="dragon-p">@tag(3)</p>
+                                                <input name = @tag(1) type="hidden">
                                             </div>
                                         </div>
                                         <div class="dragon-close">
                                         </div>
                                     </div>
+
                                 </div>
                             }
                             @if(tag(4).equals("180")){
@@ -528,11 +536,13 @@
                                             </div>
                                             <div class="dragon-text" style="transform: rotate(180deg); left: 0px;">
                                             <p class="dragon-p">@tag(3)</p>
+                                            <input name=@tag(1) type="hidden">
                                         </div>
                                         </div>
                                         <div class="dragon-close">
                                         </div>
                                     </div>
+
                                 </div>
                             }
                         }
