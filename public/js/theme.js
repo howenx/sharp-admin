@@ -131,9 +131,10 @@ function upload(thumb, file, id) {
             var img = new Image;
             img.onload = function(){
                  alert(["图片大小是: width:"+img.width+", height:"+img.height]);
-
-                     jsFileShareContent.labelImgWidth = img.width;
-                     jsFileShareContent.labelImgHeight = img.height;
+                 jsFileShareContent.labelImgWidth = img.width;
+                 jsFileShareContent.labelImgHeight = img.height;
+                 $(thumb).width(img.width);
+                 $(thumb).height(img.height);
 
             }
             img.src = data.oss_prefix+data.oss_url;

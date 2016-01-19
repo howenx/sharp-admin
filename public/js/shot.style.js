@@ -514,7 +514,7 @@ $(function() {
 
             tag.left = parseFloat((tagLeft/containerWidth).toFixed(2));
             //tag.url = "/comm/detail/" + masterItemId;
-            tag.url = "/comm/detail/" + $("#input_imgurl").val();
+            tag.url = "/comm/detail/" + tags[i].getElementsByClassName("item-id")[0].innerText;
             tag.top = parseFloat((tagTop/containerHeight).toFixed(2));
             tag.name = tags[i].getElementsByTagName("p")[0].innerText;
             if(tags[i].getElementsByClassName("dragon-graph")[0].style.cssText.indexOf(180)>0)
