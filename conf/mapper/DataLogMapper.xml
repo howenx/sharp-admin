@@ -18,6 +18,7 @@
         ${alias}.operate_time
     </sql>
 
+    <!-- 录入一条日志信息 -->
     <insert id="insertDataLog" parameterType="entity.DataLog" useGeneratedKeys="true" keyProperty="id">
         insert into data_log
         (operate_user,operate_ip,operate_type,log_content,origin_data,new_data,operate_time)
@@ -25,6 +26,7 @@
         (#{operateUser},#{operateIp}::cidr,#{operateType},#{logContent},#{originData}::jsonb,#{newData}::jsonb,CURRENT_TIMESTAMP(0))
     </insert>
 
+    <!-- 由id获取一条日志信息 -->
     <select id="getDataLog" resultType="entity.DataLog" parameterType="java.lang.Long">
         select
         <include refid="dataLogColumns">
@@ -33,6 +35,7 @@
         from data_log t where id=${value}
     </select>
 
+    <!-- 获取所有的日志信息 -->
     <select id="getAllDataLogs" resultType="entity.DataLog">
         select
         <include refid="dataLogColumns">
@@ -41,6 +44,7 @@
         from data_log t where 1=1
     </select>
 
+    <!-- 分页获取日志信息 -->
     <select id="getDataLogPage" parameterType="entity.DataLog" resultType="entity.DataLog">
         select
         <include refid="dataLogColumns">
