@@ -21,11 +21,12 @@
 <script src="/assets/js/item.js"></script>
 <script>window.user</script>
 <script>
-    function ShowModal(addr,arr,arr1) {
+    function ShowModal(obj,obj1) {
+        var index = $(table).find("tr").index($(obj).parent())-1;
         var sharedObject = {};
-        sharedObject.cityOriginal_arr = arr;
-        sharedObject.addr = addr;
-        sharedObject.cityOriginal_all_arr =arr1;
+        sharedObject.obj = obj;
+        sharedObject.obj1 = obj1;
+        sharedObject.tdindex = index;
 
         if (window.showModalDialog) {
             var retValue = showModalDialog("/comm/pop", sharedObject, "dialogWidth:900px; dialogHeight:600px; dialogLeft:300px;");
@@ -38,6 +39,39 @@
             var modal = window.open ("/comm/pop", null, "width=900,height=600,left=300,modal=yes,alwaysRaised=yes", null);
             modal.dialogArguments = sharedObject;
         }
+    }
+    var table = $("<table class='table table-bordered'>");
+    var arrobj = [];
+    function updateTable(obj0,obj1){
+        $(table).appendTo($(".goods-info1"));
+        var objth = $(obj0).find("th");
+        var objtd = $(obj1).find("td");
+        arrobj.push(objtd);
+        console.log(arrobj);
+        if($(table).find("th").length!==0){
+            var trd = $("<tr>").appendTo(table);
+            $(objtd[0]).appendTo(trd);
+            for(var i=0;i<objth.length;i++){
+                if(objth[i].innerHTML=="颜色"||objth[i].innerHTML=="尺寸"||objth[i].innerHTML=="现价"||objth[i].innerHTML=="库存区域"){
+                    $(objtd[i]).appendTo(trd);
+                }
+            }
+            $(objtd[objtd.length-1]).appendTo(trd);
+        }else{
+            var trh = $("<tr>").appendTo(table);
+            var trd = $("<tr>").appendTo(table);
+            $(objth[0]).appendTo(trh);
+            $(objtd[0]).appendTo(trd);
+            for(var i=0;i<objth.length;i++){
+                if(objth[i].innerHTML=="颜色"||objth[i].innerHTML=="尺寸"||objth[i].innerHTML=="现价"||objth[i].innerHTML=="库存区域"){
+                    $(objth[i]).appendTo(trh);
+                    $(objtd[i]).appendTo(trd);
+                }
+            }
+            $(objth[objth.length-1]).appendTo(trh);
+            $(objtd[objtd.length-1]).appendTo(trd);
+        }
+
     }
     $(function(){
         $(function () {
@@ -275,7 +309,7 @@
                                     </td>
                                 </tr>
                             </table>
-                            <button type="button" class="btn btn-primary" onclick="ShowModal()">添加规格</button>
+                            <button type="button" class="btn btn-primary add-guige" onclick="ShowModal(this)">添加规格</button>
                         </div>
                     </div>
                 </div>
