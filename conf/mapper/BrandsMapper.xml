@@ -16,6 +16,7 @@
         ${alias}.brand_nm
     </sql>
 
+    <!-- 由brandId获取一条品牌信息 -->
     <select id="getBrands" resultType="entity.Brands" parameterType="java.lang.Long">
         select
         <include refid="brandsColumns">
@@ -24,6 +25,7 @@
         from brands t where brand_id=${value}
     </select>
 
+    <!-- 获取所有的品牌 -->
     <select id="getAllBrands" resultType="entity.Brands">
         select
         <include refid="brandsColumns">
@@ -31,6 +33,8 @@
         </include>
         from brands t where 1=1
     </select>
+
+    <!-- 分页获取品牌信息 -->
     <select id="getBrandsPage" parameterType="entity.Brands" resultType="entity.Brands">
         select
         <include refid="brandsColumns">
@@ -44,6 +48,8 @@
             LIMIT #{pageSize} OFFSET #{offset}
         </if>
     </select>
+
+    <!-- 录入一条品牌信息 -->
     <insert id="insertBrands" parameterType="entity.Brands" useGeneratedKeys="true" keyColumn="brand_id">
         insert into brands
         (brand_desc,logo,create_date,brand_nm)
