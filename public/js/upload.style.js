@@ -12,9 +12,19 @@
   	"<div class='dragon-close'>" +
   	'</div>' +
   	'</div>' +
+  	"<div class='item-id'>" +
+    '</div>' +
   	'</div>';
   var mark_image_nm;
   $(function() {
+
+    $(".dragon-contained").mouseenter(function(){
+           $(this).find(".item-id").css({"display":"block"});
+         })
+
+    $(".dragon-contained").mouseleave(function(){
+      $(this).find(".item-id").css({"display":"none"});
+    })
 
   	$(document).on("click", "p.dragon-p", function() {
   		//if the icon-circle-close exists,then remove it
@@ -82,11 +92,12 @@
                         $('div.dragon-contained').draggable({
                             containment: "parent"
                         });
-
+                    var itemId =  $("#input_imgurl").val();
                     var input = document.createElement("input");
-                    input.name = $("#input_imgurl").val();
+                    input.name = itemId;
                     input.type = "hidden";
                     ch_drag.parent().append(input);
+                    ch_drag.parent().parent().parent().parent().find(".item-id").html(itemId);
 
                     } else {
                         alert('Please do not modify rotate degree.');
