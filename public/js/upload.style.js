@@ -18,11 +18,11 @@
   var mark_image_nm;
   $(function() {
 
-    $(".dragon-contained").mouseenter(function(){
+    $(document).on("mouseenter",".dragon-contained",function(){
            $(this).find(".item-id").css({"display":"block"});
          })
 
-    $(".dragon-contained").mouseleave(function(){
+    $(document).on("mouseleave",".dragon-contained",function(){
       $(this).find(".item-id").css({"display":"none"});
     })
 
@@ -93,10 +93,6 @@
                             containment: "parent"
                         });
                     var itemId =  $("#input_imgurl").val();
-                    var input = document.createElement("input");
-                    input.name = itemId;
-                    input.type = "hidden";
-                    ch_drag.parent().append(input);
                     ch_drag.parent().parent().parent().parent().find(".item-id").html(itemId);
 
                     } else {

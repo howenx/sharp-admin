@@ -50,6 +50,99 @@
   		    containment: "parent"
   		});
 
+  		//非编辑状态下冻结页面元素
+  		//保存按钮
+  		$("#js-usercenter-submit").css({"display":"none"});
+  		$("#js-usercenter-cancel").css({"display":"none"});
+
+  		//基本信息
+  		$("#themeTitle").attr("disabled",true);
+  		$("#onShelvesAt").attr("disabled",true);
+  		$("#offShelvesAt").attr("disabled",true);
+  		//主宣传图
+  		$("#getTemplate").css({"display":"none"});
+        //商品
+  		$(".add-goods").css({"display":"none"});
+
+        $("#sort").find("tr").each(function(){
+            if($(this).find("th").length != 0 ){
+                $(this).find("th:eq(9)").css({"display":"none"});
+            }else{
+                $(this).find("td:eq(9)").css({"display":"none"});
+            }
+        })
+
+        //主题主图
+  		$(".form-group").eq(5).css({"display":"none"});
+  		$(".form-group").eq(6).css({"display":"none"});
+  		$(".form-group").eq(7).css({"display":"none"});
+  		$(".form-group").eq(8).css({"display":"none"});
+  		$(".form-group").eq(9).css({"display":"none"});
+
+
+        //点击编辑
+        $(document).on("click","#js-usercenter-edit",function(){
+        //保存按钮
+  		$("#js-usercenter-submit").css({"display":""});
+  		$("#js-usercenter-edit").css({"display":"none"});
+  		$("#js-usercenter-cancel").css({"display":""});
+        //基本信息
+  		$("#themeTitle").attr("disabled",false);
+  		$("#onShelvesAt").attr("disabled",false);
+  		$("#offShelvesAt").attr("disabled",false);
+  		//主宣传图
+  		$("#getTemplate").css({"display":""});
+        //商品
+  		$(".add-goods").css({"display":""});
+        $("#sort").find("tr").each(function(){
+            if($(this).find("th").length != 0 ){
+                $(this).find("th:eq(9)").css({"display":""});
+            }else{
+                $(this).find("td:eq(9)").css({"display":""});
+            }
+        })
+        //主题主图
+  		$(".form-group").eq(5).css({"display":""});
+  		$(".form-group").eq(6).css({"display":""});
+  		$(".form-group").eq(7).css({"display":""});
+  		$(".form-group").eq(8).css({"display":""});
+  		$(".form-group").eq(9).css({"display":""});
+
+        })
+
+        //点击取消
+        $(document).on("click","#js-usercenter-cancel",function(){
+        //保存按钮
+  		$("#js-usercenter-submit").css({"display":"none"});
+  		$("#js-usercenter-cancel").css({"display":"none"});
+  		$("#js-usercenter-edit").css({"display":""});
+
+  		//基本信息
+  		$("#themeTitle").attr("disabled",true);
+  		$("#onShelvesAt").attr("disabled",true);
+  		$("#offShelvesAt").attr("disabled",true);
+  		//主宣传图
+  		$("#getTemplate").css({"display":"none"});
+        //商品
+  		$(".add-goods").css({"display":"none"});
+
+        $("#sort").find("tr").each(function(){
+            if($(this).find("th").length != 0 ){
+                $(this).find("th:eq(9)").css({"display":"none"});
+            }else{
+                $(this).find("td:eq(9)").css({"display":"none"});
+            }
+        })
+
+        //主题主图
+  		$(".form-group").eq(5).css({"display":"none"});
+  		$(".form-group").eq(6).css({"display":"none"});
+  		$(".form-group").eq(7).css({"display":"none"});
+  		$(".form-group").eq(8).css({"display":"none"});
+  		$(".form-group").eq(9).css({"display":"none"});
+
+        })
+
     })
 </script>
 }
@@ -74,6 +167,7 @@
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
         <div  id="js-usercenter-submit" class="btn-blue btn-form fr ml15">@Messages.get(new
             Lang(Lang.forCode(lang)),"themes.slider.save")</div>
+        <div  id="js-usercenter-edit" class="btn-blue btn-form fr ml15">编辑</div>
         <div id="js-usercenter-cancel" class="btn-white btn-form fr ml20">@Messages.get(new
             Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
@@ -118,12 +212,12 @@
             </div>
             <hr/>
             <!-- 上传图片-->
-            <h4 class="h4-custom-hmm">选择主题</h4>
+            <h4 class="h4-custom-hmm">主宣传图</h4>
 
             <div class="form-group">
                 <div class="col-sm-2">
                     <a href="javascript:void(0)" id="getTemplate" class="upload-label btn-primary btn-xs" style="float: right">
-                        主题模板
+                        选择模板
                     </a>
                 </div>
                 <div class="col-sm-9">
@@ -379,8 +473,8 @@
             <hr/>
             <!--商品选择-->
 
-            <h3>商品选择</h3>
-            <hr/>
+            <h4 class="h4-custom-hmm">商品选择</h4>
+
             <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModal()">添加商品</button>
             <div class="bgk">
                 <table class="table table-bordered table-hover grid" id="sort" title="Kurt Vonnegut novels">
@@ -455,8 +549,9 @@
                     </tbody>
                 </table>
             </div>
+            <hr/>
             <!-- 创建mark-->
-            <h4 class="h4-custom-hmm">添加标签</h4>
+            <h4 class="h4-custom-hmm">主题主图</h4>
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">上传图片:</label>
@@ -476,7 +571,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">旋转角度:</label>
+                <label class="col-sm-2 control-label">标签角度:</label>
 
                 <div class="col-sm-9">
                     <div class="radbd" style="margin-top: 0">
@@ -487,7 +582,7 @@
             </div>
             <div class="form-group">
 
-                <label class="col-sm-2 control-label">商品ID:</label>
+                <label class="col-sm-2 control-label">标签的商品ID:</label>
 
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="input_imgurl"  disabled>
@@ -502,6 +597,12 @@
                 <div class="col-sm-9">
                     <a class="large blue button" id='mark-bt'>创建</a>
                 </div>
+
+
+            </div>
+
+            <div class="form-group">
+
                 <label class="col-sm-2 control-label"></label>
 
                 <div class="col-sm-9 tag-container">
@@ -533,7 +634,7 @@
                                 </div>
                             }
                             @if(tag(4).equals("180")){
-                                <div class="dragon-contained ui-draggable ui-draggable-handle" style="left: @tag(0); top: @tag(2);">
+                                <div class="dragon-contained ui-draggable ui-draggable-handle" style="left: @tag(2); top: @tag(0);">
 
                                     <div class="dragon-graph" style="transform: rotate(180deg);">
                                         <div class="dragon-circle"><div class="dragon-circle-inner">
