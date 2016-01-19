@@ -35,8 +35,8 @@
         $(img).attr("src","@url@masterImgObject(0)");
         $(img).css({"width":"100%","height":"100%","float":"left"});
         $("#dragon-container").append(img);
-        $("#dragon-container").width("@masterImgObject(1)");
-        $("#dragon-container").height("@masterImgObject(2)");
+        $("#dragon-container").width(@masterImgObject(1));
+        $("#dragon-container").height(@masterImgObject(2));
         //主题列表主图宽高
         var input = document.createElement("input");
         input.id = "@url@masterImgObject(0)";
@@ -510,7 +510,7 @@
                         <!-- Added by Tiffany Zhu -->
                         @for(tag <- tagList){
                             @if(tag(4).equals("0")){
-                                <div class="dragon-contained ui-draggable ui-draggable-handle" style="left: @tag(2)px; top: @tag(0)px;">
+                                <div class="dragon-contained ui-draggable ui-draggable-handle" style="left: @tag(2); top: @tag(0);">
 
                                     <div class="dragon-graph" style="transform: rotate(0deg);">
                                         <div class="dragon-circle">
@@ -533,7 +533,7 @@
                                 </div>
                             }
                             @if(tag(4).equals("180")){
-                                <div class="dragon-contained ui-draggable ui-draggable-handle" style="left: @tag(0)px; top: @tag(2)px;">
+                                <div class="dragon-contained ui-draggable ui-draggable-handle" style="left: @tag(0); top: @tag(2);">
 
                                     <div class="dragon-graph" style="transform: rotate(180deg);">
                                         <div class="dragon-circle"><div class="dragon-circle-inner">

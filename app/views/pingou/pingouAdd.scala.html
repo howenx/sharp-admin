@@ -1,0 +1,45 @@
+@import play.i18n._
+@(lang:String="cn",user:entity.User)
+@scripts = {
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<script src="/assets/js/jquery.min.js"></script>
+}
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"新增拼购")
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
+        <span class="icon-path">&gt;</span>
+        <span>拼购管理</span>
+        <span class="icon-path">&gt;</span>
+        <span>新增拼购</span>
+    </div>
+</div>
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">新增拼购</span>
+    </div>
+    <div class="usercenter-option">
+        <div class="user-state fl">未更改</div>
+        <div id="brandSubmit" class="btn-blue btn-form fr ml15">保存</div>
+        <div id="cancel" class="btn-white btn-form fr ml20">取消</div>
+        <span id="js-userinfo-error" class="mt20 alt fr"></span>
+    </div>
+    <form class="form-horizontal">
+
+    </form>
+</div>
+<!-- 点击图片预览-->
+<div class="goods-img-bg">
+    <div class="goods-bg"></div>
+    <div class="goods-img">
+        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>
+<
+}
