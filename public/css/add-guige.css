@@ -46,6 +46,7 @@ label.control-label{
 }
 .guige th,.guige td{
     text-align: center;
+
 }
 .guige th:last-of-type{
      width: 100px;cursor: pointer;
@@ -56,5 +57,6 @@ label.control-label{
     text-align: center;background: #ccc;cursor: pointer;
 }
 .guige td input[type="text"]{
-    border: 0;
+    border: 0;outline: none;text-align:center;
+    width: 90%;
 }

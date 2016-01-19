@@ -110,6 +110,10 @@ function holdShow() {
         }
         console.log(trh);
     }else if(option1.tagName=="TD"){
+        $(".color").find(":input").removeClass("vals");
+        $(".color").find("input:checked").addClass("vals");
+        $(".size").find(":input").removeClass("vals");
+        $(".size").find("input:checked").addClass("vals");
         var valindex = 0;
         var tds = option2[tdindex];
         for(var i=1;i<tds.length-1;i<i++){
