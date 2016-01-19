@@ -501,30 +501,25 @@ $(function() {
             */
         //主题主宣传图上的标签
         var masterItemTag = [];
-        var tagsContainer = document.getElementById("dragon-container");
-        var containerWidth = tagsContainer.scrollWidth;
-        var containerHeight = tagsContainer.scrollHeight;
-        var tags = tagsContainer.getElementsByClassName("dragon-contained ui-draggable ui-draggable-handle");
-        for(i=0;i<tags.length;i++)
-        {
+        var tagsContainer = $("#dragon-container");
+        $("#dragon-container").find(".dragon-contained").each(function(){
             var tag = {};
-            var style = tags[i].style.cssText;
-            var tagLeft = parseInt(style.substring(style.indexOf("left: ")+6,style.indexOf("px;")));
-            var tagTop =  parseInt(style.substring(style.indexOf("top: ")+5,style.length-3)) - 50;
-
-            tag.left = parseFloat((tagLeft/containerWidth).toFixed(2));
-            //tag.url = "/comm/detail/" + masterItemId;
-            tag.url = "/comm/detail/" + tags[i].getElementsByClassName("item-id")[0].innerText;
-            tag.top = parseFloat((tagTop/containerHeight).toFixed(2));
-            tag.name = tags[i].getElementsByTagName("p")[0].innerText;
-            if(tags[i].getElementsByClassName("dragon-graph")[0].style.cssText.indexOf(180)>0)
-            {
+            var container_width = parseInt($(this).parent().width());
+            var container_height = parseInt($(this).parent().height());
+            var left = parseInt($(this).css("left").replace("px",""));
+            var top = parseInt($(this).css("top").replace("px",""));
+            tag.left = parseFloat((left/container_width).toFixed(2));
+            tag.top = parseFloat((top/container_height).toFixed(2));
+            tag.name = $(this).find("p").text();
+            tag.url = "/comm/detail/" + $(this).find(".item-id").text();
+            if($(this).find(".dragon-graph").css('transform').indexOf("-1")>=0){
                 tag.angle = 180;
             }else{
                 tag.angle = 0;
             }
             masterItemTag.push(tag);
-        }
+        })
+
         //主题列表主宣传图
         var imgUrl = document.getElementById("dragon-container").getElementsByTagName("img")[0].src;
         var themeMasterImg = imgUrl.substring(imgUrl.indexOf('/',imgUrl.indexOf('/')+2) + 1);

@@ -347,9 +347,11 @@ public class ThemeCtrl extends Controller {
         //width
         String masterImgWidth = themeMasterImg.get("width").toString();
         masterImgObject[1] = masterImgWidth.substring(1,masterImgWidth.length()-1);
+        //masterImgObject[1] = masterImgWidth;
         //height
         String masterImgHeight = themeMasterImg.get("height").toString();
         masterImgObject[2] = masterImgHeight.substring(1,masterImgHeight.length()-1);
+        //masterImgObject[2] = masterImgHeight;
 
         //主题的首页主图的标签
         List<Object[]> tagList = new ArrayList<>();
@@ -358,12 +360,12 @@ public class ThemeCtrl extends Controller {
             Logger.error(tag.toString());
             Object[] tagObject = new Object[5];
             //top
-            tagObject[0] = tag.get("top").floatValue()*298 + 50;
+            tagObject[0] = tag.get("top").floatValue()*100 + "%" ;
             //url
             String tag_url = tag.get("url").toString();
             tagObject[1] = (tag_url.substring(2,tag_url.length()-1)).substring(12);
             //left
-            tagObject[2] = tag.get("left").floatValue() * 769;
+            tagObject[2] = tag.get("left").floatValue() * 100 + "%";
             //name
             String tag_name = tag.get("name").toString();
             tagObject[3] = tag_name.substring(1,tag_name.length()-1);
