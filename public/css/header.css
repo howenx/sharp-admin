@@ -252,11 +252,6 @@ li {
 .last b{
 	float: right;
 }
-
-.current{
-	display: block;
-}
-
 .first span{
 	float: left;
 }
