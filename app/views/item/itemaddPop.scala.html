@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <!--<link rel="stylesheet" href="/assets/css/item.css"/>-->
     <link rel="stylesheet" href="/assets/css/add-guige.css">
+    <link rel="stylesheet" href="/assets/css/item.css">
     <script src="/assets/js/jquery.min.js"></script>
     <script src="/assets/js/add-guige.js"></script>
     <!-- 日历 -->
@@ -123,7 +124,7 @@
                 <!-- 剩余库存量 -->
                 <label class="col-sm-1 control-label">剩余库存</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control vals" name="restmount">
+                    <input type="text" class="form-control vals" name="amountremain">
                 </div>
             </div>
             <div class="form-group">
@@ -165,7 +166,7 @@
                 <!-- 税率设置 -->
                 <label class="col-sm-2 control-label">税率设置</label>
                 <div class="col-sm-2">
-                    <select class="form-control vals">
+                    <select class="form-control vals" name="rateSet">
                         <option>请选择</option>
                         <option selected>标准税率</option>
                         <option>免税</option>
@@ -203,25 +204,27 @@
             </div>
             <div class="form-group">
                 <!-- sku主图 -->
-                <label class="col-sm-1 control-label"><div class="r">主图</div><div style="margin-top:20px;margin-right:30px;">(一张)</div></label>
+                <label class="col-sm-2 control-label">主图(一张)</label>
                 <div class="col-sm-2">
-                    <div class="list-img" style="border:1px solid #ccc; height:80px;">
-                        <div id="galleryM1">
-                        </div>
-                        <span class="add" id="masterImgAddM1">＋
-                            <input type="file" id="M1" name="invImg" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                    <div class="list-img clearfix" style="border:1px solid #ccc;">
+                        <span class="add" id="masterImgAddM" style="float: left">＋
+                            <input type="file" id="M" name="invImg" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                         </span>
+                        <div id="galleryM1" style="float: left">
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="form-group">
                 <!-- 详情页预览图 -->
-                <label class="col-sm-1 control-label"><div class="r">预览图(最多六张)</div></label>
+                <label class="col-sm-2 control-label">预览图(最多六张)</label>
                 <div class="col-sm-4">
-                    <div class="preview-img" style="border:1px solid #ccc;">
-                        <div id="galleryP1">
-                        </div>
-                        <span class="add" id="preImgAddP1">＋
-                            <input type="file" id="P1" name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
+                    <div class="preview-img clearfix" style="border:1px solid #ccc;">
+                        <span class="add" id="preImgAddP" style="float: left">＋
+                            <input type="file" id="P" name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
                         </span>
+                        <div id="galleryP1" style="float: left">
+                        </div>
                     </div>
                     <div id="warn-masthimg" style="color:red;margin-top:-70px; margin-left:500px;width:120px;"></div>
                     <div id="warn-detailimg" style="color:red;margin-top:10px; margin-left:500px;width:120px;margin-bottom:50px;"></div>

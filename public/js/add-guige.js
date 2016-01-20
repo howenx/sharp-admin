@@ -82,6 +82,22 @@ function holdShow() {
             window.returnValue = sharedObject;
         }
         else {
+            var trdobj = {};
+            trdobj.itemColor = $("input[name=itemColor]:checked").val();
+            trdobj.itemSize = $("input[name=itemSize]:checked").val();
+            trdobj.itemDate = $("#startAt").val()+"~"+$("#endAt").val();
+            trdobj.invWeight = $("input[name=invWeight]").val();
+            trdobj.restrictAmount = $("input[name=restrictAmount]").val();
+            trdobj.itemPrice = $("input[name=itemPrice]").val();
+            trdobj.itemSrcPrice = $("input[name=itemSrcPrice]").val();
+            trdobj.itemCostPrice = $("input[name=itemCostPrice]").val();
+            trdobj.itemDiscount = $("input[name=itemDiscount]").val();
+            trdobj.amount = $("input[name=amount]").val();
+            trdobj.amountremain = $("input[name=amountremain]").val();
+            trdobj.carriageModelCode = $("select[name=carriageModelCode]").val();
+            trdobj.invCustoms = $("select[name=invCustoms]").val();
+            trdobj.invArea = $("select[name=invArea]").val();
+            trdobj.rateSet = $("select[name=rateSet]").val();
             $("<th>").html("设为主商品").appendTo(trh);
             $("<td>").html('<input type="radio" name="orMasterInv" checked="checked" class="master-radio"/>').appendTo(trd);
             $(".form-group>label").each(function(index){
@@ -135,7 +151,7 @@ function holdShow() {
             }
         }
     }
-    window.close();
+    //window.close();
 }
 $(function(){
     $(document).on("click","input[name=color]",function(){
