@@ -19,7 +19,6 @@
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/item.js"></script>
-<script>window.user</script>
 <script>
     function ShowModal(obj,obj1) {
         var index = $(table).find("tr").index($(obj).parent())-1;
@@ -43,7 +42,7 @@
     var table = $("<table class='table table-bordered'>");
     var arrobj = [];
     function updateTable(obj0,obj1){
-        $(table).appendTo($(".goods-info1"));
+        $(table).appendTo($(".sku-info"));
         var objth = $(obj0).find("th");
         var objtd = $(obj1).find("td");
         arrobj.push(objtd);
@@ -322,6 +321,12 @@
                     </label>
                 </div>
                 <h4><button type="button" class="btn btn-primary add-guige" onclick="ShowModal(this)">添加规格</button></h4>
+                <div class="form-group">
+                    <div class="col-sm-8">
+                        <div class="sku-info">
+                        </div>
+                    </div>
+                </div>
                 <h4 class="h4-custom-hmm">商品设置</h4>
                 <div class="form-group">
                     <label class="col-sm-1 control-label" ><div class="r">重要通告</div></label>

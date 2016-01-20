@@ -12,6 +12,14 @@ $(function(){
         locale: 'zh-cn',
         format:'YYYY-MM-DD HH:mm:ss'
     });
+    $('#datetimepicker3').datetimepicker({
+        locale: 'zh-cn',
+        format:'YYYY-MM-DD HH:mm:ss'
+    });
+    $('#datetimepicker4').datetimepicker({
+        locale: 'zh-cn',
+        format:'YYYY-MM-DD HH:mm:ss'
+    });
 	
     /*日历 分钟*/
     //$('.form_datetime').datetimepicker({
