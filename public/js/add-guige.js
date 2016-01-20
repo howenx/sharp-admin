@@ -180,7 +180,7 @@ $(function(){
     /*********添加尺寸*********/
     $(".add-size").click(function(){
         var html = '<label class="radio-inline">' +
-            '<input type="radio" name="size" value="双击编辑">' +
+            '<input type="radio" name="itemSize" value="双击编辑">' +
             '<span ondblclick="changeText(e,this)">双击编辑</span>' +
             '</label>';
         $(html).appendTo(".size");
@@ -188,7 +188,7 @@ $(function(){
     /*********添加颜色*********/
     $(".add-color").click(function(){
         var html = '<label class="radio-inline">' +
-            '<input type="radio" name="color" value="双击编辑">' +
+            '<input type="radio" name="itemColor" value="双击编辑">' +
             '<span ondblclick="changeText(e,this)">双击编辑</span>' +
             '</label>';
         $(html).appendTo(".color");
