@@ -25,67 +25,35 @@ function changeText(event,element){
     addText.focus();
 }
 /******初始数据******/
-var option1,option2,tdindex;
+var option,sku;
 function Init () {
     var sharedObject = window.dialogArguments;
-    option1 = sharedObject.obj;
-    option2 = sharedObject.obj1;
-    tdindex = sharedObject.tdindex;
-
-    var valindex = 0;
-    var tds = option2[tdindex];
-    if(option1.tagName=="TD"){
-        for(var i=1;i<tds.length-1;i++){
-            if(i==3){
-                var html = tds[i].innerHTML;
-                var arr1 = html.split(" ~ ");
-                for(var j=0;j<arr1.length;j++){
-                    $("#datetimepicker"+(j+1)).find(":input").val(arr1[j]);
-                }
-            }else if(i==17){
-                var html = tds[i].innerHTML;
-                var arr1 = html.split("<br>");
-                for(var j=0;j<arr1.length;j++){
-                    $(".hgba").find(":input").eq(j).val(arr1[j].split(":")[1])
-                }
-            }else if(i==1){
-                var spans = $("input[name=color]").parent().find("span");
-                for(var j=0;j<spans.length;j++){
-                    if(spans[j].innerHTML==tds[i].innerHTML){
-                        $(spans[j]).parent().find(":input").prop("checked","true");
-                    }
-                }
-            }else if(i==2){
-                var spans = $("input[name=size]").parent().find("span");
-                for(var j=0;j<spans.length;j++){
-                    if(spans[j].innerHTML==tds[i].innerHTML){
-                        $(spans[j]).parent().find(":input").prop("checked","true");
-                    }
-                }
-            }else{
-                var vals = $(".vals:gt(1)");
-                $(vals[valindex]).val(tds[i].innerHTML);
-                valindex++;
-            }
-        }
+    option = sharedObject.obj;
+    if(option.tagName=="TD"){
+        sku = sharedObject.sku;
+        console.log(sku.itemPrice);
+        $("input[name=itemPrice]").val(sku.itemPrice);
     }
 }
 /*****保存******/
 function holdShow() {
     /**存储信息**/
-    if($(option1).hasClass("add-guige")){
+    if($(option).hasClass("add-guige")){
         var trh = $("<tr>");
         var trd = $("<tr>");
         if (window.showModalDialog) {
             var sharedObject = {};
-            console.log($(".form-group label"))
             window.returnValue = sharedObject;
         }
         else {
             var trdobj = {};
             trdobj.itemColor = $("input[name=itemColor]:checked").val();
             trdobj.itemSize = $("input[name=itemSize]:checked").val();
-            trdobj.itemDate = $("#startAt").val()+"~"+$("#endAt").val();
+            /***销售日期开始***/
+            trdobj.itemDate = {};
+            trdobj.itemDate.startAt = $("input[name=startAt]").val();
+            trdobj.itemDate.endAt = $("input[name=endAt]").val();
+            /***销售日期结束***/
             trdobj.invWeight = $("input[name=invWeight]").val();
             trdobj.restrictAmount = $("input[name=restrictAmount]").val();
             trdobj.itemPrice = $("input[name=itemPrice]").val();
@@ -98,58 +66,34 @@ function holdShow() {
             trdobj.invCustoms = $("select[name=invCustoms]").val();
             trdobj.invArea = $("select[name=invArea]").val();
             trdobj.rateSet = $("select[name=rateSet]").val();
+            trdobj.rateRoundNum = $("input[name=rateRoundNum]").val();
+            trdobj.rateNum = $("input[name=rateNum]").val();
+            /***海关备案号开始***/
+            trdobj.record = {};
+            trdobj.record.hz = $("input[name=hz]").val();
+            trdobj.record.gz = $("input[name=gz]").val();
+            trdobj.record.sh = $("input[name=sh]").val();
+            /***海关备案号结束***/
+            trdobj.img1 = 1;
+            trdobj.img2 = 2;
             $("<th>").html("设为主商品").appendTo(trh);
             $("<td>").html('<input type="radio" name="orMasterInv" checked="checked" class="master-radio"/>').appendTo(trd);
-            $(".form-group>label").each(function(index){
-                $("<th>").html(this.innerHTML).appendTo(trh);
-                if(index==2){
-                    var html1 = $("#datetimepicker1").find(":input").val();
-                    var html2 = $("#datetimepicker2").find(":input").val();
-                    var htmlr = html1 + " ~ " +html2;
-                    $("<td>").html(htmlr).appendTo(trd);
-                }else if(index==16){
-                    var hz = $(".hz").val();
-                    var gz = $(".gz").val();
-                    var sh = $(".sh").val();
-                    var htmld = "杭州:"+hz+"<br>广州:"+gz+"<br>上海:"+sh;
-                    $("<td>").html(htmld).appendTo(trd);
-                }else{
-                    if($(this).parent().find(".vals").val()==""){
-                        $(this).parent().find(".vals").val(0);
-                    }
-                    $("<td>").html($(this).parent().find(".vals").val()).appendTo(trd);
-                }
-            })
+            for(var item in trdobj){
+                $("<td>").html(trdobj[item]).appendTo(trd);
+            };
+            $(".thval").each(function(){
+                $("<th>").html($(this).html()).appendTo(trh)
+            });
             $("<th>").html("修改").appendTo(trh);
-            $("<td onclick='ShowModal(this,arrobj)'>").html("编辑").appendTo(trd);
-            window.opener.updateTable (trh,trd);
+            $("<td onclick='ShowModal(this,sku1)'>").html("编辑").appendTo(trd);
+            var sharedObject = {};
+            sharedObject.trh = trh;
+            sharedObject.trd = trd;
+            sharedObject.sku = trdobj;
+            window.opener.updateTable (sharedObject);
         }
-        console.log(trh);
-    }else if(option1.tagName=="TD"){
-        $(".color").find(":input").removeClass("vals");
-        $(".color").find("input:checked").addClass("vals");
-        $(".size").find(":input").removeClass("vals");
-        $(".size").find("input:checked").addClass("vals");
-        var valindex = 0;
-        var tds = option2[tdindex];
-        for(var i=1;i<tds.length-1;i<i++){
-            if(i==3){
-                var html1 = $("#datetimepicker1").find(":input").val();
-                var html2 = $("#datetimepicker2").find(":input").val();
-                var htmlr = html1 + " ~ " +html2;
-                $(tds[i]).html(htmlr);
-            }else if(i==17){
-                var hz = $(".hz").val();
-                var gz = $(".gz").val();
-                var sh = $(".sh").val();
-                var htmld = "杭州:"+hz+"<br>广州:"+gz+"<br>上海:"+sh;
-                $(tds[i]).html(htmld);
-            }else{
-                var vals = $(".vals");
-                $(tds[i]).html($(vals[valindex]).val());
-                valindex++;
-            }
-        }
+    }else if(option.tagName=="TD"){
+
     }
     //window.close();
 }

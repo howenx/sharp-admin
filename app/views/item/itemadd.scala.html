@@ -20,13 +20,15 @@
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/item.js"></script>
 <script>
-    function ShowModal(obj,obj1) {
-        var index = $(table).find("tr").index($(obj).parent())-1;
+    function ShowModal(obj,sku) {
         var sharedObject = {};
         sharedObject.obj = obj;
-        sharedObject.obj1 = obj1;
-        sharedObject.tdindex = index;
-
+        if(obj.tagName=="TD"){
+//            var tdindex = $(table).find("tr").index($(obj).parent())-1;
+            sharedObject.sku = sku;
+            console.log(sku.itemPrice);
+//            sharedObject.tdindex = tdindex;
+        }
         if (window.showModalDialog) {
             var retValue = showModalDialog("/comm/pop", sharedObject, "dialogWidth:1200px; dialogHeight:800px; dialogLeft:300px;");
             if (retValue) {
@@ -40,37 +42,33 @@
         }
     }
     var table = $("<table class='table table-bordered'>");
-    var arrobj = [];
-    function updateTable(obj0,obj1){
+    var sku1;
+    function updateTable(obj){
         $(table).appendTo($(".sku-info"));
-        var objth = $(obj0).find("th");
-        var objtd = $(obj1).find("td");
-        arrobj.push(objtd);
-        console.log(arrobj);
+        var objth = $(obj.trh).find("th");
+        var objtd = $(obj.trd).find("td");
         if($(table).find("th").length!==0){
             var trd = $("<tr>").appendTo(table);
-            $(objtd[0]).appendTo(trd);
             for(var i=0;i<objth.length;i++){
-                if(objth[i].innerHTML=="颜色"||objth[i].innerHTML=="尺寸"||objth[i].innerHTML=="现价"||objth[i].innerHTML=="库存区域"){
-                    $(objtd[i]).appendTo(trd);
-                }
+//                if(objth[i].innerHTML=="颜色"||objth[i].innerHTML=="尺寸"||objth[i].innerHTML=="现价"||objth[i].innerHTML=="库存区域"){
+//                    $(objtd[i]).appendTo(trd);
+//                }
+                $(objtd[i]).appendTo(trd);
             }
-            $(objtd[objtd.length-1]).appendTo(trd);
         }else{
             var trh = $("<tr>").appendTo(table);
             var trd = $("<tr>").appendTo(table);
-            $(objth[0]).appendTo(trh);
-            $(objtd[0]).appendTo(trd);
             for(var i=0;i<objth.length;i++){
-                if(objth[i].innerHTML=="颜色"||objth[i].innerHTML=="尺寸"||objth[i].innerHTML=="现价"||objth[i].innerHTML=="库存区域"){
-                    $(objth[i]).appendTo(trh);
-                    $(objtd[i]).appendTo(trd);
-                }
+//                if(objth[i].innerHTML=="颜色"||objth[i].innerHTML=="尺寸"||objth[i].innerHTML=="现价"||objth[i].innerHTML=="库存区域"){
+//                    $(objth[i]).appendTo(trh);
+//                    $(objtd[i]).appendTo(trd);
+//                }
+                $(objth[i]).appendTo(trh);
+                $(objtd[i]).appendTo(trd);
             }
-            $(objth[objth.length-1]).appendTo(trh);
-            $(objtd[objtd.length-1]).appendTo(trd);
         }
-
+        sku1 = obj.sku;
+        console.log(sku1);
     }
     $(function(){
         $(function () {
