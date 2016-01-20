@@ -131,14 +131,11 @@ function upload(thumb, file, id) {
             var img = new Image;
             img.onload = function(){
                  alert(["图片大小是: width:"+img.width+", height:"+img.height]);
-                 if(id == "uploadDirect"){
-                    jsFileShareContent.ulpDirectImgWidth = img.width;
-                    jsFileShareContent.ulpDirectImgHeight = img.height;
+                 jsFileShareContent.labelImgWidth = img.width;
+                 jsFileShareContent.labelImgHeight = img.height;
+                 $(thumb).width(img.width);
+                 $(thumb).height(img.height);
 
-                }else{
-                     jsFileShareContent.labelImgWidth = img.width;
-                     jsFileShareContent.labelImgHeight = img.height;
-                }
             }
             img.src = data.oss_prefix+data.oss_url;
             imgName = data.imgid;

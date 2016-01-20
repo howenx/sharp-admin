@@ -101,9 +101,20 @@ public class ThemeCtrl extends Controller {
         }
 
         theme.setPageSize(PAGE_SIZE);
-        theme.setOffset(1);
+        theme.setOffset(0);
 
-        return ok(views.html.theme.thsearch.render(lang,IMAGE_URL,PAGE_SIZE,countNum,pageCount,service.themeSearch(theme),(User) ctx().args.get("user")));
+        List<Theme> themeList = service.themeSearch(theme);
+        List<Theme> resultList = new ArrayList<>();
+        for(Theme tempTheme: themeList){
+            JsonNode themeImg = Json.parse(tempTheme.getThemeImg());
+            //url
+            String themeImgUrl = themeImg.get("url").toString();
+            String resultUrl = themeImgUrl.substring(1,themeImgUrl.length()-1);
+            tempTheme.setThemeImg(resultUrl);
+            resultList.add(tempTheme);
+        }
+
+        return ok(views.html.theme.thsearch.render(lang,IMAGE_URL,PAGE_SIZE,countNum,pageCount,resultList,(User) ctx().args.get("user")));
     }
 
     /**
@@ -138,9 +149,19 @@ public class ThemeCtrl extends Controller {
             theme.setPageSize(PAGE_SIZE);
             theme.setOffset(offset);
 
+            List<Theme> themeList = service.themeSearch(theme);
+            List<Theme> resultList = new ArrayList<>();
+            for(Theme tempTheme:themeList){
+                JsonNode themeImg = Json.parse(tempTheme.getThemeImg());
+                //url
+                String themeImgUrl = themeImg.get("url").toString();
+                String resultUrl = themeImgUrl.substring(1,themeImgUrl.length()-1);
+                tempTheme.setThemeImg(resultUrl);
+                resultList.add(tempTheme);
+            }
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
-            returnMap.put("topic",service.themeSearch(theme));
+            returnMap.put("topic",resultList);
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
@@ -216,7 +237,11 @@ public class ThemeCtrl extends Controller {
             Logger.error(inventory.toString());
             object[0] = item.getId();
             object[1] = item.getItemTitle();
-            object[2] = item.getItemMasterImg();
+
+            JsonNode inventoryImg = Json.parse(inventory.getInvImg());
+
+            String url = inventoryImg.get("url").toString();
+            object[2] = url.substring(1,url.length()-1);
             object[3] = item.getOnShelvesAt();
             object[4] = item.getState();
             object[5] = inventory.getItemPrice();
@@ -322,35 +347,34 @@ public class ThemeCtrl extends Controller {
         //width
         String masterImgWidth = themeMasterImg.get("width").toString();
         masterImgObject[1] = masterImgWidth.substring(1,masterImgWidth.length()-1);
+        //masterImgObject[1] = masterImgWidth;
         //height
         String masterImgHeight = themeMasterImg.get("height").toString();
         masterImgObject[2] = masterImgHeight.substring(1,masterImgHeight.length()-1);
-
-        //标签链接到的商品ID
-        String tagLinkedItem = "";
+        //masterImgObject[2] = masterImgHeight;
 
         //主题的首页主图的标签
         List<Object[]> tagList = new ArrayList<>();
         JsonNode itemMasterTag = Json.parse(theme.getMasterItemTag());
         for(JsonNode tag : itemMasterTag){
+            Logger.error(tag.toString());
             Object[] tagObject = new Object[5];
             //top
-            tagObject[0] = tag.get("top");
+            tagObject[0] = tag.get("top").floatValue()*100 + "%" ;
             //url
             String tag_url = tag.get("url").toString();
-            tagObject[1] = tag_url.substring(2,tag_url.length()-1);
-            tagLinkedItem = (tag_url.substring(2,tag_url.length()-1)).substring(12);
+            tagObject[1] = (tag_url.substring(2,tag_url.length()-1)).substring(12);
             //left
-            tagObject[2] = tag.get("left");
+            tagObject[2] = tag.get("left").floatValue() * 100 + "%";
             //name
             String tag_name = tag.get("name").toString();
-            tagObject[3] = tag_name.substring(2,tag_name.length()-1);
+            tagObject[3] = tag_name.substring(1,tag_name.length()-1);
             //angle
-            tagObject[4] = tag.get("angle");
+            tagObject[4] = tag.get("angle").toString();
             tagList.add(tagObject);
         }
 
-        return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,tagLinkedItem,IMAGE_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,IMAGE_URL,(User) ctx().args.get("user")));
     }
 
 

@@ -19,25 +19,58 @@
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/item.js"></script>
-<script>window.user</script>
 <script>
-    function ShowModal(addr,arr,arr1) {
+    function ShowModal(obj,obj1) {
+        var index = $(table).find("tr").index($(obj).parent())-1;
         var sharedObject = {};
-        sharedObject.cityOriginal_arr = arr;
-        sharedObject.addr = addr;
-        sharedObject.cityOriginal_all_arr =arr1;
+        sharedObject.obj = obj;
+        sharedObject.obj1 = obj1;
+        sharedObject.tdindex = index;
 
         if (window.showModalDialog) {
-            var retValue = showModalDialog("/comm/pop", sharedObject, "dialogWidth:900px; dialogHeight:600px; dialogLeft:300px;");
+            var retValue = showModalDialog("/comm/pop", sharedObject, "dialogWidth:1200px; dialogHeight:800px; dialogLeft:300px;");
             if (retValue) {
                 UpdateFields(retValue);
             }
         }
         else {
             // for similar functionality in Opera, but it's not modal!
-            var modal = window.open ("/comm/pop", null, "width=900,height=600,left=300,modal=yes,alwaysRaised=yes", null);
+            var modal = window.open ("/comm/pop", null, "width=1200,height=800,left=300,modal=yes,alwaysRaised=yes", null);
             modal.dialogArguments = sharedObject;
         }
+    }
+    var table = $("<table class='table table-bordered'>");
+    var arrobj = [];
+    function updateTable(obj0,obj1){
+        $(table).appendTo($(".sku-info"));
+        var objth = $(obj0).find("th");
+        var objtd = $(obj1).find("td");
+        arrobj.push(objtd);
+        console.log(arrobj);
+        if($(table).find("th").length!==0){
+            var trd = $("<tr>").appendTo(table);
+            $(objtd[0]).appendTo(trd);
+            for(var i=0;i<objth.length;i++){
+                if(objth[i].innerHTML=="颜色"||objth[i].innerHTML=="尺寸"||objth[i].innerHTML=="现价"||objth[i].innerHTML=="库存区域"){
+                    $(objtd[i]).appendTo(trd);
+                }
+            }
+            $(objtd[objtd.length-1]).appendTo(trd);
+        }else{
+            var trh = $("<tr>").appendTo(table);
+            var trd = $("<tr>").appendTo(table);
+            $(objth[0]).appendTo(trh);
+            $(objtd[0]).appendTo(trd);
+            for(var i=0;i<objth.length;i++){
+                if(objth[i].innerHTML=="颜色"||objth[i].innerHTML=="尺寸"||objth[i].innerHTML=="现价"||objth[i].innerHTML=="库存区域"){
+                    $(objth[i]).appendTo(trh);
+                    $(objtd[i]).appendTo(trd);
+                }
+            }
+            $(objth[objth.length-1]).appendTo(trh);
+            $(objtd[objtd.length-1]).appendTo(trd);
+        }
+
     }
     $(function(){
         $(function () {
@@ -82,7 +115,7 @@
     </div>
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
-        <div  id="submitItem" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
+        <div  id="submitItem" class="btn-blue btn-form fr ml15 saveItem">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
         <div id="cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
@@ -275,7 +308,6 @@
                                     </td>
                                 </tr>
                             </table>
-                            <button type="button" class="btn btn-primary" onclick="ShowModal()">添加规格</button>
                         </div>
                     </div>
                 </div>
@@ -287,6 +319,13 @@
                         <div id="warn-pre" style="color:red;width:200px;margin-left:-80px;"></div>
                         <div id="warn-cho" style="color:red;width:200px;margin-left:-80px;"></div>
                     </label>
+                </div>
+                <h4><button type="button" class="btn btn-primary add-guige" onclick="ShowModal(this)">添加规格</button></h4>
+                <div class="form-group">
+                    <div class="col-sm-8">
+                        <div class="sku-info">
+                        </div>
+                    </div>
                 </div>
                 <h4 class="h4-custom-hmm">商品设置</h4>
                 <div class="form-group">

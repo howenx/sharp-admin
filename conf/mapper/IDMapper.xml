@@ -32,6 +32,7 @@
         ${alias}.status
     </sql>
 
+    <!-- 获取一条用户信息 -->
     <select id="getID" resultType="entity.ID" parameterType="java.lang.Integer">
         select
         <include refid="idColumns">
@@ -40,6 +41,7 @@
         from "ID" t where user_id=${value}
     </select>
 
+    <!-- 获取所有的用户信息 -->
     <select id="getAllID" resultType="entity.ID">
         select
         <include refid="idColumns">
@@ -48,6 +50,7 @@
         from "ID" t where 1=1
     </select>
 
+    <!-- 分页获取用户信息 -->
     <select id="getIDPage" parameterType="entity.ID" resultType="entity.ID">
         select
         <include refid="idColumns">

@@ -11,12 +11,9 @@
 
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/jquery-ui.min.js"></script>
-
 <script src="/assets/js/Math.uuid.js"></script>
-
 <script src="/assets/js/upload.style.js"></script>
 <script src="/assets/js/shot.style.js"></script>
-
 <script src="/assets/js/slider.js"></script>
 <script src="/assets/js/search.js"></script>
 <script src="/assets/js/moment-with-locales.js"></script>
@@ -55,7 +52,7 @@
         <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"themes.create.title")</span>
     </div>
     <div class="usercenter-option">
-        <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
+        <div class="user-state fl"></div>
         <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15">@Messages.get(new
             Lang(Lang.forCode(lang)),"themes.slider.save")
         </div>
@@ -100,12 +97,12 @@
                 </div>
                 <hr/>
                 <!-- 上传图片-->
-                <h4 class="h4-custom-hmm">选择主题</h4>
+                <h4 class="h4-custom-hmm">主宣传图</h4>
 
                 <div class="form-group">
                     <div class="col-sm-2">
                         <a href="javascript:void(0)" id="getTemplate" class="upload-label btn-primary btn-xs" style="float: right">
-                            主题模板
+                            选择模板
                         </a>
                     </div>
                     <div class="col-sm-9">
@@ -421,8 +418,8 @@
                     </table>
                 </div>
                 <!-- 创建mark-->
-
-                <h4 class="h4-custom-hmm">添加标签</h4>
+                <hr/>
+                <h4 class="h4-custom-hmm">主题主图</h4>
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label">上传图片:</label>
@@ -442,7 +439,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">旋转角度:</label>
+                    <label class="col-sm-2 control-label">标签角度:</label>
 
                     <div class="col-sm-9">
                         <div class="radbd" style="margin-top: 0">
@@ -452,7 +449,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">商品ID:</label>
+                    <label class="col-sm-2 control-label">标签的商品ID:</label>
 
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="input_imgurl" disabled>
@@ -463,12 +460,14 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label"></label>
-
                     <div class="col-sm-9">
                         <a class="large blue button" id='mark-bt'>创建</a>
+                    </div>
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-9 tag-container">
 
                         <div id='dragon-container'></div>
-                        <a class="large red button" id="push">Push Data</a>
+                        <!--<a class="large red button" id="push">Push Data</a>-->
 
                         <div class="thumb"
                              style='position: relative;margin-top: 10px;margin-bottom:50px;display:block;'></div>

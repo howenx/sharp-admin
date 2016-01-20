@@ -12,9 +12,19 @@
   	"<div class='dragon-close'>" +
   	'</div>' +
   	'</div>' +
+  	"<div class='item-id'>" +
+    '</div>' +
   	'</div>';
   var mark_image_nm;
   $(function() {
+
+    $(document).on("mouseenter",".dragon-contained",function(){
+           $(this).find(".item-id").css({"display":"block"});
+         })
+
+    $(document).on("mouseleave",".dragon-contained",function(){
+      $(this).find(".item-id").css({"display":"none"});
+    })
 
   	$(document).on("click", "p.dragon-p", function() {
   		//if the icon-circle-close exists,then remove it
@@ -46,47 +56,54 @@
   		if ($('#mark-nm').val() != '' && $('#mark-nm').val().length != 0 && $('#mark-nm').val().replace(/[^\x00-\xff]/ig, "aa").length < 24) {
   			//check rotate degree just for number			
   			// if ($('#mark-rotate').val != '' && $('#mark-rotate').val().match(/[\d]/ig)) {
-  			if (radio_flag && rotate != '') {
-  				var ch_drag = $(drag).find('p').eq(0).text($('#mark-nm').val());
-  				//if the rotate for 180 or 135,first rotate the p tag text 180.
-  				if (rotate === '180' || rotate === '135') {
-  					var ch_drag_p = ch_drag.parent().css({
-  						'transform': 'rotate(180deg)',
-  						'-ms-transform': 'rotate(180deg)',
-  						'-webkit-transform': 'rotate(180deg)',
-  						'-o-transform': 'rotate(180deg)',
-  						'-moz-transform': 'rotate(180deg)',
-  						'left': '0px'
-  					});
-  					var ch_graph = ch_drag_p.parent().parent().css({
-  						'transform': 'rotate(' + rotate + 'deg)',
-  						'-ms-transform': 'rotate(' + rotate + 'deg)',
-  						'-webkit-transform': 'rotate(' + rotate + 'deg)',
-  						'-o-transform': 'rotate(' + rotate + 'deg)',
-  						'-moz-transform': 'rotate(' + rotate + 'deg)'
-  					});
-  					$('#dragon-container').append(ch_graph.parent());
-  					$('div.dragon-contained').draggable({
-  						containment: "parent"
-  					});
-  				} else if (rotate === '0' || rotate === '45') {
-  					var ch_graph = ch_drag.parent().parent().parent().css({
-  						'transform': 'rotate(' + rotate + 'deg)',
-  						'-ms-transform': 'rotate(' + rotate + 'deg)',
-  						'-webkit-transform': 'rotate(' + rotate + 'deg)',
-  						'-o-transform': 'rotate(' + rotate + 'deg)',
-  						'-moz-transform': 'rotate(' + rotate + 'deg)'
-  					});
-  					$('#dragon-container').append(ch_graph.parent());
-  					$('div.dragon-contained').draggable({
-  						containment: "parent"
-  					});
-  				} else {
-  					alert('Please do not modify rotate degree.');
-  				}
-  			} else {
-  				alert('Please choose correct rotate degree.');
-  			}
+  			if($("#input_imgurl").val() != ""){
+                if (radio_flag && rotate != '') {
+                    var ch_drag = $(drag).find('p').eq(0).text($('#mark-nm').val());
+                    //if the rotate for 180 or 135,first rotate the p tag text 180.
+                    if (rotate === '180' || rotate === '135') {
+                        var ch_drag_p = ch_drag.parent().css({
+                            'transform': 'rotate(180deg)',
+                            '-ms-transform': 'rotate(180deg)',
+                            '-webkit-transform': 'rotate(180deg)',
+                            '-o-transform': 'rotate(180deg)',
+                            '-moz-transform': 'rotate(180deg)',
+                            'left': '0px'
+                        });
+                        var ch_graph = ch_drag_p.parent().parent().css({
+                            'transform': 'rotate(' + rotate + 'deg)',
+                            '-ms-transform': 'rotate(' + rotate + 'deg)',
+                            '-webkit-transform': 'rotate(' + rotate + 'deg)',
+                            '-o-transform': 'rotate(' + rotate + 'deg)',
+                            '-moz-transform': 'rotate(' + rotate + 'deg)'
+                        });
+                        $('#dragon-container').append(ch_graph.parent());
+                        $('div.dragon-contained').draggable({
+                            containment: "parent"
+                        });
+                    } else if (rotate === '0' || rotate === '45') {
+                        var ch_graph = ch_drag.parent().parent().parent().css({
+                            'transform': 'rotate(' + rotate + 'deg)',
+                            '-ms-transform': 'rotate(' + rotate + 'deg)',
+                            '-webkit-transform': 'rotate(' + rotate + 'deg)',
+                            '-o-transform': 'rotate(' + rotate + 'deg)',
+                            '-moz-transform': 'rotate(' + rotate + 'deg)'
+                        });
+                        $('#dragon-container').append(ch_graph.parent());
+                        $('div.dragon-contained').draggable({
+                            containment: "parent"
+                        });
+                    var itemId =  $("#input_imgurl").val();
+                    ch_drag.parent().parent().parent().parent().find(".item-id").html(itemId);
+
+                    } else {
+                        alert('Please do not modify rotate degree.');
+                    }
+                } else {
+                    alert('Please choose correct rotate degree.');
+                }
+  			}else{
+                alert('Please choose the item ID.');
+            }
   		} else alert('Please input the length less than 24 characters and more than 1 character.');
   	});
   	/*Push the mark info by json.*/

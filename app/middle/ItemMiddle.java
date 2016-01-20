@@ -5,13 +5,17 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.DataLog;
 import entity.Inventory;
 import entity.Item;
+import entity.ItemStatis;
 import play.Logger;
 import play.libs.Json;
 import service.DataLogService;
 import service.InventoryService;
 import service.ItemService;
+import service.ItemStatisService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,10 +34,13 @@ public class ItemMiddle {
      * @param operateIp 操作人员ip
      * @return
      */
-    public static List<Long> itemSave(ItemService itemService, InventoryService inventoryService, DataLogService dataLogService, JsonNode json, String nickName, String operateIp) {
+    public static List<Long> itemSave(ItemService itemService, InventoryService inventoryService, DataLogService dataLogService, ItemStatisService itemStatisService, JsonNode json, String nickName, String operateIp) {
         List<Long> list = new ArrayList<>();
         Item item = new Item();
+        //日志信息
         DataLog dataLog = new DataLog();
+        //统计信息
+        ItemStatis itemStatis = new ItemStatis();
         dataLog.setOperateUser(nickName);
         dataLog.setOperateIp(operateIp);
         //记录商品的状态
@@ -67,7 +74,7 @@ public class ItemMiddle {
                 List<Inventory> originInv = inventoryService.getInventoriesByItemId(itemId);
                 dataLog.setOriginData("{\"item\":"+Json.toJson(originItem).toString() + ",\"inventories\":"+Json.toJson(originInv).toString()+"}");
                 dataLog.setNewData(json.toString());
-                Logger.error("log数据:"+dataLog.toString());
+//                Logger.error("log数据:"+dataLog.toString());
                 dataLogService.insertDataLog(dataLog);
                 itemService.itemUpdate(item);
                 state = item.getState();
@@ -76,14 +83,13 @@ public class ItemMiddle {
             else {
                 item.setState("Y");
                 item.setOrDestroy(false);
-                Logger.error("item数据:"+item);
                 itemService.itemInsert(item);
                 //数据录入data_log表
                 dataLog.setOperateType("新增商品");
                 dataLog.setLogContent("新增商品"+item.getId());
                 dataLog.setOriginData("{}");
                 dataLog.setNewData(json.toString());
-                Logger.error("log数据:"+dataLog.toString());
+//                Logger.error("log数据:"+dataLog.toString());
                 dataLogService.insertDataLog(dataLog);
             }
         }
@@ -114,8 +120,18 @@ public class ItemMiddle {
                 else {
                     inventory.setState("Y");
                     item.setOrDestroy(false);
+                    Logger.error("sku信息:"+inventory);
                     inventoryService.insertInventory(inventory);
-
+                    String createDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
+                    itemStatis.setCreateDate(createDate);
+                    itemStatis.setSkuId(inventory.getId());
+                    itemStatis.setCostPrice(inventory.getItemCostPrice());
+                    itemStatis.setSrcPrice(inventory.getItemSrcPrice());
+                    itemStatis.setSalePrice(inventory.getItemPrice());
+                    itemStatis.setAmount(inventory.getAmount());
+                    itemStatis.setSoldAmount(0);
+                    itemStatis.setRestAmount(inventory.getRestAmount());
+                    itemStatisService.insertItemStatis(itemStatis);
                 }
                 //查找该商品的库存中主skuId,更新到items表中masterInvId
 //                List<Inventory> inventories = inventoryMapper.getInventoriesByItemId(item.getId());

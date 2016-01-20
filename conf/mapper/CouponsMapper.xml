@@ -21,6 +21,7 @@
         ${alias}.cate_nm
     </sql>
 
+    <!-- 录入一条优惠券信息 -->
     <insert id="insertCoupons" parameterType="entity.Coupons">
         insert into sp_coupons
         (coup_id,user_id,cate_id,denomination,start_at,end_at,state,order_id,use_at,limit_quota,cate_nm)
@@ -28,6 +29,7 @@
         (#{coupId},#{userId},#{cateId},#{denomination},#{startAt},#{endAt},#{state},#{orderId},#{useAt},#{limitQuota},#{cateNm})
     </insert>
 
+    <!-- 由coupId获取一条优惠券信息 -->
     <select id="getCoupons" resultType="entity.Coupons" parameterType="java.lang.String">
         select
         <include refid="couponsColumns">
@@ -36,6 +38,7 @@
         from sp_coupons t where coup_id=${value}
     </select>
 
+    <!-- 获取所有的优惠券信息 -->
     <select id="getAllCoupons" resultType="entity.Coupons">
         select
         <include refid="couponsColumns">
@@ -44,6 +47,7 @@
         from sp_coupons t where 1=1
     </select>
 
+    <!-- 分页获取优惠券信息 -->
     <select id="getCouponsPage" parameterType="entity.Coupons" resultType="entity.Coupons">
         select
         <include refid="couponsColumns">
