@@ -69,6 +69,9 @@ public class Test extends Controller{
 
     }
 
-
+    public  Result upload() {
+        return redirect("http://192.168.31.142:3008/upload");
+//        return movedPermanently("http://192.168.31.142:3008/upload");
+    }
 
 }

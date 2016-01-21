@@ -207,7 +207,7 @@ POST            /$lang<(cn|en|kr)>/pin/save                                 cont
 
 
 
-
+POST            /test/upload                                                controllers.Test.upload()
 
 
 
