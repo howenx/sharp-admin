@@ -1,9 +1,13 @@
 @import play.i18n._
-@(lang:String="cn",user:entity.User)
+@(lang:String="cn",pinSkuList:List[Array[Object]],user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
 <script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/rili.js"></script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"拼购查询")
 
@@ -24,8 +28,89 @@
     </div>
 
     <form class="form-horizontal">
+        <div class="form-group">
+            <!--主题id-->
+            <label class="col-sm-2 control-label">活动ID:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control"/>
+            </div>
+            <!--主商品id-->
+            <label class="col-sm-1 control-label">状态</label>
+            <div class="col-sm-4">
+                <select class="form-control">
+                    <option value=""></option>
+                    <option value="Y">正常</option>
+                    <option value="N">下架</option>
+                    <option value="P">预售</option>
+                </select>
+            </div>
+        </div>
 
+        <div class="form-group">
+            <!--开始-->
+            <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition3")</label>
+
+            <div class="col-sm-4">
+                <div id="datetimepicker-starttime" class="input-group date">
+                    <input id = "topic-form-starttime" class="form-control col-sm-2"  type="text">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+            <!--结束-->
+            <label class="col-sm-1 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition4")</label>
+            <div class="col-sm-4">
+                <div id="datetimepicker-endtime" class="input-group date">
+                    <input id = "topic-form-endtime" class="form-control col-sm-2"  type="text">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-s">
+            <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
+            <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
+        </div>
     </form>
+    <div class="table-content">
+        <table id="tb-topic" class="table table-bordered table-hover">
+            <thead>
+            <th>活动ID</th>
+            <th>商品标题</th>
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>状态</th>
+            <th>已开团数</th>
+            </thead>
+            <tbody>
+            @for(pinSku <- pinSkuList){
+            <tr>
+                <td>
+                    <a href="javascript:void(0)">@pinSku(0)</a>
+                </td>
+                <td>@pinSku(1)</td>
+                <td>@pinSku(2)</td>
+                <td>@pinSku(3)</td>
+                <td>@pinSku(4)</td>
+                <td>@pinSku(5)</td>
+            </tr>
+            }
+            <!---公用模块,id不能改变,只需要改变合并行数-->
+            <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            </tbody>
+        </table>
+
+        <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
+        <span class="page-toolbar-title"></span>
+        <div class="paging">
+            <ul class="pagination">
+                <li class="prev disabled"><a href="javascript:void(0)">&laquo;</a></li>
+                <li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>
+                <li class="page-num"><a href="javascript:void(0)">2</a></li>
+                <li class="next"><a href="javascript:void(0)">&raquo;</a></li>
+            </ul>
+        </div>
+        <!-- 公用模块,直接拷贝-->
+    </div>
 </div>
 <!-- 点击图片预览-->
 <div class="goods-img-bg">

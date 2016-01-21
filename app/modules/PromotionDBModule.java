@@ -4,6 +4,7 @@ import com.google.inject.PrivateModule;
 import com.google.inject.Scopes;
 import com.google.inject.name.Names;
 import mapper.PinActivityMapper;
+import mapper.PinSkuMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.guice.session.SqlSessionManagerProvider;
@@ -35,6 +36,7 @@ public class PromotionDBModule extends PrivateModule {
 
                 //只针对promotion数据库的Mapper,不可以将一个Mapper多Module进行Add
                 addMapperClass(PinActivityMapper.class);
+                addMapperClass(PinSkuMapper.class);
 
             }
         });

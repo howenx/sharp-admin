@@ -91,11 +91,8 @@ $(".add-upload").change(function(){
     $(this).val("");
 })
 /*拖拽*/
-$(document).on("mousedown",function(e){
+$("ul.templates").on("mousedown",function(e){
     var obj = e.target;
-    if($(obj).parents("ul")[0].className=="templates-choose"){
-        return;
-    }
     if($(templates_img).find(".bg-img").children().length==0){
         var bgnheight = $(templates_img).eq(1).height();
     }
@@ -554,8 +551,8 @@ $(function(){
     $(".changewh").click(function(){
         if(!(!$(".setwidth").val()&&!$(".setheight").val())){
             $(templates_img).eq(1).css({
-                "width":$(".setwidth").val(),
-                "height":$(".setheight").val()
+                "width":parseInt($(".setwidth").val()) + 2,
+                "height":parseInt($(".setheight").val()) + 2
             })
         }
     })

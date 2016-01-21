@@ -413,15 +413,15 @@ $(function() {
                     }
 
         }
-        if(data_array.selectedRadio == 'upload-img'){
+        //if(data_array.selectedRadio == 'upload-img'){
 
-            if($(".main-img")[0] == null || $(".main-img")[0] == ""){
+            if($("#themeImg").find("img").attr("src") == ""){
                 isPost = false;
-                alert("请上传主题图片!");
+                alert("请选择主题图片!");
                 return false;
             }
-            data_array.themeImg = $(".main-img")[0].src;
-        }
+            //data_array.themeImg = $(".main-img")[0].src;
+        //}
 
         if(document.getElementById("sort").rows.length == 1){
             isPost = false;
@@ -441,13 +441,14 @@ $(function() {
             alert("请上传标签的背景图片!");
             return false;
         }
-
+        /*
         if(document.getElementById("dragon-container").getElementsByClassName("dragon-contained ui-draggable ui-draggable-handle").length == 0)
         {
             isPost = false;
             alert("请添加标签!");
             return false;
         }
+        */
 
         var theme = new Object();
         //主商品ID
@@ -504,18 +505,26 @@ $(function() {
         var tagsContainer = $("#dragon-container");
         $("#dragon-container").find(".dragon-contained").each(function(){
             var tag = {};
-            var container_width = parseInt($(this).parent().width());
-            var container_height = parseInt($(this).parent().height());
-            var left = parseInt($(this).css("left").replace("px",""));
-            var top = parseInt($(this).css("top").replace("px",""));
-            tag.left = parseFloat((left/container_width).toFixed(2));
-            tag.top = parseFloat((top/container_height).toFixed(2));
-            tag.name = $(this).find("p").text();
-            tag.url = "/comm/detail/" + $(this).find(".item-id").text();
             if($(this).find(".dragon-graph").css('transform').indexOf("-1")>=0){
                 tag.angle = 180;
+                var container_width = parseInt($(this).parent().width());
+                var container_height = parseInt($(this).parent().height());
+                var left = parseInt($(this).css("left").replace("px","")) + $(this).width();
+                var top = parseInt($(this).css("top").replace("px",""));
+                tag.left = parseFloat((left/container_width).toFixed(2));
+                tag.top = parseFloat((top/container_height).toFixed(2));
+                tag.name = $(this).find("p").text();
+                tag.url = "/comm/detail/" + $(this).find(".item-id").text();
             }else{
                 tag.angle = 0;
+                var container_width = parseInt($(this).parent().width());
+                var container_height = parseInt($(this).parent().height());
+                var left = parseInt($(this).css("left").replace("px",""));
+                var top = parseInt($(this).css("top").replace("px",""));
+                tag.left = parseFloat((left/container_width).toFixed(2));
+                tag.top = parseFloat((top/container_height).toFixed(2));
+                tag.name = $(this).find("p").text();
+                tag.url = "/comm/detail/" + $(this).find(".item-id").text();
             }
             masterItemTag.push(tag);
         })
