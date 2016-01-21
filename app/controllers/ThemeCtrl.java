@@ -34,6 +34,9 @@ public class ThemeCtrl extends Controller {
     //发布服务器url
     public static final String DEPLOY_URL = play.Play.application().configuration().getString("deploy.server.url");
 
+    //图片上传服务器url
+    public static final String IMG_UPLOAD_URL = play.Play.application().configuration().getString("image.upload.url");
+
     @Inject
     private ThemeService service;
 
