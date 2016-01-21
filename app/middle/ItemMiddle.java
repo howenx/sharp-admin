@@ -131,6 +131,8 @@ public class ItemMiddle {
                     itemStatis.setAmount(inventory.getAmount());
                     itemStatis.setSoldAmount(0);
                     itemStatis.setRestAmount(inventory.getRestAmount());
+                    itemStatis.setColor(inventory.getItemColor());
+                    itemStatis.setSize(inventory.getItemSize());
                     itemStatisService.insertItemStatis(itemStatis);
                 }
                 //查找该商品的库存中主skuId,更新到items表中masterInvId

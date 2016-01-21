@@ -20,8 +20,24 @@ public class ItemStatis implements Serializable{
     private Integer amount;      //sku库存总量
     private Integer soldAmount;  //sku售出数量
     private Integer restAmount;  //sku当前库存剩余量
+    private String color;       //sku颜色
+    private String size;        //sku尺寸
 
     public ItemStatis() {
+    }
+    
+    public ItemStatis(Long id, String createDate, Long skuId, BigDecimal costPrice, BigDecimal srcPrice, BigDecimal salePrice, Integer amount, Integer soldAmount, Integer restAmount, String color, String size) {
+        this.id = id;
+        this.createDate = createDate;
+        this.skuId = skuId;
+        this.costPrice = costPrice;
+        this.srcPrice = srcPrice;
+        this.salePrice = salePrice;
+        this.amount = amount;
+        this.soldAmount = soldAmount;
+        this.restAmount = restAmount;
+        this.color = color;
+        this.size = size;
     }
 
     public Long getId() {
@@ -96,9 +112,25 @@ public class ItemStatis implements Serializable{
         this.restAmount = restAmount;
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
     @Override
     public String toString() {
-        return "ItemStatisMapper{" +
+        return "ItemStatis{" +
                 "id=" + id +
                 ", createDate='" + createDate + '\'' +
                 ", skuId=" + skuId +
@@ -108,18 +140,9 @@ public class ItemStatis implements Serializable{
                 ", amount=" + amount +
                 ", soldAmount=" + soldAmount +
                 ", restAmount=" + restAmount +
+                ", color='" + color + '\'' +
+                ", size='" + size + '\'' +
                 '}';
     }
 
-    public ItemStatis(Long id, String createDate, Long skuId, BigDecimal costPrice, BigDecimal srcPrice, BigDecimal salePrice, Integer amount, Integer soldAmount, Integer restAmount) {
-        this.id = id;
-        this.createDate = createDate;
-        this.skuId = skuId;
-        this.costPrice = costPrice;
-        this.srcPrice = srcPrice;
-        this.salePrice = salePrice;
-        this.amount = amount;
-        this.soldAmount = soldAmount;
-        this.restAmount = restAmount;
-    }
 }
