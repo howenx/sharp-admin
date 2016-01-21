@@ -195,6 +195,10 @@ GET             /$lang<(cn|en|kr)>/log/findLog/:id                          cont
 #Pingou     --> pin 拼购
 GET             /pin/add                                                    controllers.PingouCtrl.addPingou(lang ="cn")
 GET             /$lang<(cn|en|kr)>/pin/add                                  controllers.PingouCtrl.addPingou(lang)
+GET             /pin/search                                                 controllers.PingouCtrl.pingouSearch(lang ="cn")
+GET             /$lang<(cn|en|kr)>/pin/search                               controllers.PingouCtrl.pingouSearch(lang)
+
+
 
 
 

@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <!--<link rel="stylesheet" href="/assets/css/item.css"/>-->
     <link rel="stylesheet" href="/assets/css/add-guige.css">
+    <link rel="stylesheet" href="/assets/css/item.css">
     <script src="/assets/js/jquery.min.js"></script>
     <script src="/assets/js/add-guige.js"></script>
     <!-- 日历 -->
@@ -23,11 +24,11 @@
         <form class="form-horizontal">
             <div class="form-group">
                 <!-- 颜色 -->
-                <label class="col-sm-2 control-label">颜色</label>
+                <label class="col-sm-2 control-label thval">颜色</label>
                 <div class="col-sm-10">
                     <div class="color">
                         <label class="radio-inline">
-                            <input type="radio" class="vals" name="itemColor" value="白色" checked> <span>白色</span>
+                            <input type="radio" name="itemColor" value="白色" checked> <span>白色</span>
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="itemColor" value="蓝色"> <span>蓝色</span>
@@ -44,11 +45,11 @@
             </div>
             <div class="form-group">
                 <!-- 尺寸 -->
-                <label class="col-sm-2 control-label">尺寸</label>
+                <label class="col-sm-2 control-label thval">尺寸</label>
                 <div class="col-sm-10">
                     <div class="size">
                         <label class="radio-inline">
-                            <input type="radio" class="vals" name="itemSize" value="100ml" checked> <span>100ml</span>
+                            <input type="radio" name="itemSize" value="100ml" checked> <span>100ml</span>
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="itemSize" value="200ml"> <span>200ml</span>
@@ -62,7 +63,7 @@
             </div>
             <div class="form-group">
                 <!-- 销售期限 -->
-                <label class="col-sm-2 control-label l-pad">销售期限</label>
+                <label class="col-sm-2 control-label l-pad thval">销售期限</label>
                 <div class="col-sm-2" style="padding-right: 0; width:212px;">
                     <div class="input-group date" id='datetimepicker1'>
                         <input class="form-control col-sm-2"  type="text"  id="onShelvesAt" name="startAt">
@@ -80,57 +81,57 @@
             </div>
             <div class="form-group">
                 <!-- 重量 -->
-                <label class="col-sm-2 control-label">重量(整数:克)</label>
+                <label class="col-sm-2 control-label thval">重量(整数:克)</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control vals" name="invWeight">
+                    <input type="text" class="form-control" name="invWeight">
                 </div>
                 <!-- 限购数量 -->
-                <label class="col-sm-1 control-label">限购数量</label>
+                <label class="col-sm-1 control-label thval">限购数量</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control vals" name="restrictAmount">
+                    <input type="text" class="form-control" name="restrictAmount">
                 </div>
             </div>
             <div class="form-group">
                 <!-- 现价 -->
-                <label class="col-sm-2 control-label">现价</label>
+                <label class="col-sm-2 control-label thval">现价</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control vals" name="itemPrice">
+                    <input type="text" class="form-control" name="itemPrice">
                 </div>
                 <!-- 原价 -->
-                <label class="col-sm-1 control-label">原价</label>
+                <label class="col-sm-1 control-label thval">原价</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control vals" name="itemSrcPrice">
+                    <input type="text" class="form-control" name="itemSrcPrice">
                 </div>
             </div>
             <div class="form-group">
                 <!-- 成本价 -->
-                <label class="col-sm-2 control-label">成本价</label>
+                <label class="col-sm-2 control-label thval">成本价</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control vals" name="itemCostPrice">
+                    <input type="text" class="form-control" name="itemCostPrice">
                 </div>
                 <!-- 折扣 -->
-                <label class="col-sm-1 control-label">折扣</label>
+                <label class="col-sm-1 control-label thval">折扣</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control vals" name="itemDiscount">
+                    <input type="text" class="form-control" name="itemDiscount">
                 </div>
             </div>
             <div class="form-group">
                 <!-- 库存总量 -->
-                <label class="col-sm-2 control-label">库存总量</label>
+                <label class="col-sm-2 control-label thval">库存总量</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control vals" name="amount">
+                    <input type="text" class="form-control" name="amount">
                 </div>
                 <!-- 剩余库存量 -->
-                <label class="col-sm-1 control-label">剩余库存</label>
+                <label class="col-sm-1 control-label thval">剩余库存</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control vals" name="restmount">
+                    <input type="text" class="form-control" name="amountremain">
                 </div>
             </div>
             <div class="form-group">
                 <!-- 运费设置 -->
-                <label class="col-sm-2 control-label">运费设置</label>
+                <label class="col-sm-2 control-label thval">运费设置</label>
                 <div class="col-sm-2">
-                    <select class="form-control vals" name="carriageModelCode">
+                    <select class="form-control" name="carriageModelCode">
                         <option>请选择</option>
                         <option>特价优惠</option>
                         <option selected>默认模版</option>
@@ -139,9 +140,9 @@
                     </select>
                 </div>
                 <!-- 库存区域 -->
-                <label class="col-sm-1 control-label">库存区域</label>
+                <label class="col-sm-1 control-label thval">库存区域</label>
                 <div class="col-sm-2">
-                    <select class="form-control vals" name="invArea">
+                    <select class="form-control" name="invArea">
                         <option selected>杭州保税仓备案</option>
                         <option>杭州保税仓直邮</option>
                         <option>广州保税仓备案</option>
@@ -152,9 +153,9 @@
                     </select>
                 </div>
                 <!-- 报关单位 -->
-                <label class="col-sm-1 control-label">报关单位</label>
+                <label class="col-sm-1 control-label thval">报关单位</label>
                 <div class="col-sm-2">
-                    <select class="form-control vals" name="invCustoms">
+                    <select class="form-control" name="invCustoms">
                         <option selected>杭州</option>
                         <option>广州</option>
                         <option>上海</option>
@@ -163,9 +164,9 @@
             </div>
             <div class="form-group">
                 <!-- 税率设置 -->
-                <label class="col-sm-2 control-label">税率设置</label>
+                <label class="col-sm-2 control-label thval">税率设置</label>
                 <div class="col-sm-2">
-                    <select class="form-control vals">
+                    <select class="form-control" name="rateSet">
                         <option>请选择</option>
                         <option selected>标准税率</option>
                         <option>免税</option>
@@ -173,55 +174,57 @@
                     </select>
                 </div>
                 <!-- 税率 -->
-                <label class="col-sm-1 control-label">税率(整数)</label>
+                <label class="col-sm-1 control-label thval">税率(整数)</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control vals">
+                    <input type="text" class="form-control" name="rateRoundNum">
                 </div>
                 <!-- 行邮税号 -->
-                <label class="col-sm-1 control-label">行邮税号</label>
+                <label class="col-sm-1 control-label thval">行邮税号</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control vals">
+                    <input type="text" class="form-control" name="rateNum">
                 </div>
             </div>
             <div class="form-group">
                 <!-- 海关商品备案号 -->
-                <label class="col-sm-2 control-label">海关商品备案号</label>
+                <label class="col-sm-2 control-label thval">海关商品备案号</label>
                 <div>
-                    <label class="col-sm-1 control-label" style="width:70px">杭州:</label>
+                    <label class="col-sm-1 control-label" style="width:70px;padding-right: 0">杭州:</label>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control hz" style="margin-left:-20px;">
+                        <input type="text" class="form-control" name="hz">
                     </div>
-                    <label class="col-sm-1 control-label" style="width:70px;margin-left:-20px;">广州:</label>
+                    <label class="col-sm-1 control-label" style="width:70px;padding-right: 0">广州:</label>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control gz" style="margin-left:-20px;">
+                        <input type="text" class="form-control" name="gz">
                     </div>
-                    <label class="col-sm-1 control-label" style="margin-left:-20px;">上海:</label>
+                    <label class="col-sm-1 control-label" style="width:70px;padding-right: 0">上海:</label>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control sh">
+                        <input type="text" class="form-control" name="sh">
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <!-- sku主图 -->
-                <label class="col-sm-1 control-label"><div class="r">主图</div><div style="margin-top:20px;margin-right:30px;">(一张)</div></label>
+                <label class="col-sm-2 control-label thval">主图(一张)</label>
                 <div class="col-sm-2">
-                    <div class="list-img" style="border:1px solid #ccc; height:80px;">
-                        <div id="galleryM1">
-                        </div>
-                        <span class="add" id="masterImgAddM1">＋
-                            <input type="file" id="M1" name="invImg" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                    <div class="list-img clearfix" style="border:1px solid #ccc;">
+                        <span class="add" id="masterImgAddM" style="float: left">＋
+                            <input type="file" id="M" name="invImg" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                         </span>
+                        <div id="galleryM1" style="float: left">
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="form-group">
                 <!-- 详情页预览图 -->
-                <label class="col-sm-1 control-label"><div class="r">预览图(最多六张)</div></label>
+                <label class="col-sm-2 control-label thval">预览图(最多六张)</label>
                 <div class="col-sm-4">
-                    <div class="preview-img" style="border:1px solid #ccc;">
-                        <div id="galleryP1">
-                        </div>
-                        <span class="add" id="preImgAddP1">＋
-                            <input type="file" id="P1" name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
+                    <div class="preview-img clearfix" style="border:1px solid #ccc;">
+                        <span class="add" id="preImgAddP" style="float: left">＋
+                            <input type="file" id="P" name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
                         </span>
+                        <div id="galleryP1" style="float: left">
+                        </div>
                     </div>
                     <div id="warn-masthimg" style="color:red;margin-top:-70px; margin-left:500px;width:120px;"></div>
                     <div id="warn-detailimg" style="color:red;margin-top:10px; margin-left:500px;width:120px;margin-bottom:50px;"></div>

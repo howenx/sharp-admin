@@ -28,6 +28,35 @@
     function UpdateFields(obj) {
         $('#input_imgurl').val(obj.lable_id);
     }
+    $(function(){
+        $(document).on("click",".delPingou",function(){
+            $(this).parent().remove();
+            $(".pingou").find("tr:gt(0)").find("td:nth-of-type(1)").each(function(index){
+                $(this).html(index+1);
+            });
+        });
+        $(document).on("click",".addPingou",function(){
+            var vals = $(this).parents(".form-group").find("input[type=text]");
+            var tableLength = $(".pingou").find("th").length;
+            var order = $(".pingou").find("tr").length;
+            if(vals[0].value!==""&&vals[1].value!==""){
+                var tr=$("<tr>").appendTo(".pingou");
+                for(var i=0;i<tableLength;i++){
+                    if(i==0){
+                        $("<td>").html(order).appendTo(tr);
+                    }else if(i==1){
+                        $("<td>").html(vals[0].value).appendTo(tr);
+                    }else if(i==2){
+                        $("<td>").html(vals[1].value).appendTo(tr);
+                    }else if(i==3){
+                        $('<td class="delPingou" style="background: #ccc;cursor: pointer">').html("删除").appendTo(tr);
+                    }
+                }
+                vals[0].value="";
+                vals[1].value="";
+            }
+        });
+    })
 </script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"新增拼购")
@@ -37,8 +66,6 @@
     <div class="bread-path">
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
         <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
-        <span class="icon-path">&gt;</span>
-        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
         <span class="icon-path">&gt;</span>
         <span>拼购管理</span>
         <span class="icon-path">&gt;</span>
@@ -55,43 +82,199 @@
         <div id="cancel" class="btn-white btn-form fr ml20">取消</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
-    <form class="form-horizontal">
-        <h4 class="h4-custom-hmm">基本信息</h4>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">活动名称:</label>
-            <div class="col-sm-8">
-                <input type="text" class="form-control">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">开始时间:</label>
-            <div class="col-sm-8">
-                <div class="input-group" id='datetimepicker1'>
-                    <input class="form-control col-sm-2"  type="text"  id="onShelvesAt" name="onShelvesAt">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="form-horizontal">
+                <h4 class="h4-custom-hmm">基本信息</h4>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">活动名称:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control">
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">结束时间:</label>
-            <div class="col-sm-8">
-                <div class="input-group date" id='datetimepicker2'>
-                    <input class="form-control col-sm-2"  type="text"  id="offShelvesAt" name="offShelvesAt">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">开始时间:</label>
+                    <div class="col-sm-8">
+                        <div class="input-group" id='datetimepicker1'>
+                            <input class="form-control col-sm-2"  type="text"  id="onShelvesAt" name="onShelvesAt">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
                 </div>
-                <div id="warn-date" style="color:red; margin-left:260px;margin-top:-30px; width:100px;"></div>
-            </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">结束时间:</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date" id='datetimepicker2'>
+                            <input class="form-control col-sm-2"  type="text"  id="offShelvesAt" name="offShelvesAt">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">商品ID:</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="input_imgurl" class="form-control" disabled>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-primary btn-xm" onclick="ShowModal1()">选择</button>
+                    </div>
+                </div>
+                <h4 class="h4-custom-hmm">活动图片</h4>
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-primary" style="float: right;position: relative">
+                            上传图片
+                            <input type="file" style="width: 100%;height: 100%;position: absolute;left: 0;top: 0;opacity: 0">
+                        </button>
+                    </div>
+                    <div class="col-sm-9">
+                        <div style="width: 100%;height: 300px;border: 1px solid #ccc"></div>
+                    </div>
+                </div>
+                <h4 class="h4-custom-hmm">价格阶梯</h4>
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <table class="table table-bordered pingou">
+                            <tr>
+                                <th>编号</th>
+                                <th>拼购人数</th>
+                                <th>拼购价格</th>
+                                <th>删除</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>345</td>
+                                <td class="delPingou" style="background: #ccc;cursor: pointer">删除</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>5</td>
+                                <td>100</td>
+                                <td class="delPingou" style="background: #ccc;cursor: pointer">删除</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">拼购人数:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control">
+                    </div>
+                    <label class="col-sm-1 control-label" style="padding-left: 0">拼购价格:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-primary btn-xm addPingou">添加</button>
+                    </div>
+                </div>
+                <h4 class="h4-custom-hmm">优惠券</h4>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">团长:</label>
+                    <div class="col-sm-3">
+                        <label class="radio-inline">
+                            <input type="radio" name="tzyhj" checked> 发放优惠券
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="tzyhj"> 不发放优惠券
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">优惠券类别:</label>
+                    <div class="col-sm-3">
+                        <select class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">限额:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">面值:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">使用期限:</label>
+                    <div class="col-sm-3">
+                        <div class="input-group" id='datetimepicker3'>
+                            <input class="form-control col-sm-2"  type="text" name="onShelvesAt">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                    <div style="font-size: 20px;line-height: 1.6;float: left">~</div>
+                    <div class="col-sm-3">
+                        <div class="input-group date" id='datetimepicker4'>
+                            <input class="form-control col-sm-2"  type="text" name="offShelvesAt">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">团员:</label>
+                    <div class="col-sm-3">
+                        <label class="radio-inline">
+                            <input type="radio" name="tyyhj" checked> 发放优惠券
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="tyyhj"> 不发放优惠券
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">优惠券类别:</label>
+                    <div class="col-sm-3">
+                        <select class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">限额:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">面值:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">使用期限:</label>
+                    <div class="col-sm-3">
+                        <div class="input-group" id='datetimepicker5'>
+                            <input class="form-control col-sm-2"  type="text" name="onShelvesAt">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                    <div style="font-size: 20px;line-height: 1.6;float: left">~</div>
+                    <div class="col-sm-3">
+                        <div class="input-group date" id='datetimepicker6'>
+                            <input class="form-control col-sm-2"  type="text" name="offShelvesAt">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">商品ID:</label>
-            <div class="col-sm-8">
-                <input type="text" id="input_imgurl" class="form-control" disabled>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-primary btn-xm" onclick="ShowModal1()">选择</button>
-            </div>
-        </div>
-    </form>
+    </div>
 </div>
 <!-- 点击图片预览-->
 <div class="goods-img-bg">
