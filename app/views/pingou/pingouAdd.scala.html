@@ -8,56 +8,7 @@
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
-<script>
-    function ShowModal1() {
-        var sharedObject = {};
-        sharedObject.flag = true;
-
-        if (window.showModalDialog) {
-            var retValue = showModalDialog("/topic/add/popup", sharedObject, "dialogWidth:1200px; dialogHeight:600px; dialogLeft:300px;");
-            if (retValue) {
-                UpdateFields(retValue);
-            }
-        }
-        else {
-            // for similar functionality in Opera, but it's not modal!
-            var modal = window.open("/topic/add/popup", null, "width=1200,height=600,left=300,modal=yes,alwaysRaised=yes", null);
-            modal.dialogArguments = sharedObject;
-        }
-    }
-    function UpdateFields(obj) {
-        $('#input_imgurl').val(obj.lable_id);
-    }
-    $(function(){
-        $(document).on("click",".delPingou",function(){
-            $(this).parent().remove();
-            $(".pingou").find("tr:gt(0)").find("td:nth-of-type(1)").each(function(index){
-                $(this).html(index+1);
-            });
-        });
-        $(document).on("click",".addPingou",function(){
-            var vals = $(this).parents(".form-group").find("input[type=text]");
-            var tableLength = $(".pingou").find("th").length;
-            var order = $(".pingou").find("tr").length;
-            if(vals[0].value!==""&&vals[1].value!==""){
-                var tr=$("<tr>").appendTo(".pingou");
-                for(var i=0;i<tableLength;i++){
-                    if(i==0){
-                        $("<td>").html(order).appendTo(tr);
-                    }else if(i==1){
-                        $("<td>").html(vals[0].value).appendTo(tr);
-                    }else if(i==2){
-                        $("<td>").html(vals[1].value).appendTo(tr);
-                    }else if(i==3){
-                        $('<td class="delPingou" style="background: #ccc;cursor: pointer">').html("删除").appendTo(tr);
-                    }
-                }
-                vals[0].value="";
-                vals[1].value="";
-            }
-        });
-    })
-</script>
+<script src="/assets/js/pinSku.js"></script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"新增拼购")
 
@@ -77,8 +28,8 @@
         <span class="title-name">新增拼购</span>
     </div>
     <div class="usercenter-option">
-        <div class="user-state fl">未更改</div>
-        <div id="brandSubmit" class="btn-blue btn-form fr ml15">保存</div>
+        <div class="user-state fl"></div>
+        <div id="pinSkuSubmit" class="btn-blue btn-form fr ml15">保存</div>
         <div id="cancel" class="btn-white btn-form fr ml20">取消</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
@@ -89,7 +40,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">活动名称:</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" id="pinName">
                     </div>
                 </div>
                 <div class="form-group">
@@ -111,6 +62,23 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-2 control-label">状态:</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" id="status">
+                            <option value=""></option>
+                            <option value="Y">正常</option>
+                            <option value="N">下架</option>
+                            <option value="P">预售</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">每用户限购:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="restrict">
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-2 control-label">商品ID:</label>
                     <div class="col-sm-8">
                         <input type="text" id="input_imgurl" class="form-control" disabled>
@@ -119,18 +87,22 @@
                         <button type="button" class="btn btn-primary btn-xm" onclick="ShowModal1()">选择</button>
                     </div>
                 </div>
+                <hr/>
                 <h4 class="h4-custom-hmm">活动图片</h4>
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <button type="button" class="btn btn-primary" style="float: right;position: relative">
-                            上传图片
-                            <input type="file" style="width: 100%;height: 100%;position: absolute;left: 0;top: 0;opacity: 0">
+                        <button type="button" id="getTemplate" class="btn btn-primary" style="float: right;position: relative">
+                            图片模板
                         </button>
                     </div>
                     <div class="col-sm-9">
-                        <div style="width: 100%;height: 300px;border: 1px solid #ccc"></div>
+                        <div id="themeImg" style="width: 100%;height: 300px;border: 1px solid #ccc">
+                            <img src="" width="100%" height="100%"/>
+                            <input id="" type="hidden">
+                        </div>
                     </div>
                 </div>
+                <hr/>
                 <h4 class="h4-custom-hmm">价格阶梯</h4>
                 <div class="form-group">
                     <div class="col-sm-offset-1 col-sm-10">
@@ -140,18 +112,6 @@
                                 <th>拼购人数</th>
                                 <th>拼购价格</th>
                                 <th>删除</th>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>345</td>
-                                <td class="delPingou" style="background: #ccc;cursor: pointer">删除</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>5</td>
-                                <td>100</td>
-                                <td class="delPingou" style="background: #ccc;cursor: pointer">删除</td>
                             </tr>
                         </table>
                     </div>
@@ -166,46 +126,50 @@
                         <input type="text" class="form-control">
                     </div>
                     <div class="col-sm-2">
-                        <button type="button" class="btn btn-primary btn-xm addPingou">添加</button>
+                        <button type="button" class="btn btn-primary btn-xm addPriceLevel">添加</button>
                     </div>
                 </div>
+                <hr/>
                 <h4 class="h4-custom-hmm">优惠券</h4>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">团长:</label>
                     <div class="col-sm-3">
                         <label class="radio-inline">
-                            <input type="radio" name="tzyhj" checked> 发放优惠券
+                            <input type="radio" name="tzyhj" value="tz-yes" checked> 发放优惠券
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="tzyhj"> 不发放优惠券
+                            <input type="radio" name="tzyhj" value="tz-no"> 不发放优惠券
                         </label>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group tz">
                     <label class="col-sm-2 control-label">优惠券类别:</label>
                     <div class="col-sm-3">
                         <select class="form-control">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                            <option value="">请选择</option>
+                            <option value="153">化妆品类商品适用券</option>
+                            <option value="172">配饰类商品适用券</option>
+                            <option value="165">服饰类商品适用券</option>
+                            <option value="555">全场通用券</option>
+                            <option value="777">新人优惠券</option>
+                            <option value="211">指定商品适用券</option>
+                            <option value="999">免邮券</option>
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group tz">
                     <label class="col-sm-2 control-label">限额:</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group tz">
                     <label class="col-sm-2 control-label">面值:</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group tz">
                     <label class="col-sm-2 control-label">使用期限:</label>
                     <div class="col-sm-3">
                         <div class="input-group" id='datetimepicker3'>
@@ -225,38 +189,41 @@
                     <label class="col-sm-2 control-label">团员:</label>
                     <div class="col-sm-3">
                         <label class="radio-inline">
-                            <input type="radio" name="tyyhj" checked> 发放优惠券
+                            <input type="radio" name="tyyhj" value="ty-yes" checked> 发放优惠券
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="tyyhj"> 不发放优惠券
+                            <input type="radio" name="tyyhj" value="ty-no"> 不发放优惠券
                         </label>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group ty">
                     <label class="col-sm-2 control-label">优惠券类别:</label>
                     <div class="col-sm-3">
                         <select class="form-control">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                            <option value="">请选择</option>
+                            <option value="153">化妆品类商品适用券</option>
+                            <option value="172">配饰类商品适用券</option>
+                            <option value="165">服饰类商品适用券</option>
+                            <option value="555">全场通用券</option>
+                            <option value="777">新人优惠券</option>
+                            <option value="211">指定商品适用券</option>
+                            <option value="999">免邮券</option>
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group ty">
                     <label class="col-sm-2 control-label">限额:</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group ty">
                     <label class="col-sm-2 control-label">面值:</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group ty">
                     <label class="col-sm-2 control-label">使用期限:</label>
                     <div class="col-sm-3">
                         <div class="input-group" id='datetimepicker5'>
