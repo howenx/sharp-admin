@@ -197,6 +197,8 @@ GET             /pin/add                                                    cont
 GET             /$lang<(cn|en|kr)>/pin/add                                  controllers.PingouCtrl.addPingou(lang)
 GET             /pin/search                                                 controllers.PingouCtrl.pingouSearch(lang ="cn")
 GET             /$lang<(cn|en|kr)>/pin/search                               controllers.PingouCtrl.pingouSearch(lang)
+POST            /pin/save                                                   controllers.PingouCtrl.pingouSave(lang ="cn")
+POST            /$lang<(cn|en|kr)>/pin/save                                 controllers.PingouCtrl.pingouSave(lang)
 
 
 

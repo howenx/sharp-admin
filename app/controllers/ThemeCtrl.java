@@ -253,7 +253,7 @@ public class ThemeCtrl extends Controller {
     }
 
     /**
-     * 添加主题   Added by Tiffany Zhu
+     * 保存主题   Added by Tiffany Zhu
      * @return Result
      */
     @Security.Authenticated(UserAuth.class)

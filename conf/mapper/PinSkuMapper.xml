@@ -19,7 +19,7 @@
         ${alias}.inv_id,
         ${alias}.pin_discount
     </sql>
-    <insert id="insertPinSku" parameterType="entity.pingou.PinSku" useGeneratedKeys="true" keyProperty="pin_id">
+    <insert id="insertPinSku" parameterType="entity.pingou.PinSku" useGeneratedKeys="true" keyProperty="pinId">
         insert into pin_sku(pin_img,share_url,status,create_at,pin_title,start_at,end_at,pin_price_rule,restrict_amount,floor_price,inv_id,pin_discount)
         values(#{pinImg},#{shareUrl},#{status},CURRENT_TIMESTAMP(0),#{pinTitle},#{startAt},#{endAt},#{pinPriceRule},#{restrictAmount},#{floorPrice},#{invId},#{pinDiscount})
     </insert>
@@ -35,13 +35,15 @@
         ${alias}.master_coupon_quota,
         ${alias}.member_coupon,
         ${alias}.member_coupon_class,
-        ${alias}.member_coupon_start_at
+        ${alias}.member_coupon_start_at,
+        ${alias}.pin_id
     </sql>
-    <insert id="insertPinCoupon" parameterType="entity.pingou.PinCoupon">
-        insert into pin_coupon(id,member_coupon_end_at,member_coupon_quota,master_coupon,master_coupon_class,master_coupon_start_at,master_coupon_end_at,
-                               master_coupon_quota,member_coupon,member_coupon_class,member_coupon_start_at)
-        values(#{id},#{memberCouponEndAt},#{memberCouponQuota},#{masterCoupon},#{masterCouponClass},#{masterCouponStartAt},#{masterCouponEndAt},
-               #{masterCouponQuota},#{memberCoupon},#{memberCouponClass},#{memberCouponStartAt})
+    <insert id="insertPinCoupon" parameterType="entity.pingou.PinCoupon" useGeneratedKeys="true" keyProperty="id">
+        insert into pin_coupon(member_coupon_end_at,member_coupon_quota,master_coupon,master_coupon_class,master_coupon_start_at,master_coupon_end_at,
+                               master_coupon_quota,member_coupon,member_coupon_class,member_coupon_start_at,pin_id)
+        values(#{memberCouponEndAt},#{memberCouponQuota},#{masterCoupon},#{masterCouponClass},#{masterCouponStartAt},#{masterCouponEndAt},
+               #{masterCouponQuota},#{memberCoupon},#{memberCouponClass},#{memberCouponStartAt},#{pinId})
+
     </insert>
 
 </mapper>

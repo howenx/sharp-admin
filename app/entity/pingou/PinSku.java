@@ -30,10 +30,13 @@ public class PinSku implements Serializable {
     private Long  invId;            //库存ID
     private BigDecimal pinDiscount; //拼购最低折扣
 
+
+    private Long itemId;            //商品ID
+
     public PinSku() {
     }
 
-    public PinSku(Long pinId, String pinImg, String shareUrl, String status, Timestamp createAt, Timestamp updateAt, String pinTitle, Timestamp startAt, Timestamp endAt, String pinPriceRule, int restrictAmount, BigDecimal floorPrice, Long invId, BigDecimal pinDiscount) {
+    public PinSku(Long pinId, String pinImg, String shareUrl, String status, Timestamp createAt, Timestamp updateAt, String pinTitle, Timestamp startAt, Timestamp endAt, String pinPriceRule, int restrictAmount, BigDecimal floorPrice, Long invId, BigDecimal pinDiscount, Long itemId) {
         this.pinId = pinId;
         this.pinImg = pinImg;
         this.shareUrl = shareUrl;
@@ -48,6 +51,7 @@ public class PinSku implements Serializable {
         this.floorPrice = floorPrice;
         this.invId = invId;
         this.pinDiscount = pinDiscount;
+        this.itemId = itemId;
     }
 
     @Override
@@ -67,6 +71,7 @@ public class PinSku implements Serializable {
                 ", floorPrice=" + floorPrice +
                 ", invId=" + invId +
                 ", pinDiscount=" + pinDiscount +
+                ", itemId=" + itemId +
                 '}';
     }
 
@@ -181,5 +186,13 @@ public class PinSku implements Serializable {
 
     public void setPinDiscount(BigDecimal pinDiscount) {
         this.pinDiscount = pinDiscount;
+    }
+
+    public Long getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
     }
 }
