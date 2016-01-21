@@ -1,4 +1,4 @@
-@(modelList:List[entity.Carriage])
+@(modelList:List[entity.Carriage],uploadURL:String)
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +13,8 @@
     <script src="/assets/js/moment-with-locales.js"></script>
     <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
     <script src="/assets/js/rili.js"></script>
+    <script>window.uploadURL = '@uploadURL'</script>
+
 </head>
 <body onload="Init()">
 <div class="panel panel-primary">

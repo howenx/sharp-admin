@@ -234,8 +234,8 @@ $(function(){
         formdata.append("photo", file);
         formdata.append("params", "minify");
         var http = new XMLHttpRequest();
-        var url = "http://172.28.3.18:3008/upload";
-        http.open("POST", url, true);
+        var url = window.uploadURL;
+        alert(window.uploadURL);
 
         http.onreadystatechange = function() {
             if (http.readyState == 4 && http.status == 200) {
