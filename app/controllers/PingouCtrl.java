@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.Inventory;
+import entity.Order;
 import entity.User;
 import entity.pingou.PinCoupon;
 import entity.pingou.PinSku;
@@ -16,7 +17,9 @@ import service.InventoryService;
 import service.PingouService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -110,9 +113,44 @@ public class PingouCtrl extends Controller {
 
     }
 
-    public Result getPinSkuPage(String lang){
-        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
+    /**
+     * 拼购ajax查询     Added by Tiffany Zhu 2016.01.21
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result getPinSkuPage(String lang,int pageNum){
+        JsonNode json = request().body().asJson();
+        PinSku pinSku = Json.fromJson(json,PinSku.class);
+        if(pageNum>=1){
+            //计算从第几条开始取数据
+            int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
+            pinSku.setPageSize(-1);
+            pinSku.setOffset(-1);
+            //取总数
+            int countNum = pingouService.getPinSkuPage(pinSku).size();
+            //共分几页
+            int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
+
+            if(countNum%ThemeCtrl.PAGE_SIZE!=0){
+                pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
+            }
+            pinSku.setPageSize(ThemeCtrl.PAGE_SIZE);
+            pinSku.setOffset(offset);
+            //组装返回数据
+            Map<String,Object> returnMap=new HashMap<>();
+            returnMap.put("topic",pingouService.getPinSkuPage(pinSku));
+            returnMap.put("pageNum",pageNum);
+            returnMap.put("countNum",countNum);
+            returnMap.put("pageCount",pageCount);
+            returnMap.put("pageSize",ThemeCtrl.PAGE_SIZE);
+            return ok(Json.toJson(returnMap));
+        }
+        else{
+            return badRequest();
+        }
     }
+
 
 
 }

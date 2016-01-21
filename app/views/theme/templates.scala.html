@@ -1,4 +1,4 @@
-@(lang:String="cn",templateList:List[entity.ThemeTemplate],url:String,uploadUrl:String,user:entity.User)
+@(lang:String="cn",templateList:List[entity.ThemeTemplate],url:String,uploadUrl:String,cutUrl:String,user:entity.User)
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/assets/css/templates.css">
     <script src="/assets/js/jquery-1.11.3.min.js"></script>
     <script>window.uploadUrl = "@uploadUrl"</script>
+    <script>window.cutUrl = "@cutUrl"</script>
     <!--<script src="js/angular.min.js"></script>-->
 </head>
 <body oncontextmenu="return false">

@@ -69,7 +69,8 @@ $(".add-upload").change(function(){
     formdata.append("photo", file);
     formdata.append("params", "minify");
     var http = new XMLHttpRequest();
-    var url = "http://172.28.3.18:3008/upload";
+    //var url = "http://172.28.3.18:3008/upload";
+    var url = window.uploadUrl;
     http.open("POST", url, true);
     http.onreadystatechange = function () {
         if (http.readyState == 4 && http.status == 200) {
@@ -583,7 +584,7 @@ $(function(){
                     }
                      if(isPost){
                          $.ajax({
-                            url: "http://172.28.3.51:3008/cut", //Server script to process data
+                            url: window.cutUrl, //Server script to process data
                             //url: "http://172.28.3.18:3008/cut", //Server script to process data
                             type: 'post',
                             data: {
