@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",url:String,user:entity.User)
+@(lang:String="cn",url:String,uploadUrl:String,user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/jquery-ui.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -21,6 +21,7 @@
 <script src="/assets/js/rili.js"></script>
 <script src="/assets/js/theme.js"></script>
 <script>window.url = "@url"</script>
+<script>window.uploadUrl = "@uploadUrl"</script>
 
 
 }

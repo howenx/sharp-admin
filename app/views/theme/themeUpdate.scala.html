@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",theme:entity.Theme,itList:List[Array[Object]],themeImgObject:Array[Object],masterImgObject:Array[Object],tagList:List[Array[Object]],url:String,user:entity.User)
+@(lang:String="cn",theme:entity.Theme,itList:List[Array[Object]],themeImgObject:Array[Object],masterImgObject:Array[Object],tagList:List[Array[Object]],url:String,uploadUrl:String,user:entity.User)
 @import play.api.libs.json.Json
 @scripts = {
 
@@ -22,6 +22,7 @@
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
 <script src="/assets/js/theme.js"></script>
+<script>window.uploadUrl = "@uploadUrl"</script>
 
 <script>
     $(function(){

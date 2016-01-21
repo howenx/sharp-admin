@@ -64,7 +64,7 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result thadd(String lang) {
 //        flash("success", session("username"));
-        return ok(views.html.theme.thadd.render(lang,IMAGE_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.thadd.render(lang,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
 
@@ -274,9 +274,8 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result themeTemplates(String lang){
-        String oss_prefix = "http://hmm-images.oss-cn-beijing.aliyuncs.com/";
         List<ThemeTemplate> templateList = service.getTemplatesAll();
-        return ok(views.html.theme.templates.render(lang,templateList,oss_prefix,(User) ctx().args.get("user")));
+        return ok(views.html.theme.templates.render(lang,templateList,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
 
     }
 
@@ -377,7 +376,7 @@ public class ThemeCtrl extends Controller {
             tagList.add(tagObject);
         }
 
-        return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,IMAGE_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
 
