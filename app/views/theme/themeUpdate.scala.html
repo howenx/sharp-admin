@@ -46,6 +46,13 @@
         $("#dragon-container").append(input);
         $("#dragon-container").css({"margin":"0"});
 
+        //主题标签
+        $("#dragon-container").find(".dragon-contained").each(function(){
+            //角度180度
+            if($(this).find(".dragon-graph").css('transform').indexOf("-1")>=0){
+                $(this).css("left",parseInt($(this).css("left")) - $(this).width());
+            }
+        })
 
   		//非编辑状态下冻结页面元素
   		//保存按钮

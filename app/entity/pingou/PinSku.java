@@ -29,14 +29,22 @@ public class PinSku implements Serializable {
     private BigDecimal floorPrice;  //拼购最低价
     private Long  invId;            //库存ID
     private BigDecimal pinDiscount; //拼购最低折扣
-
-
     private Long itemId;            //商品ID
+
+
+    //分页,每页多少条
+    private Integer pageSize;
+    //分页,从第几条开始
+    private Integer offset;
+    //按照哪个字段排序
+    private String sort;
+    //排序方式,降序,升序
+    private String order;
 
     public PinSku() {
     }
 
-    public PinSku(Long pinId, String pinImg, String shareUrl, String status, Timestamp createAt, Timestamp updateAt, String pinTitle, Timestamp startAt, Timestamp endAt, String pinPriceRule, int restrictAmount, BigDecimal floorPrice, Long invId, BigDecimal pinDiscount, Long itemId) {
+    public PinSku(Long pinId, String pinImg, String shareUrl, String status, Timestamp createAt, Timestamp updateAt, String pinTitle, Timestamp startAt, Timestamp endAt, String pinPriceRule, int restrictAmount, BigDecimal floorPrice, Long invId, BigDecimal pinDiscount, Long itemId, Integer pageSize, Integer offset, String sort, String order) {
         this.pinId = pinId;
         this.pinImg = pinImg;
         this.shareUrl = shareUrl;
@@ -52,6 +60,10 @@ public class PinSku implements Serializable {
         this.invId = invId;
         this.pinDiscount = pinDiscount;
         this.itemId = itemId;
+        this.pageSize = pageSize;
+        this.offset = offset;
+        this.sort = sort;
+        this.order = order;
     }
 
     @Override
@@ -72,6 +84,10 @@ public class PinSku implements Serializable {
                 ", invId=" + invId +
                 ", pinDiscount=" + pinDiscount +
                 ", itemId=" + itemId +
+                ", pageSize=" + pageSize +
+                ", offset=" + offset +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
                 '}';
     }
 
@@ -194,5 +210,37 @@ public class PinSku implements Serializable {
 
     public void setItemId(Long itemId) {
         this.itemId = itemId;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
     }
 }

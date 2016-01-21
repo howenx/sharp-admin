@@ -19,6 +19,7 @@ function ShowModal1() {
 //返回选中的商品ID
 function UpdateFields(obj) {
     $('#input_imgurl').val(obj.lable_id);
+    $('#itemTitle').val(obj.itemTitle);
 }
 
 //返回模板中选中的图片 Added by Tiffany Zhu
@@ -46,6 +47,18 @@ $(function(){
         var vals = $(this).parents(".form-group").find("input[type=text]");
         var tableLength = $(".pingou").find("th").length;
         var order = $(".pingou").find("tr").length;
+        var positive_int = /^[0-9]*[1-9][0-9]*$/;
+        var positive_float = /^(([0-9]+.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*.[0-9]+)|([0-9]*[1-9][0-9]*))$/;
+
+        if(!positive_int.test(vals[0].value)){
+            alert('"拼购人数"为整数数字!');
+            return false;
+        }
+        if(!positive_float.test(vals[1].value)){
+            alert('"拼购价格"为数字!');
+             return false;
+        }
+
         if(vals[0].value!==""&&vals[1].value!==""){
             var tr=$("<tr>").appendTo(".pingou");
             for(var i=0;i<tableLength;i++){
@@ -91,12 +104,24 @@ $(function(){
     //保存
     $(document).on("click","#pinSkuSubmit",function(){
         var isPost = true;
+        var positive_int = /^[0-9]*[1-9][0-9]*$/;
+        var positive_float = /^(([0-9]+.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*.[0-9]+)|([0-9]*[1-9][0-9]*))$/;
         //必填项验证
-        if($("#pinName").val() == "" || $("#onShelvesAt").val() == "" || $("#offShelvesAt").val() == "" || $("#input_imgurl").val() == "" || $("#restrict").val() == "" || $("#status").val() == ""){
+        if($("#onShelvesAt").val() == "" || $("#offShelvesAt").val() == "" || $("#input_imgurl").val() == "" || $("#restrict").val() == "" || $("#status").val() == ""){
             isPost = false;
             $('#js-userinfo-error').text('基本信息不能为空!').css('color', '#c00');
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
+        }
+
+        if(!positive_int.test($("#restrict").val())){
+            isPost = false;
+            $('#js-userinfo-error').text('每用户限购为整数数字!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+
+
+
         }
 
         if($("#onShelvesAt").val() > $("#offShelvesAt").val()){
@@ -120,6 +145,7 @@ $(function(){
            return false;
         }
 
+        //团长优惠券
         if($(":radio[value='tz-yes']").prop("checked")){
             if($(".tz").find("select").val() == ""){
                 isPost = false;
@@ -137,6 +163,21 @@ $(function(){
                 }
             })
 
+            if(!positive_float.test($(".tz").find("input").eq(0).val())){
+                     isPost = false;
+                     $('#js-userinfo-error').text('团长优惠券-限额为数字!').css('color', '#c00');
+                     setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+                     return false;
+            }
+
+            if(!positive_float.test($(".tz").find("input").eq(1).val())){
+                     isPost = false;
+                     $('#js-userinfo-error').text('团长优惠券-面值为数字!').css('color', '#c00');
+                     setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+                     return false;
+            }
+
+
             if($(".tz").find("input").eq(2).val() > $(".tz").find("input").eq(3).val()){
                     isPost = false;
                     $('#js-userinfo-error').text('团长优惠券-实用期限日期不正确!').css('color', '#c00');
@@ -146,6 +187,7 @@ $(function(){
             }
         }
 
+        //团员优惠券
         if($(":radio[value='ty-yes']").prop("checked")){
             if($(".ty").find("select").val() == ""){
                 isPost = false;
@@ -162,6 +204,20 @@ $(function(){
                     return false;
                 }
             })
+
+            if(!positive_float.test($(".ty").find("input").eq(0).val())){
+                     isPost = false;
+                     $('#js-userinfo-error').text('团员优惠券-限额为数字!').css('color', '#c00');
+                     setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+                     return false;
+            }
+
+            if(!positive_float.test($(".ty").find("input").eq(1).val())){
+                     isPost = false;
+                     $('#js-userinfo-error').text('团员优惠券-面值为数字!').css('color', '#c00');
+                     setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+                     return false;
+            }
 
             if($(".ty").find("input").eq(2).val() > $(".ty").find("input").eq(3).val()){
                     isPost = false;
@@ -199,13 +255,13 @@ $(function(){
         pinSku.pinImg = JSON.stringify(imgUrl);
         pinSku.shareUrl = "";
         pinSku.status = $("#status").val();
-        pinSku.pinTitle = $("#pinName").val();
         pinSku.startAt = $("#onShelvesAt").val();
         pinSku.endAt = $("#offShelvesAt").val();
         pinSku.pinPriceRule = JSON.stringify(priceRule);
         pinSku.restrictAmount = $("#restrict").val();
         pinSku.floorPrice = minPrice;
         pinSku.itemId = $("#input_imgurl").val();
+        pinSku.pinTitle = $("#itemTitle").val();
 
         pinData.pinSku = pinSku;
 

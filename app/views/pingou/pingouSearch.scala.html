@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",user:entity.User)
+@(lang:String="cn",pinSkuList:List[Array[Object]],user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -30,7 +30,7 @@
     <form class="form-horizontal">
         <div class="form-group">
             <!--主题id-->
-            <label class="col-sm-2 control-label">活动名称:</label>
+            <label class="col-sm-2 control-label">活动ID:</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control"/>
             </div>
@@ -38,11 +38,10 @@
             <label class="col-sm-1 control-label">状态</label>
             <div class="col-sm-4">
                 <select class="form-control">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>5</option>
-                    <option>3</option>
-                    <option>4</option>
+                    <option value=""></option>
+                    <option value="Y">正常</option>
+                    <option value="N">下架</option>
+                    <option value="P">预售</option>
                 </select>
             </div>
         </div>
@@ -75,34 +74,26 @@
     <div class="table-content">
         <table id="tb-topic" class="table table-bordered table-hover">
             <thead>
-            <th>活动名称</th>
+            <th>活动ID</th>
+            <th>商品标题</th>
             <th>开始时间</th>
             <th>结束时间</th>
-            <th>商品标题</th>
             <th>状态</th>
             <th>已开团数</th>
             </thead>
             <tbody>
+            @for(pinSku <- pinSkuList){
             <tr>
                 <td>
-                    <a href="javascript:void(0)">活动一</a>
+                    <a href="javascript:void(0)">@pinSku(0)</a>
                 </td>
-                <td>1990 11 11</td>
-                <td>1990 11 12</td>
-                <td>good good</td>
-                <td>正在进行...</td>
-                <td>123</td>
+                <td>@pinSku(1)</td>
+                <td>@pinSku(2)</td>
+                <td>@pinSku(3)</td>
+                <td>@pinSku(4)</td>
+                <td>@pinSku(5)</td>
             </tr>
-            <tr>
-                <td>
-                    <a href="javascript:void(0)">活动儿</a>
-                </td>
-                <td>1990 11 11</td>
-                <td>1990 11 12</td>
-                <td>good good</td>
-                <td>正在进行...</td>
-                <td>123</td>
-            </tr>
+            }
             <!---公用模块,id不能改变,只需要改变合并行数-->
             <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>

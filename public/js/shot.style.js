@@ -505,18 +505,26 @@ $(function() {
         var tagsContainer = $("#dragon-container");
         $("#dragon-container").find(".dragon-contained").each(function(){
             var tag = {};
-            var container_width = parseInt($(this).parent().width());
-            var container_height = parseInt($(this).parent().height());
-            var left = parseInt($(this).css("left").replace("px",""));
-            var top = parseInt($(this).css("top").replace("px",""));
-            tag.left = parseFloat((left/container_width).toFixed(2));
-            tag.top = parseFloat((top/container_height).toFixed(2));
-            tag.name = $(this).find("p").text();
-            tag.url = "/comm/detail/" + $(this).find(".item-id").text();
             if($(this).find(".dragon-graph").css('transform').indexOf("-1")>=0){
                 tag.angle = 180;
+                var container_width = parseInt($(this).parent().width());
+                var container_height = parseInt($(this).parent().height());
+                var left = parseInt($(this).css("left").replace("px","")) + $(this).width();
+                var top = parseInt($(this).css("top").replace("px",""));
+                tag.left = parseFloat((left/container_width).toFixed(2));
+                tag.top = parseFloat((top/container_height).toFixed(2));
+                tag.name = $(this).find("p").text();
+                tag.url = "/comm/detail/" + $(this).find(".item-id").text();
             }else{
                 tag.angle = 0;
+                var container_width = parseInt($(this).parent().width());
+                var container_height = parseInt($(this).parent().height());
+                var left = parseInt($(this).css("left").replace("px",""));
+                var top = parseInt($(this).css("top").replace("px",""));
+                tag.left = parseFloat((left/container_width).toFixed(2));
+                tag.top = parseFloat((top/container_height).toFixed(2));
+                tag.name = $(this).find("p").text();
+                tag.url = "/comm/detail/" + $(this).find(".item-id").text();
             }
             masterItemTag.push(tag);
         })

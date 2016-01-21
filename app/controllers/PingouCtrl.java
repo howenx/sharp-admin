@@ -15,6 +15,9 @@ import play.mvc.Security;
 import service.InventoryService;
 import service.PingouService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 /**
@@ -26,7 +29,6 @@ public class PingouCtrl extends Controller {
     PingouService pingouService;
     @Inject
     InventoryService inventoryService;
-
 
     /**
      * 添加拼购     Added by Tiffany Zhu 2016.01.19
@@ -71,9 +73,45 @@ public class PingouCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result pingouSearch(String lang){
+        PinSku pinSku_temp = new PinSku();
+        pinSku_temp.setPageSize(-1);
+        pinSku_temp.setOffset(-1);
+        int countNum = pingouService.getPinSkuAll().size();
+        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
+        if(countNum%ThemeCtrl.PAGE_SIZE != 0){
+            pageCount =  countNum/ThemeCtrl.PAGE_SIZE + 1;
+        }
+        pinSku_temp.setPageSize(ThemeCtrl.PAGE_SIZE);
+        pinSku_temp.setOffset(0);
 
-        return ok(views.html.pingou.pingouSearch.render(lang,(User) ctx().args.get("user")));
+        //拼购列表
+        List<Object[]> rtnPinSkuList = new ArrayList<>();
+        List<PinSku> pinSkuList = pingouService.getPinSkuPage(pinSku_temp);
+        for(PinSku pinSku : pinSkuList){
+            Object[] object = new Object[6];
+            object[0] = pinSku.getPinId();      //活动ID
+            object[1] = pinSku.getPinTitle();   //商品标题
+            object[2] = pinSku.getStartAt();    //开始时间
+            object[3] = pinSku.getEndAt();      //结束时间
+            if("Y".equals(pinSku.getStatus())){
+                object[4] = "正常";              //状态
+            }
+            if("N".equals(pinSku.getStatus())){
+                object[4] = "下架";              //状态
+            }
+            if("P".equals(pinSku.getStatus())){
+                object[4] = "预售";              //状态
+            }
 
+            object[5] = "";                     //已开团数
+            rtnPinSkuList.add(object);
+        }
+        return ok(views.html.pingou.pingouSearch.render(lang,rtnPinSkuList,(User) ctx().args.get("user")));
+
+    }
+
+    public Result getPinSkuPage(String lang){
+        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
 
