@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn", brandsList:List[entity.Brands], catesParentList:List[entity.Cates],modelList:List[entity.Carriage],user:entity.User)
+@(lang:String="cn", brandsList:List[entity.Brands], catesParentList:List[entity.Cates],user:entity.User)
 
 @scripts = {
 
@@ -30,14 +30,14 @@
 //            sharedObject.tdindex = tdindex;
         }
         if (window.showModalDialog) {
-            var retValue = showModalDialog("/comm/pop", sharedObject, "dialogWidth:1200px; dialogHeight:800px; dialogLeft:300px;");
+            var retValue = showModalDialog("/comm/pop", sharedObject, "dialogWidth:1200px; dialogHeight:8900px; dialogLeft:300px;");
             if (retValue) {
                 UpdateFields(retValue);
             }
         }
         else {
             // for similar functionality in Opera, but it's not modal!
-            var modal = window.open ("/comm/pop", null, "width=1200,height=800,left=300,modal=yes,alwaysRaised=yes", null);
+            var modal = window.open ("/comm/pop", null, "width=1200,height=900,left=300,modal=yes,alwaysRaised=yes", null);
             modal.dialogArguments = sharedObject;
         }
     }
@@ -160,164 +160,156 @@
                         <input type="text" class="form-control" id="supplyMerch" name="supplyMerch">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">销售期限</div></label>
-                    <div class="col-sm-3">
-                        <div class="input-group date" id='datetimepicker1'>
-                            <input class="form-control col-sm-2"  type="text"  id="onShelvesAt" name="onShelvesAt">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-1" style="font-size: 24px;width:50px;margin-left:40px;margin-right:40px;">~</div>
-                    <div class="col-sm-3">
-                        <div class="input-group date" id='datetimepicker2'>
-                            <input class="form-control col-sm-2"  type="text"  id="offShelvesAt" name="offShelvesAt">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        </div>
-                        <div id="warn-date" style="color:red; margin-left:260px;margin-top:-30px; width:100px;"></div>
-                    </div>
-                </div>
+                <!--<div class="form-group">-->
+                    <!--<label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">销售期限</div></label>-->
+                    <!--<div class="col-sm-3">-->
+                        <!--<div class="input-group date" id='datetimepicker1'>-->
+                            <!--<input class="form-control col-sm-2"  type="text"  id="onShelvesAt" name="onShelvesAt">-->
+                            <!--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-1" style="font-size: 24px;width:50px;margin-left:40px;margin-right:40px;">~</div>-->
+                    <!--<div class="col-sm-3">-->
+                        <!--<div class="input-group date" id='datetimepicker2'>-->
+                            <!--<input class="form-control col-sm-2"  type="text"  id="offShelvesAt" name="offShelvesAt">-->
+                            <!--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
+                        <!--</div>-->
+                        <!--<div id="warn-date" style="color:red; margin-left:260px;margin-top:-30px; width:100px;"></div>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <!-- 商品库存信息-->
                 <h4 class="h4-custom-hmm">商品库存信息</h4>
-                <div class="form-group">
-                    <div class="col-sm-12">
-                        <div class="goods-info1">
-                            <table class="table table-bordered qubian inv" id="inventory">
-                                <tr>
-                                    <th>设为主商品</th>
-                                    <th>颜色分类</th>
-                                    <th>尺寸分类</th>
-                                    <th>重量(整数:克)</th>
-                                    <th>库存数量</th>
-                                    <th>现价(￥)</th>
-                                    <th>原价(￥)</th>
-                                    <th>成本价(￥)</th>
-                                    <th>折扣</th>
-                                    <th>限购数量</th>
-                                    <th>运费设置</th>
-                                    <th>税率设置</th>
-                                    <th>税率(整数)</th>
-                                    <th>行邮税号</th>
-                                    <th>库存区域</th>
-                                    <th>报关单位</th>
-                                    <th>海关商品备案号</th>
-                                    <th>主图(一张)</th>
-                                    <th>详情页预览图(最多6张)</th>
-                                    <th style="display:none">状态</th>
-                                    <th class="add-goods add">添加商品</th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input type="radio" name="orMasterInv" checked="checked" class="master-radio"/>
-                                    </td>
-                                    <td>
-                                        <input type="text" name="itemColor">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="itemSize">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="invWeight">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="amount">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="itemPrice">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="itemSrcPrice">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="itemCostPrice">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="itemDiscount">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="restrictAmount">
-                                    </td>
-                                    <td>
-                                        <input id="mList" type="hidden" value="@modelList">
-                                        <select name="carriageModelCode">
-                                            <option value="">请选择</option>
-                                            @for(m <- modelList) {
-                                            <option value="@m.getModelCode()">@m.getModelName()
-                                            </option>
-                                            }
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="trset" id="1">
-                                            <option value="">请选择</option>
-                                            <option value="S">标准税率</option>
-                                            <option value="F">免税</option>
-                                            <option value="D">自定义</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" name="postalTaxRate" readOnly>
-                                    </td>
-                                    <td>
-                                        <input type="text" name="postalTaxCode" readOnly>
-                                    </td>
-                                    <td>
-                                        <select name="invArea">
-                                            <option value="H">杭州保税仓备案</option>
-                                            <option value="HZ">杭州保税仓直邮</option>
-                                            <option value="G">广州保税仓备案</option>
-                                            <option value="GZ">广州保税仓直邮</option>
-                                            <option value="S">上海保税仓备案</option>
-                                            <option value="SZ">上海保税仓直邮</option>
-                                            <option value="K">海外直邮</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="invCustoms">
-                                            <option value="shanghai">上海海关</option>
-                                            <option value="hangzhou">杭州海关</option>
-                                            <option value="guangzhou">广州海关</option>
-                                        </select>
-                                    </td>
-                                    <td id="rec1">
-                                        <div class="record"><span>杭州 <input type="text" value="" name="recordHZ" style="width:70%;"></span></div>
-                                        <div class="record"><span>广州 <input type="text" value="" name="recordGZ" style="width:70%;"></span></div>
-                                        <div class="record"><span>上海 <input type="text" value="" name="recordSH" style="width:70%;"></span></div>
-                                    </td>
-                                    <td class="list-img">
-                                        <div id="galleryM1">
-                                        </div>
-                                        <span class="add" id="masterImgAddM1">＋
-                                            <input type="file" id="M1" name="invImg" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
-                                        </span>
-                                    </td>
-                                    <td width="146" class="preview-img">
-                                        <div id="galleryP1">
-                                        </div>
-                                        <span class="add" id="preImgAddP1">＋
-                                            <input type="file" id="P1" name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
-                                        </span>
-                                    </td>
-                                    <td style="display:none">
-                                    </td>
-                                    <td class="del">
-                                        删除
-                                        <input type="hidden" value=""/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group" style="margin-top:-100px;">
-                    <label class="col-sm-1 control-label" >
-                        <div id="warn-inv" style="color:red;width:200px;margin-left:-80px;"></div>
-                        <div id="warn-num" style="color:red;width:200px;margin-left:-80px;"></div>
-                        <div id="warn-mas" style="color:red;width:200px;margin-left:-80px;"></div>
-                        <div id="warn-pre" style="color:red;width:200px;margin-left:-80px;"></div>
-                        <div id="warn-cho" style="color:red;width:200px;margin-left:-80px;"></div>
-                    </label>
-                </div>
+                <!--<div class="form-group">-->
+                    <!--<div class="col-sm-12">-->
+                        <!--<div class="goods-info1">-->
+                            <!--<table class="table table-bordered qubian inv" id="inventory">-->
+                                <!--<tr>-->
+                                    <!--<th>设为主商品</th>-->
+                                    <!--<th>颜色分类</th>-->
+                                    <!--<th>尺寸分类</th>-->
+                                    <!--<th>重量(整数:克)</th>-->
+                                    <!--<th>库存数量</th>-->
+                                    <!--<th>现价(￥)</th>-->
+                                    <!--<th>原价(￥)</th>-->
+                                    <!--<th>成本价(￥)</th>-->
+                                    <!--<th>折扣</th>-->
+                                    <!--<th>限购数量</th>-->
+                                    <!--<th>运费设置</th>-->
+                                    <!--<th>税率设置</th>-->
+                                    <!--<th>税率(整数)</th>-->
+                                    <!--<th>行邮税号</th>-->
+                                    <!--<th>库存区域</th>-->
+                                    <!--<th>报关单位</th>-->
+                                    <!--<th>海关商品备案号</th>-->
+                                    <!--<th>主图(一张)</th>-->
+                                    <!--<th>详情页预览图(最多6张)</th>-->
+                                    <!--<th style="display:none">状态</th>-->
+                                    <!--<th class="add-goods add">添加商品</th>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <!--<input type="radio" name="orMasterInv" checked="checked" class="master-radio"/>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" name="itemColor">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" name="itemSize">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" name="invWeight">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" name="amount">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" name="itemPrice">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" name="itemSrcPrice">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" name="itemCostPrice">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" name="itemDiscount">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" name="restrictAmount">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<select class="trset" id="1">-->
+                                            <!--<option value="">请选择</option>-->
+                                            <!--<option value="S">标准税率</option>-->
+                                            <!--<option value="F">免税</option>-->
+                                            <!--<option value="D">自定义</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" name="postalTaxRate" readOnly>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" name="postalTaxCode" readOnly>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<select name="invArea">-->
+                                            <!--<option value="H">杭州保税仓备案</option>-->
+                                            <!--<option value="HZ">杭州保税仓直邮</option>-->
+                                            <!--<option value="G">广州保税仓备案</option>-->
+                                            <!--<option value="GZ">广州保税仓直邮</option>-->
+                                            <!--<option value="S">上海保税仓备案</option>-->
+                                            <!--<option value="SZ">上海保税仓直邮</option>-->
+                                            <!--<option value="K">海外直邮</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<select name="invCustoms">-->
+                                            <!--<option value="shanghai">上海海关</option>-->
+                                            <!--<option value="hangzhou">杭州海关</option>-->
+                                            <!--<option value="guangzhou">广州海关</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td id="rec1">-->
+                                        <!--<div class="record"><span>杭州 <input type="text" value="" name="recordHZ" style="width:70%;"></span></div>-->
+                                        <!--<div class="record"><span>广州 <input type="text" value="" name="recordGZ" style="width:70%;"></span></div>-->
+                                        <!--<div class="record"><span>上海 <input type="text" value="" name="recordSH" style="width:70%;"></span></div>-->
+                                    <!--</td>-->
+                                    <!--<td class="list-img">-->
+                                        <!--<div id="galleryM1">-->
+                                        <!--</div>-->
+                                        <!--<span class="add" id="masterImgAddM1">＋-->
+                                            <!--<input type="file" id="M1" name="invImg" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>-->
+                                        <!--</span>-->
+                                    <!--</td>-->
+                                    <!--<td width="146" class="preview-img">-->
+                                        <!--<div id="galleryP1">-->
+                                        <!--</div>-->
+                                        <!--<span class="add" id="preImgAddP1">＋-->
+                                            <!--<input type="file" id="P1" name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">-->
+                                        <!--</span>-->
+                                    <!--</td>-->
+                                    <!--<td style="display:none">-->
+                                    <!--</td>-->
+                                    <!--<td class="del">-->
+                                        <!--删除-->
+                                        <!--<input type="hidden" value=""/>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                            <!--</table>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-group" style="margin-top:-100px;">-->
+                    <!--<label class="col-sm-1 control-label" >-->
+                        <!--<div id="warn-inv" style="color:red;width:200px;margin-left:-80px;"></div>-->
+                        <!--<div id="warn-num" style="color:red;width:200px;margin-left:-80px;"></div>-->
+                        <!--<div id="warn-mas" style="color:red;width:200px;margin-left:-80px;"></div>-->
+                        <!--<div id="warn-pre" style="color:red;width:200px;margin-left:-80px;"></div>-->
+                        <!--<div id="warn-cho" style="color:red;width:200px;margin-left:-80px;"></div>-->
+                    <!--</label>-->
+                <!--</div>-->
                 <h4><button type="button" class="btn btn-primary add-guige" onclick="ShowModal(this)">添加规格</button></h4>
                 <div class="form-group">
                     <div class="col-sm-8">
@@ -351,7 +343,7 @@
                 <!-- 商品详细信息-->
                 <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.details")</h4>
 
-                <div class="form-group">
+                <!--<div class="form-group">-->
                     <!--<label class="col-sm-1 control-label"><div class="r" style="padding:3px;">*</div><div class="r">主题宣传图</div><div style="margin-top:20px;margin-right:30px;">(一张)</div></label>-->
                     <!--<div class="col-sm-2">-->
                         <!--<div class="master-img" style="border:1px solid #ccc; height:80px;">-->
@@ -362,19 +354,19 @@
                             <!--</span>-->
                         <!--</div>-->
                     <!--</div>-->
-                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
-                    <div class="col-sm-4">
-                        <div class="detail-img" style="border:1px solid #ccc;">
-                            <div id="galleryD" style="">
-                            </div>
-                            <span class="add" style="margin:25px 5px;">＋
-                                <input type="file" id="D" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
-                            </span>
-                        </div>
-                        <div id="warn-masthimg" style="color:red;margin-top:-70px; margin-left:500px;width:120px;"></div>
-                        <div id="warn-detailimg" style="color:red;margin-top:10px; margin-left:500px;width:120px;margin-bottom:50px;"></div>
-                    </div>
-                </div>
+                    <!--<label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>-->
+                    <!--<div class="col-sm-4">-->
+                        <!--<div class="detail-img" style="border:1px solid #ccc;">-->
+                            <!--<div id="galleryD" style="">-->
+                            <!--</div>-->
+                            <!--<span class="add" style="margin:25px 5px;">＋-->
+                                <!--<input type="file" id="D" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>-->
+                            <!--</span>-->
+                        <!--</div>-->
+                        <!--<div id="warn-masthimg" style="color:red;margin-top:-70px; margin-left:500px;width:120px;"></div>-->
+                        <!--<div id="warn-detailimg" style="color:red;margin-top:10px; margin-left:500px;width:120px;margin-bottom:50px;"></div>-->
+                    <!--</div>-->
+                <!--</div>-->
 
                 <div class="form-group">
                     <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">商品参数</div></label>
@@ -383,8 +375,8 @@
                         <input type="hidden" id="del" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")'>
                         <table class="table table-bordered qubian feature" id="tabFea">
                             <tr>
-                                <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureName")</td>
-                                <td width=500px>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureValue")</td>
+                                <td width="30%">参数名</td>
+                                <td width="60%">参数值</td>
                                 <td class="add">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.add")</td>
                             </tr>
                             <tr>

@@ -144,7 +144,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result itemCreate(String lang) {
-        return ok(views.html.item.itemadd.render(lang,service.getAllBrands(),service.getParentCates(),carriageService.getModels(),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemadd.render(lang,service.getAllBrands(),service.getParentCates(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -269,8 +269,9 @@ public class ItemCtrl extends Controller {
      * 添加商品, 弹窗商品添加规格       Added by Sunny.Wu
      * @return view
      */
+
     public Result itemAddPop() {
-        return ok(views.html.item.itemaddPop.render());
+        return ok(views.html.item.itemaddPop.render(carriageService.getModels()));
     }
 
     /**

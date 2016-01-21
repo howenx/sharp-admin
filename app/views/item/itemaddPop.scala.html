@@ -1,11 +1,10 @@
+@(modelList:List[entity.Carriage])
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>规格编辑</title>
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-    <!--<link rel="stylesheet" href="/assets/css/item.css"/>-->
-    <link rel="stylesheet" href="/assets/css/add-guige.css">
     <link rel="stylesheet" href="/assets/css/item.css">
     <script src="/assets/js/jquery.min.js"></script>
     <script src="/assets/js/add-guige.js"></script>
@@ -63,142 +62,142 @@
             </div>
             <div class="form-group">
                 <!-- 销售期限 -->
-                <label class="col-sm-2 control-label l-pad thval">销售期限</label>
+                <label class="col-sm-2 control-label l-pad thval">开始时间</label>
                 <div class="col-sm-2" style="padding-right: 0; width:212px;">
                     <div class="input-group date" id='datetimepicker1'>
-                        <input class="form-control col-sm-2"  type="text"  id="onShelvesAt" name="startAt">
+                        <input class="form-control col-sm-2"  type="text"  id="startAt" name="startAt">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
-                <div style="width: 60px;float: left;line-height: 1.3;font-size: 24px;text-align: center">~</div>
+                <label class="col-sm-1 control-label l-pad thval">结束时间</label>
                 <div class="col-sm-2" style="padding-left: 0; width:212px;">
                     <div class="input-group date" id='datetimepicker2'>
-                        <input class="form-control col-sm-2"  type="text"  id="offShelvesAt" name="endAt">
+                        <input class="form-control col-sm-2"  type="text"  id="endAt" name="endAt">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                     <div id="warn-date" style="color:red; margin-left:260px;margin-top:-30px; width:100px;"></div>
                 </div>
             </div>
             <div class="form-group">
-                <!-- 重量 -->
-                <label class="col-sm-2 control-label thval">重量(整数:克)</label>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" name="invWeight">
-                </div>
-                <!-- 限购数量 -->
-                <label class="col-sm-1 control-label thval">限购数量</label>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" name="restrictAmount">
-                </div>
-            </div>
-            <div class="form-group">
                 <!-- 现价 -->
                 <label class="col-sm-2 control-label thval">现价</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" name="itemPrice">
+                    <input type="text" class="form-control" id="itemPrice" name="itemPrice">
                 </div>
                 <!-- 原价 -->
                 <label class="col-sm-1 control-label thval">原价</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" name="itemSrcPrice">
+                    <input type="text" class="form-control" id="itemSrcPrice" name="itemSrcPrice">
                 </div>
             </div>
             <div class="form-group">
                 <!-- 成本价 -->
                 <label class="col-sm-2 control-label thval">成本价</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" name="itemCostPrice">
+                    <input type="text" class="form-control" id="itemCostPrice" name="itemCostPrice">
                 </div>
                 <!-- 折扣 -->
                 <label class="col-sm-1 control-label thval">折扣</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" name="itemDiscount">
+                    <input type="text" class="form-control" id="itemDiscount" name="itemDiscount">
+                </div>
+            </div>
+            <div class="form-group">
+                <!-- 重量 -->
+                <label class="col-sm-2 control-label thval">重量(整数:克)</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="invWeight" name="invWeight">
+                </div>
+                <!-- 限购数量 -->
+                <label class="col-sm-1 control-label thval">限购数量</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="restrictAmount" name="restrictAmount">
                 </div>
             </div>
             <div class="form-group">
                 <!-- 库存总量 -->
                 <label class="col-sm-2 control-label thval">库存总量</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" name="amount">
+                    <input type="text" class="form-control" id="amount" name="amount">
                 </div>
                 <!-- 剩余库存量 -->
                 <label class="col-sm-1 control-label thval">剩余库存</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" name="amountremain">
+                    <input type="text" class="form-control" id="restAmount" name="restAmount">
                 </div>
             </div>
             <div class="form-group">
                 <!-- 运费设置 -->
                 <label class="col-sm-2 control-label thval">运费设置</label>
                 <div class="col-sm-2">
-                    <select class="form-control" name="carriageModelCode">
-                        <option>请选择</option>
-                        <option>特价优惠</option>
-                        <option selected>默认模版</option>
-                        <option>优惠模版</option>
-                        <option>标准模版</option>
+                    <select class="form-control" id="carriageModelCode" name="carriageModelCode">
+                        <option value="">请选择</option>
+                        @for(m <- modelList) {
+                        <option value="@m.getModelCode()">@m.getModelName()
+                        </option>
+                        }
                     </select>
                 </div>
                 <!-- 库存区域 -->
                 <label class="col-sm-1 control-label thval">库存区域</label>
                 <div class="col-sm-2">
-                    <select class="form-control" name="invArea">
-                        <option selected>杭州保税仓备案</option>
-                        <option>杭州保税仓直邮</option>
-                        <option>广州保税仓备案</option>
-                        <option>广州保税仓直邮</option>
-                        <option>上海保税仓备案</option>
-                        <option>上海保税仓直邮</option>
-                        <option>海外直邮</option>
+                    <select class="form-control" id="invArea" name="invArea">
+                        <option value="H" selected>杭州保税仓备案</option>
+                        <option value="HZ">杭州保税仓直邮</option>
+                        <option value="G">广州保税仓备案</option>
+                        <option value="GZ">广州保税仓直邮</option>
+                        <option value="S">上海保税仓备案</option>
+                        <option value="SZ">上海保税仓直邮</option>
+                        <option value="K">海外直邮</option>
                     </select>
                 </div>
                 <!-- 报关单位 -->
                 <label class="col-sm-1 control-label thval">报关单位</label>
                 <div class="col-sm-2">
-                    <select class="form-control" name="invCustoms">
-                        <option selected>杭州</option>
-                        <option>广州</option>
-                        <option>上海</option>
+                    <select class="form-control" id="invCustoms" name="invCustoms">
+                        <option value="shanghai" selected>上海海关</option>
+                        <option value="hangzhou">杭州海关</option>
+                        <option value="guangzhou">广州海关</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <!-- 税率设置 -->
-                <label class="col-sm-2 control-label thval">税率设置</label>
+                <label class="col-sm-2 control-label">税率设置</label>
                 <div class="col-sm-2">
-                    <select class="form-control" name="rateSet">
-                        <option>请选择</option>
-                        <option selected>标准税率</option>
-                        <option>免税</option>
-                        <option>自定义</option>
+                    <select class="form-control rateSet" id="rateSet" name="rateSet">
+                        <option value="">请选择</option>
+                        <option value="S">标准税率</option>
+                        <option value="F">免税</option>
+                        <option value="D">自定义</option>
                     </select>
                 </div>
                 <!-- 税率 -->
                 <label class="col-sm-1 control-label thval">税率(整数)</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" name="rateRoundNum">
+                    <input type="text" class="form-control" id="postalTaxRate" name="postalTaxRate">
                 </div>
                 <!-- 行邮税号 -->
                 <label class="col-sm-1 control-label thval">行邮税号</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" name="rateNum">
+                    <input type="text" class="form-control" id="postalTaxCode" name="postalTaxCode">
                 </div>
             </div>
             <div class="form-group">
                 <!-- 海关商品备案号 -->
-                <label class="col-sm-2 control-label thval">海关商品备案号</label>
+                <label class="col-sm-2 control-label">海关商品备案号</label>
                 <div>
-                    <label class="col-sm-1 control-label" style="width:70px;padding-right: 0">杭州:</label>
+                    <label class="col-sm-1 control-label thval" style="width:70px;padding-right: 0">杭州</label>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control" name="hz">
+                        <input type="text" class="form-control" name="recordHZ">
                     </div>
-                    <label class="col-sm-1 control-label" style="width:70px;padding-right: 0">广州:</label>
+                    <label class="col-sm-1 control-label thval" style="width:70px;padding-right: 0">广州</label>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control" name="gz">
+                        <input type="text" class="form-control" name="recordGZ">
                     </div>
-                    <label class="col-sm-1 control-label" style="width:70px;padding-right: 0">上海:</label>
+                    <label class="col-sm-1 control-label thval" style="width:70px;padding-right: 0">上海</label>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control" name="sh">
+                        <input type="text" class="form-control" name="recordSH">
                     </div>
                 </div>
             </div>
@@ -210,7 +209,7 @@
                         <span class="add" id="masterImgAddM" style="float: left">＋
                             <input type="file" id="M" name="invImg" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                         </span>
-                        <div id="galleryM1" style="float: left">
+                        <div id="galleryM" style="float: left">
                         </div>
                     </div>
                 </div>
@@ -220,11 +219,11 @@
                 <label class="col-sm-2 control-label thval">预览图(最多六张)</label>
                 <div class="col-sm-4">
                     <div class="preview-img clearfix" style="border:1px solid #ccc;">
+                        <div id="galleryP" style="float: left">
+                        </div>
                         <span class="add" id="preImgAddP" style="float: left">＋
                             <input type="file" id="P" name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
                         </span>
-                        <div id="galleryP1" style="float: left">
-                        </div>
                     </div>
                     <div id="warn-masthimg" style="color:red;margin-top:-70px; margin-left:500px;width:120px;"></div>
                     <div id="warn-detailimg" style="color:red;margin-top:10px; margin-left:500px;width:120px;margin-bottom:50px;"></div>
@@ -233,21 +232,22 @@
             <!-- 多样化价格 -->
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <label>
-                        <input type="checkbox" class="YN" checked> 开启多样化价格
+                    <label class="thval">
+                        <input type="checkbox" class="YN" id="openVaryPrice" checked> 开启多样化价格
                     </label>
                 </div>
+                <label class="thval" style="display:none;">多样化价格</label>
                 <div class="col-sm-offset-2 col-sm-10">
-                    <table class="table table-bordered guige block">
+                    <table class="table table-bordered qubian guige block" id="varyPriceTab">
                         <tr>
                             <th>销售价格</th>
                             <th>限制销售量</th>
-                            <th class="addTr">添加</th>
+                            <th class="addTr add">添加</th>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td class="delTr">删除</td>
+                            <td><input type="text" name="price"></td>
+                            <td><input type="text" name="limitAmount"></td>
+                            <td class="delTr del">删除</td>
                         </tr>
                     </table>
                 </div>
@@ -256,10 +256,17 @@
                 <!-- 保存 -->
                 <div class="col-sm-offset-2 col-sm-8" style="text-align:center;">
                     <button type="button" class="btn btn-primary" onclick="holdShow()" style="margin:auto;">保存</button>
-                    <button type="button" class="btn btn-primary" onclick="" style="margin-left:20px;">取消</button>
+                    <button type="button" class="btn btn-primary" id="return" style="margin-left:20px;">取消</button>
                 </div>
             </div>
         </form>
+    </div>
+</div>
+
+<div class="goods-img-bg">
+    <div class="goods-bg"></div>
+    <div class="goods-img">
+        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
 </div>
 </body>
