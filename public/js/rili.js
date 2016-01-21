@@ -28,6 +28,14 @@ $(function(){
         locale: 'zh-cn',
         format:'YYYY-MM-DD HH:mm:ss'
     });
+    $('#datetimepicker-starttime').datetimepicker({
+        locale: 'zh-cn',
+        format:'YYYY-MM-DD HH:mm:ss'
+    });
+    $('#datetimepicker-endtime').datetimepicker({
+        locale: 'zh-cn',
+        format:'YYYY-MM-DD HH:mm:ss'
+    });
 	
     /*日历 分钟*/
     //$('.form_datetime').datetimepicker({
