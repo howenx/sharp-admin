@@ -42,7 +42,7 @@
         <if test="pinId != null">
             and t.pin_id = #{pinId}
         </if>
-        <if test="status != null">
+        <if test="status != null and status != '' ">
             and t.status = #{status}
         </if>
         <if test="startAt != null">
@@ -52,16 +52,8 @@
             and t.end_at &lt;= #{endAt} ::timestamp
         </if>
 
-        <if test="sort == null or sort == ''">
             ORDER BY t.create_at DESC
-        </if>
 
-        <if test="sort != null">
-            ORDER BY t.${sort}
-            <if test="order != null">
-                ${order}
-            </if>
-        </if>
         <if test="pageSize == -1 and offset >= -1">
             LIMIT ALL OFFSET 0
         </if>
@@ -70,7 +62,13 @@
         </if>
     </select>
 
-
+    <select id="getPinSkuById" resultType="entity.pingou.PinSku" parameterType="java.lang.Long">
+        select
+        <include refid="pinSkuColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from pin_sku where pin_id = ${value}
+    </select>
 
 
     <sql id="pinCouponColumns">

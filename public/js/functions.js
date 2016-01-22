@@ -41,7 +41,7 @@ $(".upload").change(function(){
             for(var i=0;i<obj.length;i++){
                 obj[i].appendChild(input);
             }
-            alert(data.message);
+            //alert(data.message);
         }
     }
     http.send(formdata);
@@ -86,7 +86,7 @@ $(".add-upload").change(function(){
             for(var i=0;i<obj.length;i++){
                 obj[i].appendChild(input);
             }
-            alert(data.message);
+            //alert(data.message);
         }
     }
     http.send(formdata);
@@ -602,7 +602,7 @@ $(function(){
                                         $(this).append(input);
                                     }
                                 })
-                                alert(data.oss_url);
+                                //alert(data.oss_url);
                                 window.open(data.shot_url,'_blank');
                                 //window.open(data.oss_prefix + data.oss_url,'_blank');
                             },
