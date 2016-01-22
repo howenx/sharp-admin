@@ -260,7 +260,7 @@ $(function () {
 
 //返回模板中选中的图片 Added by Tiffany Zhu
 function updateThemeImg(obj){
-    $("#themeImg").find("img").attr("src",obj.url);
+    $("#themeImg").find("img").attr("src",window.url + obj.url);
     //$("#themeImg").css({"background-image":"url("+ obj.url +")","background-size":"cover"});
     var input = $("#themeImg").find("input");
     $(input).attr("id",obj.url);

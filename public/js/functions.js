@@ -37,7 +37,7 @@ $(".upload").change(function(){
             input.type = "hidden";
             input.name = data.imgid;
             input.value = data.path;
-            $(obj).find("img").attr("src",data.minify_url);
+            $(obj).find("img").attr("src",data.oss_prefix + data.oss_url);
             for(var i=0;i<obj.length;i++){
                 obj[i].appendChild(input);
             }
@@ -82,7 +82,7 @@ $(".add-upload").change(function(){
             input.type = "hidden";
             input.name = data.imgid;
             input.value = data.path;
-            $(obj).find("img").attr("src",data.minify_url);
+            $(obj).find("img").attr("src",data.oss_prefix + data.oss_url);
             for(var i=0;i<obj.length;i++){
                 obj[i].appendChild(input);
             }
@@ -595,14 +595,14 @@ $(function(){
                             success: function(data) {
                                 console.log(JSON.stringify(data));
                                 var input = document.createElement("input");
-                                input.id = data.oss_prefix + data.oss_url;
+                                input.id = data.oss_url;
                                 input.type = "hidden";
                                 $(".templates-choose").find("li").each(function(){
                                     if($(this).css("border-top-style") == "solid"){
                                         $(this).append(input);
                                     }
                                 })
-                                alert(data.oss_prefix + data.oss_url);
+                                alert(data.oss_url);
                                 window.open(data.shot_url,'_blank');
                                 //window.open(data.oss_prefix + data.oss_url,'_blank');
                             },

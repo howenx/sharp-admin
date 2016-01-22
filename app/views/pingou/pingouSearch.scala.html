@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",pinSkuList:List[Array[Object]],user:entity.User)
+@(lang:String="cn",pageSize:Integer,countNum:Integer,pageCount:Integer,pinSkuList:List[Array[Object]],user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -8,6 +8,8 @@
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
+<script src="/assets/js/search.js"></script>
+
 <!-- 此为调用分页所提供的函数名前缀 -->
 <script>window.search_args = 'pinSkuList'</script>
 }
@@ -34,12 +36,12 @@
             <!--主题id-->
             <label class="col-sm-2 control-label">活动ID:</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control"/>
+                <input type="text" class="form-control" id="pin_id"/>
             </div>
             <!--主商品id-->
             <label class="col-sm-1 control-label">状态</label>
             <div class="col-sm-4">
-                <select class="form-control">
+                <select class="form-control" id="status">
                     <option value=""></option>
                     <option value="Y">正常</option>
                     <option value="N">下架</option>
@@ -102,12 +104,14 @@
         </table>
 
         <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
-        <span class="page-toolbar-title"></span>
+        <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
         <div class="paging">
             <ul class="pagination">
                 <li class="prev disabled"><a href="javascript:void(0)">&laquo;</a></li>
                 <li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>
-                <li class="page-num"><a href="javascript:void(0)">2</a></li>
+                @for(count <- 1 until pageCount){
+                <li class="page-num"><a href="javascript:void(0)">@(count+1)</a></li>
+                }
                 <li class="next"><a href="javascript:void(0)">&raquo;</a></li>
             </ul>
         </div>

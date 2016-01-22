@@ -22,7 +22,7 @@
 
     <insert id="insertPinSku" parameterType="entity.pingou.PinSku" useGeneratedKeys="true" keyProperty="pinId">
         insert into pin_sku(pin_img,share_url,status,create_at,pin_title,start_at,end_at,pin_price_rule,restrict_amount,floor_price,inv_id,pin_discount)
-        values(#{pinImg},#{shareUrl},#{status},CURRENT_TIMESTAMP(0),#{pinTitle},#{startAt},#{endAt},#{pinPriceRule},#{restrictAmount},#{floorPrice},#{invId},#{pinDiscount})
+        values(#{pinImg},#{shareUrl},#{status},CURRENT_TIMESTAMP(0),#{pinTitle},#{startAt}::timestamp,#{endAt}::timestamp,#{pinPriceRule},#{restrictAmount},#{floorPrice},#{invId},#{pinDiscount})
     </insert>
 
     <select id="getPinSkuAll" resultType="entity.pingou.PinSku">
@@ -43,7 +43,7 @@
             and t.pin_id = #{pinId}
         </if>
         <if test="status != null">
-            and t.pin_id = #{status}
+            and t.status = #{status}
         </if>
         <if test="startAt != null">
             and t.start_at &gt;= #{startAt} ::timestamp
