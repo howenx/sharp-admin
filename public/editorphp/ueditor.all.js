@@ -24530,7 +24530,8 @@ UE.plugin.register('simpleupload', function (){
                 formdata.append("photo", file);
                 formdata.append("params", "minify");
                 var http = new XMLHttpRequest();
-                var url = "http://172.28.3.18:3008/upload";
+                var url = window.uploadURL+"/upload";
+//                alert(url);
                 http.open("POST", url, true);
 
                 http.onreadystatechange = function() {
@@ -24538,7 +24539,8 @@ UE.plugin.register('simpleupload', function (){
                         var data = JSON.parse(http.responseText);
                         //上传商品详细图分割
                         var http2 = new XMLHttpRequest;
-                        var url2 = "http://172.28.3.18:3008/split/file/"+data.oss_url;
+                        var url2 = window.uploadURL+"/split/file/"+data.oss_url;
+//                        alert(url2);
 
                         http2.open("GET", url2, true);
                         http2.onreadystatechange = setTimeout(function() {
