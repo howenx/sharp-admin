@@ -51,7 +51,7 @@ public interface ItemService {
      * @param json 商品和库存信息json串
      * @param user 操作人员
      * @param operateIp 操作人员ip
-     * @return
+     * @return list of inventory id
      */
     List<Long> itemSave(JsonNode json, String user, String operateIp);
 

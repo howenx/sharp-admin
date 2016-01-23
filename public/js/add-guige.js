@@ -38,80 +38,100 @@ function Init () {
 /*****保存******/
 function holdShow() {
     /**存储信息**/
-    if($(option).hasClass("add-guige")){
-        var trh = $("<tr>");
-        var trd = $("<tr>");
-        if (window.showModalDialog) {
-            var sharedObject = {};
-            window.returnValue = sharedObject;
-        }
-        else {
-            var trdobj = {};
-            trdobj.itemColor = $("input[name=itemColor]:checked").val();//颜色
-            trdobj.itemSize = $("input[name=itemSize]:checked").val();//尺寸
-            trdobj.startAt = $("input[name=startAt]").val();//开始时间
-            trdobj.endAt = $("input[name=endAt]").val();//结束时间
-            trdobj.itemPrice = $("input[name=itemPrice]").val();//现价
-            trdobj.itemSrcPrice = $("input[name=itemSrcPrice]").val();//原价
-            trdobj.itemCostPrice = $("input[name=itemCostPrice]").val();//成本价
-            trdobj.itemDiscount = $("input[name=itemDiscount]").val();//折扣
-            trdobj.invWeight = $("input[name=invWeight]").val();//重量
-            trdobj.restrictAmount = $("input[name=restrictAmount]").val();//限购数量
-            trdobj.amount = $("input[name=amount]").val();//库存总量
-            trdobj.restAmount = $("input[name=restAmount]").val();//剩余库存
-            trdobj.carriageModelCode = $("select[name=carriageModelCode]").val();//运费设置
-            trdobj.invArea = $("select[name=invArea]").val();//库存区域
-            trdobj.invCustoms = $("select[name=invCustoms]").val();//报关单位
-            trdobj.postalTaxRate = $("input[name=postalTaxRate]").val();//税率
-            trdobj.postalTaxCode = $("input[name=postalTaxCode]").val();//行邮税号
-            trdobj.recordHZ = $("input[name=recordHZ]").val();//备案号:杭州
-            trdobj.recordGZ = $("input[name=recordGZ]").val();//备案号:广州
-            trdobj.recordSH = $("input[name=recordSH]").val();//备案号:上海
-            trdobj.invImg = $("#galleryM").find(".main-img").attr("src");//sku主图
-            var itemPreviewImgs = [];
-            $("#galleryP").find(".main-img").each(function() {
-                itemPreviewImgs.push($(this).attr("src"));
-            });
-            trdobj.itemPreviewImgs = itemPreviewImgs;//sku预览图
-            //多样化价格
-            if ($("#openVaryPrice").is(":checked")) {
-                trdobj.openVaryPrice = true;
-                var varyPrice = [];
-                var price = document.getElementsByName("price");
-                var limitAmount = document.getElementsByName("limitAmount");
-                for(i=0;i<price.length;i++) {
+    var sharedObject = {};
+    var trd = $("<tr>");
+    var trdobj = {};
+    trdobj.itemColor = $("input[name=itemColor]:checked").val();//颜色
+    trdobj.itemSize = $("input[name=itemSize]:checked").val();//尺寸
+    trdobj.startAt = $("input[name=startAt]").val();//开始时间
+    trdobj.endAt = $("input[name=endAt]").val();//结束时间
+    trdobj.itemPrice = $("input[name=itemPrice]").val();//现价
+    trdobj.itemSrcPrice = $("input[name=itemSrcPrice]").val();//原价
+    trdobj.itemCostPrice = $("input[name=itemCostPrice]").val();//成本价
+    trdobj.itemDiscount = $("input[name=itemDiscount]").val();//折扣
+    trdobj.invWeight = $("input[name=invWeight]").val();//重量
+    trdobj.restrictAmount = $("input[name=restrictAmount]").val();//限购数量
+    trdobj.amount = $("input[name=amount]").val();//库存总量
+    trdobj.restAmount = $("input[name=restAmount]").val();//剩余库存
+    trdobj.carriageModelCode = $("select[name=carriageModelCode]").val();//运费设置
+    trdobj.invArea = $("select[name=invArea]").val();//库存区域
+    trdobj.invCustoms = $("select[name=invCustoms]").val();//报关单位
+    trdobj.postalTaxRate = $("input[name=postalTaxRate]").val();//税率
+    trdobj.postalTaxCode = $("input[name=postalTaxCode]").val();//行邮税号
+    trdobj.recordHZ = $("input[name=recordHZ]").val();//备案号:杭州
+    trdobj.recordGZ = $("input[name=recordGZ]").val();//备案号:广州
+    trdobj.recordSH = $("input[name=recordSH]").val();//备案号:上海
+    //sku主图
+    var invImg = {};
+    var imgM = $("#galleryM").find(".main-img");
+    var imgSrc = imgM.attr("src");
+//    invImg["url"] = imgSrc.substring(imgSrc.lastIndexOf('/')+1,imgSrc.length);
+    invImg["width"] = imgM.attr("width");
+    invImg["height"] = imgM.attr("height");
+    trdobj.invImg = JSON.stringify(invImg);
+    //sku预览图
+    var itemPreviewImgs = [];
+    $("#galleryP").find(".main-img").each(function() {
+        var imgsV = {};
+        var preSrc = $(this).attr("src");
+//        imgsV["url"] = preSrc.substring(preSrc.lastIndexOf('/')+1,preSrc.length);
+        imgsV["width"] = $(this).attr("width");
+        imgsV["height"] = $(this).attr("height");
+        itemPreviewImgs.push(imgsV);
+    });
+    trdobj.itemPreviewImgs = JSON.stringify(itemPreviewImgs);
+    //多样化价格
+    if ($("#openVaryPrice").is(":checked")) {
+        trdobj.openVaryPrice = true;
+        var varyPrice = [];
+        var price = document.getElementsByName("price");
+        var limitAmount = document.getElementsByName("limitAmount");
+        for(i=0;i<price.length;i++) {
 //                    if (price[i].value=="" || limitAmount[i].value=="") {
 //                        isPost = false;
 //                        $("#warn-vary-price").text("多样化价格不能有空值");
 //                    } else $("#arn-vary-price").text("");
-                    varyPrice.push(price[i].value);
-                    varyPrice.push(limitAmount[i].value);
-                }
-                trdobj.varyPrice = varyPrice;
-                console.log(varyPrice);
-            }
-            else {
-                trdobj.openVaryPrice = false;
-                trdobj.varyPrice = "";
-            }
-            $("<th>").html("设为主商品").appendTo(trh);
-            $("<td>").html('<input type="radio" name="orMasterInv" checked="checked" class="master-radio"/>').appendTo(trd);
-            for(var item in trdobj){
-                $("<td>").html(trdobj[item]).appendTo(trd);
-            };
-            $(".thval").each(function(){
-                $("<th>").html($(this).html()).appendTo(trh)
-            });
-            $("<th>").html("修改").appendTo(trh);
-            $("<td onclick='ShowModal(this,sku1)'>").html("编辑").appendTo(trd);
-            var sharedObject = {};
-            sharedObject.trh = trh;
-            sharedObject.trd = trd;
-            sharedObject.sku = trdobj;
-            window.opener.updateTable (sharedObject);
+            varyPrice.push(price[i].value);
+            varyPrice.push(limitAmount[i].value);
         }
-    }else if(option.tagName=="TD"){
-
+        trdobj.varyPrice = varyPrice.toString();
+        console.log(trdobj.varyPrice);
+        console.log(trdobj.itemPreviewImgs);
+    }
+    else {
+        trdobj.openVaryPrice = false;
+        trdobj.varyPrice = "";
+    }
+    $("<td>").html('<input type="radio" name="orMasterInv" checked="checked" class="master-radio"/>').appendTo(trd);
+    var count = 0;
+    for(var item in trdobj){
+        if (count==0||count==1||count==4||count==13)
+        $("<td>").html(trdobj[item]).appendTo(trd);
+        else $("<td style='display:none;'>").html(trdobj[item]).appendTo(trd);
+        count++;
+    };
+    $("<td class='trEdit'>").html("<span onclick='ShowModal(this,sku1)'> 编辑 </span>  <span class='delTr'> 删除 </span>").appendTo(trd);
+    console.log(trd.html());
+    //点击的是添加规格按钮
+    if($(option).hasClass("add-guige")){
+        var trh = $("<tr>");
+        $("<th>").html("设为主商品").appendTo(trh);
+        $(".thval").each(function(){
+            var thName = $(this).html();
+            if (thName=="颜色"||thName=="尺寸"||thName=="现价"||thName=="库存区域")
+            $("<th>").html(thName).appendTo(trh);
+            else $("<th style='display:none;'>").html(thName).appendTo(trh);
+        });
+        $("<th>").html("修改").appendTo(trh);
+        sharedObject.trh = trh;
+    }
+    sharedObject.trd = trd;
+    sharedObject.sku = trdobj;
+    if (window.showModalDialog) {
+        window.returnValue = sharedObject;
+    }
+    else {
+        window.opener.UpdateFields (sharedObject);
     }
 //    window.close();
 }
@@ -219,7 +239,7 @@ $(function(){
                 aImg.src = e.target.result;
                 var image = new Image();
                 image.src = e.target.result;
-                alert(["图片大小是: width:"+image.width+", height:"+image.height]);
+//                alert(["图片大小是: width:"+image.width+", height:"+image.height]);
                 aImg.width = image.width;
                 aImg.height = image.height;
             }
@@ -238,7 +258,7 @@ $(function(){
         http.onreadystatechange = function() {
             if (http.readyState == 4 && http.status == 200) {
                 var data = JSON.parse(http.responseText);
-//                alert(data.message);
+                alert(data.message);
 //                console.log("data.oss_prefix:"+data.oss_prefix);
 //                console.log("data.oss_url:"+data.oss_url);
 //                console.log("data.path:"+data.path);
