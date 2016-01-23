@@ -198,6 +198,8 @@ GET             /pin/search                                                 cont
 GET             /$lang<(cn|en|kr)>/pin/search                               controllers.PingouCtrl.pingouSearch(lang)
 POST            /pin/save                                                   controllers.PingouCtrl.pingouSave(lang ="cn")
 POST            /$lang<(cn|en|kr)>/pin/save                                 controllers.PingouCtrl.pingouSave(lang)
+POST            /pin/search/$pageNum<[0-9]+>                                controllers.PingouCtrl.getPinSkuPage(lang ="cn",pageNum:Int)
+POST            /$lang<(cn|en|kr)>/pin/search/$pageNum<[0-9]+>              controllers.PingouCtrl.getPinSkuPage(lang,pageNum:Int)
 
 
 

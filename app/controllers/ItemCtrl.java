@@ -144,7 +144,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result itemCreate(String lang) {
-        return ok(views.html.item.itemadd.render(lang,service.getAllBrands(),service.getParentCates(),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemadd.render(lang,service.getAllBrands(),service.getParentCates(),ThemeCtrl.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
     /**

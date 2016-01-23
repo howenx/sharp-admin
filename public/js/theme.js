@@ -131,7 +131,7 @@ function upload(thumb, file, id) {
             var input = document.createElement("input");
             var img = new Image;
             img.onload = function(){
-                 alert(["图片大小是: width:"+img.width+", height:"+img.height]);
+                 //alert(["图片大小是: width:"+img.width+", height:"+img.height]);
                  jsFileShareContent.labelImgWidth = img.width;
                  jsFileShareContent.labelImgHeight = img.height;
                  $(thumb).width(img.width);
@@ -146,7 +146,7 @@ function upload(thumb, file, id) {
             input.value = data.path;
             $(thumb).find("img").attr('src', data.oss_prefix+data.oss_url);
             $(thumb).append(input);
-            alert(data.oss_prefix+data.oss_url);
+            //alert(data.oss_prefix+data.oss_url);
             alert(data.message);
         }
     }
@@ -260,7 +260,7 @@ $(function () {
 
 //返回模板中选中的图片 Added by Tiffany Zhu
 function updateThemeImg(obj){
-    $("#themeImg").find("img").attr("src",obj.url);
+    $("#themeImg").find("img").attr("src",window.url + obj.url);
     //$("#themeImg").css({"background-image":"url("+ obj.url +")","background-size":"cover"});
     var input = $("#themeImg").find("input");
     $(input).attr("id",obj.url);

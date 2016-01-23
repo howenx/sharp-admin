@@ -109,7 +109,7 @@ public class PingouCtrl extends Controller {
             object[5] = "";                     //已开团数
             rtnPinSkuList.add(object);
         }
-        return ok(views.html.pingou.pingouSearch.render(lang,rtnPinSkuList,(User) ctx().args.get("user")));
+        return ok(views.html.pingou.pingouSearch.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,rtnPinSkuList,(User) ctx().args.get("user")));
 
     }
 

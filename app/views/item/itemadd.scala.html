@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn", brandsList:List[entity.Brands], catesParentList:List[entity.Cates],user:entity.User)
+@(lang:String="cn", brandsList:List[entity.Brands], catesParentList:List[entity.Cates],uploadURL:String,user:entity.User)
 
 @scripts = {
 
@@ -19,6 +19,7 @@
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/item.js"></script>
+<script>window.uploadURL = '@uploadURL'</script>
 <script>
     function ShowModal(obj,sku) {
         var sharedObject = {};

@@ -94,8 +94,6 @@ function holdShow() {
                 trdobj.openVaryPrice = false;
                 trdobj.varyPrice = "";
             }
-alert(trdobj.itemPreviewImgs);
-alert(trdobj.varyPrice);
             $("<th>").html("设为主商品").appendTo(trh);
             $("<td>").html('<input type="radio" name="orMasterInv" checked="checked" class="master-radio"/>').appendTo(trd);
             for(var item in trdobj){
@@ -234,8 +232,8 @@ $(function(){
         formdata.append("photo", file);
         formdata.append("params", "minify");
         var http = new XMLHttpRequest();
-        var url = window.uploadURL;
-        alert(window.uploadURL);
+        var url = window.uploadURL+"/upload";
+        http.open("POST", url, true);
 
         http.onreadystatechange = function() {
             if (http.readyState == 4 && http.status == 200) {

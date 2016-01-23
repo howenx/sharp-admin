@@ -204,84 +204,49 @@ $(function() {
             })
         }
 
-         //每个查询页面对应一个相应的组装函数  拼购Sku查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Tiffany Zhu
-         funcList.pinSkuList_search = function orderlist_search(pageIndex) {
-             var orderDto = new Object();
-             orderDto.orderId = $("#order-form-id").val();
-             orderDto.userId = $("#order-form-userid").val();
+        //每个查询页面对应一个相应的组装函数 拼购查询页面      Added by Tiffany Zhu 2016.01.22
+        	funcList.pinlist_search = function pinlist_search(pageIndex) {
+        		var pinDto = new Object();
+        		pinDto.pinId = $("#pin_id").val();
+        		pinDto.status = $("#status").val();
 
-             orderDto.orderCreateAt = $("#onShelvesAt").val();
-             orderDto.orderStatus = $("#order-form-status option:selected").val();
-             //创建时间如果为空
-             if ($("#onShelvesAt").val() == '' || $("#onShelvesAt").val() == null) {
-                 orderDto.orderCreateAt = "0000-01-01 00:00:00";
-             }
-             //调用共用ajax,url从根目录开始不需要加上语言
-             search("/comm/order/search/" + pageIndex, orderDto);
-         }
+        		pinDto.startAt = $("#topic-form-starttime").val();
+        		pinDto.endAt = $("#topic-form-endtime").val();
+        		//开始时间如果为空
+                if ($("#topic-form-starttime").val() == '' || $("#topic-form-starttime").val() == null) {
+                    pinDto.startAt = "0000-01-01 00:00:00";
+                }
+                if ($("#topic-form-endtime").val() == '' || $("#topic-form-endtime").val() == null) {
+                	pinDto.endAt = "99999-12-31 23:59:59";
+                }
+        		//调用共用ajax,url从根目录开始不需要加上语言
+        		search("/pin/search/" + pageIndex, pinDto);
+        	}
 
-         //每个查询页面对应一个相应的返回时填充函数 订单查询页面       Added by Tiffany Zhu
-         funcList.pinSkuList_data = function orderlist_data(data) {
-             //填充列表数据
-             $(data).each(function(index, element) {
-                 var payMethod = "";
-                 if($(this)[0].payMethod == "JD"){
-                     payMethod = "京东";
-                 }
-                 if($(this)[0].payMethod == "APAY"){
-                     payMethod = "支付宝";
-                 }
-                 if($(this)[0].payMethod == "WEIXIN"){
-                      payMethod = "微信";
-                 }
-                 var orderStatus = "";
-                 //当前时间减去24小时
-                 var time = new Date($.now() - 1*24*3600*1000);
-                 var createdTime = new Date($(this)[0].orderCreateAt);
-                 console.log(time);
-                 console.log(createdTime);
+        	//每个查询页面对应一个相应的返回时填充函数 拼购查询页面       Added by Tiffany Zhu 2016.01.22
+        	funcList.pinlist_data = function pinlist_data(data) {
+        		//填充列表数据
+        		$(data).each(function(index, element) {
+        			var status = "";
+                    if($(this)[0].status=="Y"){status="正常"}
+                    if($(this)[0].status=="N"){status="下架"}
+                    if($(this)[0].status=="P"){status="预售"}
+                    $('#tb-topic').find('tbody').append('' +
+                        '<tr class="tb-list-data">' +
+                        '<td><a href="/'+window.lang+'/comm/findById/'+$(this)[0].pinId + ' ">' + $(this)[0].pinId + '</a></td>' +
+                        '<td>' + $(this)[0].pinTitle + '</td>' +
+                        '<td>' + ($(this)[0].startAt != null && $(this)[0].startAt != '' ? $(this)[0].startAt.substr(0, 16) : '') + '</td>}' +
+                        '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 16) : '') + '</td>}' +
+                        '<td>' + status + '</td>' +
+                        '<td>' + "" + '</td>' +
+                        '</tr>'
+                    );
+        		})
+        	}
 
-                 if(createdTime < time && $(this)[0].orderStatus == "I"){
-                     orderStatus = "订单已超时";
-                 }else{
-                     if($(this)[0].orderStatus == "I"){
-                         orderStatus = "未支付";
-                     }
-                     if($(this)[0].orderStatus == "S"){
-                         orderStatus = "支付成功";
-                     }
-                     if($(this)[0].orderStatus == "C"){
-                         orderStatus = "订单取消";
-                     }
-                     if($(this)[0].orderStatus == "F"){
-                         orderStatus = "支付失败";
-                     }
-                     if($(this)[0].orderStatus == "R"){
-                         orderStatus = "已签收";
-                     }
-                     if($(this)[0].orderStatus == "D"){
-                         orderStatus = "已发货";
-                     }
-                     if($(this)[0].orderStatus == "J"){
-                         orderStatus = "拒收";
-                     }
-                     if($(this)[0].orderStatus == "N"){
-                         orderStatus = "已删除";
-                     }
-                 }
-                 $('#tb-topic').find('tbody').append('' +
-                     '<tr class="tb-list-data">' +
-                     '<td><a href="/' + window.lang +'/comm/order/detail/' + $(this)[0].orderId + '">' + $(this)[0].orderId + '</a></td>' +
-                     '<td>' + $(this)[0].userId + '</td>' +
-                     '<td>' + ($(this)[0].orderCreateAt != null && $(this)[0].orderCreateAt != '' ? $(this)[0].orderCreateAt.substr(0, 16) : '') + '</td>}' +
-                     '<td>' + $(this)[0].payTotal + '</td>' +
-                     '<td>' + payMethod + '</td>' +
-                     '<td>' + orderStatus + '</td>' +
-                     //'<td>' + (orderStatus == "订单已超时" ? '<a href="/' + window.lang +'/comm/order/detail/' + $(this)[0].orderId + '">取消订单</a>' : '') + '</td>}' +
-                     '</tr>'
-                 );
-             })
-         }
+
+
+
 
         //每个查询页面对应一个相应的组装函数  erp商品资料查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Sunny Wu
         funcList.itemInfoList_search = function orderlist_search(pageIndex) {

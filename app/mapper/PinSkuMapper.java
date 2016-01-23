@@ -35,4 +35,11 @@ public interface PinSkuMapper {
      */
     List<PinSku> getPinSkuPage(PinSku pinSku);
 
+    /**
+     *
+     * @param pinId
+     * @return
+     */
+    PinSku getPinSkuById(Long pinId);
+
 }

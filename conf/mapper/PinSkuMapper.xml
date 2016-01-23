@@ -22,7 +22,7 @@
 
     <insert id="insertPinSku" parameterType="entity.pingou.PinSku" useGeneratedKeys="true" keyProperty="pinId">
         insert into pin_sku(pin_img,share_url,status,create_at,pin_title,start_at,end_at,pin_price_rule,restrict_amount,floor_price,inv_id,pin_discount)
-        values(#{pinImg},#{shareUrl},#{status},CURRENT_TIMESTAMP(0),#{pinTitle},#{startAt},#{endAt},#{pinPriceRule},#{restrictAmount},#{floorPrice},#{invId},#{pinDiscount})
+        values(#{pinImg},#{shareUrl},#{status},CURRENT_TIMESTAMP(0),#{pinTitle},#{startAt}::timestamp,#{endAt}::timestamp,#{pinPriceRule},#{restrictAmount},#{floorPrice},#{invId},#{pinDiscount})
     </insert>
 
     <select id="getPinSkuAll" resultType="entity.pingou.PinSku">
@@ -42,8 +42,8 @@
         <if test="pinId != null">
             and t.pin_id = #{pinId}
         </if>
-        <if test="status != null">
-            and t.pin_id = #{status}
+        <if test="status != null and status != '' ">
+            and t.status = #{status}
         </if>
         <if test="startAt != null">
             and t.start_at &gt;= #{startAt} ::timestamp
@@ -52,16 +52,8 @@
             and t.end_at &lt;= #{endAt} ::timestamp
         </if>
 
-        <if test="sort == null or sort == ''">
             ORDER BY t.create_at DESC
-        </if>
 
-        <if test="sort != null">
-            ORDER BY t.${sort}
-            <if test="order != null">
-                ${order}
-            </if>
-        </if>
         <if test="pageSize == -1 and offset >= -1">
             LIMIT ALL OFFSET 0
         </if>
@@ -70,7 +62,13 @@
         </if>
     </select>
 
-
+    <select id="getPinSkuById" resultType="entity.pingou.PinSku" parameterType="java.lang.Long">
+        select
+        <include refid="pinSkuColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from pin_sku where pin_id = ${value}
+    </select>
 
 
     <sql id="pinCouponColumns">

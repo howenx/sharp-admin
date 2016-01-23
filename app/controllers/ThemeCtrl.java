@@ -38,7 +38,7 @@ public class ThemeCtrl extends Controller {
     public static final String IMG_UPLOAD_URL = play.Play.application().configuration().getString("image.upload.url");
 
     //截图服务器url
-    public static final String IMG_CUT_URL = play.Play.application().configuration().getString("image.cut.url");;
+    //public static final String IMG_CUT_URL = play.Play.application().configuration().getString("image.cut.url");;
 
     @Inject
     private ThemeService service;
@@ -278,7 +278,7 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result themeTemplates(String lang){
         List<ThemeTemplate> templateList = service.getTemplatesAll();
-        return ok(views.html.theme.templates.render(lang,templateList,IMAGE_URL,IMG_UPLOAD_URL,IMG_CUT_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.templates.render(lang,templateList,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
 
     }
 
