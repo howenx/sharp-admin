@@ -134,26 +134,26 @@ POST            /comm/cate/cateSave                                         cont
 
 
 
-GET             /                                   controllers.Auth.login
-POST            /authenticate                       controllers.Auth.authenticate
-GET             /logout                             controllers.Auth.logout
-GET             /test                               controllers.Test.test
-GET             /supply/init/$id<[0-9]+>            controllers.Application.supply_init(id:Long)
-POST            /supply/init/add                    controllers.Application.supply_init_add
-POST            /supply/add                             controllers.Application.supply
-POST            /supply/delete                             controllers.Application.supply_delete
-POST            /supply/update/kr                             controllers.Application.update_kr
-GET             /supply/my                    controllers.Application.list_supply(id:Option[Int],stat:Option[String], start:Int ?=0)
-GET             /supply/admin                    controllers.Application.list_admin(id:Option[Int],stat:Option[String], start:Int ?=0)
-GET             /supply/list                      controllers.Application.list(id:Option[Int],stat:Option[String], start:Int ?=0)
-GET             /supply/translation/$id<[0-9]+>           controllers.Application.translation(id:Long)
-GET             /supply/update/$id<[0-9]+>           controllers.Application.supply_update(id:Long)
-GET             /supply/append/$id<[0-9]+>           controllers.Application.append(id:Long)
-GET             /supply/$id<[0-9]+>                controllers.Application.show(id:Long)
-POST            /supply/append/add                 controllers.Application.append_add
-GET             /supply/download/shanghai                 controllers.Application.download_shanghai
-GET             /supply/download/hangzhou                 controllers.Application.download_hangzhou
-POST            /supply/upload                             controllers.Application.upload
+GET             /                                                           controllers.Auth.login
+POST            /authenticate                                               controllers.Auth.authenticate
+GET             /logout                                                     controllers.Auth.logout
+GET             /test                                                       controllers.Test.test
+GET             /supply/init/$id<[0-9]+>                                    controllers.Application.supply_init(id:Long)
+POST            /supply/init/add                                            controllers.Application.supply_init_add
+POST            /supply/add                                                 controllers.Application.supply
+POST            /supply/delete                                              controllers.Application.supply_delete
+POST            /supply/update/kr                                           controllers.Application.update_kr
+GET             /supply/my                                                  controllers.Application.list_supply(id:Option[Int],stat:Option[String], start:Int ?=0)
+GET             /supply/admin                                               controllers.Application.list_admin(id:Option[Int],stat:Option[String], start:Int ?=0)
+GET             /supply/list                                                controllers.Application.list(id:Option[Int],stat:Option[String], start:Int ?=0)
+GET             /supply/translation/$id<[0-9]+>                             controllers.Application.translation(id:Long)
+GET             /supply/update/$id<[0-9]+>                                  controllers.Application.supply_update(id:Long)
+GET             /supply/append/$id<[0-9]+>                                  controllers.Application.append(id:Long)
+GET             /supply/$id<[0-9]+>                                         controllers.Application.show(id:Long)
+POST            /supply/append/add                                          controllers.Application.append_add
+GET             /supply/download/shanghai                                   controllers.Application.download_shanghai
+GET             /supply/download/hangzhou                                   controllers.Application.download_hangzhou
+POST            /supply/upload                                              controllers.Application.upload
 
 
 
@@ -201,6 +201,8 @@ POST            /pin/save                                                   cont
 POST            /$lang<(cn|en|kr)>/pin/save                                 controllers.PingouCtrl.pingouSave(lang)
 POST            /pin/search/$pageNum<[0-9]+>                                controllers.PingouCtrl.getPinSkuPage(lang ="cn",pageNum:Int)
 POST            /$lang<(cn|en|kr)>/pin/search/$pageNum<[0-9]+>              controllers.PingouCtrl.getPinSkuPage(lang,pageNum:Int)
+GET             /pin/getPinById/:id                                         controllers.PingouCtrl.getPinSkuById(lang = "cn",id:Long)
+GET             /$lang<(cn|en|kr)>/pin/getPinById/:id                       controllers.PingouCtrl.getPinSkuById(lang,id:Long)
 
 
 

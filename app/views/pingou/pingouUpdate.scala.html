@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",user:entity.User)
+@(lang:String="cn",pinSku:entity.pingou.PinSku,pinCoupon:entity.pingou.PinCoupon,img:Array[Object],priceRuleList:List[Array[Object]],url:String,user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -9,8 +9,75 @@
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
 <script src="/assets/js/pinSku.js"></script>
+<script>window.url = "@url"</script>
+
+<script>
+    $(function(){
+        $("#status").val("@pinSku.getStatus()");
+        $("#themeImg").find("img").attr("src","@url@img(0)");
+        $("#themeImg").find("input").attr("id","@img(0)");
+        $("#themeImg").find("input").css({"width":@img(1),"height":@img(2)});
+        var temp = "@pinCoupon";
+        //没有优惠券
+        if("@pinCoupon" == ""){
+            $(":radio[value='tz-no']").click(); 
+            $(":radio[value='ty-no']").click();  
+        }
+
+        //有优惠券
+        if("@pinCoupon" != ""){
+            $("#coupon_id").val(@pinCoupon.getId());
+            //团长优惠券
+            if("@pinCoupon.getMasterCouponClass()" != "" ){
+                 $(".tz").find("select").val(@pinCoupon.getMasterCouponClass());
+                 $(".tz").find("input").eq(0).val("@pinCoupon.getMasterCouponQuota()");
+                 $(".tz").find("input").eq(1).val("@pinCoupon.getMasterCoupon()");
+                 $(".tz").find("input").eq(2).val("@pinCoupon.getMasterCouponStartAt()".substring(0,19));
+                 $(".tz").find("input").eq(3).val("@pinCoupon.getMasterCouponEndAt()".substring(0,19)); 
+            }else{
+                 $(":radio[value='tz-no']").click(); 
+            }
+            //团员优惠券
+            if("@pinCoupon.getMemberCouponClass()" != "" ){
+                 $(".ty").find("select").val(@pinCoupon.getMemberCouponClass());
+                 $(".ty").find("input").eq(0).val("@pinCoupon.getMemberCouponQuota()");
+                 $(".ty").find("input").eq(1).val("@pinCoupon.getMemberCoupon()");
+                 $(".ty").find("input").eq(2).val("@pinCoupon.getMemberCouponStartAt()".substring(0,19));
+                 $(".ty").find("input").eq(3).val("@pinCoupon.getMemberCouponEndAt()".substring(0,19)); 
+            }else{
+                 $(":radio[value='ty-no']").click(); 
+            }
+        }
+
+        //设置不可编辑项
+        $("#pinSkuSubmit").css("display","none");   //保存
+        $("#cancel").css("display","none");         //取消
+
+        $("#onShelvesAt").attr("disabled",true);    //开始时间
+        $("#offShelvesAt").attr("disabled",true);   //结束时间
+        $("#status").attr("disabled",true);         //状态
+        $("#restrict").attr("disabled",true);       //每用户限购
+        $(".btn-xm").eq(0).css("display","none");   //选择商品'按钮'
+        $("#getTemplate").eq(0).css("display","none"); //图片模板'按钮'
+
+        $(".pingou").find("tr").each(function(){        //价格阶梯表中的'删除'
+            if($(this).find("td").length == 0){
+                $(this).find("th").eq(3).css("display","none");
+            }else{
+                $(this).find("td").eq(3).css("display","none");
+            }
+        })
+        $(".add-level").css("display","none");          //添加价格
+        $(":radio").attr("disabled",true);              //优惠券的'radio'
+        $(".tz").find("select").attr("disabled",true);  //团长优惠券类别
+        $(".tz").find("input").attr("disabled",true);   //团长优惠券填写框
+        $(".ty").find("select").attr("disabled",true);  //团员优惠券类别
+        $(".ty").find("input").attr("disabled",true);   //团员优惠券填写框
+    })
+</script>
+
 }
-@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"新增拼购")
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"拼购详情")
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 <div class="mbread">
@@ -20,16 +87,17 @@
         <span class="icon-path">&gt;</span>
         <span>拼购管理</span>
         <span class="icon-path">&gt;</span>
-        <span>新增拼购</span>
+        <span>拼购详情</span>
     </div>
 </div>
 <div class="wrap-slider">
     <div class="page-title">
-        <span class="title-name">新增拼购</span>
+        <span class="title-name">拼购详情</span>
     </div>
     <div class="usercenter-option">
         <div class="user-state fl"></div>
         <div id="pinSkuSubmit" class="btn-blue btn-form fr ml15">保存</div>
+        <div id="pinSkuEdit" class="btn-blue btn-form fr ml15">编辑</div>
         <div id="cancel" class="btn-white btn-form fr ml20">取消</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
@@ -38,10 +106,16 @@
             <form class="form-horizontal">
                 <h4 class="h4-custom-hmm">基本信息</h4>
                 <div class="form-group">
+                    <label class="col-sm-2 control-label">拼购ID:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="pinId" value="@pinSku.getPinId()" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-2 control-label">开始时间:</label>
                     <div class="col-sm-8">
                         <div class="input-group" id='datetimepicker1'>
-                            <input class="form-control col-sm-2"  type="text"  id="onShelvesAt" name="onShelvesAt">
+                            <input class="form-control col-sm-2"  type="text"  id="onShelvesAt" name="onShelvesAt" value="@pinSku.getStartAt()">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
@@ -50,7 +124,7 @@
                     <label class="col-sm-2 control-label">结束时间:</label>
                     <div class="col-sm-8">
                         <div class="input-group date" id='datetimepicker2'>
-                            <input class="form-control col-sm-2"  type="text"  id="offShelvesAt" name="offShelvesAt">
+                            <input class="form-control col-sm-2"  type="text"  id="offShelvesAt" name="offShelvesAt" value="@pinSku.getEndAt()">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
@@ -69,13 +143,13 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">每用户限购:</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="restrict">
+                        <input type="text" class="form-control" id="restrict" value="@pinSku.getRestrictAmount()">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">商品ID:</label>
                     <div class="col-sm-8">
-                        <input type="text" id="input_imgurl" class="form-control" disabled>
+                        <input type="text" id="input_imgurl" class="form-control"  value="@pinSku.getItemId()" disabled>
                     </div>
                     <div class="col-sm-2">
                         <button type="button" class="btn btn-primary btn-xm" onclick="ShowModal1()">选择</button>
@@ -84,7 +158,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">商品标题:</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="itemTitle" disabled>
+                        <input type="text" class="form-control" id="itemTitle" value="@pinSku.getPinTitle()" disabled>
                     </div>
                 </div>
                 <hr/>
@@ -113,10 +187,18 @@
                                 <th>拼购价格</th>
                                 <th>删除</th>
                             </tr>
+                            @for(rule <- priceRuleList){
+                                <tr>
+                                    <td>@rule(0)</td>
+                                    <td>@rule(1)</td>
+                                    <td>@rule(2)</td>
+                                    <td class="delPingou" style="background: #ccc;cursor: pointer">删除</td>
+                                </tr>
+                            }
                         </table>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group add-level">
                     <label class="col-sm-2 control-label">拼购人数:</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control">
@@ -131,6 +213,7 @@
                 </div>
                 <hr/>
                 <h4 class="h4-custom-hmm">优惠券</h4>
+                <input id="coupon_id" style="display:none">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">团长:</label>
                     <div class="col-sm-3">
