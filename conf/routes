@@ -137,7 +137,6 @@ POST            /comm/cate/cateSave                                         cont
 GET             /                                   controllers.Auth.login
 POST            /authenticate                       controllers.Auth.authenticate
 GET             /logout                             controllers.Auth.logout
-GET             /test                               controllers.Test.test
 GET             /supply/init/$id<[0-9]+>            controllers.Application.supply_init(id:Long)
 POST            /supply/init/add                    controllers.Application.supply_init_add
 POST            /supply/add                             controllers.Application.supply
@@ -206,8 +205,6 @@ POST            /$lang<(cn|en|kr)>/pin/save                                 cont
 
 
 
-
-POST            /test/upload                                                controllers.Test.upload()
 
 
 
