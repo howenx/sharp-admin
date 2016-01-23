@@ -209,7 +209,7 @@ POST            /$lang<(cn|en|kr)>/pin/search/$pageNum<[0-9]+>              cont
 
 
 
-
+POST            /test/upload                                                controllers.Test.upload()
 
 
 
