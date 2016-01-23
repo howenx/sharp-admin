@@ -22,7 +22,7 @@ class AccessLoggingFilter extends Filter {
           None
         case _ =>
           val msg = s"method=${request.method} uri=${request.uri} remote-address=${request.remoteAddress}" +
-            s" status=${result.header.status}";
+            s" status=${result.header.status}"+s" x-remote-address=${request.getQueryString("X-Real-IP")}"
           accessLogger.info(msg)
       }
 

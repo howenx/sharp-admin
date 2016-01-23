@@ -21,7 +21,7 @@ class LoggingTimeFilter extends Filter {
       val endTime = System.currentTimeMillis
       val requestTime = endTime - startTime
 
-      Logger.info(s"${requestHeader.method} ${requestHeader.uri} " + s"took ${requestTime}ms from ${requestHeader.remoteAddress} and returned ${result.header.status}")
+      Logger.info(s"${requestHeader.method} ${requestHeader.uri} " + s"took ${requestTime}ms from ${requestHeader.remoteAddress} ---x-remote ${requestHeader.getQueryString("X-Real-IP")} and returned ${result.header.status}")
 
       result.withHeaders("Request-Time" -> requestTime.toString)
     }
