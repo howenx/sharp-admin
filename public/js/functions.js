@@ -24,7 +24,7 @@ $(".upload").change(function(){
     formdata.append("photo", file);
     formdata.append("params", "minify");
     var http = new XMLHttpRequest();
-    //var url = "http://172.28.3.18:3008/upload";
+//    var url = "/test/upload";
     var url = window.uploadUrl;
     http.open("POST", url, true);
     http.onreadystatechange = function () {
@@ -41,7 +41,7 @@ $(".upload").change(function(){
             for(var i=0;i<obj.length;i++){
                 obj[i].appendChild(input);
             }
-            alert(data.message);
+            //alert(data.message);
         }
     }
     http.send(formdata);
@@ -86,7 +86,7 @@ $(".add-upload").change(function(){
             for(var i=0;i<obj.length;i++){
                 obj[i].appendChild(input);
             }
-            alert(data.message);
+            //alert(data.message);
         }
     }
     http.send(formdata);
@@ -602,7 +602,7 @@ $(function(){
                                         $(this).append(input);
                                     }
                                 })
-                                alert(data.oss_url);
+                                //alert(data.oss_url);
                                 window.open(data.shot_url,'_blank');
                                 //window.open(data.oss_prefix + data.oss_url,'_blank');
                             },

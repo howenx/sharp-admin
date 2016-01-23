@@ -30,4 +30,18 @@ public interface PingouService {
      */
     List<PinSku> getPinSkuPage(PinSku pinSku);
 
+    /**
+     * 通过ID获取拼购    Added by Tiffany Zhu 2016.01.22
+     * @param pinId
+     * @return
+     */
+    PinSku getPinSkuById(Long pinId);
+
+    /**
+     * 通过拼购ID获取拼购优惠券    Added by Tiffany Zhu 2016.01.22
+     * @param pinId
+     * @return
+     */
+    PinCoupon getCouponByPinId(Long pinId);
+
 }

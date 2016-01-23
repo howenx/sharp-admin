@@ -203,6 +203,51 @@ $(function() {
                 );
             })
         }
+
+        //每个查询页面对应一个相应的组装函数 拼购查询页面      Added by Tiffany Zhu 2016.01.22
+        	funcList.pinlist_search = function pinlist_search(pageIndex) {
+        		var pinDto = new Object();
+        		pinDto.pinId = $("#pin_id").val();
+        		pinDto.status = $("#status").val();
+
+        		pinDto.startAt = $("#topic-form-starttime").val();
+        		pinDto.endAt = $("#topic-form-endtime").val();
+        		//开始时间如果为空
+                if ($("#topic-form-starttime").val() == '' || $("#topic-form-starttime").val() == null) {
+                    pinDto.startAt = "0000-01-01 00:00:00";
+                }
+                if ($("#topic-form-endtime").val() == '' || $("#topic-form-endtime").val() == null) {
+                	pinDto.endAt = "99999-12-31 23:59:59";
+                }
+        		//调用共用ajax,url从根目录开始不需要加上语言
+        		search("/pin/search/" + pageIndex, pinDto);
+        	}
+
+        	//每个查询页面对应一个相应的返回时填充函数 拼购查询页面       Added by Tiffany Zhu 2016.01.22
+        	funcList.pinlist_data = function pinlist_data(data) {
+        		//填充列表数据
+        		$(data).each(function(index, element) {
+        			var status = "";
+                    if($(this)[0].status=="Y"){status="正常"}
+                    if($(this)[0].status=="N"){status="下架"}
+                    if($(this)[0].status=="P"){status="预售"}
+                    $('#tb-topic').find('tbody').append('' +
+                        '<tr class="tb-list-data">' +
+                        '<td><a href="/'+window.lang+'/pin/getPinById/'+$(this)[0].pinId + ' ">' + $(this)[0].pinId + '</a></td>' +
+                        '<td>' + $(this)[0].pinTitle + '</td>' +
+                        '<td>' + ($(this)[0].startAt != null && $(this)[0].startAt != '' ? $(this)[0].startAt.substr(0, 16) : '') + '</td>}' +
+                        '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 16) : '') + '</td>}' +
+                        '<td>' + status + '</td>' +
+                        '<td>' + "" + '</td>' +
+                        '</tr>'
+                    );
+        		})
+        	}
+
+
+
+
+
         //每个查询页面对应一个相应的组装函数  erp商品资料查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Sunny Wu
         funcList.itemInfoList_search = function orderlist_search(pageIndex) {
             var itemInfoDto = new Object();

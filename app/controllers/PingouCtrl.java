@@ -3,9 +3,11 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.Inventory;
 import entity.Order;
+import entity.Theme;
 import entity.User;
 import entity.pingou.PinCoupon;
 import entity.pingou.PinSku;
+import play.Logger;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
@@ -15,6 +17,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import service.InventoryService;
 import service.PingouService;
+import service.ThemeService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +36,7 @@ public class PingouCtrl extends Controller {
     @Inject
     InventoryService inventoryService;
 
+
     /**
      * 添加拼购     Added by Tiffany Zhu 2016.01.19
      * @param lang
@@ -41,7 +45,7 @@ public class PingouCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result addPingou(String lang){
 
-        return ok(views.html.pingou.pingouAdd.render(lang,(User) ctx().args.get("user")));
+        return ok(views.html.pingou.pingouAdd.render(lang,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
 
     }
 
@@ -151,6 +155,54 @@ public class PingouCtrl extends Controller {
         }
     }
 
+    /**
+     * 通过ID获取拼购    Added by Tiffany Zhu 2016.01.22
+     * @param lang
+     * @param pinId
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result getPinSkuById(String lang,Long pinId){
 
+        PinSku pinSku = pingouService.getPinSkuById(pinId);
+        PinCoupon pinCoupon = pingouService.getCouponByPinId(pinId);
+        if(pinCoupon == null){
+            pinCoupon = new PinCoupon();
+            pinCoupon.setId(null);
+            //团长
+            pinCoupon.setMasterCoupon(0);
+            pinCoupon.setMasterCouponClass(null);
+            pinCoupon.setMasterCouponEndAt(null);
+            pinCoupon.setMasterCouponQuota(0);
+            pinCoupon.setMasterCouponStartAt(null);
+            //团员
+            pinCoupon.setMemberCoupon(0);
+            pinCoupon.setMemberCouponClass(null);
+            pinCoupon.setMemberCouponEndAt(null);
+            pinCoupon.setMemberCouponQuota(0);
+            pinCoupon.setMemberCouponStartAt(null);
+        }
+        Inventory inventory = inventoryService.getInventory(pinSku.getInvId());
+        pinSku.setItemId(inventory.getItemId());
+        JsonNode imgJson = Json.parse(pinSku.getPinImg());
+        Object[] img = new Object[3];
+        String imgUrl =  imgJson.get("url").toString();
+        img[0] = imgUrl.substring(1,imgUrl.length()-1);
+        img[1] = imgJson.get("width");
+        img[2] = imgJson.get("height");
+        List<Object[]> priceRuleList = new ArrayList<>();
+        JsonNode ruleJson = Json.parse(pinSku.getPinPriceRule());
+        int index = 0;
+        for(JsonNode rule : ruleJson){
+            Object[] object = new Object[3];
+            index = index + 1;
+            object[0] = index;
+            object[1] = rule.get("person_num");
+            object[2] = rule.get("price");
+            priceRuleList.add(object);
+        }
 
+        return ok(views.html.pingou.pingouUpdate.render(lang,pinSku,pinCoupon,img,priceRuleList,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
+
+    }
 }

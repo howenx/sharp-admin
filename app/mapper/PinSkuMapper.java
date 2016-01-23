@@ -35,4 +35,35 @@ public interface PinSkuMapper {
      */
     List<PinSku> getPinSkuPage(PinSku pinSku);
 
+    /**
+     *通过ID获取拼购    Added by Tiffany Zhu 2016.01.22
+     * @param pinId
+     * @return
+     */
+    PinSku getPinSkuById(Long pinId);
+
+    /**
+     *通过拼购ID获取拼购优惠券    Added by Tiffany Zhu 2016.01.22
+     * @param pinId
+     * @return
+     */
+    PinCoupon getCouponByPinId(Long pinId);
+
+    /**
+     * 更新拼购     Added by Tiffany Zhu 2016.01.22
+     * @param pinSku
+     */
+    void updatePinSku(PinSku pinSku);
+
+    /**
+     * 更新拼购优惠券     Added by Tiffany Zhu 2016.01.22
+     * @param pinCoupon
+     */
+    void updatePinCoupon(PinCoupon pinCoupon);
+
+    /**
+     * 删除拼购优惠券     Added by Tiffany Zhu 2016.01.22
+     * @param pinId
+     */
+    void delPinCoupon(Long pinId);
 }

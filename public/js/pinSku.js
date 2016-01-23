@@ -24,7 +24,7 @@ function UpdateFields(obj) {
 
 //返回模板中选中的图片 Added by Tiffany Zhu
 function updateThemeImg(obj){
-    $("#themeImg").find("img").attr("src",obj.url);
+    $("#themeImg").find("img").attr("src",window.url + obj.url);
     //$("#themeImg").css({"background-image":"url("+ obj.url +")","background-size":"cover"});
     var input = $("#themeImg").find("input");
     $(input).attr("id",obj.url);
@@ -101,6 +101,62 @@ $(function(){
         modal.dialogArguments = sharedObject;
     });
 
+    //点击编辑按钮,可编辑内容
+     $(document).on("click","#pinSkuEdit",function(){
+         $("#pinSkuEdit").css("display","none");   //编辑
+         $("#pinSkuSubmit").css("display","");   //保存
+         $("#cancel").css("display","");         //取消
+
+         $("#onShelvesAt").attr("disabled",false);    //开始时间
+         $("#offShelvesAt").attr("disabled",false);   //结束时间
+         $("#status").attr("disabled",false);         //状态
+         $("#restrict").attr("disabled",false);       //每用户限购
+         $(".btn-xm").eq(0).css("display","");        //选择商品'按钮'
+         $("#getTemplate").eq(0).css("display","");   //图片模板'按钮'
+
+         $(".pingou").find("tr").each(function(){     //价格阶梯表中的'删除'
+             if($(this).find("td").length == 0){
+                 $(this).find("th").eq(3).css("display","");
+             }else{
+                 $(this).find("td").eq(3).css("display","");
+             }
+         })
+         $(".add-level").css("display","");               //添加价格
+         $(":radio").attr("disabled",false);              //优惠券的'radio'
+         $(".tz").find("select").attr("disabled",false);  //团长优惠券类别
+         $(".tz").find("input").attr("disabled",false);   //团长优惠券填写框
+         $(".ty").find("select").attr("disabled",false);  //团员优惠券类别
+         $(".ty").find("input").attr("disabled",false);   //团员优惠券填写框
+     })
+
+    //点击取消,不可编辑内容
+     $(document).on("click","#cancel",function(){
+         $("#pinSkuEdit").css("display","");             //编辑
+            $("#pinSkuSubmit").css("display","none");    //保存
+         $("#cancel").css("display","none");             //取消
+
+         $("#onShelvesAt").attr("disabled",true);        //开始时间
+         $("#offShelvesAt").attr("disabled",true);       //结束时间
+         $("#status").attr("disabled",true);             //状态
+         $("#restrict").attr("disabled",true);           //每用户限购
+         $(".btn-xm").eq(0).css("display","none");       //选择商品'按钮'
+         $("#getTemplate").eq(0).css("display","none");  //图片模板'按钮'
+
+         $(".pingou").find("tr").each(function(){        //价格阶梯表中的'删除'
+             if($(this).find("td").length == 0){
+                 $(this).find("th").eq(3).css("display","none");
+             }else{
+                 $(this).find("td").eq(3).css("display","none");
+             }
+         })
+         $(".add-level").css("display","none");          //添加价格
+         $(":radio").attr("disabled",true);              //优惠券的'radio'
+         $(".tz").find("select").attr("disabled",true);  //团长优惠券类别
+         $(".tz").find("input").attr("disabled",true);   //团长优惠券填写框
+         $(".ty").find("select").attr("disabled",true);  //团员优惠券类别
+         $(".ty").find("input").attr("disabled",true);   //团员优惠券填写框
+     })
+
     //保存
     $(document).on("click","#pinSkuSubmit",function(){
         var isPost = true;
@@ -119,9 +175,6 @@ $(function(){
             $('#js-userinfo-error').text('每用户限购为整数数字!').css('color', '#c00');
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
-
-
-
         }
 
         if($("#onShelvesAt").val() > $("#offShelvesAt").val()){
@@ -252,6 +305,9 @@ $(function(){
                 priceRule.push(level);
             }
         })
+        if($("#pinId").val() != null){
+            pinSku.pinId = $("#pinId").val();
+        }
         pinSku.pinImg = JSON.stringify(imgUrl);
         pinSku.shareUrl = "";
         pinSku.status = $("#status").val();
@@ -268,6 +324,10 @@ $(function(){
 
         //pinCoupon组装数据
         var pinCoupon = new Object();
+        if($("#pinId").val() != null){
+          pinCoupon.pinId = $("#pinId").val();
+          pinCoupon.id = $("#coupon_id").val();
+        }
 
         if($(":radio[value='tz-yes']").prop("checked")){
           pinCoupon.masterCouponClass = $(".tz").find("select").val();
@@ -308,28 +368,18 @@ $(function(){
                      $('#js-userinfo-error').text('Save success');
                  }
                  setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
-                 /*
-                 if(themeId != null){
-                     //主题修改, 成功后返回到主题修改页面
-                     setTimeout("location.href='/"+window.lang+"/topic/updateById/"+ themeId +"'", 3000);
+
+                 if($("#pinId").val() != null){
+                     //拼购修改, 成功后返回到拼购修改页面
+                     setTimeout("location.href='/"+window.lang+"/pin/getPinById/"+ $("#pinId").val() +"'", 3000);
                  }else{
-                 */
                       //拼购录入, 成功后返回到拼购录入页面
                       setTimeout("location.href='/"+window.lang+"/pin/add'", 3000);
-                 /*
                  }
-                 */
+
              }
          });
-
-
-
-
-
         }
-
-
-
     })
 
 })
