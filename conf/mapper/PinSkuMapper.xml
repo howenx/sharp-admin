@@ -25,6 +25,13 @@
         values(#{pinImg},#{shareUrl},#{status},CURRENT_TIMESTAMP(0),#{pinTitle},#{startAt}::timestamp,#{endAt}::timestamp,#{pinPriceRule},#{restrictAmount},#{floorPrice},#{invId},#{pinDiscount})
     </insert>
 
+    <update id="updatePinSku" parameterType="entity.pingou.PinSku">
+        update pin_sku
+        set pin_img=#{pinImg},share_url=#{shareUrl},status=#{status},update_at = CURRENT_TIMESTAMP(0),pin_title=#{pinTitle},start_at=#{startAt}::timestamp,
+        end_at=#{endAt}::timestamp,pin_price_rule=#{pinPriceRule},restrict_amount=#{restrictAmount},floor_price=#{floorPrice},inv_id=#{invId},pin_discount=#{pinDiscount}
+        where pin_id = ${pinId}
+    </update>
+
     <select id="getPinSkuAll" resultType="entity.pingou.PinSku">
         select
         <include refid="pinSkuColumns">
@@ -67,7 +74,7 @@
         <include refid="pinSkuColumns">
             <property name="alias" value="t"/>
         </include>
-        from pin_sku where pin_id = ${value}
+        from pin_sku t where pin_id = ${value}
     </select>
 
 
@@ -85,6 +92,15 @@
         ${alias}.member_coupon_start_at,
         ${alias}.pin_id
     </sql>
+
+    <select id="getCouponByPinId" resultType="entity.pingou.PinCoupon" parameterType="java.lang.Long">
+        select
+        <include refid="pinCouponColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from pin_coupon t where pin_id = ${value}
+    </select>
+
     <insert id="insertPinCoupon" parameterType="entity.pingou.PinCoupon" useGeneratedKeys="true" keyProperty="id">
         insert into pin_coupon(member_coupon_end_at,member_coupon_quota,master_coupon,master_coupon_class,master_coupon_start_at,master_coupon_end_at,
                                master_coupon_quota,member_coupon,member_coupon_class,member_coupon_start_at,pin_id)
@@ -92,6 +108,16 @@
                #{masterCouponQuota},#{memberCoupon},#{memberCouponClass},#{memberCouponStartAt},#{pinId})
 
     </insert>
+    <update id="updatePinCoupon" parameterType="entity.pingou.PinCoupon">
+        update pin_coupon
+        set member_coupon_end_at=#{memberCouponEndAt},member_coupon_quota=#{memberCouponQuota},master_coupon=#{masterCoupon},master_coupon_class=#{masterCouponClass},
+            master_coupon_start_at=#{masterCouponStartAt},master_coupon_end_at=#{masterCouponEndAt},master_coupon_quota=#{masterCouponQuota},member_coupon=#{memberCoupon},
+            member_coupon_class=#{memberCouponClass},member_coupon_start_at=#{memberCouponStartAt}
+        where pin_id = #{pinId}
+    </update>
 
+    <delete id="delPinCoupon" parameterType="java.lang.Long">
+        delete from pin_coupon where pin_id = ${value}
+    </delete>
 
 </mapper>

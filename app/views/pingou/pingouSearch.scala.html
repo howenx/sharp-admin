@@ -89,7 +89,7 @@
             @for(pinSku <- pinSkuList){
             <tr class = "tb-list-data">
                 <td>
-                    <a href="javascript:void(0)">@pinSku(0)</a>
+                    <a href="/@lang/pin/getPinById/@pinSku(0)">@pinSku(0)</a>
                 </td>
                 <td>@pinSku(1)</td>
                 <td>@(pinSku(2).toString().substring(0,16))</td>

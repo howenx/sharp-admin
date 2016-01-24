@@ -24,15 +24,13 @@
             /** 点击单选按钮选择主题或商品 **/
             $(".table input[type=radio]").click(function(){
                 var id=$("input[type=radio]:checked").parent().next().html();
+                sharedObject.id = id;
+                sharedObject.targetType = targetType;
                 if (window.showModalDialog) {
-                    sharedObject.id = id;
-                    sharedObject.targetType = targetType;
                     window.returnValue = sharedObject;
                 }
                 else {
                     // if not modal, we cannot use the returnValue property, we need to update the opener window
-                    sharedObject.id = id;
-                    sharedObject.targetType = targetType;
                     window.opener.UpdateFields (sharedObject);
                 }
                 window.close ();

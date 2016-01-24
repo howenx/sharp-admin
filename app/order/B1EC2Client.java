@@ -34,7 +34,7 @@ public class B1EC2Client {
             url = url + "/REST";
         }
 
-        Map<String, String> headers = new HashMap();
+        Map<String, String> headers = new HashMap<String, String>();
         headers.put("Company", Base64.encodeBase64String(Company.getBytes()));
         headers.put("LoginName",Base64.encodeBase64String(LoginName.getBytes()));
         headers.put("Password",Base64.encodeBase64String(Password.getBytes()));

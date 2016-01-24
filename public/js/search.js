@@ -233,7 +233,7 @@ $(function() {
                     if($(this)[0].status=="P"){status="预售"}
                     $('#tb-topic').find('tbody').append('' +
                         '<tr class="tb-list-data">' +
-                        '<td><a href="/'+window.lang+'/comm/findById/'+$(this)[0].pinId + ' ">' + $(this)[0].pinId + '</a></td>' +
+                        '<td><a href="/'+window.lang+'/pin/getPinById/'+$(this)[0].pinId + ' ">' + $(this)[0].pinId + '</a></td>' +
                         '<td>' + $(this)[0].pinTitle + '</td>' +
                         '<td>' + ($(this)[0].startAt != null && $(this)[0].startAt != '' ? $(this)[0].startAt.substr(0, 16) : '') + '</td>}' +
                         '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 16) : '') + '</td>}' +

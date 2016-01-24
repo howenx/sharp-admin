@@ -24528,7 +24528,7 @@ UE.plugin.register('simpleupload', function (){
                 document.getElementById("mask").style.display = 'block';
                 var formdata = new FormData();
                 formdata.append("photo", file);
-                formdata.append("params", "minify");
+                formdata.append("params", "unminify");
                 var http = new XMLHttpRequest();
                 var url = window.uploadURL+"/upload";
 //                alert(url);
@@ -24543,7 +24543,7 @@ UE.plugin.register('simpleupload', function (){
 //                        alert(url2);
 
                         http2.open("GET", url2, true);
-                        http2.onreadystatechange = setTimeout(function() {
+                        http2.onreadystatechange = function() {
                             if (http2.readyState == 4 && http2.status == 200) {
                                 var data2 = JSON.parse(http2.responseText);
                                 var array_oss_url = JSON.parse(data2.oss_url);
@@ -24553,7 +24553,7 @@ UE.plugin.register('simpleupload', function (){
                                 + ' <img src="' + data2.oss_prefix+array_oss_url[2] + '" width="100%" height="auto" style="margin-top:-4px;" >');
                             }
                             document.getElementById("mask").style.display = 'none';
-                        },5000);
+                        };
                         http2.send();
                     }
                 }

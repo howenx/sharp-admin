@@ -68,6 +68,10 @@ $(function(){
         });
     }
 
+    $(document).on('click','.delTr',function(){
+        $(this).parent().parent().remove();
+    });
+
 //    /** 主题宣传图,点击移除的操作 **/
 //    $(document).on('click','.master-img .close',function(){
 //        //没有主题宣传图时,上传按钮置为显示
@@ -316,68 +320,70 @@ $(function(){
         if($("#categorySubSelect").text()=="") cateId=$("#categorySelect").val();
         else cateId=$("#categorySubSelect").val();
         var brandId = $("#bandSelect").val();
-        var supplyMerch = $("#supplyMerch").val();
         var itemTitle = $("#itemTitle").val();
-        var onShelvesAt = $("#onShelvesAt").val();
-        var offShelvesAt = $("#offShelvesAt").val();
+        var supplyMerch = $("#supplyMerch").val();
+//        var onShelvesAt = $("#onShelvesAt").val();
+//        var offShelvesAt = $("#offShelvesAt").val();
         var itemNotice = $("#itemNotice").val();
         var itemDetail = UE.getEditor('editor').getContent();
-        var invWeight = document.getElementsByName("invWeight");
-        var amount = document.getElementsByName("amount");
-        var itemPrice = document.getElementsByName("itemPrice");
-        var itemSrcPrice = document.getElementsByName("itemSrcPrice");
-        var itemCostPrice = document.getElementsByName("itemCostPrice");
-        var itemDiscount = document.getElementsByName("itemDiscount");
-        var restrictAmount = document.getElementsByName("restrictAmount");
-        var recordHZ = document.getElementsByName("recordHZ");
-        var recordGZ = document.getElementsByName("recordGZ");
-        var recordSH = document.getElementsByName("recordSH");
+//        var invWeight = document.getElementsByName("invWeight");
+//        var amount = document.getElementsByName("amount");
+//        var itemPrice = document.getElementsByName("itemPrice");
+//        var itemSrcPrice = document.getElementsByName("itemSrcPrice");
+//        var itemCostPrice = document.getElementsByName("itemCostPrice");
+//        var itemDiscount = document.getElementsByName("itemDiscount");
+//        var restrictAmount = document.getElementsByName("restrictAmount");
+//        var recordHZ = document.getElementsByName("recordHZ");
+//        var recordGZ = document.getElementsByName("recordGZ");
+//        var recordSH = document.getElementsByName("recordSH");
         //必填项不能有空值
-        if ( cateId=="" || brandId=="" || itemTitle=="" || supplyMerch=="" ||onShelvesAt=="" || offShelvesAt=="" || itemDetail=="" ) {
+        if ( cateId=="" || brandId=="" || itemTitle=="" || supplyMerch=="" || itemDetail=="" ) {
             isPost=false;
             alert("必填项不能为空");
         }
-        if (onShelvesAt >= offShelvesAt) {
-           isPost = false;
-           $("#warn-date").html("日期不正确!");
-        } else $("#warn-date").html("");
+//        if (onShelvesAt >= offShelvesAt) {
+//           isPost = false;
+//           $("#warn-date").html("日期不正确!");
+//        } else $("#warn-date").html("");
         var inventoryTab = document.getElementById("inventory");
         var trs = inventoryTab.getElementsByTagName("tr");
-        var tds = trs[trs.length-1].getElementsByTagName("td");
+        //追后一行的数据验证
+//        var tds = trs[trs.length-1].getElementsByTagName("td");
         //验证输入的数量和价格等是否符合规则
-        for(i=1;i<=9;i++) {
-            if (tds[i].getElementsByTagName("input")[0].value=="") {
-                isPost = false;
-                $("#warn-inv").html("库存信息不能有空值!");
-                break;
-            } else $("#warn-inv").html("");
-        }
-        for(i=0;i<amount.length;i++){
-
-            if (!numberReg2.test(invWeight[i].value) || !numberReg1.test(amount[i].value) || !numberReg2.test(itemPrice[i].value) || !numberReg2.test(itemSrcPrice[i].value)
-                || !numberReg2.test(itemCostPrice[i].value) || !numberReg2.test(itemDiscount[i].value) || !numberReg1.test(restrictAmount[i].value)
-                || (!numberReg4.test(recordHZ[i].value) && !numberReg4.test(recordGZ[i].value) && !numberReg4.test(recordSH[i].value))) {
-                isPost = false;
-                $("#warn-num").text("输入数据不合法!");
-                break;
-            } else $("#warn-num").text("");
-        }
-        if (tds[17].getElementsByTagName("div").length<2) {
-            isPost = false;
-            $("#warn-mas").html("请上传商品主图");
-        } else $("#warn-mas").html("");
-        if (tds[18].getElementsByTagName("div").length<2) {
-            isPost = false;
-            $("#warn-pre").html("请上传商品预览图");
-        } else $("#warn-pre").html("");
-
+//        for(i=1;i<=9;i++) {
+//            if (tds[i].getElementsByTagName("input")[0].value=="") {
+//                isPost = false;
+//                $("#warn-inv").html("库存信息不能有空值!");
+//                break;
+//            } else $("#warn-inv").html("");
+//        }
+//        for(i=0;i<amount.length;i++){
+//
+//            if (!numberReg2.test(invWeight[i].value) || !numberReg1.test(amount[i].value) || !numberReg2.test(itemPrice[i].value) || !numberReg2.test(itemSrcPrice[i].value)
+//                || !numberReg2.test(itemCostPrice[i].value) || !numberReg2.test(itemDiscount[i].value) || !numberReg1.test(restrictAmount[i].value)
+//                || (!numberReg4.test(recordHZ[i].value) && !numberReg4.test(recordGZ[i].value) && !numberReg4.test(recordSH[i].value))) {
+//                isPost = false;
+//                $("#warn-num").text("输入数据不合法!");
+//                break;
+//            } else $("#warn-num").text("");
+//        }
+//        if (tds[17].getElementsByTagName("div").length<2) {
+//            isPost = false;
+//            $("#warn-mas").html("请上传商品主图");
+//        } else $("#warn-mas").html("");
+//        if (tds[18].getElementsByTagName("div").length<2) {
+//            isPost = false;
+//            $("#warn-pre").html("请上传商品预览图");
+//        } else $("#warn-pre").html("");
+        //选择主商品
         var orMasterInv = document.getElementsByName("orMasterInv");
         for(m=0;m<orMasterInv.length;m++) {
             if (orMasterInv[m].checked==true) break;
             if (m==orMasterInv.length-1) {
                 isPost = false;
-                $("#warn-cho").text("请选择主商品!");
-            } else $("#warn-cho").text("");
+//                $("#warn-cho").text("请选择主商品!");
+            }
+//            else $("#warn-cho").text("");
         }
 
         //优惠信息
@@ -406,40 +412,40 @@ $(function(){
 //        itemMasterImg = imgT[0].src;
 //        itemMasterImg  = itemMasterImg.substring(itemMasterImg.lastIndexOf('/')+1,itemMasterImg.length);
         //商品详细图
-        var galleryD = document.getElementById("galleryD");
-        var detailImg = galleryD.getElementsByTagName("div");
-        if (detailImg.length<1) {
-            isPost = false;
-            $("#warn-detailimg").text("请上传商品详细图!");
-        } else {
-            $("#warn-detailimg").text("");
-        }
-        var itemDetailImgs = [];
-        for(i=0;i<detailImg.length;i++) {
-            var spanArr = [];
-            var spanD = detailImg[i].getElementsByTagName("span");
-            var inpD = detailImg[i].getElementsByTagName("input");
-            var imgD = detailImg[i].getElementsByTagName("img");
-            //图片来源为读取商品图片/上传新图片
-            if(inpD.length==0 && imgD.length!=0) {
-                var imgArr = [];
-                for(d=0;d<imgD.length;d++) {
-                    var detV  = imgD[d].src;
-                    detV = detV.substring(detV.lastIndexOf('/')+1,detV.length);
-                    imgArr.push(detV);
-                }
-                itemDetailImgs.push(imgArr);
-            }
-            if(inpD.length!=0 && imgD.length!=0) {
-                var inpDArr = inpD[0].value.split(",");
-                for(s=0;s<inpDArr.length;s++){
-                    spanArr.push(inpDArr[s]);
-                }
-                itemDetailImgs.push(spanArr);
-            }
-        }
+//        var galleryD = document.getElementById("galleryD");
+//        var detailImg = galleryD.getElementsByTagName("div");
+//        if (detailImg.length<1) {
+//            isPost = false;
+//            $("#warn-detailimg").text("请上传商品详细图!");
+//        } else {
+//            $("#warn-detailimg").text("");
+//        }
+//        var itemDetailImgs = [];
+//        for(i=0;i<detailImg.length;i++) {
+//            var spanArr = [];
+//            var spanD = detailImg[i].getElementsByTagName("span");
+//            var inpD = detailImg[i].getElementsByTagName("input");
+//            var imgD = detailImg[i].getElementsByTagName("img");
+//            //图片来源为读取商品图片/上传新图片
+//            if(inpD.length==0 && imgD.length!=0) {
+//                var imgArr = [];
+//                for(d=0;d<imgD.length;d++) {
+//                    var detV  = imgD[d].src;
+//                    detV = detV.substring(detV.lastIndexOf('/')+1,detV.length);
+//                    imgArr.push(detV);
+//                }
+//                itemDetailImgs.push(imgArr);
+//            }
+//            if(inpD.length!=0 && imgD.length!=0) {
+//                var inpDArr = inpD[0].value.split(",");
+//                for(s=0;s<inpDArr.length;s++){
+//                    spanArr.push(inpDArr[s]);
+//                }
+//                itemDetailImgs.push(spanArr);
+//            }
+//        }
 //            console.log(itemDetailImgs.toString());
-        //遍历所有属性及属性值累加到隐藏域features中且属性名或值不能为空
+        //遍历所有参数及参数值,且不能有空值
         var itemFeatures = {};
         var tabFea = document.getElementById("tabFea");
         var attrN = document.getElementsByName("attrN");
@@ -455,81 +461,88 @@ $(function(){
         //拼装inventories数据
         for(i=1;i<trs.length;i++) {
             var tds = trs[i].getElementsByTagName("td");
-            var itemPreviewImgs = [];
             var orMasterInv = false;
             if (tds[0].getElementsByTagName("input")[0].checked==true)    orMasterInv = true;
-            var itemColor = tds[1].getElementsByTagName("input")[0].value;
-            var itemSize = tds[2].getElementsByTagName("input")[0].value;
-            var invWeight = tds[3].getElementsByTagName("input")[0].value;
-            var amount = tds[4].getElementsByTagName("input")[0].value;
-            var itemPrice = tds[5].getElementsByTagName("input")[0].value;
-            var itemSrcPrice = tds[6].getElementsByTagName("input")[0].value;
-            var itemCostPrice = tds[7].getElementsByTagName("input")[0].value;
-            var itemDiscount = tds[8].getElementsByTagName("input")[0].value;
-            var restrictAmount = tds[9].getElementsByTagName("input")[0].value;
-            var carriageModelCode = tds[10].getElementsByTagName("select")[0].value;
-            var tRSet = tds[11].getElementsByTagName("select")[0].value;
-            var recordHZ = tds[16].getElementsByTagName("input")[0].value;
-            var recordGZ = tds[16].getElementsByTagName("input")[1].value;
-            var recordSH = tds[16].getElementsByTagName("input")[2].value;
+            var itemColor = tds[1].innerHTML;
+            var itemSize = tds[2].innerHTML;
+            var startAt = tds[3].innerHTML;
+            var endAt = tds[4].innerHTML;
+            var itemPrice = tds[5].innerHTML;
+            var itemSrcPrice = tds[6].innerHTML;
+            var itemCostPrice = tds[7].innerHTML;
+            var itemDiscount = tds[8].innerHTML;
+            var invWeight = tds[9].innerHTML;
+            var restrictAmount = tds[10].innerHTML;
+            var amount = tds[11].innerHTML;
+            var restAmount = tds[12].innerHTML;
+            var carriageModelCode = tds[13].innerHTML;
+            var invArea = tds[14].innerHTML;
+            var invCustoms = tds[15].innerHTML;
+            var postalTaxRate = tds[16].innerHTML;
+            var postalTaxCode = tds[17].innerHTML;
+            var recordHZ = tds[18].innerHTML;
+            var recordGZ = tds[19].innerHTML;
+            var recordSH = tds[20].innerHTML;
             var recordCode = {};
             if(recordHZ!="") recordCode["hangzhou"] = recordHZ;
             if(recordGZ!="") recordCode["guangzhou"] = recordGZ;
             if(recordSH!="") recordCode["shanghai"] = recordSH;
-            if($("#itemId").val() == "" && tRSet=="") {
-                isPost = false;
-                $("#warn-num").text("请选择税率设置!");
-            } else $("#warn-num").text("");
-            if(carriageModelCode=="") {
-                isPost = false;
-                $("#warn-num").text("请选择运费模板!");
-            } else $("#warn-num").text("");
+            var invImg = tds[21].innerHTML;
+            var itemPreviewImgs = tds[22].innerHTML;
+            var orVaryPrice = tds[23].innerHTML;
+//            if($("#itemId").val() == "" && tRSet=="") {
+//                isPost = false;
+//                $("#warn-num").text("请选择税率设置!");
+//            } else $("#warn-num").text("");
+//            if(carriageModelCode=="") {
+//                isPost = false;
+//                $("#warn-num").text("请选择运费模板!");
+//            } else $("#warn-num").text("");
             //行邮税率设置 F免税:税率为0,行邮税号不设置; S标准税率:税率不设置,选择行邮税号; D自定义税率:设置税率,行邮税号不设置
-            if (tRSet == "S") {
-                if (!numberReg1.test(tds[13].getElementsByTagName("input")[0].value)) {
-                    isPost = false;
-                    $("#warn-num").text("请输入正确的行邮税号!");
-                } else $("#warn-num").text("");
-            }
-            if (tRSet == "D") {
-                if (!numberReg1.test(tds[12].getElementsByTagName("input")[0].value)) {
-                    isPost = false;
-                    $("#warn-num").text("税率输入不合法!");
-                } else $("#warn-num").text("");
-            }
-            var postalTaxRate = tds[12].getElementsByTagName("input")[0].value;
-            var postalTaxCode = tds[13].getElementsByTagName("input")[0].value;
-            var invArea = tds[14].getElementsByTagName("select")[0].value;
-            var invCustoms = tds[15].getElementsByTagName("select")[0].value;
+//            if (tRSet == "S") {
+//                if (!numberReg1.test(tds[13].getElementsByTagName("input")[0].value)) {
+//                    isPost = false;
+//                    $("#warn-num").text("请输入正确的行邮税号!");
+//                } else $("#warn-num").text("");
+//            }
+//            if (tRSet == "D") {
+//                if (!numberReg1.test(tds[12].getElementsByTagName("input")[0].value)) {
+//                    isPost = false;
+//                    $("#warn-num").text("税率输入不合法!");
+//                } else $("#warn-num").text("");
+//            }
             //sku主图
-            var invImg = {};
-            var imgM = document.getElementById("galleryM"+i).getElementsByTagName("img");
-            var imgSrc = imgM[0].src;
-            var imgWidth = imgM[0].getAttribute("width");
-            var imgHeight = imgM[0].getAttribute("height");
-            invImg["url"] = imgSrc.substring(imgSrc.lastIndexOf('/')+1,imgSrc.length);
-            invImg["width"] = imgWidth;
-            invImg["height"] = imgHeight;
+//            var invImg = {};
+//            var imgM = document.getElementById("galleryM"+i).getElementsByTagName("img");
+//            var imgSrc = imgM[0].src;
+//            var imgWidth = imgM[0].getAttribute("width");
+//            var imgHeight = imgM[0].getAttribute("height");
+//            invImg["url"] = imgSrc.substring(imgSrc.lastIndexOf('/')+1,imgSrc.length);
+//            invImg["width"] = imgWidth;
+//            invImg["height"] = imgHeight;
 //            invImg = imgM[0].src;
 //            invImg  = invImg.substring(invImg.lastIndexOf('/')+1,invImg.length);
             //sku预览图
-            imgs = document.getElementById("galleryP"+i).getElementsByTagName("div");
-            for(j=0;j<imgs.length;j++) {
-                var imgP = imgs[j].getElementsByTagName("img");
-//                imgsV = imgP[0].src;
-//                imgsV = imgsV.substring(imgsV.lastIndexOf('/')+1,imgsV.length);
+//            imgs = document.getElementById("galleryP"+i).getElementsByTagName("div");
+//            for(j=0;j<imgs.length;j++) {
+//                var imgP = imgs[j].getElementsByTagName("img");
+////                imgsV = imgP[0].src;
+////                imgsV = imgsV.substring(imgsV.lastIndexOf('/')+1,imgsV.length);
+////                itemPreviewImgs.push(imgsV);
+//                //sku预览图保存图片的url,宽和高
+//                var imgsV = {};
+//                var preSrc = imgP[0].src;
+//                var width = imgP[0].getAttribute("width");
+//                var height = imgP[0].getAttribute("height");
+//                imgsV["url"] = preSrc.substring(preSrc.lastIndexOf('/')+1,preSrc.length);
+//                imgsV["width"] = width;
+//                imgsV["height"] = height;
 //                itemPreviewImgs.push(imgsV);
-                //sku预览图保存图片的url,宽和高
-                var imgsV = {};
-                var preSrc = imgP[0].src;
-                var width = imgP[0].getAttribute("width");
-                var height = imgP[0].getAttribute("height");
-                imgsV["url"] = preSrc.substring(preSrc.lastIndexOf('/')+1,preSrc.length);
-                imgsV["width"] = width;
-                imgsV["height"] = height;
-                itemPreviewImgs.push(imgsV);
-            }
-            for(jj=0;jj<imgs.length;jj++) {
+//            }
+
+    //上传的预览图尺寸不一致时提示
+
+            /*for(jj=0;jj<imgs.length;jj++) {
                 if (jj>0) {
                     var preImg = imgs[jj-1].getElementsByTagName("img")[0];
                     var img = imgs[jj].getElementsByTagName("img")[0];
@@ -543,61 +556,81 @@ $(function(){
                         break;
                     }
                 }
-            }
+            }*/
+
             //拼装成一条数据
+            var invData = new Object();
             var inventory = new Object();
+            var varyPrices = [];
             inventory.orMasterInv = orMasterInv;
             inventory.itemColor = itemColor;
             inventory.itemSize = itemSize;
-            inventory.invWeight = invWeight;
-            inventory.amount = amount;
+            inventory.startAt = startAt;
+            inventory.endAt = endAt;
             inventory.itemPrice = itemPrice;
             inventory.itemSrcPrice = itemSrcPrice;
             inventory.itemCostPrice = itemCostPrice;
             inventory.itemDiscount = itemDiscount;
+            inventory.invWeight = invWeight;
             inventory.restrictAmount = restrictAmount;
+            inventory.amount = amount;
+            inventory.restAmount = restAmount;
             inventory.carriageModelCode = carriageModelCode;
+            inventory.invArea = invArea;
+            inventory.invCustoms = invCustoms;
             inventory.postalTaxRate = postalTaxRate;
             inventory.postalTaxCode = postalTaxCode;
             if(postalTaxRate=="") {inventory.postalTaxRate = null;}
             if(postalTaxCode=="") {inventory.postalTaxCode = null;}
-            inventory.invArea = invArea;
-            inventory.invCustoms = invCustoms;
-            inventory.invImg = JSON.stringify(invImg);
-            inventory.itemPreviewImgs = itemPreviewImgs;
             inventory.recordCode = recordCode;
-            if (tds[20].getElementsByTagName("input")[0].value != "" && divId =="submitItem") {
-                inventory.id = tds[20].getElementsByTagName("input")[0].value;
-                inventory.state = tds[19].getElementsByTagName("select")[0].value;
-                inventory.soldAmount = tds[20].getElementsByTagName("input")[1].value;
-                inventory.restAmount = tds[20].getElementsByTagName("input")[2].value;
-                inventory.orDestroy = tds[20].getElementsByTagName("input")[3].value;
-                if (tds[0].getElementsByTagName("input")[0].checked==true)
-                item.masterInvId = tds[20].getElementsByTagName("input")[0].value;
+            inventory.invImg = invImg;
+            inventory.itemPreviewImgs = itemPreviewImgs;
+            inventory.orVaryPrice = orVaryPrice;
+            invData.inventory = inventory;
+            if (orVaryPrice) {
+                var vp_arr = tds[24].innerHTML.split(",");
+                for(v=0;v<vp_arr.length;v++) {
+                    if (v%2==0) {
+                        var varyPrice = new Object();
+                        varyPrice.price = vp_arr[v];
+                        varyPrice.limitAmount = vp_arr[v+1];
+                        varyPrices.push(varyPrice);
+                    }
+                }
+                invData.varyPrices = varyPrices;
             }
-            inventories.push(inventory);
+
+
+//            if (tds[20].getElementsByTagName("input")[0].value != "" && divId =="submitItem") {
+//                inventory.id = tds[20].getElementsByTagName("input")[0].value;
+//                inventory.state = tds[19].getElementsByTagName("select")[0].value;
+//                inventory.soldAmount = tds[20].getElementsByTagName("input")[1].value;
+//                inventory.restAmount = tds[20].getElementsByTagName("input")[2].value;
+//                inventory.orDestroy = tds[20].getElementsByTagName("input")[3].value;
+//                if (tds[0].getElementsByTagName("input")[0].checked==true)
+//                item.masterInvId = tds[20].getElementsByTagName("input")[0].value;
+//            }
+            inventories.push(invData);
         }
         item.cateId = cateId;
         item.brandId = brandId;
         item.supplyMerch = supplyMerch;
         item.itemTitle = itemTitle;
-        item.onShelvesAt = onShelvesAt;
-        item.offShelvesAt = offShelvesAt;
         item.itemNotice = itemNotice;
         item.publicity = publicity;
 //        item.itemMasterImg = itemMasterImg;
-        item.itemDetailImgs = itemDetailImgs;
+//        item.itemDetailImgs = itemDetailImgs;
         item.itemFeatures = itemFeatures;
         item.itemDetail = itemDetail;
-        if ($("#itemId").val() != "" && divId=="submitItem") {
-            item.id = $("#itemId").val();
-            item.shareCount = $("#shareCount").val();
-            item.collectCount = $("#collectCount").val();
-            item.browseCount = $("#browseCount").val();
-            item.orDestroy = $("#orDestroy").val();
-            item.themeId = $("#themeId").val();
-            item.state = $("#state").val();
-        }
+//        if ($("#itemId").val() != "" && divId=="submitItem") {
+//            item.id = $("#itemId").val();
+//            item.shareCount = $("#shareCount").val();
+//            item.collectCount = $("#collectCount").val();
+//            item.browseCount = $("#browseCount").val();
+//            item.orDestroy = $("#orDestroy").val();
+//            item.themeId = $("#themeId").val();
+//            item.state = $("#state").val();
+//        }
 
         itemData.item = item;
         itemData.inventories = inventories;
@@ -606,7 +639,7 @@ $(function(){
 //        console.log(JSON.stringify(item));
 //        console.log(JSON.stringify(inventories));
         console.log(isPost);
-        if (false) {
+        if (isPost) {
             $.ajax({
                 type :  "POST",
                 url : "/comm/itemSave",

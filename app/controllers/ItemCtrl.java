@@ -26,400 +26,420 @@ import java.util.Map;
  */
 public class ItemCtrl extends Controller {
 
-    @Inject
-    private ItemService service;
+		@Inject private ItemService service;
 
-    @Inject
-    private ThemeService themeService;
+		@Inject private ThemeService themeService;
 
-    @Inject
-    private InventoryService inventoryService;
+		@Inject private InventoryService inventoryService;
 
-    @Inject
-    private CarriageService carriageService;
+		@Inject private CarriageService carriageService;
 
-    @Inject
-    private DataLogService dataLogService;
+		@Inject private VaryPriceService varyPriceService;
 
-    @Inject
-    private ItemStatisService itemStatisService;
+		@Inject private DataLogService dataLogService;
 
-    /**
-     * Ajax for get sub category.
-     *
-     * @return Result
-     *
-     */
+		@Inject private ItemStatisService itemStatisService;
 
-    public Result getSubCategory() {
-        DynamicForm form = Form.form().bindFromRequest();
-        Long pcid = Long.parseLong(form.get("pcid"));
-        HashMap<String, Long> hashMap = new HashMap<String, Long>();
-        hashMap.put("parentCateId", pcid);
-        return ok(Json.toJson(service.getSubCates(hashMap)));
-    }
+		/**
+		 * Ajax for get sub category.
+		 *
+		 * @return Result
+		 */
 
-    /**
-     * 商品列表
-     * @param lang 语言
-     * @return view
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result itemList(String lang){
+		public Result getSubCategory() {
+				DynamicForm form = Form.form().bindFromRequest();
+				Long pcid = Long.parseLong(form.get("pcid"));
+				HashMap<String, Long> hashMap = new HashMap<String, Long>();
+				hashMap.put("parentCateId", pcid);
+				return ok(Json.toJson(service.getSubCates(hashMap)));
+		}
 
-        Item item =new Item();
+		/**
+		 * 商品列表
+		 *
+		 * @param lang 语言
+		 * @return view
+		 */
+		@Security.Authenticated(UserAuth.class) public Result itemList(String lang) {
 
-        item.setPageSize(-1);
-        item.setOffset(-1);
+				Item item = new Item();
 
-        //取总数
-        int countNum = service.itemSearch(item).size();
-        //共分几页
-        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
+				item.setPageSize(-1);
+				item.setOffset(-1);
 
-        if(countNum%ThemeCtrl.PAGE_SIZE!=0){
-            pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
-        }
+				//取总数
+				int countNum = service.itemSearch(item).size();
+				//共分几页
+				int pageCount = countNum / ThemeCtrl.PAGE_SIZE;
 
-        item.setPageSize(ThemeCtrl.PAGE_SIZE);
-        item.setOffset(0);
-//        Logger.error("所有商品:"+service.itemSearch(item).toString());
+				if (countNum % ThemeCtrl.PAGE_SIZE != 0) {
+						pageCount = countNum / ThemeCtrl.PAGE_SIZE + 1;
+				}
 
-        return ok(views.html.item.itemsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,service.itemSearch(item),(User) ctx().args.get("user")));
-    }
+				item.setPageSize(ThemeCtrl.PAGE_SIZE);
+				item.setOffset(0);
+				//        Logger.error("所有商品:"+service.itemSearch(item).toString());
 
-    /**
-     * ajax分页查询
-     * @param lang 语言
-     * @param pageNum 当前页
-     * @return json
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result itemSearchAjax(String lang,int pageNum) {
-        JsonNode json = request().body().asJson();
-        Item item = Json.fromJson(json,Item.class);
-        if(pageNum>=1){
-            //计算从第几条开始取数据
-            int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
-            item.setPageSize(-1);
-            item.setOffset(-1);
-            //取总数
-            int countNum = service.itemSearch(item).size();
-            //共分几页
-            int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
+				return ok(views.html.item.itemsearch
+						.render(lang, ThemeCtrl.IMAGE_URL, ThemeCtrl.PAGE_SIZE, countNum, pageCount,
+								service.itemSearch(item), (User) ctx().args.get("user")));
+		}
 
-            if(countNum%ThemeCtrl.PAGE_SIZE!=0){
-                pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
-            }
-            item.setPageSize(ThemeCtrl.PAGE_SIZE);
-            item.setOffset(offset);
-            //组装返回数据
-            Map<String,Object> returnMap=new HashMap<>();
-            returnMap.put("topic",service.itemSearch(item));
-            returnMap.put("pageNum",pageNum);
-            returnMap.put("countNum",countNum);
-            returnMap.put("pageCount",pageCount);
-            returnMap.put("pageSize",ThemeCtrl.PAGE_SIZE);
-            return ok(Json.toJson(returnMap));
-        }
-        else{
-            return badRequest();
-        }
-    }
+		/**
+		 * ajax分页查询
+		 *
+		 * @param lang    语言
+		 * @param pageNum 当前页
+		 * @return json
+		 */
+		@Security.Authenticated(UserAuth.class) public Result itemSearchAjax(String lang, int pageNum) {
+				JsonNode json = request().body().asJson();
+				Item item = Json.fromJson(json, Item.class);
+				if (pageNum >= 1) {
+						//计算从第几条开始取数据
+						int offset = (pageNum - 1) * ThemeCtrl.PAGE_SIZE;
+						item.setPageSize(-1);
+						item.setOffset(-1);
+						//取总数
+						int countNum = service.itemSearch(item).size();
+						//共分几页
+						int pageCount = countNum / ThemeCtrl.PAGE_SIZE;
 
-    /**
-     * 商品查询弹窗
-     * @param lang 语言
-     * @return view
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result itemSearchPopup(String lang){
-        return ok(views.html.item.itemlistPop.render(lang));
-    }
+						if (countNum % ThemeCtrl.PAGE_SIZE != 0) {
+								pageCount = countNum / ThemeCtrl.PAGE_SIZE + 1;
+						}
+						item.setPageSize(ThemeCtrl.PAGE_SIZE);
+						item.setOffset(offset);
+						//组装返回数据
+						Map<String, Object> returnMap = new HashMap<>();
+						returnMap.put("topic", service.itemSearch(item));
+						returnMap.put("pageNum", pageNum);
+						returnMap.put("countNum", countNum);
+						returnMap.put("pageCount", pageCount);
+						returnMap.put("pageSize", ThemeCtrl.PAGE_SIZE);
+						return ok(Json.toJson(returnMap));
+				} else {
+						return badRequest();
+				}
+		}
 
-    /**
-     * 商品录入
-     * @param lang 语言
-     * @return Result
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result itemCreate(String lang) {
-        return ok(views.html.item.itemadd.render(lang,service.getAllBrands(),service.getParentCates(),ThemeCtrl.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
-    }
+		/**
+		 * 商品查询弹窗
+		 *
+		 * @param lang 语言
+		 * @return view
+		 */
+		@Security.Authenticated(UserAuth.class) public Result itemSearchPopup(String lang) {
+				return ok(views.html.item.itemlistPop.render(lang));
+		}
 
-    /**
-     *  由商品id获得单个商品及其库存信息展示在详情页面
-     * @param lang 语言
-     * @param id 商品id
-     * @return view
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result findItemById(String lang,Long id) {
-        Item item = service.getItem(id);
-        Cates cates = service.getCate(item.getCateId());
-        String pCateNm = "";
-        if(null != cates.getPcateId()) {
-            pCateNm = service.getCate(cates.getPcateId()).getCateNm();
-        } else pCateNm = cates.getCateNm();
-        Brands brands = service.getBrands(item.getBrandId());
-        List<Inventory> inventories = inventoryService.getInventoriesByItemId(id);
-        //包含modelName的库存列表
-        List<Object[]> invList = new ArrayList<>();
-        for(Inventory inventory : inventories) {
-            Object[] object = new Object[21];
-            object[0] = inventory.getOrMasterInv();
-            object[1] = inventory.getItemColor();
-            object[2] = inventory.getItemSize();
-            object[3] = inventory.getInvWeight();
-            object[4] = inventory.getAmount();
-            object[5] = inventory.getItemPrice();
-            object[6] = inventory.getItemSrcPrice();
-            object[7] = inventory.getItemCostPrice();
-            object[8] = inventory.getItemDiscount();
-            object[9] = inventory.getRestrictAmount();
-            object[10] = inventory.getCarriageModelCode();
-            //由库存表的carriageModelCode 得到 modelName
-            object[11] = carriageService.getModelName(inventory.getCarriageModelCode());
-            object[12] = inventory.getPostalTaxRate();
-            object[13] = inventory.getPostalTaxCode();
-            object[14] = inventory.getInvArea();
-            object[15] = inventory.getInvCustoms();
-            object[16] = inventory.getInvImg();
-            object[17] = inventory.getItemPreviewImgs();
-            object[18] = inventory.getState();
-            object[19] = inventory.getRecordCode();
-            object[20] = inventory.getRestAmount();
-            invList.add(object);
-        }
+		/**
+		 * 商品录入
+		 *
+		 * @param lang 语言
+		 * @return Result
+		 */
+		@Security.Authenticated(UserAuth.class) public Result itemCreate(String lang) {
+				return ok(views.html.item.itemadd
+						.render(lang, service.getAllBrands(), service.getParentCates(),
+								ThemeCtrl.IMG_UPLOAD_URL, (User) ctx().args.get("user")));
+		}
 
-        return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,(User) ctx().args.get("user")));
-    }
+		/**
+		 * 由商品id获得单个商品及其库存信息展示在详情页面
+		 *
+		 * @param lang 语言
+		 * @param id   商品id
+		 * @return view
+		 */
+		@Security.Authenticated(UserAuth.class) public Result findItemById(String lang, Long id) {
+				Item item = service.getItem(id);
+				Cates cates = service.getCate(item.getCateId());
+				String pCateNm = "";
+				if (null != cates.getPcateId()) {
+						pCateNm = service.getCate(cates.getPcateId()).getCateNm();
+				} else
+						pCateNm = cates.getCateNm();
+				Brands brands = service.getBrands(item.getBrandId());
+				List<Inventory> inventories = inventoryService.getInventoriesByItemId(id);
+				//包含modelName的库存列表
+				List<Object[]> invList = new ArrayList<>();
+				for (Inventory inventory : inventories) {
+						Object[] object = new Object[21];
+						object[0] = inventory.getOrMasterInv();
+						object[1] = inventory.getItemColor();
+						object[2] = inventory.getItemSize();
+						object[3] = inventory.getInvWeight();
+						object[4] = inventory.getAmount();
+						object[5] = inventory.getItemPrice();
+						object[6] = inventory.getItemSrcPrice();
+						object[7] = inventory.getItemCostPrice();
+						object[8] = inventory.getItemDiscount();
+						object[9] = inventory.getRestrictAmount();
+						object[10] = inventory.getCarriageModelCode();
+						//由库存表的carriageModelCode 得到 modelName
+						object[11] = carriageService.getModelName(inventory.getCarriageModelCode());
+						object[12] = inventory.getPostalTaxRate();
+						object[13] = inventory.getPostalTaxCode();
+						object[14] = inventory.getInvArea();
+						object[15] = inventory.getInvCustoms();
+						object[16] = inventory.getInvImg();
+						object[17] = inventory.getItemPreviewImgs();
+						object[18] = inventory.getState();
+						object[19] = inventory.getRecordCode();
+						object[20] = inventory.getRestAmount();
+						invList.add(object);
+				}
 
-    /**
-     * 由商品id获得单个商品及其库存信息展示在修改页面
-     * @param lang 语言
-     * @param id 商品id
-     * @return view
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result updateItemById(String lang,Long id) {
-        Item item = service.getItem(id);
-        //由商品类别id获取类别
-        Cates cates = service.getCate(item.getCateId());
-        //父类别名称
-        String pCateNm = "";
-        if(null != cates.getPcateId()) {
-            pCateNm = service.getCate(cates.getPcateId()).getCateNm();
-        } else pCateNm = cates.getCateNm();
-        //由商品品牌id获取品牌
-        Brands brands = service.getBrands(item.getBrandId());
-        //由商品id获取库存列表
-        List<Inventory> inventories = inventoryService.getInventoriesByItemId(id);
-        //包含modelName的库存列表
-        List<Object[]> invList = new ArrayList<>();
-        for(Inventory inventory : inventories) {
-            Object[] object = new Object[25];
-            object[0] = inventory.getId();
-            object[1] = inventory.getItemId();
-            object[2] = inventory.getItemColor();
-            object[3] = inventory.getItemSize();
-            object[4] = inventory.getAmount();
-            object[5] = inventory.getItemSrcPrice();
-            object[6] = inventory.getItemPrice();
-            object[7] = inventory.getItemCostPrice();
-            object[8] = inventory.getItemDiscount();
-            object[9] = inventory.getSoldAmount();
-            object[10] = inventory.getRestAmount();
-            object[11] = inventory.getInvImg();
-            object[12] = inventory.getItemPreviewImgs();
-            object[13] = inventory.getOrDestroy();
-            object[14] = inventory.getOrMasterInv();
-            object[15] = inventory.getState();
-            object[16] = inventory.getInvArea();
-            object[17] = inventory.getRestrictAmount();
-            object[18] = inventory.getInvCustoms();
-            object[19] = inventory.getPostalTaxCode();
-            object[20] = inventory.getPostalTaxRate();
-            object[21] = inventory.getInvWeight();
-            object[22] = inventory.getCarriageModelCode();
-            //由库存表的carriageModelCode 得到 modelName
-            object[23] = carriageService.getModelName(inventory.getCarriageModelCode());
-            object[24] = inventory.getRecordCode();
-            invList.add(object);
-        }
-        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,service.getAllBrands(),service.getParentCates(),carriageService.getModels(),(User) ctx().args.get("user")));
-    }
+				return ok(views.html.item.itemdetail
+						.render(item, invList, cates, pCateNm, brands, ThemeCtrl.IMAGE_URL, lang,
+								(User) ctx().args.get("user")));
+		}
 
-    /**
-     * 添加商品
-     * @return Result
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result itemSave() {
-        //操作人员的ip
-        String operateIp = request().remoteAddress();
-        String nickName = ((User) ctx().args.get("user")).nickname();
-        JsonNode json = request().body().asJson();
-//        Logger.error(json.toString());
-        List<Long> list = ItemMiddle.itemSave(service, inventoryService, dataLogService, itemStatisService, json, nickName, operateIp);
-        return ok(list.toString());
-    }
+		/**
+		 * 由商品id获得单个商品及其库存信息展示在修改页面
+		 *
+		 * @param lang 语言
+		 * @param id   商品id
+		 * @return view
+		 */
+		@Security.Authenticated(UserAuth.class) public Result updateItemById(String lang, Long id) {
+				Item item = service.getItem(id);
+				//由商品类别id获取类别
+				Cates cates = service.getCate(item.getCateId());
+				//父类别名称
+				String pCateNm = "";
+				if (null != cates.getPcateId()) {
+						pCateNm = service.getCate(cates.getPcateId()).getCateNm();
+				} else
+						pCateNm = cates.getCateNm();
+				//由商品品牌id获取品牌
+				Brands brands = service.getBrands(item.getBrandId());
+				//由商品id获取库存列表
+				List<Inventory> inventories = inventoryService.getInventoriesByItemId(id);
+				//包含modelName的库存列表
+				List<Object[]> invList = new ArrayList<>();
+				for (Inventory inventory : inventories) {
+						Object[] object = new Object[25];
+						object[0] = inventory.getId();
+						object[1] = inventory.getItemId();
+						object[2] = inventory.getItemColor();
+						object[3] = inventory.getItemSize();
+						object[4] = inventory.getAmount();
+						object[5] = inventory.getItemSrcPrice();
+						object[6] = inventory.getItemPrice();
+						object[7] = inventory.getItemCostPrice();
+						object[8] = inventory.getItemDiscount();
+						object[9] = inventory.getSoldAmount();
+						object[10] = inventory.getRestAmount();
+						object[11] = inventory.getInvImg();
+						object[12] = inventory.getItemPreviewImgs();
+						object[13] = inventory.getOrDestroy();
+						object[14] = inventory.getOrMasterInv();
+						object[15] = inventory.getState();
+						object[16] = inventory.getInvArea();
+						object[17] = inventory.getRestrictAmount();
+						object[18] = inventory.getInvCustoms();
+						object[19] = inventory.getPostalTaxCode();
+						object[20] = inventory.getPostalTaxRate();
+						object[21] = inventory.getInvWeight();
+						object[22] = inventory.getCarriageModelCode();
+						//由库存表的carriageModelCode 得到 modelName
+						object[23] = carriageService.getModelName(inventory.getCarriageModelCode());
+						object[24] = inventory.getRecordCode();
+						invList.add(object);
+				}
+				return ok(views.html.item.itemupdate
+						.render(item, invList, cates, pCateNm, brands, ThemeCtrl.IMAGE_URL, lang,
+								service.getAllBrands(), service.getParentCates(), carriageService.getModels(),
+								(User) ctx().args.get("user")));
+		}
 
-    /**
-     * 添加商品, 弹窗商品添加规格       Added by Sunny.Wu
-     * @return view
-     */
+		/**
+		 * 添加商品
+		 *
+		 * @return Result
+		 */
+		@Security.Authenticated(UserAuth.class) public Result itemSave() {
+				//操作人员的ip
+				String operateIp = request().remoteAddress();
+				String nickName = ((User) ctx().args.get("user")).nickname();
+				JsonNode json = request().body().asJson();
+				//        Logger.error(json.toString());
+				List<Long> list = ItemMiddle
+						.itemSave(service, inventoryService, varyPriceService, dataLogService,
+								itemStatisService, json, nickName, operateIp);
+				return ok(list.toString());
+		}
 
-    public Result itemAddPop() {
-        return ok(views.html.item.itemaddPop.render(carriageService.getModels(),ThemeCtrl.IMG_UPLOAD_URL));
-    }
+		/**
+		 * 添加商品, 弹窗商品添加规格       Added by Sunny.Wu
+		 *
+		 * @return view
+		 */
 
-    /**
-     * 新增运费模板
-     * @param lang 语言
-     * @return
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result carrCreate(String lang) {
-        return ok(views.html.item.carrmodelAdd.render(lang, (User) ctx().args.get("user")));
-    }
+		public Result itemAddPop() {
+				return ok(views.html.item.itemaddPop
+						.render(carriageService.getModels(), ThemeCtrl.IMG_UPLOAD_URL));
+		}
 
-    /**
-     * 运费模板保存
-     * @return Result
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result carrSave() {
-        JsonNode json = request().body().asJson();
-        carriageService.carrModelSave(json);
-        return ok();
+		/**
+		 * 新增运费模板
+		 *
+		 * @param lang 语言
+		 * @return
+		 */
+		@Security.Authenticated(UserAuth.class) public Result carrCreate(String lang) {
+				return ok(views.html.item.carrmodelAdd.render(lang, (User) ctx().args.get("user")));
+		}
 
-    }
+		/**
+		 * 运费模板保存
+		 *
+		 * @return Result
+		 */
+		@Security.Authenticated(UserAuth.class) public Result carrSave() {
+				JsonNode json = request().body().asJson();
+				carriageService.carrModelSave(json);
+				return ok();
 
-    /**
-     * 由modeCode得到该模板的所有运费计算方式
-     * @param lang 语言
-     * @param modelCode 模板代码
-     * @return view
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result findModel(String lang,String modelCode) {
-        List carrList = carriageService.getCarrsByModel(modelCode);
-        return ok(views.html.item.carrmodelUpdate.render(lang,carrList,(User) ctx().args.get("user")));
-    }
-
-    /**
-     * 有modelCode删除运费模板中所有数据
-     * @param modelCode
-     * @return Result
-     */
-    public Result delModel(String modelCode) {
-        boolean bool = carriageService.delModelByCode(modelCode);
-        if(bool==true)  return ok("true");
-        else return ok("false");
-    }
-
-    /**
-     * 运费模板列表
-     * @param lang 语言
-     * @return view
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result carrModelSearch(String lang) {
-        List<Carriage> modelList = carriageService.getModels();
-        List<Carriage> carriageList = carriageService.getAllCarriage();
-        return ok(views.html.item.carrmodelList.render(lang,modelList,carriageList,(User) ctx().args.get("user")));
-    }
+		}
 
 
-    public Result carrPop() {
-            return ok(views.html.item.cityPop.render());
-        }
+
+		/**
+		 * 由modeCode得到该模板的所有运费计算方式
+		 *
+		 * @param lang      语言
+		 * @param modelCode 模板代码
+		 * @return view
+		 */
+		@Security.Authenticated(UserAuth.class)
+		public Result findModel(String lang, String modelCode) {
+				/** modify by howen 2016.01.25  **/
+				return ok(
+						views.html.item.carrmodelUpdate.render(lang, carriageService.getCarrsByModel(modelCode), (User) ctx().args.get("user")));
+		}
+
+		/**
+		 * 有modelCode删除运费模板中所有数据
+		 *
+		 * @param modelCode
+		 * @return Result
+		 */
+		public Result delModel(String modelCode) {
+				boolean bool = carriageService.delModelByCode(modelCode);
+				if (bool == true)
+						return ok("true");
+				else
+						return ok("false");
+		}
+
+		/**
+		 * 运费模板列表
+		 *
+		 * @param lang 语言
+		 * @return view
+		 */
+		@Security.Authenticated(UserAuth.class) public Result carrModelSearch(String lang) {
+				List<Carriage> modelList = carriageService.getModels();
+				List<Carriage> carriageList = carriageService.getAllCarriage();
+				return ok(views.html.item.carrmodelList
+						.render(lang, modelList, carriageList, (User) ctx().args.get("user")));
+		}
 
 
-    /**
-     * 品牌列表     Added by Tiffany Zhu
-     * @param lang
-     * @return
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result brandList(String lang){
-        return ok(views.html.item.brandsearch.render(lang,ThemeCtrl.IMAGE_URL,service.getAllBrands(),(User) ctx().args.get("user")));
-    }
+		public Result carrPop() {
+				return ok(views.html.item.cityPop.render());
+		}
 
-    /**
-     * 新增品牌     Added by Tiffany Zhu
-     * @param lang
-     * @return
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result brandAdd(String lang){
-        return ok(views.html.item.brandadd.render(lang,(User) ctx().args.get("user")));
-    }
 
-    /**
-     * 保存品牌    Added by Tiffany Zhu
-     * @param lang
-     * @return
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result brandSave(String lang){
-        JsonNode json = request().body().asJson();
-        Logger.error(json.toString());
-        service.insertBrands(json);
-        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
-    }
+		/**
+		 * 品牌列表     Added by Tiffany Zhu
+		 *
+		 * @param lang
+		 * @return
+		 */
+		@Security.Authenticated(UserAuth.class) public Result brandList(String lang) {
+				return ok(views.html.item.brandsearch
+						.render(lang, ThemeCtrl.IMAGE_URL, service.getAllBrands(),
+								(User) ctx().args.get("user")));
+		}
 
-    /**
-     * 商品分类列表       Added by Tiffany Zhu
-     * @param lang
-     * @return
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result cateList(String lang){
+		/**
+		 * 新增品牌     Added by Tiffany Zhu
+		 *
+		 * @param lang
+		 * @return
+		 */
+		@Security.Authenticated(UserAuth.class) public Result brandAdd(String lang) {
+				return ok(views.html.item.brandadd.render(lang, (User) ctx().args.get("user")));
+		}
 
-        List<Cates> catesList= service.getCatesAll();
-        //含有父类名的分类列表
-        List<Object[]> caList = new ArrayList<>();
-        for(Cates cates : catesList){
-            Object[] object = new Object[6];        //类别Id
-            object[0] = cates.getCateId();          //类别名
-            object[1] = cates.getCateNm();          //父类Id
-            object[2] = cates.getPcateId();         //父类名
-            if(service.getCate(cates.getPcateId()) != null) {
-                object[3] = service.getCate(cates.getPcateId()).getCateNm();//类别描述
-            }else{
-                object[3] = "";//类别描述
-            }
-            object[4] = cates.getCateDesc();        //类别描述
-            object[5] = cates.getCateCode();        //类别Code
-            caList.add(object);
-        }
-        return ok(views.html.item.catesearch.render(lang,caList,(User) ctx().args.get("user")));
-    }
+		/**
+		 * 保存品牌    Added by Tiffany Zhu
+		 *
+		 * @param lang
+		 * @return
+		 */
+		@Security.Authenticated(UserAuth.class) public Result brandSave(String lang) {
+				JsonNode json = request().body().asJson();
+				Logger.error(json.toString());
+				service.insertBrands(json);
+				return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)), "message.save.success")));
+		}
 
-    /**
-     * 新增商品分类       Added by Tiffany Zhu
-     * @param lang
-     * @return
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result cateAdd(String lang){
-        return ok(views.html.item.cateadd.render(lang,service.getParentCates(),(User) ctx().args.get("user")));
-    }
+		/**
+		 * 商品分类列表       Added by Tiffany Zhu
+		 *
+		 * @param lang
+		 * @return
+		 */
+		@Security.Authenticated(UserAuth.class) public Result cateList(String lang) {
 
-    /**
-     * 保存商品分类
-     * @param lang
-     * @return
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result cateSave(String lang){
-        JsonNode json = request().body().asJson();
-        Logger.error(json.toString());
-        service.catesSave(json);
-        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
-    }
+				List<Cates> catesList = service.getCatesAll();
+				//含有父类名的分类列表
+				List<Object[]> caList = new ArrayList<>();
+				for (Cates cates : catesList) {
+						Object[] object = new Object[6];        //类别Id
+						object[0] = cates.getCateId();          //类别名
+						object[1] = cates.getCateNm();          //父类Id
+						object[2] = cates.getPcateId();         //父类名
+						if (service.getCate(cates.getPcateId()) != null) {
+								object[3] = service.getCate(cates.getPcateId()).getCateNm();//类别描述
+						} else {
+								object[3] = "";//类别描述
+						}
+						object[4] = cates.getCateDesc();        //类别描述
+						object[5] = cates.getCateCode();        //类别Code
+						caList.add(object);
+				}
+				return ok(views.html.item.catesearch.render(lang, caList, (User) ctx().args.get("user")));
+		}
+
+		/**
+		 * 新增商品分类       Added by Tiffany Zhu
+		 *
+		 * @param lang
+		 * @return
+		 */
+		@Security.Authenticated(UserAuth.class) public Result cateAdd(String lang) {
+				return ok(views.html.item.cateadd
+						.render(lang, service.getParentCates(), (User) ctx().args.get("user")));
+		}
+
+		/**
+		 * 保存商品分类
+		 *
+		 * @param lang
+		 * @return
+		 */
+		@Security.Authenticated(UserAuth.class) public Result cateSave(String lang) {
+				JsonNode json = request().body().asJson();
+				Logger.error(json.toString());
+				service.catesSave(json);
+				return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)), "message.save.success")));
+		}
 
 
 
