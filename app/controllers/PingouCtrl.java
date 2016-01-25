@@ -67,7 +67,7 @@ public class PingouCtrl extends Controller {
         }
         Inventory inventory = inventoryService.getMasterInventory(pinSku.getItemId());
         pinSku.setInvId(inventory.getId());
-        pinSku.setPinDiscount(pinSku.getFloorPrice().divide(inventory.getItemSrcPrice(),2));
+        //pinSku.setPinDiscount(pinSku.getFloorPrice().divide(inventory.getItemSrcPrice(),2));
 
         pingouService.insertPinSku(pinSku,pinCoupon);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
