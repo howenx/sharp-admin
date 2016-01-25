@@ -79,12 +79,12 @@
 <table class="table table-bordered table-hover">
     <tr>
         <th>选择商品</th>
-        <th>商品类型</th>
         <th>
             商品ID
             <span class="glyphicon glyphicon-chevron-up"></span>
             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
         </th>
+        <th>商品类型</th>
         <!--
         <th>
             商品名称
@@ -124,8 +124,8 @@
         <td>
             <input type="checkbox" name="goods">
         </td>
-        <td>单体商品</td>
         <td>@item(0)</td>
+        <td>单体商品</td>
         <td>@item(1)</td>
         <td> <img class="main-img" src="@url@item(2)" alt="" width="50"></td>
         @if(item(3)!=null){<td>@(item(3).toString().substring(0,16))</td>}
@@ -136,15 +136,15 @@
     </tr>
     }
 </table>
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover" style="display: none">
     <tr>
         <th>选择商品</th>
-        <th>商品类型</th>
         <th>
             商品ID
             <span class="glyphicon glyphicon-chevron-up"></span>
             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
         </th>
+        <th>商品类型</th>
         <!--
         <th>
             商品名称
@@ -184,8 +184,8 @@
         <td>
             <input type="checkbox" name="goods">
         </td>
-        <td>拼购商品</td>
         <td>@item(0)</td>
+        <td>拼购商品</td>
         <td>@item(1)</td>
         <td> <img class="main-img" src="@url@item(2)" alt="" width="50"></td>
         @if(item(3)!=null){<td>@(item(3).toString().substring(0,16))</td>}
