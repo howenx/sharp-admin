@@ -330,7 +330,8 @@ body {
 .record span {font-size:10px;width:20%;}
 .record input {border:1px solid #ccc;width:70%;height:20px;margin-top:1px;font-size:10px;}
 .add-guige {background-color:#00B7EE;border:0px solid #fff;margin-top:10px;}
-
+.add-guige:hover {background-color:#00B7EE;}
+.add-guige:visited {background-color:#00B7EE;}
 
 /*  add-guige css   */
 
@@ -389,4 +390,7 @@ body {
 .guige td input[type="text"]{
     border: 0;outline: none;text-align:center;
     width: 90%;
+}
+.trEdit span{
+    color:blue; cursor:pointer;
 }

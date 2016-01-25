@@ -39,6 +39,9 @@ public class ItemCtrl extends Controller {
     private CarriageService carriageService;
 
     @Inject
+    private VaryPriceService varyPriceService;
+
+    @Inject
     private DataLogService dataLogService;
 
     @Inject
@@ -261,7 +264,7 @@ public class ItemCtrl extends Controller {
         String nickName = ((User) ctx().args.get("user")).nickname();
         JsonNode json = request().body().asJson();
 //        Logger.error(json.toString());
-        List<Long> list = ItemMiddle.itemSave(service, inventoryService, dataLogService, itemStatisService, json, nickName, operateIp);
+        List<Long> list = ItemMiddle.itemSave(service, inventoryService, varyPriceService, dataLogService, itemStatisService, json, nickName, operateIp);
         return ok(list.toString());
     }
 

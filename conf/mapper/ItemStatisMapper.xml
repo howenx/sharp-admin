@@ -11,21 +11,15 @@
         ${alias}.id,
         ${alias}.create_date,
         ${alias}.sku_id,
-        ${alias}.cost_price,
-        ${alias}.src_price,
-        ${alias}.sale_price,
-        ${alias}.amount,
-        ${alias}.sold_amount,
-        ${alias}.rest_amount,
         ${alias}.color,
         ${alias}.size
     </sql>
 
     <insert id="insertItemStatis" parameterType="entity.ItemStatis" useGeneratedKeys="true" keyProperty="id">
         insert into item_statis
-        (create_date, sku_id, cost_price, src_price, sale_price, amount, sold_amount, rest_amount, color, size)
+        (create_date, sku_id, color, size)
         values
-        (#{createDate},#{skuId},#{costPrice},#{srcPrice},#{salePrice},#{amount},#{soldAmount},#{restAmount},#{color},#{size})
+        (#{createDate},#{skuId},#{color},#{size})
     </insert>
 
     <select id="getItemStatis" resultType="entity.ItemStatis" parameterType="java.lang.Long">

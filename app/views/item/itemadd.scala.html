@@ -42,9 +42,11 @@
             modal.dialogArguments = sharedObject;
         }
     }
-    var table = $("<table class='table table-bordered'>");
+
+    var table = $("<table class='table table-bordered' id='inventory'>");
     var sku1;
-    function updateTable(obj){
+
+    function UpdateFields(obj){
         $(table).appendTo($(".sku-info"));
         var objth = $(obj.trh).find("th");
         var objtd = $(obj.trd).find("td");
@@ -71,6 +73,7 @@
         sku1 = obj.sku;
         console.log(sku1);
     }
+
     $(function(){
         $(function () {
             $('#datetimepicker1').datetimepicker({
@@ -372,8 +375,6 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">商品参数</div></label>
                     <div class="col-sm-7" style="margin-top:15px;">
-                        <input type="hidden" class="form-control" id="features" name="features">
-                        <input type="hidden" id="del" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")'>
                         <table class="table table-bordered qubian feature" id="tabFea">
                             <tr>
                                 <td width="30%">参数名</td>
