@@ -18,4 +18,11 @@ public interface VaryPriceMapper {
 
     List<VaryPrice> getAllVaryPrices();
 
+    /**
+     * 通过id获取多样化价格      Added by Tiffany Zhu 2016.01.26
+     * @param id
+     * @return
+     */
+    VaryPrice getVaryPriceById(Long id);
+
 }
