@@ -21,14 +21,15 @@
 <script src="/assets/js/item.js"></script>
 <script>window.uploadURL = '@uploadURL'</script>
 <script>
-    function ShowModal(obj,sku) {
+    function ShowModal(obj) {
         var sharedObject = {};
         sharedObject.obj = obj;
+        //编辑SKU
         if(obj.tagName=="TD"){
-//            var tdindex = $(table).find("tr").index($(obj).parent())-1;
-            sharedObject.sku = sku;
-            console.log(sku.itemPrice);
-//            sharedObject.tdindex = tdindex;
+            var trData = $(obj).parent().parent();
+            console.log(trData);
+            //var tdindex = $(table).find("tr").index($(obj).parent())-1;
+            //sharedObject.tdindex = tdindex;
         }
         if (window.showModalDialog) {
             var retValue = showModalDialog("/comm/pop", sharedObject, "dialogWidth:1200px; dialogHeight:8900px; dialogLeft:300px;");
@@ -44,7 +45,6 @@
     }
 
     var table = $("<table class='table table-bordered' id='inventory'>");
-    var sku1;
 
     function UpdateFields(obj){
         $(table).appendTo($(".sku-info"));
@@ -70,8 +70,6 @@
                 $(objtd[i]).appendTo(trd);
             }
         }
-        sku1 = obj.sku;
-        console.log(sku1);
     }
 
     $(function(){

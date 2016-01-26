@@ -35,6 +35,11 @@ public class Inventory implements Serializable{
     private Timestamp destroyAt;    //删除时间
     private Boolean orMasterInv;    //是否为主sku
     private String state;           //单个sku状态
+    private String themeId;         //主题ID(可多个)
+    private String shareUrl;        //分享的链接
+    private Integer shareCount;     //分享次数
+    private Integer collectCount;   //收藏次数
+    private Integer browseCount;    //浏览次数
     private String invArea;         //库存区域
     private Integer restrictAmount;//限购数量
     private String invTitle;        //商品标题
@@ -300,6 +305,46 @@ public class Inventory implements Serializable{
         this.orVaryPrice = orVaryPrice;
     }
 
+    public String getThemeId() {
+        return themeId;
+    }
+
+    public void setThemeId(String themeId) {
+        this.themeId = themeId;
+    }
+
+    public String getShareUrl() {
+        return shareUrl;
+    }
+
+    public void setShareUrl(String shareUrl) {
+        this.shareUrl = shareUrl;
+    }
+
+    public Integer getShareCount() {
+        return shareCount;
+    }
+
+    public void setShareCount(Integer shareCount) {
+        this.shareCount = shareCount;
+    }
+
+    public Integer getCollectCount() {
+        return collectCount;
+    }
+
+    public void setCollectCount(Integer collectCount) {
+        this.collectCount = collectCount;
+    }
+
+    public Integer getBrowseCount() {
+        return browseCount;
+    }
+
+    public void setBrowseCount(Integer browseCount) {
+        this.browseCount = browseCount;
+    }
+
     @Override
     public String toString() {
         return "Inventory{" +
@@ -322,6 +367,11 @@ public class Inventory implements Serializable{
                 ", destroyAt=" + destroyAt +
                 ", orMasterInv=" + orMasterInv +
                 ", state='" + state + '\'' +
+                ", themeId='" + themeId + '\'' +
+                ", shareUrl='" + shareUrl + '\'' +
+                ", shareCount=" + shareCount +
+                ", collectCount=" + collectCount +
+                ", browseCount=" + browseCount +
                 ", invArea='" + invArea + '\'' +
                 ", restrictAmount=" + restrictAmount +
                 ", invTitle='" + invTitle + '\'' +
@@ -337,7 +387,7 @@ public class Inventory implements Serializable{
                 '}';
     }
 
-    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxRate, String postalTaxCode, Integer invWeight, String carriageModelCode, String recordCode, Timestamp startAt, Timestamp endAt, Boolean orVaryPrice) {
+    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, String themeId, String shareUrl, Integer shareCount, Integer collectCount, Integer browseCount, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxRate, String postalTaxCode, Integer invWeight, String carriageModelCode, String recordCode, Timestamp startAt, Timestamp endAt, Boolean orVaryPrice) {
         this.id = id;
         this.itemId = itemId;
         this.itemColor = itemColor;
@@ -357,6 +407,11 @@ public class Inventory implements Serializable{
         this.destroyAt = destroyAt;
         this.orMasterInv = orMasterInv;
         this.state = state;
+        this.themeId = themeId;
+        this.shareUrl = shareUrl;
+        this.shareCount = shareCount;
+        this.collectCount = collectCount;
+        this.browseCount = browseCount;
         this.invArea = invArea;
         this.restrictAmount = restrictAmount;
         this.invTitle = invTitle;
