@@ -463,6 +463,16 @@ function delDire(obj){
 }
 /*$(function(){})*/
 $(function(){
+
+    /***Loading..***/
+    $(document).ajaxStart(function() {
+    	$('#mask').show();
+    });
+
+    $(document).ajaxStop(function() {
+    	$('#mask').hide();
+    });
+
     $(".addText").click(function(){
         addElement();
     });
@@ -574,14 +584,36 @@ $(function(){
                     var width = $(".templates").find("li:visible").find(".temp-img").width();
                     var height = $(".templates").find("li:visible").find(".temp-img").height();
                     var html = $(".templates").find("li:visible").find(".temp-img").prop("outerHTML");
-                    alert("html:" + html);
-                    alert("图片宽度:" + width + "图片高度:" + height );
+                    //alert("html:" + html);
+                    //alert("图片宽度:" + width + "图片高度:" + height );
 
                     if(html == null || html == ""){
                         isPost = false;
                         alert("请添加模板!");
                         return false;
                     }
+
+                    //只上传一张图片,没有添加其他
+                    if($(".templates").find("li:visible").find(".temp-img").children().length == 1){
+                        isPost = false;
+                        var index = $(".templates").find("li:visible").index();
+                        var input = document.createElement("input");
+                        input.type = "hidden";
+                        var url = "";
+                        $(".templates-choose").find("li").each(function(){
+
+                            if($(this).css("border-top-style") == "solid"){
+                                 if($(this).find("input").length > 0){
+                                     $(this).find("input").remove();
+                                 }
+                                 url = $(this).find("img").attr("src");
+                                 input.id = url.substring(url.indexOf('/',url.indexOf('/')+2)+1);
+                                 $(this).append(input);
+                            }
+                        })
+                        window.open(url,"_blank");
+                    }
+
                      if(isPost){
                          $.ajax({
                             url: window.cutUrl, //Server script to process data
@@ -598,11 +630,14 @@ $(function(){
                                 input.id = data.oss_url;
                                 input.type = "hidden";
                                 $(".templates-choose").find("li").each(function(){
+
                                     if($(this).css("border-top-style") == "solid"){
-                                        $(this).append(input);
+                                         if($(this).find("input").length > 0){
+                                             $(this).find("input").remove();
+                                         }
+                                         $(this).append(input);
                                     }
                                 })
-                                //alert(data.oss_url);
                                 window.open(data.shot_url,'_blank');
                                 //window.open(data.oss_prefix + data.oss_url,'_blank');
                             },

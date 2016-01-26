@@ -11,10 +11,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-import service.InventoryService;
-import service.ItemService;
-import service.PingouService;
-import service.ThemeService;
+import service.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -54,6 +51,9 @@ public class ThemeCtrl extends Controller {
 
     @Inject
     private PingouService pingouService;
+
+    @Inject
+    private VaryPriceService varyPriceService;
 
     /**
      * 滚动条管理
@@ -249,7 +249,7 @@ public class ThemeCtrl extends Controller {
             JsonNode json = Json.parse(inventory.getInvImg());
             String url = json.get("url").toString();
             object[2] = url.substring(1,url.length()-1);
-            object[3] = item.getOnShelvesAt();
+            object[3] = inventory.getStartAt();
             if("Y".equals(item.getState())){
                 object[4] = "正常";
 
@@ -312,7 +312,33 @@ public class ThemeCtrl extends Controller {
             object[7] = pinSku.getPinDiscount();
             pinList.add(object);
         }
-        return ok(views.html.theme.thaddPop.render(inList,pinList,IMAGE_URL));
+
+        //多样化商品列表
+        List<VaryPrice> varyPriceList = varyPriceService.getAllVaryPrices();
+        List<Object[]> varyList = new ArrayList<>();
+        for(VaryPrice varyPrice : varyPriceList){
+            Inventory inventory = inventoryService.getInventory(varyPrice.getInvId());
+            Item item = itemService.getItem(inventory.getItemId());
+            Object[] object = new Object[8];
+            object[0] = varyPrice.getId();
+            object[1] = item.getItemTitle();
+            String url = Json.parse(inventory.getInvImg()).get("url").toString();
+            url = url.substring(1,url.length()-1);
+            object[2] = url;
+            object[3] = inventory.getStartAt();
+            if("Y".equals(inventory.getState())){
+                object[4] = "正常";
+            }
+            if("N".equals(inventory.getState())){
+                object[4] = "下架";
+            }
+            object[5] = varyPrice.getPrice();
+            object[6] = inventory.getItemSrcPrice();
+            object[7] = varyPrice.getPrice().divide(inventory.getItemSrcPrice(),2);
+            varyList.add(object);
+        }
+
+        return ok(views.html.theme.thaddPop.render(inList,pinList,varyList,IMAGE_URL));
     }
 
 
@@ -451,6 +477,33 @@ public class ThemeCtrl extends Controller {
                 object[7] = pinSku.getPinDiscount();
                 object[8] = itemNum;
                 object[9] = "拼购";
+                itemList.add(object);
+            }
+
+            if("vary".equals(resultType)){
+                Object[] object = new Object[10];
+                VaryPrice varyPrice = varyPriceService.getVaryPriceById(tempId.get("id").asLong());
+                Inventory inventory = inventoryService.getInventory(varyPrice.getInvId());
+                Item item = itemService.getItem(inventory.getItemId());
+                object[0] = varyPrice.getId();
+                object[1] = item.getItemTitle();
+                String url = Json.parse(inventory.getInvImg()).get("url").toString();
+                url = url.substring(1,url.length()-1);
+                object[2] = url;
+                object[3] = inventory.getStartAt().toString().substring(0,19);
+                if("Y".equals(varyPrice.getStatus())){
+                    object[4] = "正常";
+
+                }
+                if("N".equals(varyPrice.getStatus())){
+                    object[4] = "下架";
+
+                }
+                object[5] = varyPrice.getPrice();
+                object[6] = inventory.getItemSrcPrice();
+                object[7] = varyPrice.getPrice().divide(inventory.getItemSrcPrice(),2);
+                object[8] = itemNum;
+                object[9] = "多样化";
                 itemList.add(object);
             }
         }

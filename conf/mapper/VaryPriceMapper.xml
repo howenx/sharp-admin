@@ -55,4 +55,12 @@
         ORDER BY id
     </select>
 
+    <select id="getVaryPriceById" resultType="entity.VaryPrice" parameterType="java.lang.Long">
+        select
+        <include refid="varyPriceColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from vary_price t where id = ${value}
+    </select>
+
 </mapper>
