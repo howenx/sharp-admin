@@ -456,6 +456,9 @@ $(function() {
                 if(type == "拼购"){
                     object.type = "pin";
                 }
+                if(type == "多样化"){
+                    object.type = "vary";
+                }
                 object.id =  itemId.toString();
                 themeItems.push(object);
             }

@@ -1,4 +1,4 @@
-@(itList:List[Array[Object]],pinList:List[Array[Object]],url:String)
+@(itList:List[Array[Object]],pinList:List[Array[Object]],varyList:List[Array[Object]],url:String)
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 <script src="/assets/js/jquery.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
@@ -75,8 +75,9 @@
 </style>
 <body>
 <ul class="chooseGood clearfix">
-    <li class="pull-left" style="background: #337ab7">单体商品</li>
+    <li class="pull-left" style="background: #337ab7">普通商品</li>
     <li class="pull-left">拼购商品</li>
+    <li class="pull-left">多样化商品</li>
 </ul>
 <table class="table table-bordered table-hover">
     <tr>
@@ -195,6 +196,66 @@
         <td>@pin(5)</td>
         <td>@pin(6)</td>
         <td>@pin(7)</td>
+    </tr>
+    }
+</table>
+<table class="table table-bordered table-hover" style="display: none">
+    <tr>
+        <th>选择商品</th>
+        <th>
+            商品ID
+            <span class="glyphicon glyphicon-chevron-up"></span>
+            <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+        </th>
+        <th>商品类型</th>
+        <!--
+        <th>
+            商品名称
+            <span class="glyphicon glyphicon-chevron-up"></span>
+            <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+        <!--
+        </th>
+        -->
+        <th>
+            商品标题
+        </th>
+        <th>
+            商品图片
+        </th>
+        <th>
+            上架时间
+        </th>
+        <th>
+            商品状态
+        </th>
+        <th>
+            价格
+        </th>
+        <th>
+            原价
+            <span class="glyphicon glyphicon-chevron-up"></span>
+            <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+        </th>
+        <th>
+            折扣
+            <span class="glyphicon glyphicon-chevron-up"></span>
+            <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+        </th>
+    </tr>
+    @for(varyPrice <- varyList){
+    <tr>
+        <td>
+            <input type="checkbox" name="goods">
+        </td>
+        <td>@varyPrice(0)</td>
+        <td>多样化</td>
+        <td>@varyPrice(1)</td>
+        <td> <img class="main-img" src="@url@varyPrice(2)" alt="" width="50"></td>
+        @if(varyPrice(3)!=null){<td>@(varyPrice(3).toString().substring(0,16))</td>}
+        <td>@varyPrice(4)</td>
+        <td>@varyPrice(5)</td>
+        <td>@varyPrice(6)</td>
+        <td>@varyPrice(7)</td>
     </tr>
     }
 </table>

@@ -34,4 +34,15 @@ public class VaryPriceServiceImpl implements VaryPriceService {
     public List<VaryPrice> getAllVaryPrices() {
         return varyPriceMapper.getAllVaryPrices();
     }
+
+
+    /**
+     * 通过id获取多样化价格      Added by Tiffany Zhu 2016.01.26
+     * @param id
+     * @return
+     */
+    @Override
+    public VaryPrice getVaryPriceById(Long id) {
+        return varyPriceMapper.getVaryPriceById(id);
+    }
 }
