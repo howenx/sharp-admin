@@ -1,7 +1,9 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.deser.std.ObjectArrayDeserializer;
 import entity.*;
+import entity.pingou.PinSku;
 import play.Logger;
 import play.i18n.Lang;
 import play.i18n.Messages;
@@ -11,6 +13,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import service.InventoryService;
 import service.ItemService;
+import service.PingouService;
 import service.ThemeService;
 
 import javax.inject.Inject;
@@ -48,6 +51,10 @@ public class ThemeCtrl extends Controller {
 
     @Inject
     private InventoryService inventoryService;
+
+    @Inject
+    private PingouService pingouService;
+
     /**
      * 滚动条管理
      * @param lang 语言
@@ -231,32 +238,83 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result thaddPop(){
-        //商品列表
-        List<Item> itemList = itemService.getItemsAll();
-        //含有主sku价格的商品列表
-        List<Object[]> itList = new ArrayList<>();
-        for(Item item : itemList) {
+        //所有sku列表
+        List<Inventory> inventoryList = inventoryService.getAllInventories();
+        List<Object[]> inList = new ArrayList<>();
+        for(Inventory inventory : inventoryList){
+            Item item = itemService.getItem(inventory.getItemId());
             Object[] object = new Object[8];
-            Logger.error(item.toString());
-            Logger.error(item.getId().toString());
-            Inventory inventory = inventoryService.getMasterInventory(item.getId());
-            Logger.error(inventory.toString());
-            object[0] = item.getId();
+            object[0] = inventory.getId();
             object[1] = item.getItemTitle();
-
-            JsonNode inventoryImg = Json.parse(inventory.getInvImg());
-
-            String url = inventoryImg.get("url").toString();
+            JsonNode json = Json.parse(inventory.getInvImg());
+            String url = json.get("url").toString();
             object[2] = url.substring(1,url.length()-1);
             object[3] = item.getOnShelvesAt();
-            object[4] = item.getState();
-            object[5] = inventory.getItemPrice();
+            if("Y".equals(item.getState())){
+                object[4] = "正常";
+
+            }
+            if("D".equals(item.getState())){
+                object[4] = "下架";
+
+            }
+            if("N".equals(item.getState())){
+                object[4] = "删除";
+
+            }
+            if("K".equals(item.getState())){
+                object[4] = "售空";
+
+            }
+            if("P".equals(item.getState())){
+                object[4] = "预售";
+
+            }
+            object[5] = inventory.getItemCostPrice();
             object[6] = inventory.getItemSrcPrice();
             object[7] = inventory.getItemDiscount();
-            itList.add(object);
+            inList.add(object);
         }
-        return ok(views.html.theme.thaddPop.render(itList,IMAGE_URL));
+
+        //拼购列表
+        List<PinSku> pinSkuList = pingouService.getPinSkuAll();
+        List<Object[]> pinList = new ArrayList<>();
+        for(PinSku pinSku : pinSkuList){
+            Object[] object = new Object[8];
+            object[0] = pinSku.getPinId();
+            object[1] = pinSku.getPinTitle();
+            JsonNode json = Json.parse(pinSku.getPinImg());
+            String url = json.get("url").toString();
+            object[2] = url.substring(1,url.length()-1);
+            object[3] = pinSku.getStartAt();
+            if("Y".equals(pinSku.getStatus())){
+                object[4] = "正常";
+
+            }
+            if("D".equals(pinSku.getStatus())){
+                object[4] = "下架";
+
+            }
+            if("N".equals(pinSku.getStatus())){
+                object[4] = "删除";
+
+            }
+            if("K".equals(pinSku.getStatus())){
+                object[4] = "售空";
+
+            }
+            if("P".equals(pinSku.getStatus())){
+                object[4] = "预售";
+
+            }
+            object[5] = pinSku.getFloorPrice();
+            object[6] = inventoryService.getInventory(pinSku.getInvId()).getItemSrcPrice();
+            object[7] = pinSku.getPinDiscount();
+            pinList.add(object);
+        }
+        return ok(views.html.theme.thaddPop.render(inList,pinList,IMAGE_URL));
     }
+
 
     /**
      * 保存主题   Added by Tiffany Zhu
@@ -310,25 +368,91 @@ public class ThemeCtrl extends Controller {
         Logger.error(theme.toString());
         //主题的商品
         List<Object[]> itemList = new ArrayList<>();
-        JsonNode itemIds = Json.parse(theme.getThemeItem());
+        JsonNode ids = Json.parse(theme.getThemeItem());
         int itemNum = 0;
-        for(JsonNode itemId : itemIds){
+        for(JsonNode tempId : ids){
             itemNum = itemNum + 1;
-            Object[] object = new Object[9];
-            Item item = itemService.getItem(itemId.asLong());
-            Logger.error(item.toString());
-            Inventory inventory = inventoryService.getInventory(item.getMasterInvId());
-            Logger.error(inventory.toString());
-            object[0] = item.getId();
-            object[1] = item.getItemTitle();
-            object[2] = item.getItemMasterImg();
-            object[3] = item.getOnShelvesAt();
-            object[4] = item.getState();
-            object[5] = inventory.getItemPrice();
-            object[6] = inventory.getItemSrcPrice();
-            object[7] = inventory.getItemDiscount();
-            object[8] = itemNum;
-            itemList.add(object);
+            //普通商品sku
+            String type = tempId.get("type").toString();
+            String resultType = type.substring(1,type.length()-1);
+            if("item".equals(resultType)){
+                Object[] object = new Object[10];
+                Inventory inventory = inventoryService.getInventory(tempId.get("id").asLong());
+                Logger.error(inventory.toString());
+                Item item = itemService.getItem(inventory.getItemId());
+                Logger.error(inventory.toString());
+                object[0] = inventory.getId();
+                object[1] = item.getItemTitle();
+               String  url = Json.parse(inventory.getInvImg()).get("url").toString();
+                url = url.substring(1,url.length()-1);
+                object[2] = url;
+                object[3] = item.getOnShelvesAt().toString().substring(0,19);
+                if("Y".equals(item.getState())){
+                    object[4] = "正常";
+
+                }
+                if("D".equals(item.getState())){
+                    object[4] = "下架";
+
+                }
+                if("N".equals(item.getState())){
+                    object[4] = "删除";
+
+                }
+                if("K".equals(item.getState())){
+                    object[4] = "售空";
+
+                }
+                if("P".equals(item.getState())){
+                    object[4] = "预售";
+
+                }
+                object[5] = inventory.getItemPrice();
+                object[6] = inventory.getItemSrcPrice();
+                object[7] = inventory.getItemDiscount();
+                object[8] = itemNum;
+                object[9] = "普通";
+                itemList.add(object);
+            }
+
+            if("pin".equals(resultType)){
+                Object[] object = new Object[10];
+                PinSku pinSku = pingouService.getPinSkuById(tempId.get("id").asLong());
+                Inventory inventory = inventoryService.getInventory(pinSku.getInvId());
+                Logger.error(pinSku.toString());
+                object[0] = pinSku.getPinId();
+                object[1] = pinSku.getPinTitle();
+                String url = Json.parse(pinSku.getPinImg()).get("url").toString();
+                url = url.substring(1,url.length()-1);
+                object[2] = url;
+                object[3] = pinSku.getStartAt().toString().substring(0,19);
+                if("Y".equals(pinSku.getStatus())){
+                    object[4] = "正常";
+
+                }
+                if("D".equals(pinSku.getStatus())){
+                    object[4] = "下架";
+
+                }
+                if("N".equals(pinSku.getStatus())){
+                    object[4] = "删除";
+
+                }
+                if("K".equals(pinSku.getStatus())){
+                    object[4] = "售空";
+
+                }
+                if("P".equals(pinSku.getStatus())){
+                    object[4] = "预售";
+
+                }
+                object[5] = pinSku.getFloorPrice();
+                object[6] = inventory.getItemSrcPrice();
+                object[7] = pinSku.getPinDiscount();
+                object[8] = itemNum;
+                object[9] = "拼购";
+                itemList.add(object);
+            }
         }
         //主题的主宣传图
         JsonNode themeImg = Json.parse(theme.getThemeImg());
@@ -384,4 +508,3 @@ public class ThemeCtrl extends Controller {
 
 
 }
-

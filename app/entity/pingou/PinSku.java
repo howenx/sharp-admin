@@ -29,7 +29,6 @@ public class PinSku implements Serializable {
     private BigDecimal floorPrice;  //拼购最低价
     private Long  invId;            //库存ID
     private BigDecimal pinDiscount; //拼购最低折扣
-    private Long itemId;            //商品ID
 
 
     //分页,每页多少条
@@ -44,7 +43,7 @@ public class PinSku implements Serializable {
     public PinSku() {
     }
 
-    public PinSku(Long pinId, String pinImg, String shareUrl, String status, Timestamp createAt, Timestamp updateAt, String pinTitle, Timestamp startAt, Timestamp endAt, String pinPriceRule, int restrictAmount, BigDecimal floorPrice, Long invId, BigDecimal pinDiscount, Long itemId, Integer pageSize, Integer offset, String sort, String order) {
+    public PinSku(Long pinId, String pinImg, String shareUrl, String status, Timestamp createAt, Timestamp updateAt, String pinTitle, Timestamp startAt, Timestamp endAt, String pinPriceRule, int restrictAmount, BigDecimal floorPrice, Long invId, BigDecimal pinDiscount, Integer pageSize, Integer offset, String sort, String order) {
         this.pinId = pinId;
         this.pinImg = pinImg;
         this.shareUrl = shareUrl;
@@ -59,7 +58,6 @@ public class PinSku implements Serializable {
         this.floorPrice = floorPrice;
         this.invId = invId;
         this.pinDiscount = pinDiscount;
-        this.itemId = itemId;
         this.pageSize = pageSize;
         this.offset = offset;
         this.sort = sort;
@@ -83,14 +81,12 @@ public class PinSku implements Serializable {
                 ", floorPrice=" + floorPrice +
                 ", invId=" + invId +
                 ", pinDiscount=" + pinDiscount +
-                ", itemId=" + itemId +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +
                 ", order='" + order + '\'' +
                 '}';
     }
-
 
     public Long getPinId() {
         return pinId;
@@ -202,14 +198,6 @@ public class PinSku implements Serializable {
 
     public void setPinDiscount(BigDecimal pinDiscount) {
         this.pinDiscount = pinDiscount;
-    }
-
-    public Long getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
     }
 
     public Integer getPageSize() {

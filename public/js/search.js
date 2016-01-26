@@ -229,7 +229,9 @@ $(function() {
         		$(data).each(function(index, element) {
         			var status = "";
                     if($(this)[0].status=="Y"){status="正常"}
-                    if($(this)[0].status=="N"){status="下架"}
+                    if($(this)[0].status=="D"){status="下架"}
+                    if($(this)[0].status=="N"){status="删除"}
+                    if($(this)[0].status=="K"){status="售空"}
                     if($(this)[0].status=="P"){status="预售"}
                     $('#tb-topic').find('tbody').append('' +
                         '<tr class="tb-list-data">' +
@@ -462,5 +464,13 @@ $(function() {
 		}
 		$(".grid input[type=radio]:checked").parents("tr").index=0;
 		$(".grid input[type=radio]:checked").parents("tr").appendTo(".grid thead");
+	});
+	/******选择商品*******/
+	$(".chooseGood li").click(function(){
+		$(".chooseGood li").css("background","none");
+		$(this).css("background","#337ab7");
+		var index = $(this).index(".chooseGood li");
+		$("table.table").css("display","none");
+		$("table.table").eq(index).css("display","table");
 	})
 })

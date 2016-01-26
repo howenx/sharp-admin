@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>规格编辑</title>
+    <link rel="stylesheet" href="/assets/css/spin.css">
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/item.css">
     <script src="/assets/js/jquery.min.js"></script>
@@ -77,7 +78,7 @@
                         <input class="form-control col-sm-2"  type="text"  id="endAt" name="endAt">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
-                    <div id="warn-date" style="color:red; margin-left:260px;margin-top:-30px; width:100px;"></div>
+                    <div id="warn-date" style="color:red; margin-left:220px;margin-top:-25px; width:100px;"></div>
                 </div>
             </div>
             <div class="form-group">
@@ -184,16 +185,17 @@
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="postalTaxCode" name="postalTaxCode">
                 </div>
+                <div id="warn-rate" style="color:red; margin-top:5px;"></div>
             </div>
             <div class="form-group">
                 <!-- 海关商品备案号 -->
                 <label class="col-sm-2 control-label">海关商品备案号</label>
                 <div>
-                    <label class="col-sm-1 control-label thval" style="width:70px;padding-right: 0">杭州</label>
+                    <label class="col-sm-1 control-label thval" style="width:45px;padding-right: 0">杭州</label>
                     <div class="col-sm-2">
                         <input type="text" class="form-control" name="recordHZ">
                     </div>
-                    <label class="col-sm-1 control-label thval" style="width:70px;padding-right: 0">广州</label>
+                    <label class="col-sm-1 control-label thval" style="width:75px;padding-right: 0;">广州</label>
                     <div class="col-sm-2">
                         <input type="text" class="form-control" name="recordGZ">
                     </div>
@@ -205,7 +207,7 @@
             </div>
             <div class="form-group">
                 <!-- sku主图 -->
-                <label class="col-sm-2 control-label thval">主图(一张)</label>
+                <label class="col-sm-2 control-label thval">主图(一张)<div id="warn-m" style="color:red;font-weight:200;"></div></label>
                 <div class="col-sm-2">
                     <div class="list-img clearfix" style="border:1px solid #ccc;">
                         <span class="add" id="masterImgAddM" style="float: left">＋
@@ -215,10 +217,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
                 <!-- 详情页预览图 -->
-                <label class="col-sm-2 control-label thval">预览图(最多六张)</label>
+                <label class="col-sm-2 control-label thval">预览图(最多六张)<div id="warn-p" style="color:red;font-weight:200;"></div></label>
                 <div class="col-sm-4">
                     <div class="preview-img clearfix" style="border:1px solid #ccc;">
                         <div id="galleryP" style="float: left">
@@ -227,15 +227,14 @@
                             <input type="file" id="P" name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
                         </span>
                     </div>
-                    <div id="warn-masthimg" style="color:red;margin-top:-70px; margin-left:500px;width:120px;"></div>
-                    <div id="warn-detailimg" style="color:red;margin-top:10px; margin-left:500px;width:120px;margin-bottom:50px;"></div>
                 </div>
             </div>
             <!-- 多样化价格 -->
             <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
+                <div class="col-sm-offset-2 col-sm-10" style="height:22px;">
                     <label class="thval">
                         <input type="checkbox" class="YN" id="openVaryPrice" checked> 开启多样化价格
+                        <span id="warn-vary-price" style="color:red;font-weight:200; margin-left:10px;"></span>
                     </label>
                 </div>
                 <label class="thval" style="display:none;">多样化价格</label>
@@ -257,8 +256,9 @@
             <div class="form-group">
                 <!-- 保存 -->
                 <div class="col-sm-offset-2 col-sm-8" style="text-align:center;">
-                    <button type="button" class="btn btn-primary" onclick="holdShow()" style="margin:auto;">保存</button>
-                    <button type="button" class="btn btn-primary" id="return" style="margin-left:20px;">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="saveClose()" style="margin:auto;">保存并关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="saveCurr()" style="margin-left:20px;">保存当前</button>
+                    <button type="button" class="btn btn-primary" id="return" style="margin-left:20px;">关闭窗口</button>
                 </div>
             </div>
         </form>
@@ -269,6 +269,18 @@
     <div class="goods-bg"></div>
     <div class="goods-img">
         <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>
+<div id="mask" class="ui-mask" style="display: none;">
+    <div id="circularG">
+        <div id="circularG_1" class="circularG"></div>
+        <div id="circularG_2" class="circularG"></div>
+        <div id="circularG_3" class="circularG"></div>
+        <div id="circularG_4" class="circularG"></div>
+        <div id="circularG_5" class="circularG"></div>
+        <div id="circularG_6" class="circularG"></div>
+        <div id="circularG_7" class="circularG"></div>
+        <div id="circularG_8" class="circularG"></div>
     </div>
 </div>
 </body>

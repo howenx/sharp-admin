@@ -122,6 +122,7 @@ $(function(){
              }
          })
          $(".add-level").css("display","");               //添加价格
+         $("#pin_discount").attr("disabled",false);     //最低折扣率
          $(":radio").attr("disabled",false);              //优惠券的'radio'
          $(".tz").find("select").attr("disabled",false);  //团长优惠券类别
          $(".tz").find("input").attr("disabled",false);   //团长优惠券填写框
@@ -150,6 +151,7 @@ $(function(){
              }
          })
          $(".add-level").css("display","none");          //添加价格
+         $("#pin_discount").attr("disabled",true);       //最低折扣率
          $(":radio").attr("disabled",true);              //优惠券的'radio'
          $(".tz").find("select").attr("disabled",true);  //团长优惠券类别
          $(".tz").find("input").attr("disabled",true);   //团长优惠券填写框
@@ -197,6 +199,21 @@ $(function(){
            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
            return false;
         }
+
+        if($("#pin_discount").val() == ""){
+           isPost = false;
+           $('#js-userinfo-error').text('最低折扣率不能为空!').css('color', '#c00');
+           setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+           return false;
+        }
+
+        if(!positive_float.test($("#pin_discount").val())){
+           isPost = false;
+           $('#js-userinfo-error').text('最低折扣率为数字!').css('color', '#c00');
+           setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+           return false;
+        }
+
 
         //团长优惠券
         if($(":radio[value='tz-yes']").prop("checked")){
@@ -316,8 +333,9 @@ $(function(){
         pinSku.pinPriceRule = JSON.stringify(priceRule);
         pinSku.restrictAmount = $("#restrict").val();
         pinSku.floorPrice = minPrice;
-        pinSku.itemId = $("#input_imgurl").val();
+        pinSku.invId = $("#input_imgurl").val();
         pinSku.pinTitle = $("#itemTitle").val();
+        pinSku.pinDiscount = $("#pin_discount").val();
 
         pinData.pinSku = pinSku;
 
