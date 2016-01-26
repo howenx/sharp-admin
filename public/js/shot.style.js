@@ -403,7 +403,6 @@ $(function() {
             return false;
         }
         var background = $("#unpack_img").css("background");
-
         if(data_array.selectedRadio == 'shop_unpack'){
             if(data_array.themeImg == null || data_array.themeImg == "")
                     {
@@ -411,48 +410,24 @@ $(function() {
                         alert("请提交主题图片!");
                         return false;
                     }
-
         }
-        //if(data_array.selectedRadio == 'upload-img'){
-
-            if($("#themeImg").find("img").attr("src") == ""){
-                isPost = false;
-                alert("请选择主题图片!");
-                return false;
-            }
-            //data_array.themeImg = $(".main-img")[0].src;
-        //}
-
+        if($("#themeImg").find("img").attr("src") == ""){
+            isPost = false;
+            alert("请选择主题图片!");
+            return false;
+        }
         if(document.getElementById("sort").rows.length == 1){
             isPost = false;
             alert("请添加商品!");
             return false;
         }
-        /*
-        if(document.getElementById("sort").rows[1].cells[1].getElementsByTagName("input")[0].checked == false){
-            isPost = false;
-            alert("请选择主商品!");
-            return false;
-        }
-        */
         if(document.getElementById("dragon-container").innerHTML.indexOf("img")<0)
         {
             isPost = false;
             alert("请上传标签的背景图片!");
             return false;
         }
-        /*
-        if(document.getElementById("dragon-container").getElementsByClassName("dragon-contained ui-draggable ui-draggable-handle").length == 0)
-        {
-            isPost = false;
-            alert("请添加标签!");
-            return false;
-        }
-        */
-
         var theme = new Object();
-        //主商品ID
-        //var masterItemId = parseInt(document.getElementById("sort").rows[1].cells[2].innerHTML);
         var masterItemId = "";
 
         //主题ID
@@ -463,43 +438,28 @@ $(function() {
         var onShelvesAt = $("#onShelvesAt").val();
         //结束日期
         var offShelvesAt = $("#offShelvesAt").val();
-
-
-        //主题图片,主页显示图片
-        /*
-        if(data_array.themeImg.indexOf("http://") >= 0){
-            var themeImgFinal = data_array.themeImg.substring(data_array.themeImg.indexOf('/',data_array.themeImg.indexOf('/')+2)+1);
-        }
-        else{
-            var themeImgFinal = data_array.themeImg.substring(data_array.themeImg.indexOf('/',data_array.themeImg.indexOf('/')+2));
-        }
-        */
-
-
         //排序
         var sortNu = 1;
-        //主题源背景图片
-        /*
-        var themeSrcImgTemp = background.substring(background.indexOf('url("')+5,background.indexOf('")'));
-        var themeSrcImg = themeSrcImgTemp.substring(themeSrcImgTemp.indexOf('/',themeSrcImgTemp.indexOf('/')+2));
-        */
         //主题的配置信息
         var themeConfig = [];
         //主题包含的商品信息
         var themeItems = [];
         $("#sort").find("tr").each(function(){
+
             var itemId = $(this).find("td:eq(1)").text();
+            var type = $(this).find("td:eq(2)").text();
             if( itemId!= null && itemId != ""){
-                themeItems.push(itemId);
+                var object = new Object();
+                if(type == "普通"){
+                    object.type = "item";
+                }
+                if(type == "拼购"){
+                    object.type = "pin";
+                }
+                object.id =  itemId.toString();
+                themeItems.push(object);
             }
         })
-        /*
-        var items = document.getElementById("sort");
-        for(i=1;i<items.getElementsByTagName("tr").length;i++){
-            var itemId = parseInt(items.rows[i].cells[2].innerText);
-            themeItems.push(itemId);
-            }
-            */
         //主题主宣传图上的标签
         var masterItemTag = [];
         var tagsContainer = $("#dragon-container");
@@ -539,21 +499,6 @@ $(function() {
         themeImgContent.url = url.substring(url.indexOf('/',url.indexOf('/')+2) + 1);
         themeImgContent.width = $("#themeImg").find("input").width().toString();
         themeImgContent.height = $("#themeImg").find("input").height().toString();
-
-
-
-        /*
-        themeImgContent.url = themeImgFinal;
-        if(data_array.uploadImgWidth != null && data_array.uploadImgHeight != null){
-               themeImgContent.width = data_array.uploadImgWidth.toString();
-               themeImgContent.height = data_array.uploadImgHeight.toString();
-        }else{
-                 themeImgContent.width = jsFileShareContent.ulpDirectImgWidth.toString();
-                 themeImgContent.height = jsFileShareContent.ulpDirectImgHeight.toString();
-        }
-        */
-
-
         //主题tag背景图
         var themeMasterImgContent = {};
         themeMasterImgContent.url = themeMasterImg;
@@ -564,23 +509,18 @@ $(function() {
             themeMasterImgContent.width = $("#dragon-container").find("input").width();
             themeMasterImgContent.height = $("#dragon-container").find("input").height();
         }
-
         theme.masterItemId = masterItemId;
         theme.id = themeId;
         theme.title = title;
         theme.startAt = onShelvesAt;
         theme.endAt = offShelvesAt;
         theme.themeImg = JSON.stringify(themeImgContent);
-        //theme.themeImg = themeImgFinal;
         theme.sortNu = sortNu;
-        //theme.orDestory = false;
         theme.themeSrcImg = "";
         theme.themeDesc = themeConfig;
         theme.themeItem = themeItems;
         theme.themeTags = masterItemTag;
-        //theme.themeMasterImg = themeMasterImg;
         theme.themeMasterImg = JSON.stringify(themeMasterImgContent);
-
 
         if (isPost) {
                     $.ajax({

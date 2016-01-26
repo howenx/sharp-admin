@@ -333,7 +333,7 @@ $(function(){
         pinSku.pinPriceRule = JSON.stringify(priceRule);
         pinSku.restrictAmount = $("#restrict").val();
         pinSku.floorPrice = minPrice;
-        pinSku.itemId = $("#input_imgurl").val();
+        pinSku.invId = $("#input_imgurl").val();
         pinSku.pinTitle = $("#itemTitle").val();
         pinSku.pinDiscount = $("#pin_discount").val();
 

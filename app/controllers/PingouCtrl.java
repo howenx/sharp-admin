@@ -65,8 +65,6 @@ public class PingouCtrl extends Controller {
         if(json.has("pinCoupon")){
             pinCoupon = play.libs.Json.fromJson(json.findValue("pinCoupon"), PinCoupon.class);
         }
-        Inventory inventory = inventoryService.getMasterInventory(pinSku.getItemId());
-        pinSku.setInvId(inventory.getId());
         //pinSku.setPinDiscount(pinSku.getFloorPrice().divide(inventory.getItemSrcPrice(),2));
 
         pingouService.insertPinSku(pinSku,pinCoupon);
@@ -103,8 +101,14 @@ public class PingouCtrl extends Controller {
             if("Y".equals(pinSku.getStatus())){
                 object[4] = "正常";              //状态
             }
-            if("N".equals(pinSku.getStatus())){
+            if("".equals(pinSku.getStatus())){
                 object[4] = "下架";              //状态
+            }
+            if("N".equals(pinSku.getStatus())){
+                object[4] = "删除";              //状态
+            }
+            if("K".equals(pinSku.getStatus())){
+                object[4] = "售空";              //状态
             }
             if("P".equals(pinSku.getStatus())){
                 object[4] = "预售";              //状态
@@ -182,8 +186,6 @@ public class PingouCtrl extends Controller {
             pinCoupon.setMemberCouponQuota(0);
             pinCoupon.setMemberCouponStartAt(null);
         }
-        Inventory inventory = inventoryService.getInventory(pinSku.getInvId());
-        pinSku.setItemId(inventory.getItemId());
         JsonNode imgJson = Json.parse(pinSku.getPinImg());
         Object[] img = new Object[3];
         String imgUrl =  imgJson.get("url").toString();

@@ -72,9 +72,9 @@
 
         $("#sort").find("tr").each(function(){
             if($(this).find("th").length != 0 ){
-                $(this).find("th:eq(9)").css({"display":"none"});
+                $(this).find("th:eq(10)").css({"display":"none"});
             }else{
-                $(this).find("td:eq(9)").css({"display":"none"});
+                $(this).find("td:eq(10)").css({"display":"none"});
             }
         })
 
@@ -102,9 +102,9 @@
   		$(".add-goods").css({"display":""});
         $("#sort").find("tr").each(function(){
             if($(this).find("th").length != 0 ){
-                $(this).find("th:eq(9)").css({"display":""});
+                $(this).find("th:eq(10)").css({"display":""});
             }else{
-                $(this).find("td:eq(9)").css({"display":""});
+                $(this).find("td:eq(10)").css({"display":""});
             }
         })
         //主题主图
@@ -139,9 +139,9 @@
 
         $("#sort").find("tr").each(function(){
             if($(this).find("th").length != 0 ){
-                $(this).find("th:eq(9)").css({"display":"none"});
+                $(this).find("th:eq(10)").css({"display":"none"});
             }else{
-                $(this).find("td:eq(9)").css({"display":"none"});
+                $(this).find("td:eq(10)").css({"display":"none"});
             }
         })
 
@@ -499,14 +499,10 @@
                             <span class="glyphicon glyphicon-chevron-up"></span>
                             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
                         </th>
-                        <!--
-                        <th>
-                            商品名称
-                            <span class="glyphicon glyphicon-chevron-up"></span>
-                            <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
-                        <!--
-                        </th>
-                        -->
+                       <th>
+                           商品类型
+                           <span class="glyphicon glyphicon-chevron-up"></span>
+                       </th>
                         <th>
                             商品标题
                         </th>
@@ -541,11 +537,8 @@
                     @for(item <- itList){
                         <tr>
                             <td class="index">@item(8)</td>
-                            <!--<td>@if(item(8) == 1){<input type="radio" name="goods-main" checked>}
-                                @if(item(8) != 1){<input type="radio" name="goods-main">}
-                            </td>
-                            -->
                             <td>@item(0)</td>
+                            <td>@item(9)</td>
                             <td>@item(1)</td>
                             <td>
                                 <img class="main-img" src="@url@item(2)" alt="" width="50">
@@ -594,7 +587,7 @@
             </div>
             <div class="form-group">
 
-                <label class="col-sm-2 control-label">标签的商品ID:</label>
+                <label class="col-sm-2 control-label">商品SkuID:</label>
 
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="input_imgurl"  disabled>
