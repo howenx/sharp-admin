@@ -601,13 +601,12 @@ $(function(){
                         input.type = "hidden";
                         var url = "";
                         $(".templates-choose").find("li").each(function(){
-
+                            url = $(this).find("img").attr("src");
+                            input.id = url.substring(url.indexOf('/',url.indexOf('/')+2)+1);
                             if($(this).css("border-top-style") == "solid"){
                                  if($(this).find("input").length > 0){
                                      $(this).find("input").remove();
                                  }
-                                 url = $(this).find("img").attr("src");
-                                 input.id = url.substring(url.indexOf('/',url.indexOf('/')+2)+1);
                                  $(this).append(input);
                             }
                         })
