@@ -288,7 +288,7 @@ public class ItemCtrl extends Controller {
      */
 
     public Result itemAddPop() {
-        return ok(views.html.item.itemaddPop.render(carriageService.getModels(),ThemeCtrl.IMG_UPLOAD_URL));
+        return ok(views.html.item.itemaddPop.render(carriageService.getModels(),ThemeCtrl.IMG_UPLOAD_URL,ThemeCtrl.IMAGE_URL));
     }
 
     /**

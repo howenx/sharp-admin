@@ -24,17 +24,106 @@ function changeText(event,element){
     $(addText).appendTo($(element));
     addText.focus();
 }
-/******初始数据******/
-var option;
+
+/****** 初始化数据 ******/
+var option; //标识触发的按钮是添加还是编辑
 function Init () {
     var sharedObject = window.dialogArguments;
     option = sharedObject.obj;
-    if(option.tagName=="TD"){
-//        $("input[name=itemPrice]").val(sku.itemPrice);
+    //编辑操作,初始化,即把此行SKU数据显示在页面上
+    if(option.tagName=="SPAN"){
+        var skuObj = sharedObject.skuObj;
+        $("#index").val(sharedObject.index);
+        var colorCount = 1;
+        //itemColor值在现有值中,选中该值
+        $(".color").find("input").each(function() {
+            if ($(this).val()==skuObj.itemColor) {
+                $("input[name=itemColor][value='"+skuObj.itemColor+"']").attr("checked",true);
+                return false;
+            }
+            colorCount++;
+        });
+        //itemColor值不在现有值中,创建新选项
+        if (colorCount>$(".color").find("input").size()) {
+            $("<label class='radio-inline'>").html('<input type="radio" name="itemColor" checked="checked" value="'+skuObj.itemColor+'" /> <span>'+skuObj.itemColor+'</span>').appendTo($(".color"));
+        }
+        var sizeCount = 1;
+        //itemSize值在现有值中,选中该值
+        $(".size").find("input").each(function() {
+            if ($(this).val()==skuObj.itemSize) {
+                $("input[name=itemSize][value='"+skuObj.itemSize+"']").attr("checked",true);
+                return false;
+            }
+            sizeCount++;
+        });
+        //itemSize值不在现有值中,创建新选项
+        if (sizeCount>$(".size").find("input").size()) {
+            $("<label class='radio-inline'>").html('<input type="radio" name="itemSize" checked="checked" value="'+skuObj.itemSize+'" /> <span>'+skuObj.itemSize+'</span>').appendTo($(".size"));
+        }
+        $("#startAt").val(skuObj.startAt);
+        $("#endAt").val(skuObj.endAt);
+        $("#itemPrice").val(skuObj.itemPrice);
+        $("#itemSrcPrice").val(skuObj.itemSrcPrice);
+        $("#itemCostPrice").val(skuObj.itemCostPrice);
+        $("#itemDiscount").val(skuObj.itemDiscount);
+        $("#invWeight").val(skuObj.invWeight);
+        $("#restrictAmount").val(skuObj.restrictAmount);
+        $("#amount").val(skuObj.amount);
+        $("#restAmount").val(skuObj.restAmount);
+        $("#carriageModelCode").val(skuObj.carriageModelCode);
+        $("#invArea").val(skuObj.invArea);
+        $("#invCustoms").val(skuObj.invCustoms);
+        $("#rateSet").val(skuObj.rateSet);
+        if (skuObj.rateSet == "F") {
+            $("#postalTaxRate").val(0);
+            $("#postalTaxCode").val("");
+            $("#postalTaxRate").attr("readonly", true);
+            $("#postalTaxCode").attr("readonly", true);
+        }
+        if (skuObj.rateSet == "S") {
+            $("#postalTaxRate").val("");
+            $("#postalTaxCode").val("");
+            $("#postalTaxRate").attr("readonly", true);
+            $("#postalTaxCode").attr("readonly", false);
+        }
+        if (skuObj.rateSet == "D") {
+            $("#postalTaxRate").val("");
+            $("#postalTaxCode").val("");
+            $("#postalTaxRate").attr("readonly", false);
+            $("#postalTaxCode").attr("readonly", true);
+        }
+        $("#postalTaxRate").val(skuObj.postalTaxRate);
+        $("#postalTaxCode").val(skuObj.postalTaxCode);
+        $("#recordHZ").val(skuObj.recordHZ);
+        $("#recordGZ").val(skuObj.recordGZ);
+        $("#recordSH").val(skuObj.recordSH);
+        //填充sku主图
+        var invImg = JSON.parse(skuObj.invImg);
+        $("<div>").html('<img class="main-img" width="'+invImg.width+' height="'+invImg.height+'" src="'+window.imageUrl+invImg.url+'" ><button class="close"><span>&times;</span></button>').appendTo($("#galleryM"));
+        $("#M").parent().css("display","none");
+        //填充sku预览图
+        var itemPreviewImgs = JSON.parse(skuObj.itemPreviewImgs);
+        for(i=0;i<itemPreviewImgs.length;i++) {
+            $("<div>").html('<img class="main-img" width="'+itemPreviewImgs[i].width+' height="'+itemPreviewImgs[i].height+'" src="'+window.imageUrl+itemPreviewImgs[i].url+'" ><button class="close"><span>&times;</span></button>').appendTo($("#galleryP"));
+        }
+        if (itemPreviewImgs.length==6) $("#P").parent().css("display","none");
+        //填充多样化价格
+        $("#openVaryPrice").attr("checked",skuObj.orVaryPrice);
+        if (skuObj.orVaryPrice==false) {
+            $(".guige").removeClass("block");
+        }
+        var varyPriceArr = skuObj.varyPrice.split(",");
+        var priceAmountData = document.getElementById("varyPriceTab").getElementsByTagName("input");
+        for(v=0;v<varyPriceArr.length;v++) {
+            if (v<=1)
+                priceAmountData[v].value = varyPriceArr[v];
+            if (v>1 && v%2==0)
+                $("<tr>").html('<td><input type="text" name="price" value="'+varyPriceArr[v]+'"></td><td><input type="text" name="limitAmount" value="'+varyPriceArr[v+1]+'"></td><td class="del delTr">删除</td>').appendTo($(".guige"));
+        }
     }
 }
 
-/***** 保存当前 ******/
+/***** 保存当前按钮功能 ******/
 function saveCurr() {
     var orSave = true;
     var numberReg1 =    /^-?\d+$/;   //正整数
@@ -47,26 +136,25 @@ function saveCurr() {
     var trdobj = {};
     var itemColor = $("input[name=itemColor]:checked").val();//颜色
     var itemSize = $("input[name=itemSize]:checked").val();//尺寸
-    var startAt = $("input[name=startAt]").val();//开始时间
-    var endAt =  $("input[name=endAt]").val();//结束时间;
-    var itemPrice = $("input[name=itemPrice]").val();//现价;
-    var itemSrcPrice = $("input[name=itemSrcPrice]").val();//原价
-    var itemCostPrice = $("input[name=itemCostPrice]").val();//成本价
-    var itemDiscount = $("input[name=itemDiscount]").val();//折扣
-    var invWeight = $("input[name=invWeight]").val();//重量
-    var restrictAmount = $("input[name=restrictAmount]").val();//限购数量
-    var amount = $("input[name=amount]").val();//库存总量
-    var restAmount = $("input[name=restAmount]").val();//剩余库存
-    var carriageModelCode = $("select[name=carriageModelCode]").val();//运费设置
-    var invArea = $("select[name=invArea]").val();//库存区域
-    var invCustoms = $("select[name=invCustoms]").val();//报关单位
-    var rateSet = $("select[name=rateSet]").val();//税率设置
-    var postalTaxRate = $("input[name=postalTaxRate]").val();//税率
-    var postalTaxCode = $("input[name=postalTaxCode]").val();//行邮税号
-    var recordHZ = $("input[name=recordHZ]").val();//备案号:杭州
-    var recordGZ = $("input[name=recordGZ]").val();//备案号:广州
-    var recordSH = $("input[name=recordSH]").val();//备案号:上海
-     /*
+    var startAt = $("#startAt").val();//开始时间
+    var endAt =  $("#endAt").val();//结束时间;
+    var itemPrice = $("#itemPrice").val();//现价;
+    var itemSrcPrice = $("#itemSrcPrice").val();//原价
+    var itemCostPrice = $("#itemCostPrice").val();//成本价
+    var itemDiscount = $("#itemDiscount").val();//折扣
+    var invWeight = $("#invWeight").val();//重量
+    var restrictAmount = $("#restrictAmount").val();//限购数量
+    var amount = $("#amount").val();//库存总量
+    var restAmount = $("#restAmount").val();//剩余库存
+    var carriageModelCode = $("#carriageModelCode").val();//运费设置
+    var invArea = $("#invArea").val();//库存区域
+    var invCustoms = $("#invCustoms").val();//报关单位
+    var rateSet = $("#rateSet").val();//税率设置
+    var postalTaxRate = $("#postalTaxRate").val();//税率
+    var postalTaxCode = $("#postalTaxCode").val();//行邮税号
+    var recordHZ = $("#recordHZ").val();//备案号:杭州
+    var recordGZ = $("#recordGZ").val();//备案号:广州
+    var recordSH = $("#recordSH").val();//备案号:上海
     //验证输入数据合法性
     if (!numberReg2.test(itemPrice)=="" || !numberReg2.test(itemSrcPrice)=="" || !numberReg2.test(itemCostPrice)=="" || !numberReg2.test(itemDiscount)=="" || !numberReg1.test(invWeight)==""
         || !numberReg1.test(restrictAmount)=="" || !numberReg1.test(amount)=="" || !numberReg1.test(restAmount)=="" || carriageModelCode=="" || (recordHZ=="" && recordGZ=="" && recordSH=="")) {
@@ -74,9 +162,9 @@ function saveCurr() {
         alert("输入数据不合法!");
     }
     //上下架时间验证
-  if (startAt >= endAt) {
-       orSave = false;
-       $("#warn-date").html("日期不正确");
+    if (startAt >= endAt) {
+           orSave = false;
+           $("#warn-date").html("日期不正确");
     } else $("#warn-date").html("");
     //行邮税率设置 F免税:税率为0,行邮税号不设置; S标准税率:税率不设置,输入行邮税号(数字); D自定义税率:设置税率,行邮税号不设置
     if (rateSet == "") {
@@ -95,9 +183,8 @@ function saveCurr() {
             $("#warn-rate").text("税率为整数");
         } else $("#warn-rate").text("");
     }
-    else if (rateSet = "F") {}
+    else if (rateSet = "F") {$("#warn-rate").html("");}
     else  $("#warn-rate").html("");
-    */
     //sku主图
     var invImg = {};
     var mDiv = document.getElementById("galleryM").getElementsByTagName("div");
@@ -144,6 +231,7 @@ function saveCurr() {
     trdobj.carriageModelCode = carriageModelCode;
     trdobj.invArea = invArea;
     trdobj.invCustoms = invCustoms;
+    trdobj.rateSet = rateSet;
     trdobj.postalTaxRate = postalTaxRate;
     trdobj.postalTaxCode = postalTaxCode;
     trdobj.recordHZ = recordHZ;
@@ -166,8 +254,6 @@ function saveCurr() {
             varyPrice.push(limitAmount[i].value);
         }
         trdobj.varyPrice = varyPrice.toString();
-        console.log(trdobj.varyPrice);
-        console.log(trdobj.itemPreviewImgs);
     }
     else {
         trdobj.openVaryPrice = false;
@@ -175,6 +261,7 @@ function saveCurr() {
     }
     $("<td>").html('<input type="radio" name="orMasterInv" checked="checked" class="master-radio"/>').appendTo(trd);
     var count = 0;
+    //行数据,其余的隐藏
     for(var item in trdobj){
 //        if (count==0||count==1||count==4||count==13)
         $("<td>").html(trdobj[item]).appendTo(trd);
@@ -187,6 +274,7 @@ function saveCurr() {
     if($(option).hasClass("add-guige")){
         var trh = $("<tr>");
         $("<th>").html("设为主商品").appendTo(trh);
+        //表头,其余的表头项隐藏
         $(".thval").each(function(){
             var thName = $(this).html();
 //            if (thName=="颜色"||thName=="尺寸"||thName=="现价"||thName=="库存区域")
@@ -197,6 +285,8 @@ function saveCurr() {
         sharedObject.trh = trh;
     }
     sharedObject.trd = trd;
+    sharedObject.index = $("#index").val();
+    console.log(orSave);
     if (true) {
         if (window.showModalDialog) {
             window.returnValue = sharedObject;
@@ -207,7 +297,7 @@ function saveCurr() {
     }
 }
 
-/**** 保存并关闭 ****/
+/**** 保存并关闭按钮功能 ****/
 function saveClose() {
     saveCurr();
     window.close();
@@ -347,7 +437,7 @@ $(function(){
         http.send(formdata);
     }
 
-    /** 点击返回按钮,返回到商品录入页面 **/
+    /** 点击关闭窗口按钮,窗口关闭 **/
     $("#return").on("click", function() {
         window.close();
     });
@@ -376,15 +466,7 @@ $(function(){
         }
     });
 
-    $(document).on("click","input[name=color]",function(){
-        $(".color").find(":input").removeClass("vals");
-        $(this).addClass("vals");
-    });
-    $(document).on("click","input[name=size]",function(){
-        $(".size").find(":input").removeClass("vals");
-        $(this).addClass("vals");
-    });
-    /*********切换显示/隐藏table*********/
+    /*********切换显示/隐藏table 多样化价格*********/
     $(".YN").click(function(){
         $(".guige").toggleClass("block");
     });
@@ -393,6 +475,15 @@ $(function(){
 //        changeText(e,this);
 //    });
 
+    /**** 颜色尺寸设置 ****/
+    $(document).on("click","input[name=color]",function(){
+        $(".color").find(":input").removeClass("vals");
+        $(this).addClass("vals");
+    });
+    $(document).on("click","input[name=size]",function(){
+        $(".size").find(":input").removeClass("vals");
+        $(this).addClass("vals");
+    });
     $(document).on("dblclick",".color span",function(e){
         changeText(e,this);
     });

@@ -25,11 +25,42 @@
         var sharedObject = {};
         sharedObject.obj = obj;
         //编辑SKU
-        if(obj.tagName=="TD"){
+        if(obj.tagName=="SPAN"){
+            //index标识第几条sku
+            var index = $(table).find("tr").index($(obj).parent().parent());
             var trData = $(obj).parent().parent();
-            console.log(trData);
-            //var tdindex = $(table).find("tr").index($(obj).parent())-1;
-            //sharedObject.tdindex = tdindex;
+            var count = 0;
+            var skuObj = new Object();
+            trData.find("td").each(function(){
+                if (count==1) skuObj.itemColor = $(this).text();
+                if (count==2) skuObj.itemSize = $(this).text();
+                if (count==3) skuObj.startAt = $(this).text();
+                if (count==4) skuObj.endAt = $(this).text();
+                if (count==5) skuObj.itemPrice = $(this).text();
+                if (count==6) skuObj.itemSrcPrice = $(this).text();
+                if (count==7) skuObj.itemCostPrice = $(this).text();
+                if (count==8) skuObj.itemDiscount = $(this).text();
+                if (count==9) skuObj.invWeight = $(this).text();
+                if (count==10) skuObj.restrictAmount = $(this).text();
+                if (count==11) skuObj.amount = $(this).text();
+                if (count==12) skuObj.restAmount = $(this).text();
+                if (count==13) skuObj.carriageModelCode = $(this).text();
+                if (count==14) skuObj.invArea = $(this).text();
+                if (count==15) skuObj.invCustoms = $(this).text();
+                if (count==16) skuObj.rateSet = $(this).text();
+                if (count==17) skuObj.postalTaxRate = $(this).text();
+                if (count==18) skuObj.postalTaxCode = $(this).text();
+                if (count==19) skuObj.recordHZ = $(this).text();
+                if (count==20) skuObj.recordGZ = $(this).text();
+                if (count==21) skuObj.recordSH = $(this).text();
+                if (count==22) skuObj.invImg = $(this).text();
+                if (count==23) skuObj.itemPreviewImgs = $(this).text();
+                if (count==24) skuObj.orVaryPrice = $(this).text();
+                if (count==25) skuObj.varyPrice = $(this).text();
+                count++;
+            });
+            sharedObject.skuObj = skuObj;
+            sharedObject.index = index;
         }
         if (window.showModalDialog) {
             var retValue = showModalDialog("/comm/pop", sharedObject, "dialogWidth:1200px; dialogHeight:8900px; dialogLeft:300px;");
@@ -48,27 +79,22 @@
 
     function UpdateFields(obj){
         $(table).appendTo($(".sku-info"));
-        var objth = $(obj.trh).find("th");
-        var objtd = $(obj.trd).find("td");
         if($(table).find("th").length!==0){
-            var trd = $("<tr>").appendTo(table);
-            for(var i=0;i<objth.length;i++){
-//                if(objth[i].innerHTML=="颜色"||objth[i].innerHTML=="尺寸"||objth[i].innerHTML=="现价"||objth[i].innerHTML=="库存区域"){
-//                    $(objtd[i]).appendTo(trd);
-//                }
-                $(objtd[i]).appendTo(trd);
+            //编辑修改
+            if (obj.index!="") {
+                var index = obj.index;
+                var trIndex = table.find("tr").eq(index).html("");
+                var objTrd = $(obj.trd).find("td");
+                for(var i=0;i<objTrd.length;i++) {
+                    $(objTrd[i]).appendTo(trIndex);
+                }
             }
+            //添加一行sku
+            else $(obj.trd).appendTo(table);
         }else{
-            var trh = $("<tr>").appendTo(table);
-            var trd = $("<tr>").appendTo(table);
-            for(var i=0;i<objth.length;i++){
-//                if(objth[i].innerHTML=="颜色"||objth[i].innerHTML=="尺寸"||objth[i].innerHTML=="现价"||objth[i].innerHTML=="库存区域"){
-//                    $(objth[i]).appendTo(trh);
-//                    $(objtd[i]).appendTo(trd);
-//                }
-                $(objth[i]).appendTo(trh);
-                $(objtd[i]).appendTo(trd);
-            }
+            //添加第一行sku时添加表头
+            $(obj.trh).appendTo(table);
+            $(obj.trd).appendTo(table);
         }
     }
 
