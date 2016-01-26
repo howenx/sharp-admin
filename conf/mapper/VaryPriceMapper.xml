@@ -40,7 +40,7 @@
         <if test="id!=null and id!=''">
             and t.id = #{id}
         </if>
-        <if test="inv_id!=null and inv_id!=''">
+        <if test="invId!=null and invId!=''">
             and t.inv_id = #{invId}
         </if>
     </select>

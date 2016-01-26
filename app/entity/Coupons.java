@@ -16,7 +16,7 @@ public class Coupons implements Serializable {
     private BigDecimal limitQuota;//限制满多少才能使用
     private String CateNm;        //类别名称
     private Long userId;          //用户id
-    private Long cateId;          //类别id (153 化妆品类商品适用券，172 配饰类商品适用券, 165 服饰类商品适用券, 555 全场通用券, 777 新人优惠券, 211 指定商品适用券, 211 免邮券)
+    private Long cateId;          //类别id (153 化妆品类商品适用券，172 配饰类商品适用券, 165 服饰类商品适用券, 555 全场通用券, 777 新人优惠券, 211 指定商品适用券, 999 免邮券)
     private BigDecimal denomination;//面值
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp startAt;      //可使用开始时间

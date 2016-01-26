@@ -24539,11 +24539,14 @@ UE.plugin.register('simpleupload', function (){
                         var data = JSON.parse(http.responseText);
                         //上传商品详细图分割
                         var http2 = new XMLHttpRequest;
-                        var url2 = window.uploadURL+"/split/file/"+data.oss_url;
+                        var url2 = window.uploadURL+"/split/file";
 //                        alert(url2);
 
-                        http2.open("GET", url2, true);
-                        http2.onreadystatechange = setTimeout(function() {
+                        var formdata2 = new FormData();
+                        formdata2.append("fileName", data.oss_url);
+                        formdata2.append("prefix", "");
+                        http2.open("POST", url2, true);
+                        http2.onreadystatechange =function() {
                             if (http2.readyState == 4 && http2.status == 200) {
                                 var data2 = JSON.parse(http2.responseText);
                                 var array_oss_url = JSON.parse(data2.oss_url);
@@ -24553,8 +24556,8 @@ UE.plugin.register('simpleupload', function (){
                                 + ' <img src="' + data2.oss_prefix+array_oss_url[2] + '" width="100%" height="auto" style="margin-top:-4px;" >');
                             }
                             document.getElementById("mask").style.display = 'none';
-                        },5000);
-                        http2.send();
+                        };
+                        http2.send(formdata2);
                     }
                 }
                 http.send(formdata);

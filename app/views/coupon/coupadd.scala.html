@@ -212,7 +212,7 @@
 
         for(i=0;i<users.length;i++) {
             var coupon = new Object();
-            var userId = users[i].getElementsByTagName("td")[0].innerText;
+            var userId = users[i].getElementsByTagName("td")[1].innerText;
             coupon.cateId = cateId;
             if (cateId == 153) cateNm =  "化妆品类商品适用券";
             else if (cateId == 172) cateNm =  "配饰类商品适用券";
