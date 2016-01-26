@@ -69,7 +69,9 @@ $(function(){
     }
 
     $(document).on('click','.delTr',function(){
-        $(this).parent().parent().remove();
+        if (window.confirm("确定删除吗?")) {
+            $(this).parent().parent().remove();
+        }
     });
 
 //    /** 主题宣传图,点击移除的操作 **/
@@ -294,7 +296,7 @@ $(function(){
         var attrV = document.getElementsByName("attrV");
         var len = attrN.length;
         if (document.getElementById("tabFea").getElementsByTagName("tr").length>1 && attrN[len-1].value!="" && attrV[len-1].value!="") {
-            $("<tr>").html('<td><input type="text" name="attrN"/></td><td><input type="text" name="attrV"/></td><td class="del">'+$('#del').val()+'</td>').appendTo($(".feature"));
+            $("<tr>").html('<td><input type="text" name="attrN"/></td><td><input type="text" name="attrV"/></td><td class="del">删除</td>').appendTo($(".feature"));
         }
     });
 
@@ -347,7 +349,7 @@ $(function(){
 //        } else $("#warn-date").html("");
         var inventoryTab = document.getElementById("inventory");
         var trs = inventoryTab.getElementsByTagName("tr");
-        //追后一行的数据验证
+        //最后一行的数据验证
 //        var tds = trs[trs.length-1].getElementsByTagName("td");
         //验证输入的数量和价格等是否符合规则
 //        for(i=1;i<=9;i++) {
@@ -498,7 +500,7 @@ $(function(){
 //                isPost = false;
 //                $("#warn-num").text("请选择运费模板!");
 //            } else $("#warn-num").text("");
-            //行邮税率设置 F免税:税率为0,行邮税号不设置; S标准税率:税率不设置,选择行邮税号; D自定义税率:设置税率,行邮税号不设置
+            //行邮税率设置 F免税:税率为0,行邮税号不设置; S标准税率:税率不设置,输入行邮税号(数字); D自定义税率:设置税率,行邮税号不设置
 //            if (tRSet == "S") {
 //                if (!numberReg1.test(tds[13].getElementsByTagName("input")[0].value)) {
 //                    isPost = false;

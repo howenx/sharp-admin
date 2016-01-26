@@ -26,26 +26,40 @@ import java.util.Map;
  */
 public class ItemCtrl extends Controller {
 
-    @Inject
-    private ItemService service;
+//    @Inject
+    private ItemService itemService;
 
-    @Inject
+//    @Inject
     private ThemeService themeService;
 
-    @Inject
+//    @Inject
     private InventoryService inventoryService;
 
-    @Inject
+//    @Inject
     private CarriageService carriageService;
 
-    @Inject
+//    @Inject
     private VaryPriceService varyPriceService;
 
-    @Inject
+//    @Inject
     private DataLogService dataLogService;
 
-    @Inject
+//    @Inject
     private ItemStatisService itemStatisService;
+
+    private ItemMiddle itemMiddle;
+
+    @Inject
+    public ItemCtrl(ItemService itemService, ThemeService themeService, InventoryService inventoryService, CarriageService carriageService, VaryPriceService varyPriceService, DataLogService dataLogService, ItemStatisService itemStatisService) {
+        this.itemService = itemService;
+        this.themeService = themeService;
+        this.inventoryService = inventoryService;
+        this.carriageService = carriageService;
+        this.varyPriceService = varyPriceService;
+        this.dataLogService = dataLogService;
+        this.itemStatisService = itemStatisService;
+        itemMiddle = new ItemMiddle(itemService,inventoryService,varyPriceService,dataLogService,itemStatisService);
+    }
 
     /**
      * Ajax for get sub category.
@@ -59,7 +73,7 @@ public class ItemCtrl extends Controller {
         Long pcid = Long.parseLong(form.get("pcid"));
         HashMap<String, Long> hashMap = new HashMap<String, Long>();
         hashMap.put("parentCateId", pcid);
-        return ok(Json.toJson(service.getSubCates(hashMap)));
+        return ok(Json.toJson(itemService.getSubCates(hashMap)));
     }
 
     /**
@@ -76,7 +90,7 @@ public class ItemCtrl extends Controller {
         item.setOffset(-1);
 
         //取总数
-        int countNum = service.itemSearch(item).size();
+        int countNum = itemService.itemSearch(item).size();
         //共分几页
         int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
 
@@ -88,7 +102,7 @@ public class ItemCtrl extends Controller {
         item.setOffset(0);
 //        Logger.error("所有商品:"+service.itemSearch(item).toString());
 
-        return ok(views.html.item.itemsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,service.itemSearch(item),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,itemService.itemSearch(item),(User) ctx().args.get("user")));
     }
 
     /**
@@ -107,7 +121,7 @@ public class ItemCtrl extends Controller {
             item.setPageSize(-1);
             item.setOffset(-1);
             //取总数
-            int countNum = service.itemSearch(item).size();
+            int countNum = itemService.itemSearch(item).size();
             //共分几页
             int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
 
@@ -118,7 +132,7 @@ public class ItemCtrl extends Controller {
             item.setOffset(offset);
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
-            returnMap.put("topic",service.itemSearch(item));
+            returnMap.put("topic",itemService.itemSearch(item));
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
@@ -147,7 +161,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result itemCreate(String lang) {
-        return ok(views.html.item.itemadd.render(lang,service.getAllBrands(),service.getParentCates(),ThemeCtrl.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+        return ok(views.html.item.itemadd.render(lang,itemService.getAllBrands(),itemService.getParentCates(),ThemeCtrl.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
     /**
@@ -158,13 +172,13 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result findItemById(String lang,Long id) {
-        Item item = service.getItem(id);
-        Cates cates = service.getCate(item.getCateId());
+        Item item = itemService.getItem(id);
+        Cates cates = itemService.getCate(item.getCateId());
         String pCateNm = "";
         if(null != cates.getPcateId()) {
-            pCateNm = service.getCate(cates.getPcateId()).getCateNm();
+            pCateNm = itemService.getCate(cates.getPcateId()).getCateNm();
         } else pCateNm = cates.getCateNm();
-        Brands brands = service.getBrands(item.getBrandId());
+        Brands brands = itemService.getBrands(item.getBrandId());
         List<Inventory> inventories = inventoryService.getInventoriesByItemId(id);
         //包含modelName的库存列表
         List<Object[]> invList = new ArrayList<>();
@@ -206,16 +220,16 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result updateItemById(String lang,Long id) {
-        Item item = service.getItem(id);
+        Item item = itemService.getItem(id);
         //由商品类别id获取类别
-        Cates cates = service.getCate(item.getCateId());
+        Cates cates = itemService.getCate(item.getCateId());
         //父类别名称
         String pCateNm = "";
         if(null != cates.getPcateId()) {
-            pCateNm = service.getCate(cates.getPcateId()).getCateNm();
+            pCateNm = itemService.getCate(cates.getPcateId()).getCateNm();
         } else pCateNm = cates.getCateNm();
         //由商品品牌id获取品牌
-        Brands brands = service.getBrands(item.getBrandId());
+        Brands brands = itemService.getBrands(item.getBrandId());
         //由商品id获取库存列表
         List<Inventory> inventories = inventoryService.getInventoriesByItemId(id);
         //包含modelName的库存列表
@@ -250,7 +264,7 @@ public class ItemCtrl extends Controller {
             object[24] = inventory.getRecordCode();
             invList.add(object);
         }
-        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,service.getAllBrands(),service.getParentCates(),carriageService.getModels(),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,itemService.getAllBrands(),itemService.getParentCates(),carriageService.getModels(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -264,7 +278,7 @@ public class ItemCtrl extends Controller {
         String nickName = ((User) ctx().args.get("user")).nickname();
         JsonNode json = request().body().asJson();
 //        Logger.error(json.toString());
-        List<Long> list = ItemMiddle.itemSave(service, inventoryService, varyPriceService, dataLogService, itemStatisService, json, nickName, operateIp);
+        List<Long> list = ItemMiddle.itemSave(json, nickName, operateIp);
         return ok(list.toString());
     }
 
@@ -284,7 +298,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result carrCreate(String lang) {
-        return ok(views.html.item.carrmodelAdd.render(lang, (User) ctx().args.get("user")));
+        return ok(views.html.carriage.carrmodelAdd.render(lang, (User) ctx().args.get("user")));
     }
 
     /**
@@ -308,7 +322,7 @@ public class ItemCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result findModel(String lang,String modelCode) {
         List carrList = carriageService.getCarrsByModel(modelCode);
-        return ok(views.html.item.carrmodelUpdate.render(lang,carrList,(User) ctx().args.get("user")));
+        return ok(views.html.carriage.carrmodelUpdate.render(lang,carrList,(User) ctx().args.get("user")));
     }
 
     /**
@@ -331,12 +345,12 @@ public class ItemCtrl extends Controller {
     public Result carrModelSearch(String lang) {
         List<Carriage> modelList = carriageService.getModels();
         List<Carriage> carriageList = carriageService.getAllCarriage();
-        return ok(views.html.item.carrmodelList.render(lang,modelList,carriageList,(User) ctx().args.get("user")));
+        return ok(views.html.carriage.carrmodelList.render(lang,modelList,carriageList,(User) ctx().args.get("user")));
     }
 
 
     public Result carrPop() {
-            return ok(views.html.item.cityPop.render());
+            return ok(views.html.carriage.cityPop.render());
         }
 
 
@@ -347,7 +361,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result brandList(String lang){
-        return ok(views.html.item.brandsearch.render(lang,ThemeCtrl.IMAGE_URL,service.getAllBrands(),(User) ctx().args.get("user")));
+        return ok(views.html.item.brandsearch.render(lang,ThemeCtrl.IMAGE_URL,itemService.getAllBrands(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -369,7 +383,7 @@ public class ItemCtrl extends Controller {
     public Result brandSave(String lang){
         JsonNode json = request().body().asJson();
         Logger.error(json.toString());
-        service.insertBrands(json);
+        itemService.insertBrands(json);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
@@ -381,7 +395,7 @@ public class ItemCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result cateList(String lang){
 
-        List<Cates> catesList= service.getCatesAll();
+        List<Cates> catesList= itemService.getCatesAll();
         //含有父类名的分类列表
         List<Object[]> caList = new ArrayList<>();
         for(Cates cates : catesList){
@@ -389,8 +403,8 @@ public class ItemCtrl extends Controller {
             object[0] = cates.getCateId();          //类别名
             object[1] = cates.getCateNm();          //父类Id
             object[2] = cates.getPcateId();         //父类名
-            if(service.getCate(cates.getPcateId()) != null) {
-                object[3] = service.getCate(cates.getPcateId()).getCateNm();//类别描述
+            if(itemService.getCate(cates.getPcateId()) != null) {
+                object[3] = itemService.getCate(cates.getPcateId()).getCateNm();//类别描述
             }else{
                 object[3] = "";//类别描述
             }
@@ -408,7 +422,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result cateAdd(String lang){
-        return ok(views.html.item.cateadd.render(lang,service.getParentCates(),(User) ctx().args.get("user")));
+        return ok(views.html.item.cateadd.render(lang,itemService.getParentCates(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -420,7 +434,7 @@ public class ItemCtrl extends Controller {
     public Result cateSave(String lang){
         JsonNode json = request().body().asJson();
         Logger.error(json.toString());
-        service.catesSave(json);
+        itemService.catesSave(json);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 

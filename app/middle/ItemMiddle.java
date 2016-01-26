@@ -20,6 +20,20 @@ import java.util.List;
  */
 public class ItemMiddle {
 
+    public static ItemService itemService;
+    public static InventoryService inventoryService;
+    public static VaryPriceService varyPriceService;
+    public static DataLogService dataLogService;
+    public static ItemStatisService itemStatisService;
+
+    public ItemMiddle(ItemService itemService, InventoryService inventoryService, VaryPriceService varyPriceService, DataLogService dataLogService, ItemStatisService itemStatisService) {
+        this.itemService = itemService;
+        this.inventoryService = inventoryService;
+        this.varyPriceService = varyPriceService;
+        this.dataLogService = dataLogService;
+        this.itemStatisService = itemStatisService;
+    }
+
     /**
      * 录入或更新商品信息和库存信息, 同时录入日志信息
      * @param json 商品和库存信息json串
@@ -27,7 +41,7 @@ public class ItemMiddle {
      * @param operateIp 操作人员ip
      * @return
      */
-    public static List<Long> itemSave(ItemService itemService, InventoryService inventoryService, VaryPriceService varyPriceService, DataLogService dataLogService, ItemStatisService itemStatisService, JsonNode json, String nickName, String operateIp) {
+    public static List<Long> itemSave(JsonNode json, String nickName, String operateIp) {
         List<Long> list = new ArrayList<>();
         Item item = new Item();
         //日志信息
@@ -88,9 +102,9 @@ public class ItemMiddle {
                 Inventory inventory = new Inventory();
                 if (jsonNode.has("inventory")) {
                     JsonNode jsonInv = json.findValue("inventory");
-                    if (jsonInv.has("itemPreviewImgs")) {
-                        ((ObjectNode) jsonInv).put("itemPreviewImgs",jsonInv.findValue("itemPreviewImgs").toString());
-                    }
+//                    if (jsonInv.has("itemPreviewImgs")) {
+//                        ((ObjectNode) jsonInv).put("itemPreviewImgs",jsonInv.findValue("itemPreviewImgs").toString());
+//                    }
                     if (jsonInv.has("recordCode")) {
                         ((ObjectNode) jsonInv).put("recordCode",jsonInv.findValue("recordCode").toString());
                     }
