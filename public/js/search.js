@@ -462,5 +462,13 @@ $(function() {
 		}
 		$(".grid input[type=radio]:checked").parents("tr").index=0;
 		$(".grid input[type=radio]:checked").parents("tr").appendTo(".grid thead");
+	});
+	/******选择商品*******/
+	$(".chooseGood li").click(function(){
+		$(".chooseGood li").css("background","none");
+		$(this).css("background","#337ab7");
+		var index = $(this).index(".chooseGood li");
+		$("table.table").css("display","none");
+		$("table.table").eq(index).css("display","table");
 	})
 })

@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="/assets/css/slider.css">
 <link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
 <script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
@@ -68,6 +69,7 @@
             }
         })
         $(".add-level").css("display","none");          //添加价格
+        $("#pin_discount").attr("disabled",true);     //最低折扣率
         $(":radio").attr("disabled",true);              //优惠券的'radio'
         $(".tz").find("select").attr("disabled",true);  //团长优惠券类别
         $(".tz").find("input").attr("disabled",true);   //团长优惠券填写框
@@ -209,6 +211,12 @@
                     </div>
                     <div class="col-sm-2">
                         <button type="button" class="btn btn-primary btn-xm addPriceLevel">添加</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">最低折扣率:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="pin_discount" value="@pinSku.getPinDiscount()">
                     </div>
                 </div>
                 <hr/>
