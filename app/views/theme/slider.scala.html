@@ -7,12 +7,13 @@
     <script src="/assets/js/slider.js"></script>
     <script>
         function UpdateFields(obj) {
-            var id = obj.id;
+            var itemId = obj.itemId;
+            var skuId = obj.skuId;
             var targetType = obj.targetType;
             var $obj = obj;
             var itemTarget = "";
             if(targetType=="D") {
-                itemTarget = "/comm/detail/"+id;
+                itemTarget = "/comm/detail/"+itemId+"/"+skuId;
             }
             if(targetType=="T") {
                 itemTarget = "/topic/list/"+id;
