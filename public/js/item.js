@@ -480,18 +480,18 @@ $(function(){
             var carriageModelCode = tds[13].innerHTML;
             var invArea = tds[14].innerHTML;
             var invCustoms = tds[15].innerHTML;
-            var postalTaxRate = tds[16].innerHTML;
-            var postalTaxCode = tds[17].innerHTML;
-            var recordHZ = tds[18].innerHTML;
-            var recordGZ = tds[19].innerHTML;
-            var recordSH = tds[20].innerHTML;
+            var postalTaxRate = tds[17].innerHTML;
+            var postalTaxCode = tds[18].innerHTML;
+            var recordHZ = tds[19].innerHTML;
+            var recordGZ = tds[20].innerHTML;
+            var recordSH = tds[21].innerHTML;
             var recordCode = {};
             if(recordHZ!="") recordCode["hangzhou"] = recordHZ;
             if(recordGZ!="") recordCode["guangzhou"] = recordGZ;
             if(recordSH!="") recordCode["shanghai"] = recordSH;
-            var invImg = tds[21].innerHTML;
-            var itemPreviewImgs = tds[22].innerHTML;
-            var orVaryPrice = tds[23].innerHTML;
+            var invImg = tds[22].innerHTML;
+            var itemPreviewImgs = tds[23].innerHTML;
+            var orVaryPrice = tds[24].innerHTML;
 //            if($("#itemId").val() == "" && tRSet=="") {
 //                isPost = false;
 //                $("#warn-num").text("请选择税率设置!");
@@ -590,7 +590,7 @@ $(function(){
             inventory.orVaryPrice = orVaryPrice;
             invData.inventory = inventory;
             if (orVaryPrice) {
-                var vp_arr = tds[24].innerHTML.split(",");
+                var vp_arr = tds[25].innerHTML.split(",");
                 for(v=0;v<vp_arr.length;v++) {
                     if (v%2==0) {
                         var varyPrice = new Object();
