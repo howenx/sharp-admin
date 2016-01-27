@@ -19,7 +19,7 @@ public class GetLogistics {
     public static List<Object[]> sendGet(String expNum){
         String url = "http://www.baidu.com/";    //请求地址
 
-        Map<String,String> params = new HashMap();  //参数
+        Map<String,String> params = new HashMap<>();  //参数
         params.put("appname","");   //商户名称
         params.put("appid","");     //威盛快递分配给商户的ID
         params.put("TrackingID",expNum);//威盛快递单号

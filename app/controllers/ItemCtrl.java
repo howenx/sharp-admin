@@ -314,7 +314,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result findModel(String lang,String modelCode) {
-        List carrList = carriageService.getCarrsByModel(modelCode);
+        List<Carriage> carrList = carriageService.getCarrsByModel(modelCode);
         return ok(views.html.carriage.carrmodelUpdate.render(lang,carrList,(User) ctx().args.get("user")));
     }
 
