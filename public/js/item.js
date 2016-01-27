@@ -670,7 +670,8 @@ $(function(){
                         setTimeout("location.href='/"+window.lang+"/comm/search'", 3000);
                     }
                     //商品录入, 成功后返回到商品录入页面
-                    else setTimeout("location.href='/"+window.lang+"/comm/add'", 3000);
+                    else {}
+//                    setTimeout("location.href='/"+window.lang+"/comm/add'", 3000);
                 }
             });
         }

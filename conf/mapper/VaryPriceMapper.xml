@@ -8,6 +8,7 @@
     <sql id="varyPriceColumns">
         ${alias}.id,
         ${alias}.inv_id,
+        ${alias}.theme_id,
         ${alias}.price,
         ${alias}.sold_amount,
         ${alias}.limit_amount,
@@ -17,16 +18,16 @@
     <!-- 录入一条多样化价格信息 -->
     <insert id="insertVaryPrice" parameterType="entity.VaryPrice" useGeneratedKeys="true" keyProperty="id">
         insert into vary_price
-        (inv_id,price,sold_amount,limit_amount,status)
+        (inv_id,theme_id,price,sold_amount,limit_amount,status)
         values
-        (#{invId}, #{price}, 0, #{limitAmount}, #{status})
+        (#{invId}, #{themeId}, #{price}, 0, #{limitAmount}, #{status})
     </insert>
 
     <!-- 更新一条多样化价格信息 -->
     <update id="updateVaryPrice" parameterType="entity.VaryPrice">
         update vary_price
         set
-        inv_id=#{invId}, price=#{price}, sold_amount=#{soldAmount}, limit_amount=#{limitAmount}, status=#{status}
+        inv_id=#{invId}, theme_id=#{themeId}, price=#{price}, sold_amount=#{soldAmount}, limit_amount=#{limitAmount}, status=#{status}
         where id = #{id}
     </update>
 

@@ -99,12 +99,12 @@ function Init () {
         $("#recordSH").val(skuObj.recordSH);
         //填充sku主图
         var invImg = JSON.parse(skuObj.invImg);
-        $("<div>").html('<img class="main-img" width="'+invImg.width+' height="'+invImg.height+'" src="'+window.imageUrl+invImg.url+'" ><button class="close"><span>&times;</span></button>').appendTo($("#galleryM"));
+        $("<div>").html('<img class="main-img" width="'+invImg.width+'" height="'+invImg.height+'" src="'+window.imageUrl+invImg.url+'" ><button class="close"><span>&times;</span></button>').appendTo($("#galleryM"));
         $("#M").parent().css("display","none");
         //填充sku预览图
         var itemPreviewImgs = JSON.parse(skuObj.itemPreviewImgs);
         for(i=0;i<itemPreviewImgs.length;i++) {
-            $("<div>").html('<img class="main-img" width="'+itemPreviewImgs[i].width+' height="'+itemPreviewImgs[i].height+'" src="'+window.imageUrl+itemPreviewImgs[i].url+'" ><button class="close"><span>&times;</span></button>').appendTo($("#galleryP"));
+            $("<div>").html('<img class="main-img" width="'+itemPreviewImgs[i].width+'" height="'+itemPreviewImgs[i].height+'" src="'+window.imageUrl+itemPreviewImgs[i].url+'" ><button class="close"><span>&times;</span></button>').appendTo($("#galleryP"));
         }
         if (itemPreviewImgs.length==6) $("#P").parent().css("display","none");
         //填充多样化价格
@@ -156,8 +156,8 @@ function saveCurr() {
     var recordGZ = $("#recordGZ").val();//备案号:广州
     var recordSH = $("#recordSH").val();//备案号:上海
     //验证输入数据合法性
-    if (!numberReg2.test(itemPrice)=="" || !numberReg2.test(itemSrcPrice)=="" || !numberReg2.test(itemCostPrice)=="" || !numberReg2.test(itemDiscount)=="" || !numberReg1.test(invWeight)==""
-        || !numberReg1.test(restrictAmount)=="" || !numberReg1.test(amount)=="" || !numberReg1.test(restAmount)=="" || carriageModelCode=="" || (recordHZ=="" && recordGZ=="" && recordSH=="")) {
+    if (!numberReg2.test(itemPrice) || !numberReg2.test(itemSrcPrice) || !numberReg2.test(itemCostPrice)|| !numberReg2.test(itemDiscount) || !numberReg1.test(invWeight)
+        || !numberReg1.test(restrictAmount) || !numberReg1.test(amount) || !numberReg1.test(restAmount) || carriageModelCode=="" || (recordHZ=="" && recordGZ=="" && recordSH=="")) {
         orSave = false;
         alert("输入数据不合法!");
     }

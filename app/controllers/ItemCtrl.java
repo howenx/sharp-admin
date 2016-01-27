@@ -26,25 +26,18 @@ import java.util.Map;
  */
 public class ItemCtrl extends Controller {
 
-//    @Inject
     private ItemService itemService;
 
-//    @Inject
     private ThemeService themeService;
 
-//    @Inject
     private InventoryService inventoryService;
 
-//    @Inject
     private CarriageService carriageService;
 
-//    @Inject
     private VaryPriceService varyPriceService;
 
-//    @Inject
     private DataLogService dataLogService;
 
-//    @Inject
     private ItemStatisService itemStatisService;
 
     private ItemMiddle itemMiddle;
