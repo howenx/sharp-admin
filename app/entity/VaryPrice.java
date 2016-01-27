@@ -12,10 +12,11 @@ public class VaryPrice implements Serializable {
 
     private Long id;                //主键id
     private Long invId;             //库存Id
+    private Long themeId;           //主题Id(可多个)
     private BigDecimal price;       //销售价
     private Integer soldAmount;     //售出数量
     private Integer limitAmount;    //限制销售数量
-    private String status;          //状态(Y-正常，N-下架)
+    private String status;          //状态('Y'--正常,'D'--下架,'N'--删除,'K'--售空，'P'--预售)
 
     public VaryPrice() {
     }
@@ -25,11 +26,22 @@ public class VaryPrice implements Serializable {
         return "VaryPrice{" +
                 "id=" + id +
                 ", invId=" + invId +
+                ", themeId=" + themeId +
+                ", price=" + price +
                 ", soldAmount=" + soldAmount +
                 ", limitAmount=" + limitAmount +
-                ", price=" + price +
                 ", status='" + status + '\'' +
                 '}';
+    }
+
+    public VaryPrice(Long id, Long invId, Long themeId, BigDecimal price, Integer soldAmount, Integer limitAmount, String status) {
+        this.id = id;
+        this.invId = invId;
+        this.themeId = themeId;
+        this.price = price;
+        this.soldAmount = soldAmount;
+        this.limitAmount = limitAmount;
+        this.status = status;
     }
 
     public Long getId() {
@@ -80,13 +92,11 @@ public class VaryPrice implements Serializable {
         this.status = status;
     }
 
-    public VaryPrice(Long id, Long invId, Integer soldAmount, Integer limitAmount, BigDecimal price, String status) {
+    public Long getThemeId() {
+        return themeId;
+    }
 
-        this.id = id;
-        this.invId = invId;
-        this.soldAmount = soldAmount;
-        this.limitAmount = limitAmount;
-        this.price = price;
-        this.status = status;
+    public void setThemeId(Long themeId) {
+        this.themeId = themeId;
     }
 }
