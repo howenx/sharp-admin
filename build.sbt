@@ -38,5 +38,6 @@ libraryDependencies += "org.apache.poi" % "poi-ooxml" % "3.13" withSources() wit
 
 // 检查代码中使用的过时类细节
 javacOptions += "-Xlint:deprecation"
+javacOptions += "-Xlint:unchecked"
 //  javacOptions ++= Seq("-source", "1.8", "-target", "1.8","-deprecation")
 scalacOptions ++= Seq("-unchecked", "-deprecation","-feature")
