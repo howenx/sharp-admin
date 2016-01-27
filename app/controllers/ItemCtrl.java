@@ -26,25 +26,25 @@ import java.util.Map;
  */
 public class ItemCtrl extends Controller {
 
-//    @Inject
+    //    @Inject
     private ItemService itemService;
 
-//    @Inject
+    //    @Inject
     private ThemeService themeService;
 
-//    @Inject
+    //    @Inject
     private InventoryService inventoryService;
 
-//    @Inject
+    //    @Inject
     private CarriageService carriageService;
 
-//    @Inject
+    //    @Inject
     private VaryPriceService varyPriceService;
 
-//    @Inject
+    //    @Inject
     private DataLogService dataLogService;
 
-//    @Inject
+    //    @Inject
     private ItemStatisService itemStatisService;
 
     private ItemMiddle itemMiddle;
@@ -288,7 +288,7 @@ public class ItemCtrl extends Controller {
      */
 
     public Result itemAddPop() {
-        return ok(views.html.item.itemaddPop.render(carriageService.getModels(),ThemeCtrl.IMG_UPLOAD_URL,ThemeCtrl.IMAGE_URL));
+        return ok(views.html.item.itemaddPop.render(carriageService.getModels(),ThemeCtrl.IMG_UPLOAD_URL));
     }
 
     /**
@@ -350,8 +350,8 @@ public class ItemCtrl extends Controller {
 
 
     public Result carrPop() {
-            return ok(views.html.carriage.cityPop.render());
-        }
+        return ok(views.html.carriage.cityPop.render());
+    }
 
 
     /**
