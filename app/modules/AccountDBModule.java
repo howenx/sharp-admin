@@ -34,12 +34,7 @@ public class AccountDBModule extends PrivateModule {
                 bindDataSourceProviderType(AccountDataSourceProvider.class);
                 bindTransactionFactoryType(JdbcTransactionFactory.class);
 
-                //只针对style数据库的Mapper,不可以将一个Mapper多Module进行Add
-//                addMapperClass(BrandsMapper.class);
-//                addMapperClass(CatesMapper.class);
-//                addMapperClass(ProductsMapper.class);
-//                addMapperClass(ThemeMapper.class);
-//                addMapperClass(StockMapper.class);
+                //只针对account数据库的Mapper,不可以将一个Mapper多Module进行Add
                 addMapperClass(IDMapper.class);
                 addMapperClass(AdminUserMapper.class);
                 addMapperClass(IDAdminMapper.class);
@@ -55,16 +50,14 @@ public class AccountDBModule extends PrivateModule {
         /**
          * bind service for controller or other service inject. 绑定account数据库所对应的Service
          */
-//        bind(ProdService.class).to(ProdServiceImpl.class);
-//        bind(ThemeService.class).to(ThemeServiceImpl.class);
         bind(IDService.class).to(IDServiceImpl.class);
         bind(AdminUserService.class).to(AdminUserServiceImpl.class);
         bind(IDAdminService.class).to(IDAdminServiceImpl.class);
 
         //必须expose
-//        expose(ThemeService.class);
-//        expose(ProdService.class);
         expose(IDService.class);
+        expose(AdminUserService.class);
+        expose(IDAdminService.class);
     }
 
     @Singleton

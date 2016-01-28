@@ -115,22 +115,4 @@ class Auth @Inject() (val messagesApi: MessagesApi) extends Controller with Secu
   }
   }
 
-  /**
-    * 注册            Added By Sunny.Wu   2016/01/27
-    * @return views
-    */
-  def register = Action { implicit  request => {
-    val bind_form = login_form.bind(Map("name"->"","passwd"->""))
-
-    val lang = request.getQueryString("lang") match {
-      case Some(l) =>
-        Lang.apply(l)
-      case l =>
-        Lang.preferred(request.acceptLanguages)
-    }
-
-    Ok(views.html.login(bind_form)).withLang(lang)
-  }
-  }
-
 }
