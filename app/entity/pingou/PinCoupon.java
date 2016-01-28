@@ -25,12 +25,12 @@ public class PinCoupon implements Serializable {
     private String memberCouponClass;       //团员返券类别
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp memberCouponStartAt;  //团员优惠券开始时间
-    private Long pinId;                     //拼购活动ID
+    private Long pinActiveId;                     //拼购活动ID
 
     public PinCoupon() {
     }
 
-    public PinCoupon(Long id, Timestamp memberCouponEndAt, int memberCouponQuota, int masterCoupon, String masterCouponClass, Timestamp masterCouponStartAt, Timestamp masterCouponEndAt, int masterCouponQuota, int memberCoupon, String memberCouponClass, Timestamp memberCouponStartAt, Long pinId) {
+    public PinCoupon(Long id, Timestamp memberCouponEndAt, int memberCouponQuota, int masterCoupon, String masterCouponClass, Timestamp masterCouponStartAt, Timestamp masterCouponEndAt, int masterCouponQuota, int memberCoupon, String memberCouponClass, Timestamp memberCouponStartAt, Long pinActiveId) {
         this.id = id;
         this.memberCouponEndAt = memberCouponEndAt;
         this.memberCouponQuota = memberCouponQuota;
@@ -42,7 +42,7 @@ public class PinCoupon implements Serializable {
         this.memberCoupon = memberCoupon;
         this.memberCouponClass = memberCouponClass;
         this.memberCouponStartAt = memberCouponStartAt;
-        this.pinId = pinId;
+        this.pinActiveId = pinActiveId;
     }
 
     @Override
@@ -59,9 +59,10 @@ public class PinCoupon implements Serializable {
                 ", memberCoupon=" + memberCoupon +
                 ", memberCouponClass='" + memberCouponClass + '\'' +
                 ", memberCouponStartAt=" + memberCouponStartAt +
-                ", pinId=" + pinId +
+                ", pinActiveId=" + pinActiveId +
                 '}';
     }
+
 
     public Long getId() {
         return id;
@@ -151,11 +152,11 @@ public class PinCoupon implements Serializable {
         this.memberCouponStartAt = memberCouponStartAt;
     }
 
-    public Long getPinId() {
-        return pinId;
+    public Long getPinActiveId() {
+        return pinActiveId;
     }
 
-    public void setPinId(Long pinId) {
-        this.pinId = pinId;
+    public void setPinActiveId(Long pinActiveId) {
+        this.pinActiveId = pinActiveId;
     }
 }

@@ -1,5 +1,5 @@
 /*上传背景图*/
-var templates_img = $(".temp-img").parents("ul").find("li:nth-child(1)").children();
+var templates_img = $(".temp-img").parents("ul").find("li:nth-child(1)").children(".temp-img");
 var temp_img = $(".temp-img").parents("ul").find("li:nth-child(1)").children().find("img");
 var temp_index = 0;
 var drag_img_index,
@@ -527,7 +527,7 @@ $(function(){
         $(".templates-choose li").css("border","none");
         $(this).css("border","1px solid #ccc");
         /****保存对象****/
-        templates_img = $(".temp-img").parents("ul").find("li:nth-child("+(temp_index+1)+")").children();
+        templates_img = $(".temp-img").parents("ul").find("li:nth-child("+(temp_index+1)+")").children(".temp-img");
         temp_img = $(templates_img).find("img");
     });
     /*********新增模版**********/
@@ -581,18 +581,17 @@ $(function(){
     //生成图片    Added by Tiffany Zhu
             $("#createImg").click(function(){
                     var isPost = true;
-                    var width = $(".templates").find("li:visible").find(".temp-img").width();
+                    var width = $(".templates").find("li:visible").find(".temp-img").css("width");
+                    width = width.replace("px","");
                     var height = $(".templates").find("li:visible").find(".temp-img").height();
                     var html = $(".templates").find("li:visible").find(".temp-img").prop("outerHTML");
                     //alert("html:" + html);
                     //alert("图片宽度:" + width + "图片高度:" + height );
-
                     if(html == null || html == ""){
                         isPost = false;
                         alert("请添加模板!");
                         return false;
                     }
-
                     //只上传一张图片,没有添加其他
                     if($(".templates").find("li:visible").find(".temp-img").children().length == 1){
                         isPost = false;
@@ -601,16 +600,17 @@ $(function(){
                         input.type = "hidden";
                         var url = "";
                         $(".templates-choose").find("li").each(function(){
-                            url = $(this).find("img").attr("src");
-                            input.id = url.substring(url.indexOf('/',url.indexOf('/')+2)+1);
+
                             if($(this).css("border-top-style") == "solid"){
+                                 url = $(this).find("img").attr("src");
+                                 input.id = url.substring(url.indexOf('/',url.indexOf('/')+2)+1);
                                  if($(this).find("input").length > 0){
                                      $(this).find("input").remove();
                                  }
                                  $(this).append(input);
                             }
                         })
-                        window.open(url,"_blank");
+                        window.open(window.uploaded + input.id,"_blank");
                     }
 
                      if(isPost){
@@ -637,8 +637,8 @@ $(function(){
                                          $(this).append(input);
                                     }
                                 })
-                                window.open(data.shot_url,'_blank');
-                                //window.open(data.oss_prefix + data.oss_url,'_blank');
+                                //window.open(data.shot_url,'_blank');
+                                window.open(data.oss_prefix + data.oss_url,'_blank');
                             },
                             error: function(data, error, errorThrown) {
                                 if (data.status && data.status >= 400) {

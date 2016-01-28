@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
 <link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/pinSku.css">
 <script src="/assets/js/jquery.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/moment-with-locales.js"></script>
@@ -108,39 +109,58 @@
                 </div>
                 <hr/>
                 <h4 class="h4-custom-hmm">价格阶梯</h4>
-                <div class="form-group">
-                    <div class="col-sm-offset-1 col-sm-10">
-                        <table class="table table-bordered pingou">
-                            <tr>
-                                <th>编号</th>
-                                <th>拼购人数</th>
-                                <th>拼购价格</th>
-                                <th>删除</th>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">拼购人数:</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control">
-                    </div>
-                    <label class="col-sm-1 control-label" style="padding-left: 0">拼购价格:</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-primary btn-xm addPriceLevel">添加</button>
-                    </div>
-                </div>
-                <div class="form-group">
+                <div class="form-group" style="width:100%">
                     <label class="col-sm-2 control-label">最低折扣率:</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control" id="pin_discount">
                     </div>
                 </div>
-                <hr/>
-                <h4 class="h4-custom-hmm">优惠券</h4>
+                <div class="form-group">
+                    <div style="overflow: auto;">
+                    <div class="col-sm-offset-1 col-sm-10" style="margin: 0;padding: 0;">
+                        <table class="table table-bordered pingou">
+                            <tr>
+                                <th>编号</th>
+                                <th>拼购人数</th>
+                                <th>拼购价格(元)</th>
+                                <th>团长减价(元)</th>
+                                <th>团员减价(元)</th>
+                                <th>团长-类别</th>
+                                <th>团长-限额</th>
+                                <th>团长-面值</th>
+                                <th>团长-开始日期</th>
+                                <th>团长-结束日期</th>
+                                <th>团员-类别</th>
+                                <th>团员-限额</th>
+                                <th>团员-面值</th>
+                                <th>团员-开始日期</th>
+                                <th>团员-结束日期</th>
+                                <th>删除</th>
+                            </tr>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">拼购人数:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="peopleNum">
+                    </div>
+                    <label class="col-sm-1 control-label" style="padding-left: 0">拼购价格:</label>
+                    <div class="col-sm-3">
+                        <input type="text" id="price"  class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">团长减价:</label>
+                    <div class="col-sm-3">
+                        <input type="text" id="masterMin" class="form-control">
+                    </div>
+                    <label class="col-sm-1 control-label" style="padding-left: 0">团员减价:</label>
+                    <div class="col-sm-3">
+                        <input type="text" id="memberMin" class="form-control">
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">团长:</label>
                     <div class="col-sm-3">
@@ -195,17 +215,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">团员:</label>
-                    <div class="col-sm-3">
-                        <label class="radio-inline">
-                            <input type="radio" name="tyyhj" value="ty-yes" checked> 发放优惠券
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="tyyhj" value="ty-no"> 不发放优惠券
-                        </label>
-                    </div>
+               <div class="form-group">
+
+                   <label class="col-sm-2 control-label">团员:</label>
+                   <div class="col-sm-3">
+                       <label class="radio-inline">
+                           <input type="radio" name="tyyhj" value="ty-yes" checked> 发放优惠券
+                       </label>
+                       <label class="radio-inline">
+                           <input type="radio" name="tyyhj" value="ty-no"> 不发放优惠券
+                       </label>
+                   </div>
                 </div>
+
                 <div class="form-group ty">
                     <label class="col-sm-2 control-label">优惠券类别:</label>
                     <div class="col-sm-3">
@@ -249,6 +271,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-primary btn-xm addPriceLevel" style="margin-left: 800px;">添加</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -260,5 +287,5 @@
         <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
 </div>
-<
+
 }

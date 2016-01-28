@@ -1,24 +1,19 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import entity.Inventory;
-import entity.Order;
-import entity.Theme;
 import entity.User;
 import entity.pingou.PinCoupon;
 import entity.pingou.PinSku;
+import entity.pingou.PinTieredPrice;
 import play.Logger;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
 import play.mvc.Controller;
-
 import play.mvc.Result;
 import play.mvc.Security;
 import service.InventoryService;
 import service.PingouService;
-import service.ThemeService;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,17 +52,7 @@ public class PingouCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result pingouSave(String lang){
         JsonNode json = request().body().asJson();
-        PinSku pinSku = new PinSku();
-        PinCoupon pinCoupon = new PinCoupon();
-        if(json.has("pinSku")){
-            pinSku = play.libs.Json.fromJson(json.findValue("pinSku"), PinSku.class);
-        }
-        if(json.has("pinCoupon")){
-            pinCoupon = play.libs.Json.fromJson(json.findValue("pinCoupon"), PinCoupon.class);
-        }
-        //pinSku.setPinDiscount(pinSku.getFloorPrice().divide(inventory.getItemSrcPrice(),2));
-
-        pingouService.insertPinSku(pinSku,pinCoupon);
+        pingouService.pinSkuSave(json);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
@@ -169,42 +154,39 @@ public class PingouCtrl extends Controller {
     public Result getPinSkuById(String lang,Long pinId){
 
         PinSku pinSku = pingouService.getPinSkuById(pinId);
-        PinCoupon pinCoupon = pingouService.getCouponByPinId(pinId);
-        if(pinCoupon == null){
-            pinCoupon = new PinCoupon();
-            pinCoupon.setId(null);
-            //团长
-            pinCoupon.setMasterCoupon(0);
-            pinCoupon.setMasterCouponClass(null);
-            pinCoupon.setMasterCouponEndAt(null);
-            pinCoupon.setMasterCouponQuota(0);
-            pinCoupon.setMasterCouponStartAt(null);
-            //团员
-            pinCoupon.setMemberCoupon(0);
-            pinCoupon.setMemberCouponClass(null);
-            pinCoupon.setMemberCouponEndAt(null);
-            pinCoupon.setMemberCouponQuota(0);
-            pinCoupon.setMemberCouponStartAt(null);
-        }
         JsonNode imgJson = Json.parse(pinSku.getPinImg());
         Object[] img = new Object[3];
         String imgUrl =  imgJson.get("url").toString();
         img[0] = imgUrl.substring(1,imgUrl.length()-1);
         img[1] = imgJson.get("width");
         img[2] = imgJson.get("height");
-        List<Object[]> priceRuleList = new ArrayList<>();
-        JsonNode ruleJson = Json.parse(pinSku.getPinPriceRule());
+        List<PinTieredPrice> tieredPrices = pingouService.getTieredPriceByPinId(pinId);
+        List<Object[]> tieredList = new ArrayList<>();
         int index = 0;
-        for(JsonNode rule : ruleJson){
-            Object[] object = new Object[3];
+        for(PinTieredPrice price : tieredPrices){
             index = index + 1;
-            object[0] = index;
-            object[1] = rule.get("person_num");
-            object[2] = rule.get("price");
-            priceRuleList.add(object);
+            Object[] object = new Object[18];
+            object[0] = price.getId();                  //阶梯价格的Id
+            object[1] = index;                          //编号
+            object[2] = price.getPeopleNum();           //人数
+            object[3] = price.getPrice();               //价格
+            object[4] = price.getMasterMinPrice();      //团长减价
+            object[5] = price.getMemberMinPrice();      //团员减价
+            object[6] = price.getMasterCouponClass();   //团长优惠券类别
+            object[7] = "";                             //团长优惠券类别
+            object[8] = price.getMasterCouponQuota();   //团长优惠券限额
+            object[9] = price.getMasterCoupon();        //团长优惠券面值
+            object[10] = price.getMasterCouponStartAt();//团长优惠券开始日期
+            object[11] = price.getMasterCouponEndAt();  //团长优惠券结束日期
+            object[12] = price.getMemberCouponClass();  //团员优惠券类别
+            object[13] = "";                            //团员优惠券类别
+            object[14] = price.getMemberCouponQuota();  //团员优惠券限额
+            object[15] = price.getMemberCoupon();       //团员优惠券面值
+            object[16] = price.getMemberCouponStartAt();//团员优惠券开始日期
+            object[17] = price.getMemberCouponEndAt();  //团员优惠券届时日期
+            tieredList.add(object);
         }
-
-        return ok(views.html.pingou.pingouUpdate.render(lang,pinSku,pinCoupon,img,priceRuleList,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
+        return ok(views.html.pingou.pingouUpdate.render(lang,pinSku,img,tieredList,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
 
     }
 }

@@ -1,11 +1,16 @@
 package service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import entity.pingou.PinCoupon;
 import entity.pingou.PinSku;
+import entity.pingou.PinTieredPrice;
 import mapper.PinSkuMapper;
 import play.Logger;
+import play.libs.Json;
 
 import javax.inject.Inject;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,37 +22,47 @@ public class PingouServiceImpl implements PingouService {
     PinSkuMapper pinSkuMapper;
     /**
      * 保存拼购商品和优惠券   Added by Tiffany Zhu 2016.01.20
-     * @param pinSku
-     *  @param pinCoupon
+     * @param json
      */
     @Override
-    public void insertPinSku(PinSku pinSku,PinCoupon pinCoupon) {
+    public void pinSkuSave(JsonNode json) {
+        PinSku pinSku = new PinSku();
+        if(json.has("pinSku")){
+            pinSku = Json.fromJson(json.findValue("pinSku"), PinSku.class);
+        }
         //更新拼购
         if(pinSku.getPinId() != null){
             pinSkuMapper.updatePinSku(pinSku);
-            if(pinCoupon.getId()== null && (pinCoupon.getMasterCouponClass() != null || pinCoupon.getMemberCouponClass() != null)){
-                //创建新的购物券
-                pinCoupon.setPinId(pinSku.getPinId());
-                pinSkuMapper.insertPinCoupon(pinCoupon);
-            }else{
-                if(pinCoupon.getMasterCouponClass() != null || pinCoupon.getMemberCouponClass() != null){
-                    //更新已有购物券
-                    pinSkuMapper.updatePinCoupon(pinCoupon);
-                }else{
-                    //删除购物券
-                    pinSkuMapper.delPinCoupon(pinCoupon.getPinId());
-                }
-            }
         }
         //添加拼购
         else{
-            PinSku pinSku1 = pinSku;
-            pinSkuMapper.insertPinSku(pinSku1);
-            Logger.error(pinSku1.toString());
-            if(pinCoupon.getMasterCouponClass() != null || pinCoupon.getMemberCouponClass() != null){
-                pinCoupon.setPinId(pinSku1.getPinId());
-                pinSkuMapper.insertPinCoupon(pinCoupon);
+            pinSkuMapper.insertPinSku(pinSku);
+            List<PinTieredPrice> tieredPriceList = new ArrayList<>();
+            if(json.has("tieredPrice")){
+                JsonNode tieredPriceJson = json.findValue("tieredPrice");
+                for(JsonNode price : tieredPriceJson){
+                    PinTieredPrice pinTieredPrice = Json.fromJson(price,PinTieredPrice.class);
+                    if(pinTieredPrice.getMasterCouponClass() == null || pinTieredPrice.getMasterCouponClass().equals("")){
+                        pinTieredPrice.setMasterCouponClass(null);
+                        pinTieredPrice.setMasterCoupon(null);
+                        pinTieredPrice.setMasterCouponQuota(null);
+                        pinTieredPrice.setMasterCouponStartAt(null);
+                        pinTieredPrice.setMasterCouponEndAt(null);
+
+                    }
+                    if(pinTieredPrice.getMemberCouponClass() == null || pinTieredPrice.getMemberCouponClass().equals("")){
+                        pinTieredPrice.setMemberCouponClass(null);
+                        pinTieredPrice.setMemberCoupon(null);
+                        pinTieredPrice.setMemberCouponQuota(null);
+                        pinTieredPrice.setMemberCouponStartAt(null);
+                        pinTieredPrice.setMemberCouponEndAt(null);
+
+                    }
+                    pinTieredPrice.setPinId(pinSku.getPinId());
+                    tieredPriceList.add(pinTieredPrice);
+                }
             }
+            pinSkuMapper.addTieredPrice(tieredPriceList);
         }
     }
 
@@ -80,13 +95,8 @@ public class PingouServiceImpl implements PingouService {
         return pinSkuMapper.getPinSkuById(pinId);
     }
 
-    /**
-     * 通过拼购ID获取拼购优惠券    Added by Tiffany Zhu 2016.01.22
-     * @param pinId
-     * @return
-     */
     @Override
-    public PinCoupon getCouponByPinId(Long pinId) {
-        return pinSkuMapper.getCouponByPinId(pinId);
+    public List<PinTieredPrice> getTieredPriceByPinId(Long pinId) {
+        return pinSkuMapper.getTieredPriceByPinId(pinId);
     }
 }

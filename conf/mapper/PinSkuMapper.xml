@@ -13,7 +13,6 @@
         ${alias}.pin_title,
         ${alias}.start_at,
         ${alias}.end_at,
-        ${alias}.pin_price_rule,
         ${alias}.restrict_amount,
         ${alias}.floor_price,
         ${alias}.inv_id,
@@ -21,14 +20,14 @@
     </sql>
 
     <insert id="insertPinSku" parameterType="entity.pingou.PinSku" useGeneratedKeys="true" keyProperty="pinId">
-        insert into pin_sku(pin_img,share_url,status,create_at,pin_title,start_at,end_at,pin_price_rule,restrict_amount,floor_price,inv_id,pin_discount)
-        values(#{pinImg},#{shareUrl},#{status},CURRENT_TIMESTAMP(0),#{pinTitle},#{startAt}::timestamp,#{endAt}::timestamp,#{pinPriceRule},#{restrictAmount},#{floorPrice},#{invId},#{pinDiscount})
+        insert into pin_sku(pin_img,share_url,status,create_at,pin_title,start_at,end_at,restrict_amount,floor_price,inv_id,pin_discount)
+        values(#{pinImg},#{shareUrl},#{status},CURRENT_TIMESTAMP(0),#{pinTitle},#{startAt}::timestamp,#{endAt}::timestamp,#{restrictAmount},#{floorPrice},#{invId},#{pinDiscount})
     </insert>
 
     <update id="updatePinSku" parameterType="entity.pingou.PinSku">
         update pin_sku
         set pin_img=#{pinImg},share_url=#{shareUrl},status=#{status},update_at = CURRENT_TIMESTAMP(0),pin_title=#{pinTitle},start_at=#{startAt}::timestamp,
-        end_at=#{endAt}::timestamp,pin_price_rule=#{pinPriceRule},restrict_amount=#{restrictAmount},floor_price=#{floorPrice},inv_id=#{invId},pin_discount=#{pinDiscount}
+        end_at=#{endAt}::timestamp,restrict_amount=#{restrictAmount},floor_price=#{floorPrice},inv_id=#{invId},pin_discount=#{pinDiscount}
         where pin_id = ${pinId}
     </update>
 
@@ -77,12 +76,8 @@
         from pin_sku t where pin_id = ${value}
     </select>
 
-
-    <sql id="pinCouponColumns">
+    <sql id="tieredPriceColumns">
         ${alias}.id,
-        ${alias}.member_coupon_end_at,
-        ${alias}.member_coupon_quota,
-        ${alias}.master_coupon,
         ${alias}.master_coupon_class,
         ${alias}.master_coupon_start_at,
         ${alias}.master_coupon_end_at,
@@ -90,34 +85,35 @@
         ${alias}.member_coupon,
         ${alias}.member_coupon_class,
         ${alias}.member_coupon_start_at,
-        ${alias}.pin_id
+        ${alias}.member_coupon_end_at,
+        ${alias}.member_coupon_quota,
+        ${alias}.pin_id,
+        ${alias}.people_num,
+        ${alias}.price,
+        ${alias}.master_min_price,
+        ${alias}.member_min_price,
+        ${alias}.master_coupon
     </sql>
 
-    <select id="getCouponByPinId" resultType="entity.pingou.PinCoupon" parameterType="java.lang.Long">
-        select
-        <include refid="pinCouponColumns">
-            <property name="alias" value="t"/>
-        </include>
-        from pin_coupon t where pin_id = ${value}
-    </select>
+    <insert id="addTieredPrice" parameterType="java.util.List">
 
-    <insert id="insertPinCoupon" parameterType="entity.pingou.PinCoupon" useGeneratedKeys="true" keyProperty="id">
-        insert into pin_coupon(member_coupon_end_at,member_coupon_quota,master_coupon,master_coupon_class,master_coupon_start_at,master_coupon_end_at,
-                               master_coupon_quota,member_coupon,member_coupon_class,member_coupon_start_at,pin_id)
-        values(#{memberCouponEndAt},#{memberCouponQuota},#{masterCoupon},#{masterCouponClass},#{masterCouponStartAt},#{masterCouponEndAt},
-               #{masterCouponQuota},#{memberCoupon},#{memberCouponClass},#{memberCouponStartAt},#{pinId})
+        insert into pin_tiered_price(master_coupon_class,master_coupon_start_at,master_coupon_end_at,master_coupon_quota,member_coupon,member_coupon_class,member_coupon_start_at,
+                                    member_coupon_end_at,member_coupon_quota,pin_id,people_num,price,master_min_price,member_min_price,master_coupon)
+        values
+        <foreach collection="list" item="item" index="index"  separator="," >
+             (#{item.masterCouponClass},#{item.masterCouponStartAt},#{item.masterCouponEndAt},#{item.masterCouponQuota},#{item.memberCoupon},#{item.memberCouponClass},#{item.memberCouponStartAt},
+             #{item.memberCouponEndAt},#{item.memberCouponQuota},#{item.pinId},#{item.peopleNum},#{item.price},#{item.masterMinPrice},#{item.memberMinPrice},#{item.masterCoupon})
+        </foreach>
 
     </insert>
-    <update id="updatePinCoupon" parameterType="entity.pingou.PinCoupon">
-        update pin_coupon
-        set member_coupon_end_at=#{memberCouponEndAt},member_coupon_quota=#{memberCouponQuota},master_coupon=#{masterCoupon},master_coupon_class=#{masterCouponClass},
-            master_coupon_start_at=#{masterCouponStartAt},master_coupon_end_at=#{masterCouponEndAt},master_coupon_quota=#{masterCouponQuota},member_coupon=#{memberCoupon},
-            member_coupon_class=#{memberCouponClass},member_coupon_start_at=#{memberCouponStartAt}
-        where pin_id = #{pinId}
-    </update>
 
-    <delete id="delPinCoupon" parameterType="java.lang.Long">
-        delete from pin_coupon where pin_id = ${value}
-    </delete>
+    <select id="getTieredPriceByPinId" parameterType="java.lang.Long" resultType="entity.pingou.PinTieredPrice">
+        select
+        <include refid="tieredPriceColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from pin_tiered_price t where pin_id = ${value}
+    </select>
+
 
 </mapper>

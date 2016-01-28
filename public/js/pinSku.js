@@ -44,37 +44,201 @@ $(function(){
 
     //添加一行价格阶梯
     $(document).on("click",".addPriceLevel",function(){
-        var vals = $(this).parents(".form-group").find("input[type=text]");
-        var tableLength = $(".pingou").find("th").length;
-        var order = $(".pingou").find("tr").length;
+        //验证用
         var positive_int = /^[0-9]*[1-9][0-9]*$/;
         var positive_float = /^(([0-9]+.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*.[0-9]+)|([0-9]*[1-9][0-9]*))$/;
 
-        if(!positive_int.test(vals[0].value)){
+
+        var peopleNum = $("#peopleNum").val();
+        var price = $("#price").val();
+        var masterMin = $("#masterMin").val();
+        var memberMin = $("#memberMin").val();
+
+        //进行验证
+        if(!positive_int.test(peopleNum)){
             alert('"拼购人数"为整数数字!');
             return false;
         }
-        if(!positive_float.test(vals[1].value)){
+        if(!positive_float.test(price)){
             alert('"拼购价格"为数字!');
              return false;
         }
+        if(!positive_float.test(masterMin)){
+            alert('"团长减价"为数字!');
+             return false;
+        }
+        if(!positive_float.test(memberMin)){
+            alert('"团员减价"为数字!');
+             return false;
+        }
 
-        if(vals[0].value!==""&&vals[1].value!==""){
+        //团长优惠券
+        if($(":radio[value='tz-yes']").prop("checked")){
+            if($(".tz").find("select").val() == ""){
+                alert('请选择团长优惠券类别!');
+                return false;
+            }
+            $(".tz").find("input").each(function(){
+                if($(this).val() == ""){
+                   alert('团长优惠券信息均不能为空!');
+                    return false;
+                }
+            })
+            if(!positive_float.test($(".tz").find("input").eq(0).val())){
+                    alert('团长优惠券-限额为数字!');
+                     return false;
+            }
+            if(!positive_float.test($(".tz").find("input").eq(1).val())){
+                     alert('团长优惠券-面值为数字!');
+                     return false;
+            }
+            if($(".tz").find("input").eq(2).val() > $(".tz").find("input").eq(3).val()){
+                   alert('团长优惠券-实用期限日期不正确!');
+                    return false;
+            }
+        }
+        //没有团长优惠券
+        if($(":radio[value='tz-no']").prop("checked")){
+
+        }
+        //团员优惠券
+        if($(":radio[value='ty-yes']").prop("checked")){
+            if($(".ty").find("select").val() == ""){
+                alert('请选择团员优惠券类别!');
+                return false;
+            }
+            $(".ty").find("input").each(function(){
+                if($(this).val() == ""){
+                    alert('团员优惠券信息均不能为空!');
+                    return false;
+                }
+            })
+            if(!positive_float.test($(".ty").find("input").eq(0).val())){
+                     alert('团员优惠券-限额为数字!');
+                     return false;
+            }
+            if(!positive_float.test($(".ty").find("input").eq(1).val())){
+                     alert('团员优惠券-面值为数字!');
+                     return false;
+            }
+            if($(".ty").find("input").eq(2).val() > $(".ty").find("input").eq(3).val()){
+                    alert('团员优惠券-实用期限日期不正确!');
+                    return false;
+            }
+        }
+
+        var tableLength = $(".pingou").find("th").length + 3 ;
+        var order = $(".pingou").find("tr").length;
+
             var tr=$("<tr>").appendTo(".pingou");
             for(var i=0;i<tableLength;i++){
                 if(i==0){
-                    $("<td>").html(order).appendTo(tr);
+                    var td = $("<td>").html("").appendTo(tr);   //阶梯价格ID
+                    td.css({"display":"none"});
                 }else if(i==1){
-                    $("<td>").html(vals[0].value).appendTo(tr);
+                    $("<td>").html(order).appendTo(tr);         //编号
                 }else if(i==2){
-                    $("<td>").html(vals[1].value).appendTo(tr);
+                    $("<td>").html(peopleNum).appendTo(tr);     //人数
                 }else if(i==3){
+                    $("<td>").html(price).appendTo(tr);         //价格
+                }else if(i==4){
+                    $("<td>").html(masterMin).appendTo(tr);     //团长减价
+                }else if(i==5){
+                    $("<td>").html(memberMin).appendTo(tr);     //团员减价
+                }else if(i==6){
+                    if($(":radio[value='tz-no']").prop("checked")){
+                        var td = $("<td>").html("").appendTo(tr);
+                        td.css({"display":"none"});
+                    }else{
+                        var td = $("<td>").html($(".tz").find("select").val()).appendTo(tr);
+                        td.css({"display":"none"});
+                    }
+                }else if(i==7){
+                    if($(":radio[value='tz-no']").prop("checked")){
+                        $("<td>").html("").appendTo(tr);                              //团长-类别
+                    }else{
+                        $("<td>").html($(".tz").find("option:selected").text()).appendTo(tr);
+                    }
+                }else if(i==8){
+                    if($(":radio[value='tz-no']").prop("checked")){
+                        $("<td>").html("").appendTo(tr);
+                    }else{
+                        $("<td>").html($(".tz").find("input").eq(0).val()).appendTo(tr);         //团长-限额
+                    }
+                }else if(i==9){
+                     if($(":radio[value='tz-no']").prop("checked")){
+                         $("<td>").html("").appendTo(tr);
+                     }else{
+                         $("<td>").html($(".tz").find("input").eq(1).val()).appendTo(tr);         //团长-面值
+                     }
+                }else if(i==10){
+                     if($(":radio[value='tz-no']").prop("checked")){
+                         $("<td>").html("").appendTo(tr);
+                     }else{
+                         $("<td>").html($(".tz").find("input").eq(2).val()).appendTo(tr);         //团长-开始时间
+                     }
+                }else if(i==11){
+                     if($(":radio[value='tz-no']").prop("checked")){
+                         $("<td>").html("").appendTo(tr);
+                     }else{
+                         $("<td>").html($(".tz").find("input").eq(3).val()).appendTo(tr);         //团长-结束时间
+                     }
+                }else if(i==12){
+                    if($(":radio[value='ty-no']").prop("checked")){
+                       var td = $("<td>").html("").appendTo(tr);
+                       td.css({"display":"none"});
+                    }else{
+                        var td = $("<td>").html($(".ty").find("select").val()).appendTo(tr);
+                        td.css({"display":"none"});
+                    }
+                }else if(i==13){
+                    if($(":radio[value='ty-no']").prop("checked")){
+                        $("<td>").html("").appendTo(tr);
+                    }else{
+                        $("<td>").html($(".ty").find("option:selected").text()).appendTo(tr); //团员-类别
+                    }
+                }else if(i==14){
+                    if($(":radio[value='ty-no']").prop("checked")){
+                        $("<td>").html("").appendTo(tr);
+                    }else{
+                        $("<td>").html($(".ty").find("input").eq(0).val()).appendTo(tr);         //团员-限额
+                    }
+                }else if(i==15){
+                    if($(":radio[value='ty-no']").prop("checked")){
+                        $("<td>").html("").appendTo(tr);
+                    }else{
+                        $("<td>").html($(".ty").find("input").eq(1).val()).appendTo(tr);         //团员-面值
+                    }
+                }else if(i==16){
+                    if($(":radio[value='ty-no']").prop("checked")){
+                        $("<td>").html("").appendTo(tr);
+                    }else{
+                        $("<td>").html($(".ty").find("input").eq(2).val()).appendTo(tr);         //团员-开始时间
+                    }
+                }else if(i==17){
+                    if($(":radio[value='ty-no']").prop("checked")){
+                        $("<td>").html("").appendTo(tr);
+                    }else{
+                        $("<td>").html($(".ty").find("input").eq(3).val()).appendTo(tr);         //团员-结束时间
+                    }
+                }else if(i==18){
                     $('<td class="delPingou" style="background: #ccc;cursor: pointer">').html("删除").appendTo(tr);
                 }
             }
-            vals[0].value="";
-            vals[1].value="";
-        }
+            var peopleNum = $("#peopleNum").val("");
+            var price = $("#price").val("");
+            var masterMin = $("#masterMin").val("");
+            var memberMin = $("#memberMin").val("");
+            $(".tz").find("select").val("");
+            $(".tz").find("input").each(function(){
+                $(this).val("");
+            })
+            $(".ty").find("select").val("");
+            $(".ty").find("input").each(function(){
+                $(this).val("");
+            })
+
+
     });
 
     //不给团长发放优惠券
@@ -93,6 +257,8 @@ $(function(){
     $(document).on("click",":radio[value='ty-yes']",function(){
         $(".ty").css({"display":""})
     })
+
+
 
     //打开图片模板
     $("#getTemplate").click(function(){
@@ -114,20 +280,17 @@ $(function(){
          $(".btn-xm").eq(0).css("display","");        //选择商品'按钮'
          $("#getTemplate").eq(0).css("display","");   //图片模板'按钮'
 
+         $("#pin_discount").attr("disabled",false);      //最低折扣率
+
          $(".pingou").find("tr").each(function(){     //价格阶梯表中的'删除'
              if($(this).find("td").length == 0){
-                 $(this).find("th").eq(3).css("display","");
+                 $(this).find("th").eq(15).css("display","");
              }else{
-                 $(this).find("td").eq(3).css("display","");
+                 $(this).find("td").eq(18).css("display","");
              }
          })
-         $(".add-level").css("display","");               //添加价格
-         $("#pin_discount").attr("disabled",false);     //最低折扣率
-         $(":radio").attr("disabled",false);              //优惠券的'radio'
-         $(".tz").find("select").attr("disabled",false);  //团长优惠券类别
-         $(".tz").find("input").attr("disabled",false);   //团长优惠券填写框
-         $(".ty").find("select").attr("disabled",false);  //团员优惠券类别
-         $(".ty").find("input").attr("disabled",false);   //团员优惠券填写框
+         $(".tiered-price").css("display","");      //编辑阶梯价格
+
      })
 
     //点击取消,不可编辑内容
@@ -143,20 +306,18 @@ $(function(){
          $(".btn-xm").eq(0).css("display","none");       //选择商品'按钮'
          $("#getTemplate").eq(0).css("display","none");  //图片模板'按钮'
 
+         $("#pin_discount").attr("disabled",true);      //最低折扣率
+
          $(".pingou").find("tr").each(function(){        //价格阶梯表中的'删除'
              if($(this).find("td").length == 0){
-                 $(this).find("th").eq(3).css("display","none");
+                 $(this).find("th").eq(15).css("display","none");
              }else{
-                 $(this).find("td").eq(3).css("display","none");
+                 $(this).find("td").eq(18).css("display","none");
              }
          })
-         $(".add-level").css("display","none");          //添加价格
-         $("#pin_discount").attr("disabled",true);       //最低折扣率
-         $(":radio").attr("disabled",true);              //优惠券的'radio'
-         $(".tz").find("select").attr("disabled",true);  //团长优惠券类别
-         $(".tz").find("input").attr("disabled",true);   //团长优惠券填写框
-         $(".ty").find("select").attr("disabled",true);  //团员优惠券类别
-         $(".ty").find("input").attr("disabled",true);   //团员优惠券填写框
+
+         $(".tiered-price").css("display","none");  //编辑阶梯价格
+
      })
 
     //保存
@@ -214,92 +375,57 @@ $(function(){
            return false;
         }
 
+        var pinData = new Object();
 
-        //团长优惠券
-        if($(":radio[value='tz-yes']").prop("checked")){
-            if($(".tz").find("select").val() == ""){
-                isPost = false;
-                $('#js-userinfo-error').text('请选择团长优惠券类别!').css('color', '#c00');
-                setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-                return false;
-
-            }
-            $(".tz").find("input").each(function(){
-                if($(this).val() == ""){
-                    isPost = false;
-                    $('#js-userinfo-error').text('团长优惠券信息均不能为空!').css('color', '#c00');
-                    setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-                    return false;
+        //组装价格阶梯
+        var tieredPrice = []
+        //最低价格
+        var minPrice = parseFloat($(".pingou").find("tr").eq(1).find("td:eq(3)").text());
+        var floorPrice = {};
+        $(".pingou").find("tr").each(function(){
+            if($(this).index() != 0){
+                if(parseFloat($(this).find("td:eq(3)").text()) < minPrice){
+                    minPrice = parseFloat($(this).find("td:eq(3)").text());
+                    floorPrice.person_num = parseInt($(this).find("td:eq(2)").text());
+                    floorPrice.price = minPrice;
                 }
-            })
-
-            if(!positive_float.test($(".tz").find("input").eq(0).val())){
-                     isPost = false;
-                     $('#js-userinfo-error').text('团长优惠券-限额为数字!').css('color', '#c00');
-                     setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-                     return false;
-            }
-
-            if(!positive_float.test($(".tz").find("input").eq(1).val())){
-                     isPost = false;
-                     $('#js-userinfo-error').text('团长优惠券-面值为数字!').css('color', '#c00');
-                     setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-                     return false;
-            }
-
-
-            if($(".tz").find("input").eq(2).val() > $(".tz").find("input").eq(3).val()){
-                    isPost = false;
-                    $('#js-userinfo-error').text('团长优惠券-实用期限日期不正确!').css('color', '#c00');
-                    setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-                    return false;
-
-            }
-        }
-
-        //团员优惠券
-        if($(":radio[value='ty-yes']").prop("checked")){
-            if($(".ty").find("select").val() == ""){
-                isPost = false;
-                $('#js-userinfo-error').text('请选择团员优惠券类别!').css('color', '#c00');
-                setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-                return false;
-
-            }
-            $(".ty").find("input").each(function(){
-                if($(this).val() == ""){
-                    isPost = false;
-                    $('#js-userinfo-error').text('团员优惠券信息均不能为空!').css('color', '#c00');
-                    setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-                    return false;
+                var object = new Object();
+                object.peopleNum = parseInt($(this).find("td:eq(2)").text());           //拼购人数
+                object.price = parseFloat($(this).find("td:eq(3)").text());             //价格
+                object.masterMinPrice = parseFloat($(this).find("td:eq(4)").text());    //团长减价
+                object.memberMinPrice = parseFloat($(this).find("td:eq(5)").text());    //团员减价
+                object.masterCouponClass = $(this).find("td:eq(6)").text();             //团长-类别
+                object.masterCouponQuota = parseInt($(this).find("td:eq(8)").text());   //团长-限额
+                object.masterCoupon = parseInt($(this).find("td:eq(9)").text());        //团长-面值
+                if($(this).find("td:eq(10)").text() == ""){
+                     object.masterCouponStartAt = "0000-01-01 00:00:00";
+                }else{
+                     object.masterCouponStartAt = $(this).find("td:eq(10)").text();      //团长-开始时间
                 }
-            })
-
-            if(!positive_float.test($(".ty").find("input").eq(0).val())){
-                     isPost = false;
-                     $('#js-userinfo-error').text('团员优惠券-限额为数字!').css('color', '#c00');
-                     setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-                     return false;
+                if($(this).find("td:eq(11)").text() == ""){
+                     object.masterCouponEndAt = "0000-01-01 00:00:00";
+                }else{
+                     object.masterCouponEndAt = $(this).find("td:eq(11)").text();       //团长-结束时间
+                }
+                object.memberCouponClass = $(this).find("td:eq(12)").text();            //团员-类别
+                object.memberCouponQuota = parseInt($(this).find("td:eq(14)").text());  //团员-限额
+                object.memberCoupon = parseInt($(this).find("td:eq(15)").text());       //团员-面值
+                if($(this).find("td:eq(16)").text() == ""){
+                    object.memberCouponStartAt = "0000-01-01 00:00:00";
+                }else{
+                    object.memberCouponStartAt = $(this).find("td:eq(16)").text();      //团员-开始时间
+                }
+                if($(this).find("td:eq(17)").text() == ""){
+                    object.memberCouponEndAt = "0000-01-01 00:00:00";
+                }else{
+                    object.memberCouponEndAt = $(this).find("td:eq(17)").text();        //团员-结束时间
+                }
+                tieredPrice.push(object);
             }
-
-            if(!positive_float.test($(".ty").find("input").eq(1).val())){
-                     isPost = false;
-                     $('#js-userinfo-error').text('团员优惠券-面值为数字!').css('color', '#c00');
-                     setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-                     return false;
-            }
-
-            if($(".ty").find("input").eq(2).val() > $(".ty").find("input").eq(3).val()){
-                    isPost = false;
-                    $('#js-userinfo-error').text('团员优惠券-实用期限日期不正确!').css('color', '#c00');
-                    setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-                    return false;
-
-            }
-        }
+        })
+        pinData.tieredPrice = tieredPrice;
 
         //pinSku组装数据
-        var pinData = new Object();
         var pinSku = new Object();
         //列表图片
         var imgUrl = {};
@@ -307,21 +433,7 @@ $(function(){
         imgUrl.url = url.substring(url.indexOf('/',url.indexOf('/')+2) + 1);
         imgUrl.width = $("#themeImg").find("input").width();
         imgUrl.height =  $("#themeImg").find("input").height();
-        //价格阶梯
-        var priceRule = [];
-        //最低价格
-        var minPrice = parseFloat($(".pingou").find("tr").eq(1).find("td:eq(2)").text());;
-        $(".pingou").find("tr").each(function(){
-            if($(this).index() != 0){
-                if(parseFloat($(this).find("td:eq(2)").text()) < minPrice){
-                    minPrice = parseFloat($(this).find("td:eq(2)").text());
-                }
-                var level = {};
-                level.person_num = parseInt($(this).find("td:eq(1)").text());
-                level.price = parseFloat($(this).find("td:eq(2)").text());
-                priceRule.push(level);
-            }
-        })
+
         if($("#pinId").val() != null){
             pinSku.pinId = $("#pinId").val();
         }
@@ -330,38 +442,14 @@ $(function(){
         pinSku.status = $("#status").val();
         pinSku.startAt = $("#onShelvesAt").val();
         pinSku.endAt = $("#offShelvesAt").val();
-        pinSku.pinPriceRule = JSON.stringify(priceRule);
         pinSku.restrictAmount = $("#restrict").val();
-        pinSku.floorPrice = minPrice;
+        pinSku.floorPrice = Json.stringify(floorPrice);
         pinSku.invId = $("#input_imgurl").val();
         pinSku.pinTitle = $("#itemTitle").val();
         pinSku.pinDiscount = $("#pin_discount").val();
 
         pinData.pinSku = pinSku;
 
-
-        //pinCoupon组装数据
-        var pinCoupon = new Object();
-        if($("#pinId").val() != null){
-          pinCoupon.pinId = $("#pinId").val();
-          pinCoupon.id = $("#coupon_id").val();
-        }
-
-        if($(":radio[value='tz-yes']").prop("checked")){
-          pinCoupon.masterCouponClass = $(".tz").find("select").val();
-          pinCoupon.masterCouponQuota = $(".tz").find("input").eq(0).val();
-          pinCoupon.masterCoupon = $(".tz").find("input").eq(1).val();
-          pinCoupon.masterCouponStartAt = $(".tz").find("input").eq(2).val();
-          pinCoupon.masterCouponEndAt = $(".tz").find("input").eq(3).val();
-        }
-        if($(":radio[value='ty-yes']").prop("checked")){
-          pinCoupon.memberCouponClass = $(".ty").find("select").val();
-          pinCoupon.memberCouponQuota = $(".ty").find("input").eq(0).val();
-          pinCoupon.memberCoupon = $(".ty").find("input").eq(1).val();
-          pinCoupon.memberCouponStartAt = $(".ty").find("input").eq(2).val();
-          pinCoupon.memberCouponEndAt = $(".ty").find("input").eq(3).val();
-        }
-        pinData.pinCoupon = pinCoupon;
 
         if(isPost){
 

@@ -24,9 +24,8 @@ public class PinSku implements Serializable {
     private Timestamp startAt;  //开始时间
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp endAt;        //结束时间
-    private String pinPriceRule;    //价格阶梯
     private int restrictAmount;     //每个ID限购数量
-    private BigDecimal floorPrice;  //拼购最低价
+    private String floorPrice;  //拼购最低价
     private Long  invId;            //库存ID
     private BigDecimal pinDiscount; //拼购最低折扣
 
@@ -43,7 +42,7 @@ public class PinSku implements Serializable {
     public PinSku() {
     }
 
-    public PinSku(Long pinId, String pinImg, String shareUrl, String status, Timestamp createAt, Timestamp updateAt, String pinTitle, Timestamp startAt, Timestamp endAt, String pinPriceRule, int restrictAmount, BigDecimal floorPrice, Long invId, BigDecimal pinDiscount, Integer pageSize, Integer offset, String sort, String order) {
+    public PinSku(Long pinId, String pinImg, String shareUrl, String status, Timestamp createAt, Timestamp updateAt, String pinTitle, Timestamp startAt, Timestamp endAt, int restrictAmount, String floorPrice, Long invId, BigDecimal pinDiscount, Integer pageSize, Integer offset, String sort, String order) {
         this.pinId = pinId;
         this.pinImg = pinImg;
         this.shareUrl = shareUrl;
@@ -53,7 +52,6 @@ public class PinSku implements Serializable {
         this.pinTitle = pinTitle;
         this.startAt = startAt;
         this.endAt = endAt;
-        this.pinPriceRule = pinPriceRule;
         this.restrictAmount = restrictAmount;
         this.floorPrice = floorPrice;
         this.invId = invId;
@@ -76,9 +74,8 @@ public class PinSku implements Serializable {
                 ", pinTitle='" + pinTitle + '\'' +
                 ", startAt=" + startAt +
                 ", endAt=" + endAt +
-                ", pinPriceRule='" + pinPriceRule + '\'' +
                 ", restrictAmount=" + restrictAmount +
-                ", floorPrice=" + floorPrice +
+                ", floorPrice='" + floorPrice + '\'' +
                 ", invId=" + invId +
                 ", pinDiscount=" + pinDiscount +
                 ", pageSize=" + pageSize +
@@ -160,14 +157,6 @@ public class PinSku implements Serializable {
         this.endAt = endAt;
     }
 
-    public String getPinPriceRule() {
-        return pinPriceRule;
-    }
-
-    public void setPinPriceRule(String pinPriceRule) {
-        this.pinPriceRule = pinPriceRule;
-    }
-
     public int getRestrictAmount() {
         return restrictAmount;
     }
@@ -176,11 +165,11 @@ public class PinSku implements Serializable {
         this.restrictAmount = restrictAmount;
     }
 
-    public BigDecimal getFloorPrice() {
+    public String getFloorPrice() {
         return floorPrice;
     }
 
-    public void setFloorPrice(BigDecimal floorPrice) {
+    public void setFloorPrice(String floorPrice) {
         this.floorPrice = floorPrice;
     }
 

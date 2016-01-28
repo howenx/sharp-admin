@@ -2,6 +2,8 @@ package mapper;
 
 import entity.pingou.PinCoupon;
 import entity.pingou.PinSku;
+import entity.pingou.PinTieredPrice;
+
 import java.util.List;
 
 /**
@@ -15,13 +17,6 @@ public interface PinSkuMapper {
      * @return
      */
     void insertPinSku(PinSku pinSku);
-
-    /**
-     * 添加拼购活动返回的优惠券     Added by Tiffany Zhu 2016.01.20
-     * @param pinCoupon
-     */
-    void insertPinCoupon(PinCoupon pinCoupon);
-
     /**
      * 取得全部的拼购      Added by Tiffany Zhu 2016.01.21
      * @return
@@ -43,27 +38,21 @@ public interface PinSkuMapper {
     PinSku getPinSkuById(Long pinId);
 
     /**
-     *通过拼购ID获取拼购优惠券    Added by Tiffany Zhu 2016.01.22
-     * @param pinId
-     * @return
-     */
-    PinCoupon getCouponByPinId(Long pinId);
-
-    /**
      * 更新拼购     Added by Tiffany Zhu 2016.01.22
      * @param pinSku
      */
     void updatePinSku(PinSku pinSku);
 
     /**
-     * 更新拼购优惠券     Added by Tiffany Zhu 2016.01.22
-     * @param pinCoupon
+     * 添加阶梯价格       Added by Tiffany Zhu 2016.01.28
+     * @param list
      */
-    void updatePinCoupon(PinCoupon pinCoupon);
+    void addTieredPrice(List list);
 
     /**
-     * 删除拼购优惠券     Added by Tiffany Zhu 2016.01.22
-     * @param pinId
+     * 获取阶梯价格       Added by Tiffany Zhu 2016.01.28
+     * @return
      */
-    void delPinCoupon(Long pinId);
+    List<PinTieredPrice> getTieredPriceByPinId(Long pinId);
+
 }

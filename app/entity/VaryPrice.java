@@ -12,7 +12,7 @@ public class VaryPrice implements Serializable {
 
     private Long id;                //主键id
     private Long invId;             //库存Id
-    private Long themeId;           //主题Id(可多个)
+    private String themeId;           //主题Id(可多个)
     private BigDecimal price;       //销售价
     private Integer soldAmount;     //售出数量
     private Integer limitAmount;    //限制销售数量
@@ -21,20 +21,7 @@ public class VaryPrice implements Serializable {
     public VaryPrice() {
     }
 
-    @Override
-    public String toString() {
-        return "VaryPrice{" +
-                "id=" + id +
-                ", invId=" + invId +
-                ", themeId=" + themeId +
-                ", price=" + price +
-                ", soldAmount=" + soldAmount +
-                ", limitAmount=" + limitAmount +
-                ", status='" + status + '\'' +
-                '}';
-    }
-
-    public VaryPrice(Long id, Long invId, Long themeId, BigDecimal price, Integer soldAmount, Integer limitAmount, String status) {
+    public VaryPrice(Long id, Long invId, String themeId, BigDecimal price, Integer soldAmount, Integer limitAmount, String status) {
         this.id = id;
         this.invId = invId;
         this.themeId = themeId;
@@ -42,6 +29,19 @@ public class VaryPrice implements Serializable {
         this.soldAmount = soldAmount;
         this.limitAmount = limitAmount;
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "VaryPrice{" +
+                "id=" + id +
+                ", invId=" + invId +
+                ", themeId='" + themeId + '\'' +
+                ", price=" + price +
+                ", soldAmount=" + soldAmount +
+                ", limitAmount=" + limitAmount +
+                ", status='" + status + '\'' +
+                '}';
     }
 
     public Long getId() {
@@ -60,6 +60,22 @@ public class VaryPrice implements Serializable {
         this.invId = invId;
     }
 
+    public String getThemeId() {
+        return themeId;
+    }
+
+    public void setThemeId(String themeId) {
+        this.themeId = themeId;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
     public Integer getSoldAmount() {
         return soldAmount;
     }
@@ -76,27 +92,11 @@ public class VaryPrice implements Serializable {
         this.limitAmount = limitAmount;
     }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public Long getThemeId() {
-        return themeId;
-    }
-
-    public void setThemeId(Long themeId) {
-        this.themeId = themeId;
     }
 }
