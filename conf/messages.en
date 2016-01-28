@@ -83,7 +83,7 @@ login.title = Login
 login.username = Please enter username
 login.passwd = Please enter password
 login.login = Login
-
+login.reg = Register
 
 
 

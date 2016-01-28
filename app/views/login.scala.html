@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
     <link rel="shortcut icon" type="image/png" href="/assets/images/favicon.ico">
     <link href='http://fonts.useso.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+        .reg{
+            float:right;margin-top:10px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
 @helper.form(routes.Auth.authenticate) {
@@ -31,6 +38,8 @@
             </div>
             <p class="text-left">
                 <input type="submit" class="btn btn-primary btn-block" value="@messages("login.login")">
+                <span class="reg">没有账号,去注册</span>
+                <!--<input type="submit" class="btn btn-primary btn-block" value="@messages("login.reg")">-->
             </p>
         </div>
 
@@ -40,5 +49,10 @@
 
 <script src="/assets/js/jquery.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
+<script>
+    $(document).on('click','.reg',function(){
+        window.location.href = "/register"
+    });
+</script>
 </body>
 </html>

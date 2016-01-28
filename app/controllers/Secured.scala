@@ -27,7 +27,7 @@ trait Secured {
 
   def withUser(f: User => Request[AnyContent] => Result) = withAuth { username =>
     implicit request =>
-      Logger.debug(s"withUser $username")
+      Logger.debug("withUser $username")
       Cache.getAs[User](username.trim).map { user =>
         f(user)(request)
       }.getOrElse(onUnauthorized(request))

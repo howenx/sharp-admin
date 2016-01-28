@@ -85,7 +85,7 @@ login.title = 登录
 login.username = 请输入用户名
 login.passwd = 请输入密码
 login.login = 登录
-
+login.reg = 注册
 
 
 
