@@ -26,25 +26,19 @@ import java.util.Map;
  */
 public class ItemCtrl extends Controller {
 
-//    @Inject
+
     private ItemService itemService;
 
-//    @Inject
     private ThemeService themeService;
 
-//    @Inject
     private InventoryService inventoryService;
 
-//    @Inject
     private CarriageService carriageService;
 
-//    @Inject
     private VaryPriceService varyPriceService;
 
-//    @Inject
     private DataLogService dataLogService;
 
-//    @Inject
     private ItemStatisService itemStatisService;
 
     private ItemMiddle itemMiddle;
@@ -321,7 +315,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result findModel(String lang,String modelCode) {
-        List carrList = carriageService.getCarrsByModel(modelCode);
+        List<Carriage> carrList = carriageService.getCarrsByModel(modelCode);
         return ok(views.html.carriage.carrmodelUpdate.render(lang,carrList,(User) ctx().args.get("user")));
     }
 
@@ -350,8 +344,8 @@ public class ItemCtrl extends Controller {
 
 
     public Result carrPop() {
-            return ok(views.html.carriage.cityPop.render());
-        }
+        return ok(views.html.carriage.cityPop.render());
+    }
 
 
     /**

@@ -1,7 +1,6 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.ObjectArrayDeserializer;
 import entity.*;
 import entity.pingou.PinSku;
 import play.Logger;
@@ -195,41 +194,26 @@ public class ThemeCtrl extends Controller {
     public Result sliderPop(){
         //主题列表
         List<Theme> themeList = service.getThemesAll();
-        //含有主商品的主sku图的主题列表
-        List<Object[]> thList = new ArrayList<>();
-        for(Theme theme : themeList) {
-            Object[] object = new Object[6];
-            Item item = itemService.getItem(theme.getMasterItemId());
-            Inventory inventory = inventoryService.getInventoriesByItemId(item.getId()).get(0);
-            object[0] = theme.getId();
-            object[1] = theme.getThemeImg();
-            object[2] = theme.getMasterItemId();
-            object[3] = inventory.getInvImg();
-            object[4] = theme.getStartAt();
-            object[5] = theme.getEndAt();
-            thList.add(object);
+        //SKU列表
+        List<Inventory> inventoryList = inventoryService.getAllInventories();
+        //拼购列表
+        List<PinSku> pinSkuList = pingouService.getPinSkuAll();
+        List<Object[]> pinList = new ArrayList<>();
+        for(PinSku pinSku : pinSkuList){
+            Object[] object = new Object[8];
+            object[0] = pinSku.getPinId();
+            object[1] = pinSku.getPinTitle();
+            JsonNode json = Json.parse(pinSku.getPinImg());
+            String url = json.get("url").toString();
+            object[2] = url.substring(1,url.length()-1);
+            object[3] = pinSku.getStartAt();
+            object[4] = pinSku.getStatus();
+            object[5] = pinSku.getFloorPrice();
+            object[6] = inventoryService.getInventory(pinSku.getInvId()).getItemSrcPrice();
+            object[7] = pinSku.getPinDiscount();
+            pinList.add(object);
         }
-        //商品列表
-        List<Item> itemList = itemService.getItemsAll();
-        //含有主sku价格的商品列表
-        List<Object[]> itList = new ArrayList<>();
-        for(Item item : itemList) {
-            Object[] object = new Object[9];
-            Logger.error(item.toString());
-            List<Inventory> inventoryList = inventoryService.getInventoriesByItemId(item.getId());
-            Inventory inventory = inventoryList.get(0);
-            object[0] = item.getId();
-            object[1] = item.getItemTitle();
-            object[2] = item.getItemMasterImg();
-            object[3] = item.getOnShelvesAt();
-            object[4] = item.getOffShelvesAt();
-            object[5] = item.getState();
-            object[6] = inventory.getItemPrice();
-            object[7] = inventory.getItemSrcPrice();
-            object[8] = inventory.getItemDiscount();
-            itList.add(object);
-        }
-        return ok(views.html.theme.sliderPop.render(thList,itList,IMAGE_URL));
+        return ok(views.html.theme.sliderPop.render(themeList,inventoryList,pinList,IMAGE_URL));
     }
 
     /**

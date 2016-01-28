@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.AdminUserMapper">
+
+    <!--enable mybatis default cache configure reference:
+        https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
+    -->
+    <sql id="adminUserColumns">
+        ${alias}.user_id,
+        ${alias}.nickname,
+        ${alias}.email,
+        ${alias}.passwd,
+        ${alias}.gender,
+        ${alias}.phone_num,
+        ${alias}.real_name,
+        ${alias}.reg_ip,
+        ${alias}.reg_dt,
+        ${alias}.active_YN
+        ${alias}.alter_dt,
+        ${alias}.last_login_dt,
+        ${alias}.last_login_ip,
+        ${alias}.last_pwd_chg_dt,
+        ${alias}.desc,
+        ${alias}.status
+    </sql>
+
+    <!-- 录入一条用户信息 -->
+    <insert id="insertUser" parameterType="entity.AdminUser" useGeneratedKeys="true" keyColumn="user_id">
+        insert into ADMIN_USER
+        (nickname,email,passwd,gender,phone_num,real_name,reg_ip,reg_dt,active_YN,alter_dt,last_login_dt,last_login_ip,last_pwd_chg_dt,desc,status)
+        values
+        (#{nickname},#{email},#{passwd},#{gender},#{phoneNum},#{realName},#{regIp},CURRENT_TIMESTAMP(0),#{activeYN},#{alterDt},#{lastLoginDt},#{lastLoginIp},#{lastPwdChgDt},#{desc},#{status})
+    </insert>
+
+    <!-- 修改一条用户信息 -->
+    <update id="updateUser" parameterType="entity.AdminUser">
+        update ADMIN_USER
+        set
+        nickname=#{nickname},email=#{email},passwd=#{passwd},gender=#{gender},phone_num=#{phoneNum},real_name=#{realName},active_YN=#{activeYN},alter_dt=#{alterDt},last_login_dt=#{lastLoginDt},last_login_ip=#{lastLoginIp},last_pwd_chg_dt=#{lastPwdChgDt},desc=#{desc},status=#{status}
+        where user_id = #{userId}
+    </update>
+
+    <!-- 查询一条用户信息 -->
+    <select id="getUserBy" resultType="entity.AdminUser" parameterType="entity.AdminUser">
+        select
+        <include refid="adminUserColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from ADMIN_USER t where 1=1
+        <if test="userId!=null and userId!=''">
+            and t.user_id = #{userId}
+        </if>
+        <if test="email!=null and email!=''">
+            and t.email = #{email}
+        </if>
+        <if test="phoneNum!=null and phoneNum!=''">
+            and t.phone_num = #{phoneNum}
+        </if>
+    </select>
+
+    <!-- 查询所有的用户信息 -->
+    <select id="getAllUsers" resultType="entity.AdminUser">
+        select
+        <include refid="adminUserColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from ADMIN_USER t where 1=1
+    </select>
+
+</mapper>

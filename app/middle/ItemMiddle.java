@@ -3,6 +3,7 @@ package middle;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.*;
+import play.Logger;
 import play.libs.Json;
 import service.*;
 
@@ -99,9 +100,10 @@ public class ItemMiddle {
         //往inventories表插入数据
         if (json.has("inventories")) {
             for(final JsonNode jsonNode : json.findValue("inventories")) {
+                Logger.error("库存数据:"+jsonNode);
                 Inventory inventory = new Inventory();
                 if (jsonNode.has("inventory")) {
-                    JsonNode jsonInv = json.findValue("inventory");
+                    JsonNode jsonInv = jsonNode.findValue("inventory");
 //                    if (jsonInv.has("itemPreviewImgs")) {
 //                        ((ObjectNode) jsonInv).put("itemPreviewImgs",jsonInv.findValue("itemPreviewImgs").toString());
 //                    }
@@ -121,6 +123,7 @@ public class ItemMiddle {
                         inventory.setState("Y");
 //                    Logger.error("sku信息:"+inventory);
                         inventoryService.insertInventory(inventory);
+                        Logger.error("录入一条库存:"+inventory.getId());
                         String createDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
                         itemStatis.setCreateDate(createDate);
                         itemStatis.setSkuId(inventory.getId());

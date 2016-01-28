@@ -3,13 +3,14 @@ package modules;
 import com.google.inject.PrivateModule;
 import com.google.inject.Scopes;
 import com.google.inject.name.Names;
+import mapper.AdminUserMapper;
+import mapper.IDAdminMapper;
 import mapper.IDMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.guice.session.SqlSessionManagerProvider;
 import play.db.DBApi;
-import service.IDService;
-import service.IDServiceImpl;
+import service.*;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -40,6 +41,8 @@ public class AccountDBModule extends PrivateModule {
 //                addMapperClass(ThemeMapper.class);
 //                addMapperClass(StockMapper.class);
                 addMapperClass(IDMapper.class);
+                addMapperClass(AdminUserMapper.class);
+                addMapperClass(IDAdminMapper.class);
             }
         });
 
@@ -55,6 +58,8 @@ public class AccountDBModule extends PrivateModule {
 //        bind(ProdService.class).to(ProdServiceImpl.class);
 //        bind(ThemeService.class).to(ThemeServiceImpl.class);
         bind(IDService.class).to(IDServiceImpl.class);
+        bind(AdminUserService.class).to(AdminUserServiceImpl.class);
+        bind(IDAdminService.class).to(IDAdminServiceImpl.class);
 
         //必须expose
 //        expose(ThemeService.class);

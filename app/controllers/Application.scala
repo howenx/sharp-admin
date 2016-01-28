@@ -754,14 +754,15 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
 
   }
+  /** modify by howen 2016.01.25  **/
 
   def upload() = withUser { user => {
     implicit request => {
-      request.body.asMultipartFormData match {
+      Option(request.body.asMultipartFormData) match {
 
         case Some(map) =>
           //var filename: String = null
-          map.files.map { f =>
+          map.get.files.map { f =>
             Logger.debug("update file " + f.filename)
             val filein = new FileInputStream(f.ref.file)
             val workbook = new XSSFWorkbook(filein)
@@ -975,21 +976,22 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
   }
 
+  /** modify by howen 2016.01.25  **/
   /**
     * 供应商提供信息表格
     * @return
     */
   def supply() = withUser { user => {
     implicit request => {
-      request.body.asMultipartFormData match {
+      Option(request.body.asMultipartFormData) match {
         case Some(map) =>
           var filename: String = null
-          map.files.map { f =>
+          map.get.files.map { f =>
             Logger.debug("update file " + f.filename)
             filename = "supply" + "/" + DateTimeFormat.forPattern("yyyy-MM-dd").print(new DateTime) + "/" + System.currentTimeMillis + f.filename.replaceFirst("^[^.]*", "")
             oss ! OSS(f.ref, filename)
           }
-          map.asFormUrlEncoded match {
+          map.get.asFormUrlEncoded match {
             case map =>
               //商品名称
               //转化一下内容
