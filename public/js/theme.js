@@ -255,16 +255,6 @@ $(function () {
         modal.dialogArguments = sharedObject;
 
     });
-
-    /***Loading..***/
-    $(document).ajaxStart(function() {
-    	$('#mask').show();
-    });
-
-    $(document).ajaxStop(function() {
-    	$('#mask').hide();
-    });
-
 })
 
 //返回模板中选中的图片 Added by Tiffany Zhu
