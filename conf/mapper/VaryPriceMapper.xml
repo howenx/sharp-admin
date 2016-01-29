@@ -64,4 +64,9 @@
         from vary_price t where id = ${value}
     </select>
 
+    <update id="updVaryThemeId" parameterType="entity.VaryPrice">
+        update vary_price
+        set theme_id = #{themeId}
+        where id = #{id}
+    </update>
 </mapper>

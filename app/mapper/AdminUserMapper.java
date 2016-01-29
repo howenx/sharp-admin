@@ -14,7 +14,7 @@ public interface AdminUserMapper {
 
     void updateUser(AdminUser adminUser);
 
-    List<AdminUser> getUserBy(AdminUser adminUser);
+    AdminUser getUserBy(AdminUser adminUser);
 
     List<AdminUser> getAllUsers();
 

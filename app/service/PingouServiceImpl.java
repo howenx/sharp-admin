@@ -32,7 +32,67 @@ public class PingouServiceImpl implements PingouService {
         }
         //更新拼购
         if(pinSku.getPinId() != null){
+            //更新拼购
             pinSkuMapper.updatePinSku(pinSku);
+            //更新阶梯价格
+            String updPriceId = "";
+            List<PinTieredPrice> tieredPriceUpd = new ArrayList<>();
+            List<PinTieredPrice> tieredPriceInst = new ArrayList<>();
+            if(json.has("tieredPrice")){
+                JsonNode tieredPriceJson = json.findValue("tieredPrice");
+                if(tieredPriceJson.size()>0){
+                    for(JsonNode price : tieredPriceJson){
+                        PinTieredPrice pinTieredPrice = Json.fromJson(price,PinTieredPrice.class);
+                        if(pinTieredPrice.getMasterCouponClass() == null || pinTieredPrice.getMasterCouponClass().equals("")){
+                            pinTieredPrice.setMasterCouponClass(null);
+                            pinTieredPrice.setMasterCoupon(null);
+                            pinTieredPrice.setMasterCouponQuota(null);
+                            pinTieredPrice.setMasterCouponStartAt(null);
+                            pinTieredPrice.setMasterCouponEndAt(null);
+                        }
+                        if(pinTieredPrice.getMemberCouponClass() == null || pinTieredPrice.getMemberCouponClass().equals("")){
+                            pinTieredPrice.setMemberCouponClass(null);
+                            pinTieredPrice.setMemberCoupon(null);
+                            pinTieredPrice.setMemberCouponQuota(null);
+                            pinTieredPrice.setMemberCouponStartAt(null);
+                            pinTieredPrice.setMemberCouponEndAt(null);
+                        }
+                        pinTieredPrice.setPinId(pinSku.getPinId());
+                        //添加
+                        if(pinTieredPrice.getId() == null){
+                            tieredPriceInst.add(pinTieredPrice);
+                        }
+                        //更新
+                        else{
+                            updPriceId = updPriceId + "," + pinTieredPrice.getId().toString();
+                            tieredPriceUpd.add(pinTieredPrice);
+                        }
+                    }
+                    if(tieredPriceInst.size()>0){
+                        pinSkuMapper.addTieredPrice(tieredPriceInst);
+                    }
+                    if (tieredPriceUpd.size()>0){
+                        pinSkuMapper.updTieredPrice(tieredPriceUpd);
+                    }
+                    Logger.error(tieredPriceUpd.toString());
+                    Logger.error(updPriceId);
+                }
+            }
+
+            //删除阶梯价格
+            if(json.has("beforeUpdPrice")){
+                List<PinTieredPrice> delList = new ArrayList<>();
+                JsonNode beforeUpdPriceJson = json.findValue("beforeUpdPrice");
+                if(beforeUpdPriceJson.size() > 0){
+                    for (JsonNode beforePrice : beforeUpdPriceJson){
+                        PinTieredPrice beforeTieredPrice = Json.fromJson(beforePrice,PinTieredPrice.class);
+                        if(!updPriceId.contains(beforeTieredPrice.getId().toString())){
+                            delList.add(beforeTieredPrice);
+                        }
+                    }
+                    pinSkuMapper.delTieredPrice(delList);
+                }
+            }
         }
         //添加拼购
         else{
@@ -48,7 +108,6 @@ public class PingouServiceImpl implements PingouService {
                         pinTieredPrice.setMasterCouponQuota(null);
                         pinTieredPrice.setMasterCouponStartAt(null);
                         pinTieredPrice.setMasterCouponEndAt(null);
-
                     }
                     if(pinTieredPrice.getMemberCouponClass() == null || pinTieredPrice.getMemberCouponClass().equals("")){
                         pinTieredPrice.setMemberCouponClass(null);
@@ -56,7 +115,6 @@ public class PingouServiceImpl implements PingouService {
                         pinTieredPrice.setMemberCouponQuota(null);
                         pinTieredPrice.setMemberCouponStartAt(null);
                         pinTieredPrice.setMemberCouponEndAt(null);
-
                     }
                     pinTieredPrice.setPinId(pinSku.getPinId());
                     tieredPriceList.add(pinTieredPrice);
@@ -95,8 +153,21 @@ public class PingouServiceImpl implements PingouService {
         return pinSkuMapper.getPinSkuById(pinId);
     }
 
+    /**
+     * 通过PinId获取阶梯价格    Added by Tiffany Zhu 2016.01.28
+     * @return
+     */
     @Override
     public List<PinTieredPrice> getTieredPriceByPinId(Long pinId) {
         return pinSkuMapper.getTieredPriceByPinId(pinId);
+    }
+
+    /**
+     * 添加主题ID       Added by Tiffany Zhu 2016.01.29
+     * @param pinSku
+     */
+    @Override
+    public void updPinThemeId(PinSku pinSku) {
+        pinSkuMapper.updPinThemeId(pinSku);
     }
 }

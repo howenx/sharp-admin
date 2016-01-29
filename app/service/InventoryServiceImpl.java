@@ -71,4 +71,13 @@ public class InventoryServiceImpl implements InventoryService {
     public Inventory getMasterInventory(Long itemId) {
         return inventoryMapper.getMasterInventory(itemId);
     }
+
+    /**
+     * 更新主题ID   Added by Tiffany Zhu 2016.01.29
+     * @param inventory
+     */
+    @Override
+    public void updInventoryThemeId(Inventory inventory) {
+        inventoryMapper.updInventoryThemeId(inventory);
+    }
 }

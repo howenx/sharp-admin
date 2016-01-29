@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户登录</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
+    <link rel="shortcut icon" type="image/png" href="/assets/images/favicon.ico">
+    <link href='http://fonts.useso.com/css?family=Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+        .seller_login{
+            float:right;margin-top:10px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+
+<form class="form-horizontal" method="post" enctype="multipart/form-data">
+    <div class="loginbox" style="position:absolute;left:40%;width:20%;top:30%">
+        <div class="container-fluid">
+            <h1 style="text-align: center">登录</h1>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="请输入用户名" name="enNm" id="enNm" />
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" name="passwd" id="passwd" placeholder="请输入密码"  />
+            </div>
+            <div class="form-group">
+                <input class=" btn btn-primary btn-block form-control" type="button" id="submit"  value="登录">
+                <span class="seller_login" id="seller_login">供应商登录...</span>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+
+<script>
+     /** 供应商及其他用户登录入口 **/
+    $("#seller_login").click(function(){
+        window.location.href = "/otheruser/login";
+    });
+
+    /** 数据提交 **/
+    $("#submit").click(function(){
+        var adminUser = new Object();
+
+        var enNm = $("#enNm").val();
+        var passwd = $("#passwd").val();
+
+        adminUser.enNm = enNm;
+        adminUser.passwd = passwd;
+        if (true) {
+            $.ajax({
+                type :  "POST",
+                url : "/aduser/login",
+                contentType: "application/json; charset=utf-8",
+                data : JSON.stringify(adminUser),
+                error : function(request) {
+                    alert("login error");
+                },
+                success: function(data) {
+                    if (data=="登录失败!") {
+                        window.location.href = "/";
+                    }
+                    if (data=="登录成功!") {
+                        window.location.href = "/summary ";
+                    }
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.*;
 import entity.pingou.PinSku;
 import play.Logger;
@@ -332,9 +333,127 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result themeSave(String lang){
-        JsonNode json = request().body().asJson();
+        JsonNode jsonRequest = request().body().asJson();
+        JsonNode json = jsonRequest.findValue("theme");
         Logger.error(json.toString());
-        service.themeSave(json);
+        JsonNode ids = null;
+        if(json.has("themeDesc")){
+            ((ObjectNode)json).put("themeDesc",json.findValue("themeDesc").toString());
+        }
+        if(json.has("themeItem")){
+            ids = json.findValue("themeItem");
+            ((ObjectNode)json).put("themeItem",json.findValue("themeItem").toString());
+        }
+        if(json.has("themeTags")) {
+            ((ObjectNode) json).put("themeTags", json.findValue("themeTags").toString());
+        }
+        Logger.error(json.toString());
+        Theme theme = play.libs.Json.fromJson(json,Theme.class);
+        theme.setOrDestory(false);
+        service.themeSave(theme);
+
+        //添加主题Id到商品中
+        for(JsonNode idBar : ids){
+            String type = idBar.findValue("type").toString();
+            type = type.substring(1,type.length()-1);
+            //普通商品
+            if("item".equals(type)){
+                Inventory inventory = inventoryService.getInventory(idBar.get("id").asLong());
+                String themeIds = inventory.getThemeId();
+                if (themeIds== null || "".equals(themeIds)){
+                    inventory.setThemeId(theme.getId().toString());
+                }else{
+                    if(!themeIds.contains(theme.getId().toString())){
+                        themeIds = themeIds + "," + theme.getId().toString();
+                        inventory.setThemeId(themeIds);
+                    }
+                }
+                inventoryService.updInventoryThemeId(inventory);
+            }
+            //拼购商品
+            if("pin".equals(type)){
+                PinSku pinSku = pingouService.getPinSkuById(idBar.get("id").asLong());
+                String themeIds = pinSku.getThemeId();
+                if (themeIds== null || "".equals(themeIds)){
+                    pinSku.setThemeId(theme.getId().toString());
+                }else{
+                    if(!themeIds.contains(theme.getId().toString())){
+                        themeIds = themeIds + "," + theme.getId().toString();
+                        pinSku.setThemeId(themeIds);
+                    }
+                }
+                pingouService.updPinThemeId(pinSku);
+            }
+            //多样化商品
+            if("vary".equals(type)){
+                VaryPrice varyPrice = varyPriceService.getVaryPriceById(idBar.get("id").asLong());
+                String themeIds = varyPrice.getThemeId();
+                if ( themeIds== null || "".equals(themeIds)){
+                    varyPrice.setThemeId(theme.getId().toString());
+                }else{
+                    if(!themeIds.contains(theme.getId().toString())){
+                        themeIds = themeIds + "," + theme.getId().toString();
+                        varyPrice.setThemeId(themeIds);
+                    }
+                }
+                varyPriceService.updVaryThemeId(varyPrice);
+            }
+        }
+
+        //删除主题ID
+        JsonNode beforeUpdJson = jsonRequest.findValue("beforeUpdItems");
+        if(beforeUpdJson.size() > 0){
+            for(JsonNode beforeItem : beforeUpdJson){
+                String beforeId = beforeItem.get("id").toString();
+                //最新的商品中不包含变更前的商品
+                if(!theme.getThemeItem().contains(beforeId)){
+                    String type = beforeItem.get("type").toString();
+                    type = type.substring(1,type.length()-1);
+                    //普通商品
+                    if("item".equals(type)){
+                        Inventory inventory = inventoryService.getInventory(beforeItem.get("id").asLong());
+                        String themeIds = inventory.getThemeId();
+                        if (themeIds != null){
+                            if(themeIds.indexOf(theme.getId().toString()) == 0) {
+                                themeIds = themeIds.replace(theme.getId().toString(),"") ;
+                            }else{
+                                themeIds = themeIds.replace("," + theme.getId().toString(),"") ;
+                            }
+                            inventory.setThemeId(themeIds);
+                            inventoryService.updInventoryThemeId(inventory);
+                        }
+                    }
+                    //拼购商品
+                    if("pin".equals(type)){
+                        PinSku pinSku = pingouService.getPinSkuById(beforeItem.get("id").asLong());
+                        String themeIds = pinSku.getThemeId();
+                        if (themeIds != null){
+                            if(themeIds.indexOf(theme.getId().toString()) == 0) {
+                                themeIds = themeIds.replace(theme.getId().toString(),"") ;
+                            }else{
+                                themeIds = themeIds.replace("," + theme.getId().toString(),"") ;
+                            }
+                            pinSku.setThemeId(themeIds);
+                            pingouService.updPinThemeId(pinSku);
+                        }
+                    }
+                    //多样化商品
+                    if("vary".equals(type)){
+                        VaryPrice varyPrice = varyPriceService.getVaryPriceById(beforeItem.get("id").asLong());
+                        String themeIds = varyPrice.getThemeId();
+                        if (themeIds != null){
+                            if(themeIds.indexOf(theme.getId().toString()) == 0) {
+                                themeIds = themeIds.replace(theme.getId().toString(),"") ;
+                            }else{
+                                themeIds = themeIds.replace("," + theme.getId().toString(),"") ;
+                            }
+                            varyPrice.setThemeId(themeIds);
+                            varyPriceService.updVaryThemeId(varyPrice);
+                        }
+                    }
+                }
+            }
+        }
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 

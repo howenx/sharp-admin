@@ -1,53 +1,57 @@
 @(idList:List[entity.ID], url:String)
-
-<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-<script src="/assets/js/jquery.min.js"></script>
-<script src="/assets/js/bootstrap.min.js"></script>
-<!--self-->
-<link rel="stylesheet" href="/assets/css/search.css">
-<script src="/assets/js/search.js"></script>
-<script type="text/javascript">
-    $(function(){
-        var sharedObject = window.dialogArguments;
-        var user_arr = sharedObject.user_arr;
-        for(i=0;i<user_arr.length;i++) {
-            var trs = $(".table tbody").find("tr");
-            for(j=1;j<trs.length;j++) {
-                if (user_arr[i]==trs[j].getElementsByTagName("td")[1].innerText) {
-                    $(trs[j].getElementsByTagName("td")[0].getElementsByTagName("input")[0]).attr("disabled",'true');
-                    $(trs[j]).css("background","#f5f5f5");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选择用户</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <!--self-->
+    <link rel="stylesheet" href="/assets/css/search.css">
+    <script src="/assets/js/search.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var sharedObject = window.dialogArguments;
+            var user_arr = sharedObject.user_arr;
+            for(i=0;i<user_arr.length;i++) {
+                var trs = $(".table tbody").find("tr");
+                for(j=1;j<trs.length;j++) {
+                    if (user_arr[i]==trs[j].getElementsByTagName("td")[1].innerText) {
+                        $(trs[j].getElementsByTagName("td")[0].getElementsByTagName("input")[0]).attr("disabled",'true');
+                        $(trs[j]).css("background","#f5f5f5");
+                    }
                 }
             }
-        }
-        $(".return").click(function(){
-            var id=$("input[type=checkbox]:checked").parents("tr");
-            $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("cou-del").appendTo(id);
-            $(id).find("input[type=checkbox]:checked").parent().remove();
-            if (window.showModalDialog) {
-                var sharedObject = {};
-                sharedObject.id = id;
-                window.returnValue = sharedObject;
-            }
-            else {
-                // if not modal, we cannot use the returnValue property, we need to update the opener window
-                var sharedObject = {};
-                sharedObject.id = id;
-                window.opener.UpdateFields (sharedObject);
-            }
-            window.close ();
+            $(".return").click(function(){
+                var id=$("input[type=checkbox]:checked").parents("tr");
+                $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("cou-del").appendTo(id);
+                $(id).find("input[type=checkbox]:checked").parent().remove();
+                if (window.showModalDialog) {
+                    var sharedObject = {};
+                    sharedObject.id = id;
+                    window.returnValue = sharedObject;
+                }
+                else {
+                    // if not modal, we cannot use the returnValue property, we need to update the opener window
+                    var sharedObject = {};
+                    sharedObject.id = id;
+                    window.opener.UpdateFields (sharedObject);
+                }
+                window.close ();
+            })
+
+            $(".cancel").click(function(){
+                window.close ();
+            });
         })
-
-         $(".cancel").click(function(){
-            window.close ();
-        });
-
-    })
-</script>
-<style>
-    .table-bordered.table-hover{
-    width: 1250px;margin-left: 50px;
-    }
-</style>
+    </script>
+    <style>
+        .table-bordered.table-hover{
+        width: 1250px;margin-left: 50px;
+        }
+    </style>
+</head>
 <body>
 <h3 style="margin-left:20px;">用户查询</h3>
 <table class="table table-bordered table-hover">

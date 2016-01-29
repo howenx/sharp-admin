@@ -1,26 +1,22 @@
 package controllers
 
 
-import java.io.{FileInputStream, File, FileOutputStream}
-import java.net.{URI, URLEncoder}
-import javax.inject.{Named, Inject, Singleton}
+import java.io.{File, FileInputStream, FileOutputStream}
+import javax.inject.{Inject, Named, Singleton}
+
 import actor.OSS
 import akka.actor.ActorRef
-import com.fasterxml.jackson.databind.JsonNode
-import entity.{User, Prod_Type, Prod, User_Type}
+import entity.{Prod, Prod_Type, User_Type}
 import modules.OSSClientProvider
-
+import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.util.CellRangeAddress
-import org.apache.poi.ss.usermodel.{Cell, CellStyle, IndexedColors}
-import org.apache.poi.xssf.usermodel.{XSSFCellStyle, XSSFWorkbook}
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
+import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.json.Json
-import play.api.mvc.{Controller}
+import play.api.mvc.Controller
 import play.api.{Configuration, Logger}
-import play.api.Play.current
-import play.api.i18n.{Lang, MessagesApi, I18nSupport}
-
 
 import scala.collection.immutable.HashMap
 import scala.util.Try
@@ -50,8 +46,8 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
           Redirect(routes.Application.list_supply(None,None))
         case User_Type.TRANSLATION =>
           Redirect(routes.Application.list(None,None))
-        case User_Type.ADMIN =>
-          Redirect(routes.Application.summary())
+//        case User_Type.ADMIN =>
+//          Redirect(routes.Application.summary())
         case _ =>
           Ok(views.html.welcome(lang, user))
       }
@@ -60,13 +56,13 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
   }
   }
 
-  def summary() = withUser { user => {
-    implicit request => {
-      Ok(views.html.summary.summary("cn", user))
-    }
-  }
-
-  }
+//  def summary() = withUser { user => {
+//    implicit request => {
+//      Ok(views.html.summary.summary("cn", user))
+//    }
+//  }
+//
+//  }
 
   //  def welcome() = withUser { user => {
   //    implicit request => {

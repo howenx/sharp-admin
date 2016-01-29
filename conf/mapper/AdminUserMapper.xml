@@ -10,54 +10,53 @@
     -->
     <sql id="adminUserColumns">
         ${alias}.user_id,
-        ${alias}.nickname,
+        ${alias}.en_nm,
+        ${alias}.ch_nm,
+        ${alias}.user_type,
         ${alias}.email,
         ${alias}.passwd,
-        ${alias}.gender,
-        ${alias}.phone_num,
-        ${alias}.real_name,
-        ${alias}.reg_ip,
+        ${alias}.reg_ip::text,
         ${alias}.reg_dt,
-        ${alias}.active_YN
+        ${alias}.active_YN,
         ${alias}.alter_dt,
         ${alias}.last_login_dt,
-        ${alias}.last_login_ip,
+        ${alias}.last_login_ip::text,
         ${alias}.last_pwd_chg_dt,
-        ${alias}.desc,
         ${alias}.status
     </sql>
 
     <!-- 录入一条用户信息 -->
     <insert id="insertUser" parameterType="entity.AdminUser" useGeneratedKeys="true" keyColumn="user_id">
-        insert into ADMIN_USER
-        (nickname,email,passwd,gender,phone_num,real_name,reg_ip,reg_dt,active_YN,alter_dt,last_login_dt,last_login_ip,last_pwd_chg_dt,desc,status)
+        insert into "ADMIN_USER"
+        (en_nm,ch_nm,user_type,email,passwd,reg_ip,reg_dt,"active_YN",alter_dt,last_login_dt,last_login_ip,last_pwd_chg_dt,status)
         values
-        (#{nickname},#{email},#{passwd},#{gender},#{phoneNum},#{realName},#{regIp},CURRENT_TIMESTAMP(0),#{activeYN},#{alterDt},#{lastLoginDt},#{lastLoginIp},#{lastPwdChgDt},#{desc},#{status})
+        (#{enNm},#{chNm},#{userType},#{email},user_passwd(currval('"ADMIN_USER_user_id_seq"'::regclass),#{passwd}),#{regIp}::cidr,CURRENT_TIMESTAMP(0),#{activeYN},CURRENT_TIMESTAMP(0),CURRENT_TIMESTAMP(0),#{lastLoginIp}::cidr,#{lastPwdChgDt},#{status})
     </insert>
 
     <!-- 修改一条用户信息 -->
     <update id="updateUser" parameterType="entity.AdminUser">
-        update ADMIN_USER
+        update "ADMIN_USER"
         set
-        nickname=#{nickname},email=#{email},passwd=#{passwd},gender=#{gender},phone_num=#{phoneNum},real_name=#{realName},active_YN=#{activeYN},alter_dt=#{alterDt},last_login_dt=#{lastLoginDt},last_login_ip=#{lastLoginIp},last_pwd_chg_dt=#{lastPwdChgDt},desc=#{desc},status=#{status}
+        en_nm=#{enNm},ch_nm=#{chNm},user_type=#{userType},email=#{email},passwd=#{passwd},"active_YN"=#{activeYN},alter_dt=CURRENT_TIMESTAMP(0),last_login_dt=#{lastLoginDt},last_login_ip=#{lastLoginIp}::cidr,last_pwd_chg_dt=#{lastPwdChgDt},status=#{status}
         where user_id = #{userId}
     </update>
 
     <!-- 查询一条用户信息 -->
     <select id="getUserBy" resultType="entity.AdminUser" parameterType="entity.AdminUser">
         select
-        <include refid="adminUserColumns">
-            <property name="alias" value="t"/>
-        </include>
-        from ADMIN_USER t where 1=1
+        user_id,en_nm,ch_nm,user_type,email,passwd,reg_ip,reg_dt,"active_YN",alter_dt,last_login_dt,last_login_ip,last_pwd_chg_dt,status
+        from "ADMIN_USER" t where 1=1
         <if test="userId!=null and userId!=''">
             and t.user_id = #{userId}
         </if>
-        <if test="email!=null and email!=''">
-            and t.email = #{email}
+        <!--<if test="email!=null and email!=''">-->
+            <!--and t.email = #{email}-->
+        <!--</if>-->
+        <if test="enNm!=null and enNm!=''">
+            and t.en_nm = #{enNm}
         </if>
-        <if test="phoneNum!=null and phoneNum!=''">
-            and t.phone_num = #{phoneNum}
+        <if test="enNm!=null and enNm!='' and passwd!=null and passwd!=''">
+            and t.en_nm = #{enNm} and t.passwd = user_passwd(user_id,#{passwd})
         </if>
     </select>
 
@@ -67,7 +66,7 @@
         <include refid="adminUserColumns">
             <property name="alias" value="t"/>
         </include>
-        from ADMIN_USER t where 1=1
+        from "ADMIN_USER" t where 1=1
     </select>
 
 </mapper>

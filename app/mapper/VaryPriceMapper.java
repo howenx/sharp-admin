@@ -25,4 +25,10 @@ public interface VaryPriceMapper {
      */
     VaryPrice getVaryPriceById(Long id);
 
+    /**
+     * 更新主题ID   Added by Tiffany Zhu 2016.01.29
+     * @param varyPrice
+     */
+    void updVaryThemeId(VaryPrice varyPrice);
+
 }

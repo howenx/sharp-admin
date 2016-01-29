@@ -35,12 +35,12 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     /**
-     * 根据条件查询用户信息
+     * 根据条件查询用户信息(包括登录)
      * @param adminUser 用户
      * @return List of AdminUser
      */
     @Override
-    public List<AdminUser> getUserBy(AdminUser adminUser) {
+    public AdminUser getUserBy(AdminUser adminUser) {
         return adminUserMapper.getUserBy(adminUser);
     }
 

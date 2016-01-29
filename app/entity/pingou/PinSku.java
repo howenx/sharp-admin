@@ -19,6 +19,7 @@ public class PinSku implements Serializable {
     private Timestamp createAt; //创建时间
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp updateAt; //更新时间
+    private String themeId;     //主题ID
     private String pinTitle;    //拼购商品标题
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp startAt;  //开始时间
@@ -42,13 +43,14 @@ public class PinSku implements Serializable {
     public PinSku() {
     }
 
-    public PinSku(Long pinId, String pinImg, String shareUrl, String status, Timestamp createAt, Timestamp updateAt, String pinTitle, Timestamp startAt, Timestamp endAt, int restrictAmount, String floorPrice, Long invId, BigDecimal pinDiscount, Integer pageSize, Integer offset, String sort, String order) {
+    public PinSku(Long pinId, String pinImg, String shareUrl, String status, Timestamp createAt, Timestamp updateAt, String themeId, String pinTitle, Timestamp startAt, Timestamp endAt, int restrictAmount, String floorPrice, Long invId, BigDecimal pinDiscount, Integer pageSize, Integer offset, String sort, String order) {
         this.pinId = pinId;
         this.pinImg = pinImg;
         this.shareUrl = shareUrl;
         this.status = status;
         this.createAt = createAt;
         this.updateAt = updateAt;
+        this.themeId = themeId;
         this.pinTitle = pinTitle;
         this.startAt = startAt;
         this.endAt = endAt;
@@ -71,6 +73,7 @@ public class PinSku implements Serializable {
                 ", status='" + status + '\'' +
                 ", createAt=" + createAt +
                 ", updateAt=" + updateAt +
+                ", themeId='" + themeId + '\'' +
                 ", pinTitle='" + pinTitle + '\'' +
                 ", startAt=" + startAt +
                 ", endAt=" + endAt +
@@ -131,6 +134,14 @@ public class PinSku implements Serializable {
 
     public void setUpdateAt(Timestamp updateAt) {
         this.updateAt = updateAt;
+    }
+
+    public String getThemeId() {
+        return themeId;
+    }
+
+    public void setThemeId(String themeId) {
+        this.themeId = themeId;
     }
 
     public String getPinTitle() {

@@ -55,4 +55,22 @@ public interface PinSkuMapper {
      */
     List<PinTieredPrice> getTieredPriceByPinId(Long pinId);
 
+    /**
+     * 更新阶梯价格       Added by Tiffany Zhu 2016.01.29
+     * @param list
+     */
+    void updTieredPrice(List list);
+
+    /**
+     * 删除阶梯价格       Added by Tiffany Zhu 2016.01.29
+     * @param list
+     */
+    void delTieredPrice(List list);
+
+    /**
+     * 添加主题ID       Added by Tiffany Zhu 2016.01.29
+     * @param pinSku
+     */
+    void updPinThemeId(PinSku pinSku);
+
 }

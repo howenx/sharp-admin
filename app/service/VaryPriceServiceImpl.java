@@ -45,4 +45,14 @@ public class VaryPriceServiceImpl implements VaryPriceService {
     public VaryPrice getVaryPriceById(Long id) {
         return varyPriceMapper.getVaryPriceById(id);
     }
+
+
+    /**
+     * 更新主题ID   Added by Tiffany Zhu 2016.01.29
+     * @param varyPrice
+     */
+    @Override
+    public void updVaryThemeId(VaryPrice varyPrice) {
+        varyPriceMapper.updVaryThemeId(varyPrice);
+    }
 }

@@ -294,6 +294,7 @@ public class ItemServiceImpl implements ItemService{
         brandsMapper.insertBrands(brands);
     }
 
+
     @Override
     public Boolean insertVersioning(VersionVo versionVo) {
         return versioningMapper.insertVersioning(versionVo)>=0;
@@ -308,4 +309,5 @@ public class ItemServiceImpl implements ItemService{
     public Boolean updateVersioning() {
         return versioningMapper.updateVersioning()>=0;
     }
+
 }

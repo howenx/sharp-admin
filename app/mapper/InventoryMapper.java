@@ -37,4 +37,10 @@ public interface InventoryMapper {
      */
     Inventory getMasterInventory(Long itemId);
 
+    /**
+     * 更新主题ID   Added by Tiffany Zhu 2016.01.29
+     * @param inventory
+     */
+    void updInventoryThemeId(Inventory inventory);
+
 }

@@ -36,6 +36,8 @@ libraryDependencies += "com.typesafe.play" %% "anorm" % "2.5.0" withSources() wi
 libraryDependencies += "org.apache.poi" % "poi" % "3.13" withSources() withJavadoc()
 libraryDependencies += "org.apache.poi" % "poi-ooxml" % "3.13" withSources() withJavadoc()
 
+libraryDependencies += "org.apache.commons" % "commons-email" % "1.4" withSources() withJavadoc()
+
 // 检查代码中使用的过时类细节
 javacOptions += "-Xlint:deprecation"
 javacOptions += "-Xlint:unchecked"
