@@ -2,12 +2,14 @@ package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import entity.Item;
 import entity.Slider;
 import entity.Theme;
 import entity.ThemeTemplate;
 import mapper.InventoryMapper;
 import mapper.ThemeMapper;
 import play.Logger;
+import play.api.libs.json.Json;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -75,31 +77,16 @@ public class ThemeServiceImpl implements ThemeService {
     /**
      * Added by Tiffany Zhu 15/11/30.
      * 保存主题
-     * @param json JsonNode
+     * @param theme
      */
     @Override
-    public void themeSave(JsonNode json)
+    public void themeSave(Theme theme)
     {
-
-        if(json.has("themeDesc")){
-            ((ObjectNode)json).put("themeDesc",json.findValue("themeDesc").toString());
-        }
-        if(json.has("themeItem")){
-            ((ObjectNode)json).put("themeItem",json.findValue("themeItem").toString());
-        }
-        if(json.has("themeTags")) {
-            ((ObjectNode) json).put("themeTags", json.findValue("themeTags").toString());
-        }
-
-        Logger.error(json.toString());
-        Theme theme = play.libs.Json.fromJson(json,Theme.class);
-        theme.setOrDestory(false);
         if(theme.getId() == null){
             themeMapper.insertTheme(theme);
         }else{
             themeMapper.updateTheme(theme);
         }
-
     }
 
     /**

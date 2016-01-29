@@ -1,9 +1,10 @@
 @import play.i18n._
-@(lang:String="cn",pinSku:entity.pingou.PinSku,pinCoupon:entity.pingou.PinCoupon,img:Array[Object],priceRuleList:List[Array[Object]],url:String,user:entity.User)
+@(lang:String="cn",pinSku:entity.pingou.PinSku,img:Array[Object],tieredList:List[Array[Object]],url:String,user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
 <link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/pinSku.css">
 <script src="/assets/js/jquery.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/moment-with-locales.js"></script>
@@ -18,37 +19,6 @@
         $("#themeImg").find("img").attr("src","@url@img(0)");
         $("#themeImg").find("input").attr("id","@img(0)");
         $("#themeImg").find("input").css({"width":@img(1),"height":@img(2)});
-        var temp = "@pinCoupon";
-        //没有优惠券
-        if("@pinCoupon" == ""){
-            $(":radio[value='tz-no']").click(); 
-            $(":radio[value='ty-no']").click();  
-        }
-
-        //有优惠券
-        if("@pinCoupon" != ""){
-            $("#coupon_id").val(@pinCoupon.getId());
-            //团长优惠券
-            if("@pinCoupon.getMasterCouponClass()" != "" ){
-                 $(".tz").find("select").val(@pinCoupon.getMasterCouponClass());
-                 $(".tz").find("input").eq(0).val("@pinCoupon.getMasterCouponQuota()");
-                 $(".tz").find("input").eq(1).val("@pinCoupon.getMasterCoupon()");
-                 $(".tz").find("input").eq(2).val("@pinCoupon.getMasterCouponStartAt()".substring(0,19));
-                 $(".tz").find("input").eq(3).val("@pinCoupon.getMasterCouponEndAt()".substring(0,19)); 
-            }else{
-                 $(":radio[value='tz-no']").click(); 
-            }
-            //团员优惠券
-            if("@pinCoupon.getMemberCouponClass()" != "" ){
-                 $(".ty").find("select").val(@pinCoupon.getMemberCouponClass());
-                 $(".ty").find("input").eq(0).val("@pinCoupon.getMemberCouponQuota()");
-                 $(".ty").find("input").eq(1).val("@pinCoupon.getMemberCoupon()");
-                 $(".ty").find("input").eq(2).val("@pinCoupon.getMemberCouponStartAt()".substring(0,19));
-                 $(".ty").find("input").eq(3).val("@pinCoupon.getMemberCouponEndAt()".substring(0,19)); 
-            }else{
-                 $(":radio[value='ty-no']").click(); 
-            }
-        }
 
         //设置不可编辑项
         $("#pinSkuSubmit").css("display","none");   //保存
@@ -60,21 +30,17 @@
         $("#restrict").attr("disabled",true);       //每用户限购
         $(".btn-xm").eq(0).css("display","none");   //选择商品'按钮'
         $("#getTemplate").eq(0).css("display","none"); //图片模板'按钮'
+        $("#pin_discount").attr("disabled",true);      //最低折扣率
 
         $(".pingou").find("tr").each(function(){        //价格阶梯表中的'删除'
             if($(this).find("td").length == 0){
-                $(this).find("th").eq(3).css("display","none");
+                $(this).find("th").eq(15).css("display","none");
             }else{
-                $(this).find("td").eq(3).css("display","none");
+                $(this).find("td").eq(18).css("display","none");
             }
         })
-        $(".add-level").css("display","none");          //添加价格
-        $("#pin_discount").attr("disabled",true);     //最低折扣率
-        $(":radio").attr("disabled",true);              //优惠券的'radio'
-        $(".tz").find("select").attr("disabled",true);  //团长优惠券类别
-        $(".tz").find("input").attr("disabled",true);   //团长优惠券填写框
-        $(".ty").find("select").attr("disabled",true);  //团员优惠券类别
-        $(".ty").find("input").attr("disabled",true);   //团员优惠券填写框
+
+        $(".tiered-price").css("display","none");//编辑阶梯价格
     })
 </script>
 
@@ -182,49 +148,82 @@
                 </div>
                 <hr/>
                 <h4 class="h4-custom-hmm">价格阶梯</h4>
-                <div class="form-group">
-                    <div class="col-sm-offset-1 col-sm-10">
-                        <table class="table table-bordered pingou">
-                            <tr>
-                                <th>编号</th>
-                                <th>拼购人数</th>
-                                <th>拼购价格</th>
-                                <th>删除</th>
-                            </tr>
-                            @for(rule <- priceRuleList){
-                                <tr>
-                                    <td>@rule(0)</td>
-                                    <td>@rule(1)</td>
-                                    <td>@rule(2)</td>
-                                    <td class="delPingou" style="background: #ccc;cursor: pointer">删除</td>
-                                </tr>
-                            }
-                        </table>
-                    </div>
-                </div>
-                <div class="form-group add-level">
-                    <label class="col-sm-2 control-label">拼购人数:</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control">
-                    </div>
-                    <label class="col-sm-1 control-label" style="padding-left: 0">拼购价格:</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-primary btn-xm addPriceLevel">添加</button>
-                    </div>
-                </div>
-                <div class="form-group">
+                <div class="form-group" style="width:100%">
                     <label class="col-sm-2 control-label">最低折扣率:</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control" id="pin_discount" value="@pinSku.getPinDiscount()">
                     </div>
                 </div>
-                <hr/>
-                <h4 class="h4-custom-hmm">优惠券</h4>
-                <input id="coupon_id" style="display:none">
                 <div class="form-group">
+                    <div style="overflow: auto;">
+                        <div class="col-sm-offset-1 col-sm-10" style="margin: 0;padding: 0;">
+                            <table class="table table-bordered pingou">
+                                <tr>
+                                    <th>编号</th>
+                                    <th>拼购人数</th>
+                                    <th>拼购价格(元)</th>
+                                    <th>团长减价(元)</th>
+                                    <th>团员减价(元)</th>
+                                    <th>团长-类别</th>
+                                    <th>团长-限额</th>
+                                    <th>团长-面值</th>
+                                    <th>团长-开始日期</th>
+                                    <th>团长-结束日期</th>
+                                    <th>团员-类别</th>
+                                    <th>团员-限额</th>
+                                    <th>团员-面值</th>
+                                    <th>团员-开始日期</th>
+                                    <th>团员-结束日期</th>
+                                    <th>删除</th>
+                                </tr>
+                                @for(price <- tieredList){
+                                <tr>
+                                    <td style="display:none">@price(0)</td>
+                                    <td>@price(1)</td>
+                                    <td>@price(2)</td>
+                                    <td>@price(3)</td>
+                                    <td>@price(4)</td>
+                                    <td>@price(5)</td>
+                                    <td style="display:none">@price(6)</td>
+                                    <td>@price(7)</td>
+                                    <td>@price(8)</td>
+                                    <td>@price(9)</td>
+                                    <td>@price(10)</td>
+                                    <td>@price(11)</td>
+                                    <td style="display:none">@price(12)</td>
+                                    <td>@price(13)</td>
+                                    <td>@price(14)</td>
+                                    <td>@price(15)</td>
+                                    <td>@price(16)</td>
+                                    <td>@price(17)</td>
+                                    <td class="delPingou" style="background: #ccc;cursor: pointer">删除</td>
+                                </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group tiered-price">
+                    <label class="col-sm-2 control-label">拼购人数:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="peopleNum">
+                    </div>
+                    <label class="col-sm-1 control-label" style="padding-left: 0">拼购价格:</label>
+                    <div class="col-sm-3">
+                        <input type="text" id="price"  class="form-control">
+                    </div>
+                </div>
+                <div class="form-group tiered-price">
+                    <label class="col-sm-2 control-label">团长减价:</label>
+                    <div class="col-sm-3">
+                        <input type="text" id="masterMin" class="form-control">
+                    </div>
+                    <label class="col-sm-1 control-label" style="padding-left: 0">团员减价:</label>
+                    <div class="col-sm-3">
+                        <input type="text" id="memberMin" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group tiered-price">
                     <label class="col-sm-2 control-label">团长:</label>
                     <div class="col-sm-3">
                         <label class="radio-inline">
@@ -235,7 +234,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="form-group tz">
+                <div class="form-group tz tiered-price">
                     <label class="col-sm-2 control-label">优惠券类别:</label>
                     <div class="col-sm-3">
                         <select class="form-control">
@@ -250,19 +249,19 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group tz">
+                <div class="form-group tz tiered-price">
                     <label class="col-sm-2 control-label">限额:</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control">
                     </div>
                 </div>
-                <div class="form-group tz">
+                <div class="form-group tz tiered-price">
                     <label class="col-sm-2 control-label">面值:</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control">
                     </div>
                 </div>
-                <div class="form-group tz">
+                <div class="form-group tz tiered-price">
                     <label class="col-sm-2 control-label">使用期限:</label>
                     <div class="col-sm-3">
                         <div class="input-group" id='datetimepicker3'>
@@ -278,7 +277,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group tiered-price">
+
                     <label class="col-sm-2 control-label">团员:</label>
                     <div class="col-sm-3">
                         <label class="radio-inline">
@@ -289,7 +289,8 @@
                         </label>
                     </div>
                 </div>
-                <div class="form-group ty">
+
+                <div class="form-group ty tiered-price">
                     <label class="col-sm-2 control-label">优惠券类别:</label>
                     <div class="col-sm-3">
                         <select class="form-control">
@@ -304,19 +305,19 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group ty">
+                <div class="form-group ty tiered-price">
                     <label class="col-sm-2 control-label">限额:</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control">
                     </div>
                 </div>
-                <div class="form-group ty">
+                <div class="form-group ty tiered-price">
                     <label class="col-sm-2 control-label">面值:</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control">
                     </div>
                 </div>
-                <div class="form-group ty">
+                <div class="form-group ty tiered-price">
                     <label class="col-sm-2 control-label">使用期限:</label>
                     <div class="col-sm-3">
                         <div class="input-group" id='datetimepicker5'>
@@ -332,6 +333,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group tiered-price">
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-primary btn-xm addPriceLevel" style="margin-left: 800px;">添加</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-primary btn-xm editPriceLevel" style="margin-left: 530px;">确定修改</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-primary btn-xm cancelPriceLevel" style="margin-left: 460px;">返回添加</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <input id="colIndex" style="display:none;">
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -343,5 +358,5 @@
         <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
 </div>
-<
+
 }

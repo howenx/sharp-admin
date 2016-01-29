@@ -19,4 +19,10 @@ public interface ItemMapper {
     void itemUpdate(Item item);
 
     List<Item> getItemsAll();
+
+    /**
+     * 更新商品的主题ID    Added by Tiffany Zhu 2016.01.29
+     * @param item
+     */
+    void updItemThemeId(Item item);
 }

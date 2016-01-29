@@ -1,0 +1,141 @@
+@import play.i18n._
+@(lang:String="cn",user:entity.User)
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/screenshot.css">
+<script>
+$(function() {
+	$(document).on('change', '#fileinput', function() {
+	    var file = $(this);
+        file.after(file.clone().val(""));
+        file.remove();
+		
+	    var files = $(this)[0].files;
+
+	    var allowedFileTypes = ["image/jpeg", "application/ipa", "application/apk", ];
+
+	    console.log(files[0].type);
+	    if (allowedFileTypes.indexOf(files[0].type) > -1) {
+	    	alert("文件类型不匹配");
+	    }
+	})
+})
+</script>
+}
+
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.title")
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes")</span>
+        <span class="icon-path">&gt;</span>
+        <span>@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu1")</span>
+    </div>
+</div>
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.title")</span>
+    </div>
+    <div class="usercenter-option">
+        <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
+        <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
+        <div id="js-usercenter-cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
+        <span id="js-userinfo-error" class="mt20 alt fr"></span>
+    </div>
+
+    <div class="container-fluid table-content">
+        <row>
+            <h4 class="h4-custom-hmm">列表</h4>
+            <table id="tb-topic" class="table table-bordered table-hover">
+                <thead>
+                <th>主键</th>
+                <th>版本号</th>
+                <th>系统</th>
+                <th>下载链接</th>
+                <th>发布版本人员</th>
+                <th>版本描述</th>
+                <th>发版时间</th>
+                <th>文件名</th>
+                <th>是否最新版</th>
+                </thead>
+
+                <tbody>
+                <tr class = "tb-list-data">
+                    <td>
+                        <a href="">232</a>
+                    </td>
+                    <td>1.7.1 ver</td>
+                    <td>ios</td>
+                    <td>http://www.xxxx.com</td>
+                    <td>roy</td>
+                    <td>更改了bug</td>
+                    <td>2016/2/1 12:00</td>
+                    <td>bienao.ipa</td>
+                    <td> 是 </td>
+                </tr>
+                <tr class = "tb-list-data">
+                    <td>
+                        <a href="">242</a>
+                    </td>
+                    <td>1.7.1 ver</td>
+                    <td>android</td>
+                    <td>http://www.xxxx.com</td>
+                    <td>roy</td>
+                    <td>更改了bug</td>
+                    <td>2016/2/1 12:00</td>
+                    <td>bienao.apk</td>
+                    <td> 是 </td>
+                </tr>
+                <tr class = "tb-list-data">
+                    <td>
+                        <a href="">232</a>
+                    </td>
+                    <td>1.7.1 ver</td>
+                    <td>ios</td>
+                    <td>http://www.xxxx.com</td>
+                    <td>roy</td>
+                    <td>更改了bug</td>
+                    <td>2016/2/1 12:00</td>
+                    <td>bienao.ipa</td>
+                    <td> 是 </td>
+                </tr>
+                <tr class = "tb-list-data">
+                    <td>
+                        <a href="">232</a>
+                    </td>
+                    <td>1.7.1 ver</td>
+                    <td>ios</td>
+                    <td>http://www.xxxx.com</td>
+                    <td>roy</td>
+                    <td>更改了bug</td>
+                    <td>2016/2/1 12:00</td>
+                    <td>bienao.ipa</td>
+                    <td> 是 </td>
+                </tr>
+                <tr class = "tb-list-data">
+                    <td>
+                        <a href="">232</a>
+                    </td>
+                    <td>1.7.1 ver</td>
+                    <td>ios</td>
+                    <td>http://www.xxxx.com</td>
+                    <td>roy</td>
+                    <td>更改了bug</td>
+                    <td>2016/2/1 12:00</td>
+                    <td>bienao.ipa</td>
+                    <td> 是 </td>
+                </tr>
+                <!---公用模块,id不能改变,只需要改变合并行数-->
+                <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+                </tbody>
+            </table>
+        </row>
+    </div>
+</div>
+}

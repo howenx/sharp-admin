@@ -98,4 +98,10 @@
         from inventories t where item_id=${value} and or_master_inv = true
     </select>
 
+    <update id="updInventoryThemeId" parameterType="entity.Inventory">
+        update inventories
+        set theme_id = #{themeId}
+        where id = #{id}
+    </update>
+
 </mapper>

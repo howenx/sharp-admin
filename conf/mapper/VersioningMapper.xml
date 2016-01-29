@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.VersioningMapper">
+
+    <sql id="versioningColumns">
+        ${alias}.id              ,
+        ${alias}.release_number   ,
+        ${alias}.product_type    ,
+        ${alias}.download_link   ,
+        ${alias}.admin_user_id   ,
+        ${alias}.release_desc    ,
+        ${alias}.release_at     ,
+        ${alias}.file_name         ,
+        ${alias}.current_version   ,
+        ${alias}.update_req_xml
+    </sql>
+
+    <!-- 录入一条 -->
+    <insert id="insertVersioning" parameterType="entity.VersionVo" useGeneratedKeys="true" keyProperty="id">
+        insert into versioning
+        (release_number,product_type,download_link,admin_user_id,release_desc,release_at,file_name,update_req_xml)
+        values
+        (#{releaseNumber},#{productType},#{downloadLink},#{adminUserId},#{releaseDesc},CURRENT_TIMESTAMP(0),#{fileName},#{updateReqXml})
+    </insert>
+
+    <!-- -->
+    <select id="getVersioning" resultType="entity.VersionVo">
+        select
+        <include refid="versioningColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from versioning t where 1=1
+    </select>
+
+    <update id="updateVersioning">
+        update versioning set current_version =false
+    </update>
+
+</mapper>
