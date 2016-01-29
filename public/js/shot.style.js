@@ -387,6 +387,30 @@ $(function() {
   			return false;
   		}
   	}
+
+  	//修改前主题包含的商品信息
+    var beforeUpdItems = [];
+    $("#sort").find("tr").each(function(){
+
+        var itemId = $(this).find("td:eq(1)").text();
+        var type = $(this).find("td:eq(2)").text();
+        if( itemId!= null && itemId != ""){
+            var object = new Object();
+            if(type == "普通"){
+                object.type = "item";
+            }
+            if(type == "拼购"){
+                object.type = "pin";
+            }
+            if(type == "多样化"){
+                object.type = "vary";
+            }
+            object.id =  itemId.toString();
+            beforeUpdItems.push(object);
+        }
+    })
+
+  	//保存
   	$("#js-usercenter-submit").click(function(){
 
         var isPost = true;
@@ -524,13 +548,16 @@ $(function() {
         theme.themeItem = themeItems;
         theme.themeTags = masterItemTag;
         theme.themeMasterImg = JSON.stringify(themeMasterImgContent);
+        var data = {};
+        data.theme = theme;
+        data.beforeUpdItems = beforeUpdItems;
 
         if (isPost) {
                     $.ajax({
                         type :  "POST",
                         url : "/topic/add/themeSave",
                         contentType: "application/json; charset=utf-8",
-                        data : JSON.stringify(theme),
+                        data : JSON.stringify(data),
                         error : function(request) {
                             if (window.lang = 'cn') {
                                 $('#js-userinfo-error').text('保存失败');

@@ -19,7 +19,7 @@ public interface ThemeService {
 
      List<Theme> themeSearch(Theme theme);
 
-     void themeSave(JsonNode json);
+     void themeSave(Theme theme);
 
      List<Theme> getThemesAll();
 

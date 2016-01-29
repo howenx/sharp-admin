@@ -290,4 +290,5 @@ public class ItemServiceImpl implements ItemService{
         Brands brands = play.libs.Json.fromJson(json,Brands.class);
         brandsMapper.insertBrands(brands);
     }
+
 }

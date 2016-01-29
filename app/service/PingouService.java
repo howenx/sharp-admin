@@ -44,4 +44,10 @@ public interface PingouService {
      */
     List<PinTieredPrice> getTieredPriceByPinId(Long pinId);
 
+    /**
+     * 添加主题ID       Added by Tiffany Zhu 2016.01.29
+     * @param pinSku
+     */
+    void updPinThemeId(PinSku pinSku);
+
 }
