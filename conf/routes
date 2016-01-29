@@ -219,7 +219,7 @@ GET             /$lang<(cn|en|kr)>/pin/getPinById/:id                       cont
 #versiong
 GET             /release/view                                                controllers.VersionCtrl.release()
 POST            /release/public                                              controllers.VersionCtrl.publicRelease()
-GET             /release/list                                                controllers.releaseList()
+GET             /release/list                                                controllers.VersionCtrl.releaseList()
 
 
 
