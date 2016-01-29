@@ -10,6 +10,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -25,18 +26,16 @@ public class UserAuth extends Security.Authenticator {
     @Override
     public String getUsername(Http.Context ctx) {
 
-        Optional<String> header = Optional.ofNullable(ctx.request().getHeader("Referer"));
+        Optional<String> header = Optional.ofNullable(ctx.request().uri());
         if (header.isPresent()) {
-
             String username =  ctx.session().get("username");
             if(username != null) {
                 Logger.debug("userAuth user " + username);
                 User user = (User) Cache.get(username.trim());
-//                configuration.getStringList();
-
-
                 if(user != null) {
-                    ctx.args.put("user",user);
+                    if (configuration.getStringList(user.userType().get()).contains(header.get())){
+                        ctx.args.put("user",user);
+                    }else return null;
                 }
                 else {
                     return null;
