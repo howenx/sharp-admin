@@ -41,6 +41,7 @@ public class StyleDBModule extends PrivateModule{
                 addMapperClass(CarriageMapper.class);
                 addMapperClass(SysParamMapper.class);
                 addMapperClass(VaryPriceMapper.class);
+                addMapperClass(VersioningMapper.class);
             }
         });
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import entity.Brands;
 import entity.Cates;
 import entity.Item;
+import entity.VersionVo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -85,4 +86,11 @@ public interface ItemService {
      * @param json
      */
     void insertBrands(JsonNode json);
+
+
+    Boolean insertVersioning(VersionVo versionVo);
+
+    List<VersionVo> getVersioning();
+
+    Boolean updateVersioning();
 }
