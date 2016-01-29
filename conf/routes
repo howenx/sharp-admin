@@ -4,7 +4,7 @@
 # Home page
 GET				/front                                                  controllers.Application.welcome(lang= "cn")
 GET				/$lang<(cn|en|kr)>/front                                controllers.Application.welcome(lang)
-GET				/summary                                                controllers.Application.summary
+#GET				/summary                                                controllers.Application.summary
 
 
 
@@ -54,10 +54,8 @@ POST            /$lang<(cn|en|kr)>/topic/templates/save                     cont
 
 #Item -----> commodity,简写comm 商品
 GET             /getSubcates                                                controllers.ItemCtrl.getSubCategory
-GET             /comm/search                                                controllers.ItemCtrl.itemList(lang ="cn")
-GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.itemList(lang)
-GET             /comm/search/popup                                          controllers.ItemCtrl.itemSearchPopup(lang ="cn")
-GET             /$lang<(cn|en|kr)>/comm/search/popup                        controllers.ItemCtrl.itemSearchPopup(lang)
+GET             /comm/search                                                controllers.ItemCtrl.itemSearch(lang ="cn")
+GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.itemSearch(lang)
 POST            /comm/search/$pageNum<[0-9]+>                               controllers.ItemCtrl.itemSearchAjax(lang ="cn",pageNum:Int)
 POST            /$lang<(cn|en|kr)>/comm/search/$pageNum<[0-9]+>             controllers.ItemCtrl.itemSearchAjax(lang,pageNum:Int)
 GET             /comm/add                                                   controllers.ItemCtrl.itemCreate(lang="cn")
@@ -135,7 +133,7 @@ POST            /comm/cate/cateSave                                         cont
 
 
 # 登录 供应管理
-GET             /                                                           controllers.Auth.login
+#GET             /                                                           controllers.Auth.login
 POST            /authenticate                                               controllers.Auth.authenticate
 GET             /logout                                                     controllers.Auth.logout
 #GET            /test                                                       controllers.Test.test
@@ -157,12 +155,17 @@ GET             /supply/download/hangzhou                                   cont
 POST            /supply/upload                                              controllers.Application.upload
 
 
-#AdminUser --> aduser 添加管理员用户
+
+#AdminUser --> aduser 用户管理 添加管理员用户 登录
+GET             /                                                            controllers.AdminUserCtrl.adminUserLogin
+POST            /aduser/login                                                controllers.AdminUserCtrl.authLogin
+GET             /otheruser/login                                             controllers.Auth.login
+GET				/summary                                                     controllers.AdminUserCtrl.summary
 GET             /aduser/add                                                  controllers.AdminUserCtrl.adminUserCreate(lang="cn")
 GET             /$lang<(cn|en|kr)>/aduser/add                                controllers.AdminUserCtrl.adminUserCreate(lang)
 POST            /aduser/save                                                 controllers.AdminUserCtrl.adminUserSave
-
-
+GET             /aduser/info                                                 controllers.AdminUserCtrl.adminUserInfo(lang="cn")
+GET             /$lang<(cn|en|kr)>//aduser/info                              controllers.AdminUserCtrl.adminUserInfo(lang)
 
 
 

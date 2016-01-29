@@ -65,7 +65,7 @@
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 
-<div class="mbread" style="width:60%">
+<div class="mbread" style="width:65%">
     <div class="bread-path">
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
         <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
@@ -166,19 +166,21 @@
 
 <script>
      $(document).on("click",".cou-del",function(){
-        //用户总数
-        var userCount = $("#user-add").find("tr").length - 1;
-        console.log("用户总数userCount:" + userCount);
-        //被删除行的编号
-        var delColNum = $(this).parents("tr").find("td:eq(0)").text();
-        console.log("被删除行编号delColNum:" + delColNum);
-        if(userCount > delColNum){
-            for(i=parseInt(delColNum);i<userCount;i++){
-                var j = i + 1;
-                $("#user-add").find("tr:eq("+j+")").find("td:eq(0)").text(i);
+         if (window.confirm("确定删除吗?")) {
+            //用户总数
+            var userCount = $("#user-add").find("tr").length - 1;
+            //console.log("用户总数userCount:" + userCount);
+            //被删除行的编号
+            var delColNum = $(this).parents("tr").find("td:eq(0)").text();
+            //console.log("被删除行编号delColNum:" + delColNum);
+            if(userCount > delColNum){
+                for(i=parseInt(delColNum);i<userCount;i++){
+                    var j = i + 1;
+                    $("#user-add").find("tr:eq("+j+")").find("td:eq(0)").text(i);
+                }
             }
-        }
-        $(this).parents("tr").remove();
+            $(this).parents("tr").remove();
+         }
      });
 
     /** 数据提交 **/

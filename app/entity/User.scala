@@ -1,14 +1,19 @@
 package entity
 
-import anorm._
+import java.sql.Timestamp
+
 import anorm.SqlParser._
-import play.Logger
-import play.api.db.DB
+import anorm._
+import entity.AnormEnumerationExtension._
 import play.api.Play.current
-import AnormEnumerationExtension._
+import play.api.db.DB
+
 import scala.language.implicitConversions
 
-case class User (id: Long, nickname: String, gender: Gender.gender, photo_url: String ,  role: User_Type.user_type )
+case class User (id: Long, nickname: String, gender: Gender.gender, photo_url: String ,  role: User_Type.user_type,
+                 userId:Option[Long], enNm:Option[String], chNm:Option[String], email:Option[String], userType:Option[String], passwd:Option[String], regIp:Option[String], regDt:Option[Timestamp],
+                 activeYN:Option[String], alterDt:Option[Timestamp], lastLoginDt:Option[Timestamp], lastLoginIp:Option[String], lastPwdChgDt:Option[Timestamp],status:Option[String]
+                  )
 
 /**
  * Created by handy on 15/10/27.
@@ -22,7 +27,7 @@ object User {
       get[Gender.gender]("gender") ~
       get[String]("photo_url") ~
       get[User_Type.user_type]("role") map {
-      case user_id ~ nickname ~ gender ~ photo_url ~ role => User(user_id, nickname, gender, photo_url, role )
+      case user_id ~ nickname ~ gender ~ photo_url ~ role => User(user_id, nickname, gender, photo_url, role, None,None,None,None, None,None,None,None,None,None,None,None, None,None)
     }
 
   }
@@ -87,6 +92,7 @@ object Gender extends Enumeration {
 
 
 import java.lang.reflect.InvocationTargetException
+
 import scala.reflect.runtime.universe._
 
 /**

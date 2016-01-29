@@ -1,0 +1,131 @@
+@import play.i18n._
+@(lang:String="cn",user:entity.User)
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/slider.css">
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<style type="text/css">
+    .control-label{font-weight: 500;}
+    .res{float:right;font-size:13px;margin-top:40px;margin-right:10px;color:blue;}
+
+</style>
+}
+
+@import java.lang.String; var title="个人中心"
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+
+<div class="mbread" style="width:65%">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@user.enNm</span>
+        <span class="icon-path">&gt;</span>
+        <span>个人中心</span>
+    </div>
+</div>
+
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">个人中心</span><a class="res">密码修改</a>
+    </div>
+    <div class="usercenter-option">
+        <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
+        <div id="submit" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
+        <div id="cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
+        <span id="js-userinfo-error" class="mt20 alt fr"></span>
+    </div>
+    <div class="row">
+        <form class="form-horizontal" method="post" enctype="multipart/form-data">
+            <div class="upinfo">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" >用户名</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="enNm" name="enNm"><div style="margin-left:250px;width:200px;margin-top:-25px;">(示例:aaa.aa)</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" >中文名称</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="chNm" name="chNm">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" >邮箱</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="email" name="email"><div style="margin-left:250px;width:200px;margin-top:-25px;">@@kakaocorp.com</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" >角色</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="role" name="role">
+                            <option value="OPERATE" selected>运营人员</option>
+                            <option value="FINANCE">财务人员</option>
+                            <option value="SERVICE">客服人员</option>
+                            <option value="ADMIN">管理人员</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+}
+
+<script>
+
+    /** 数据提交 **/
+    $("#submit").click(function(){
+        var adminUser = new Object();
+
+        var enNm = $("#enNm").val();
+        var chNm = $("#chNm").val();
+        var email = $("#email").val();
+        var role = $("#role").val();
+
+        adminUser.enNm = enNm;
+        adminUser.chNm = chNm;
+        adminUser.email = email;
+        adminUser.role = role;
+
+        if (true) {
+            $.ajax({
+                type :  "POST",
+                url : "/aduser/save",
+                contentType: "application/json; charset=utf-8",
+                data : JSON.stringify(adminUser),
+                error : function(request) {
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('保存失败');
+                    } else {
+                        $('#js-userinfo-error').text('Save error');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('')", 2000);
+                },
+                success: function(data) {
+                    if (data=="该用户已注册!") {
+                        alert(data);
+                    }
+                    else {
+                        $('.usercenter-option > .user-state').css('background-position', '20px -174px');
+                        if (window.lang = 'cn') {
+                            $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                            $('.usercenter-option > .user-state').text('未更改');
+                        } else {
+                            $('#js-userinfo-error').text('Save success');
+                            $('.usercenter-option > .user-state').text('Unchanged');
+                        }
+                        setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+
+                        //setTimeout("location.href='/"+window.lang+"/aduser/add'", 3000);
+                    }
+                }
+            });
+        }
+
+    });
+
+</script>

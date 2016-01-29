@@ -71,14 +71,14 @@ public class ItemCtrl extends Controller {
     }
 
     /**
-     * 商品列表
+     * 商品查询
      * @param lang 语言
      * @return view
      */
     @Security.Authenticated(UserAuth.class)
-    public Result itemList(String lang){
+    public Result itemSearch(String lang){
 
-        Item item =new Item();
+        Item item = new Item();
 
         item.setPageSize(-1);
         item.setOffset(-1);
@@ -136,16 +136,6 @@ public class ItemCtrl extends Controller {
         else{
             return badRequest();
         }
-    }
-
-    /**
-     * 商品查询弹窗
-     * @param lang 语言
-     * @return view
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result itemSearchPopup(String lang){
-        return ok(views.html.item.itemlistPop.render(lang));
     }
 
     /**
