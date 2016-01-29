@@ -31,6 +31,9 @@ public class ItemServiceImpl implements ItemService{
     private CatesMapper catesMapper;
 
 
+    @Inject
+    private VersioningMapper versioningMapper;
+
     /**
      * 分页查询商品列表
      * @param item
@@ -289,6 +292,22 @@ public class ItemServiceImpl implements ItemService{
         Logger.error(json.toString());
         Brands brands = play.libs.Json.fromJson(json,Brands.class);
         brandsMapper.insertBrands(brands);
+    }
+
+
+    @Override
+    public Boolean insertVersioning(VersionVo versionVo) {
+        return versioningMapper.insertVersioning(versionVo)>=0;
+    }
+
+    @Override
+    public List<VersionVo> getVersioning() {
+        return versioningMapper.getVersioning();
+    }
+
+    @Override
+    public Boolean updateVersioning() {
+        return versioningMapper.updateVersioning()>=0;
     }
 
 }
