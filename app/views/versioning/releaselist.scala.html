@@ -49,53 +49,93 @@ $(function() {
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <form class="form-horizontal" id="release" action="/release/public" method="POST">
-                <h4 class="h4-custom-hmm">版本信息</h4>
-                <!--<div class="form-group">-->
-                    <!--<ul class="rec_sku-title">-->
-                        <!--<li>-->
-                            <!--<p><label class="radio"><input type="radio" data-xr="A" class="set-main temp_radio_class " name="setMain">安卓</label></p>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<p><label class="radio"><input type="radio" data-xr="I" class="set-main temp_radio_class" name="setMain">IOS</label></p>-->
-                        <!--</li>-->
-                    <!--</ul>-->
-                <!--</div>-->
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">系统</label>
-                    <div class="col-sm-3">
-                        <label class="radio-inline">
-                            <input type="radio" name="system" checked> android
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="system"> ios
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">版本号</label>
-                    <div class="col-sm-8">
-                        <input type="text"class="form-control">
-                    </div>
-                </div>
+    <div class="container-fluid table-content">
+        <row>
+            <h4 class="h4-custom-hmm">列表</h4>
+            <table id="tb-topic" class="table table-bordered table-hover">
+                <thead>
+                <th>主键</th>
+                <th>版本号</th>
+                <th>系统</th>
+                <th>下载链接</th>
+                <th>发布版本人员</th>
+                <th>版本描述</th>
+                <th>发版时间</th>
+                <th>文件名</th>
+                <th>是否最新版</th>
+                </thead>
 
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">版本描述</label>
-                    <div class="col-sm-8">
-                        <textarea class="form-control" style="resize: vertical"></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">上传</label>
-                    <div class="col-sm-8">
-                        <button type="button" class="btn btn-primary btn-sm">上传</button>
-                    </div>
-                </div>
-
-            </form>
-        </div>
+                <tbody>
+                <tr class = "tb-list-data">
+                    <td>
+                        <a href="">232</a>
+                    </td>
+                    <td>1.7.1 ver</td>
+                    <td>ios</td>
+                    <td>http://www.xxxx.com</td>
+                    <td>roy</td>
+                    <td>更改了bug</td>
+                    <td>2016/2/1 12:00</td>
+                    <td>bienao.ipa</td>
+                    <td> 是 </td>
+                </tr>
+                <tr class = "tb-list-data">
+                    <td>
+                        <a href="">242</a>
+                    </td>
+                    <td>1.7.1 ver</td>
+                    <td>android</td>
+                    <td>http://www.xxxx.com</td>
+                    <td>roy</td>
+                    <td>更改了bug</td>
+                    <td>2016/2/1 12:00</td>
+                    <td>bienao.apk</td>
+                    <td> 是 </td>
+                </tr>
+                <tr class = "tb-list-data">
+                    <td>
+                        <a href="">232</a>
+                    </td>
+                    <td>1.7.1 ver</td>
+                    <td>ios</td>
+                    <td>http://www.xxxx.com</td>
+                    <td>roy</td>
+                    <td>更改了bug</td>
+                    <td>2016/2/1 12:00</td>
+                    <td>bienao.ipa</td>
+                    <td> 是 </td>
+                </tr>
+                <tr class = "tb-list-data">
+                    <td>
+                        <a href="">232</a>
+                    </td>
+                    <td>1.7.1 ver</td>
+                    <td>ios</td>
+                    <td>http://www.xxxx.com</td>
+                    <td>roy</td>
+                    <td>更改了bug</td>
+                    <td>2016/2/1 12:00</td>
+                    <td>bienao.ipa</td>
+                    <td> 是 </td>
+                </tr>
+                <tr class = "tb-list-data">
+                    <td>
+                        <a href="">232</a>
+                    </td>
+                    <td>1.7.1 ver</td>
+                    <td>ios</td>
+                    <td>http://www.xxxx.com</td>
+                    <td>roy</td>
+                    <td>更改了bug</td>
+                    <td>2016/2/1 12:00</td>
+                    <td>bienao.ipa</td>
+                    <td> 是 </td>
+                </tr>
+                <!---公用模块,id不能改变,只需要改变合并行数-->
+                <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+                </tbody>
+            </table>
+        </row>
     </div>
 </div>
 }
