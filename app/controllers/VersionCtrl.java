@@ -51,6 +51,12 @@ public class VersionCtrl extends Controller {
     }
 
     @Security.Authenticated(UserAuth.class)
+    public Result releaseList(){
+        return ok(views.html.versioning.releaselist.render("cn",(User) ctx().args.get("user")));
+    }
+
+
+    @Security.Authenticated(UserAuth.class)
     @BodyParser.Of(value = BodyParser.MultipartFormData.class, maxLength = 200 * 1024 * 1024)
     public Result publicRelease() throws FileNotFoundException {
 
