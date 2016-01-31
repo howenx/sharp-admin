@@ -10,9 +10,9 @@ import java.util.List;
  */
 public interface AdminUserService {
 
-    Long insertUser(AdminUser adminUser);
+    Boolean insertUser(AdminUser adminUser);
 
-    void updateUser(AdminUser adminUser);
+    Boolean updateUser(AdminUser adminUser);
 
     AdminUser getUserBy(AdminUser adminUser);
 

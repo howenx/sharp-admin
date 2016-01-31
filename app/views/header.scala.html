@@ -144,6 +144,9 @@
                                     <a href="/@lang/aduser/add" class="info-link">新增用户</a>
                                 </li>
                                 <li class="header-dropdown-item">
+                                    <a href="/@lang/aduser/search" class="info-link">用户管理</a>
+                                </li>
+                                <li class="header-dropdown-item">
                                     <a href="javascript:void(0)" class="info-link">@Messages.get(new
                                         Lang(Lang.forCode(lang)),"nav.myproducts.menu2")</a>
                                 </li>
@@ -170,12 +173,12 @@
                     </li>
                     }
 
-                    <!--@if(user.role==entity.User_Type.SYSTEM || user.role==entity.User_Type.ADMIN) {-->
-                    <!--<li class="header-navi-item fl">-->
-                        <!--<a href="javascript:void(0)" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.system")</a>-->
-                        <!--<i class="header-nav-border-relative"></i>-->
-                    <!--</li>-->
-                    <!--}-->
+                    @if(user.role==entity.User_Type.SYSTEM || user.role==entity.User_Type.ADMIN) {
+                    <li class="header-navi-item fl">
+                        <a href="javascript:void(0)" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.system")</a>
+                        <i class="header-nav-border-relative"></i>
+                    </li>
+                    }
 
 
                     <li class="header-navi-item fl">

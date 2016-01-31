@@ -77,7 +77,8 @@ object User {
  */
 object User_Type extends Enumeration {
   type user_type = Value
-  val SELLER, TRANSLATION, ADMIN, SYSTEM = Value
+  val SELLER, TRANSLATION,
+  OPERATE, FINANCE, SERVICE, ADMIN, SYSTEM = Value
 }
 
 

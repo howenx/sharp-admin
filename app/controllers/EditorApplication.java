@@ -12,6 +12,7 @@ import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,12 +20,14 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class EditorApplication extends Controller{
-	
-	
+
+
+	@Security.Authenticated(UserAuth.class)
 	public  Result editor(){
 		return ok(views.html.index.render());
 	}
-	
+
+	@Security.Authenticated(UserAuth.class)
 	public  Result editorController() throws Exception{
 		DynamicForm form   = Form.form().bindFromRequest();
 		String action = form.get("action");

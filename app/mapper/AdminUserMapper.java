@@ -12,7 +12,7 @@ public interface AdminUserMapper {
 
     Long insertUser(AdminUser adminUser);
 
-    void updateUser(AdminUser adminUser);
+    Long updateUser(AdminUser adminUser);
 
     AdminUser getUserBy(AdminUser adminUser);
 

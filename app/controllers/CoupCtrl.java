@@ -31,6 +31,7 @@ public class CoupCtrl extends Controller {
      * 保存优惠券
      * @return Result
      */
+    @Security.Authenticated(UserAuth.class)
     public Result coupSave() {
         JsonNode json = request().body().asJson();
         couponsService.couponsSave(json);

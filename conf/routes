@@ -25,16 +25,16 @@ GET             /assets/*file                 controllers.Assets.versioned(path=
 # Theme--->topic, 主题 为了不使url暴露代码内部用名
 GET             /topic/slider                                               controllers.ThemeCtrl.slider(lang = "cn")
 GET             /$lang<(cn|en|kr)>/topic/slider                             controllers.ThemeCtrl.slider(lang)
-GET             /topic/add                                                  controllers.ThemeCtrl.thadd(lang = "cn")
-GET             /$lang<(cn|en|kr)>/topic/add                                controllers.ThemeCtrl.thadd(lang)
+GET             /topic/slider/popup                                         controllers.ThemeCtrl.sliderPop()
 POST            /topic/slider/update                                        controllers.ThemeCtrl.sliderSave(lang ="cn")
 POST            /$lang<(cn|en|kr)>/topic/slider/update                      controllers.ThemeCtrl.sliderSave(lang)
+GET             /topic/add                                                  controllers.ThemeCtrl.thadd(lang = "cn")
+GET             /$lang<(cn|en|kr)>/topic/add                                controllers.ThemeCtrl.thadd(lang)
+GET             /topic/add/popup                                            controllers.ThemeCtrl.thaddPop()
 GET             /topic/search                                               controllers.ThemeCtrl.thsearch(lang ="cn")
 GET             /$lang<(cn|en|kr)>/topic/search                             controllers.ThemeCtrl.thsearch(lang)
 POST            /topic/search/$pageNum<[0-9]+>                              controllers.ThemeCtrl.thsearchAjax(lang ="cn",pageNum:Int)
 POST            /$lang<(cn|en|kr)>/topic/search/$pageNum<[0-9]+>            controllers.ThemeCtrl.thsearchAjax(lang,pageNum:Int)
-GET             /topic/slider/popup                                         controllers.ThemeCtrl.sliderPop()
-GET             /topic/add/popup                                            controllers.ThemeCtrl.thaddPop()
 POST            /topic/add/themeSave                                        controllers.ThemeCtrl.themeSave(lang = "cn")
 POST            /$lang<(cn|en|kr)>/topic/add/themeSave                      controllers.ThemeCtrl.themeSave(lang)
 GET             /topic/updateById/:id                                       controllers.ThemeCtrl.updateThemeById(lang = "cn",id:Long)
@@ -54,6 +54,7 @@ POST            /$lang<(cn|en|kr)>/topic/templates/save                     cont
 
 #Item -----> commodity,简写comm 商品
 GET             /getSubcates                                                controllers.ItemCtrl.getSubCategory
+GET             /comm/pop                                                   controllers.ItemCtrl.itemAddPop()
 GET             /comm/search                                                controllers.ItemCtrl.itemSearch(lang ="cn")
 GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.itemSearch(lang)
 POST            /comm/search/$pageNum<[0-9]+>                               controllers.ItemCtrl.itemSearchAjax(lang ="cn",pageNum:Int)
@@ -65,7 +66,6 @@ GET             /comm/findById/:id                                          cont
 GET             /$lang<(cn|en|kr)>/comm/findById/:id                        controllers.ItemCtrl.findItemById(lang,id:Long)
 GET             /comm/updateById/:id                                        controllers.ItemCtrl.updateItemById(lang = "cn",id:Long)
 GET             /$lang<(cn|en|kr)>/comm/updateById/:id                      controllers.ItemCtrl.updateItemById(lang,id:Long)
-GET             /comm/pop                                                   controllers.ItemCtrl.itemAddPop()
 
 
 
@@ -97,11 +97,11 @@ GET             /carr/delModel/:modelCode                                   cont
 
 #order 订单列表
 GET             /comm/order/search                                          controllers.OrderCtrl.orderList(lang ="cn")
+POST            /comm/order/search/$pageNum<[0-9]+>                         controllers.OrderCtrl.orderSearchAjax(lang ="cn",pageNum:Int)
+POST            /$lang<(cn|en|kr)>/comm/order/search/$pageNum<[0-9]+>       controllers.OrderCtrl.orderSearchAjax(lang,pageNum:Int)
 GET             /$lang<(cn|en|kr)>/comm/order/search                        controllers.OrderCtrl.orderList(lang)
 GET             /comm/order/detail/$id<[0-9]+>                              controllers.OrderCtrl.orderDetail(lang ="cn",id:Long)
 GET             /$lang<(cn|en|kr)>/comm/order/detail/$id<[0-9]+>            controllers.OrderCtrl.orderDetail(lang,id:Long)
-POST            /comm/order/search/$pageNum<[0-9]+>                         controllers.OrderCtrl.orderSearchAjax(lang ="cn",pageNum:Int)
-POST            /$lang<(cn|en|kr)>/comm/order/search/$pageNum<[0-9]+>       controllers.OrderCtrl.orderSearchAjax(lang,pageNum:Int)
 POST            /comm/order/cancel                                          controllers.OrderCtrl.orderCancel(lang ="cn")
 POST            /$lang<(cn|en|kr)>/comm/order/cancel                        controllers.OrderCtrl.orderCancel(lang)
 GET             /comm/order/unpaidOrders                                    controllers.OrderCtrl.unpaidOrders(lang ="cn")
@@ -165,7 +165,15 @@ GET             /aduser/add                                                  con
 GET             /$lang<(cn|en|kr)>/aduser/add                                controllers.AdminUserCtrl.adminUserCreate(lang)
 POST            /aduser/save                                                 controllers.AdminUserCtrl.adminUserSave
 GET             /aduser/info                                                 controllers.AdminUserCtrl.adminUserInfo(lang="cn")
-GET             /$lang<(cn|en|kr)>//aduser/info                              controllers.AdminUserCtrl.adminUserInfo(lang)
+GET             /$lang<(cn|en|kr)>/aduser/info                               controllers.AdminUserCtrl.adminUserInfo(lang)
+POST            /aduser/update                                               controllers.AdminUserCtrl.adminUserUpdate(lang="cn")
+POST            /$lang<(cn|en|kr)>/aduser/update                             controllers.AdminUserCtrl.adminUserUpdate(lang)
+GET             /aduser/chgpwd                                               controllers.AdminUserCtrl.adminUserChgPwd(lang="cn")
+GET             /$lang<(cn|en|kr)>/aduser/chgpwd                             controllers.AdminUserCtrl.adminUserChgPwd(lang)
+POST            /aduser/resetpwd                                             controllers.AdminUserCtrl.adminUserResetPwd(lang="cn")
+POST            /$lang<(cn|en|kr)>/aduser/resetpwd                           controllers.AdminUserCtrl.adminUserResetPwd(lang)
+GET             /aduser/search                                               controllers.AdminUserCtrl.adminUserSearch(lang="cn")
+GET             /$lang<(cn|en|kr)>/aduser/search                             controllers.AdminUserCtrl.adminUserSearch(lang)
 
 
 
@@ -206,10 +214,10 @@ GET             /pin/add                                                    cont
 GET             /$lang<(cn|en|kr)>/pin/add                                  controllers.PingouCtrl.addPingou(lang)
 GET             /pin/search                                                 controllers.PingouCtrl.pingouSearch(lang ="cn")
 GET             /$lang<(cn|en|kr)>/pin/search                               controllers.PingouCtrl.pingouSearch(lang)
-POST            /pin/save                                                   controllers.PingouCtrl.pingouSave(lang ="cn")
-POST            /$lang<(cn|en|kr)>/pin/save                                 controllers.PingouCtrl.pingouSave(lang)
 POST            /pin/search/$pageNum<[0-9]+>                                controllers.PingouCtrl.getPinSkuPage(lang ="cn",pageNum:Int)
 POST            /$lang<(cn|en|kr)>/pin/search/$pageNum<[0-9]+>              controllers.PingouCtrl.getPinSkuPage(lang,pageNum:Int)
+POST            /pin/save                                                   controllers.PingouCtrl.pingouSave(lang ="cn")
+POST            /$lang<(cn|en|kr)>/pin/save                                 controllers.PingouCtrl.pingouSave(lang)
 GET             /pin/getPinById/:id                                         controllers.PingouCtrl.getPinSkuById(lang = "cn",id:Long)
 GET             /$lang<(cn|en|kr)>/pin/getPinById/:id                       controllers.PingouCtrl.getPinSkuById(lang,id:Long)
 

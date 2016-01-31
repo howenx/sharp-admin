@@ -18,20 +18,21 @@ public class AdminUserServiceImpl implements AdminUserService {
     /**
      * 注册一个新用户
      * @param adminUser 用户
-     * @return userId
+     * @return Boolean
      */
     @Override
-    public Long insertUser(AdminUser adminUser) {
-        return adminUserMapper.insertUser(adminUser);
+    public Boolean insertUser(AdminUser adminUser) {
+        return adminUserMapper.insertUser(adminUser)>=0;
     }
 
     /**
      * 修改一条用户信息
      * @param adminUser 用户
+     * @return Boolean
      */
     @Override
-    public void updateUser(AdminUser adminUser) {
-        adminUserMapper.updateUser(adminUser);
+    public Boolean updateUser(AdminUser adminUser) {
+        return adminUserMapper.updateUser(adminUser)>=0;
     }
 
     /**

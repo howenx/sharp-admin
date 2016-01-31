@@ -12,7 +12,7 @@
 </style>
 }
 
-@import java.lang.String; var title="新增用户"
+@import java.lang.String; var title="密码修改"
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 
@@ -23,13 +23,13 @@
         <span class="icon-path">&gt;</span>
         <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.users.menu1")</span>
         <span class="icon-path">&gt;</span>
-        <span>新增用户</span>
+        <span>密码修改</span>
     </div>
 </div>
 
 <div class="wrap-slider">
     <div class="page-title">
-        <span class="title-name">新增用户</span>
+        <span class="title-name">密码修改</span>
     </div>
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
@@ -41,32 +41,21 @@
         <form class="form-horizontal" method="post" enctype="multipart/form-data">
             <div class="upinfo">
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" >用户名</label>
+                    <label class="col-sm-1 control-label" >密码</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control" id="enNm" name="enNm"><div style="margin-left:250px;width:200px;margin-top:-25px;">(示例:aaa.aa)</div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" >中文名称</label>
+                    <label class="col-sm-1 control-label" >新密码</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control" id="chNm" name="chNm">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" >邮箱</label>
+                    <label class="col-sm-1 control-label" >确认</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control" id="email" name="email"><div style="margin-left:250px;width:200px;margin-top:-25px;">@@kakaocorp.com</div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label" >角色</label>
-                    <div class="col-sm-3">
-                        <select class="form-control" id="userType" name="userType">
-                            <option value="OPERATE" selected>运营人员</option>
-                            <option value="FINANCE">财务人员</option>
-                            <option value="SERVICE">客服人员</option>
-                            <option value="ADMIN">管理人员</option>
-                        </select>
                     </div>
                 </div>
             </div>
@@ -77,27 +66,16 @@
 
 <script>
 
-    /** 数据提交 **/
+    /** 数据提交 修改密码 **/
     $("#submit").click(function(){
         var isPost = true;
         var adminUser = new Object();
-        var enNm = $("#enNm").val();
-        var chNm = $("#chNm").val();
-        var email = $("#email").val();
-        var userType = $("#userType").val();
-        if (enNm=="" || enNm=="") {
-            isPost = false;
-            alert("信息填写不正确!");
-        }
-        adminUser.enNm = enNm;
-        adminUser.chNm = chNm;
-        adminUser.email = email;
-        adminUser.userType = userType;
-
+        var userId = $("#userId").val();
+        adminUser.userId = userId;
         if (isPost) {
             $.ajax({
                 type :  "POST",
-                url : "/aduser/save",
+                url : "/aduser/resetpwd",
                 contentType: "application/json; charset=utf-8",
                 data : JSON.stringify(adminUser),
                 error : function(request) {
@@ -109,10 +87,10 @@
                     setTimeout("$('#js-userinfo-error').text('')", 2000);
                 },
                 success: function(data) {
-                    if (data=="该用户已注册!") {
+                    if (data=="修改失败") {
                         alert(data);
                     }
-                    else {
+                    if (data=="修改成功") {
                         $('.usercenter-option > .user-state').css('background-position', '20px -174px');
                         if (window.lang = 'cn') {
                             $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
@@ -122,13 +100,11 @@
                             $('.usercenter-option > .user-state').text('Unchanged');
                         }
                         setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
-
-                        //setTimeout("location.href='/"+window.lang+"/aduser/add'", 3000);
+                        setTimeout("location.href='/"+window.lang+"/aduser/info'", 1000);
                     }
                 }
             });
         }
-
     });
 
 </script>

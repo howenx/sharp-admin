@@ -54,6 +54,7 @@ public class AdminUserCtrl extends Controller {
      * 保存用户信息(用户注册)
      * @return Result
      */
+    @Security.Authenticated(UserAuth.class)
     public Result adminUserSave(){
         JsonNode json = request().body().asJson();
         AdminUser adminUser  = Json.fromJson(json, AdminUser.class);
@@ -117,13 +118,12 @@ public class AdminUserCtrl extends Controller {
             adminUser.setLastLoginIp(loginIp);
             adminUser.setLastLoginDt(new Timestamp(new Date().getTime()));
             adminUser.setStatus("Y");
+//            Logger.error("更新后:"+adminUser.toString());
+            adminUserService.updateUser(adminUser);
             User user = new User (adminUser.getUserId(), null,null, null , User_Type.withName(adminUser.getUserType()),
                     Option.apply(adminUser.getUserId()), Option.apply(adminUser.getEnNm()), Option.apply(adminUser.getChNm()), Option.apply(adminUser.getEmail()),
                     Option.apply(adminUser.getUserType()), null, null, null,
                     null, null, null,null, null,null);
-//            user.chNm() = adminUser.getChNm();
-//            Logger.error("更新后:"+adminUser.toString());
-            adminUserService.updateUser(adminUser);
             //登录成功后用户信息存在cache 和 session中
             Cache.set(adminUser.getEnNm().trim(), user);
             session().put("username",adminUser.getEnNm().trim());
@@ -132,6 +132,11 @@ public class AdminUserCtrl extends Controller {
         else return ok("登录失败!");
     }
 
+    /**
+     * 首页
+     * @return views
+     */
+    @Security.Authenticated(UserAuth.class)
     public Result summary() {
         String username = session().get("username");
         User user = (User) Cache.get(username.trim());
@@ -148,11 +153,78 @@ public class AdminUserCtrl extends Controller {
         return ok(views.html.adminuser.userinfo.render(lang, (User) ctx().args.get("user")));
     }
 
+    /**
+     * 修改用户信息(中文名)
+     * @param lang 语言
+     * @return
+     */
+    @Security.Authenticated
+    public Result adminUserUpdate(String lang) {
+        JsonNode json = request().body().asJson();
+        AdminUser adu  = Json.fromJson(json, AdminUser.class);
+        //通过userId 查询用户信息
+        AdminUser adminUser = adminUserService.getUserBy(adu);
+        //更新用户信息
+        adminUser.setChNm(adu.getChNm());
+        Boolean bool = adminUserService.updateUser(adminUser);
+        User user = new User (adminUser.getUserId(), null,null, null , User_Type.withName(adminUser.getUserType()),
+                Option.apply(adminUser.getUserId()), Option.apply(adminUser.getEnNm()), Option.apply(adminUser.getChNm()), Option.apply(adminUser.getEmail()),
+                Option.apply(adminUser.getUserType()), null, null, null,
+                null, null, null,null, null,null);
+        //更新cache 和 session中用户信息
+        Cache.set(adminUser.getEnNm().trim(), user);
+        session().put("username",adminUser.getEnNm().trim());
+        if (bool) {
+            return ok("修改成功");
+        }
+        else return ok("修改失败");
+    }
+
+    /**
+     * 修改密码
+     * @param lang 语言
+     * @return views
+     */
+    @Security.Authenticated
+    public Result adminUserChgPwd(String lang) {
+        return ok(views.html.adminuser.userpwdchg.render(lang, (User) ctx().args.get("user")));
+    }
+
+    /**
+     * 密码修改保存
+     * @param lang 语言
+     * @return
+     */
+    @Security.Authenticated
+    public Result adminUserResetPwd(String lang) {
+        JsonNode json = request().body().asJson();
+        AdminUser adu  = Json.fromJson(json, AdminUser.class);
+        //通过userId 查询用户信息
+        AdminUser adminUser = adminUserService.getUserBy(adu);
+        //更新用户信息
+        adminUser.setPasswd(adu.getChNm());
+        Boolean bool = adminUserService.updateUser(adminUser);
+        return ok();
+
+    }
+
+    /**
+     *
+     * @param lang 语言
+     * @return views
+     */
+    @Security.Authenticated
+    public Result adminUserSearch(String lang) {
+        List<AdminUser> adminUserList = adminUserService.getAllUsers();
+        return ok(views.html.adminuser.usersearch.render(lang, adminUserList, (User) ctx().args.get("user")));
+    }
+
 
     /**
      * 用户列表弹窗(发放优惠券选择用户功能)
      * @return Result
      */
+    @Security.Authenticated(UserAuth.class)
     public Result addIDUserPop() {
         List<ID> idList = idService.getAllID();
         String IMAGE_URL = "http://img.hanmimei.com";

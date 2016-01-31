@@ -61,7 +61,7 @@ public class ItemCtrl extends Controller {
      * @return Result
      *
      */
-
+    @Security.Authenticated(UserAuth.class)
     public Result getSubCategory() {
         DynamicForm form = Form.form().bindFromRequest();
         Long pcid = Long.parseLong(form.get("pcid"));
@@ -270,7 +270,7 @@ public class ItemCtrl extends Controller {
      * 添加商品, 弹窗商品添加规格       Added by Sunny.Wu
      * @return view
      */
-
+    @Security.Authenticated(UserAuth.class)
     public Result itemAddPop() {
         return ok(views.html.item.itemaddPop.render(carriageService.getModels(),ThemeCtrl.IMG_UPLOAD_URL,ThemeCtrl.IMAGE_URL));
     }

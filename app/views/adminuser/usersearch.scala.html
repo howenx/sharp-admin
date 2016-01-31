@@ -1,0 +1,61 @@
+@import play.i18n._
+@(lang:String="cn", adminUserList:List[entity.AdminUser], user:entity.User)
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+}
+
+@import java.lang.String; var title="用户管理"
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
+        <span class="icon-path">&gt;</span>
+        <span>@Messages.get(new Lang(Lang.forCode(lang)),"nav.products.menu1")</span>
+    </div>
+</div>
+<div class="content-1">
+    <div class="page-title">
+        <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"comm.search.popup.title")</span>
+    </div>
+    <div class="table-content">
+        <table id="tb-adu" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>用户id</th>
+                <th>用户名</th>
+                <th>用户类型</th>
+                <th>中文名称</th>
+                <th>邮箱</th>
+                <th>是否激活</th>
+                <th>用户状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            @for(au <- adminUserList){
+            <tr class = "tb-list-data">
+                <td><a href="javascript:void(0)">@au.getUserId()</a></td>
+                <td>@au.getEnNm()</td>
+                <td>@au.getUserType()</td>
+                <td>@au.getChNm()</a></td>
+                <td>@au.getEmail()</td>
+                <td>
+                    @if(au.getActiveYN()=="Y"){激活}
+                    @if(au.getActiveYN()=="Y"){未激活}
+                </td>
+                <td>@if(au.getStatus()=="Y"){正常}
+                    @if(au.getStatus()=="Y"){组织}
+                </td>
+            </tr>
+            }
+            <tr id="nodata-td" style="display:none;"><td colspan="9">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+}

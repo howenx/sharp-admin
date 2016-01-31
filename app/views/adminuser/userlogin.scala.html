@@ -49,14 +49,17 @@
 
     /** 数据提交 **/
     $("#submit").click(function(){
+        var isPost = true;
         var adminUser = new Object();
-
         var enNm = $("#enNm").val();
         var passwd = $("#passwd").val();
-
+        if(enNm=="" || passwd=="") {
+            alert("请输入用户名或密码");
+            isPost = false;
+        }
         adminUser.enNm = enNm;
         adminUser.passwd = passwd;
-        if (true) {
+        if (isPost) {
             $.ajax({
                 type :  "POST",
                 url : "/aduser/login",

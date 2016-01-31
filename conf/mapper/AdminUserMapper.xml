@@ -17,7 +17,7 @@
         ${alias}.passwd,
         ${alias}.reg_ip::text,
         ${alias}.reg_dt,
-        ${alias}.active_YN,
+        ${alias}."active_YN",
         ${alias}.alter_dt,
         ${alias}.last_login_dt,
         ${alias}.last_login_ip::text,
@@ -37,7 +37,7 @@
     <update id="updateUser" parameterType="entity.AdminUser">
         update "ADMIN_USER"
         set
-        en_nm=#{enNm},ch_nm=#{chNm},user_type=#{userType},email=#{email},passwd=#{passwd},"active_YN"=#{activeYN},alter_dt=CURRENT_TIMESTAMP(0),last_login_dt=#{lastLoginDt},last_login_ip=#{lastLoginIp}::cidr,last_pwd_chg_dt=#{lastPwdChgDt},status=#{status}
+        ch_nm=#{chNm},user_type=#{userType},email=#{email},passwd=#{passwd},"active_YN"=#{activeYN},alter_dt=CURRENT_TIMESTAMP(0),last_login_dt=#{lastLoginDt},last_login_ip=#{lastLoginIp}::cidr,last_pwd_chg_dt=#{lastPwdChgDt},status=#{status}
         where user_id = #{userId}
     </update>
 
@@ -49,9 +49,9 @@
         <if test="userId!=null and userId!=''">
             and t.user_id = #{userId}
         </if>
-        <!--<if test="email!=null and email!=''">-->
-            <!--and t.email = #{email}-->
-        <!--</if>-->
+        <if test="email!=null and email!=''">
+            and t.email = #{email}
+        </if>
         <if test="enNm!=null and enNm!=''">
             and t.en_nm = #{enNm}
         </if>
