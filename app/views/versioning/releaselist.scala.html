@@ -1,7 +1,8 @@
 @import play.i18n._
-@(lang:String="cn",user:entity.User)
+@(lang:String="cn",user:entity.User,androidVersion:List[entity.VersionVo],iosVersion:List[entity.VersionVo])
 
 @scripts = {
+<link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
 <link rel="stylesheet" href="/assets/css/screenshot.css">
 <script>
@@ -43,150 +44,88 @@ $(function() {
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
         <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
         <span class="icon-path">&gt;</span>
-        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes")</span>
+        <span class="current">应用管理</span>
         <span class="icon-path">&gt;</span>
-        <span>@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu1")</span>
+        <span>版本历史</span>
     </div>
 </div>
 <div class="wrap-slider">
     <div class="page-title">
-        <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.title")</span>
+        <span class="title-name">版本历史</span>
     </div>
-    <div class="usercenter-option">
-        <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
-        <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
-        <div id="js-usercenter-cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
-        <span id="js-userinfo-error" class="mt20 alt fr"></span>
-    </div>
-
-<<<<<<< HEAD
-    <div class="row">
-        <div class="col-sm-12">
-            <form class="form-horizontal" id="release" action="/release/public" method="POST">
-                <h4 class="h4-custom-hmm">版本信息</h4>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">系统</label>
-                    <div class="col-sm-3">
-                        <label class="radio-inline">
-                            <input type="radio" name="system" checked> android
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="system"> ios
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">版本号</label>
-                    <div class="col-sm-8">
-                        <input type="text" name="releaseNumber" class="form-control">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">版本描述</label>
-                    <div class="col-sm-8">
-                        <textarea class="form-control" style="resize: vertical"></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">文件</label>
-                    <div class="col-sm-8">
-                        <input style="display:none;" type="file" id="fileinput" name="file" accept="application/apk, application/ipa" />
-                        <button type="button" id="upbn" class="btn btn-primary btn-sm">上传</button>
-                    </div>
-                </div>
-
-            </form>
-        </div>
-=======
     <div class="container-fluid table-content">
-        <row>
-            <h4 class="h4-custom-hmm">列表</h4>
-            <table id="tb-topic" class="table table-bordered table-hover">
-                <thead>
-                <th>主键</th>
-                <th>版本号</th>
-                <th>系统</th>
-                <th>下载链接</th>
-                <th>发布版本人员</th>
-                <th>版本描述</th>
-                <th>发版时间</th>
-                <th>文件名</th>
-                <th>是否最新版</th>
-                </thead>
+        <h4 class="h4-custom-hmm">Android版本列表</h4>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <th style="width: 5%;text-align: center;vertical-align: middle;">主键</th>
+                <th style="width: 6%;text-align: center;vertical-align: middle;">版本号</th>
+                <th style="text-align: center;vertical-align: middle;">类型</th>
+                <th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>
+                <th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>
+                <th style="text-align: center;vertical-align: middle;">版本描述</th>
+                <th style="width: 8%;text-align: center;vertical-align: middle;">发版时间</th>
+                <th style="width: 7%;text-align: center;vertical-align: middle;">配置文件</th>
+                <th style="width: 8%;text-align: center;vertical-align: middle;">是否最新版</th>
+            </thead>
 
-                <tbody>
-                <tr class = "tb-list-data">
-                    <td>
-                        <a href="">232</a>
-                    </td>
-                    <td>1.7.1 ver</td>
-                    <td>ios</td>
-                    <td>http://www.xxxx.com</td>
-                    <td>roy</td>
-                    <td>更改了bug</td>
-                    <td>2016/2/1 12:00</td>
-                    <td>bienao.ipa</td>
-                    <td> 是 </td>
-                </tr>
-                <tr class = "tb-list-data">
-                    <td>
-                        <a href="">242</a>
-                    </td>
-                    <td>1.7.1 ver</td>
-                    <td>android</td>
-                    <td>http://www.xxxx.com</td>
-                    <td>roy</td>
-                    <td>更改了bug</td>
-                    <td>2016/2/1 12:00</td>
-                    <td>bienao.apk</td>
-                    <td> 是 </td>
-                </tr>
-                <tr class = "tb-list-data">
-                    <td>
-                        <a href="">232</a>
-                    </td>
-                    <td>1.7.1 ver</td>
-                    <td>ios</td>
-                    <td>http://www.xxxx.com</td>
-                    <td>roy</td>
-                    <td>更改了bug</td>
-                    <td>2016/2/1 12:00</td>
-                    <td>bienao.ipa</td>
-                    <td> 是 </td>
-                </tr>
-                <tr class = "tb-list-data">
-                    <td>
-                        <a href="">232</a>
-                    </td>
-                    <td>1.7.1 ver</td>
-                    <td>ios</td>
-                    <td>http://www.xxxx.com</td>
-                    <td>roy</td>
-                    <td>更改了bug</td>
-                    <td>2016/2/1 12:00</td>
-                    <td>bienao.ipa</td>
-                    <td> 是 </td>
-                </tr>
-                <tr class = "tb-list-data">
-                    <td>
-                        <a href="">232</a>
-                    </td>
-                    <td>1.7.1 ver</td>
-                    <td>ios</td>
-                    <td>http://www.xxxx.com</td>
-                    <td>roy</td>
-                    <td>更改了bug</td>
-                    <td>2016/2/1 12:00</td>
-                    <td>bienao.ipa</td>
-                    <td> 是 </td>
-                </tr>
+            <tbody>
+                @for(android <- androidVersion) {
+                    <tr class = "tb-list-data">
+                        <td style="text-align: center;vertical-align: middle;">@android.getId()</td>
+                        <td style="text-align: center;vertical-align: middle;">@android.getReleaseNumber()</td>
+                        @if(android.getProductType().equals("A")){<td style="text-align: center;vertical-align: middle;">Android</td>}
+                        @if(android.getProductType().equals("I")){<td style="text-align: center;vertical-align: middle;">IOS</td>}
+                        <td style="width: 11%;text-align: center;vertical-align: middle;"><a href="@android.getDownloadLink()" target="_blank">@android.getFileName()</a></td>
+                        <td style="width: 10%;text-align: center;vertical-align: middle;">@android.getAdminUserNm()</td>
+                        <td style="text-align: left;vertical-align: inherit;">@android.getReleaseDesc()</td>
+                        <td>@android.getReleaseAt()</td>
+                        <td style="text-align: center;vertical-align: middle;"><a href="@android.getUpdateReqXml()" target="_blank">点击查看</a></td>
+                        @if(android.getCurrentVersion()){<td style="color: red;">是</td>}
+                        @if(!android.getCurrentVersion()){<td>否</td>}
+                    </tr>
+                }
                 <!---公用模块,id不能改变,只需要改变合并行数-->
                 <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
-                </tbody>
-            </table>
-        </row>
->>>>>>> e6245c734a139c11f7bf4011e9136b9bcfe86191
+            </tbody>
+        </table>
+    </div>
+    <div class="container-fluid table-content">
+        <h4 class="h4-custom-hmm">IOS版本列表</h4>
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th style="width: 5%;text-align: center;vertical-align: middle;">主键</th>
+            <th style="width: 6%;text-align: center;vertical-align: middle;">版本号</th>
+            <th style="text-align: center;vertical-align: middle;">类型</th>
+            <th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>
+            <th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>
+            <th style="text-align: center;vertical-align: middle;">版本描述</th>
+            <th style="width: 8%;text-align: center;vertical-align: middle;">发版时间</th>
+            <th style="width: 7%;text-align: center;vertical-align: middle;">配置文件</th>
+            <th style="width: 13%;text-align: center;vertical-align: middle;">AppStore下载地址</th>
+            <th style="width: 8%;text-align: center;vertical-align: middle;">是否最新版</th>
+            </thead>
+
+            <tbody>
+            @for(android <- iosVersion) {
+            <tr class = "tb-list-data">
+                <td style="text-align: center;vertical-align: middle;">@android.getId()</td>
+                <td style="text-align: center;vertical-align: middle;">@android.getReleaseNumber()</td>
+                @if(android.getProductType().equals("A")){<td style="text-align: center;vertical-align: middle;">Android</td>}
+                @if(android.getProductType().equals("I")){<td style="text-align: center;vertical-align: middle;">IOS</td>}
+                <td style="width: 11%;text-align: center;vertical-align: middle;"><a href="@android.getDownloadLink()" target="_blank">@android.getFileName()</a></td>
+                <td style="width: 10%;text-align: center;vertical-align: middle;">@android.getAdminUserNm()</td>
+                <td style="text-align: left;vertical-align: inherit;">@android.getReleaseDesc()</td>
+                <td>@android.getReleaseAt()</td>
+                <td style="text-align: center;vertical-align: middle;"><a href="@android.getUpdateReqXml()" target="_blank">点击查看</a></td>
+                <td style="text-align: center;vertical-align: middle;"><a href="@android.getAppStoreDownloadLink()" target="_blank">点击查看</a></td>
+                @if(android.getCurrentVersion()){<td style="color: red;">是</td>}
+                @if(!android.getCurrentVersion()){<td>否</td>}
+            </tr>
+            }
+            <!---公用模块,id不能改变,只需要改变合并行数-->
+            <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            </tbody>
+        </table>
     </div>
 </div>
 }

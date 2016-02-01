@@ -301,13 +301,13 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public List<VersionVo> getVersioning() {
-        return versioningMapper.getVersioning();
+    public List<VersionVo> getVersioning(VersionVo versionVo) {
+        return versioningMapper.getVersioning(versionVo);
     }
 
     @Override
-    public Boolean updateVersioning() {
-        return versioningMapper.updateVersioning()>=0;
+    public Boolean updateVersioning(VersionVo versionVo) {
+        return versioningMapper.updateVersioning(versionVo)>=0;
     }
 
 }
