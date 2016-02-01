@@ -54,4 +54,21 @@ public class AdminUserServiceImpl implements AdminUserService {
         return adminUserMapper.getAllUsers();
     }
 
+    /**
+     * 根据id删除一条用户信息
+     * @param id 用户id
+     */
+    public void delUserById(Long id) {
+        adminUserMapper.delUserById(id);
+    }
+
+    /**
+     * 修改密码
+     * @param adminUser 用户
+     * @return Boolean
+     */
+    public Boolean chgPwd(AdminUser adminUser) {
+        return adminUserMapper.chgPwd(adminUser)>=0;
+    }
+
 }

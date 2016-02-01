@@ -18,4 +18,8 @@ public interface AdminUserService {
 
     List<AdminUser> getAllUsers();
 
+    void delUserById(Long id);
+
+    Boolean chgPwd(AdminUser adminUser);
+
 }

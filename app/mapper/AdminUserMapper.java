@@ -18,4 +18,8 @@ public interface AdminUserMapper {
 
     List<AdminUser> getAllUsers();
 
+    void delUserById(Long id);
+
+    Long chgPwd(AdminUser adminUser);
+
 }

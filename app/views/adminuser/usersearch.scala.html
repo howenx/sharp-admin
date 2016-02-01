@@ -14,48 +14,73 @@
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
         <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
         <span class="icon-path">&gt;</span>
-        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
+        <span class="current">用户管理</span>
         <span class="icon-path">&gt;</span>
-        <span>@Messages.get(new Lang(Lang.forCode(lang)),"nav.products.menu1")</span>
+        <span>用户查询</span>
     </div>
 </div>
 <div class="content-1">
     <div class="page-title">
-        <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"comm.search.popup.title")</span>
+        <span class="title-name">用户管理</span>
     </div>
     <div class="table-content">
         <table id="tb-adu" class="table table-bordered table-hover">
             <thead>
             <tr>
-                <th>用户id</th>
+                <th>用户ID</th>
                 <th>用户名</th>
                 <th>用户类型</th>
                 <th>中文名称</th>
                 <th>邮箱</th>
                 <th>是否激活</th>
                 <th>用户状态</th>
+                <th>操作</th>
             </tr>
             </thead>
             <tbody>
             @for(au <- adminUserList){
             <tr class = "tb-list-data">
-                <td><a href="javascript:void(0)">@au.getUserId()</a></td>
+                <td><a href="/@lang/aduser/info">@au.getUserId()</a></td>
                 <td>@au.getEnNm()</td>
                 <td>@au.getUserType()</td>
                 <td>@au.getChNm()</a></td>
                 <td>@au.getEmail()</td>
                 <td>
                     @if(au.getActiveYN()=="Y"){激活}
-                    @if(au.getActiveYN()=="Y"){未激活}
+                    @if(au.getActiveYN()=="N"){未激活}
                 </td>
                 <td>@if(au.getStatus()=="Y"){正常}
-                    @if(au.getStatus()=="Y"){组织}
+                    @if(au.getStatus()=="N"){阻止}
                 </td>
+                <td><a style="cursor:pointer;" class="del-user">删除</a><input type="hidden" value="@au.getUserId()"></td>
             </tr>
             }
-            <tr id="nodata-td" style="display:none;"><td colspan="9">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
     </div>
 </div>
 }
+
+<script>
+    $(document).on('click','.del-user',function(){
+        if (window.confirm("确定删除吗?")) {
+            var userId = $(this).next().val();
+            $.ajax({
+                type :  "GET",
+                url : "/aduser/del/"+userId,
+                contentType: "application/json; charset=utf-8",
+                error : function(request) {
+                    alert("删除失败!");
+                },
+                success: function(data) {
+                    if(data=="删除成功") {
+                        alert(data);
+                        //用户删除, 成功后返回到用户查询页面
+                        setTimeout("location.href='/"+window.lang+"/aduser/search'", 100);
+                    } else alert("删除失败!");
+
+                }
+            });
+        }
+    });
+</script>
