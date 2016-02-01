@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",url:String,pageSize:Integer,countNum:Integer,pageCount:Integer,items:List[entity.Item],user:entity.User)
+@(lang:String="cn",url:String,pageSize:Integer,countNum:Integer,pageCount:Integer,invs:List[entity.Inventory],user:entity.User)
 @scripts = {
 	<link rel="stylesheet" href="/assets/css/search.css">
 	<link rel="stylesheet" href="/assets/css/slider.css">
@@ -14,7 +14,7 @@
 <div class="mbread">
     <div class="bread-path">
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
-        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
         <span class="icon-path">&gt;</span>
         <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
         <span class="icon-path">&gt;</span>
@@ -27,20 +27,15 @@
     </div>
     <form class="form-horizontal">
         <div class="form-group">
-            <!--商品id-->
-            <label class="col-sm-1 control-label">商品ID</label>
+            <!--sku id-->
+            <label class="col-sm-1 control-label">SKU ID</label>
             <div class="col-sm-3">
-                <input id = "comm-id" type="number" min="10000" max="99999999" class="form-control"/>
+                <input id = "sku-id" type="number" min="10000" max="99999999" class="form-control"/>
             </div>
-            <!--商品标题-->
-            <label class="col-sm-1 control-label">商品标题</label>
+            <!--sku 标题-->
+            <label class="col-sm-1 control-label">SKU 标题</label>
             <div class="col-sm-3">
-                <input id = "comm-title" type="text" class="form-control"/>
-            </div>
-            <!--商品主题-->
-            <label class="col-sm-1 control-label">主题ID</label>
-            <div class="col-sm-3">
-                <input id = "comm-topic-id" type="number" min="10000" max="99999999" class="form-control"/>
+                <input id = "sku-title" type="text" class="form-control"/>
             </div>
         </div>
 
@@ -54,34 +49,38 @@
         <table id="tb-topic" class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>
-                        商品ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
-                    <th>商品标题</th>
-                    <th>主sku图</th>
+                    <th>SKU ID <span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                    <th>SKU 标题</th>
+                    <th>主图</th>
                     <th>上架时间</th>
                     <th>下架时间</th>
-                    <th>主题ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
-                    <th>商品状态</th>
-
+                    <th>剩余库存</th>
+                    <th>是否主SKU</th>
+                    <th>SKU状态</th>
                 </tr>
             </thead>
             <tbody>
-                @for(item <- items){
+                @for(inv <- invs){
 					<!--必须使用tb-list-data类名，公用-->
                     <tr class = "tb-list-data">
-                        <td><a href="/@lang/comm/findById/@item.getId()">@item.getId()</a></td>
-                        <td style="width: 20%;">@item.getItemTitle()</td>
+                        <td><a href="javascript:void(0)" class="item-info">@inv.getId()</a><input type="hidden" value="@inv.getId()"><input type="hidden" value="@inv.getItemId()"></td>
+                        <td style="width: 20%;">@inv.getInvTitle()</td>
                         <td>
-                            <img class="main-img" src='@url@item.getItemMasterImg().substring(1,item.getItemMasterImg().length-1).split(",")(0).substring(7,item.getItemMasterImg().substring(1,item.getItemMasterImg().length-1).split(",")(0).length-1)' alt="" width="50">
-                            <!--<img class="main-img" src="@url@item.getItemMasterImg()" alt="" width="50">-->
+                            <img class="main-img" src='@url@inv.getInvImg().substring(1,inv.getInvImg().length-1).split(",")(0).substring(7,inv.getInvImg().substring(1,inv.getInvImg().length-1).split(",")(0).length-1)' alt="" width="50">
                         </td>
-                        @if(item.getOnShelvesAt()!=null){<td>@(item.getOnShelvesAt().toString().substring(0,16))</td>}
-                        @if(item.getOffShelvesAt()!=null){<td>@(item.getOffShelvesAt().toString().substring(0,16))</td>}
-                        <td><a href="javascript:void(0)">@(item.getThemeId())</a></td>
+                        @if(inv.getStartAt()!=null){<td>@(inv.getStartAt().toString().substring(0,16))</td>}
+                        @if(inv.getEndAt()!=null){<td>@(inv.getEndAt().toString().substring(0,16))</td>}
+                        <td>@inv.getRestAmount()</td>
                         <td>
-                            @if(item.getState()=="Y"){正常}
-                            @if(item.getState()=="D"){下架}
-                            @if(item.getState()=="K"){售空}
+                            @if(inv.getOrMasterInv()==true){是}
+                            @if(inv.getOrMasterInv()==false){否}
+                        </td>
+                        <td>
+                            @if(inv.getState()=="Y"){正常}
+                            @if(inv.getState()=="D"){下架}
+                            @if(inv.getState()=="N"){删除}
+                            @if(inv.getState()=="K"){售空}
+                            @if(inv.getState()=="P"){预售}
                         </td>
                     </tr>
                 }
@@ -113,3 +112,10 @@
     </div>
 </div>
 }
+
+<script>
+    $(document).on('click','.item-info',function(){
+        var itemId = $(this).next().next().val();
+        window.location.href = "/"+window.lang+"/comm/findById/"+itemId;
+    });
+</script>

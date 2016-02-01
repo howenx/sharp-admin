@@ -36,7 +36,6 @@ public class UserAuth extends Security.Authenticator {
             if(username != null) {
                 User user = (User) Cache.get(username.trim());
                 if(user != null) {
-                    Logger.error("用户:"+user.userType());
                     if (configuration.getStringList(String.valueOf(user.role())).contains(header.get())){
                         ctx.args.put("user",user);
                     } else if (configuration.getStringList(String.valueOf(user.role())).contains(header2.get())) {

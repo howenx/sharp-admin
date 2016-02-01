@@ -19,6 +19,8 @@ public interface InventoryService {
 
     List<Inventory> getAllInventories();
 
+    List<Inventory> invSearch(Inventory inventory);
+
     /**
      * 获取商品的主sku Added by Tiffany Zhu 2016.01.14
      * @param itemId

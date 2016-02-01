@@ -41,7 +41,8 @@
         ${alias}.record_code::text,
         ${alias}.start_at,
         ${alias}.end_at,
-        ${alias}.or_vary_price
+        ${alias}.or_vary_price,
+        count(*) over() item_num
     </sql>
 
     <!-- 录入一条库存信息 -->
@@ -87,6 +88,45 @@
         </include>
         from inventories t where 1=1
         ORDER BY id
+    </select>
+
+    <!-- 分页获取SKU信息 -->
+    <select id="getSkuPage" parameterType="entity.Inventory" resultType="entity.Inventory">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where 1=1
+        <if test="id != null">
+            and t.id = #{id}
+        </if>
+        <if test="itemId != null">
+            and t.item_id = #{itemId}
+        </if>
+        <if test='invTitle != null and invTitle != "null" and invTitle != "" '>
+            and t.inv_title like '%${invTitle}%'
+        </if>
+        <if test="startAt != null">
+            and t.start_at &gt;= #{startAt} ::timestamp
+        </if>
+        <if test="endAt != null">
+            and t.end_at &lt;= #{endAt} ::timestamp
+        </if>
+        <if test="sort == null or sort == '' ">
+            ORDER BY t.create_at DESC
+        </if>
+        <if test="sort != null">
+            ORDER BY t.${sort}
+            <if test="order != null">
+                ${order}
+            </if>
+        </if>
+        <if test="pageSize == -1 and offset >= -1">
+            LIMIT ALL OFFSET 0
+        </if>
+        <if test="pageSize >= 1 and offset >= 0">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
     </select>
 
     <!-- 由itemId获取主sku -->

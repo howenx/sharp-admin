@@ -63,6 +63,16 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     /**
+     * 分页查询sku信息
+     * @param inventory sku
+     * @return list of inventory
+     */
+    @Override
+    public List<Inventory> invSearch(Inventory inventory) {
+        return inventoryMapper.getSkuPage(inventory);
+    }
+
+    /**
      * 获取商品主sku Added by Tiffany Zhu 2016.01.14
      * @param itemId
      * @return
