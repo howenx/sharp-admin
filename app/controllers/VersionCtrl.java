@@ -2,21 +2,24 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import entity.AdminUser;
 import entity.User;
 import entity.VersionVo;
 import middle.VersionMiddle;
 import modules.OSSClientProvider;
 import play.Configuration;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.*;
+import service.AdminUserService;
 import service.ItemService;
 
 import javax.inject.Inject;
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static play.libs.Json.newObject;
 
@@ -29,6 +32,8 @@ public class VersionCtrl extends Controller {
 
     private ItemService itemService;
 
+    private AdminUserService idService;
+
 
     private VersionMiddle versionMiddle;
 
@@ -36,13 +41,13 @@ public class VersionCtrl extends Controller {
 
     private OSSClientProvider oss_client;
 
-
     @Inject
-    public VersionCtrl(ItemService itemService, Configuration configuration, OSSClientProvider oss_client ){
+    public VersionCtrl(ItemService itemService,AdminUserService idService, Configuration configuration, OSSClientProvider oss_client ){
         this.itemService = itemService;
         this.configuration = configuration;
         this.oss_client = oss_client;
-        versionMiddle = new VersionMiddle(itemService);
+        this.idService = idService;
+        versionMiddle = new VersionMiddle(itemService,configuration,oss_client);
     }
 
     @Security.Authenticated(UserAuth.class)
@@ -52,34 +57,60 @@ public class VersionCtrl extends Controller {
 
     @Security.Authenticated(UserAuth.class)
     public Result releaseList(){
-        return ok(views.html.versioning.releaselist.render("cn",(User) ctx().args.get("user")));
-    }
+        VersionVo versionVo = new VersionVo();
+        versionVo.setProductType("A");
+        List<VersionVo> androidVersion = itemService.getVersioning(versionVo);
+        AdminUser adminUser = new AdminUser();
+        androidVersion =androidVersion.stream().map(av->{
+            adminUser.setUserId(av.getAdminUserId());
+            AdminUser d = idService.getUserBy(adminUser);
+            if (d.getChNm().isEmpty())
+            av.setAdminUserNm(d.getEnNm());
+            else av.setAdminUserNm(d.getChNm());
+            return av;
+        }).collect(Collectors.toList());
 
+
+        versionVo.setProductType("I");
+        List<VersionVo> iosVersion = itemService.getVersioning(versionVo);
+        iosVersion =iosVersion.stream().map(ios->{
+            adminUser.setUserId(ios.getAdminUserId());
+            AdminUser d = idService.getUserBy(adminUser);
+            if (d.getChNm().isEmpty())
+                ios.setAdminUserNm(d.getEnNm());
+            else ios.setAdminUserNm(d.getChNm());
+            return ios;
+        }).collect(Collectors.toList());
+
+        return ok(views.html.versioning.releaselist.render("cn",(User) ctx().args.get("user"),androidVersion,iosVersion));
+    }
 
     @Security.Authenticated(UserAuth.class)
     @BodyParser.Of(value = BodyParser.MultipartFormData.class, maxLength = 200 * 1024 * 1024)
-    public Result publicRelease() throws FileNotFoundException {
-
+    public Result publicRelease() {
         ObjectNode result = newObject();
+        try {
+            Http.MultipartFormData body = request().body().asMultipartFormData();
 
-        Http.MultipartFormData body = request().body().asMultipartFormData();
+            List<Http.MultipartFormData.FilePart> fileParts = body.getFiles();
 
-        List<Http.MultipartFormData.FilePart> fileParts = body.getFiles();
+            Map<String,String[]> stringMap = body.asFormUrlEncoded();
+            Map<String,String> map = new HashMap<>();
+            stringMap.forEach((k, v) -> map.put(k,v[0]));
 
-        Map<String,String[]> stringMap = body.asFormUrlEncoded();
-        Map<String,String> map = new HashMap<>();
-        stringMap.forEach((k, v) -> map.put(k,v[0]));
+            Optional<JsonNode> json = Optional.ofNullable(Json.toJson(map));
 
-        Optional<JsonNode> json = Optional.ofNullable(Json.toJson(map));
+            User user = (User) ctx().args.get("user");
 
-        Long userId = (Long) ctx().args.get("userId");
+            VersionVo versionVo = Json.fromJson(json.get(),VersionVo.class);
 
-        VersionVo versionVo = Json.fromJson(json.get(),VersionVo.class);
+            versionVo.setAdminUserId(Long.valueOf(user.userId().get().toString()));
 
-        versionVo.setAdminUserId(userId);
-
-        versionMiddle.publicRelease(versionVo,fileParts.get(0).getFile());
-
-        return ok("success");
+            versionMiddle.publicRelease(versionVo,fileParts.get(0).getFile());
+            return ok("success");
+        }catch (Exception ex){
+            Logger.error("发布版本出错:"+ex.getMessage());
+            return badRequest("error");
+        }
     }
 }

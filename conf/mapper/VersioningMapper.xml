@@ -12,31 +12,36 @@
         ${alias}.download_link   ,
         ${alias}.admin_user_id   ,
         ${alias}.release_desc    ,
-        ${alias}.release_at     ,
+        to_char(${alias}.release_at, 'YYYY-MM-DD HH24:MI:SS') release_at,
         ${alias}.file_name         ,
         ${alias}.current_version   ,
-        ${alias}.update_req_xml
+        ${alias}.update_req_xml     ,
+        ${alias}.app_store_download_link
     </sql>
 
     <!-- 录入一条 -->
     <insert id="insertVersioning" parameterType="entity.VersionVo" useGeneratedKeys="true" keyProperty="id">
         insert into versioning
-        (release_number,product_type,download_link,admin_user_id,release_desc,release_at,file_name,update_req_xml)
+        (release_number,product_type,download_link,admin_user_id,release_desc,release_at,file_name,update_req_xml,app_store_download_link)
         values
-        (#{releaseNumber},#{productType},#{downloadLink},#{adminUserId},#{releaseDesc},CURRENT_TIMESTAMP(0),#{fileName},#{updateReqXml})
+        (#{releaseNumber},#{productType},#{downloadLink},#{adminUserId},#{releaseDesc},CURRENT_TIMESTAMP(0),#{fileName},#{updateReqXml},#{appStoreDownloadLink})
     </insert>
 
     <!-- -->
-    <select id="getVersioning" resultType="entity.VersionVo">
+    <select id="getVersioning" resultType="entity.VersionVo" parameterType="entity.VersionVo">
         select
         <include refid="versioningColumns">
             <property name="alias" value="t"/>
         </include>
         from versioning t where 1=1
+        <if test="productType!=null and productType!=''">
+           and product_type=#{productType}
+        </if>
+        order by current_version DESC,release_number DESC
     </select>
 
-    <update id="updateVersioning">
-        update versioning set current_version =false
+    <update id="updateVersioning" parameterType="entity.VersionVo">
+        update versioning set current_version =false where product_type=#{productType}
     </update>
 
 </mapper>

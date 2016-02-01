@@ -90,8 +90,8 @@ public interface ItemService {
 
     Boolean insertVersioning(VersionVo versionVo);
 
-    List<VersionVo> getVersioning();
+    List<VersionVo> getVersioning(VersionVo versionVo);
 
-    Boolean updateVersioning();
+    Boolean updateVersioning(VersionVo versionVo);
 
 }

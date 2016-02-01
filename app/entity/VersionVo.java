@@ -15,12 +15,14 @@ public class VersionVo {
     private String  releaseAt;
     private String  fileName;
     private String  updateReqXml;
-    private Integer currentVersion;
+    private Boolean currentVersion;
+    private String  appStoreDownloadLink;
+    private String  adminUserNm;
 
     public VersionVo() {
     }
 
-    public VersionVo(Long id, String releaseNumber, String productType, String downloadLink, Long adminUserId, String releaseDesc, String releaseAt, String fileName, String updateReqXml, Integer currentVersion) {
+    public VersionVo(Long id, String releaseNumber, String productType, String downloadLink, Long adminUserId, String releaseDesc, String releaseAt, String fileName, String updateReqXml, Boolean currentVersion, String appStoreDownloadLink, String adminUserNm) {
         this.id = id;
         this.releaseNumber = releaseNumber;
         this.productType = productType;
@@ -31,6 +33,8 @@ public class VersionVo {
         this.fileName = fileName;
         this.updateReqXml = updateReqXml;
         this.currentVersion = currentVersion;
+        this.appStoreDownloadLink = appStoreDownloadLink;
+        this.adminUserNm = adminUserNm;
     }
 
     public Long getId() {
@@ -105,12 +109,28 @@ public class VersionVo {
         this.updateReqXml = updateReqXml;
     }
 
-    public Integer getCurrentVersion() {
+    public Boolean getCurrentVersion() {
         return currentVersion;
     }
 
-    public void setCurrentVersion(Integer currentVersion) {
+    public void setCurrentVersion(Boolean currentVersion) {
         this.currentVersion = currentVersion;
+    }
+
+    public String getAppStoreDownloadLink() {
+        return appStoreDownloadLink;
+    }
+
+    public void setAppStoreDownloadLink(String appStoreDownloadLink) {
+        this.appStoreDownloadLink = appStoreDownloadLink;
+    }
+
+    public String getAdminUserNm() {
+        return adminUserNm;
+    }
+
+    public void setAdminUserNm(String adminUserNm) {
+        this.adminUserNm = adminUserNm;
     }
 
     @Override
@@ -126,6 +146,8 @@ public class VersionVo {
                 ", fileName='" + fileName + '\'' +
                 ", updateReqXml='" + updateReqXml + '\'' +
                 ", currentVersion=" + currentVersion +
+                ", appStoreDownloadLink='" + appStoreDownloadLink + '\'' +
+                ", adminUserNm='" + adminUserNm + '\'' +
                 '}';
     }
 }
