@@ -19,43 +19,44 @@ import java.util.regex.Pattern;
  */
 public class VersionMiddle {
 
-    public static ItemService itemService;
+    private  ItemService itemService;
 
-    @Inject
     private Configuration configuration;
 
-    @Inject
     private OSSClientProvider oss_client;
 
-    public VersionMiddle(ItemService itemService) {
+    public VersionMiddle(ItemService itemService,Configuration configuration,OSSClientProvider oss_client) {
         this.itemService = itemService;
+        this.configuration = configuration;
+        this.oss_client = oss_client;
     }
 
-    public void publicRelease(VersionVo versionVo,File file){
+    public void publicRelease(VersionVo versionVo,File file) throws FileNotFoundException {
 
-        FileInputStream is = null;
-        try {
-            is = new FileInputStream(file);
-
-            Pattern p = Pattern.compile("^(.*)(\\.)(.{1,8})$");
-            Matcher m = p.matcher(file.getName());
+        FileInputStream is =  new FileInputStream(file);
 
             ObjectMetadata objMetadata = new ObjectMetadata();
             objMetadata.setContentLength(file.length());
-            objMetadata.setContentType(m.group());
 
+            String fileName = "HMM-"+versionVo.getReleaseNumber().toUpperCase()+".";
 
-            String fileName = "HMM-"+versionVo.getReleaseNumber().toUpperCase()+"."+m.group();
+            String productType="android";
+
+            if (versionVo.getProductType().equals("I")){
+                objMetadata.setContentType("application/ipa");
+                fileName = fileName+"ipa";
+                productType="ios";
+            }else{
+                objMetadata.setContentType("application/apk");
+                fileName = fileName+"apk";
+            }
 
             versionVo.setFileName(fileName);
 
-            itemService.updateVersioning();
+            versionVo.setDownloadLink(configuration.getString("oss.prefix")+productType+"/"+fileName);
 
-            itemService.insertVersioning(versionVo);
 
-            Logger.error("文件后缀"+m.group());
-
-            oss_client.get().putObject(configuration.getString("oss.bucket"), versionVo.getProductType()+"/"+fileName, is, objMetadata);
+            oss_client.get().putObject(configuration.getString("oss.bucket"), productType+"/"+fileName, is, objMetadata);
 
             ByteArrayOutputStream baos=new ByteArrayOutputStream();
 
@@ -71,13 +72,19 @@ public class VersionMiddle {
 
             Logger.error("版本信息:\n"+versionVo);
 
-            oss_client.get().putObject(configuration.getString("oss.bucket"), versionVo.getProductType()+"/"+xmlFileName, new ByteArrayInputStream(baos.toByteArray()), objMetadata);
+            oss_client.get().putObject(configuration.getString("oss.bucket"), productType+"/"+xmlFileName, new ByteArrayInputStream(baos.toByteArray()), objMetadata);
 
-            Logger.error("xml地址:\n"+configuration.getString("oss.prefix")+versionVo.getProductType()+"/"+xmlFileName);
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+            versionVo.setUpdateReqXml(configuration.getString("oss.prefix")+productType+"/"+xmlFileName);
+
+            itemService.updateVersioning(versionVo);
+
+            itemService.insertVersioning(versionVo);
+
+            Logger.error("xml地址:\n"+configuration.getString("oss.prefix")+productType+"/"+xmlFileName);
+
+            Logger.error("上传的APP地址:\n"+configuration.getString("oss.prefix")+productType+"/"+fileName);
+
     }
 
 }

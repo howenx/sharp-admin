@@ -410,7 +410,7 @@ $(function() {
         }
     })
 
-  	//保存
+  	//保存--普通主题
   	$("#js-usercenter-submit").click(function(){
 
         var isPost = true;
@@ -583,10 +583,83 @@ $(function() {
                             }
                         }
                     });
-                }
-
-
+        }
   	})
 
+
+    //保存--H5主题
+    $(document).on("click","#js-usercenter-submit-h5",function(){
+        var isPost = true;
+        if($("#themeTitle").val()=="" || $("#onShelvesAt").val()=="" || $("#offShelvesAt").val()=="" || $("#h5-link").val()==""){
+            isPost = false;
+            $('#js-userinfo-error').text('基本信息不能为空!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+        }
+        if($("#themeImg").find("img").attr("src") == ""){
+            isPost = false;
+            $('#js-userinfo-error').text('请选择主题图片!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+        }
+         if($("#onShelvesAt").val()>$("#offShelvesAt").val()){
+            isPost = false;
+            $('#js-userinfo-error').text('日期不正确!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+         }
+
+         var theme = {};
+         var themeId = $("#themeId").val();
+         theme.id = $("#themeId").val();
+         theme.title = $("#themeTitle").val();
+         theme.startAt = $("#onShelvesAt").val();
+         theme.endAt = $("#offShelvesAt").val();
+         theme.h5Link = $("#h5-link").val();
+         //主题主图片
+         var themeImgContent = {};
+         var url = $("#themeImg").find("input").attr("id");
+         themeImgContent.url = url.substring(url.indexOf('/',url.indexOf('/')+2) + 1);
+         themeImgContent.width = $("#themeImg").find("input").width().toString();
+         themeImgContent.height = $("#themeImg").find("input").height().toString();
+         theme.themeImg = JSON.stringify(themeImgContent);
+         theme.type = "h5";
+         theme.sortNu = 1;
+
+         if(isPost){
+            $.ajax({
+                type :  "POST",
+                url : "/topic/add/h5ThemeSave",
+                contentType: "application/json; charset=utf-8",
+                data : JSON.stringify(theme),
+                error : function(request) {
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('保存失败');
+                    } else {
+                        $('#js-userinfo-error').text('Save error');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('')", 2000);
+                },
+                success: function(data) {
+                    alert("Save Success");
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                    } else {
+                        $('#js-userinfo-error').text('Save success');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
+
+                    if(themeId != null){
+                        //主题修改, 成功后返回到主题修改页面
+                        setTimeout("location.href='/"+window.lang+"/topic/updateById/"+ themeId +"'", 2000);
+                    }else{
+
+                         //主题录入, 成功后返回到主题录入页面
+                         setTimeout("location.href='/"+window.lang+"/topic/h5Add'", 2000);
+                    }
+                }
+            })
+         }
+    })
 
 });

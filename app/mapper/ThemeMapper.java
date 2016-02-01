@@ -48,4 +48,16 @@ public interface ThemeMapper {
      */
     void updateTemplate(ThemeTemplate themeTemplate);
 
+    /**
+     * 添加H5主题   Added by Tiffany Zhu 2016.02.01
+     * @param theme
+     */
+    void addH5Theme(Theme theme);
+
+    /**
+     * 更新H5主题   Added by Tiffany Zhu 2016.02.01
+     * @param theme
+     */
+    void updH5Theme(Theme theme);
+
 }

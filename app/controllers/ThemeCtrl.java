@@ -124,6 +124,12 @@ public class ThemeCtrl extends Controller {
             String themeImgUrl = themeImg.get("url").toString();
             String resultUrl = themeImgUrl.substring(1,themeImgUrl.length()-1);
             tempTheme.setThemeImg(resultUrl);
+            if(tempTheme.getType().equals("ordinary")){
+                tempTheme.setType("普通");
+            }
+            if(tempTheme.getType().equals("h5")){
+                tempTheme.setType("HTML5");
+            }
             resultList.add(tempTheme);
         }
 
@@ -170,6 +176,12 @@ public class ThemeCtrl extends Controller {
                 String themeImgUrl = themeImg.get("url").toString();
                 String resultUrl = themeImgUrl.substring(1,themeImgUrl.length()-1);
                 tempTheme.setThemeImg(resultUrl);
+                if(tempTheme.getType().equals("ordinary")){
+                    tempTheme.setType("普通");
+                }
+                if(tempTheme.getType().equals("h5")){
+                    tempTheme.setType("HTML5");
+                }
                 resultList.add(tempTheme);
             }
             //组装返回数据
@@ -179,7 +191,7 @@ public class ThemeCtrl extends Controller {
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
             returnMap.put("pageSize",PAGE_SIZE);
-
+            Logger.error(resultList.toString());
             return ok(Json.toJson(returnMap));
         }
         else{
@@ -495,6 +507,23 @@ public class ThemeCtrl extends Controller {
     public Result updateThemeById(String lang,Long id){
         Theme theme = service.getThemeById(id);
         Logger.error(theme.toString());
+        //H5主题
+        if(theme.getType().equals("h5")){
+            //主题的主宣传图
+            JsonNode themeImg = Json.parse(theme.getThemeImg());
+            Object[] themeImgObject = new Object[3];
+            //url
+            String themeImgUrl = themeImg.get("url").toString();
+            themeImgObject[0] = themeImgUrl.substring(1,themeImgUrl.length()-1);
+            //width
+            String themeImgWidth = themeImg.get("width").toString();
+            themeImgObject[1] = themeImgWidth.substring(1,themeImgWidth.length()-1);
+            //height
+            String themeImgHeight =  themeImg.get("height").toString();
+            themeImgObject[2] = themeImgHeight.substring(1,themeImgHeight.length()-1);
+            return ok(views.html.theme.H5ThemeUpd.render(lang,theme,themeImgObject,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+
+        }
         //主题的商品
         List<Object[]> itemList = new ArrayList<>();
         JsonNode ids = Json.parse(theme.getThemeItem());
@@ -512,7 +541,7 @@ public class ThemeCtrl extends Controller {
                 Logger.error(inventory.toString());
                 object[0] = inventory.getId();
                 object[1] = item.getItemTitle();
-               String  url = Json.parse(inventory.getInvImg()).get("url").toString();
+                String  url = Json.parse(inventory.getInvImg()).get("url").toString();
                 url = url.substring(1,url.length()-1);
                 object[2] = url;
                 object[3] = item.getOnShelvesAt().toString().substring(0,19);
@@ -661,6 +690,32 @@ public class ThemeCtrl extends Controller {
 
         return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
+
+    /**
+     * 添加H5主题   Added by Tiffany Zhu 2016.02.01
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result addH5Theme(String lang){
+        return ok(views.html.theme.H5ThemeAdd.render(lang,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+    }
+
+    /**
+     * 保存H5主题   Added by Tiffany Zhu 2016.02.01
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result h5ThemeSave(String lang){
+        JsonNode json = request().body().asJson();
+        Theme theme = Json.fromJson(json,Theme.class);
+        Logger.error(json.toString());
+        service.h5ThemeSave(theme);
+        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
+    }
+
+
 
 
 }

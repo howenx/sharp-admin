@@ -53,7 +53,11 @@
             <!--主商品id-->
             <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition2")</label>
             <div class="col-sm-4">
-                <input id = "topic-form-master-id" type="number" min="10000" max="99999999" class="form-control"/>
+                <select class="form-control" id="topic-form-type">
+                    <option value=""></option>
+                    <option value="ordinary">普通</option>
+                    <option value="h5">HTML5</option>
+                </select>
             </div>
         </div>
 
@@ -93,12 +97,9 @@
                 <th>
                     @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.table.thead1")
                 </th>
-                <!--
                 <th>
-                    @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition2")
-                    <span class="sort-topic glyphicon glyphicon-chevron-up"></span>
+                    类型
                 </th>
-                -->
                 <th>
                     @Messages.get(new Lang(Lang.forCode(lang)),"themes.search.table.thead2")
                 </th>
@@ -119,7 +120,7 @@
                         <td>
                             <img class="main-img" src="@url@theme.getThemeImg()" alt="" width="50">
                         </td>
-                        <!--<td>@theme.getMasterItemId()</td>-->
+                        <td>@theme.getType()</td>
                         <td>@theme.getTitle()</td>
                         <td>@(theme.getStartAt().toString().substring(0,19))</td>
                         <td>@(theme.getEndAt().toString().substring(0,19))</td>

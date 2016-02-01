@@ -559,29 +559,7 @@ $(function(){
 
     //点击取消,不可编辑内容
      $(document).on("click","#cancel",function(){
-         $("#pinSkuEdit").css("display","");             //编辑
-            $("#pinSkuSubmit").css("display","none");    //保存
-         $("#cancel").css("display","none");             //取消
-
-         $("#onShelvesAt").attr("disabled",true);        //开始时间
-         $("#offShelvesAt").attr("disabled",true);       //结束时间
-         $("#status").attr("disabled",true);             //状态
-         $("#restrict").attr("disabled",true);           //每用户限购
-         $(".btn-xm").eq(0).css("display","none");       //选择商品'按钮'
-         $("#getTemplate").eq(0).css("display","none");  //图片模板'按钮'
-
-         $("#pin_discount").attr("disabled",true);      //最低折扣率
-
-         $(".pingou").find("tr").each(function(){        //价格阶梯表中的'删除'
-             if($(this).find("td").length == 0){
-                 $(this).find("th").eq(15).css("display","none");
-             }else{
-                 $(this).find("td").eq(18).css("display","none");
-             }
-         })
-
-         $(".tiered-price").css("display","none");  //编辑阶梯价格
-
+         setTimeout("location.href='/"+window.lang+"/pin/getPinById/"+ $("#pinId").val() +"'", 300);
      })
 
     //保存

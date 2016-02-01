@@ -12,7 +12,7 @@ public interface VersioningMapper {
 
     Integer insertVersioning(VersionVo versionVo);
 
-    List<VersionVo> getVersioning();
+    List<VersionVo> getVersioning(VersionVo versionVo);
 
-    Integer updateVersioning();
+    Integer updateVersioning(VersionVo versionVo);
 }

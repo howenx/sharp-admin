@@ -262,7 +262,10 @@ public class OrderCtrl extends Controller {
                 Object[] object2 = new Object[8];
                 Item item = service.getItem(orderLine.getItemId());
                 object2[0] = item.getItemTitle();    //名称
-                object2[1] = orderLine.getSkuImg();  //图片url
+                JsonNode urlJson = Json.parse(orderLine.getSkuImg());
+                String url = urlJson.get("url").toString();
+                url = url.substring(1,url.length()-1);
+                object2[1] = url;  //图片url
                 object2[2] = orderLine.getSkuSize(); //尺码
                 object2[3] = orderLine.getSkuColor();//颜色
                 object2[4] = orderLine.getPrice();   //价格

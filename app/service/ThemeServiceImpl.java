@@ -132,4 +132,18 @@ public class ThemeServiceImpl implements ThemeService {
             themeMapper.updateTemplate(themeTemplate);
         }
     }
+
+    /**
+     * 保存H5主题   Added by Tiffany Zhu 2016.02.01
+     * @param theme
+     */
+    @Override
+    public void h5ThemeSave(Theme theme) {
+        if(theme.getId() != null){
+            themeMapper.updH5Theme(theme);
+        }
+        else{
+            themeMapper.addH5Theme(theme);
+        }
+    }
 }
