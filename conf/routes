@@ -177,6 +177,8 @@ POST            /aduser/resetpwd                                             con
 POST            /$lang<(cn|en|kr)>/aduser/resetpwd                           controllers.AdminUserCtrl.adminUserResetPwd(lang)
 GET             /aduser/search                                               controllers.AdminUserCtrl.adminUserSearch(lang="cn")
 GET             /$lang<(cn|en|kr)>/aduser/search                             controllers.AdminUserCtrl.adminUserSearch(lang)
+GET             /aduser/del/$id<[0-9]+>                                      controllers.AdminUserCtrl.adminUserDelUser(lang="cn",id:Long)
+GET             /$lang<(cn|en|kr)>/aduser/del/$id<[0-9]+>                    controllers.AdminUserCtrl.adminUserDelUser(lang,id:Long)
 
 
 

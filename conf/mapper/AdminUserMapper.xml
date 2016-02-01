@@ -37,9 +37,18 @@
     <update id="updateUser" parameterType="entity.AdminUser">
         update "ADMIN_USER"
         set
-        ch_nm=#{chNm},user_type=#{userType},email=#{email},passwd=#{passwd},"active_YN"=#{activeYN},alter_dt=CURRENT_TIMESTAMP(0),last_login_dt=#{lastLoginDt},last_login_ip=#{lastLoginIp}::cidr,last_pwd_chg_dt=#{lastPwdChgDt},status=#{status}
+        ch_nm=#{chNm},user_type=#{userType},email=#{email},"active_YN"=#{activeYN},alter_dt=CURRENT_TIMESTAMP(0),last_login_dt=#{lastLoginDt},last_login_ip=#{lastLoginIp}::cidr,status=#{status}
         where user_id = #{userId}
     </update>
+
+        <!-- 修改密码 -->
+    <update id="chgPwd" parameterType="entity.AdminUser">
+        update "ADMIN_USER"
+        set
+            passwd = user_passwd(user_id,#{passwd}),last_pwd_chg_dt = #{lastPwdChgDt}
+        where user_id = #{userId}
+    </update>
+
 
     <!-- 查询一条用户信息 -->
     <select id="getUserBy" resultType="entity.AdminUser" parameterType="entity.AdminUser">
@@ -68,5 +77,10 @@
         </include>
         from "ADMIN_USER" t where 1=1
     </select>
+
+    <!-- 由id删除一条用户信息 -->
+    <delete id="delUserById" parameterType="java.lang.Long">
+        delete from "ADMIN_USER" where user_id=#{id}
+    </delete>
 
 </mapper>

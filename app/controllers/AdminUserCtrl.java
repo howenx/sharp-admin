@@ -67,7 +67,7 @@ public class AdminUserCtrl extends Controller {
         } else {
             String defPwd = adminUser.CreateCode(8);//给邮箱发送的8位随机默认密码
             String regIp = request().remoteAddress();
-            adminUser.setPasswd("defPwd");
+            adminUser.setPasswd("11111111");
             adminUser.setRegIp(regIp);
             adminUser.setActiveYN("N");
             adminUser.setStatus("N");
@@ -82,7 +82,7 @@ public class AdminUserCtrl extends Controller {
                 email.setMsg(adminUser.getEnNm()+"请用密码登录:"+defPwd);//邮件内容
                 email.setFrom("sunny.wu@kakaocorp.com");//发送人
                 email.addTo("sunny.wu@kakaocorp.com");//收件人
-                email.send();
+//                email.send();
                 Logger.debug("邮件发送成功!");
             } catch (EmailException e) {
                 e.printStackTrace();
@@ -120,7 +120,7 @@ public class AdminUserCtrl extends Controller {
             adminUser.setStatus("Y");
 //            Logger.error("更新后:"+adminUser.toString());
             adminUserService.updateUser(adminUser);
-            User user = new User (adminUser.getUserId(), null,null, null , User_Type.withName(adminUser.getUserType()),
+            User user = new User (adminUser.getUserId(), adminUser.getEnNm(), null, null , User_Type.withName(adminUser.getUserType()),
                     Option.apply(adminUser.getUserId()), Option.apply(adminUser.getEnNm()), Option.apply(adminUser.getChNm()), Option.apply(adminUser.getEmail()),
                     Option.apply(adminUser.getUserType()), null, null, null,
                     null, null, null,null, null,null);
@@ -158,7 +158,7 @@ public class AdminUserCtrl extends Controller {
      * @param lang 语言
      * @return
      */
-    @Security.Authenticated
+    @Security.Authenticated(UserAuth.class)
     public Result adminUserUpdate(String lang) {
         JsonNode json = request().body().asJson();
         AdminUser adu  = Json.fromJson(json, AdminUser.class);
@@ -185,38 +185,62 @@ public class AdminUserCtrl extends Controller {
      * @param lang 语言
      * @return views
      */
-    @Security.Authenticated
+    @Security.Authenticated(UserAuth.class)
     public Result adminUserChgPwd(String lang) {
         return ok(views.html.adminuser.userpwdchg.render(lang, (User) ctx().args.get("user")));
     }
 
     /**
-     * 密码修改保存
+     * 保存新密码
      * @param lang 语言
      * @return
      */
-    @Security.Authenticated
+    @Security.Authenticated(UserAuth.class)
     public Result adminUserResetPwd(String lang) {
-        JsonNode json = request().body().asJson();
-        AdminUser adu  = Json.fromJson(json, AdminUser.class);
-        //通过userId 查询用户信息
-        AdminUser adminUser = adminUserService.getUserBy(adu);
-        //更新用户信息
-        adminUser.setPasswd(adu.getChNm());
-        Boolean bool = adminUserService.updateUser(adminUser);
-        return ok();
+        JsonNode  json = request().body().asJson();
+        Logger.error("json为:"+json);
+        if (json.has("adminUser")) {
+            JsonNode aduNode = json.findValue("adminUser");
+            AdminUser adu  = Json.fromJson(aduNode, AdminUser.class);
+            AdminUser adminUser = adminUserService.getUserBy(adu);
+            //根据用户名和密码查询用户
+            if (null!=adminUser && !"".equals(adminUser)) {
+                if (json.has("newPwd")) {
+                    String newPwd = json.findValue("newPwd").asText();
+                    adminUser.setPasswd(newPwd);
 
+                    Logger.error("新密码:"+newPwd+",修改密码用户:"+adminUser);
+                    adminUser.setLastPwdChgDt(new Timestamp(new Date().getTime()));
+                    //修改密码
+                    adminUserService.chgPwd(adminUser);
+                    return ok("密码修改成功");
+                }
+            } else return ok("密码错误");
+        }
+        return ok("false");
     }
 
     /**
-     *
+     * 用户查询
      * @param lang 语言
      * @return views
      */
-    @Security.Authenticated
+    @Security.Authenticated(UserAuth.class)
     public Result adminUserSearch(String lang) {
         List<AdminUser> adminUserList = adminUserService.getAllUsers();
         return ok(views.html.adminuser.usersearch.render(lang, adminUserList, (User) ctx().args.get("user")));
+    }
+
+    /**
+     * 由用户id删除一条用户
+     * @param lang 语言
+     * @param id 用户id
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result adminUserDelUser(String lang, Long id) {
+        adminUserService.delUserById(id);
+        return ok("删除成功");
     }
 
 

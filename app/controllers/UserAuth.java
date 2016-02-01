@@ -4,6 +4,7 @@ package controllers;
 import entity.User;
 import play.Configuration;
 import play.Logger;
+import play.Routes;
 import play.cache.Cache;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -24,17 +25,23 @@ public class UserAuth extends Security.Authenticator {
 
     @Override
     public String getUsername(Http.Context ctx) {
-
+        //url
         Optional<String> header = Optional.ofNullable(ctx.request().uri());
-        Logger.debug(header.get());
+        //method
+        Optional<String> header2 = Optional.of(ctx._requestHeader().tags().get(Routes.ROUTE_CONTROLLER).get()+"."+ctx._requestHeader().tags().get(Routes.ROUTE_ACTION_METHOD).get());
+        Logger.debug("url:"+header.get());
+        Logger.debug("method:"+header2.get());
         if (header.isPresent()) {
             String username =  ctx.session().get("username");
             if(username != null) {
                 User user = (User) Cache.get(username.trim());
                 if(user != null) {
-                    if (configuration.getStringList(user.userType().get()).contains(header.get())){
+                    Logger.error("用户:"+user.userType());
+                    if (configuration.getStringList(String.valueOf(user.role())).contains(header.get())){
                         ctx.args.put("user",user);
-                    }else return null;
+                    } else if (configuration.getStringList(String.valueOf(user.role())).contains(header2.get())) {
+                        ctx.args.put("user",user);
+                    } else return null;
                 }
                 else {
                     return null;
