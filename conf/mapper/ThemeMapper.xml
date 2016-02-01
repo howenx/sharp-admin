@@ -64,7 +64,9 @@
                 ${alias}.title,
                 ${alias}.theme_master_img,
                 ${alias}.start_at,
-                ${alias}.end_at
+                ${alias}.end_at,
+                ${alias}.type,
+                ${alias}.h5_link
         </sql>
 
         <select id="getThemePage" parameterType="entity.Theme" resultType="entity.Theme">
@@ -76,8 +78,8 @@
                 <if test="id != null">
                         and t.id = #{id}
                 </if>
-                <if test="masterItemId != null">
-                        and t.master_item_id = #{masterItemId}
+                <if test="type != null and type != ''">
+                        and t.type = ${type}
                 </if>
                 <if test="startAt != null">
                         and t.start_at &gt;= #{startAt} ::timestamp
@@ -136,6 +138,16 @@
                 where id = #{id}
         </update>
 
+        <insert id="addH5Theme" parameterType="entity.Theme">
+                insert into themes (title,create_at,start_at,end_at,type,h5_link,theme_img,sort_nu)
+                values(#{title},CURRENT_TIMESTAMP(0),#{startAt},#{endAt},#{type},#{h5Link},#{themeImg},#{sortNu})
+        </insert>
+        <update id="updH5Theme" parameterType="entity.Theme">
+                update themes
+                set title=#{title},start_at=#{startAt},end_at=#{endAt},theme_img=#{themeImg},sort_nu=#{sortNu},
+                update_at=CURRENT_TIMESTAMP(0),h5_link = h5Link
+                where id = #{id}
+        </update>
 
         <!---  主题模板    -->
         <sql id="templateColumns">

@@ -37,4 +37,10 @@ public interface ThemeService {
      */
     void themeTemplateSave(ThemeTemplate themeTemplate);
 
+    /**
+     * 保存H5主题   Added by Tiffany Zhu 2016.02.01
+     * @param theme
+     */
+    void h5ThemeSave(Theme theme);
+
 }

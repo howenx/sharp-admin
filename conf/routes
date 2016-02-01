@@ -43,7 +43,10 @@ GET             /topic/add/templates                                        cont
 GET             /$lang<(cn|en|kr)>/topic/add/templates                      controllers.ThemeCtrl.themeTemplates(lang)
 POST            /topic/templates/save                                       controllers.ThemeCtrl.themeTemplateSave(lang ="cn")
 POST            /$lang<(cn|en|kr)>/topic/templates/save                     controllers.ThemeCtrl.themeTemplateSave(lang)
-
+GET             /topic/h5Add                                                controllers.ThemeCtrl.addH5Theme(lang = "cn")
+GET             /$lang<(cn|en|kr)>/topic/h5Add                              controllers.ThemeCtrl.addH5Theme(lang)
+POST            /topic/add/h5ThemeSave                                      controllers.ThemeCtrl.h5ThemeSave(lang = "cn")
+POST            /$lang<(cn|en|kr)>/topic/add/h5ThemeSave                    controllers.ThemeCtrl.h5ThemeSave(lang)
 
 
 

@@ -43,6 +43,8 @@ public class Theme implements Serializable{
     private String themeItem;
     private String themeMasterImg;
     private String masterItemTag;
+    private String type;
+    private String h5Link;
 
     //分页,每页多少条
     private Integer pageSize;
@@ -58,7 +60,7 @@ public class Theme implements Serializable{
     public Theme() {
     }
 
-    public Theme(Long id, Long masterItemId, String title, String themeDesc, Timestamp startAt, Timestamp endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean orDestory, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, String themeItem, String themeMasterImg, String masterItemTag, Integer pageSize, Integer offset, String sort, String order) {
+    public Theme(Long id, Long masterItemId, String title, String themeDesc, Timestamp startAt, Timestamp endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean orDestory, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, String themeItem, String themeMasterImg, String masterItemTag, String type, String h5Link, Integer pageSize, Integer offset, String sort, String order) {
         this.id = id;
         this.masterItemId = masterItemId;
         this.title = title;
@@ -85,6 +87,8 @@ public class Theme implements Serializable{
         this.themeItem = themeItem;
         this.themeMasterImg = themeMasterImg;
         this.masterItemTag = masterItemTag;
+        this.type = type;
+        this.h5Link = h5Link;
         this.pageSize = pageSize;
         this.offset = offset;
         this.sort = sort;
@@ -120,6 +124,8 @@ public class Theme implements Serializable{
                 ", themeItem='" + themeItem + '\'' +
                 ", themeMasterImg='" + themeMasterImg + '\'' +
                 ", masterItemTag='" + masterItemTag + '\'' +
+                ", type='" + type + '\'' +
+                ", h5Link='" + h5Link + '\'' +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +
@@ -333,6 +339,22 @@ public class Theme implements Serializable{
 
     public void setMasterItemTag(String masterItemTag) {
         this.masterItemTag = masterItemTag;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getH5Link() {
+        return h5Link;
+    }
+
+    public void setH5Link(String h5Link) {
+        this.h5Link = h5Link;
     }
 
     public Integer getPageSize() {

@@ -44,7 +44,7 @@ $(function() {
 	funcList.thmlist_search = function thmlist_search(pageIndex) {
 		var topicDto = new Object();
 		topicDto.id = $("#topic-form-id").val();
-		topicDto.masterItemId = $("#topic-form-master-id").val();
+		topicDto.type = $("#topic-form-type").val();
 
 		topicDto.startAt = $("#topic-form-starttime").val();
 		topicDto.endAt = $("#topic-form-endtime").val();
@@ -64,6 +64,13 @@ $(function() {
 
 	//每个查询页面对应一个相应的返回时填充函数 主题查询页面
 	funcList.thmlist_data = function thmlist_data(data) {
+	    var themeType = "";
+	    if($(this)[0].type == "ordinary"){
+	        themeType = "普通";
+	    }
+	    if($(this)[0].type == "h5"){
+            themeType = "HTML5";
+        }
 		//填充列表数据
 		$(data).each(function(index, element) {
 			$('#tb-topic').find('tbody').append('' +
@@ -72,7 +79,7 @@ $(function() {
 				'<td>' +
 				'<img class="main-img" src="' + window.url + $(this)[0].themeImg + '" alt="" width="50">' +
 				'</td>' +
-				//'<td>' + $(this)[0].masterItemId + '</td>' +      //Modified by Tiffany Zhu 2016.01.18
+				'<td>' + themeType + '</td>' +
 				'<td>' + $(this)[0].title + '</td>' +
 				'<td>' + $(this)[0].startAt + '</td>' +
 				'<td>' + $(this)[0].endAt + '</td>' +
