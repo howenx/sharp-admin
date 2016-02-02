@@ -1,9 +1,11 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.*;
 import filters.UserAuth;
 import middle.ItemMiddle;
+import play.Configuration;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -43,6 +45,9 @@ public class ItemCtrl extends Controller {
     private ItemStatisService itemStatisService;
 
     private ItemMiddle itemMiddle;
+
+    @Inject
+    Configuration configuration;
 
     @Inject
     public ItemCtrl(ItemService itemService, ThemeService themeService, InventoryService inventoryService, CarriageService carriageService, VaryPriceService varyPriceService, DataLogService dataLogService, ItemStatisService itemStatisService) {
@@ -277,7 +282,11 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result itemAddPop() {
-        return ok(views.html.item.itemaddPop.render(carriageService.getModels(),ThemeCtrl.IMG_UPLOAD_URL,ThemeCtrl.IMAGE_URL));
+        Map<String,String> customs = new ObjectMapper().convertValue(configuration.getObject("customs"),HashMap.class);
+        Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
+//        Logger.error(customs.toString());
+//        Logger.error(area.toString());
+        return ok(views.html.item.itemaddPop.render(carriageService.getModels(),ThemeCtrl.IMG_UPLOAD_URL,ThemeCtrl.IMAGE_URL,customs,area));
     }
 
     /**

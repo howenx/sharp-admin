@@ -1,4 +1,4 @@
-@(modelList:List[entity.Carriage], uploadURL:String, imageUrl:String)
+@(modelList:List[entity.Carriage], uploadURL:String, imageUrl:String, customs:Map[String,String], area:Map[String,String])
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -147,22 +147,18 @@
                 <label class="col-sm-1 control-label thval">库存区域</label>
                 <div class="col-sm-2">
                     <select class="form-control" id="invArea" name="invArea">
-                        <option value="H" selected>杭州保税仓备案</option>
-                        <option value="HZ">杭州保税仓直邮</option>
-                        <option value="G">广州保税仓备案</option>
-                        <option value="GZ">广州保税仓直邮</option>
-                        <option value="S">上海保税仓备案</option>
-                        <option value="SZ">上海保税仓直邮</option>
-                        <option value="K">海外直邮</option>
+                        @for(a <- area) {
+                        <option value='a.toString.substring(1,cus.toString.length-1).split(",")(0)'>@a.toString.substring(1,a.toString.length-1).split(",")(1)</option>
+                        }
                     </select>
                 </div>
                 <!-- 报关单位 -->
                 <label class="col-sm-1 control-label thval">报关单位</label>
                 <div class="col-sm-2">
                     <select class="form-control" id="invCustoms" name="invCustoms">
-                        <option value="shanghai" selected>上海海关</option>
-                        <option value="hangzhou">杭州海关</option>
-                        <option value="guangzhou">广州海关</option>
+                        @for(cus <- customs) {
+                        <option value='cus.toString.substring(1,cus.toString.length-1).split(",")(0)'>@cus.toString.substring(1,cus.toString.length-1).split(",")(1)</option>
+                        }
                     </select>
                 </div>
             </div>

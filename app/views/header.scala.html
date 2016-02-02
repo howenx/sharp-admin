@@ -14,7 +14,7 @@
                             Lang(Lang.forCode(lang)),"nav.home")</a>
                         <i class="header-nav-border-relative"></i>
                     </li>
-                    @if(user.role==entity.User_Type.ADMIN) {
+                    @if(user.userType.get=="ROOT") {
                     <li class="header-navi-item fl">
                         <a href="/supply/admin" class="header-link tdn">供应管理</a>
                         <i class="header-nav-border-relative"></i>
@@ -162,7 +162,7 @@
                         </div>
                     </li>
 
-                    <!--@if(user.role==entity.User_Type.TRANSLATION || user.role==entity.User_Type.ADMIN) {-->
+                    <!--@if(user.userType.get=="TRANSLATION" || user.userType.get=="ADMIN") {-->
                     <!--<li class="header-navi-item fl">-->
                         <!--<a href="javascript:void(0)" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.translate")</a>-->
                         <!--<i class="header-nav-border-relative"></i>-->
@@ -187,7 +187,7 @@
 
                     }
 
-                    @if(user.role==entity.User_Type.SYSTEM || user.role==entity.User_Type.ADMIN) {
+                    @if(user.userType.get=="SYSTEM" || user.userType.get=="ADMIN") {
                     <li class="header-navi-item fl">
                         <a href="javascript:void(0)" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.system")</a>
                         <i class="header-nav-border-relative"></i>

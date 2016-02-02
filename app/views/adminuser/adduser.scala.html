@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",user:entity.User)
+@(lang:String="cn", userTypeList:Map[String,String], user:entity.User)
 
 @scripts = {
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -62,10 +62,20 @@
                     <label class="col-sm-1 control-label" >角色</label>
                     <div class="col-sm-3">
                         <select class="form-control" id="userType" name="userType">
-                            <option value="OPERATE" selected>运营人员</option>
-                            <option value="FINANCE">财务人员</option>
-                            <option value="SERVICE">客服人员</option>
-                            <option value="ADMIN">管理人员</option>
+                            @if(user.userType.get=="SYSTEM") {
+                                @for(utl <- userTypeList) {
+                                @if("ROOT"!=utl.toString.substring(1,utl.toString.length-1).split(",")(0) && "SYSTEM"!=utl.toString.substring(1,utl.toString.length-1).split(",")(0)) {
+                                <option value='@utl.toString.substring(1,utl.toString.length-1).split(",")(0)'>@utl.toString.substring(1,utl.toString.length-1).split(",")(1)</option>
+                                }
+                                }
+                            }
+                            @if(user.userType.get=="ROOT") {
+                                @for(utl <- userTypeList) {
+                                @if("ROOT"!=utl.toString.substring(1,utl.toString.length-1).split(",")(0)) {
+                                <option value='@utl.toString.substring(1,utl.toString.length-1).split(",")(0)'>@utl.toString.substring(1,utl.toString.length-1).split(",")(1)</option>
+                                }
+                                }
+                            }
                         </select>
                     </div>
                 </div>
@@ -76,7 +86,6 @@
 }
 
 <script>
-
     /** 数据提交 **/
     $("#submit").click(function(){
         var isPost = true;

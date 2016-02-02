@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",user:entity.User)
+@(lang:String="cn", userTypeList:Map[String,String], user:entity.User)
 
 @scripts = {
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -57,12 +57,11 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label" >角色</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" id="userType" name="userType" value="@user.userType" disabled>
-                        <!--@if(user.userType=="OPERATE") {运营人员}-->
-                        <!--@if(user.userType=="FINANCE") {财务人员}-->
-                        <!--@if(user.userType=="SERVICE") {客服人员}-->
-                        <!--@if(user.userType=="ADMIN")  {管理人员}-->
-                        <!--@if(user.userType=="SYSTEM") {系统管理员}-->
+                        @for(utl <- userTypeList) {
+                            @if(user.userType.get==utl.toString.substring(1,utl.toString.length-1).split(",")(0)) {
+                                <input type="text" class="form-control" id="userType" name="userType" value='@utl.toString.substring(1,utl.toString.length-1).split(",")(1)' disabled>
+                            }
+                        }
                     </div>
                 </div>
             </div>

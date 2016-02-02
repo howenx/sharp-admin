@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.AdminUser;
 import entity.ID;
 import entity.User;
@@ -9,6 +10,7 @@ import filters.UserAuth;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
+import play.Configuration;
 import play.Logger;
 import play.cache.Cache;
 import play.libs.Json;
@@ -21,10 +23,11 @@ import service.IDAdminService;
 import service.IDService;
 
 import javax.inject.Inject;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -42,6 +45,9 @@ public class AdminUserCtrl extends Controller {
     @Inject
     private IDService idService;
 
+    @Inject
+    Configuration configuration;
+
     /**
      * 添加管理员用户
      * @param lang 语言
@@ -50,23 +56,10 @@ public class AdminUserCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result adminUserCreate(String lang) {
         //用户的角色从配置文件中读取
-//        Properties prop = new Properties();
-//        InputStream in = getClass().getResourceAsStream("/conf/user_type.properties");
-//        Map<String, Object> ut = new HashMap<>();
-//        try {
-//            prop.load(in);
-//            Set keyValue = prop.keySet();
-//            for(Iterator it = keyValue.iterator();it.hasNext();) {
-//                String key = (String)it.next();
-//                String value = prop.getProperty(key);
-//                ut.put(key,value);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            Logger.error("读取资源文件时出错!");
-//        }
-//        Logger.error("用户类型:"+ut);
-        return ok(views.html.adminuser.adduser.render(lang, (User) ctx().args.get("user")));
+        Map<String,String> userTypeList = new ObjectMapper().convertValue(configuration.getObject("role"),HashMap.class);
+//        Map<String,String> menus = new ObjectMapper().convertValue(configuration.getObject("menu"),HashMap.class);
+//        Logger.error(userTypeList.toString());
+        return ok(views.html.adminuser.adduser.render(lang, userTypeList, (User) ctx().args.get("user")));
     }
 
     /**
@@ -86,7 +79,7 @@ public class AdminUserCtrl extends Controller {
         } else {
             String defPwd = adminUser.CreateCode(8);//给邮箱发送的8位随机默认密码
             String regIp = request().remoteAddress();
-            adminUser.setPasswd(defPwd);
+            adminUser.setPasswd("11111111");
             adminUser.setRegIp(regIp);
             adminUser.setActiveYN("N");
             adminUser.setStatus("N");
@@ -132,6 +125,8 @@ public class AdminUserCtrl extends Controller {
         AdminUser adu  = Json.fromJson(json, AdminUser.class);//查询条件adu
 //        Logger.error("登录条件:"+adu.toString());
         AdminUser adminUser = adminUserService.getUserBy(adu);
+        Logger.error("login user:"+adu.toString());
+        Logger.debug("login user:"+adminUser.toString());
         if (null!=adminUser && !"".equals(adminUser)) {
             adminUser.setActiveYN("Y");
             adminUser.setLastLoginIp(loginIp);
@@ -139,7 +134,7 @@ public class AdminUserCtrl extends Controller {
             adminUser.setStatus("Y");
 //            Logger.error("更新后:"+adminUser.toString());
             adminUserService.updateUser(adminUser);
-            User user = new User (adminUser.getUserId(), adminUser.getEnNm(), null, null , User_Type.withName(adminUser.getUserType()),
+            User user = new User (adminUser.getUserId(), null,null, null , User_Type.ADMIN(),
                     Option.apply(adminUser.getUserId()), Option.apply(adminUser.getEnNm()), Option.apply(adminUser.getChNm()), Option.apply(adminUser.getEmail()),
                     Option.apply(adminUser.getUserType()), null, null, null,
                     null, null, null,null, null,null);
@@ -174,7 +169,8 @@ public class AdminUserCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result adminUserInfo(String lang) {
-        return ok(views.html.adminuser.userinfo.render(lang, (User) ctx().args.get("user")));
+        Map<String,String> userTypeList = new ObjectMapper().convertValue(configuration.getObject("role"),HashMap.class);
+        return ok(views.html.adminuser.userinfo.render(lang, userTypeList, (User) ctx().args.get("user")));
     }
 
     /**
@@ -191,7 +187,7 @@ public class AdminUserCtrl extends Controller {
         //更新用户信息
         adminUser.setChNm(adu.getChNm());
         Boolean bool = adminUserService.updateUser(adminUser);
-        User user = new User (adminUser.getUserId(), null,null, null , User_Type.withName(adminUser.getUserType()),
+        User user = new User (adminUser.getUserId(), null,null, null , User_Type.ADMIN(),
                 Option.apply(adminUser.getUserId()), Option.apply(adminUser.getEnNm()), Option.apply(adminUser.getChNm()), Option.apply(adminUser.getEmail()),
                 Option.apply(adminUser.getUserType()), null, null, null,
                 null, null, null,null, null,null);
