@@ -3,6 +3,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.edit.EditorService;
+import filters.UserAuth;
 import org.springframework.util.StringUtils;
 import play.Logger;
 import play.Play;

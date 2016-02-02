@@ -2,10 +2,9 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.User;
-import entity.pingou.PinCoupon;
 import entity.pingou.PinSku;
 import entity.pingou.PinTieredPrice;
-import play.Logger;
+import filters.UserAuth;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;

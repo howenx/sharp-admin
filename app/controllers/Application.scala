@@ -7,6 +7,7 @@ import javax.inject.{Inject, Named, Singleton}
 import actor.OSS
 import akka.actor.ActorRef
 import entity.{Prod, Prod_Type, User_Type}
+import filters.Secured
 import modules.OSSClientProvider
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.util.CellRangeAddress
@@ -81,6 +82,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
   /**
     * 供应商list
+ *
     * @param id
     * @param stat
     * @param start
@@ -135,6 +137,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
   /**
     * 翻译人员list
+ *
     * @param id
     * @param stat
     * @param start
@@ -186,6 +189,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
   /**
     *admin list
+ *
     * @param id
     * @param stat
     * @param start
@@ -252,6 +256,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
   /**
     * 追加
+ *
     * @param id
     * @return
     */
@@ -272,6 +277,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
   /**
     * 杭州报关单下载
+ *
     * @return
     */
   def download_hangzhou() = withUser { user => {
@@ -975,6 +981,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
   /** modify by howen 2016.01.25  **/
   /**
     * 供应商提供信息表格
+ *
     * @return
     */
   def supply() = withUser { user => {

@@ -3,6 +3,7 @@ package controllers
 
 
 import javax.inject.{Inject, Singleton}
+import filters.Secured
 import play.api.cache.Cache
 import play.api.Play.current
 import entity.User
@@ -32,6 +33,7 @@ class Auth @Inject() (val messagesApi: MessagesApi) extends Controller with Secu
 
   /**
    * 从数据库检查用户是否存在,如果存在,返回用户
+ *
    * @param name
    * @param password
    * @return
@@ -66,6 +68,7 @@ class Auth @Inject() (val messagesApi: MessagesApi) extends Controller with Secu
 
   /**
    * 用户登录接口
+ *
    * @return
    */
   def authenticate = Action { implicit request =>
@@ -101,6 +104,7 @@ class Auth @Inject() (val messagesApi: MessagesApi) extends Controller with Secu
 
   /**
     * 登出
+ *
     * @return
     */
   def logout = withUser { user => {

@@ -5,6 +5,7 @@ import com.iwilley.b1ec2.api.request.ShopItemQueryRequest;
 import com.iwilley.b1ec2.api.response.ShopItemQueryResponse;
 import entity.User;
 import entity.erp.Constants;
+import filters.UserAuth;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
