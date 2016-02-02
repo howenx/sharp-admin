@@ -1,16 +1,20 @@
-package controllers;
+package filters;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.User;
 import play.Configuration;
 import play.Logger;
 import play.Routes;
+import play.api.libs.json.Json;
 import play.cache.Cache;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
 
 import javax.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -18,6 +22,7 @@ import java.util.Optional;
  * Modified By Sunny.Wu 2016/01/29
  * kakao china
  */
+@SuppressWarnings("unchecked")
 public class UserAuth extends Security.Authenticator {
 
     @Inject
@@ -36,6 +41,12 @@ public class UserAuth extends Security.Authenticator {
             if(username != null) {
                 User user = (User) Cache.get(username.trim());
                 if(user != null) {
+                    Logger.error("用户:"+user.userType());
+                    
+                    Map<String,String> mappedObject = new ObjectMapper().convertValue(configuration.getObject("role"),HashMap.class);
+
+                    Logger.error("是否是大丰收的----->  "+ mappedObject.get("SYSTEM"));
+
                     if (configuration.getStringList(String.valueOf(user.role())).contains(header.get())){
                         ctx.args.put("user",user);
                     } else if (configuration.getStringList(String.valueOf(user.role())).contains(header2.get())) {

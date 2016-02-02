@@ -5,6 +5,7 @@ import entity.AdminUser;
 import entity.ID;
 import entity.User;
 import entity.User_Type;
+import filters.UserAuth;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;

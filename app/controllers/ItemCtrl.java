@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.*;
+import filters.UserAuth;
 import middle.ItemMiddle;
 import play.Logger;
 import play.data.DynamicForm;

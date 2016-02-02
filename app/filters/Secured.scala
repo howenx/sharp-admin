@@ -1,11 +1,11 @@
-package controllers
+package filters
 
-
+import controllers.routes
+import entity.User
+import play.api.Logger
 import play.api.cache.Cache
 import play.api.mvc._
-import entity.User
 import play.api.Play.current
-import play.api.Logger
 
 /**
  * Created by handy on 15/10/28.
