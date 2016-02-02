@@ -80,6 +80,8 @@
                         $('div.dragon-contained').draggable({
                             containment: "parent"
                         });
+                        var itemId =  $("#input_imgurl").val();
+                        ch_drag.parent().parent().parent().parent().find(".item-id").html(itemId);
                     } else if (rotate === '0' || rotate === '45') {
                         var ch_graph = ch_drag.parent().parent().parent().css({
                             'transform': 'rotate(' + rotate + 'deg)',
@@ -92,8 +94,8 @@
                         $('div.dragon-contained').draggable({
                             containment: "parent"
                         });
-                    var itemId =  $("#input_imgurl").val();
-                    ch_drag.parent().parent().parent().parent().find(".item-id").html(itemId);
+                        var itemId =  $("#input_imgurl").val();
+                        ch_drag.parent().parent().parent().parent().find(".item-id").html(itemId);
 
                     } else {
                         alert('Please do not modify rotate degree.');

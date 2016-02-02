@@ -716,7 +716,4 @@ public class ThemeCtrl extends Controller {
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
-
-
-
 }
