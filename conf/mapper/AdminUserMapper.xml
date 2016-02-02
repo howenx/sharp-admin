@@ -41,11 +41,11 @@
         where user_id = #{userId}
     </update>
 
-        <!-- 修改密码 -->
+    <!-- 修改密码 -->
     <update id="chgPwd" parameterType="entity.AdminUser">
         update "ADMIN_USER"
         set
-            passwd = user_passwd(user_id,#{passwd}),last_pwd_chg_dt = #{lastPwdChgDt}
+        passwd = user_passwd(user_id,#{passwd}),last_pwd_chg_dt = #{lastPwdChgDt}
         where user_id = #{userId}
     </update>
 

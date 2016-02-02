@@ -42,10 +42,8 @@ public class UserAuth extends Security.Authenticator {
                 User user = (User) Cache.get(username.trim());
                 if(user != null) {
                     Logger.error("用户:"+user.userType());
-
-                    ObjectMapper objectMapper = new ObjectMapper();
-
-                    Map<String,String> mappedObject = objectMapper.convertValue(configuration.getObject("role"),HashMap.class);
+                    
+                    Map<String,String> mappedObject = new ObjectMapper().convertValue(configuration.getObject("role"),HashMap.class);
 
                     Logger.error("是否是大丰收的----->  "+ mappedObject.get("SYSTEM"));
 

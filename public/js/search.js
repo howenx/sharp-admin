@@ -91,9 +91,8 @@ $(function() {
 	//每个查询页面对应一个相应的组装函数 商品查询页面
 	funcList.commlist_search = function commlist_search(pageIndex) {
 		var commDto = new Object();
-		commDto.id = $("#comm-id").val();
-		commDto.itemTitle = $("#comm-title").val();
-		commDto.themeId = $("#comm-topic-id").val();
+		commDto.id = $("#sku-id").val();
+		commDto.invTitle = $("#sku-title").val();
 		//调用共用ajax
 		search("/comm/search/" + pageIndex, commDto);
 	}
@@ -114,20 +113,26 @@ $(function() {
 		//填充列表数据
 		$(data).each(function(index, element) {
 			var state = "";
+			var orMasterInv = "";
             if($(this)[0].state=="Y"){state="正常"}
             if($(this)[0].state=="D"){state="下架"}
+            if($(this)[0].state=="N"){state="删除"}
             if($(this)[0].state=="K"){state="售空"}
+            if($(this)[0].state=="P"){state="预售"}
+            if($(this)[0].orMasterInv==true){orMasterInv="是"}
+            if($(this)[0].orMasterInv==false){orMasterInv="否"}
             $('#tb-topic').find('tbody').append('' +
                 '<tr class="tb-list-data">' +
-                '<td><a href="/'+window.lang+'/comm/findById/'+$(this)[0].id + ' ">' + $(this)[0].id + '</a></td>' +
-                '<td style="width: 20%;">' + $(this)[0].itemTitle + '</td>' +
+                '<td><a href="javascript:void(0)" class="item-info">' + $(this)[0].id + '</a><input type="hidden" value="'+$(this)[0].id+'"><input type="hidden" value="'+$(this)[0].itemId+'"></td>' +
+                '<td style="width: 20%;">' + $(this)[0].invTitle + '</td>' +
                 '<td>' +
-                '<img class="main-img" src="' + window.url + $(this)[0].itemMasterImg.substring(1,$(this)[0].itemMasterImg.length-1).split(",")[0].substring(7,$(this)[0].itemMasterImg.substring(1,$(this)[0].itemMasterImg.length-1).split(",")[0].length-1) + '" alt="" width="50">' +
+                '<img class="main-img" src="' + window.url + $(this)[0].invImg.substring(1,$(this)[0].invImg.length-1).split(",")[0].substring(7,$(this)[0].invImg.substring(1,$(this)[0].invImg.length-1).split(",")[0].length-1) + '" alt="" width="50">' +
                 '</td>' +
-                '<td>' + ($(this)[0].onShelvesAt != null && $(this)[0].onShelvesAt != '' ? $(this)[0].onShelvesAt.substr(0, 16) : '') + '</td>}' +
-                '<td>' + ($(this)[0].offShelvesAt != null && $(this)[0].offShelvesAt != '' ? $(this)[0].offShelvesAt.substr(0, 16) : '') + '</td>}' +
-                '<td><a href="javascript:void(0)">' + $(this)[0].themeId + '</a></td>' +
+                '<td>' + ($(this)[0].startAt != null && $(this)[0].startAt != '' ? $(this)[0].startAt.substr(0, 16) : '') + '</td>}' +
+                '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 16) : '') + '</td>}' +
+                '<td>' + $(this)[0].restAmount + '</td>' +
                 '<td>' + state + '</td>' +
+                '<td>' + orMasterInv + '</td>' +
                 '</tr>'
             );
 		})

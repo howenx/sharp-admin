@@ -145,7 +145,7 @@
         <update id="updH5Theme" parameterType="entity.Theme">
                 update themes
                 set title=#{title},start_at=#{startAt},end_at=#{endAt},theme_img=#{themeImg},sort_nu=#{sortNu},
-                update_at=CURRENT_TIMESTAMP(0),h5_link = h5Link
+                update_at=CURRENT_TIMESTAMP(0),h5_link = #{h5Link}
                 where id = #{id}
         </update>
 

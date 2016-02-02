@@ -62,13 +62,13 @@ public class AdminUserCtrl extends Controller {
         adminUser.setEmail(adminUser.getEmail()+"@kakaocorp.com");
         //先验证是否已注册
         AdminUser adu  = adminUserService.getUserBy(adminUser);
-        Logger.error("用户信息:"+adu);
+//        Logger.error("用户信息:"+adu);
         if (null!=adu && !"".equals(adu)) {
             return ok("该用户已注册!");
         } else {
             String defPwd = adminUser.CreateCode(8);//给邮箱发送的8位随机默认密码
             String regIp = request().remoteAddress();
-            adminUser.setPasswd("11111111");
+            adminUser.setPasswd(defPwd);
             adminUser.setRegIp(regIp);
             adminUser.setActiveYN("N");
             adminUser.setStatus("N");
@@ -83,13 +83,13 @@ public class AdminUserCtrl extends Controller {
                 email.setMsg(adminUser.getEnNm()+"请用密码登录:"+defPwd);//邮件内容
                 email.setFrom("sunny.wu@kakaocorp.com");//发送人
                 email.addTo("sunny.wu@kakaocorp.com");//收件人
-//                email.send();
+                email.send();
                 Logger.debug("邮件发送成功!");
             } catch (EmailException e) {
                 e.printStackTrace();
                 Logger.error("发送邮件错误"+e);
             }
-            Logger.error("用户信息:"+adminUser);
+//            Logger.error("用户信息:"+adminUser);
             adminUserService.insertUser(adminUser);
             return ok();
         }
@@ -128,20 +128,25 @@ public class AdminUserCtrl extends Controller {
             //登录成功后用户信息存在cache 和 session中
             Cache.set(adminUser.getEnNm().trim(), user);
             session().put("username",adminUser.getEnNm().trim());
+            Logger.debug("user login... "+user.enNm());
             return ok("登录成功!");
         }
-        else return ok("登录失败!");
+        else {
+            Logger.debug("not admin user");
+            return ok("登录失败!");
+        }
     }
 
     /**
      * 首页
+     * @param lang 语言
      * @return views
      */
     @Security.Authenticated(UserAuth.class)
-    public Result summary() {
+    public Result summary(String lang) {
         String username = session().get("username");
         User user = (User) Cache.get(username.trim());
-        return ok(views.html.summary.summary.render("cn",user));
+        return ok(views.html.summary.summary.render(lang, user));
     }
 
     /**
@@ -199,7 +204,6 @@ public class AdminUserCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result adminUserResetPwd(String lang) {
         JsonNode  json = request().body().asJson();
-        Logger.error("json为:"+json);
         if (json.has("adminUser")) {
             JsonNode aduNode = json.findValue("adminUser");
             AdminUser adu  = Json.fromJson(aduNode, AdminUser.class);
@@ -209,8 +213,6 @@ public class AdminUserCtrl extends Controller {
                 if (json.has("newPwd")) {
                     String newPwd = json.findValue("newPwd").asText();
                     adminUser.setPasswd(newPwd);
-
-                    Logger.error("新密码:"+newPwd+",修改密码用户:"+adminUser);
                     adminUser.setLastPwdChgDt(new Timestamp(new Date().getTime()));
                     //修改密码
                     adminUserService.chgPwd(adminUser);

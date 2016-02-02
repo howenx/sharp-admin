@@ -55,7 +55,67 @@ public class Inventory implements Serializable{
     private Timestamp endAt;         //下架时间
     private Boolean orVaryPrice;     //是否存在多样化价格
 
+    //分页,每页多少条
+    private Integer pageSize;
+
+    //分页,从第几条开始
+    private Integer offset;
+
+    //按照哪个字段排序
+    private String sort;
+    //排序方式,降序,升序
+    private String order;
+
+    private Integer skuNum;
+
     public Inventory() {}
+
+    @Override
+    public String toString() {
+        return "Inventory{" +
+                "id=" + id +
+                ", itemId=" + itemId +
+                ", itemColor='" + itemColor + '\'' +
+                ", itemSize='" + itemSize + '\'' +
+                ", itemPrice=" + itemPrice +
+                ", itemSrcPrice=" + itemSrcPrice +
+                ", itemCostPrice=" + itemCostPrice +
+                ", itemDiscount=" + itemDiscount +
+                ", amount=" + amount +
+                ", soldAmount=" + soldAmount +
+                ", restAmount=" + restAmount +
+                ", invImg='" + invImg + '\'' +
+                ", itemPreviewImgs='" + itemPreviewImgs + '\'' +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                ", orDestroy=" + orDestroy +
+                ", destroyAt=" + destroyAt +
+                ", orMasterInv=" + orMasterInv +
+                ", state='" + state + '\'' +
+                ", themeId='" + themeId + '\'' +
+                ", shareUrl='" + shareUrl + '\'' +
+                ", shareCount=" + shareCount +
+                ", collectCount=" + collectCount +
+                ", browseCount=" + browseCount +
+                ", invArea='" + invArea + '\'' +
+                ", restrictAmount=" + restrictAmount +
+                ", invTitle='" + invTitle + '\'' +
+                ", invCustoms='" + invCustoms + '\'' +
+                ", postalTaxRate='" + postalTaxRate + '\'' +
+                ", postalTaxCode='" + postalTaxCode + '\'' +
+                ", invWeight=" + invWeight +
+                ", carriageModelCode='" + carriageModelCode + '\'' +
+                ", recordCode='" + recordCode + '\'' +
+                ", startAt=" + startAt +
+                ", endAt=" + endAt +
+                ", orVaryPrice=" + orVaryPrice +
+                ", pageSize=" + pageSize +
+                ", offset=" + offset +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
+                ", skuNum=" + skuNum +
+                '}';
+    }
 
     public Long getId() {
         return id;
@@ -209,6 +269,46 @@ public class Inventory implements Serializable{
         this.state = state;
     }
 
+    public String getThemeId() {
+        return themeId;
+    }
+
+    public void setThemeId(String themeId) {
+        this.themeId = themeId;
+    }
+
+    public String getShareUrl() {
+        return shareUrl;
+    }
+
+    public void setShareUrl(String shareUrl) {
+        this.shareUrl = shareUrl;
+    }
+
+    public Integer getShareCount() {
+        return shareCount;
+    }
+
+    public void setShareCount(Integer shareCount) {
+        this.shareCount = shareCount;
+    }
+
+    public Integer getCollectCount() {
+        return collectCount;
+    }
+
+    public void setCollectCount(Integer collectCount) {
+        this.collectCount = collectCount;
+    }
+
+    public Integer getBrowseCount() {
+        return browseCount;
+    }
+
+    public void setBrowseCount(Integer browseCount) {
+        this.browseCount = browseCount;
+    }
+
     public String getInvArea() {
         return invArea;
     }
@@ -305,89 +405,48 @@ public class Inventory implements Serializable{
         this.orVaryPrice = orVaryPrice;
     }
 
-    public String getThemeId() {
-        return themeId;
+    public Integer getPageSize() {
+        return pageSize;
     }
 
-    public void setThemeId(String themeId) {
-        this.themeId = themeId;
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 
-    public String getShareUrl() {
-        return shareUrl;
+    public Integer getOffset() {
+        return offset;
     }
 
-    public void setShareUrl(String shareUrl) {
-        this.shareUrl = shareUrl;
+    public void setOffset(Integer offset) {
+        this.offset = offset;
     }
 
-    public Integer getShareCount() {
-        return shareCount;
+    public String getSort() {
+        return sort;
     }
 
-    public void setShareCount(Integer shareCount) {
-        this.shareCount = shareCount;
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 
-    public Integer getCollectCount() {
-        return collectCount;
+    public String getOrder() {
+        return order;
     }
 
-    public void setCollectCount(Integer collectCount) {
-        this.collectCount = collectCount;
+    public void setOrder(String order) {
+        this.order = order;
     }
 
-    public Integer getBrowseCount() {
-        return browseCount;
+    public Integer getSkuNum() {
+        return skuNum;
     }
 
-    public void setBrowseCount(Integer browseCount) {
-        this.browseCount = browseCount;
+    public void setSkuNum(Integer skuNum) {
+        this.skuNum = skuNum;
     }
 
-    @Override
-    public String toString() {
-        return "Inventory{" +
-                "id=" + id +
-                ", itemId=" + itemId +
-                ", itemColor='" + itemColor + '\'' +
-                ", itemSize='" + itemSize + '\'' +
-                ", itemPrice=" + itemPrice +
-                ", itemSrcPrice=" + itemSrcPrice +
-                ", itemCostPrice=" + itemCostPrice +
-                ", itemDiscount=" + itemDiscount +
-                ", amount=" + amount +
-                ", soldAmount=" + soldAmount +
-                ", restAmount=" + restAmount +
-                ", invImg='" + invImg + '\'' +
-                ", itemPreviewImgs='" + itemPreviewImgs + '\'' +
-                ", createAt=" + createAt +
-                ", updateAt=" + updateAt +
-                ", orDestroy=" + orDestroy +
-                ", destroyAt=" + destroyAt +
-                ", orMasterInv=" + orMasterInv +
-                ", state='" + state + '\'' +
-                ", themeId='" + themeId + '\'' +
-                ", shareUrl='" + shareUrl + '\'' +
-                ", shareCount=" + shareCount +
-                ", collectCount=" + collectCount +
-                ", browseCount=" + browseCount +
-                ", invArea='" + invArea + '\'' +
-                ", restrictAmount=" + restrictAmount +
-                ", invTitle='" + invTitle + '\'' +
-                ", invCustoms='" + invCustoms + '\'' +
-                ", postalTaxRate='" + postalTaxRate + '\'' +
-                ", postalTaxCode='" + postalTaxCode + '\'' +
-                ", invWeight=" + invWeight +
-                ", carriageModelCode='" + carriageModelCode + '\'' +
-                ", recordCode='" + recordCode + '\'' +
-                ", startAt=" + startAt +
-                ", endAt=" + endAt +
-                ", orVaryPrice=" + orVaryPrice +
-                '}';
-    }
+    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, String themeId, String shareUrl, Integer shareCount, Integer collectCount, Integer browseCount, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxRate, String postalTaxCode, Integer invWeight, String carriageModelCode, String recordCode, Timestamp startAt, Timestamp endAt, Boolean orVaryPrice, Integer pageSize, Integer offset, String sort, String order, Integer skuNum) {
 
-    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, String themeId, String shareUrl, Integer shareCount, Integer collectCount, Integer browseCount, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxRate, String postalTaxCode, Integer invWeight, String carriageModelCode, String recordCode, Timestamp startAt, Timestamp endAt, Boolean orVaryPrice) {
         this.id = id;
         this.itemId = itemId;
         this.itemColor = itemColor;
@@ -424,5 +483,10 @@ public class Inventory implements Serializable{
         this.startAt = startAt;
         this.endAt = endAt;
         this.orVaryPrice = orVaryPrice;
+        this.pageSize = pageSize;
+        this.offset = offset;
+        this.sort = sort;
+        this.order = order;
+        this.skuNum = skuNum;
     }
 }

@@ -5,11 +5,6 @@
 <link rel="stylesheet" href="/assets/css/slider.css">
 <script src="/assets/js/jquery.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
-<style type="text/css">
-    .control-label{font-weight: 500;}
-    .res{float:right;font-size:13px;margin-top:40px;margin-right:10px;color:blue;cursor:pointer;}
-
-</style>
 }
 
 @import java.lang.String; var title="个人中心"
@@ -29,11 +24,11 @@
 
 <div class="wrap-slider">
     <div class="page-title">
-        <span class="title-name">个人中心</span><a class="res" id="chgpwd">密码修改</a>
     </div>
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
         <div id="submit" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
+        <div id="chgpwd" class="btn-blue btn-form fr ml15">修改密码</div>
         <div id="cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>

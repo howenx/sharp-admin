@@ -610,6 +610,7 @@ $(function() {
          }
 
          var theme = {};
+         var themeId = $("#themeId").val();
          theme.id = $("#themeId").val();
          theme.title = $("#themeTitle").val();
          theme.startAt = $("#onShelvesAt").val();
@@ -647,15 +648,15 @@ $(function() {
                         $('#js-userinfo-error').text('Save success');
                     }
                     setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
-                    /*
+
                     if(themeId != null){
                         //主题修改, 成功后返回到主题修改页面
-                        setTimeout("location.href='/"+window.lang+"/topic/updateById/"+ themeId +"'", 3000);
+                        setTimeout("location.href='/"+window.lang+"/topic/updateById/"+ themeId +"'", 2000);
                     }else{
-                    */
+
                          //主题录入, 成功后返回到主题录入页面
-                         setTimeout("location.href='/"+window.lang+"/topic/h5Add'", 3000);
-                    /*}*/
+                         setTimeout("location.href='/"+window.lang+"/topic/h5Add'", 2000);
+                    }
                 }
             })
          }

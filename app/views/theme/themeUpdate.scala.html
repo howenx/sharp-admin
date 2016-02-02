@@ -27,11 +27,6 @@
 
 <script>
     $(function(){
-        //主题主宣传图
-        $("#themeImg").find("img").attr("id","@url@themeImgObject(0)");
-        $("#themeImg").find("input").width("@themeImgObject(1)");
-        $("#themeImg").find("input").height("@themeImgObject(2)");
-
         //主题列表主图
         var img = document.createElement("img");
         $(img).attr("src","@url@masterImgObject(0)");
@@ -123,36 +118,7 @@
 
         //点击取消
         $(document).on("click","#js-usercenter-cancel",function(){
-        //保存按钮
-  		$("#js-usercenter-submit").css({"display":"none"});
-  		$("#js-usercenter-cancel").css({"display":"none"});
-  		$("#js-usercenter-edit").css({"display":""});
-
-  		//基本信息
-  		$("#themeTitle").attr("disabled",true);
-  		$("#onShelvesAt").attr("disabled",true);
-  		$("#offShelvesAt").attr("disabled",true);
-  		//主宣传图
-  		$("#getTemplate").css({"display":"none"});
-        //商品
-  		$(".add-goods").css({"display":"none"});
-
-        $("#sort").find("tr").each(function(){
-            if($(this).find("th").length != 0 ){
-                $(this).find("th:eq(10)").css({"display":"none"});
-            }else{
-                $(this).find("td:eq(10)").css({"display":"none"});
-            }
-        })
-
-        //主题主图
-  		$(".form-group").eq(5).css({"display":"none"});
-  		$(".form-group").eq(6).css({"display":"none"});
-  		$(".form-group").eq(7).css({"display":"none"});
-  		$(".form-group").eq(8).css({"display":"none"});
-  		$(".form-group").eq(9).css({"display":"none"});
-
-
+         setTimeout("location.href='/"+window.lang+"/topic/updateById/"+ $("#themeId").val() +"'", 300);
         })
 
     })

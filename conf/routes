@@ -163,7 +163,8 @@ POST            /supply/upload                                              cont
 GET             /                                                            controllers.AdminUserCtrl.adminUserLogin
 POST            /aduser/login                                                controllers.AdminUserCtrl.authLogin
 GET             /otheruser/login                                             controllers.Auth.login
-GET				/summary                                                     controllers.AdminUserCtrl.summary
+GET				/summary                                                     controllers.AdminUserCtrl.summary(lang="cn")
+GET				/$lang<(cn|en|kr)>/summary                                   controllers.AdminUserCtrl.summary(lang)
 GET             /aduser/add                                                  controllers.AdminUserCtrl.adminUserCreate(lang="cn")
 GET             /$lang<(cn|en|kr)>/aduser/add                                controllers.AdminUserCtrl.adminUserCreate(lang)
 POST            /aduser/save                                                 controllers.AdminUserCtrl.adminUserSave
@@ -179,7 +180,6 @@ GET             /aduser/search                                               con
 GET             /$lang<(cn|en|kr)>/aduser/search                             controllers.AdminUserCtrl.adminUserSearch(lang)
 GET             /aduser/del/$id<[0-9]+>                                      controllers.AdminUserCtrl.adminUserDelUser(lang="cn",id:Long)
 GET             /$lang<(cn|en|kr)>/aduser/del/$id<[0-9]+>                    controllers.AdminUserCtrl.adminUserDelUser(lang,id:Long)
-
 
 
 

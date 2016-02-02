@@ -78,26 +78,32 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result itemSearch(String lang){
+//        Item item = new Item();
+//        item.setPageSize(-1);
+//        item.setOffset(-1);
+//        int countNum = itemService.itemSearch(item).size();//取总数
+//        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
+//        if(countNum%ThemeCtrl.PAGE_SIZE!=0){
+//            pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
+//        }
+//        item.setPageSize(ThemeCtrl.PAGE_SIZE);
+//        item.setOffset(0);
 
-        Item item = new Item();
-
-        item.setPageSize(-1);
-        item.setOffset(-1);
-
-        //取总数
-        int countNum = itemService.itemSearch(item).size();
-        //共分几页
-        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
-
-        if(countNum%ThemeCtrl.PAGE_SIZE!=0){
+        //查询页为sku信息
+        Inventory inventory = new Inventory();
+        inventory.setPageSize(-1);
+        inventory.setOffset(-1);
+        int countNum = inventoryService.invSearch(inventory).size();//取总数
+        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
+        if (countNum%ThemeCtrl.PAGE_SIZE!=0) {
             pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
         }
+        inventory.setPageSize(ThemeCtrl.PAGE_SIZE);
+        inventory.setOffset(0);
 
-        item.setPageSize(ThemeCtrl.PAGE_SIZE);
-        item.setOffset(0);
 //        Logger.error("所有商品:"+service.itemSearch(item).toString());
 
-        return ok(views.html.item.itemsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,itemService.itemSearch(item),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,inventoryService.invSearch(inventory),(User) ctx().args.get("user")));
     }
 
     /**
@@ -109,25 +115,23 @@ public class ItemCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result itemSearchAjax(String lang,int pageNum) {
         JsonNode json = request().body().asJson();
-        Item item = Json.fromJson(json,Item.class);
+//        Item item = Json.fromJson(json,Item.class);
+        Inventory inventory = Json.fromJson(json,Inventory.class);
         if(pageNum>=1){
             //计算从第几条开始取数据
             int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
-            item.setPageSize(-1);
-            item.setOffset(-1);
-            //取总数
-            int countNum = itemService.itemSearch(item).size();
-            //共分几页
-            int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
-
+            inventory.setPageSize(-1);
+            inventory.setOffset(-1);
+            int countNum = inventoryService.invSearch(inventory).size();//取总数
+            int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
             if(countNum%ThemeCtrl.PAGE_SIZE!=0){
                 pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
             }
-            item.setPageSize(ThemeCtrl.PAGE_SIZE);
-            item.setOffset(offset);
+            inventory.setPageSize(ThemeCtrl.PAGE_SIZE);
+            inventory.setOffset(offset);
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
-            returnMap.put("topic",itemService.itemSearch(item));
+            returnMap.put("topic",inventoryService.invSearch(inventory));
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);

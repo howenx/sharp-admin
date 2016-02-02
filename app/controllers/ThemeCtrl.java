@@ -508,6 +508,23 @@ public class ThemeCtrl extends Controller {
     public Result updateThemeById(String lang,Long id){
         Theme theme = service.getThemeById(id);
         Logger.error(theme.toString());
+        //H5主题
+        if(theme.getType().equals("h5")){
+            //主题的主宣传图
+            JsonNode themeImg = Json.parse(theme.getThemeImg());
+            Object[] themeImgObject = new Object[3];
+            //url
+            String themeImgUrl = themeImg.get("url").toString();
+            themeImgObject[0] = themeImgUrl.substring(1,themeImgUrl.length()-1);
+            //width
+            String themeImgWidth = themeImg.get("width").toString();
+            themeImgObject[1] = themeImgWidth.substring(1,themeImgWidth.length()-1);
+            //height
+            String themeImgHeight =  themeImg.get("height").toString();
+            themeImgObject[2] = themeImgHeight.substring(1,themeImgHeight.length()-1);
+            return ok(views.html.theme.H5ThemeUpd.render(lang,theme,themeImgObject,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+
+        }
         //主题的商品
         List<Object[]> itemList = new ArrayList<>();
         JsonNode ids = Json.parse(theme.getThemeItem());
@@ -525,7 +542,7 @@ public class ThemeCtrl extends Controller {
                 Logger.error(inventory.toString());
                 object[0] = inventory.getId();
                 object[1] = item.getItemTitle();
-               String  url = Json.parse(inventory.getInvImg()).get("url").toString();
+                String  url = Json.parse(inventory.getInvImg()).get("url").toString();
                 url = url.substring(1,url.length()-1);
                 object[2] = url;
                 object[3] = item.getOnShelvesAt().toString().substring(0,19);

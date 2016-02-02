@@ -30,6 +30,8 @@ public interface InventoryMapper {
 
     List<Inventory> getAllInventories();
 
+    List<Inventory> getSkuPage(Inventory inventory);
+
     /**
      * 获取商品的主sku  Added by Tiffany ZHu 2016.01.14
      * @param itemId
