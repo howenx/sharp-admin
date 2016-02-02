@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.*;
 import entity.pingou.PinSku;
+import filters.UserAuth;
 import play.Logger;
 import play.i18n.Lang;
 import play.i18n.Messages;

@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.User;
+import filters.UserAuth;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
