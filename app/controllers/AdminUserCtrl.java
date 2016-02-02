@@ -20,9 +20,10 @@ import service.IDAdminService;
 import service.IDService;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -47,6 +48,23 @@ public class AdminUserCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result adminUserCreate(String lang) {
+        //用户的角色从配置文件中读取
+//        Properties prop = new Properties();
+//        InputStream in = getClass().getResourceAsStream("/conf/user_type.properties");
+//        Map<String, Object> ut = new HashMap<>();
+//        try {
+//            prop.load(in);
+//            Set keyValue = prop.keySet();
+//            for(Iterator it = keyValue.iterator();it.hasNext();) {
+//                String key = (String)it.next();
+//                String value = prop.getProperty(key);
+//                ut.put(key,value);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            Logger.error("读取资源文件时出错!");
+//        }
+//        Logger.error("用户类型:"+ut);
         return ok(views.html.adminuser.adduser.render(lang, (User) ctx().args.get("user")));
     }
 
