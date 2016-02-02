@@ -176,14 +176,14 @@ public class PingouCtrl extends Controller {
             object[7] = "";                             //团长优惠券类别
             object[8] = price.getMasterCouponQuota();   //团长优惠券限额
             object[9] = price.getMasterCoupon();        //团长优惠券面值
-            object[10] = price.getMasterCouponStartAt();//团长优惠券开始日期
-            object[11] = price.getMasterCouponEndAt();  //团长优惠券结束日期
+            object[10] = price.getMasterCouponStartAt().toString().substring(0,19);//团长优惠券开始日期
+            object[11] = price.getMasterCouponEndAt().toString().substring(0,19);  //团长优惠券结束日期
             object[12] = price.getMemberCouponClass();  //团员优惠券类别
             object[13] = "";                            //团员优惠券类别
             object[14] = price.getMemberCouponQuota();  //团员优惠券限额
             object[15] = price.getMemberCoupon();       //团员优惠券面值
-            object[16] = price.getMemberCouponStartAt();//团员优惠券开始日期
-            object[17] = price.getMemberCouponEndAt();  //团员优惠券届时日期
+            object[16] = price.getMemberCouponStartAt().toString().substring(0,19);//团员优惠券开始日期
+            object[17] = price.getMemberCouponEndAt().toString().substring(0,19);  //团员优惠券届时日期
             tieredList.add(object);
         }
         return ok(views.html.pingou.pingouUpdate.render(lang,pinSku,img,tieredList,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
