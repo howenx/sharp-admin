@@ -34,6 +34,7 @@ import java.util.Map;
  * Created by Sunny Wu on 16/1/28.
  * kakao china.
  */
+@SuppressWarnings("unchecked")
 public class AdminUserCtrl extends Controller {
 
     @Inject

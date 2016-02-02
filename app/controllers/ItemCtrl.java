@@ -27,6 +27,7 @@ import java.util.Map;
  * 商品管理
  * Created by howen on 15/11/11.
  */
+@SuppressWarnings("unchecked")
 public class ItemCtrl extends Controller {
 
 
