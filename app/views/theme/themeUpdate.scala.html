@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="/assets/css/upload.css">
 <link rel="stylesheet" href="/assets/css/button.css">
 <link rel="stylesheet" href="/assets/css/font-face.css">
+<link rel="stylesheet" href="/assets/css/search.css">
 <link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
 
 <script src="/assets/js/bootstrap.min.js"></script>
@@ -22,6 +23,7 @@
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
 <script src="/assets/js/theme.js"></script>
+<script src="/assets/js/add-guige.js"></script>
 <script>window.url = "@url"</script>
 <script>window.uploadUrl = "@uploadUrl" + "/upload"</script>
 
@@ -120,7 +122,19 @@
         $(document).on("click","#js-usercenter-cancel",function(){
          setTimeout("location.href='/"+window.lang+"/topic/updateById/"+ $("#themeId").val() +"'", 300);
         })
-
+        var trindex;
+        $("table.grid").on("click","tr",function(){
+            trindex = $(".grid tr").index($(this));
+            $(".tableBlock").show();
+            $(this).appendTo(".tableBlock table");
+        })
+        $(".tableBlock").on("click","td:nth-of-type(8),td:nth-of-type(10)",function(e){
+            changeText(e,this);
+        })
+        $(".tableok").click(function(){
+            $(".tableBlock tr").insertAfter($(".grid tr").eq(trindex-1));
+            $(".tableBlock").hide();
+        })
     })
 </script>
 }
@@ -405,6 +419,16 @@
     <div class="goods-bg"></div>
     <div class="goods-img">
         <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>
+
+<div class="tableBlock">
+    <div class="tableBg"></div>
+    <div class="table">
+        <table class="table table-bordered">
+
+        </table>
+        <button type="button" class="btn btn-primary tableok">确认</button>
     </div>
 </div>
 }
