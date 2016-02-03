@@ -200,9 +200,9 @@ GET             /coup/add/popup                                            contr
 POST            /coup/coupSave                                             controllers.CoupCtrl.coupSave
 
 #edit 编辑器
-GET             /editorController			                                controllers.EditorApplication.editorController()
-POST            /editorController			                                controllers.EditorApplication.editorController()
-GET             /editor						                                controllers.EditorApplication.editor()
+GET             /editorController			                                      controllers.EditorApplication.editorController()
+POST            /editorController			                                      controllers.EditorApplication.editorController()
+GET             /editor						                                          controllers.EditorApplication.editor()
 
 #DataLog    --> log 日志
 GET             /log/search                                                 controllers.DataLogCtrl.dataLogSearch(lang = "cn")
