@@ -624,6 +624,8 @@ $(function(){
         //最低价格
         var minPrice = parseFloat($(".pingou").find("tr").eq(1).find("td:eq(3)").text());
         var floorPrice = {};
+        floorPrice.person_num = parseInt($(".pingou").find("tr").eq(1).find("td:eq(2)").text());
+        floorPrice.price = minPrice;
         $(".pingou").find("tr").each(function(){
             if($(this).index() != 0){
                 if(parseFloat($(this).find("td:eq(3)").text()) < minPrice){
