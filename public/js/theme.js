@@ -24,7 +24,6 @@ function ShowModal() {
 function ShowModal1() {
     var sharedObject = {};
     sharedObject.flag = true;
-
     if (window.showModalDialog) {
         var retValue = showModalDialog("/topic/add/popup", sharedObject, "dialogWidth:1200px; dialogHeight:600px; dialogLeft:300px;");
         if (retValue) {
@@ -52,6 +51,9 @@ function UpdateFields(obj) {
     }
     if(obj.itemType == "拼购"){
         $('#url-type').val("pin");
+    }
+    if(obj.itemType == "多样化"){
+        $('#url-type').val("vary");
     }
 }
 function previewImage1(obj, file) {

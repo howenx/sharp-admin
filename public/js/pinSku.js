@@ -2,7 +2,7 @@
 function ShowModal1() {
         var sharedObject = {};
         sharedObject.flag = true;
-
+        sharedObject.pinFlag = true;
         if (window.showModalDialog) {
             var retValue = showModalDialog("/topic/add/popup", sharedObject, "dialogWidth:1200px; dialogHeight:600px; dialogLeft:300px;");
             if (retValue) {
