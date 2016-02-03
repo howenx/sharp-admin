@@ -23,12 +23,12 @@ import java.io.InputStream;
 public class EditorApplication extends Controller{
 
 
-	@Security.Authenticated(UserAuth.class)
+//	@Security.Authenticated(UserAuth.class)
 	public  Result editor(){
 		return ok(views.html.index.render());
 	}
 
-	@Security.Authenticated(UserAuth.class)
+//	@Security.Authenticated(UserAuth.class)
 	public  Result editorController() throws Exception{
 		DynamicForm form   = Form.form().bindFromRequest();
 		String action = form.get("action");
