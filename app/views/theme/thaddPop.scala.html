@@ -8,7 +8,7 @@
 <script type="text/javascript">
     $(function(){
         var sharedObject = window.dialogArguments;
-
+        debugger;
         if(sharedObject.flag == null){
             var selected_items = sharedObject.selected_items;
             for(i=0;i<selected_items.length;i++){
@@ -23,13 +23,15 @@
 
         }
 
-
         if (sharedObject.flag) {
             $("input[type=checkbox]").attr('type','radio');
+        }
+        console.log(sharedObject.flag);
+        console.log(sharedObject.pinFlag);
+        if(sharedObject.pinFlag){
             $("li").css("display","none");
             $("table").eq(1).css("display","none");
         }
-
 
         $(".return").click(function(){
             var id=$("input[type=checkbox]:checked").parents("tr");
