@@ -1,7 +1,10 @@
 package entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.validator.constraints.URL;
+import play.data.validation.Constraints;
 
+import javax.validation.constraints.Future;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -14,20 +17,25 @@ public class Theme implements Serializable{
 
     private Long id;
     private Long masterItemId;
+    @Constraints.Required
     private String title;
     private String themeDesc;
+    @Constraints.Required
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp startAt;
+    @Constraints.Required
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp endAt;
     private BigDecimal themeDiscountUp;
     private BigDecimal itemPriceTop;
     private BigDecimal itemPriceLow;
+    @Constraints.Required
     private String themeImg;
     private String themeUrl;
     private String themeTags;
     private Integer itemCount;
     private Integer themeTagCount;
+    @Constraints.Required
     private Integer sortNu;
     private Boolean orDestory;
     private Long destoryUid;
@@ -43,6 +51,7 @@ public class Theme implements Serializable{
     private String themeItem;
     private String themeMasterImg;
     private String masterItemTag;
+    @Constraints.Required
     private String type;
     private String h5Link;
 

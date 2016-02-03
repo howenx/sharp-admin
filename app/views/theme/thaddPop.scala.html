@@ -37,6 +37,7 @@
             $(id).find("input[type=checkbox]:checked").parent().remove();
             var lable_id=$("input[type=radio]:checked").parent().next().html();
             var itemTitle = $("input[type=radio]:checked").parent().next().next().next().html();
+            var itemType = $("input[type=radio]:checked").parent().next().next().html();
             if (window.showModalDialog) {
                 var sharedObject = {};
                 sharedObject.id = id;
@@ -45,6 +46,7 @@
                 if(lable_id != null && lable_id.value!=""){
                     sharedObject.lable_id = lable_id;
                     sharedObject.itemTitle = itemTitle;
+                    sharedObject.itemType = itemType;
                 }
 
 
@@ -56,6 +58,7 @@
                 sharedObject.id = id;
                 sharedObject.lable_id = lable_id;
                 sharedObject.itemTitle = itemTitle;
+                sharedObject.itemType = itemType;
                 console.log(lable_id);
                 window.opener.UpdateFields (sharedObject);
             }

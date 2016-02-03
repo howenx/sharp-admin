@@ -128,6 +128,10 @@ li b{
    color: blue;
 }
 
+.item-type {
+   display: none;
+}
+
 .tag-container{
     overflow: auto;
     height:380px;

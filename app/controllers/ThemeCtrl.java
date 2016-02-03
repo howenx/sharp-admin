@@ -6,6 +6,7 @@ import entity.*;
 import entity.pingou.PinSku;
 import filters.UserAuth;
 import play.Logger;
+import play.data.Form;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
@@ -15,6 +16,7 @@ import play.mvc.Security;
 import service.*;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -363,110 +365,117 @@ public class ThemeCtrl extends Controller {
         Logger.error(json.toString());
         Theme theme = play.libs.Json.fromJson(json,Theme.class);
         theme.setOrDestory(false);
-        service.themeSave(theme);
-
-        //添加主题Id到商品中
-        for(JsonNode idBar : ids){
-            String type = idBar.findValue("type").toString();
-            type = type.substring(1,type.length()-1);
-            //普通商品
-            if("item".equals(type)){
-                Inventory inventory = inventoryService.getInventory(idBar.get("id").asLong());
-                String themeIds = inventory.getThemeId();
-                if (themeIds== null || "".equals(themeIds)){
-                    inventory.setThemeId(theme.getId().toString());
-                }else{
-                    if(!themeIds.contains(theme.getId().toString())){
-                        themeIds = themeIds + "," + theme.getId().toString();
-                        inventory.setThemeId(themeIds);
-                    }
-                }
-                inventoryService.updInventoryThemeId(inventory);
-            }
-            //拼购商品
-            if("pin".equals(type)){
-                PinSku pinSku = pingouService.getPinSkuById(idBar.get("id").asLong());
-                String themeIds = pinSku.getThemeId();
-                if (themeIds== null || "".equals(themeIds)){
-                    pinSku.setThemeId(theme.getId().toString());
-                }else{
-                    if(!themeIds.contains(theme.getId().toString())){
-                        themeIds = themeIds + "," + theme.getId().toString();
-                        pinSku.setThemeId(themeIds);
-                    }
-                }
-                pingouService.updPinThemeId(pinSku);
-            }
-            //多样化商品
-            if("vary".equals(type)){
-                VaryPrice varyPrice = varyPriceService.getVaryPriceById(idBar.get("id").asLong());
-                String themeIds = varyPrice.getThemeId();
-                if ( themeIds== null || "".equals(themeIds)){
-                    varyPrice.setThemeId(theme.getId().toString());
-                }else{
-                    if(!themeIds.contains(theme.getId().toString())){
-                        themeIds = themeIds + "," + theme.getId().toString();
-                        varyPrice.setThemeId(themeIds);
-                    }
-                }
-                varyPriceService.updVaryThemeId(varyPrice);
-            }
-        }
-
-        //删除主题ID
-        JsonNode beforeUpdJson = jsonRequest.findValue("beforeUpdItems");
-        if(beforeUpdJson.size() > 0){
-            for(JsonNode beforeItem : beforeUpdJson){
-                String beforeId = beforeItem.get("id").toString();
-                //最新的商品中不包含变更前的商品
-                if(!theme.getThemeItem().contains(beforeId)){
-                    String type = beforeItem.get("type").toString();
-                    type = type.substring(1,type.length()-1);
-                    //普通商品
-                    if("item".equals(type)){
-                        Inventory inventory = inventoryService.getInventory(beforeItem.get("id").asLong());
-                        String themeIds = inventory.getThemeId();
-                        if (themeIds != null){
-                            if(themeIds.indexOf(theme.getId().toString()) == 0) {
-                                themeIds = themeIds.replace(theme.getId().toString(),"") ;
-                            }else{
-                                themeIds = themeIds.replace("," + theme.getId().toString(),"") ;
-                            }
+        /*
+        Form<Theme> themeForm = Form.form(Theme.class).bindFromRequest();
+        if(themeForm.hasErrors()){
+            Logger.debug(themeForm.data().toString());
+            Logger.error(themeForm.errors().toString());
+        }else{
+        */
+            service.themeSave(theme);
+            //添加主题Id到商品中
+            for(JsonNode idBar : ids){
+                String type = idBar.findValue("type").toString();
+                type = type.substring(1,type.length()-1);
+                //普通商品
+                if("item".equals(type)){
+                    Inventory inventory = inventoryService.getInventory(idBar.get("id").asLong());
+                    String themeIds = inventory.getThemeId();
+                    if (themeIds== null || "".equals(themeIds)){
+                        inventory.setThemeId(theme.getId().toString());
+                    }else{
+                        if(!themeIds.contains(theme.getId().toString())){
+                            themeIds = themeIds + "," + theme.getId().toString();
                             inventory.setThemeId(themeIds);
-                            inventoryService.updInventoryThemeId(inventory);
                         }
                     }
-                    //拼购商品
-                    if("pin".equals(type)){
-                        PinSku pinSku = pingouService.getPinSkuById(beforeItem.get("id").asLong());
-                        String themeIds = pinSku.getThemeId();
-                        if (themeIds != null){
-                            if(themeIds.indexOf(theme.getId().toString()) == 0) {
-                                themeIds = themeIds.replace(theme.getId().toString(),"") ;
-                            }else{
-                                themeIds = themeIds.replace("," + theme.getId().toString(),"") ;
-                            }
+                    inventoryService.updInventoryThemeId(inventory);
+                }
+                //拼购商品
+                if("pin".equals(type)){
+                    PinSku pinSku = pingouService.getPinSkuById(idBar.get("id").asLong());
+                    String themeIds = pinSku.getThemeId();
+                    if (themeIds== null || "".equals(themeIds)){
+                        pinSku.setThemeId(theme.getId().toString());
+                    }else{
+                        if(!themeIds.contains(theme.getId().toString())){
+                            themeIds = themeIds + "," + theme.getId().toString();
                             pinSku.setThemeId(themeIds);
-                            pingouService.updPinThemeId(pinSku);
                         }
                     }
-                    //多样化商品
-                    if("vary".equals(type)){
-                        VaryPrice varyPrice = varyPriceService.getVaryPriceById(beforeItem.get("id").asLong());
-                        String themeIds = varyPrice.getThemeId();
-                        if (themeIds != null){
-                            if(themeIds.indexOf(theme.getId().toString()) == 0) {
-                                themeIds = themeIds.replace(theme.getId().toString(),"") ;
-                            }else{
-                                themeIds = themeIds.replace("," + theme.getId().toString(),"") ;
-                            }
+                    pingouService.updPinThemeId(pinSku);
+                }
+                //多样化商品
+                if("vary".equals(type)){
+                    VaryPrice varyPrice = varyPriceService.getVaryPriceById(idBar.get("id").asLong());
+                    String themeIds = varyPrice.getThemeId();
+                    if ( themeIds== null || "".equals(themeIds)){
+                        varyPrice.setThemeId(theme.getId().toString());
+                    }else{
+                        if(!themeIds.contains(theme.getId().toString())){
+                            themeIds = themeIds + "," + theme.getId().toString();
                             varyPrice.setThemeId(themeIds);
-                            varyPriceService.updVaryThemeId(varyPrice);
+                        }
+                    }
+                    varyPriceService.updVaryThemeId(varyPrice);
+                }
+            }
+
+            //删除主题ID
+            JsonNode beforeUpdJson = jsonRequest.findValue("beforeUpdItems");
+            if(beforeUpdJson.size() > 0){
+                for(JsonNode beforeItem : beforeUpdJson){
+                    String beforeId = beforeItem.get("id").toString();
+                    //最新的商品中不包含变更前的商品
+                    if(!theme.getThemeItem().contains(beforeId)){
+                        String type = beforeItem.get("type").toString();
+                        type = type.substring(1,type.length()-1);
+                        //普通商品
+                        if("item".equals(type)){
+                            Inventory inventory = inventoryService.getInventory(beforeItem.get("id").asLong());
+                            String themeIds = inventory.getThemeId();
+                            if (themeIds != null){
+                                if(themeIds.indexOf(theme.getId().toString()) == 0) {
+                                    themeIds = themeIds.replace(theme.getId().toString(),"") ;
+                                }else{
+                                    themeIds = themeIds.replace("," + theme.getId().toString(),"") ;
+                                }
+                                inventory.setThemeId(themeIds);
+                                inventoryService.updInventoryThemeId(inventory);
+                            }
+                        }
+                        //拼购商品
+                        if("pin".equals(type)){
+                            PinSku pinSku = pingouService.getPinSkuById(beforeItem.get("id").asLong());
+                            String themeIds = pinSku.getThemeId();
+                            if (themeIds != null){
+                                if(themeIds.indexOf(theme.getId().toString()) == 0) {
+                                    themeIds = themeIds.replace(theme.getId().toString(),"") ;
+                                }else{
+                                    themeIds = themeIds.replace("," + theme.getId().toString(),"") ;
+                                }
+                                pinSku.setThemeId(themeIds);
+                                pingouService.updPinThemeId(pinSku);
+                            }
+                        }
+                        //多样化商品
+                        if("vary".equals(type)){
+                            VaryPrice varyPrice = varyPriceService.getVaryPriceById(beforeItem.get("id").asLong());
+                            String themeIds = varyPrice.getThemeId();
+                            if (themeIds != null){
+                                if(themeIds.indexOf(theme.getId().toString()) == 0) {
+                                    themeIds = themeIds.replace(theme.getId().toString(),"") ;
+                                }else{
+                                    themeIds = themeIds.replace("," + theme.getId().toString(),"") ;
+                                }
+                                varyPrice.setThemeId(themeIds);
+                                varyPriceService.updVaryThemeId(varyPrice);
+                            }
                         }
                     }
                 }
             }
-        }
+        //}
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
@@ -605,7 +614,8 @@ public class ThemeCtrl extends Controller {
                     object[4] = "预售";
 
                 }
-                object[5] = pinSku.getFloorPrice();
+                JsonNode floorPrice = Json.parse(pinSku.getFloorPrice());
+                object[5] = floorPrice.get("price");
                 object[6] = inventory.getItemSrcPrice();
                 object[7] = pinSku.getPinDiscount();
                 object[8] = itemNum;
@@ -662,33 +672,41 @@ public class ThemeCtrl extends Controller {
         //width
         String masterImgWidth = themeMasterImg.get("width").toString();
         masterImgObject[1] = masterImgWidth.substring(1,masterImgWidth.length()-1);
-        //masterImgObject[1] = masterImgWidth;
         //height
         String masterImgHeight = themeMasterImg.get("height").toString();
         masterImgObject[2] = masterImgHeight.substring(1,masterImgHeight.length()-1);
-        //masterImgObject[2] = masterImgHeight;
 
         //主题的首页主图的标签
         List<Object[]> tagList = new ArrayList<>();
-        JsonNode itemMasterTag = Json.parse(theme.getMasterItemTag());
-        for(JsonNode tag : itemMasterTag){
-            Logger.error(tag.toString());
-            Object[] tagObject = new Object[5];
-            //top
-            tagObject[0] = tag.get("top").floatValue()*100 + "%" ;
-            //url
+        if(theme.getMasterItemTag() != null) {
+            JsonNode itemMasterTag = Json.parse(theme.getMasterItemTag());
+            for (JsonNode tag : itemMasterTag) {
+                Logger.error(tag.toString());
+                Object[] tagObject = new Object[6];
+                //top
+                tagObject[0] = tag.get("top").floatValue() * 100 + "%";
+                //url
+            /*
             String tag_url = tag.get("url").toString();
             tagObject[1] = (tag_url.substring(2,tag_url.length()-1)).substring(12);
-            //left
-            tagObject[2] = tag.get("left").floatValue() * 100 + "%";
-            //name
-            String tag_name = tag.get("name").toString();
-            tagObject[3] = tag_name.substring(1,tag_name.length()-1);
-            //angle
-            tagObject[4] = tag.get("angle").toString();
-            tagList.add(tagObject);
+            */
+                JsonNode URLJson = tag.get("url");
+                String url_id = URLJson.get("id").toString();
+                url_id = url_id.substring(1, url_id.length() - 1);
+                tagObject[1] = url_id;
+                String url_type = URLJson.get("type").toString();
+                url_type = url_type.substring(1, url_type.length() - 1);
+                tagObject[5] = url_type;
+                //left
+                tagObject[2] = tag.get("left").floatValue() * 100 + "%";
+                //name
+                String tag_name = tag.get("name").toString();
+                tagObject[3] = tag_name.substring(1, tag_name.length() - 1);
+                //angle
+                tagObject[4] = tag.get("angle").toString();
+                tagList.add(tagObject);
+            }
         }
-
         return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 

@@ -14,6 +14,8 @@
   	'</div>' +
   	"<div class='item-id'>" +
     '</div>' +
+    "<div class='item-type'>" +
+    '</div>' +
   	'</div>';
   var mark_image_nm;
   $(function() {
@@ -81,7 +83,9 @@
                             containment: "parent"
                         });
                         var itemId =  $("#input_imgurl").val();
+                        var itemType = $("#url-type").val();
                         ch_drag.parent().parent().parent().parent().find(".item-id").html(itemId);
+                        ch_drag.parent().parent().parent().parent().find(".item-type").html(itemType);
                     } else if (rotate === '0' || rotate === '45') {
                         var ch_graph = ch_drag.parent().parent().parent().css({
                             'transform': 'rotate(' + rotate + 'deg)',
@@ -95,7 +99,9 @@
                             containment: "parent"
                         });
                         var itemId =  $("#input_imgurl").val();
+                        var itemType = $("#url-type").val();
                         ch_drag.parent().parent().parent().parent().find(".item-id").html(itemId);
+                        ch_drag.parent().parent().parent().parent().find(".item-type").html(itemType);
 
                     } else {
                         alert('Please do not modify rotate degree.');

@@ -114,7 +114,10 @@ $(function() {
                 tag.left = parseFloat((left/container_width).toFixed(2));
                 tag.top = parseFloat((top/container_height).toFixed(2));
                 tag.name = $(this).find("p").text();
-                tag.url = "/comm/detail/" + $(this).find(".item-id").text();
+                var url = {};
+                url.type = $(this).find(".item-type").text();
+                url.id = $(this).find(".item-id").text();
+                tag.url = url;
             }else{
                 tag.angle = 0;
                 var container_width = parseInt($(this).parent().width());
@@ -124,7 +127,10 @@ $(function() {
                 tag.left = parseFloat((left/container_width).toFixed(2));
                 tag.top = parseFloat((top/container_height).toFixed(2));
                 tag.name = $(this).find("p").text();
-                tag.url = "/comm/detail/" + $(this).find(".item-id").text();
+                var url = {};
+                url.type = $(this).find(".item-type").text();
+                url.id = $(this).find(".item-id").text();
+                tag.url = url;
             }
             masterItemTag.push(tag);
         })
@@ -158,7 +164,9 @@ $(function() {
         theme.themeSrcImg = "";
         theme.themeDesc = themeConfig;
         theme.themeItem = themeItems;
+        if(JSON.stringify(masterItemTag) != "[]"){
         theme.themeTags = masterItemTag;
+        }
         theme.themeMasterImg = JSON.stringify(themeMasterImgContent);
         var data = {};
         data.theme = theme;

@@ -47,6 +47,12 @@ function UpdateFields(obj) {
     }
 
     $('#input_imgurl').val(obj.lable_id);
+    if(obj.itemType == "普通"){
+        $('#url-type').val("item");
+    }
+    if(obj.itemType == "拼购"){
+        $('#url-type').val("pin");
+    }
 }
 function previewImage1(obj, file) {
 
