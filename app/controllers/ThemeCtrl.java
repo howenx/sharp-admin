@@ -307,7 +307,9 @@ public class ThemeCtrl extends Controller {
                 object[4] = "预售";
 
             }
-            object[5] = pinSku.getFloorPrice();
+            JsonNode floorPriceJson = Json.parse(pinSku.getFloorPrice());
+            BigDecimal price = floorPriceJson.get("price").decimalValue();
+            object[5] = price;
             object[6] = inventoryService.getInventory(pinSku.getInvId()).getItemSrcPrice();
             object[7] = pinSku.getPinDiscount();
             pinList.add(object);
