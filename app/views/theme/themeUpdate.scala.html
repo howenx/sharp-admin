@@ -123,7 +123,11 @@
          setTimeout("location.href='/"+window.lang+"/topic/updateById/"+ $("#themeId").val() +"'", 300);
         })
         var trindex;
-        $("table.grid tbody").on("click","tr",function(){
+        $("table.grid tbody").on("click","tr",function(e){
+            var obj = e.target;
+            if(obj.className=="th-del"){
+                return;
+            }
             trindex = $(".grid tbody tr").index($(this));
             $(".tableBlock").show();
             $(this).appendTo(".tableBlock tbody");

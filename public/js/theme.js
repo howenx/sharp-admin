@@ -38,11 +38,11 @@ function ShowModal1() {
 }
 function UpdateFields(obj) {
     var obj1 = obj.id;
-    var index1 = $(".table tbody").find("tr").length,
-        index2 = $(".table thead").find("tr").length;
+    var index1 = $(".grid tbody").find("tr").length,
+        index2 = $(".grid thead").find("tr").length;
     var index = index1 + index2;
     for (var i = 0; i < $(obj1).length; i++) {
-        $(obj1).eq(i).prepend($("<td class='index'>" + (Number(index) + i) + "</td>")).appendTo($(".table"));
+        $(obj1).eq(i).prepend($("<td class='index'>" + (Number(index) + i) + "</td>")).appendTo($(".grid"));
     }
 
     $('#input_imgurl').val(obj.lable_id);
