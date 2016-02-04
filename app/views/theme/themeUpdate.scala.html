@@ -123,16 +123,20 @@
          setTimeout("location.href='/"+window.lang+"/topic/updateById/"+ $("#themeId").val() +"'", 300);
         })
         var trindex;
-        $("table.grid").on("click","tr",function(){
-            trindex = $(".grid tr").index($(this));
+        $("table.grid tbody").on("click","tr",function(){
+            trindex = $(".grid tbody tr").index($(this));
             $(".tableBlock").show();
-            $(this).appendTo(".tableBlock table");
+            $(this).appendTo(".tableBlock tbody");
         })
-        $(".tableBlock").on("click","td:nth-of-type(8),td:nth-of-type(10)",function(e){
+        $(".tableBlock tbody").on("click","td:nth-of-type(8),td:nth-of-type(10)",function(e){
             changeText(e,this);
         })
         $(".tableok").click(function(){
-            $(".tableBlock tr").insertAfter($(".grid tr").eq(trindex-1));
+            if(trindex==0){
+                $(".tableBlock tbody tr").prependTo($(".grid tbody"));
+            }else{
+                $(".tableBlock tbody tr").insertAfter($(".grid>tbody>tr").eq(trindex-1));
+            }
             $(".tableBlock").hide();
         })
     })
@@ -426,7 +430,49 @@
     <div class="tableBg"></div>
     <div class="table">
         <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="index">序号</th>
+                <!-- <th>主商品</th> -->
+                <th>
+                    商品ID
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                    <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                </th>
+                <th>
+                    商品类型
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                </th>
+                <th>
+                    商品标题
+                </th>
+                <th>
+                    主图
+                </th>
+                <th>
+                    上架时间
+                </th>
+                <th>
+                    商品状态
+                </th>
+                <th width="100">
+                    价格
+                </th>
+                <th>
+                    原价
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                    <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                </th>
+                <th>
+                    折扣
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                    <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                </th>
+            </tr>
+            </thead>
+            <tbody>
 
+            </tbody>
         </table>
         <button type="button" class="btn btn-primary tableok">确认</button>
     </div>

@@ -10,7 +10,7 @@ function changeText(event,element){
 
     if(element.childNodes.length==0
         ||(element.childNodes.length==1&&element.childNodes[0].nodeType==3)){
-        var addText = $("<input type='text' autofocus='autofocus'>").css({
+        var addText = $("<input type='text'>").css({
             "width":"100%"
         }).val(oldHtml);
         $(addText).blur(function(){
