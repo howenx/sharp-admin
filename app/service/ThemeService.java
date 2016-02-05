@@ -43,4 +43,10 @@ public interface ThemeService {
      */
     void h5ThemeSave(Theme theme);
 
+    /**
+     * 更新主题商品       Added by Tiffany Zhu 2016.02.05
+     * @param theme
+     */
+    void updThemeItems(Theme theme);
+
 }

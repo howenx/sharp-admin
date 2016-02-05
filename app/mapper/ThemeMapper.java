@@ -31,6 +31,12 @@ public interface ThemeMapper {
      Theme getThemeById(Long id);
 
     /**
+     * 更新主题商品       Added by Tiffany Zhu 2016.02.05
+     * @param theme
+     */
+     void updThemeItems(Theme theme);
+
+    /**
      * 获取全部主题模板 Added by Tiffany Zhu 2016.01.08
      * @return
      */

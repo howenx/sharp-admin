@@ -6,7 +6,6 @@ import entity.*;
 import entity.pingou.PinSku;
 import filters.UserAuth;
 import play.Logger;
-import play.data.Form;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
@@ -57,6 +56,9 @@ public class ThemeCtrl extends Controller {
 
     @Inject
     private VaryPriceService varyPriceService;
+
+    @Inject
+    private SubjectPriceService subjectPriceService;
 
     /**
      * 滚动条管理
@@ -367,117 +369,149 @@ public class ThemeCtrl extends Controller {
         Logger.error(json.toString());
         Theme theme = play.libs.Json.fromJson(json,Theme.class);
         theme.setOrDestory(false);
-        /*
-        Form<Theme> themeForm = Form.form(Theme.class).bindFromRequest();
-        if(themeForm.hasErrors()){
-            Logger.debug(themeForm.data().toString());
-            Logger.error(themeForm.errors().toString());
-        }else{
-        */
-            service.themeSave(theme);
-            //添加主题Id到商品中
-            for(JsonNode idBar : ids){
-                String type = idBar.findValue("type").toString();
-                type = type.substring(1,type.length()-1);
-                //普通商品
-                if("item".equals(type)){
-                    Inventory inventory = inventoryService.getInventory(idBar.get("id").asLong());
-                    String themeIds = inventory.getThemeId();
-                    if (themeIds== null || "".equals(themeIds)){
-                        inventory.setThemeId(theme.getId().toString());
-                    }else{
-                        if(!themeIds.contains(theme.getId().toString())){
-                            themeIds = themeIds + "," + theme.getId().toString();
-                            inventory.setThemeId(themeIds);
-                        }
+        service.themeSave(theme);
+        //添加主题Id到商品中
+        for(JsonNode idBar : ids){
+            String type = idBar.findValue("type").toString();
+            type = type.substring(1,type.length()-1);
+            //普通商品
+            if("item".equals(type)){
+                Inventory inventory = inventoryService.getInventory(idBar.get("id").asLong());
+                String themeIds = inventory.getThemeId();
+                if (themeIds== null || "".equals(themeIds)){
+                    inventory.setThemeId(theme.getId().toString());
+                }else{
+                    if(!themeIds.contains(theme.getId().toString())){
+                        themeIds = themeIds + "," + theme.getId().toString();
+                        inventory.setThemeId(themeIds);
                     }
-                    inventoryService.updInventoryThemeId(inventory);
                 }
-                //拼购商品
-                if("pin".equals(type)){
-                    PinSku pinSku = pingouService.getPinSkuById(idBar.get("id").asLong());
-                    String themeIds = pinSku.getThemeId();
-                    if (themeIds== null || "".equals(themeIds)){
-                        pinSku.setThemeId(theme.getId().toString());
-                    }else{
-                        if(!themeIds.contains(theme.getId().toString())){
-                            themeIds = themeIds + "," + theme.getId().toString();
-                            pinSku.setThemeId(themeIds);
-                        }
-                    }
-                    pingouService.updPinThemeId(pinSku);
-                }
-                //多样化商品
-                if("vary".equals(type)){
-                    VaryPrice varyPrice = varyPriceService.getVaryPriceById(idBar.get("id").asLong());
-                    String themeIds = varyPrice.getThemeId();
-                    if ( themeIds== null || "".equals(themeIds)){
-                        varyPrice.setThemeId(theme.getId().toString());
-                    }else{
-                        if(!themeIds.contains(theme.getId().toString())){
-                            themeIds = themeIds + "," + theme.getId().toString();
-                            varyPrice.setThemeId(themeIds);
-                        }
-                    }
-                    varyPriceService.updVaryThemeId(varyPrice);
-                }
+                inventoryService.updInventoryThemeId(inventory);
             }
+            //拼购商品
+            if("pin".equals(type)){
+                PinSku pinSku = pingouService.getPinSkuById(idBar.get("id").asLong());
+                String themeIds = pinSku.getThemeId();
+                if (themeIds== null || "".equals(themeIds)){
+                    pinSku.setThemeId(theme.getId().toString());
+                }else{
+                    if(!themeIds.contains(theme.getId().toString())){
+                        themeIds = themeIds + "," + theme.getId().toString();
+                        pinSku.setThemeId(themeIds);
+                    }
+                }
+                pingouService.updPinThemeId(pinSku);
+            }
+            //多样化商品
+            if("vary".equals(type)){
+                VaryPrice varyPrice = varyPriceService.getVaryPriceById(idBar.get("id").asLong());
+                String themeIds = varyPrice.getThemeId();
+                if ( themeIds== null || "".equals(themeIds)){
+                    varyPrice.setThemeId(theme.getId().toString());
+                }else{
+                    if(!themeIds.contains(theme.getId().toString())){
+                        themeIds = themeIds + "," + theme.getId().toString();
+                        varyPrice.setThemeId(themeIds);
+                    }
+                }
+                varyPriceService.updVaryThemeId(varyPrice);
+            }
+        }
 
-            //删除主题ID
-            JsonNode beforeUpdJson = jsonRequest.findValue("beforeUpdItems");
-            if(beforeUpdJson.size() > 0){
-                for(JsonNode beforeItem : beforeUpdJson){
-                    String beforeId = beforeItem.get("id").toString();
-                    //最新的商品中不包含变更前的商品
-                    if(!theme.getThemeItem().contains(beforeId)){
-                        String type = beforeItem.get("type").toString();
-                        type = type.substring(1,type.length()-1);
-                        //普通商品
-                        if("item".equals(type)){
-                            Inventory inventory = inventoryService.getInventory(beforeItem.get("id").asLong());
-                            String themeIds = inventory.getThemeId();
-                            if (themeIds != null){
-                                if(themeIds.indexOf(theme.getId().toString()) == 0) {
-                                    themeIds = themeIds.replace(theme.getId().toString(),"") ;
-                                }else{
-                                    themeIds = themeIds.replace("," + theme.getId().toString(),"") ;
-                                }
-                                inventory.setThemeId(themeIds);
-                                inventoryService.updInventoryThemeId(inventory);
+        //删除商品中主题ID
+        JsonNode beforeUpdJson = jsonRequest.findValue("beforeUpdItems");
+        if(beforeUpdJson.size() > 0){
+            for(JsonNode beforeItem : beforeUpdJson){
+                String beforeId = beforeItem.get("id").toString();
+                //最新的商品中不包含变更前的商品
+                if(!theme.getThemeItem().contains(beforeId)){
+                    String type = beforeItem.get("type").toString();
+                    type = type.substring(1,type.length()-1);
+                    //普通商品
+                    if("item".equals(type)){
+                        Inventory inventory = inventoryService.getInventory(beforeItem.get("id").asLong());
+                        String themeIds = inventory.getThemeId();
+                        if (themeIds != null){
+                            if(themeIds.indexOf(theme.getId().toString()) == 0) {
+                                themeIds = themeIds.replace(theme.getId().toString(),"") ;
+                            }else{
+                                themeIds = themeIds.replace("," + theme.getId().toString(),"") ;
                             }
+                            inventory.setThemeId(themeIds);
+                            inventoryService.updInventoryThemeId(inventory);
                         }
-                        //拼购商品
-                        if("pin".equals(type)){
-                            PinSku pinSku = pingouService.getPinSkuById(beforeItem.get("id").asLong());
-                            String themeIds = pinSku.getThemeId();
-                            if (themeIds != null){
-                                if(themeIds.indexOf(theme.getId().toString()) == 0) {
-                                    themeIds = themeIds.replace(theme.getId().toString(),"") ;
-                                }else{
-                                    themeIds = themeIds.replace("," + theme.getId().toString(),"") ;
-                                }
-                                pinSku.setThemeId(themeIds);
-                                pingouService.updPinThemeId(pinSku);
+                    }
+                    //拼购商品
+                    if("pin".equals(type)){
+                        PinSku pinSku = pingouService.getPinSkuById(beforeItem.get("id").asLong());
+                        String themeIds = pinSku.getThemeId();
+                        if (themeIds != null){
+                            if(themeIds.indexOf(theme.getId().toString()) == 0) {
+                                themeIds = themeIds.replace(theme.getId().toString(),"") ;
+                            }else{
+                                themeIds = themeIds.replace("," + theme.getId().toString(),"") ;
                             }
+                            pinSku.setThemeId(themeIds);
+                            pingouService.updPinThemeId(pinSku);
                         }
-                        //多样化商品
-                        if("vary".equals(type)){
-                            VaryPrice varyPrice = varyPriceService.getVaryPriceById(beforeItem.get("id").asLong());
-                            String themeIds = varyPrice.getThemeId();
-                            if (themeIds != null){
-                                if(themeIds.indexOf(theme.getId().toString()) == 0) {
-                                    themeIds = themeIds.replace(theme.getId().toString(),"") ;
-                                }else{
-                                    themeIds = themeIds.replace("," + theme.getId().toString(),"") ;
-                                }
-                                varyPrice.setThemeId(themeIds);
-                                varyPriceService.updVaryThemeId(varyPrice);
+                    }
+                    //多样化商品
+                    if("vary".equals(type)){
+                        VaryPrice varyPrice = varyPriceService.getVaryPriceById(beforeItem.get("id").asLong());
+                        String themeIds = varyPrice.getThemeId();
+                        if (themeIds != null){
+                            if(themeIds.indexOf(theme.getId().toString()) == 0) {
+                                themeIds = themeIds.replace(theme.getId().toString(),"") ;
+                            }else{
+                                themeIds = themeIds.replace("," + theme.getId().toString(),"") ;
                             }
+                            varyPrice.setThemeId(themeIds);
+                            varyPriceService.updVaryThemeId(varyPrice);
                         }
                     }
                 }
             }
-        //}
+        }
+        //创建自定义商品
+        JsonNode customizeItems = jsonRequest.findValue("customizeItems");
+        if(customizeItems.size() > 0){
+            //JsonNode themeItem = json.findValue("themeItem");
+            for(JsonNode customizeItem : customizeItems){
+                SubjectPrice subjectPrice = Json.fromJson(customizeItem,SubjectPrice.class);
+                subjectPrice.setThemeId(theme.getId());
+                subjectPriceService.sbjPriceSave(subjectPrice);
+                for(int i=0;i<ids.size();i++){
+                    String type = ids.get(i).get("type").toString();
+                    type = type.substring(1,type.length()-1);
+                    Long itemId = ids.get(i).get("id").asLong();
+                    if("customize".equals(type) && itemId.equals(subjectPrice.getInvId())){
+                        ((ObjectNode)ids.get(i)).put("id",subjectPrice.getId().toString());
+                    }
+                }
+            }
+            //更新主题商品
+            Theme updTheme = new Theme();
+            updTheme.setId(theme.getId());
+            updTheme.setThemeItem(ids.toString());
+            service.updThemeItems(updTheme);
+        }
+
+        //删除自定义商品
+        List<SubjectPrice> subjectPriceList = subjectPriceService.getSbjPriceByThemeId(theme.getId());
+        if(customizeItems.size() > 0){
+            for(SubjectPrice sbjPrice : subjectPriceList){
+                if(customizeItems.toString().indexOf(sbjPrice.getInvId().toString())<0){
+                    SubjectPrice delSbjPrice = new SubjectPrice();
+                    delSbjPrice.setThemeId(theme.getId());
+                    delSbjPrice.setInvId(sbjPrice.getInvId());
+                    subjectPriceService.sbjPriceDel(delSbjPrice);
+                }
+            }
+        }else{
+            SubjectPrice delSbjPrice = new SubjectPrice();
+            delSbjPrice.setThemeId(theme.getId());
+            subjectPriceService.sbjPriceDel(delSbjPrice);
+        }
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
@@ -538,120 +572,162 @@ public class ThemeCtrl extends Controller {
         }
         //主题的商品
         List<Object[]> itemList = new ArrayList<>();
-        JsonNode ids = Json.parse(theme.getThemeItem());
-        int itemNum = 0;
-        for(JsonNode tempId : ids){
-            itemNum = itemNum + 1;
-            //普通商品sku
-            String type = tempId.get("type").toString();
-            String resultType = type.substring(1,type.length()-1);
-            if("item".equals(resultType)){
-                Object[] object = new Object[10];
-                Inventory inventory = inventoryService.getInventory(tempId.get("id").asLong());
-                Logger.error(inventory.toString());
-                Item item = itemService.getItem(inventory.getItemId());
-                Logger.error(inventory.toString());
-                object[0] = inventory.getId();
-                object[1] = item.getItemTitle();
-                String  url = Json.parse(inventory.getInvImg()).get("url").toString();
-                url = url.substring(1,url.length()-1);
-                object[2] = url;
-                object[3] = item.getOnShelvesAt().toString().substring(0,19);
-                if("Y".equals(item.getState())){
-                    object[4] = "正常";
+        if(theme.getThemeItem() != null && !("".equals(theme.getThemeItem()))){
+            JsonNode ids = Json.parse(theme.getThemeItem());
+            int itemNum = 0;
+            for(JsonNode tempId : ids){
+                itemNum = itemNum + 1;
+                //普通商品sku
+                String type = tempId.get("type").toString();
+                String resultType = type.substring(1,type.length()-1);
+                if("item".equals(resultType)){
+                    Object[] object = new Object[10];
+                    Inventory inventory = inventoryService.getInventory(tempId.get("id").asLong());
+                    Logger.error(inventory.toString());
+                    Item item = itemService.getItem(inventory.getItemId());
+                    Logger.error(inventory.toString());
+                    object[0] = inventory.getId();
+                    object[1] = item.getItemTitle();
+                    String  url = Json.parse(inventory.getInvImg()).get("url").toString();
+                    url = url.substring(1,url.length()-1);
+                    object[2] = url;
+                    object[3] = item.getOnShelvesAt().toString().substring(0,19);
+                    if("Y".equals(item.getState())){
+                        object[4] = "正常";
 
+                    }
+                    if("D".equals(item.getState())){
+                        object[4] = "下架";
+
+                    }
+                    if("N".equals(item.getState())){
+                        object[4] = "删除";
+
+                    }
+                    if("K".equals(item.getState())){
+                        object[4] = "售空";
+
+                    }
+                    if("P".equals(item.getState())){
+                        object[4] = "预售";
+
+                    }
+                    object[5] = inventory.getItemPrice();
+                    object[6] = inventory.getItemSrcPrice();
+                    object[7] = inventory.getItemDiscount();
+                    object[8] = itemNum;
+                    object[9] = "普通";
+                    itemList.add(object);
                 }
-                if("D".equals(item.getState())){
-                    object[4] = "下架";
 
+                if("pin".equals(resultType)){
+                    Object[] object = new Object[10];
+                    PinSku pinSku = pingouService.getPinSkuById(tempId.get("id").asLong());
+                    Inventory inventory = inventoryService.getInventory(pinSku.getInvId());
+                    Logger.error(pinSku.toString());
+                    object[0] = pinSku.getPinId();
+                    object[1] = pinSku.getPinTitle();
+                    String url = Json.parse(pinSku.getPinImg()).get("url").toString();
+                    url = url.substring(1,url.length()-1);
+                    object[2] = url;
+                    object[3] = pinSku.getStartAt().toString().substring(0,19);
+                    if("Y".equals(pinSku.getStatus())){
+                        object[4] = "正常";
+
+                    }
+                    if("D".equals(pinSku.getStatus())){
+                        object[4] = "下架";
+
+                    }
+                    if("N".equals(pinSku.getStatus())){
+                        object[4] = "删除";
+
+                    }
+                    if("K".equals(pinSku.getStatus())){
+                        object[4] = "售空";
+
+                    }
+                    if("P".equals(pinSku.getStatus())){
+                        object[4] = "预售";
+
+                    }
+                    JsonNode floorPrice = Json.parse(pinSku.getFloorPrice());
+                    object[5] = floorPrice.get("price");
+                    object[6] = inventory.getItemSrcPrice();
+                    object[7] = pinSku.getPinDiscount();
+                    object[8] = itemNum;
+                    object[9] = "拼购";
+                    itemList.add(object);
                 }
-                if("N".equals(item.getState())){
-                    object[4] = "删除";
 
+                if("vary".equals(resultType)){
+                    Object[] object = new Object[10];
+                    VaryPrice varyPrice = varyPriceService.getVaryPriceById(tempId.get("id").asLong());
+                    Inventory inventory = inventoryService.getInventory(varyPrice.getInvId());
+                    Item item = itemService.getItem(inventory.getItemId());
+                    object[0] = varyPrice.getId();
+                    object[1] = item.getItemTitle();
+                    String url = Json.parse(inventory.getInvImg()).get("url").toString();
+                    url = url.substring(1,url.length()-1);
+                    object[2] = url;
+                    object[3] = inventory.getStartAt().toString().substring(0,19);
+                    if("Y".equals(varyPrice.getStatus())){
+                        object[4] = "正常";
+
+                    }
+                    if("N".equals(varyPrice.getStatus())){
+                        object[4] = "下架";
+
+                    }
+                    object[5] = varyPrice.getPrice();
+                    object[6] = inventory.getItemSrcPrice();
+                    object[7] = varyPrice.getPrice().divide(inventory.getItemSrcPrice(),2);
+                    object[8] = itemNum;
+                    object[9] = "多样化";
+                    itemList.add(object);
                 }
-                if("K".equals(item.getState())){
-                    object[4] = "售空";
+                if("customize".equals(resultType)){
+                    Object[] object = new Object[10];
+                    Inventory inventory = inventoryService.getInventory(tempId.get("id").asLong());
+                    Logger.error(inventory.toString());
+                    Item item = itemService.getItem(inventory.getItemId());
+                    Logger.error(inventory.toString());
+                    object[0] = inventory.getId();
+                    object[1] = item.getItemTitle();
+                    String  url = Json.parse(inventory.getInvImg()).get("url").toString();
+                    url = url.substring(1,url.length()-1);
+                    object[2] = url;
+                    object[3] = item.getOnShelvesAt().toString().substring(0,19);
+                    if("Y".equals(item.getState())){
+                        object[4] = "正常";
 
+                    }
+                    if("D".equals(item.getState())){
+                        object[4] = "下架";
+
+                    }
+                    if("N".equals(item.getState())){
+                        object[4] = "删除";
+
+                    }
+                    if("K".equals(item.getState())){
+                        object[4] = "售空";
+
+                    }
+                    if("P".equals(item.getState())){
+                        object[4] = "预售";
+
+                    }
+                    object[5] = inventory.getItemPrice();
+                    object[6] = inventory.getItemSrcPrice();
+                    object[7] = inventory.getItemDiscount();
+                    object[8] = itemNum;
+                    object[9] = "自定义";
+                    itemList.add(object);
                 }
-                if("P".equals(item.getState())){
-                    object[4] = "预售";
-
-                }
-                object[5] = inventory.getItemPrice();
-                object[6] = inventory.getItemSrcPrice();
-                object[7] = inventory.getItemDiscount();
-                object[8] = itemNum;
-                object[9] = "普通";
-                itemList.add(object);
-            }
-
-            if("pin".equals(resultType)){
-                Object[] object = new Object[10];
-                PinSku pinSku = pingouService.getPinSkuById(tempId.get("id").asLong());
-                Inventory inventory = inventoryService.getInventory(pinSku.getInvId());
-                Logger.error(pinSku.toString());
-                object[0] = pinSku.getPinId();
-                object[1] = pinSku.getPinTitle();
-                String url = Json.parse(pinSku.getPinImg()).get("url").toString();
-                url = url.substring(1,url.length()-1);
-                object[2] = url;
-                object[3] = pinSku.getStartAt().toString().substring(0,19);
-                if("Y".equals(pinSku.getStatus())){
-                    object[4] = "正常";
-
-                }
-                if("D".equals(pinSku.getStatus())){
-                    object[4] = "下架";
-
-                }
-                if("N".equals(pinSku.getStatus())){
-                    object[4] = "删除";
-
-                }
-                if("K".equals(pinSku.getStatus())){
-                    object[4] = "售空";
-
-                }
-                if("P".equals(pinSku.getStatus())){
-                    object[4] = "预售";
-
-                }
-                JsonNode floorPrice = Json.parse(pinSku.getFloorPrice());
-                object[5] = floorPrice.get("price");
-                object[6] = inventory.getItemSrcPrice();
-                object[7] = pinSku.getPinDiscount();
-                object[8] = itemNum;
-                object[9] = "拼购";
-                itemList.add(object);
-            }
-
-            if("vary".equals(resultType)){
-                Object[] object = new Object[10];
-                VaryPrice varyPrice = varyPriceService.getVaryPriceById(tempId.get("id").asLong());
-                Inventory inventory = inventoryService.getInventory(varyPrice.getInvId());
-                Item item = itemService.getItem(inventory.getItemId());
-                object[0] = varyPrice.getId();
-                object[1] = item.getItemTitle();
-                String url = Json.parse(inventory.getInvImg()).get("url").toString();
-                url = url.substring(1,url.length()-1);
-                object[2] = url;
-                object[3] = inventory.getStartAt().toString().substring(0,19);
-                if("Y".equals(varyPrice.getStatus())){
-                    object[4] = "正常";
-
-                }
-                if("N".equals(varyPrice.getStatus())){
-                    object[4] = "下架";
-
-                }
-                object[5] = varyPrice.getPrice();
-                object[6] = inventory.getItemSrcPrice();
-                object[7] = varyPrice.getPrice().divide(inventory.getItemSrcPrice(),2);
-                object[8] = itemNum;
-                object[9] = "多样化";
-                itemList.add(object);
             }
         }
+
         //主题的主宣传图
         JsonNode themeImg = Json.parse(theme.getThemeImg());
         Object[] themeImgObject = new Object[3];

@@ -79,6 +79,8 @@ $(function() {
         var sortNu = 1;
         //主题的配置信息
         var themeConfig = [];
+        //自定义价格
+        var customizeItems = [];
         //主题包含的商品信息
         var themeItems = [];
         $("#sort").find("tr").each(function(){
@@ -95,6 +97,15 @@ $(function() {
                 }
                 if(type == "多样化"){
                     object.type = "vary";
+                }
+                if(type == "自定义"){
+                    object.type = "customize";
+                    var customizeObject = new Object();
+                    //customizeObject.type = "customize";
+                    customizeObject.invId = itemId;
+                    customizeObject.price = $(this).find("td:eq(7)").text();
+                    customizeObject.discount = $(this).find("td:eq(8)").text();
+                    customizeItems.push(customizeObject);
                 }
                 object.id =  itemId.toString();
                 themeItems.push(object);
@@ -171,6 +182,7 @@ $(function() {
         var data = {};
         data.theme = theme;
         data.beforeUpdItems = beforeUpdItems;
+        data.customizeItems = customizeItems;
 
         if (isPost) {
                     $.ajax({

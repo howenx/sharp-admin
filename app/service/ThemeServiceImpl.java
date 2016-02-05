@@ -146,4 +146,13 @@ public class ThemeServiceImpl implements ThemeService {
             themeMapper.addH5Theme(theme);
         }
     }
+
+    /**
+     * 更新主题商品       Added by Tiffany Zhu 2016.02.05
+     * @param theme
+     */
+    @Override
+    public void updThemeItems(Theme theme) {
+        themeMapper.updThemeItems(theme);
+    }
 }

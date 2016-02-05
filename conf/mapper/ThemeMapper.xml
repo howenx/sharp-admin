@@ -138,6 +138,12 @@
                 where id = #{id}
         </update>
 
+        <update id="updThemeItems" parameterType="entity.Theme">
+                update themes
+                set theme_item=#{themeItem}
+                where id = #{id}
+        </update>
+
         <insert id="addH5Theme" parameterType="entity.Theme">
                 insert into themes (title,create_at,start_at,end_at,type,h5_link,theme_img,sort_nu)
                 values(#{title},CURRENT_TIMESTAMP(0),#{startAt},#{endAt},#{type},#{h5Link},#{themeImg},#{sortNu})
