@@ -101,10 +101,10 @@ $(function() {
                 if(type == "自定义"){
                     object.type = "customize";
                     var customizeObject = new Object();
-                    //customizeObject.type = "customize";
+                    customizeObject.id =  $(this).find("td:eq(3)").text();
                     customizeObject.invId = itemId;
-                    customizeObject.price = $(this).find("td:eq(7)").text();
-                    customizeObject.discount = $(this).find("td:eq(8)").text();
+                    customizeObject.price = $(this).find("td:eq(8)").text();
+                    customizeObject.discount = $(this).find("td:eq(9)").text();
                     customizeItems.push(customizeObject);
                 }
                 object.id =  itemId.toString();

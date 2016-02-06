@@ -1,4 +1,5 @@
 var jsFileShareContent = {};
+ var pageEditStatus = false;
 function ShowModal() {
     var sharedObject = {};
 
@@ -188,6 +189,53 @@ $(function () {
         modal.dialogArguments = sharedObject;
 
     });
+
+    var trindex;
+    $("table.grid tbody").on("dblclick","tr",function(e){
+        if(pageEditStatus){
+            var obj = e.target;
+            if(obj.className=="th-del"){
+                return;
+            }
+            if($(this).find("td").eq(2).text() == "普通" || $(this).find("td").eq(2).text() == "自定义"){
+                trindex = $(".grid tbody tr").index($(this));
+                $(".tableBlock").show();
+                $(this).find("td").eq(11).remove();
+                $(this).appendTo(".tableBlock tbody");
+            }
+        }
+    })
+    $(".tableBlock tbody").on("click","td:nth-of-type(9),td:nth-of-type(11)",function(e){
+        changeText(e,this);
+    })
+    $(".tableok").click(function(){
+        if(trindex==0){
+            $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo($(".tableBlock tbody tr"));
+            if($(".tableBlock tbody tr").find("td").eq(8).text() != $(".tableBlock tbody tr").find("td").eq(9).text()){
+                $(".tableBlock tbody tr").find("td").eq(2).text("自定义");
+            }
+            $(".tableBlock tbody tr").prependTo($(".grid tbody"));
+
+        }else{
+            $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo($(".tableBlock tbody tr"));
+            if($(".tableBlock tbody tr").find("td").eq(8).text() != $(".tableBlock tbody tr").find("td").eq(9).text()){
+                $(".tableBlock tbody tr").find("td").eq(2).text("自定义");
+            }
+            $(".tableBlock tbody tr").insertAfter($(".grid>tbody>tr").eq(trindex-1));
+        }
+        $(".tableBlock").hide();
+    })
+
+    $(".tableok-cancel").click(function(){
+        if(trindex==0){
+            $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo($(".tableBlock tbody tr"));
+            $(".tableBlock tbody tr").prependTo($(".grid tbody"));
+        }else{
+            $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo($(".tableBlock tbody tr"));
+            $(".tableBlock tbody tr").insertAfter($(".grid>tbody>tr").eq(trindex-1));
+        }
+        $(".tableBlock").hide();
+    })
 })
 
 //返回模板中选中的图片 Added by Tiffany Zhu

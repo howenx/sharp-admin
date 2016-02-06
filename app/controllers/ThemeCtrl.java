@@ -282,7 +282,7 @@ public class ThemeCtrl extends Controller {
         List<PinSku> pinSkuList = pingouService.getPinSkuAll();
         List<Object[]> pinList = new ArrayList<>();
         for(PinSku pinSku : pinSkuList){
-            Object[] object = new Object[8];
+            Object[] object = new Object[9];
             object[0] = pinSku.getPinId();
             object[1] = pinSku.getPinTitle();
             JsonNode json = Json.parse(pinSku.getPinImg());
@@ -314,6 +314,7 @@ public class ThemeCtrl extends Controller {
             object[5] = price;
             object[6] = inventoryService.getInventory(pinSku.getInvId()).getItemSrcPrice();
             object[7] = pinSku.getPinDiscount();
+            object[8] = pinSku.getInvId();
             pinList.add(object);
         }
 
@@ -323,7 +324,7 @@ public class ThemeCtrl extends Controller {
         for(VaryPrice varyPrice : varyPriceList){
             Inventory inventory = inventoryService.getInventory(varyPrice.getInvId());
             Item item = itemService.getItem(inventory.getItemId());
-            Object[] object = new Object[8];
+            Object[] object = new Object[9];
             object[0] = varyPrice.getId();
             object[1] = item.getItemTitle();
             String url = Json.parse(inventory.getInvImg()).get("url").toString();
@@ -339,6 +340,7 @@ public class ThemeCtrl extends Controller {
             object[5] = varyPrice.getPrice();
             object[6] = inventory.getItemSrcPrice();
             object[7] = varyPrice.getPrice().divide(inventory.getItemSrcPrice(),2);
+            object[8] = varyPrice.getInvId();
             varyList.add(object);
         }
 
@@ -501,16 +503,11 @@ public class ThemeCtrl extends Controller {
         if(customizeItems.size() > 0){
             for(SubjectPrice sbjPrice : subjectPriceList){
                 if(customizeItems.toString().indexOf(sbjPrice.getInvId().toString())<0){
-                    SubjectPrice delSbjPrice = new SubjectPrice();
-                    delSbjPrice.setThemeId(theme.getId());
-                    delSbjPrice.setInvId(sbjPrice.getInvId());
-                    subjectPriceService.sbjPriceDel(delSbjPrice);
+                    subjectPriceService.sbjPriceDelById(sbjPrice.getId());
                 }
             }
         }else{
-            SubjectPrice delSbjPrice = new SubjectPrice();
-            delSbjPrice.setThemeId(theme.getId());
-            subjectPriceService.sbjPriceDel(delSbjPrice);
+            subjectPriceService.getSbjPriceByThemeId(theme.getId());
         }
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
@@ -581,11 +578,9 @@ public class ThemeCtrl extends Controller {
                 String type = tempId.get("type").toString();
                 String resultType = type.substring(1,type.length()-1);
                 if("item".equals(resultType)){
-                    Object[] object = new Object[10];
+                    Object[] object = new Object[11];
                     Inventory inventory = inventoryService.getInventory(tempId.get("id").asLong());
-                    Logger.error(inventory.toString());
                     Item item = itemService.getItem(inventory.getItemId());
-                    Logger.error(inventory.toString());
                     object[0] = inventory.getId();
                     object[1] = item.getItemTitle();
                     String  url = Json.parse(inventory.getInvImg()).get("url").toString();
@@ -617,6 +612,7 @@ public class ThemeCtrl extends Controller {
                     object[7] = inventory.getItemDiscount();
                     object[8] = itemNum;
                     object[9] = "普通";
+                    object[10] = "";
                     itemList.add(object);
                 }
 
@@ -624,8 +620,7 @@ public class ThemeCtrl extends Controller {
                     Object[] object = new Object[10];
                     PinSku pinSku = pingouService.getPinSkuById(tempId.get("id").asLong());
                     Inventory inventory = inventoryService.getInventory(pinSku.getInvId());
-                    Logger.error(pinSku.toString());
-                    object[0] = pinSku.getPinId();
+                    object[0] = pinSku.getInvId();
                     object[1] = pinSku.getPinTitle();
                     String url = Json.parse(pinSku.getPinImg()).get("url").toString();
                     url = url.substring(1,url.length()-1);
@@ -657,15 +652,16 @@ public class ThemeCtrl extends Controller {
                     object[7] = pinSku.getPinDiscount();
                     object[8] = itemNum;
                     object[9] = "拼购";
+                    object[10] = pinSku.getPinId();
                     itemList.add(object);
                 }
 
                 if("vary".equals(resultType)){
-                    Object[] object = new Object[10];
+                    Object[] object = new Object[11];
                     VaryPrice varyPrice = varyPriceService.getVaryPriceById(tempId.get("id").asLong());
                     Inventory inventory = inventoryService.getInventory(varyPrice.getInvId());
                     Item item = itemService.getItem(inventory.getItemId());
-                    object[0] = varyPrice.getId();
+                    object[0] = varyPrice.getInvId();
                     object[1] = item.getItemTitle();
                     String url = Json.parse(inventory.getInvImg()).get("url").toString();
                     url = url.substring(1,url.length()-1);
@@ -684,15 +680,15 @@ public class ThemeCtrl extends Controller {
                     object[7] = varyPrice.getPrice().divide(inventory.getItemSrcPrice(),2);
                     object[8] = itemNum;
                     object[9] = "多样化";
+                    object[10] = varyPrice.getId();
                     itemList.add(object);
                 }
                 if("customize".equals(resultType)){
-                    Object[] object = new Object[10];
-                    Inventory inventory = inventoryService.getInventory(tempId.get("id").asLong());
-                    Logger.error(inventory.toString());
+                    Object[] object = new Object[11];
+                    SubjectPrice subjectPrice = subjectPriceService.getSbjPriceById(tempId.get("id").asLong());
+                    Inventory inventory = inventoryService.getInventory(subjectPrice.getInvId());
                     Item item = itemService.getItem(inventory.getItemId());
-                    Logger.error(inventory.toString());
-                    object[0] = inventory.getId();
+                    object[0] = subjectPrice.getInvId();
                     object[1] = item.getItemTitle();
                     String  url = Json.parse(inventory.getInvImg()).get("url").toString();
                     url = url.substring(1,url.length()-1);
@@ -718,11 +714,12 @@ public class ThemeCtrl extends Controller {
                         object[4] = "预售";
 
                     }
-                    object[5] = inventory.getItemPrice();
+                    object[5] = subjectPrice.getPrice();
                     object[6] = inventory.getItemSrcPrice();
-                    object[7] = inventory.getItemDiscount();
+                    object[7] = subjectPrice.getDiscount();
                     object[8] = itemNum;
                     object[9] = "自定义";
+                    object[10] = subjectPrice.getId();
                     itemList.add(object);
                 }
             }

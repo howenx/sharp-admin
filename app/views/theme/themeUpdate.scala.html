@@ -29,7 +29,7 @@
 
 <script>
     $(function(){
-        var pageEditStatus = false;
+
 
         //主题列表主图
         var img = document.createElement("img");
@@ -71,9 +71,9 @@
 
         $("#sort").find("tr").each(function(){
             if($(this).find("th").length != 0 ){
-                $(this).find("th:eq(10)").css({"display":"none"});
+                $(this).find("th:eq(11)").css({"display":"none"});
             }else{
-                $(this).find("td:eq(10)").css({"display":"none"});
+                $(this).find("td:eq(11)").css({"display":"none"});
             }
         })
 
@@ -102,9 +102,9 @@
   		$(".add-goods").css({"display":""});
         $("#sort").find("tr").each(function(){
             if($(this).find("th").length != 0 ){
-                $(this).find("th:eq(10)").css({"display":""});
+                $(this).find("th:eq(11)").css({"display":""});
             }else{
-                $(this).find("td:eq(10)").css({"display":""});
+                $(this).find("td:eq(11)").css({"display":""});
             }
         })
         //主题主图
@@ -125,6 +125,8 @@
         $(document).on("click","#js-usercenter-cancel",function(){
          setTimeout("location.href='/"+window.lang+"/topic/updateById/"+ $("#themeId").val() +"'", 300);
         })
+
+        /*
         var trindex;
         $("table.grid tbody").on("dblclick","tr",function(e){
             if(pageEditStatus){
@@ -132,15 +134,15 @@
                 if(obj.className=="th-del"){
                     return;
                 }
-                if($(this).find("td").eq(2).text() == "普通"){
+                if($(this).find("td").eq(2).text() == "普通" || $(this).find("td").eq(2).text() == "自定义"){
                     trindex = $(".grid tbody tr").index($(this));
                     $(".tableBlock").show();
-                    $(this).find("td").eq(10).remove();
+                    $(this).find("td").eq(11).remove();
                     $(this).appendTo(".tableBlock tbody");
                 }
             }
         })
-        $(".tableBlock tbody").on("click","td:nth-of-type(8),td:nth-of-type(10)",function(e){
+        $(".tableBlock tbody").on("click","td:nth-of-type(9),td:nth-of-type(11)",function(e){
             changeText(e,this);
         })
         $(".tableok").click(function(){
@@ -171,6 +173,8 @@
             }
             $(".tableBlock").hide();
         })
+
+        */
     })
 </script>
 }
@@ -268,7 +272,7 @@
                         <th class="index">序号</th>
                        <!-- <th>主商品</th> -->
                         <th>
-                            商品ID
+                            SkuID
                             <span class="glyphicon glyphicon-chevron-up"></span>
                             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
                         </th>
@@ -276,6 +280,9 @@
                            商品类型
                            <span class="glyphicon glyphicon-chevron-up"></span>
                        </th>
+                        <th>
+                            类型ID
+                        </th>
                         <th>
                             商品标题
                         </th>
@@ -312,6 +319,7 @@
                             <td class="index">@item(8)</td>
                             <td>@item(0)</td>
                             <td>@item(9)</td>
+                            <td>@item(10)</td>
                             <td>@item(1)</td>
                             <td>
                                 <img class="main-img" src="@url@item(2)" alt="" width="50">
@@ -467,7 +475,7 @@
                 <th class="index">序号</th>
                 <!-- <th>主商品</th> -->
                 <th>
-                    商品ID
+                    SkuID
                     <span class="glyphicon glyphicon-chevron-up"></span>
                     <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
                 </th>
@@ -475,6 +483,7 @@
                     商品类型
                     <span class="glyphicon glyphicon-chevron-up"></span>
                 </th>
+                <th>类型ID</th>
                 <th>
                     商品标题
                 </th>

@@ -88,19 +88,19 @@
     <tr>
         <th>选择商品</th>
         <th>
-            商品SkuID
+            SkuID
             <span class="glyphicon glyphicon-chevron-up"></span>
             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
         </th>
         <th>商品类型</th>
-        <!--
+
         <th>
-            商品名称
+            ID
             <span class="glyphicon glyphicon-chevron-up"></span>
             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
-        <!--
+
         </th>
-        -->
+
         <th>
             商品标题
         </th>
@@ -134,6 +134,7 @@
         </td>
         <td>@item(0)</td>
         <td>普通</td>
+        <td></td>
         <td>@item(1)</td>
         <td> <img class="main-img" src="@url@item(2)" alt="" width="50"></td>
         @if(item(3)!=null){<td>@(item(3).toString().substring(0,16))</td>}
@@ -148,19 +149,19 @@
     <tr>
         <th>选择拼购</th>
         <th>
-            拼购ID
+            SkuID
             <span class="glyphicon glyphicon-chevron-up"></span>
             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
         </th>
         <th>商品类型</th>
-        <!--
+
         <th>
-            商品名称
+            拼购ID
             <span class="glyphicon glyphicon-chevron-up"></span>
             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
-        <!--
+
         </th>
-        -->
+
         <th>
             拼购标题
         </th>
@@ -192,8 +193,9 @@
         <td>
             <input type="checkbox" name="goods">
         </td>
-        <td>@pin(0)</td>
+        <td>@pin(8)</td>
         <td>拼购</td>
+        <td>@pin(0)</td>
         <td>@pin(1)</td>
         <td> <img class="main-img" src="@url@pin(2)" alt="" width="50"></td>
         @if(pin(3)!=null){<td>@(pin(3).toString().substring(0,16))</td>}
@@ -208,19 +210,19 @@
     <tr>
         <th>选择商品</th>
         <th>
-            商品ID
+            SkuID
             <span class="glyphicon glyphicon-chevron-up"></span>
             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
         </th>
         <th>商品类型</th>
-        <!--
+
         <th>
-            商品名称
+            多样化ID
             <span class="glyphicon glyphicon-chevron-up"></span>
             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
-        <!--
+
         </th>
-        -->
+
         <th>
             商品标题
         </th>
@@ -252,8 +254,9 @@
         <td>
             <input type="checkbox" name="goods">
         </td>
-        <td>@varyPrice(0)</td>
+        <td>@varyPrice(8)</td>
         <td>多样化</td>
+        <td>@varyPrice(0)</td>
         <td>@varyPrice(1)</td>
         <td> <img class="main-img" src="@url@varyPrice(2)" alt="" width="50"></td>
         @if(varyPrice(3)!=null){<td>@(varyPrice(3).toString().substring(0,16))</td>}
