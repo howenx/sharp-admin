@@ -245,7 +245,8 @@ $(function() {
                         '<td>' + ($(this)[0].startAt != null && $(this)[0].startAt != '' ? $(this)[0].startAt.substr(0, 16) : '') + '</td>}' +
                         '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 16) : '') + '</td>}' +
                         '<td>' + status + '</td>' +
-                        '<td>' + "" + '</td>' +
+                        '<td><a href="javascript:void(0)' + ' ">' + $(this)[0].activityCount + '</a></td>' +
+                        '<td><a href="javascript:void(0)' + ' ">' + '手动开团' + '</a></td>' +
                         '</tr>'
                     );
         		})
