@@ -372,13 +372,15 @@ public class ThemeCtrl extends Controller {
         Theme theme = play.libs.Json.fromJson(json,Theme.class);
         theme.setOrDestory(false);
         service.themeSave(theme);
+
         //添加主题Id到商品中
         for(JsonNode idBar : ids){
             String type = idBar.findValue("type").toString();
             type = type.substring(1,type.length()-1);
+            Long  id = idBar.get("id").asLong();
             //普通商品
             if("item".equals(type)){
-                Inventory inventory = inventoryService.getInventory(idBar.get("id").asLong());
+                Inventory inventory = inventoryService.getInventory(id);
                 String themeIds = inventory.getThemeId();
                 if (themeIds== null || "".equals(themeIds)){
                     inventory.setThemeId(theme.getId().toString());
@@ -392,7 +394,7 @@ public class ThemeCtrl extends Controller {
             }
             //拼购商品
             if("pin".equals(type)){
-                PinSku pinSku = pingouService.getPinSkuById(idBar.get("id").asLong());
+                PinSku pinSku = pingouService.getPinSkuById(id);
                 String themeIds = pinSku.getThemeId();
                 if (themeIds== null || "".equals(themeIds)){
                     pinSku.setThemeId(theme.getId().toString());
@@ -406,7 +408,8 @@ public class ThemeCtrl extends Controller {
             }
             //多样化商品
             if("vary".equals(type)){
-                VaryPrice varyPrice = varyPriceService.getVaryPriceById(idBar.get("id").asLong());
+                Logger.error(id.toString());
+                VaryPrice varyPrice = varyPriceService.getVaryPriceById(id);
                 String themeIds = varyPrice.getThemeId();
                 if ( themeIds== null || "".equals(themeIds)){
                     varyPrice.setThemeId(theme.getId().toString());
@@ -429,9 +432,10 @@ public class ThemeCtrl extends Controller {
                 if(!theme.getThemeItem().contains(beforeId)){
                     String type = beforeItem.get("type").toString();
                     type = type.substring(1,type.length()-1);
+                    Long id = beforeItem.get("id").asLong();
                     //普通商品
                     if("item".equals(type)){
-                        Inventory inventory = inventoryService.getInventory(beforeItem.get("id").asLong());
+                        Inventory inventory = inventoryService.getInventory(id);
                         String themeIds = inventory.getThemeId();
                         if (themeIds != null){
                             if(themeIds.indexOf(theme.getId().toString()) == 0) {
@@ -445,7 +449,7 @@ public class ThemeCtrl extends Controller {
                     }
                     //拼购商品
                     if("pin".equals(type)){
-                        PinSku pinSku = pingouService.getPinSkuById(beforeItem.get("id").asLong());
+                        PinSku pinSku = pingouService.getPinSkuById(id);
                         String themeIds = pinSku.getThemeId();
                         if (themeIds != null){
                             if(themeIds.indexOf(theme.getId().toString()) == 0) {
@@ -459,7 +463,7 @@ public class ThemeCtrl extends Controller {
                     }
                     //多样化商品
                     if("vary".equals(type)){
-                        VaryPrice varyPrice = varyPriceService.getVaryPriceById(beforeItem.get("id").asLong());
+                        VaryPrice varyPrice = varyPriceService.getVaryPriceById(id);
                         String themeIds = varyPrice.getThemeId();
                         if (themeIds != null){
                             if(themeIds.indexOf(theme.getId().toString()) == 0) {
@@ -474,6 +478,7 @@ public class ThemeCtrl extends Controller {
                 }
             }
         }
+
         //创建自定义商品
         JsonNode customizeItems = jsonRequest.findValue("customizeItems");
         if(customizeItems.size() > 0){
@@ -612,12 +617,12 @@ public class ThemeCtrl extends Controller {
                     object[7] = inventory.getItemDiscount();
                     object[8] = itemNum;
                     object[9] = "普通";
-                    object[10] = "";
+                    object[10] = inventory.getId();
                     itemList.add(object);
                 }
 
                 if("pin".equals(resultType)){
-                    Object[] object = new Object[10];
+                    Object[] object = new Object[11];
                     PinSku pinSku = pingouService.getPinSkuById(tempId.get("id").asLong());
                     Inventory inventory = inventoryService.getInventory(pinSku.getInvId());
                     object[0] = pinSku.getInvId();

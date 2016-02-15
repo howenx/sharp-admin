@@ -84,7 +84,6 @@ function previewImage1(obj, file) {
    }
 
 function upload(thumb, file, id) {
-    console.log(id);
     var formdata = new FormData();
     formdata.append("photo", file);
     formdata.append("params", "minify");

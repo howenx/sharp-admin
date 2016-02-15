@@ -39,7 +39,7 @@ public class PinSku implements Serializable {
     private Long  invId;            //库存ID
     @Constraints.Required
     private BigDecimal pinDiscount; //拼购最低折扣
-
+    private int activityCount;      //已开团数
 
     //分页,每页多少条
     private Integer pageSize;
@@ -53,7 +53,7 @@ public class PinSku implements Serializable {
     public PinSku() {
     }
 
-    public PinSku(Long pinId, String pinImg, String shareUrl, String status, Timestamp createAt, Timestamp updateAt, String themeId, String pinTitle, Timestamp startAt, Timestamp endAt, int restrictAmount, String floorPrice, Long invId, BigDecimal pinDiscount, Integer pageSize, Integer offset, String sort, String order) {
+    public PinSku(Long pinId, String pinImg, String shareUrl, String status, Timestamp createAt, Timestamp updateAt, String themeId, String pinTitle, Timestamp startAt, Timestamp endAt, int restrictAmount, String floorPrice, Long invId, BigDecimal pinDiscount, int activityCount, Integer pageSize, Integer offset, String sort, String order) {
         this.pinId = pinId;
         this.pinImg = pinImg;
         this.shareUrl = shareUrl;
@@ -68,6 +68,7 @@ public class PinSku implements Serializable {
         this.floorPrice = floorPrice;
         this.invId = invId;
         this.pinDiscount = pinDiscount;
+        this.activityCount = activityCount;
         this.pageSize = pageSize;
         this.offset = offset;
         this.sort = sort;
@@ -91,6 +92,7 @@ public class PinSku implements Serializable {
                 ", floorPrice='" + floorPrice + '\'' +
                 ", invId=" + invId +
                 ", pinDiscount=" + pinDiscount +
+                ", activityCount=" + activityCount +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +
@@ -208,6 +210,14 @@ public class PinSku implements Serializable {
 
     public void setPinDiscount(BigDecimal pinDiscount) {
         this.pinDiscount = pinDiscount;
+    }
+
+    public int getActivityCount() {
+        return activityCount;
+    }
+
+    public void setActivityCount(int activityCount) {
+        this.activityCount = activityCount;
     }
 
     public Integer getPageSize() {

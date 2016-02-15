@@ -79,7 +79,7 @@
                         and t.id = #{id}
                 </if>
                 <if test="type != null and type != ''">
-                        and t.type = ${type}
+                        and t.type = #{type}
                 </if>
                 <if test="startAt != null">
                         and t.start_at &gt;= #{startAt} ::timestamp

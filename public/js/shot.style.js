@@ -12,7 +12,7 @@ $(function() {
     var beforeUpdItems = [];
     $("#sort").find("tr").each(function(){
 
-        var itemId = $(this).find("td:eq(1)").text();
+        var itemId = $(this).find("td:eq(3)").text();
         var type = $(this).find("td:eq(2)").text();
         if( itemId!= null && itemId != ""){
             var object = new Object();
@@ -85,7 +85,7 @@ $(function() {
         var themeItems = [];
         $("#sort").find("tr").each(function(){
 
-            var itemId = $(this).find("td:eq(1)").text();
+            var itemId = $(this).find("td:eq(3)").text();
             var type = $(this).find("td:eq(2)").text();
             if( itemId!= null && itemId != ""){
                 var object = new Object();
@@ -101,10 +101,12 @@ $(function() {
                 if(type == "自定义"){
                     object.type = "customize";
                     var customizeObject = new Object();
-                    customizeObject.id =  $(this).find("td:eq(3)").text();
-                    customizeObject.invId = itemId;
+                    if($(this).find("td:eq(1)").text() != $(this).find("td:eq(3)").text()){
+                        customizeObject.id =  $(this).find("td:eq(3)").text();
+                    }
+                    customizeObject.invId = $(this).find("td:eq(1)").text();
                     customizeObject.price = $(this).find("td:eq(8)").text();
-                    customizeObject.discount = $(this).find("td:eq(9)").text();
+                    customizeObject.discount = $(this).find("td:eq(10)").text();
                     customizeItems.push(customizeObject);
                 }
                 object.id =  itemId.toString();
@@ -183,6 +185,7 @@ $(function() {
         data.theme = theme;
         data.beforeUpdItems = beforeUpdItems;
         data.customizeItems = customizeItems;
+        console.log(customizeItems);
 
         if (isPost) {
                     $.ajax({

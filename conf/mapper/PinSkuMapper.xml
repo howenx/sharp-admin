@@ -18,7 +18,8 @@
         ${alias}.restrict_amount,
         ${alias}.floor_price,
         ${alias}.inv_id,
-        ${alias}.pin_discount
+        ${alias}.pin_discount,
+        (select count(*) from pin_activity pa where pa.pin_id = t.pin_id) as activity_count
     </sql>
 
     <insert id="insertPinSku" parameterType="entity.pingou.PinSku" useGeneratedKeys="true" keyProperty="pinId">

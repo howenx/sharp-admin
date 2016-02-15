@@ -86,6 +86,7 @@
             <th>结束时间</th>
             <th>状态</th>
             <th>已开团数</th>
+            <th>操作</th>
             </thead>
             <tbody>
             @for(pinSku <- pinSkuList){
@@ -97,7 +98,10 @@
                 <td>@(pinSku(2).toString().substring(0,16))</td>
                 <td>@(pinSku(3).toString().substring(0,16))</td>
                 <td>@pinSku(4)</td>
-                <td>@pinSku(5)</td>
+                <td> <a href="javascript:void(0)">@pinSku(5)</a></td>
+                <td>
+                    <a href="javascript:void(0)">手动开团</a>
+                </td>
             </tr>
             }
             <!---公用模块,id不能改变,只需要改变合并行数-->
