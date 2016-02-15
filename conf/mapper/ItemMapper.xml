@@ -61,12 +61,12 @@
         <if test="themeId != null">
             and t.theme_id = #{themeId}
         </if>
-        <if test="onShelvesAt != null">
-            and t.on_shelves_at &gt;= #{onShelvesAt} ::timestamp
-        </if>
-        <if test="offShelvesAt != null">
-            and t.off_shelves_at &lt;= #{offShelvesAt} ::timestamp
-        </if>
+        <!--<if test="onShelvesAt != null">-->
+            <!--and t.on_shelves_at &gt;= #{onShelvesAt} ::timestamp-->
+        <!--</if>-->
+        <!--<if test="offShelvesAt != null">-->
+            <!--and t.off_shelves_at &lt;= #{offShelvesAt} ::timestamp-->
+        <!--</if>-->
         <if test="sort == null or sort == '' ">
             ORDER BY t.create_at DESC
         </if>

@@ -207,6 +207,23 @@ function saveCurr() {
         $("#warn-p").text("请上传预览图");
     } else {
         $("#warn-p").text("");
+        //上传的预览图尺寸不一致时提示
+        var imgs =  document.getElementById("galleryP").getElementsByTagName("div");
+        for(j=0;j<imgs.length;j++) {
+            if (j>0) {
+                var preImg = imgs[j-1].getElementsByTagName("img")[0];
+                var img = imgs[j].getElementsByTagName("img")[0];
+                var preWidth = preImg.getAttribute("width");
+                var preHeight = preImg.getAttribute("height");
+                var width = img.getAttribute("width");
+                var height = img.getAttribute("height");
+                if (width!=preWidth || height!=preHeight) {
+                    if (window.confirm("上传的预览图尺寸不一致,是否继续?")) {}
+                    else isPost = false;
+                    break;
+                }
+            }
+        }
         $("#galleryP").find(".main-img").each(function() {
             var imgsV = {};
             var preSrc = $(this).attr("src");
@@ -216,6 +233,7 @@ function saveCurr() {
             itemPreviewImgs.push(imgsV);
         });
     }
+
     trdobj.itemColor = itemColor;
     trdobj.itemSize = itemSize;
     trdobj.startAt = startAt;

@@ -39,10 +39,21 @@
             </thead>
             <tbody>
             @for(au <- adminUserList){
+            @if(au.getUserType()!="ROOT"){
             <tr class = "tb-list-data">
                 <td><a href="/@lang/aduser/info">@au.getUserId()</a></td>
                 <td>@au.getEnNm()</td>
-                <td>@au.getUserType()</td>
+                <td>
+                    @if(au.getUserType()=="OPERATE"){运营人员}
+                    @if(au.getUserType()=="FINANCE"){财务人员}
+                    @if(au.getUserType()=="SERVICE"){客服人员}
+                    @if(au.getUserType()=="ADMIN"){管理人员}
+                    @if(au.getUserType()=="SYSTEM"){系统管理员}
+                    @if(au.getUserType()=="SADMIN"){供应商子系统管理员}
+                    @if(au.getUserType()=="SUPPLIER"){供应商人员}
+                    @if(au.getUserType()=="TRANSLATION"){翻译人员}
+                    @if(au.getUserType()=="AUDIT"){审计人员}
+                </td>
                 <td>@au.getChNm()</a></td>
                 <td>@au.getEmail()</td>
                 <td>
@@ -54,6 +65,7 @@
                 </td>
                 <td><a style="cursor:pointer;" class="del-user">删除</a><input type="hidden" value="@au.getUserId()"></td>
             </tr>
+            }
             }
             </tbody>
         </table>

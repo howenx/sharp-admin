@@ -38,16 +38,16 @@ public class ItemMiddle {
     /**
      * 录入或更新商品信息和库存信息, 同时录入日志信息
      * @param json 商品和库存信息json串
-     * @param nickName 操作人员
+     * @param enNm 操作人员
      * @param operateIp 操作人员ip
      * @return
      */
-    public static List<Long> itemSave(JsonNode json, String nickName, String operateIp) {
+    public static List<Long> itemSave(JsonNode json, String enNm, String operateIp) {
         List<Long> list = new ArrayList<>();
         Item item = new Item();
         //日志信息
         DataLog dataLog = new DataLog();
-        dataLog.setOperateUser(nickName);
+        dataLog.setOperateUser(enNm);
         dataLog.setOperateIp(operateIp);
         //统计信息
         ItemStatis itemStatis = new ItemStatis();
@@ -59,6 +59,9 @@ public class ItemMiddle {
             }
             if (jsonItem.has("itemFeatures")) {
                 ((ObjectNode) jsonItem).put("itemFeatures",jsonItem.findValue("itemFeatures").toString());
+            }
+            if (jsonItem.has("itemDetailImgs")) {
+                ((ObjectNode) jsonItem).put("itemDetailImgs",jsonItem.findValue("itemDetailImgs").toString());
             }
             item = Json.fromJson(json.findValue("item"),Item.class);
 //            Logger.error(item.toString());

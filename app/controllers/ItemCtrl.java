@@ -270,10 +270,10 @@ public class ItemCtrl extends Controller {
     public Result itemSave() {
         //操作人员的ip
         String operateIp = request().remoteAddress();
-        String nickName = ((User) ctx().args.get("user")).nickname();
+        String enNm = ((User) ctx().args.get("user")).enNm().get();
         JsonNode json = request().body().asJson();
 //        Logger.error(json.toString());
-        List<Long> list = ItemMiddle.itemSave(json, nickName, operateIp);
+        List<Long> list = ItemMiddle.itemSave(json, enNm, operateIp);
         return ok(list.toString());
     }
 

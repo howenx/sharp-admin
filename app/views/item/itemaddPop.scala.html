@@ -148,7 +148,7 @@
                 <div class="col-sm-2">
                     <select class="form-control" id="invArea" name="invArea">
                         @for(a <- area) {
-                        <option value='a.toString.substring(1,cus.toString.length-1).split(",")(0)'>@a.toString.substring(1,a.toString.length-1).split(",")(1)</option>
+                        <option value='@a.toString.substring(1,a.toString.length-1).split(",")(0)'>@a.toString.substring(1,a.toString.length-1).split(",")(1)</option>
                         }
                     </select>
                 </div>
@@ -157,7 +157,7 @@
                 <div class="col-sm-2">
                     <select class="form-control" id="invCustoms" name="invCustoms">
                         @for(cus <- customs) {
-                        <option value='cus.toString.substring(1,cus.toString.length-1).split(",")(0)'>@cus.toString.substring(1,cus.toString.length-1).split(",")(1)</option>
+                        <option value='@cus.toString.substring(1,cus.toString.length-1).split(",")(0)'>@cus.toString.substring(1,cus.toString.length-1).split(",")(1)</option>
                         }
                     </select>
                 </div>
