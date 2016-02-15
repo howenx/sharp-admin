@@ -1,9 +1,8 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import entity.pingou.PinCoupon;
-import entity.pingou.PinSku;
-import entity.pingou.PinTieredPrice;
+import entity.pingou.*;
+import mapper.PinActivityMapper;
 import mapper.PinSkuMapper;
 import play.Logger;
 import play.libs.Json;
@@ -20,6 +19,10 @@ public class PingouServiceImpl implements PingouService {
 
     @Inject
     PinSkuMapper pinSkuMapper;
+    @Inject
+    PinActivityMapper pinActivityMapper;
+
+
     /**
      * 保存拼购商品和优惠券   Added by Tiffany Zhu 2016.01.20
      * @param json
@@ -169,5 +172,42 @@ public class PingouServiceImpl implements PingouService {
     @Override
     public void updPinThemeId(PinSku pinSku) {
         pinSkuMapper.updPinThemeId(pinSku);
+    }
+
+    /**
+     * 通过阶梯价格ID获取阶梯价格       Added by Tiffany Zhu 2016.02.15
+     * @param id
+     * @return
+     */
+    @Override
+    public PinTieredPrice getTieredPriceByTieredId(Long id) {
+        return pinSkuMapper.getTieredPriceByTieredId(id);
+    }
+
+    /**
+     * 手动添加拼购活动     Added by Tiffany Zhu 2016.02.15
+     * @param pinActivity
+     */
+    @Override
+    public void activityManualAdd(PinActivity pinActivity) {
+        pinActivityMapper.activityManualAdd(pinActivity);
+    }
+
+    /**
+     * 手动添加拼购活动的优惠券     Added by Tiffany Zhu 2016.02.15
+     * @param pinCoupon
+     */
+    @Override
+    public void activityManualAddCoupon(PinCoupon pinCoupon) {
+        pinActivityMapper.activityManualAddCoupon(pinCoupon);
+    }
+
+    /**
+     * 添加拼购用户        Added by Tiffany Zhu 2016.02.15
+     * @param pinUser
+     */
+    @Override
+    public void pinUserAdd(PinUser pinUser) {
+        pinActivityMapper.pinUserAdd(pinUser);
     }
 }

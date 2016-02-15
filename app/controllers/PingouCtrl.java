@@ -2,8 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.User;
-import entity.pingou.PinSku;
-import entity.pingou.PinTieredPrice;
+import entity.pingou.*;
 import filters.UserAuth;
 import play.i18n.Lang;
 import play.i18n.Messages;
@@ -11,7 +10,6 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-import service.InventoryService;
 import service.PingouService;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,10 +25,6 @@ public class PingouCtrl extends Controller {
 
     @Inject
     PingouService pingouService;
-    @Inject
-    InventoryService inventoryService;
-
-
     /**
      * 添加拼购     Added by Tiffany Zhu 2016.01.19
      * @param lang
@@ -172,7 +166,27 @@ public class PingouCtrl extends Controller {
             object[4] = price.getMasterMinPrice();      //团长减价
             object[5] = price.getMemberMinPrice();      //团员减价
             object[6] = price.getMasterCouponClass();   //团长优惠券类别
-            object[7] = "";                             //团长优惠券类别
+            if("153".equals(price.getMasterCouponClass())){
+                object[7] = "化妆品类商品适用券";          //团长优惠券类别
+            }
+            if("172".equals(price.getMasterCouponClass())){
+                object[7] = "配饰类商品适用券";             //团长优惠券类别
+            }
+            if("165".equals(price.getMasterCouponClass())){
+                object[7] = "服饰类商品适用券";              //团长优惠券类别
+            }
+            if("555".equals(price.getMasterCouponClass())){
+                object[7] = "全场通用券";                     //团长优惠券类别
+            }
+            if("777".equals(price.getMasterCouponClass())){
+                object[7] = "新人优惠券";                     //团长优惠券类别
+            }
+            if("211".equals(price.getMasterCouponClass())){
+                object[7] = "指定商品适用券";                 //团长优惠券类别
+            }
+            if("999".equals(price.getMasterCouponClass())){
+                object[7] = "免邮券";                       //团长优惠券类别
+            }
             object[8] = price.getMasterCouponQuota();   //团长优惠券限额
             object[9] = price.getMasterCoupon();        //团长优惠券面值
             if(price.getMasterCouponStartAt() != null){
@@ -182,7 +196,27 @@ public class PingouCtrl extends Controller {
                 object[11] = price.getMasterCouponEndAt().toString().substring(0,19);  //团长优惠券结束日期
             }
             object[12] = price.getMemberCouponClass();  //团员优惠券类别
-            object[13] = "";                            //团员优惠券类别
+            if("153".equals(price.getMemberCouponClass())){
+                object[13] = "化妆品类商品适用券";        //团员优惠券类别
+            }
+            if("172".equals(price.getMemberCouponClass())){
+                object[13] = "配饰类商品适用券";         //团员优惠券类别
+            }
+            if("165".equals(price.getMemberCouponClass())){
+                object[13] = "服饰类商品适用券";            //团员优惠券类别
+            }
+            if("555".equals(price.getMemberCouponClass())){
+                object[13] = "全场通用券";                //团员优惠券类别
+            }
+            if("777".equals(price.getMemberCouponClass())){
+                object[13] = "新人优惠券";               //团员优惠券类别
+            }
+            if("211".equals(price.getMemberCouponClass())){
+                object[13] = "指定商品适用券";           //团员优惠券类别
+            }
+            if("999".equals(price.getMemberCouponClass())){
+                object[13] = "免邮券";                  //团员优惠券类别
+            }
             object[14] = price.getMemberCouponQuota();  //团员优惠券限额
             object[15] = price.getMemberCoupon();       //团员优惠券面值
             if(price.getMemberCouponStartAt() != null){
@@ -191,10 +225,147 @@ public class PingouCtrl extends Controller {
             if(price.getMemberCouponEndAt() != null){
                 object[17] = price.getMemberCouponEndAt().toString().substring(0,19);  //团员优惠券届时日期
             }
-
             tieredList.add(object);
         }
         return ok(views.html.pingou.pingouUpdate.render(lang,pinSku,img,tieredList,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
+    }
 
+    /**
+     * 手动添加拼购团      Added by Tiffany Zhu 2016.02.14
+     * @param lang
+     * @param pinId
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result activityManualAdd(String lang, Long pinId){
+        PinSku pinSku = pingouService.getPinSkuById(pinId);
+        JsonNode imgJson = Json.parse(pinSku.getPinImg());
+        List<PinTieredPrice> tieredPrices = pingouService.getTieredPriceByPinId(pinId);
+        List<Object[]> tieredList = new ArrayList<>();
+        int index = 0;
+        for(PinTieredPrice price : tieredPrices){
+            index = index + 1;
+            Object[] object = new Object[18];
+            object[0] = price.getId();                  //阶梯价格的Id
+            object[1] = index;                          //编号
+            object[2] = price.getPeopleNum();           //人数
+            object[3] = price.getPrice();               //价格
+            object[4] = price.getMasterMinPrice();      //团长减价
+            object[5] = price.getMemberMinPrice();      //团员减价
+            object[6] = price.getMasterCouponClass();   //团长优惠券类别
+            if("153".equals(price.getMasterCouponClass())){
+                object[7] = "化妆品类商品适用券";          //团长优惠券类别
+            }
+            if("172".equals(price.getMasterCouponClass())){
+                object[7] = "配饰类商品适用券";             //团长优惠券类别
+            }
+            if("165".equals(price.getMasterCouponClass())){
+                object[7] = "服饰类商品适用券";              //团长优惠券类别
+            }
+            if("555".equals(price.getMasterCouponClass())){
+                object[7] = "全场通用券";                     //团长优惠券类别
+            }
+            if("777".equals(price.getMasterCouponClass())){
+                object[7] = "新人优惠券";                     //团长优惠券类别
+            }
+            if("211".equals(price.getMasterCouponClass())){
+                object[7] = "指定商品适用券";                 //团长优惠券类别
+            }
+            if("999".equals(price.getMasterCouponClass())){
+                object[7] = "免邮券";                       //团长优惠券类别
+            }
+            object[8] = price.getMasterCouponQuota();   //团长优惠券限额
+            object[9] = price.getMasterCoupon();        //团长优惠券面值
+            if(price.getMasterCouponStartAt() != null){
+                object[10] = price.getMasterCouponStartAt().toString().substring(0,19);//团长优惠券开始日期
+            }
+            if(price.getMasterCouponEndAt() != null){
+                object[11] = price.getMasterCouponEndAt().toString().substring(0,19);  //团长优惠券结束日期
+            }
+            object[12] = price.getMemberCouponClass();  //团员优惠券类别
+            if("153".equals(price.getMemberCouponClass())){
+                object[13] = "化妆品类商品适用券";        //团员优惠券类别
+            }
+            if("172".equals(price.getMemberCouponClass())){
+                object[13] = "配饰类商品适用券";         //团员优惠券类别
+            }
+            if("165".equals(price.getMemberCouponClass())){
+                object[13] = "服饰类商品适用券";            //团员优惠券类别
+            }
+            if("555".equals(price.getMemberCouponClass())){
+                object[13] = "全场通用券";                //团员优惠券类别
+            }
+            if("777".equals(price.getMemberCouponClass())){
+                object[13] = "新人优惠券";               //团员优惠券类别
+            }
+            if("211".equals(price.getMemberCouponClass())){
+                object[13] = "指定商品适用券";           //团员优惠券类别
+            }
+            if("999".equals(price.getMemberCouponClass())){
+                object[13] = "免邮券";                  //团员优惠券类别
+            }
+            object[14] = price.getMemberCouponQuota();  //团员优惠券限额
+            object[15] = price.getMemberCoupon();       //团员优惠券面值
+            if(price.getMemberCouponStartAt() != null){
+                object[16] = price.getMemberCouponStartAt().toString().substring(0,19);//团员优惠券开始日期
+            }
+            if(price.getMemberCouponEndAt() != null){
+                object[17] = price.getMemberCouponEndAt().toString().substring(0,19);  //团员优惠券届时日期
+            }
+            tieredList.add(object);
+        }
+        return ok(views.html.pingou.activityManualAdd.render(lang,pinSku,tieredList,(User) ctx().args.get("user")));
+    }
+
+    public Result activityManualSave(String lang){
+        JsonNode json = request().body().asJson();
+        PinSku pinSku = new PinSku();
+        if(json.has("pinId")){
+            pinSku = pingouService.getPinSkuById(json.get("pinId").asLong());
+        }
+        PinTieredPrice pinTieredPrice = new PinTieredPrice();
+        if(json.has("tieredPriceId")){
+            pinTieredPrice = pingouService.getTieredPriceByTieredId(json.get("tieredPriceId").asLong());
+        }
+
+        if(pinSku != null && pinTieredPrice != null){
+            Long userId = new Long(1111111);            //机器人用户ID
+            //添加拼购活动
+            PinActivity pinActivity = new PinActivity();
+            pinActivity.setPinUrl("");                              //分享链接
+            pinActivity.setPinId(pinSku.getPinId());                //拼购商品ID
+            pinActivity.setMasterUserId(userId);                    //机器人用户ID
+            pinActivity.setPersonNum(pinTieredPrice.getPeopleNum());//拼购人数
+            pinActivity.setPinPrice(pinTieredPrice.getPrice());     //拼购价格
+            pinActivity.setStatus("Y");                             //拼购状态--正常
+            pinActivity.setEndAt(pinSku.getEndAt());                //截止时间
+            pingouService.activityManualAdd(pinActivity);
+
+            //拼购活动优惠券
+            PinCoupon pinCoupon = new PinCoupon();
+            pinCoupon.setMemberCouponEndAt(pinTieredPrice.getMemberCouponEndAt());      //团员优惠券结束时间
+            pinCoupon.setMemberCouponQuota(pinTieredPrice.getMemberCouponQuota());      //团员优惠券限额
+            pinCoupon.setPinActiveId(pinActivity.getPinActiveId());                     //拼购活动ID
+            pinCoupon.setMasterCoupon(pinTieredPrice.getMasterCoupon());                //团长返券额度
+            pinCoupon.setMasterCouponClass(pinTieredPrice.getMasterCouponClass());      //团长返券类别
+            pinCoupon.setMasterCouponStartAt(pinTieredPrice.getMasterCouponStartAt());  //团长优惠券开始时间
+            pinCoupon.setMasterCouponEndAt(pinTieredPrice.getMasterCouponEndAt());      //团长优惠券结束时间
+            pinCoupon.setMasterCouponQuota(pinTieredPrice.getMasterCouponQuota());      //团长优惠券限额
+            pinCoupon.setMemberCoupon(pinTieredPrice.getMemberCoupon());                //团员返券额度
+            pinCoupon.setMemberCouponClass(pinTieredPrice.getMemberCouponClass());      //团员返券类别
+            pinCoupon.setMemberCouponStartAt(pinTieredPrice.getMemberCouponStartAt());  //团员优惠券开始时间
+            pingouService.activityManualAddCoupon(pinCoupon);
+
+            //拼购活动用户
+            PinUser pinUser = new PinUser();
+            pinUser.setUserId(userId);                              //用户ID
+            pinUser.setOrMaster(true);                              //是否团长
+            pinUser.setPinActiveId(pinActivity.getPinActiveId());   //拼购活动ID
+            pinUser.setUserIp(request().remoteAddress());           //IP地址
+            pinUser.setOrRobot(true);                               //是否机器人
+            pinUser.setUserImg("");                                 //用户头像
+            pingouService.pinUserAdd(pinUser);
+        }
+        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 }
