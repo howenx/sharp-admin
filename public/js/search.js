@@ -86,6 +86,15 @@ $(function() {
 		var commDto = new Object();
 		commDto.id = $("#sku-id").val();
 		commDto.invTitle = $("#sku-title").val();
+		commDto.startAt = $("#item-form-starttime").val();
+        commDto.endAt = $("#item-form-endtime").val();
+        //起止时间如果为空
+        if ($("#item-form-starttime").val() == '' || $("#item-form-starttime").val() == null) {
+            commDto.startAt = "0000-01-01 00:00:00";
+        }
+        if ($("#item-form-endtime").val() == '' || $("#item-form-endtime").val() == null) {
+            commDto.endAt = "99999-12-31 23:59:59";
+        }
 		//调用共用ajax
 		search("/comm/search/" + pageIndex, commDto);
 	}

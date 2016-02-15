@@ -1,5 +1,5 @@
 @import play.i18n._
-@(item:entity.Item,invList:List[Array[Object]],cates:entity.Cates,pCateNm:String, brands:entity.Brands,url:String, lang:String="cn", brandsList:List[entity.Brands], catesParentList:List[entity.Cates],modelList:List[entity.Carriage],user:entity.User)
+@(item:entity.Item,invList:List[Array[Object]],cates:entity.Cates,pCateNm:String, brands:entity.Brands,url:String,uploadURL:String, lang:String="cn", brandsList:List[entity.Brands], catesParentList:List[entity.Cates],modelList:List[entity.Carriage],user:entity.User)
 
 @scripts = {
 
@@ -18,28 +18,78 @@
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/item.js"></script>
+<script>window.url = '@url'</script>
+<script>window.uploadURL = '@uploadURL'</script>
 <script>
-    function ShowModal(obj,obj1) {
-        var index = $(table).find("tr").index($(obj).parent())-1;
+    function ShowModal(obj) {
         var sharedObject = {};
         sharedObject.obj = obj;
-        sharedObject.obj1 = obj1;
-        sharedObject.tdindex = index;
-
+        //编辑SKU
+        if(obj.tagName=="SPAN"){
+            //index标识第几条sku
+            var index = $(obj).parent().parent().index();
+            var trData = $(obj).parent().parent();
+            var count = 0;
+            var skuObj = new Object();
+            trData.find("td").each(function(){
+                if (count==1) skuObj.itemColor = $(this).text();
+                if (count==2) skuObj.itemSize = $(this).text();
+                if (count==3) skuObj.startAt = $(this).text();
+                if (count==4) skuObj.endAt = $(this).text();
+                if (count==5) skuObj.itemPrice = $(this).text();
+                if (count==6) skuObj.itemSrcPrice = $(this).text();
+                if (count==7) skuObj.itemCostPrice = $(this).text();
+                if (count==8) skuObj.itemDiscount = $(this).text();
+                if (count==9) skuObj.invWeight = $(this).text();
+                if (count==10) skuObj.restrictAmount = $(this).text();
+                if (count==11) skuObj.amount = $(this).text();
+                if (count==12) skuObj.restAmount = $(this).text();
+                if (count==13) skuObj.carriageModelCode = $(this).text();
+                if (count==14) skuObj.invArea = $(this).text();
+                if (count==15) skuObj.invCustoms = $(this).text();
+                if (count==16) skuObj.rateSet = $(this).text();
+                if (count==17) skuObj.postalTaxRate = $(this).text();
+                if (count==18) skuObj.postalTaxCode = $(this).text();
+                if (count==19) skuObj.recordHZ = $(this).text();
+                if (count==20) skuObj.recordGZ = $(this).text();
+                if (count==21) skuObj.recordSH = $(this).text();
+                if (count==22) skuObj.invImg = $(this).text();
+                if (count==23) skuObj.itemPreviewImgs = $(this).text();
+                if (count==24) skuObj.orVaryPrice = $(this).text();
+                if (count==25) skuObj.varyPrice = $(this).text();
+                count++;
+            });
+            sharedObject.skuObj = skuObj;
+            sharedObject.index = index;
+        }
         if (window.showModalDialog) {
-            var retValue = showModalDialog("/comm/pop", sharedObject, "dialogWidth:1200px; dialogHeight:800px; dialogLeft:300px;");
+            var retValue = showModalDialog("/comm/pop", sharedObject, "dialogWidth:1200px; dialogHeight:8900px; dialogLeft:300px;");
             if (retValue) {
                 UpdateFields(retValue);
             }
         }
         else {
             // for similar functionality in Opera, but it's not modal!
-            var modal = window.open ("/comm/pop", null, "width=1200,height=800,left=300,modal=yes,alwaysRaised=yes", null);
+            var modal = window.open ("/comm/pop", null, "width=1200,height=900,left=300,modal=yes,alwaysRaised=yes", null);
             modal.dialogArguments = sharedObject;
         }
     }
 
+    var table = $("#inventory");
 
+    function UpdateFields(obj){
+        //编辑修改
+        if (obj.index!="") {
+            var index = obj.index;
+            var trIndex = table.find("tr").eq(index).html("");
+            var objTrd = $(obj.trd).find("td");
+            for(var i=0;i<objTrd.length;i++) {
+                $(objTrd[i]).appendTo(trIndex);
+            }
+        }
+        //添加一行sku
+        else $(obj.trd).appendTo(table);
+    }
 
     $(function(){
         $(function () {
@@ -54,7 +104,6 @@
         });
     })
 </script>
-
 }
 
 @import java.lang.String; var title="商品修改"
@@ -150,416 +199,85 @@
                         <input type="text" class="form-control" id="supplyMerch" name="supplyMerch" value="@item.getSupplyMerch()">
                     </div>
                 </div>
-                <!--<div class="form-group">-->
-                    <!--<label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">销售期限</div></label>-->
-                    <!--<div class="col-sm-3">-->
-                        <!--<div class="input-group date" id='datetimepicker1'>-->
-                            <!--<input class="form-control col-sm-2"  type="text"  id="onShelvesAt" name="onShelvesAt" value="@(item.getOnShelvesAt().toString().substring(0,19))">-->
-                            <!--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-sm-1" style="font-size: 24px;width:50px;margin-left:40px;margin-right:40px;">~</div>-->
-                    <!--<div class="col-sm-3">-->
-                        <!--<div class="input-group date" id='datetimepicker2'>-->
-                            <!--<input class="form-control col-sm-2"  type="text"  id="offShelvesAt" name="offShelvesAt" value="@(item.getOffShelvesAt().toString().substring(0,19))">-->
-                            <!--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
-                        <!--</div>-->
-                        <!--<div id="warn-date" style="color:red; margin-left:260px;margin-top:-30px; width:100px;"></div>-->
-                    <!--</div>-->
-                <!--</div>-->
                 <!-- 商品库存信息-->
                 <h4 class="h4-custom-hmm">商品库存信息</h4>
-                <!--<div class="form-group">-->
-                    <!--<div class="col-sm-12">-->
-                        <!--<div class="goods-info1">-->
-                            <!--<table class="table table-bordered qubian inv" id="inventory">-->
-                                <!--<tr>-->
-                                    <!--<th>设为主商品</th>-->
-                                    <!--<th>颜色分类</th>-->
-                                    <!--<th>尺寸分类</th>-->
-                                    <!--<th>重量(整数:克)</th>-->
-                                    <!--<th>库存数量</th>-->
-                                    <!--<th>现价(￥)</th>-->
-                                    <!--<th>原价(￥)</th>-->
-                                    <!--<th>成本价(￥)</th>-->
-                                    <!--<th>折扣</th>-->
-                                    <!--<th>限购数量</th>-->
-                                    <!--<th>运费设置</th>-->
-                                    <!--<th>税率设置</th>-->
-                                    <!--<th>税率(整数)</th>-->
-                                    <!--<th>行邮税号</th>-->
-                                    <!--<th>库存区域</th>-->
-                                    <!--<th>报关单位</th>-->
-                                    <!--<th>海关商品备案号</th>-->
-                                    <!--<th>主图(一张)</th>-->
-                                    <!--<th>详情页预览图(最多6张)</th>-->
-                                    <!--<th>状态</th>-->
-                                    <!--<th class="add-goods add">添加商品</th>-->
-                                <!--</tr>-->
-                                <!--@for(obj <-  invList) {-->
-                                <!--<tr>-->
-                                    <!--<td>-->
-                                        <!--<input type="radio" name="orMasterInv" class="master-radio" checked="checked" value="@obj(14)"/>-->
-                                    <!--</td>-->
-                                    <!--<td>-->
-                                        <!--<input type="text" name="itemColor" value="@obj(2)"/>-->
-                                    <!--</td>-->
-                                    <!--<td>-->
-                                        <!--<input type="text" name="itemSize" value="@obj(3)"/>-->
-                                    <!--</td>-->
-                                    <!--<td>-->
-                                        <!--<input type="text" name="invWeight" value="@obj(21)"/>-->
-                                    <!--</td>-->
-                                    <!--<td>-->
-                                        <!--<input type="text" name="amount" value="@obj(4)"/>-->
-                                    <!--</td>-->
-                                    <!--<td>-->
-                                        <!--<input type="text" name="itemPrice" value="@obj(6)"/>-->
-                                    <!--</td>-->
-                                    <!--<td>-->
-                                        <!--<input type="text" name="itemSrcPrice" value="@obj(5)"/>-->
-                                    <!--</td>-->
-                                    <!--<td>-->
-                                        <!--<input type="text" name="itemCostPrice" value="@obj(7)"/>-->
-                                    <!--</td>-->
-                                    <!--<td>-->
-                                        <!--<input type="text" name="itemDiscount" value="@obj(8)"/>-->
-                                    <!--</td>-->
-                                    <!--<td>-->
-                                        <!--<input type="text" name="restrictAmount" value="@obj(17)"/>-->
-                                    <!--<td>-->
-                                        <!--<input id="mList" type="hidden" value="@modelList">-->
-                                        <!--<select name="carriageModelCode">-->
-                                            <!--@for(m <- modelList) {-->
-                                                <!--@if(obj(22)==m.getModelCode()) {-->
-                                                <!--<option value="@m.getModelCode()" selected>@m.getModelName()-->
-                                                <!--</option>-->
-                                                <!--}-->
-                                                <!--@if(obj(22)!=m.getModelCode()) {-->
-                                                <!--<option value="@m.getModelCode()">@m.getModelName()-->
-                                                <!--</option>-->
-                                                <!--}-->
-                                            <!--}-->
-                                        <!--</select>-->
-                                    <!--</td>-->
-                                    <!--<td>-->
-                                        <!--<select class="trset" id="1">-->
-                                            <!--<option value="">请选择</option>-->
-                                            <!--<option value="S">标准税率</option>-->
-                                            <!--<option value="F">免税</option>-->
-                                            <!--<option value="D">自定义</option>-->
-                                        <!--</select>-->
-                                    <!--</td>-->
-                                    <!--<td>-->
-                                        <!--<input type="text" name="postalTaxRate" value="@obj(20)" readonly/>-->
-                                    <!--</td>-->
-                                    <!--<td>-->
-                                        <!--<input type="text" name="postalTaxCode" value="@obj(19)" readonly/>-->
-                                    <!--</td>-->
-                                    <!--<td>-->
-                                        <!--@if(obj(16)== "H") {-->
-                                        <!--<select name="invArea">-->
-                                            <!--<option value="H" selected>杭州保税仓备案</option>-->
-                                            <!--<option value="HZ">杭州保税仓直邮</option>-->
-                                            <!--<option value="G">广州保税仓备案</option>-->
-                                            <!--<option value="GZ">广州保税仓直邮</option>-->
-                                            <!--<option value="S">上海保税仓备案</option>-->
-                                            <!--<option value="SZ">上海保税仓直邮</option>-->
-                                            <!--<option value="K">海外直邮</option>-->
-                                        <!--</select>-->
-                                        <!--}-->
-                                        <!--@if(obj(16)== "HZ") {-->
-                                        <!--<select name="invArea">-->
-                                            <!--<option value="H">杭州保税仓备案</option>-->
-                                            <!--<option value="HZ" selected>杭州保税仓直邮</option>-->
-                                            <!--<option value="G">广州保税仓备案</option>-->
-                                            <!--<option value="GZ">广州保税仓直邮</option>-->
-                                            <!--<option value="S">上海保税仓备案</option>-->
-                                            <!--<option value="SZ">上海保税仓直邮</option>-->
-                                            <!--<option value="K">海外直邮</option>-->
-                                        <!--</select>-->
-                                        <!--}-->
-                                        <!--@if(obj(16)== "G") {-->
-                                        <!--<select name="invArea">-->
-                                            <!--<option value="H">杭州保税仓备案</option>-->
-                                            <!--<option value="HZ">杭州保税仓直邮</option>-->
-                                            <!--<option value="G" selected>广州保税仓备案</option>-->
-                                            <!--<option value="GZ">广州保税仓直邮</option>-->
-                                            <!--<option value="S">上海保税仓备案</option>-->
-                                            <!--<option value="SZ">上海保税仓直邮</option>-->
-                                            <!--<option value="K">海外直邮</option>-->
-                                        <!--</select>-->
-                                        <!--}-->
-                                        <!--@if(obj(16)== "GZ") {-->
-                                        <!--<select name="invArea">-->
-                                            <!--<option value="H">杭州保税仓备案</option>-->
-                                            <!--<option value="HZ">杭州保税仓直邮</option>-->
-                                            <!--<option value="G">广州保税仓备案</option>-->
-                                            <!--<option value="GZ" selected>广州保税仓直邮</option>-->
-                                            <!--<option value="S">上海保税仓备案</option>-->
-                                            <!--<option value="SZ">上海保税仓直邮</option>-->
-                                            <!--<option value="K">海外直邮</option>-->
-                                        <!--</select>-->
-                                        <!--}-->
-                                        <!--@if(obj(16)== "S") {-->
-                                        <!--<select name="invArea">-->
-                                            <!--<option value="H">杭州保税仓备案</option>-->
-                                            <!--<option value="HZ">杭州保税仓直邮</option>-->
-                                            <!--<option value="G">广州保税仓备案</option>-->
-                                            <!--<option value="GZ">广州保税仓直邮</option>-->
-                                            <!--<option value="S" selected>上海保税仓备案</option>-->
-                                            <!--<option value="SZ">上海保税仓直邮</option>-->
-                                            <!--<option value="K">海外直邮</option>-->
-                                        <!--</select>-->
-                                        <!--}-->
-                                        <!--@if(obj(16)== "SZ") {-->
-                                        <!--<select name="invArea">-->
-                                            <!--<option value="H">杭州保税仓备案</option>-->
-                                            <!--<option value="HZ">杭州保税仓直邮</option>-->
-                                            <!--<option value="G">广州保税仓备案</option>-->
-                                            <!--<option value="GZ">广州保税仓直邮</option>-->
-                                            <!--<option value="S">上海保税仓备案</option>-->
-                                            <!--<option value="SZ" selected>上海保税仓直邮</option>-->
-                                            <!--<option value="K">海外直邮</option>-->
-                                        <!--</select>-->
-                                        <!--}-->
-                                        <!--@if(obj(16)== "K") {-->
-                                        <!--<select name="invArea">-->
-                                            <!--<option value="H">杭州保税仓备案</option>-->
-                                            <!--<option value="HZ">杭州保税仓直邮</option>-->
-                                            <!--<option value="G">广州保税仓备案</option>-->
-                                            <!--<option value="GZ">广州保税仓直邮</option>-->
-                                            <!--<option value="S">上海保税仓备案</option>-->
-                                            <!--<option value="SZ">上海保税仓直邮</option>-->
-                                            <!--<option value="K" selected>海外直邮</option>-->
-                                        <!--</select>-->
-                                        <!--}-->
-                                    <!--</td>-->
-                                    <!--<td>-->
-                                        <!--@if(obj(18)== "shanghai") {-->
-                                        <!--<select name="invCustoms">-->
-                                            <!--<option value="shanghai" selected>上海海关</option>-->
-                                            <!--<option value="hangzhou">杭州海关</option>-->
-                                            <!--<option value="guangzhou">广州海关</option>-->
-                                        <!--</select>-->
-                                        <!--}-->
-                                        <!--@if(obj(18)== "hangzhou") {-->
-                                        <!--<select name="invCustoms">-->
-                                            <!--<option value="shanghai">上海海关</option>-->
-                                            <!--<option value="hangzhou" selected>杭州海关</option>-->
-                                            <!--<option value="guangzhou">广州海关</option>-->
-                                        <!--</select>-->
-                                        <!--}-->
-                                        <!--@if(obj(18)== "guangzhou") {-->
-                                        <!--<select name="invCustoms">-->
-                                            <!--<option value="shanghai">上海海关</option>-->
-                                            <!--<option value="hangzhou">杭州海关</option>-->
-                                            <!--<option value="guangzhou" selected>广州海关</option>-->
-                                        <!--</select>-->
-                                        <!--}-->
-                                    <!--</td>-->
-                                    <!--<td id="rec1">-->
-                                        <!--<div class="record">-->
-                                            <!--<span>杭州-->
-                                                <!--<input type="text" value='@for(recordCode <- obj(24).toString().substring(1,obj(24).toString().length-1).split(", ")) {@if(recordCode.substring(1,recordCode.indexOf(":")-1)=="hangzhou") {@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)}}' name="recordHZ" style="width:70%;"/>-->
-                                            <!--</span>-->
-                                        <!--</div>-->
-                                        <!--<div class="record">-->
-                                            <!--<span>广州-->
-                                                <!--<input type="text" value='@for(recordCode <- obj(24).toString().substring(1,obj(24).toString().length-1).split(", ")) {@if(recordCode.substring(1,recordCode.indexOf(":")-1)=="guangzhou") {@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)}}' name="recordGZ" style="width:70%;"/>-->
-                                            <!--</span>-->
-                                        <!--</div>-->
-                                        <!--<div class="record">-->
-                                            <!--<span>上海-->
-                                                <!--<input type="text" value='@for(recordCode <- obj(24).toString().substring(1,obj(24).toString().length-1).split(", ")) {@if(recordCode.substring(1,recordCode.indexOf(":")-1)=="shanghai") {@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)}}' name="recordSH" style="width:70%;"/>-->
-                                            <!--</span>-->
-                                        <!--</div>-->
-                                    <!--</td>-->
-                                    <!--<td class="list-img">-->
-                                        <!--<div >-->
-                                            <!--<div>-->
-                                                <!--<img class="main-img" src='@url@obj(11).toString.substring(1,obj(11).toString.length-1).split(",")(0).substring(7,obj(11).toString.substring(1,obj(11).toString.length-1).split(",")(0).length-1)'  width='@obj(11).toString.substring(1,obj(11).toString.length-1).split(",")(1).substring(9,obj(11).toString.substring(1,obj(11).toString.length-1).split(",")(1).length-1)' height='@obj(11).toString.substring(1,obj(11).toString.length-1).split(",")(2).substring(10,obj(11).toString.substring(1,obj(11).toString.length-1).split(",")(2).length-1)' alt="">-->
-                                                <!--<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<span class="add"  style="display:none" >＋-->
-                                            <!--<input type="file"  name="invImg" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>-->
-                                        <!--</span>-->
-                                    <!--</td>-->
-                                    <!--<td width="146" class="preview-img">-->
-                                        <!--<div >-->
-                                            <!--@for(pre <- obj(12).toString().substring(1,obj(12).toString().length()-2).split("}, ")) {-->
-                                            <!--<div>-->
-                                                <!--<img class="main-img" src='@url@pre.substring(1,pre.length).split(", ")(0).substring(8,pre.substring(1,pre.length).split(", ")(0).length-1)' width='@pre.substring(1,pre.length).split(", ")(1).substring(10,pre.substring(1,pre.length).split(", ")(1).length-1)' height='@pre.substring(1,pre.length).split(", ")(2).substring(11,pre.substring(1,pre.length).split(", ")(2).length-1)'  alt="">-->
-                                                <!--<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-                                            <!--</div>-->
-                                            <!--}-->
-                                        <!--</div>-->
-                                        <!--<span class="add" >＋-->
-                                            <!--<input type="file"  name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">-->
-                                        <!--</span>-->
-                                    <!--</td>-->
-                                    <!--<td>-->
-                                        <!--<select name="state">-->
-                                            <!--@if(obj(15)=="Y"){-->
-                                            <!--<option value="Y">正常</option>-->
-                                            <!--<option value="D">下架</option>-->
-                                            <!--<option value="K">售空</option>-->
-                                            <!--}-->
-                                            <!--@if(obj(15)=="D"){-->
-                                            <!--<option value="D">下架</option>-->
-                                            <!--<option value="Y">正常</option>-->
-                                            <!--<option value="K">售空</option>-->
-                                            <!--}-->
-                                            <!--@if(obj(15)=="K"){-->
-                                            <!--<option value="K">售空</option>-->
-                                            <!--<option value="Y">正常</option>-->
-                                            <!--<option value="D">下架</option>-->
-                                            <!--}-->
-                                        <!--</select>-->
-                                    <!--</td>-->
-                                    <!--<td class="del">-->
-                                        <!--删除-->
-                                        <!--<input type="hidden" value="@obj(0)"/>-->
-                                        <!--<input type="hidden" value="@obj(9)"/>-->
-                                        <!--<input type="hidden" value="@obj(10)"/>-->
-                                        <!--<input type="hidden" value="@obj(13)"/>-->
-                                    <!--</td>-->
-                                <!--</tr>-->
-                                <!--}-->
-                            <!--</table>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group" style="margin-top:-100px;">-->
-                    <!--<label class="col-sm-1 control-label" ><div id="warn-inv" style="color:red;width:200px;margin-left:-80px;"></div></label>-->
-                <!--</div>-->
-                <!--<h4 class="h4-custom-hmm">商品设置</h4>-->
-                <!--<div class="form-group">-->
-                    <!--<label class="col-sm-1 control-label" ><div class="r">商品状态</div></label>-->
-                    <!--<div class="col-sm-3">-->
-                        <!--<select class="form-control" id="state" name="state">-->
-                            <!--@if(item.getState()=="Y"){-->
-                            <!--<option value="Y">正常</option>-->
-                            <!--<option value="D">下架</option>-->
-                            <!--<option value="K">售空</option>-->
-                            <!--}-->
-                            <!--@if(item.getState()=="D"){-->
-                            <!--<option value="D">下架</option>-->
-                            <!--<option value="Y">正常</option>-->
-                            <!--<option value="K">售空</option>-->
-                            <!--}-->
-                            <!--@if(item.getState()=="K"){-->
-                            <!--<option value="K">售空</option>-->
-                            <!--<option value="Y">正常</option>-->
-                            <!--<option value="D">下架</option>-->
-                            <!--}-->
-                        <!--</select>-->
-                    <!--</div>-->
-                <!--</div>-->
                 <h4><button type="button" class="btn btn-primary add-guige" onclick="ShowModal(this)">添加规格</button></h4>
                 <div class="form-group">
                     <div class="col-sm-8">
                         <div class="sku-info">
-                            <table class='table table-bordered'>
+                            <table class='table table-bordered' id="inventory">
                                 <tr>
                                     <th>设为主商品</th>
                                     <th>颜色</th>
                                     <th>尺寸</th>
+                                    <th>上架时间</th>
+                                    <th>下架时间</th>
                                     <th>现价</th>
+                                    <th>原价</th>
+                                    <th>成本价</th>
+                                    <th>折扣</th>
+                                    <th>重量(整数:克)</th>
+                                    <th>限购数量</th>
+                                    <th>库存总量</th>
+                                    <th>剩余库存</th>
+                                    <th>运费设置</th>
                                     <th>库存区域</th>
+                                    <th>报关单位</th>
+                                    <th>税率设置</th>
+                                    <th>税率(整数)</th>
+                                    <th>行邮税号</th>
+                                    <th>杭州</th>
+                                    <th>广州</th>
+                                    <th>上海</th>
+                                    <th>主图</th>
+                                    <th>预览图</th>
+                                    <th>开启多样化价格</th>
+                                    <th>多样化价格</th>
                                     <th>修改</th>
                                 </tr>
                                 @for(obj <-  invList) {
                                 <tr>
-                                    <td><input type="radio" name="orMasterInv" class="master-radio" checked="checked" value="@obj(14)"/></td>
-                                    <td>@obj(2)</td>
+                                    <input type="hidden" name="invId" value="@obj(0)"/>
+                                    <input type="hidden" name="itemId" value="@obj(1)"/>
+                                    <td><input type="radio" name="orMasterInv" class="master-radio" checked="checked" value="@obj(2)"/></td>
                                     <td>@obj(3)</td>
+                                    <td>@obj(4)</td>
+                                    <td>@obj(5)</td>
                                     <td>@obj(6)</td>
-                                    <td>
-                                        @if(obj(16)== "H") {杭州保税仓备案}
-                                        @if(obj(16)== "HZ") {杭州保税仓直邮}
-                                        @if(obj(16)== "G") {广州保税仓备案}
-                                        @if(obj(16)== "GZ") {广州保税仓直邮}
-                                        @if(obj(16)== "S") {上海保税仓备案}
-                                        @if(obj(16)== "SZ") {上海保税仓直邮}
-                                        @if(obj(16)== "K") {海外直邮}
+                                    <td>@obj(7)</td>
+                                    <td>@obj(8)</td>
+                                    <td>@obj(9)</td>
+                                    <td>@obj(10)</td>
+                                    <td>@obj(11)</td>
+                                    <td>@obj(12)</td>
+                                    <td>@obj(13)</td>
+                                    <td>@obj(14)</td>
+                                    <td>@obj(15)</td>
+                                    <td>@obj(16)</td>
+                                    <td>@obj(17)</td>
+                                    @if(obj(18)==0) {<td>F</td>}
+                                    @if(obj(19)!="") {<td>S</td>}
+                                    @if(obj(19)=="" && obj(18)!=0) {<td>D</td>}
+                                    <td>@obj(18)</td>
+                                    <td>@obj(19)</td>
+                                    <td>@obj(20)</td>
+                                    <td>@obj(21)</td>
+                                    <td>@obj(22)</td>
+                                    <td>@obj(23)</td>
+                                    <td>@obj(24)</td>
+                                    <td>@obj(25)</td>
+                                    <td>@obj(26)</td>
+                                    <td class="trEdit">
+                                        <span onclick="ShowModal(this)">编辑</span>
+                                        <span class="delTr">删除</span>
                                     </td>
-                                    <td onclick="javascript:void(0)">编辑</td>
-                                </tr>
-                                }
-
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label" ><div class="r">重要通告</div></label>
-                    <div class="col-sm-3">
-                        <textarea rows="6"  class="form-control" id="itemNotice" name="itemNotice">@item.getItemNotice()</textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div>优惠信息</label>
-                    <div class="form-group">
-                        <div class="col-sm-3">
-                            <table class="table table-bordered pub" id="publicityTab">
-                                <tr>
-                                    <td><input type="text" id="publicity"/></td>
-                                    <td class="add1">添加</td>
-                                </tr>
-                                @for(pub <- item.getPublicity().substring(1,item.getPublicity().length()-1).split(", ")) {
-                                <tr>
-                                    <td>@(pub.substring(1,pub.length()-1))</td>
-                                    <td class="del">删除</td>
                                 </tr>
                                 }
                             </table>
                         </div>
-                        <div id="warn-pub" style="color:red;margin-top:10px;"></div>
                     </div>
                 </div>
-                <!-- 商品详细信息-->
-                <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.details")</h4>
-
-                <!--<div class="form-group">-->
-                    <!--<label class="col-sm-1 control-label"><div class="r" style="padding:3px;">*</div><div class="r">主题宣传图</div><div style="margin-top:20px;margin-right:30px;">(一张)</div></label>-->
-                    <!--<div class="col-sm-2">-->
-                        <!--<div class="master-img" style="border:1px solid #ccc; height:80px;">-->
-                            <!--<div id="galleryT" style="margin-top:15px;margin-left:10px;">-->
-                                <!--<div>-->
-                                    <!--<img class="main-img" src="@url@item.getItemMasterImg()" alt="">-->
-                                    <!--<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<span class="add" id="masterThImgAdd" style="margin-top:30px;margin-left:10px;display:none;" >＋-->
-                                <!--<input type="file" id="T" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>-->
-                            <!--</span>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>-->
-                    <!--<div class="col-sm-4">-->
-                        <!--<div class="detail-img" style="border:1px solid #ccc;">-->
-                            <!--<div id="galleryD" style="margin-bottom:10px;margin-top:15px;">-->
-                                <!--@for(detail <- item.getItemDetailImgs().substring(1,item.getItemDetailImgs().length()-2).split("], ")) {-->
-                                <!--<div style="display:inline-block; border:1px solid #ccc" >-->
-                                    <!--@for(d <- detail.substring(1,detail.length()).split(", ")) {-->
-                                         <!--<img class="main-img"  src="@url@d.substring(1,d.length()-1)" alt="" style="border:0px;height:16.7px;">-->
-                                    <!--}-->
-                                    <!--<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-                                <!--</div>-->
-
-                                <!--}-->
-                            <!--</div>-->
-                            <!--<span class="add" style="margin:15px 5px;">＋-->
-                                <!--<input type="file" id="D" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>-->
-                            <!--</span>-->
-                        <!--</div>-->
-                        <!--<div id="warn-masthimg" style="color:red;margin-top:-70px; margin-left:400px;width:120px;"></div>-->
-                        <!--<div id="warn-detailimg" style="color:red;margin-top:10px; margin-left:400px;width:120px;margin-bottom:50px;"></div>-->
-                    <!--</div>-->
-                <!--</div>-->
-
+                <h4 class="h4-custom-hmm">商品设置及详情</h4>
                 <div class="form-group">
                     <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">商品参数</div></label>
                     <div class="col-sm-7">
@@ -583,12 +301,71 @@
                     <div id="warn-attr" style="color:red; margin-left:0px;margin-top:15px;"></div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div>优惠信息</label>
+                    <div class="col-sm-7">
+                        <table class="table table-bordered pub" id="publicityTab">
+                            <tr>
+                                <td><input type="text" id="publicity"/></td>
+                                <td class="add1">添加</td>
+                            </tr>
+                            @for(pub <- item.getPublicity().substring(1,item.getPublicity().length()-1).split(", ")) {
+                            <tr>
+                                <td>@(pub.substring(1,pub.length()-1))</td>
+                                <td class="del">删除</td>
+                            </tr>
+                            }
+                        </table>
+                    </div>
+                    <div id="warn-pub" style="color:red;padding-top:10px;margin-left:800px;width:200px;"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">详情信息</label>
+                    <div class="col-sm-3">
+                        <div>
+                            <label class="radio-inline">
+                                <input type="radio" name="detail-info" class="pic" value="" checked> <span>图片</span>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="detail-info" class="edit" value=""> <span>编辑器</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group pic-info" style="display:block;">
+                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
+                    <div class="col-sm-7">
+                        <div class="detail-img" style="border:1px solid #ccc;">
+                            <div id="galleryD" style="float:left;">
+                                @for(detail <- item.getItemDetailImgs().substring(1,item.getItemDetailImgs().length()-2).split("], ")) {
+                                <div style="display:inline-block; border:1px solid #ccc;">
+                                    @for(d <- detail.substring(1,detail.length()).split(", ")) {
+                                    <img src="@url@d.substring(1,d.length()-1)" alt="" style="border:0px;height:13.3px;display:block;margin-top:0px;margin-bottom:0px;">
+                                    }
+                                    <button type="button" class="close" style="top:-6px;" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                }
+                            </div>
+                            <span class="add" id="detailImgAddD">＋
+                                <input type="file" id="D" name="itemDetailImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                            </span>
+                        </div>
+                        <div id="warn-detailImg" style="color:red;margin-left:700px;width:120px;margin-top:-50px;margin-bottom:50px;"></div>
+                    </div>
+                </div>
+                <div class="form-group pic-info" style="display:block;">
+                    <label class="col-sm-1 control-label" ><div class="r">重要通告</div></label>
+                    <div class="col-sm-7">
+                        <textarea rows="6"  class="form-control" id="itemNotice" name="itemNotice"  readonly>@item.getItemNotice()</textarea>
+                    </div>
+                </div>
+                <div class="form-group edit-info" style="display:none;">
                     <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">商品详情</div></label>
                     <span onclick="setContent(false)">写入内容</span>
                     <div class="col-sm-7">
                         <script id="editor" type="text/plain" style="height:500px;" ></script>
                         <input type="hidden" id="itemDetail" value="@item.getItemDetail()">
                     </div>
+                    <div id="warn-edit" style="color:red;margin-left:800px;width:200px;"></div>
                 </div>
             </div>
         </form>

@@ -136,6 +136,7 @@ public class ItemCtrl extends Controller {
             inventory.setPageSize(ThemeCtrl.PAGE_SIZE);
             inventory.setOffset(offset);
             //组装返回数据
+            Logger.debug("查询条件:"+inventory);
             Map<String,Object> returnMap=new HashMap<>();
             returnMap.put("topic",inventoryService.invSearch(inventory));
             returnMap.put("pageNum",pageNum);
@@ -230,36 +231,59 @@ public class ItemCtrl extends Controller {
         //包含modelName的库存列表
         List<Object[]> invList = new ArrayList<>();
         for(Inventory inventory : inventories) {
-            Object[] object = new Object[25];
+            Object[] object = new Object[27];
             object[0] = inventory.getId();
             object[1] = inventory.getItemId();
-            object[2] = inventory.getItemColor();
-            object[3] = inventory.getItemSize();
-            object[4] = inventory.getAmount();
-            object[5] = inventory.getItemSrcPrice();
-            object[6] = inventory.getItemPrice();
-            object[7] = inventory.getItemCostPrice();
-            object[8] = inventory.getItemDiscount();
-            object[9] = inventory.getSoldAmount();
-            object[10] = inventory.getRestAmount();
-            object[11] = inventory.getInvImg();
-            object[12] = inventory.getItemPreviewImgs();
-            object[13] = inventory.getOrDestroy();
-            object[14] = inventory.getOrMasterInv();
-            object[15] = inventory.getState();
-            object[16] = inventory.getInvArea();
-            object[17] = inventory.getRestrictAmount();
-            object[18] = inventory.getInvCustoms();
-            object[19] = inventory.getPostalTaxCode();
-            object[20] = inventory.getPostalTaxRate();
-            object[21] = inventory.getInvWeight();
-            object[22] = inventory.getCarriageModelCode();
+            object[2] = inventory.getOrMasterInv();
+            object[3] = inventory.getItemColor();
+            object[4] = inventory.getItemSize();
+            object[5] = inventory.getStartAt();
+            object[6] = inventory.getEndAt();
+            object[7] = inventory.getItemPrice();
+            object[8] = inventory.getItemSrcPrice();
+            object[9] = inventory.getItemCostPrice();
+            object[10] = inventory.getItemDiscount();
+            object[11] = inventory.getInvWeight();
+            object[12] = inventory.getRestrictAmount();
+            object[13] = inventory.getAmount();
+            object[14] = inventory.getRestAmount();
             //由库存表的carriageModelCode 得到 modelName
-            object[23] = carriageService.getModelName(inventory.getCarriageModelCode());
-            object[24] = inventory.getRecordCode();
+            object[15] = inventory.getCarriageModelCode();
+//            object[23] = carriageService.getModelName(inventory.getCarriageModelCode());
+            object[16] = inventory.getInvArea();
+            object[17] = inventory.getInvCustoms();
+            object[18] = inventory.getPostalTaxRate();
+            object[19] = inventory.getPostalTaxCode();
+            String recordCode = inventory.getRecordCode();
+            String[] recordArr = recordCode.substring(1,recordCode.length()-1).split(", ");
+            for(int i=0;i<recordArr.length;i++) {
+                String[] a_record = recordArr[i].split(": ");
+                if (a_record[0].contains("hangzhou")) {
+                object[20] = a_record[1].substring(1,a_record[1].length()-1);
+                } else object[20] = "";
+                if (a_record[0].contains("shanghai")) {
+                object[21] = a_record[1].substring(1,a_record[1].length()-1);
+                } else object[21] = "";
+                if (a_record[0].contains("guangzhou")) {
+                object[22] = a_record[1].substring(1,a_record[1].length()-1);
+                } else object[22] = "";
+            }
+            object[23] = inventory.getInvImg();
+            object[24] = inventory.getItemPreviewImgs();
+            object[25] = inventory.getOrVaryPrice();
+            object[26] = "";
+            VaryPrice varyPrice = new VaryPrice();
+            varyPrice.setInvId(inventory.getId());
+            List<VaryPrice> vpList = varyPriceService.getVaryPriceBy(varyPrice);
+            for(VaryPrice vp : vpList) {
+                object[26]=object[26] + vp.getPrice().toString();
+                object[26]=object[26] + vp.getLimitAmount().toString();
+            }
+//            object[13] = inventory.getOrDestroy();
+//            object[15] = inventory.getState();
             invList.add(object);
         }
-        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,itemService.getAllBrands(),itemService.getParentCates(),carriageService.getModels(),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,ThemeCtrl.IMG_UPLOAD_URL,lang,itemService.getAllBrands(),itemService.getParentCates(),carriageService.getModels(),(User) ctx().args.get("user")));
     }
 
     /**

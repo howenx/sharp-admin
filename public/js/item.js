@@ -1,5 +1,31 @@
 $(function(){
 
+    /** 图片放大和关闭的功能 **/
+    $(document).on("click", ".main-img", function(e) {
+        $(".goods-img-bg").css({
+            "height": $(window).height(),
+            "display": "block"
+        });
+        $(".goods-img").css("left", ($(window).width() - 1200) / 2);
+        $(this).clone().appendTo($(".goods-img")).css({
+            "width": "80%",
+            "height":"600px",
+            "z-index": 1000
+        });
+    });
+    $(document).on("click", ".goods-img-bg .close", function(e) {
+        $(".goods-img-bg img").remove();
+        $(".goods-img-bg").css({
+            "display": "none"
+        });
+    });
+    $(document).on("click", ".goods-bg", function(e) {
+        $(".goods-img-bg img").remove();
+        $(".goods-img-bg").css({
+            "display": "none"
+        });
+    });
+
 	/** 点击返回按钮,返回到列表查询页面 **/
 	$("#return").on("click", function() {
 	    location.href="/"+window.lang+"/comm/search";
@@ -407,11 +433,11 @@ $(function(){
         item.brandId = brandId;
         item.supplyMerch = supplyMerch;
         item.itemTitle = itemTitle;
-        item.itemNotice = itemNotice;
         item.publicity = publicity;
         item.itemFeatures = itemFeatures;
         if ($(".pic").is(":checked")) {
             item.itemDetailImgs = itemDetailImgs;
+            item.itemNotice = itemNotice;
         }
         if ($(".edit").is(":checked")) {
             item.itemDetail = itemDetail;

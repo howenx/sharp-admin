@@ -113,7 +113,7 @@
             and t.end_at &lt;= #{endAt} ::timestamp
         </if>
         <if test="sort == null or sort == '' ">
-            ORDER BY t.create_at DESC
+            ORDER BY t.id DESC
         </if>
         <if test="sort != null">
             ORDER BY t.${sort}

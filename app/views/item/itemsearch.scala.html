@@ -1,12 +1,30 @@
 @import play.i18n._
 @(lang:String="cn",url:String,pageSize:Integer,countNum:Integer,pageCount:Integer,invs:List[entity.Inventory],user:entity.User)
 @scripts = {
-	<link rel="stylesheet" href="/assets/css/search.css">
-	<link rel="stylesheet" href="/assets/css/slider.css">
-	<script src="/assets/js/search.js"></script>
-	<script>window.url = "@url"</script>
-	<!-- 此为调用分页所提供的函数名前缀 -->
-	<script>window.search_args = 'commlist'</script>
+<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/search.js"></script>
+<script>window.url = "@url"</script>
+<!-- 此为调用分页所提供的函数名前缀 -->
+<script>window.search_args = 'commlist'</script>
+<script>
+    $(function(){
+        $(function () {
+            $('#datetimepicker-starttime').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+            $('#datetimepicker-endtime').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+    })
+</script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"comm.search.popup.title")
 
@@ -28,14 +46,32 @@
     <form class="form-horizontal">
         <div class="form-group">
             <!--sku id-->
-            <label class="col-sm-1 control-label">SKU ID</label>
-            <div class="col-sm-3">
+            <label class="col-sm-2 control-label">SKU ID</label>
+            <div class="col-sm-4">
                 <input id = "sku-id" type="number" min="10000" max="99999999" class="form-control"/>
             </div>
             <!--sku 标题-->
-            <label class="col-sm-1 control-label">SKU 标题</label>
-            <div class="col-sm-3">
+            <label class="col-sm-2 control-label">SKU 标题</label>
+            <div class="col-sm-4">
                 <input id = "sku-title" type="text" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <!--上架-->
+            <label class="col-sm-2 control-label">上架时间</label>
+            <div class="col-sm-4">
+                <div id="datetimepicker-starttime" class="input-group date">
+                    <input id="item-form-starttime" class="form-control col-sm-2"  type="text">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+            <!--下架-->
+            <label class="col-sm-2 control-label">下架时间</label>
+            <div class="col-sm-4">
+                <div id="datetimepicker-endtime" class="input-group date">
+                    <input id="item-form-endtime" class="form-control col-sm-2"  type="text">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
             </div>
         </div>
 

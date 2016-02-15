@@ -310,7 +310,7 @@ function saveCurr() {
             window.returnValue = sharedObject;
         }
         else {
-            window.opener.UpdateFields (sharedObject);
+            window.opener.UpdateFields(sharedObject);
         }
     }
 }

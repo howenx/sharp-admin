@@ -27,7 +27,8 @@
         //编辑SKU
         if(obj.tagName=="SPAN"){
             //index标识第几条sku
-            var index = $(table).find("tr").index($(obj).parent().parent());
+            <!--var index = $(table).find("tr").index($(obj).parent().parent());-->
+            var index = $(obj).parent().parent().index();
             var trData = $(obj).parent().parent();
             var count = 0;
             var skuObj = new Object();
@@ -79,7 +80,7 @@
 
     function UpdateFields(obj){
         $(table).appendTo($(".sku-info"));
-        if($(table).find("th").length!==0){
+        if($(table).find("th").length!=0){
             //编辑修改
             if (obj.index!="") {
                 var index = obj.index;
@@ -247,7 +248,7 @@
                 <div class="form-group pic-info" style="display:block;">
                     <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
                     <div class="col-sm-7">
-                        <div class="detail-img clearfix" style="border:1px solid #ccc;">
+                        <div class="detail-img" style="border:1px solid #ccc;">
                             <div id="galleryD" style="float: left;">
                             </div>
                             <span class="add" id="detailImgAddD">＋

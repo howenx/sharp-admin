@@ -14,30 +14,31 @@
 <link rel="stylesheet" href="/assets/css/slider.css"/>
 <link rel="stylesheet" href="/assets/css/item.css"/>
 <script>
-     $(document).on("click", ".main-img", function(e) {
-            $(".goods-img-bg").css({
-                "height": $(window).height(),
-                "display": "block"
-            });
-            $(".goods-img").css("left", ($(window).width() - 1200) / 2);
-            $(this).clone().appendTo($(".goods-img")).css({
-                "width": "100%",
-                "height":"800px",
-                "z-index": 1000
-            });
-        })
-        $(document).on("click", ".goods-img-bg .close", function(e) {
-            $(".goods-img-bg img").remove();
-            $(".goods-img-bg").css({
-                "display": "none"
-            });
-        })
-        $(document).on("click", ".goods-bg", function(e) {
-            $(".goods-img-bg img").remove();
-            $(".goods-img-bg").css({
-                "display": "none"
-            });
-        })
+     /** 图片放大和关闭的功能 **/
+    $(document).on("click", ".main-img", function(e) {
+        $(".goods-img-bg").css({
+            "height": $(window).height(),
+            "display": "block"
+        });
+        $(".goods-img").css("left", ($(window).width() - 1200) / 2);
+        $(this).clone().appendTo($(".goods-img")).css({
+            "width": "80%",
+            "height":"600px",
+            "z-index": 1000
+        });
+    });
+    $(document).on("click", ".goods-img-bg .close", function(e) {
+        $(".goods-img-bg img").remove();
+        $(".goods-img-bg").css({
+            "display": "none"
+        });
+    });
+    $(document).on("click", ".goods-bg", function(e) {
+        $(".goods-img-bg img").remove();
+        $(".goods-img-bg").css({
+            "display": "none"
+        });
+    });
 </script>
 }
 
@@ -203,68 +204,7 @@
                     </div>
                 </div>
             </div>
-            <h4 class="h4-custom-hmm">商品设置</h4>
-            <!--<div class="form-group">-->
-                <!--<label class="col-sm-1 control-label" ><div class="r">商品状态</div></label>-->
-                <!--<div class="col-sm-3">-->
-                <!--@if(item.getState()=="Y"){<input class="form-control" type="text" name="state" value="正常" readonly/>}-->
-                <!--@if(item.getState()=="D"){<input class="form-control" type="text" name="state" value="下架" readonly/>}-->
-                <!--@if(item.getState()=="K"){<input class="form-control" type="text" name="state" value="售空" readonly/>}-->
-                <!--</div>-->
-            <!--</div>-->
-            <div class="form-group">
-                <label class="col-sm-1 control-label" ><div class="r">重要通告</div></label>
-                <div class="col-sm-3">
-                    <textarea rows="6"  class="form-control" id="itemNotice" name="itemNotice"  readonly>@item.getItemNotice()</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div>优惠信息</label>
-                <div class="form-group">
-                    <div class="col-sm-3">
-                        <table class="table table-bordered pub" id="publicityTab">
-                            @for(pub <- item.getPublicity().substring(1,item.getPublicity().length()-1).split(", ")) {
-                                <tr>
-                                    <td>@(pub.substring(1,pub.length()-1))</td>
-                                </tr>
-                            }
-                        </table>
-                    </div>
-                    <div id="warn-pub" style="color:red;margin-top:10px;"></div>
-                </div>
-
-            </div>
-
-            <!-- 商品详细信息-->
-            <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.details")</h4>
-
-            <!--<div class="form-group">-->
-                <!--<label class="col-sm-1 control-label"><div class="r" style="padding:3px;">*</div><div class="r">主题宣传图</div><div style="margin-top:20px;margin-right:30px;">(一张)</div></label>-->
-                <!--<div class="col-sm-2">-->
-                    <!--<div class="master-img" style="border:1px solid #ccc; height:80px;">-->
-                        <!--<div id="galleryT" style="margin-top:15px;margin-left:10px;">-->
-                            <!--<div>-->
-                                <!--<img class="main-img" src="@url@item.getItemMasterImg()" alt="">-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>-->
-                <!--<div class="col-sm-4">-->
-                    <!--<div class="detail-img" style="border:1px solid #ccc;">-->
-                        <!--<div id="galleryD">-->
-                            <!--@for(detail <- item.getItemDetailImgs().substring(1,item.getItemDetailImgs().length()-2).split("], ")) {-->
-                                <!--<div style="display:inline-block; border:1px solid #ccc">-->
-                                    <!--@for(d <- detail.substring(1,detail.length()).split(", ")) {-->
-                                         <!--<img class="main-img" src="@url@d.substring(1,d.length()-1)" alt="" style="border:0px;height:16.7px;">-->
-                                    <!--}-->
-                                <!--</div>-->
-                            <!--}-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-
+            <h4 class="h4-custom-hmm">商品设置及详情</h4>
             <div class="form-group" style="margin-top:20px;">
                 <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">商品参数</div></label>
                 <div class="col-sm-7" >
@@ -276,15 +216,71 @@
                             <td width=500px>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureValue")</td>
                         </tr>
                         @for(itemFeature <- item.getItemFeatures.substring(1,item.getItemFeatures.length-1).split(", ")) {
-                            <tr>
-                                <td><input type="text" name="attrN" value='@itemFeature.substring(1,itemFeature.indexOf(":")-1)'/></td>
-                                <td><input type="text" name="attrV" value='@itemFeature.substring(itemFeature.indexOf(":")+3,itemFeature.length-1)'/></td>
-                            </tr>
+                        <tr>
+                            <td><input type="text" name="attrN" value='@itemFeature.substring(1,itemFeature.indexOf(":")-1)'/></td>
+                            <td><input type="text" name="attrV" value='@itemFeature.substring(itemFeature.indexOf(":")+3,itemFeature.length-1)'/></td>
+                        </tr>
                         }
                     </table>
                 </div>
-                <div id="warn-attr" style="color:red; margin-left:0px;margin-top:15px;"></div>
             </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div>优惠信息</label>
+                <div class="col-sm-3">
+                    <table class="table table-bordered pub" id="publicityTab">
+                        @for(pub <- item.getPublicity().substring(1,item.getPublicity().length()-1).split(", ")) {
+                        <tr>
+                            <td>@(pub.substring(1,pub.length()-1))</td>
+                        </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-1 control-label" ><div class="r">商品状态</div></label>-->
+                <!--<div class="col-sm-3">-->
+                <!--@if(item.getState()=="Y"){<input class="form-control" type="text" name="state" value="正常" readonly/>}-->
+                <!--@if(item.getState()=="D"){<input class="form-control" type="text" name="state" value="下架" readonly/>}-->
+                <!--@if(item.getState()=="K"){<input class="form-control" type="text" name="state" value="售空" readonly/>}-->
+                <!--</div>-->
+            <!--</div>-->
+            @if(item.getItemDetailImgs()!=null && item.getItemDetailImgs()!="") {
+            <div class="form-group">
+                <!--<label class="col-sm-1 control-label"><div class="r" style="padding:3px;">*</div><div class="r">主题宣传图</div><div style="margin-top:20px;margin-right:30px;">(一张)</div></label>-->
+                <!--<div class="col-sm-2">-->
+                    <!--<div class="master-img" style="border:1px solid #ccc; height:80px;">-->
+                        <!--<div id="galleryT" style="margin-top:15px;margin-left:10px;">-->
+                            <!--<div>-->
+                                <!--<img class="main-img" src="@url@item.getItemMasterImg()" alt="">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
+                <div class="col-sm-4">
+                    <div class="detail-img" style="border:1px solid #ccc;">
+                        <div id="galleryD" style="margin-bottom:10px;margin-top:15px;">
+                            @for(detail <- item.getItemDetailImgs().substring(1,item.getItemDetailImgs().length()-2).split("], ")) {
+                            <div style="display:inline-block; border:1px solid #ccc" >
+                                @for(d <- detail.substring(1,detail.length()).split(", ")) {
+                                <img src="@url@d.substring(1,d.length()-1)" alt="" style="border:0px;height:13.3px;display:block;margin-top:0px;margin-bottom:0px;">
+                                }
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            @if(item.getItemNotice()!=null && item.getItemNotice()!="") {
+            <div class="form-group">
+                <label class="col-sm-1 control-label" ><div class="r">重要通告</div></label>
+                <div class="col-sm-3">
+                    <textarea rows="6"  class="form-control" id="itemNotice" name="itemNotice"  readonly>@item.getItemNotice()</textarea>
+                </div>
+            </div>
+            }
+            @if(item.getItemDetail()!=null && item.getItemDetail()!="") {
             <div class="form-group">
                 <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">商品详情</div></label>
                 <span onclick="setContent(false)">写入内容</span>
@@ -293,6 +289,7 @@
                     <input type="hidden" id="itemDetail" value="@item.getItemDetail()">
                 </div>
             </div>
+            }
         </div>
         </form>
     </div>
