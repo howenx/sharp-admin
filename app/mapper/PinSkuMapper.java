@@ -71,4 +71,11 @@ public interface PinSkuMapper {
      */
     void updPinThemeId(PinSku pinSku);
 
+    /**
+     * 通过阶梯价格ID获取阶梯价格       Added by Tiffany Zhu 2016.02.15
+     * @param id
+     * @return
+     */
+    PinTieredPrice getTieredPriceByTieredId(Long id);
+
 }

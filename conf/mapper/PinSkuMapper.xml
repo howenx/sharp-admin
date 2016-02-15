@@ -143,4 +143,11 @@
 
     </delete>
 
+    <select id="getTieredPriceByTieredId" parameterType="java.lang.Long" resultType="entity.pingou.PinTieredPrice">
+        select
+        <include refid="tieredPriceColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from pin_tiered_price t where id = ${value}
+    </select>
 </mapper>

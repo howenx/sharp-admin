@@ -734,5 +734,46 @@ $(function(){
         }
     })
 
+    //手动开团
+    $(document).on("click","#pinActivity-open",function(){
+        var isPost = true;
+        if($("input:radio:checked").val() == null){
+            isPost = false;
+            $('#js-userinfo-error').text('请选择阶梯价格!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+        }
+        var data = new Object();
+        data.pinId = $("#pinId").val();
+        data.tieredPriceId = $("input:radio:checked").parent().parent().find("td:eq(0)").text();
+        if(isPost){
+            $.ajax({
+                type: "POST",
+                url:  "/pin/activity/manualSave",
+                contentType:  "application/json; charset=utf-8",
+                data : JSON.stringify(data),
+                error : function(request) {
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('保存失败');
+                    } else {
+                        $('#js-userinfo-error').text('Save error');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('')", 2000);
+                },
+                success: function(data) {
+                    alert("Save Success");
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                    } else {
+                        $('#js-userinfo-error').text('Save success');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
+                    //拼购录入, 成功后返回到拼购录入页面
+                    setTimeout("location.href='/"+window.lang+"/pin/search'", 3000);
+                }
+            });
+        }
+    })
+
 })
 

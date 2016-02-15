@@ -225,7 +225,10 @@ POST            /pin/save                                                   cont
 POST            /$lang<(cn|en|kr)>/pin/save                                 controllers.PingouCtrl.pingouSave(lang)
 GET             /pin/getPinById/:id                                         controllers.PingouCtrl.getPinSkuById(lang = "cn",id:Long)
 GET             /$lang<(cn|en|kr)>/pin/getPinById/:id                       controllers.PingouCtrl.getPinSkuById(lang,id:Long)
-
+GET             /pin/activityAdd/:id                                        controllers.PingouCtrl.activityManualAdd(lang = "cn",id:Long)
+GET             /$lang<(cn|en|kr)>/pin/activityAdd/:id                      controllers.PingouCtrl.activityManualAdd(lang,id:Long)
+POST            /pin/activity/manualSave                                    controllers.PingouCtrl.activityManualSave(lang ="cn")
+POST            /$lang<(cn|en|kr)>/pin/activity/manualSave                  controllers.PingouCtrl.activityManualSave(lang)
 
 
 

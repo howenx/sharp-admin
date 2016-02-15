@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.PinActivityMapper">
+    <!--   拼购活动    -->
     <sql id="pinActivityColumns">
         ${alias}.pin_active_id,
         ${alias}.pin_url,
@@ -16,5 +17,46 @@
         ${alias}.end_at
     </sql>
 
+    <insert id="activityManualAdd" parameterType="entity.pingou.PinActivity" useGeneratedKeys="true" keyProperty="pinActiveId">
+        insert into pin_activity(pin_url,pin_id,master_user_id,person_num,pin_price,create_at,status,end_at)
+        values(#{pinUrl},#{pinId},#{masterUserId},#{personNum},#{pinPrice},CURRENT_TIMESTAMP(0),#{status},#{endAt}::timestamp)
+    </insert>
+
+    <!--   拼购活动优惠券   -->
+    <sql id="pinCouponColumns">
+        ${alias}.id,
+        ${alias}.member_coupon_end_at,
+        ${alias}.member_coupon_quota,
+        ${alias}.pin_active_id,
+        ${alias}.master_coupon,
+        ${alias}.master_coupon_class,
+        ${alias}.master_coupon_start_at,
+        ${alias}.master_coupon_end_at,
+        ${alias}.master_coupon_quota,
+        ${alias}.member_coupon,
+        ${alias}.member_coupon_class,
+        ${alias}.member_coupon_start_at
+    </sql>
+    <insert id="activityManualAddCoupon" parameterType="entity.pingou.PinCoupon" useGeneratedKeys="true" keyProperty="id">
+        insert into pin_coupon(member_coupon_end_at,member_coupon_quota,pin_active_id,master_coupon,master_coupon_class,
+                                master_coupon_start_at,master_coupon_end_at,master_coupon_quota,member_coupon,member_coupon_class,member_coupon_start_at)
+        values(#{memberCouponEndAt}::timestamp,#{memberCouponQuota},#{pinActiveId},#{masterCoupon},#{masterCouponClass},#{masterCouponStartAt}::timestamp,#{masterCouponEndAt}::timestamp,#{masterCouponQuota},
+                #{memberCoupon},#{memberCouponClass},#{memberCouponStartAt}::timestamp)
+    </insert>
+
+    <sql id="pinUserColumns">
+        ${alias}.id,
+        ${alias}.user_id,
+        ${alias}.or_master,
+        ${alias}.pin_active_id,
+        ${alias}.user_ip,
+        ${alias}.or_robot,
+        ${alias}.user_img
+    </sql>
+
+    <insert id="pinUserAdd" parameterType="entity.pingou.PinUser" useGeneratedKeys="true" keyProperty="id">
+        insert into pin_user(user_id,or_master,pin_active_id,user_ip,or_robot,user_img)
+        values(#{userId},#{orMaster},#{pinActiveId},#{userIp}::CIDR,#{orRobot},#{userImg})
+    </insert>
 
 </mapper>

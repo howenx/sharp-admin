@@ -255,7 +255,7 @@ $(function() {
                         '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 16) : '') + '</td>}' +
                         '<td>' + status + '</td>' +
                         '<td><a href="javascript:void(0)' + ' ">' + $(this)[0].activityCount + '</a></td>' +
-                        '<td><a href="javascript:void(0)' + ' ">' + '手动开团' + '</a></td>' +
+                        '<td><a href="/'+window.lang+'/pin/activityAdd/'+$(this)[0].pinId + ' ">' + '手动开团' + '</a></td>' +
                         '</tr>'
                     );
         		})

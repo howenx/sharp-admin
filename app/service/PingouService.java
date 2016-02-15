@@ -1,9 +1,7 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import entity.pingou.PinCoupon;
-import entity.pingou.PinSku;
-import entity.pingou.PinTieredPrice;
+import entity.pingou.*;
 
 import java.util.List;
 
@@ -49,5 +47,31 @@ public interface PingouService {
      * @param pinSku
      */
     void updPinThemeId(PinSku pinSku);
+
+    /**
+     * 通过阶梯价格ID获取阶梯价格       Added by Tiffany Zhu 2016.02.15
+     * @param id
+     * @return
+     */
+    PinTieredPrice getTieredPriceByTieredId(Long id);
+
+    /**
+     * 手动添加拼购活动     Added by Tiffany Zhu 2016.02.15
+     * @param pinActivity
+     */
+    void activityManualAdd(PinActivity pinActivity);
+
+    /**
+     * 手动添加拼购活动的优惠券     Added by Tiffany Zhu 2016.02.15
+     * @param pinCoupon
+     */
+    void activityManualAddCoupon(PinCoupon pinCoupon);
+
+    /**
+     * 添加拼购用户        Added by Tiffany Zhu 2016.02.15
+     * @param pinUser
+     */
+    void pinUserAdd(PinUser pinUser);
+
 
 }
