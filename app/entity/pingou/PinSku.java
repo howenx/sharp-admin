@@ -13,31 +13,22 @@ import java.sql.Timestamp;
 public class PinSku implements Serializable {
 
     private Long pinId;         //拼购ID
-    @Constraints.Required
     private String pinImg;      //生成后列表图
     private String shareUrl;    //分享短连接
-    @Constraints.Required
     private String status;      //状态
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp createAt; //创建时间
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp updateAt; //更新时间
     private String themeId;     //主题ID
-    @Constraints.Required
     private String pinTitle;    //拼购商品标题
-    @Constraints.Required
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp startAt;  //开始时间
-    @Constraints.Required
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp endAt;        //结束时间
-    @Constraints.Required
     private int restrictAmount;     //每个ID限购数量
-    @Constraints.Required
     private String floorPrice;  //拼购最低价
-    @Constraints.Required
     private Long  invId;            //库存ID
-    @Constraints.Required
     private BigDecimal pinDiscount; //拼购最低折扣
     private int activityCount;      //已开团数
 
