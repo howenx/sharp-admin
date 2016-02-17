@@ -229,8 +229,10 @@ GET             /pin/activityAdd/:id                                        cont
 GET             /$lang<(cn|en|kr)>/pin/activityAdd/:id                      controllers.PingouCtrl.activityManualAdd(lang,id:Long)
 POST            /pin/activity/manualSave                                    controllers.PingouCtrl.activityManualSave(lang ="cn")
 POST            /$lang<(cn|en|kr)>/pin/activity/manualSave                  controllers.PingouCtrl.activityManualSave(lang)
-
-
+GET             /pin/activity/search                                        controllers.PingouCtrl.pinActivitySearch(lang ="cn")
+GET             /$lang<(cn|en|kr)>/pin/activity/search                      controllers.PingouCtrl.pinActivitySearch(lang)
+POST            /pin/activity/search/$pageNum<[0-9]+>                       controllers.PingouCtrl.getPinActivityPage(lang ="cn",pageNum:Int)
+POST            /$lang<(cn|en|kr)>/pin/activity/search/$pageNum<[0-9]+>     controllers.PingouCtrl.getPinActivityPage(lang,pageNum:Int)
 
 
 

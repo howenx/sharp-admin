@@ -73,5 +73,17 @@ public interface PingouService {
      */
     void pinUserAdd(PinUser pinUser);
 
+    /**
+     * 获取全部的拼购活动        Added by Tiffany Zhu 2016.02.16
+     * @return
+     */
+    List<PinActivity> getActivityAll();
+
+    /**
+     * 拼购活动 ajax分页查询        Added by Tiffany Zhu 2016.02.16
+     * @param pinActivity
+     * @return
+     */
+    List<PinActivity> getPinActivityPage(PinActivity pinActivity);
 
 }

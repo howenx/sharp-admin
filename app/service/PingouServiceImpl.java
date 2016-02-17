@@ -210,4 +210,23 @@ public class PingouServiceImpl implements PingouService {
     public void pinUserAdd(PinUser pinUser) {
         pinActivityMapper.pinUserAdd(pinUser);
     }
+
+    /**
+     * 获取全部的拼购活动        Added by Tiffany Zhu 2016.02.16
+     * @return
+     */
+    @Override
+    public List<PinActivity> getActivityAll() {
+        return pinActivityMapper.getActivityAll();
+    }
+
+    /**
+     * 拼购活动 ajax分页查询        Added by Tiffany Zhu 2016.02.16
+     * @param pinActivity
+     * @return
+     */
+    @Override
+    public List<PinActivity> getPinActivityPage(PinActivity pinActivity) {
+        return pinActivityMapper.getPinActivityPage(pinActivity);
+    }
 }

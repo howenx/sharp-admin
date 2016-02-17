@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import entity.User;
 import entity.pingou.*;
 import filters.UserAuth;
+import play.Logger;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
@@ -367,5 +368,80 @@ public class PingouCtrl extends Controller {
             pingouService.pinUserAdd(pinUser);
         }
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
+    }
+
+    /**
+     * 拼购活动查询       Added by Tiffany Zhu 2016.02.16
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result pinActivitySearch(String lang){
+        PinActivity pinActivity = new PinActivity();
+        pinActivity.setPageSize(-1);
+        pinActivity.setOffset(-1);
+        int countNum = pingouService.getActivityAll().size();
+        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
+        if(countNum%ThemeCtrl.PAGE_SIZE != 0){
+            pageCount =  countNum/ThemeCtrl.PAGE_SIZE + 1;
+        }
+        pinActivity.setPageSize(ThemeCtrl.PAGE_SIZE);
+        pinActivity.setOffset(0);
+
+        //拼购列表
+        List<Object[]> rtnPinActivityList = new ArrayList<>();
+        List<PinActivity> pinActivityList = pingouService.getPinActivityPage(pinActivity);
+        for(PinActivity pinActivityTemp : pinActivityList){
+            Object[] object = new Object[8];
+            object[0] = pinActivityTemp.getPinActiveId();
+            object[1] = pinActivityTemp.getPinId();
+            object[2] = pinActivityTemp.getMasterUserId();
+            object[3] = pinActivityTemp.getPersonNum();
+            object[4] = pinActivityTemp.getPinPrice();
+            object[5] = pinActivityTemp.getJoinPersons();
+            object[6] = pinActivityTemp.getCreateAt();
+            object[7] = pinActivityTemp.getEndAt();
+            rtnPinActivityList.add(object);
+        }
+        return ok(views.html.pingou.activitySearch.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,rtnPinActivityList,(User) ctx().args.get("user")));
+    }
+
+    /**
+     * 拼购活动 ajax 分页查询        Added by Tiffany Zhu 2016.02.16
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result getPinActivityPage(String lang,int pageNum){
+        JsonNode json = request().body().asJson();
+        Logger.error(json.toString());
+        PinActivity pinActivity = Json.fromJson(json,PinActivity.class);
+        if(pageNum>=1){
+            //计算从第几条开始取数据
+            int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
+            pinActivity.setPageSize(-1);
+            pinActivity.setOffset(-1);
+            //取总数
+            int countNum = pingouService.getPinActivityPage(pinActivity).size();
+            //共分几页
+            int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
+
+            if(countNum%ThemeCtrl.PAGE_SIZE!=0){
+                pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
+            }
+            pinActivity.setPageSize(ThemeCtrl.PAGE_SIZE);
+            pinActivity.setOffset(offset);
+            //组装返回数据
+            Map<String,Object> returnMap=new HashMap<>();
+            returnMap.put("topic",pingouService.getPinActivityPage(pinActivity));
+            returnMap.put("pageNum",pageNum);
+            returnMap.put("countNum",countNum);
+            returnMap.put("pageCount",pageCount);
+            returnMap.put("pageSize",ThemeCtrl.PAGE_SIZE);
+            return ok(Json.toJson(returnMap));
+        }
+        else{
+            return badRequest();
+        }
     }
 }
