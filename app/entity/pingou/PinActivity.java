@@ -22,6 +22,7 @@ public class PinActivity implements Serializable {
     private String status;      //状态
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp endAt;    //截止时间
+    private String pinTitle;    //商品标题
 
     //分页,每页多少条
     private Integer pageSize;
@@ -35,7 +36,7 @@ public class PinActivity implements Serializable {
     public PinActivity() {
     }
 
-    public PinActivity(Long pinActiveId, String pinUrl, Long pinId, Long masterUserId, int personNum, BigDecimal pinPrice, int joinPersons, Timestamp createAt, String status, Timestamp endAt, Integer pageSize, Integer offset, String sort, String order) {
+    public PinActivity(Long pinActiveId, String pinUrl, Long pinId, Long masterUserId, int personNum, BigDecimal pinPrice, int joinPersons, Timestamp createAt, String status, Timestamp endAt, String pinTitle, Integer pageSize, Integer offset, String sort, String order) {
         this.pinActiveId = pinActiveId;
         this.pinUrl = pinUrl;
         this.pinId = pinId;
@@ -46,6 +47,7 @@ public class PinActivity implements Serializable {
         this.createAt = createAt;
         this.status = status;
         this.endAt = endAt;
+        this.pinTitle = pinTitle;
         this.pageSize = pageSize;
         this.offset = offset;
         this.sort = sort;
@@ -65,6 +67,7 @@ public class PinActivity implements Serializable {
                 ", createAt=" + createAt +
                 ", status='" + status + '\'' +
                 ", endAt=" + endAt +
+                ", pinTitle='" + pinTitle + '\'' +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +
@@ -150,6 +153,14 @@ public class PinActivity implements Serializable {
 
     public void setEndAt(Timestamp endAt) {
         this.endAt = endAt;
+    }
+
+    public String getPinTitle() {
+        return pinTitle;
+    }
+
+    public void setPinTitle(String pinTitle) {
+        this.pinTitle = pinTitle;
     }
 
     public Integer getPageSize() {

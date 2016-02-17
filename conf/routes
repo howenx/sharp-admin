@@ -233,8 +233,10 @@ GET             /pin/activity/search                                        cont
 GET             /$lang<(cn|en|kr)>/pin/activity/search                      controllers.PingouCtrl.pinActivitySearch(lang)
 POST            /pin/activity/search/$pageNum<[0-9]+>                       controllers.PingouCtrl.getPinActivityPage(lang ="cn",pageNum:Int)
 POST            /$lang<(cn|en|kr)>/pin/activity/search/$pageNum<[0-9]+>     controllers.PingouCtrl.getPinActivityPage(lang,pageNum:Int)
-
-
+GET             /pin/activity/geActivityById/:id                            controllers.PingouCtrl.activityDetail(lang = "cn",id:Long)
+GET             /$lang<(cn|en|kr)>/pin/activity/geActivityById/:id          controllers.PingouCtrl.activityDetail(lang,id:Long)
+POST            /pin/activity/addRobot                                      controllers.PingouCtrl.pinAddRobot(lang ="cn")
+POST            /$lang<(cn|en|kr)>/pin/activity/addRobot                    controllers.PingouCtrl.pinAddRobot(lang)
 
 
 #versiong

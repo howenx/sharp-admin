@@ -229,4 +229,43 @@ public class PingouServiceImpl implements PingouService {
     public List<PinActivity> getPinActivityPage(PinActivity pinActivity) {
         return pinActivityMapper.getPinActivityPage(pinActivity);
     }
+
+    /**
+     * 通过ID获取拼购活动       Added by Tiffany Zhu 2016.02.17
+     * @param id
+     * @return
+     */
+    @Override
+    public PinActivity getActivityById(Long id) {
+        return pinActivityMapper.getActivityById(id);
+    }
+
+    /**
+     * 通过拼购团ID获取优惠券     Added by Tiffany Zhu 2016.02.17
+     * @param id
+     * @return
+     */
+    @Override
+    public PinCoupon getCouponByActivityId(Long id) {
+        return pinActivityMapper.getCouponByActivityId(id);
+    }
+
+    /**
+     * 通过拼购团ID获取参团团员     Added by Tiffany Zhu 2016.02.17
+     * @param id
+     * @return
+     */
+    @Override
+    public List<PinUser> getUserByActivityId(Long id) {
+        return pinActivityMapper.getUserByActivityId(id);
+    }
+
+    /**
+     * 批量添加拼购团用户        Added by Tiffany Zhu 2016.02.17
+     * @param list
+     */
+    @Override
+    public void pinUserAddList(List list) {
+        pinActivityMapper.pinUserAddList(list);
+    }
 }

@@ -29,6 +29,14 @@
         from pin_activity t where 1=1
     </select>
 
+    <select id="getActivityById" parameterType="java.lang.Long" resultType="entity.pingou.PinActivity">
+        select
+        <include refid="pinActivityColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from pin_activity t where pin_active_id = ${value}
+    </select>
+
     <select id="getPinActivityPage" parameterType="entity.pingou.PinActivity" resultType="entity.pingou.PinActivity">
         select
         <include refid="pinActivityColumns">
@@ -79,6 +87,13 @@
         values(#{memberCouponEndAt}::timestamp,#{memberCouponQuota},#{pinActiveId},#{masterCoupon},#{masterCouponClass},#{masterCouponStartAt}::timestamp,#{masterCouponEndAt}::timestamp,#{masterCouponQuota},
                 #{memberCoupon},#{memberCouponClass},#{memberCouponStartAt}::timestamp)
     </insert>
+    <select id="getCouponByActivityId" parameterType="java.lang.Long" resultType="entity.pingou.PinCoupon">
+        select
+        <include refid="pinCouponColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from pin_coupon t where pin_active_id = ${value}
+    </select>
 
     <sql id="pinUserColumns">
         ${alias}.id,
@@ -94,5 +109,21 @@
         insert into pin_user(user_id,or_master,pin_active_id,user_ip,or_robot,user_img)
         values(#{userId},#{orMaster},#{pinActiveId},#{userIp}::CIDR,#{orRobot},#{userImg})
     </insert>
+
+    <insert id="pinUserAddList" parameterType="java.util.List">
+        insert into pin_user(user_id,or_master,pin_active_id,user_ip,or_robot,user_img)
+        values
+        <foreach collection="list" item="item" index="index"  separator=",">
+            (#{item.userId},#{item.orMaster},#{item.pinActiveId},#{item.userIp}::CIDR,#{item.orRobot},#{item.userImg})
+        </foreach>
+    </insert>
+
+    <select id="getUserByActivityId" parameterType="java.lang.Long" resultType="entity.pingou.PinUser">
+        select
+        <include refid="pinUserColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from pin_user t where pin_active_id = ${value}
+    </select>
 
 </mapper>

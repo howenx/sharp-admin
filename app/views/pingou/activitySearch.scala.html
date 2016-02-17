@@ -13,7 +13,7 @@
 <!-- 此为调用分页所提供的函数名前缀 -->
 <script>window.search_args = 'activitylist'</script>
 }
-@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"拼购查询")
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"拼购团查询")
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 <div class="mbread">
@@ -73,6 +73,7 @@
             <thead>
             <th>拼购团ID</th>
             <th>活动ID</th>
+            <th>商品标题</th>
             <th>发起时间</th>
             <th>截止时间</th>
             <th>团长ID</th>
@@ -85,10 +86,10 @@
             @for(pinActivity <- pinActivityList){
             <tr class = "tb-list-data">
                 <td>
-                    <a href="/@lang/pin/getPinById/@pinActivity(0)">@pinActivity(0)</a>
+                    <a href="/@lang/pin/activity/geActivityById/@pinActivity(0)">@pinActivity(0)</a>
                 </td>
                 <td>@pinActivity(1)</td>
-
+                <td>@pinActivity(8)</td>
                 <td>
                     @(pinActivity(6).toString().substring(0,16))
                 </td>

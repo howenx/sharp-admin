@@ -40,4 +40,31 @@ public interface PinActivityMapper {
      * @return
      */
     List<PinActivity> getPinActivityPage(PinActivity pinActivity);
+
+    /**
+     * 通过ID获取拼购团       Added by Tiffany Zhu 2016.02.17
+     * @param id
+     * @return
+     */
+    PinActivity getActivityById(Long id);
+
+    /**
+     * 通过拼购团ID获取优惠券     Added by Tiffany Zhu 2016.02.17
+     * @param id
+     * @return
+     */
+    PinCoupon getCouponByActivityId(Long id);
+
+    /**
+     * 通过拼购团ID获取参团团员     Added by Tiffany Zhu 2016.02.17
+     * @param id
+     * @return
+     */
+    List<PinUser> getUserByActivityId(Long id);
+
+    /**
+     * 批量添加拼购团用户        Added by Tiffany Zhu 2016.02.17
+     * @param list
+     */
+    void pinUserAddList(List list);
 }

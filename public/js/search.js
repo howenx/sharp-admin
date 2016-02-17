@@ -264,7 +264,7 @@ $(function() {
         	}
 
         //每个查询页面对应一个相应的组装函数 拼购活动查询页面      Added by Tiffany Zhu 2016.02.16
-        funcList.activitylist_search = function pinlist_search(pageIndex) {
+        funcList.activitylist_search = function activitylist_search(pageIndex) {
         	var activityDto = new Object();
         	activityDto.pinActiveId = $("#activity_id").val();
         	activityDto.pinId = $("#pin_id").val();
@@ -283,13 +283,14 @@ $(function() {
         }
 
         //每个查询页面对应一个相应的返回时填充函数 拼购活动查询页面       Added by Tiffany Zhu 2016.02.16
-        funcList.activitylist_data = function pinlist_data(data) {
+        funcList.activitylist_data = function activitylist_data(data) {
         	//填充列表数据
         	$(data).each(function(index, element) {
                 $('#tb-topic').find('tbody').append('' +
                     '<tr class="tb-list-data">' +
-                    '<td><a href="/'+window.lang+'/pin/getPinById/'+$(this)[0].pinActiveId + ' ">' + $(this)[0].pinActiveId + '</a></td>' +
+                    '<td><a href="/'+window.lang+'/pin/activity/geActivityById/'+$(this)[0].pinActiveId + ' ">' + $(this)[0].pinActiveId + '</a></td>' +
                     '<td>' + $(this)[0].pinId + '</td>' +
+                    '<td>' + $(this)[0].pinTitle + '</td>' +
                     '<td>' + ($(this)[0].createAt != null && $(this)[0].createAt != '' ? $(this)[0].createAt.substr(0, 16) : '') + '</td>}' +
                     '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 16) : '') + '</td>}' +
                     '<td>' + $(this)[0].masterUserId + '</td>' +
