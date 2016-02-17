@@ -54,6 +54,7 @@ public class Inventory implements Serializable{
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp endAt;         //下架时间
     private Boolean orVaryPrice;     //是否存在多样化价格
+    private String invCode;          //货号
 
     //分页,每页多少条
     private Integer pageSize;
@@ -109,6 +110,7 @@ public class Inventory implements Serializable{
                 ", startAt=" + startAt +
                 ", endAt=" + endAt +
                 ", orVaryPrice=" + orVaryPrice +
+                ", invCode='" + invCode + '\'' +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +
@@ -405,6 +407,14 @@ public class Inventory implements Serializable{
         this.orVaryPrice = orVaryPrice;
     }
 
+    public String getInvCode() {
+        return invCode;
+    }
+
+    public void setInvCode(String invCode) {
+        this.invCode = invCode;
+    }
+
     public Integer getPageSize() {
         return pageSize;
     }
@@ -445,7 +455,7 @@ public class Inventory implements Serializable{
         this.skuNum = skuNum;
     }
 
-    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, String themeId, String shareUrl, Integer shareCount, Integer collectCount, Integer browseCount, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxRate, String postalTaxCode, Integer invWeight, String carriageModelCode, String recordCode, Timestamp startAt, Timestamp endAt, Boolean orVaryPrice, Integer pageSize, Integer offset, String sort, String order, Integer skuNum) {
+    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, String themeId, String shareUrl, Integer shareCount, Integer collectCount, Integer browseCount, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxRate, String postalTaxCode, Integer invWeight, String carriageModelCode, String recordCode, Timestamp startAt, Timestamp endAt, Boolean orVaryPrice, String invCode, Integer pageSize, Integer offset, String sort, String order, Integer skuNum) {
 
         this.id = id;
         this.itemId = itemId;
@@ -483,6 +493,7 @@ public class Inventory implements Serializable{
         this.startAt = startAt;
         this.endAt = endAt;
         this.orVaryPrice = orVaryPrice;
+        this.invCode = invCode;
         this.pageSize = pageSize;
         this.offset = offset;
         this.sort = sort;

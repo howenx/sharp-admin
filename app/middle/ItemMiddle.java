@@ -67,12 +67,13 @@ public class ItemMiddle {
 //            Logger.error(item.toString());
             //更新商品信息
             if (jsonItem.has("id")) {
+                Item originItem = itemService.getItem(item.getId());
+                item.setOrDestroy(originItem.getOrDestroy());
                 itemService.itemUpdate(item);
                 //数据录入data_log表
                 Long itemId = item.getId();
                 dataLog.setOperateType("修改商品");
                 dataLog.setLogContent("修改商品"+itemId);
-                Item originItem = itemService.getItem(itemId);
                 List<Inventory> originInv = inventoryService.getInventoriesByItemId(itemId);
                 List<VaryPrice> originVP = new ArrayList<>();
                 for(Inventory inventory : originInv) {
@@ -118,6 +119,14 @@ public class ItemMiddle {
 //                Logger.error(inventory.toString());
                     //更新库存信息
                     if (jsonInv.has("id")) {
+                        Inventory originInv = inventoryService.getInventory(inventory.getId());
+                        inventory.setSoldAmount(originInv.getSoldAmount());
+                        inventory.setOrDestroy(originInv.getOrDestroy());
+                        inventory.setState(originInv.getState());
+                        inventory.setInvTitle(originInv.getInvTitle());
+                        inventory.setShareCount(originInv.getShareCount());
+                        inventory.setCollectCount(originInv.getCollectCount());
+                        inventory.setBrowseCount(originInv.getBrowseCount());
                         inventoryService.updateInventory(inventory);
                     }
                     //录入库存信息
@@ -144,6 +153,8 @@ public class ItemMiddle {
                         varyPrice.setStatus("Y");
                         //更新多样化价格信息
                         if (varyPriceNode.has("id")) {
+                            VaryPrice originVp = varyPriceService.getVaryPriceById(varyPrice.getId());
+                            varyPrice.setSoldAmount(originVp.getSoldAmount());
                             varyPriceService.updateVaryPrice(varyPrice);
                         }
                         else {

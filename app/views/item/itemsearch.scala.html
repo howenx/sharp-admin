@@ -88,6 +88,8 @@
                     <th>SKU ID <span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
                     <th>SKU 标题</th>
                     <th>主图</th>
+                    <th>颜色</th>
+                    <th>尺寸</th>
                     <th>上架时间</th>
                     <th>下架时间</th>
                     <th>剩余库存</th>
@@ -104,6 +106,8 @@
                         <td>
                             <img class="main-img" src='@url@inv.getInvImg().substring(1,inv.getInvImg().length-1).split(",")(0).substring(7,inv.getInvImg().substring(1,inv.getInvImg().length-1).split(",")(0).length-1)' alt="" width="50">
                         </td>
+                        <td>@inv.getItemColor()</td>
+                        <td>@inv.getItemSize()</td>
                         @if(inv.getStartAt()!=null){<td>@(inv.getStartAt().toString().substring(0,16))</td>}
                         @if(inv.getEndAt()!=null){<td>@(inv.getEndAt().toString().substring(0,16))</td>}
                         <td>@inv.getRestAmount()</td>

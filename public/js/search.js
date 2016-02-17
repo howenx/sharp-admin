@@ -130,6 +130,8 @@ $(function() {
                 '<td>' +
                 '<img class="main-img" src="' + window.url + $(this)[0].invImg.substring(1,$(this)[0].invImg.length-1).split(",")[0].substring(7,$(this)[0].invImg.substring(1,$(this)[0].invImg.length-1).split(",")[0].length-1) + '" alt="" width="50">' +
                 '</td>' +
+                '<td>' + $(this)[0].itemColor + '</td>' +
+                '<td>' + $(this)[0].itemSize + '</td>' +
                 '<td>' + ($(this)[0].startAt != null && $(this)[0].startAt != '' ? $(this)[0].startAt.substr(0, 16) : '') + '</td>}' +
                 '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 16) : '') + '</td>}' +
                 '<td>' + $(this)[0].restAmount + '</td>' +
