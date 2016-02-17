@@ -23,6 +23,9 @@ public class PinActivity implements Serializable {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp endAt;    //截止时间
     private String pinTitle;    //商品标题
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    private Timestamp joinAt;   //参团时间
+    private int persons;
 
     //分页,每页多少条
     private Integer pageSize;
@@ -36,7 +39,7 @@ public class PinActivity implements Serializable {
     public PinActivity() {
     }
 
-    public PinActivity(Long pinActiveId, String pinUrl, Long pinId, Long masterUserId, int personNum, BigDecimal pinPrice, int joinPersons, Timestamp createAt, String status, Timestamp endAt, String pinTitle, Integer pageSize, Integer offset, String sort, String order) {
+    public PinActivity(Long pinActiveId, String pinUrl, Long pinId, Long masterUserId, int personNum, BigDecimal pinPrice, int joinPersons, Timestamp createAt, String status, Timestamp endAt, String pinTitle, Timestamp joinAt, int persons, Integer pageSize, Integer offset, String sort, String order) {
         this.pinActiveId = pinActiveId;
         this.pinUrl = pinUrl;
         this.pinId = pinId;
@@ -48,6 +51,8 @@ public class PinActivity implements Serializable {
         this.status = status;
         this.endAt = endAt;
         this.pinTitle = pinTitle;
+        this.joinAt = joinAt;
+        this.persons = persons;
         this.pageSize = pageSize;
         this.offset = offset;
         this.sort = sort;
@@ -68,6 +73,8 @@ public class PinActivity implements Serializable {
                 ", status='" + status + '\'' +
                 ", endAt=" + endAt +
                 ", pinTitle='" + pinTitle + '\'' +
+                ", joinAt=" + joinAt +
+                ", persons=" + persons +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +
@@ -161,6 +168,22 @@ public class PinActivity implements Serializable {
 
     public void setPinTitle(String pinTitle) {
         this.pinTitle = pinTitle;
+    }
+
+    public Timestamp getJoinAt() {
+        return joinAt;
+    }
+
+    public void setJoinAt(Timestamp joinAt) {
+        this.joinAt = joinAt;
+    }
+
+    public int getPersons() {
+        return persons;
+    }
+
+    public void setPersons(int persons) {
+        this.persons = persons;
     }
 
     public Integer getPageSize() {

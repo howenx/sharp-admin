@@ -11,7 +11,7 @@
         ${alias}.master_user_id,
         ${alias}.person_num,
         ${alias}.pin_price,
-        (select count(*) from pin_user pu where pu.pin_active_id =  t.pin_active_id) as join_persons,
+        ${alias}.join_persons,
         ${alias}.create_at,
         ${alias}.status,
         ${alias}.end_at
@@ -102,19 +102,20 @@
         ${alias}.pin_active_id,
         ${alias}.user_ip,
         ${alias}.or_robot,
-        ${alias}.user_img
+        ${alias}.user_img,
+        ${alias}.join_at
     </sql>
 
     <insert id="pinUserAdd" parameterType="entity.pingou.PinUser" useGeneratedKeys="true" keyProperty="id">
-        insert into pin_user(user_id,or_master,pin_active_id,user_ip,or_robot,user_img)
-        values(#{userId},#{orMaster},#{pinActiveId},#{userIp}::CIDR,#{orRobot},#{userImg})
+        insert into pin_user(user_id,or_master,pin_active_id,user_ip,or_robot,join_at)
+        values(#{userId},#{orMaster},#{pinActiveId},#{userIp}::CIDR,#{orRobot},CURRENT_TIMESTAMP(0))
     </insert>
 
     <insert id="pinUserAddList" parameterType="java.util.List">
-        insert into pin_user(user_id,or_master,pin_active_id,user_ip,or_robot,user_img)
+        insert into pin_user(user_id,or_master,pin_active_id,user_ip,or_robot,join_at)
         values
         <foreach collection="list" item="item" index="index"  separator=",">
-            (#{item.userId},#{item.orMaster},#{item.pinActiveId},#{item.userIp}::CIDR,#{item.orRobot},#{item.userImg})
+            (#{item.userId},#{item.orMaster},#{item.pinActiveId},#{item.userIp}::CIDR,#{item.orRobot},CURRENT_TIMESTAMP(0))
         </foreach>
     </insert>
 

@@ -318,6 +318,12 @@ public class PingouCtrl extends Controller {
         return ok(views.html.pingou.activityManualAdd.render(lang,pinSku,tieredList,(User) ctx().args.get("user")));
     }
 
+    /**
+     * 手动开团     Added by Tiffany Zhu 2016.02.15
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
     public Result activityManualSave(String lang){
         JsonNode json = request().body().asJson();
         PinSku pinSku = new PinSku();
@@ -413,13 +419,14 @@ public class PingouCtrl extends Controller {
         List<PinActivity> pinActivityList = pingouService.getPinActivityPage(pinActivity);
         for(PinActivity pinActivityTemp : pinActivityList){
             PinSku pinSku = pingouService.getPinSkuById(pinActivityTemp.getPinId());
+            List<PinUser> pinUserList = pingouService.getUserByActivityId(pinActivityTemp.getPinActiveId());
             Object[] object = new Object[9];
             object[0] = pinActivityTemp.getPinActiveId();
             object[1] = pinActivityTemp.getPinId();
             object[2] = pinActivityTemp.getMasterUserId();
             object[3] = pinActivityTemp.getPersonNum();
             object[4] = pinActivityTemp.getPinPrice();
-            object[5] = pinActivityTemp.getJoinPersons();
+            object[5] = pinUserList.size();
             object[6] = pinActivityTemp.getCreateAt();
             object[7] = pinActivityTemp.getEndAt();
             object[8] = pinSku.getPinTitle();
@@ -458,7 +465,9 @@ public class PingouCtrl extends Controller {
             List<PinActivity> rtnList = new ArrayList<>();
             for(PinActivity pinActivityTemp : activityList){
                 PinSku pinSku = pingouService.getPinSkuById(pinActivityTemp.getPinId());
+                List<PinUser> pinUserList = pingouService.getUserByActivityId(pinActivityTemp.getPinActiveId());
                 pinActivityTemp.setPinTitle(pinSku.getPinTitle());
+                pinActivityTemp.setJoinPersons(pinUserList.size());
                 rtnList.add(pinActivityTemp);
             }
             //组装返回数据
