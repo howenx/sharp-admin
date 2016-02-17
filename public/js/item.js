@@ -53,23 +53,8 @@ $(function(){
         });
     });
 
+    //修改页面二级类别列表加载数据
     if ($("#itemId").val() != "") {
-        //修改主图和预览图所在div的id值,修改页面使用
-//        var upInv = document.getElementById("inventory");
-//        var uptrs = inventory.getElementsByTagName("tr");
-//        for(i=1;i<uptrs.length;i++) {
-//            var uptds = uptrs[i].getElementsByTagName("td");
-//            uptds[11].getElementsByTagName("select")[0].id = i;
-//            uptds[16].id = "rec"+i;
-//            uptds[17].getElementsByTagName("div")[0].id = "galleryM"+i;
-//            uptds[17].getElementsByTagName("span")[0].id = "masterImgAddM"+i;
-//            uptds[17].getElementsByTagName("input")[0].id = "M"+i;
-//            uptds[18].getElementsByTagName("div")[0].id = "galleryP"+i;
-//            uptds[18].getElementsByTagName("span")[0].id = "preImgAddP"+i;
-//            uptds[18].getElementsByTagName("input")[0].id = "P"+i;
-//        }
-
-        //修改页面二级类别列表加载数据
         var pcid = $("#categorySelect").val();
         $.ajax({
             type: "get",
@@ -350,31 +335,33 @@ $(function(){
             if (tds[0].getElementsByTagName("input")[0].checked==true)    orMasterInv = true;
             var itemColor = tds[1].innerHTML;
             var itemSize = tds[2].innerHTML;
-            var startAt = tds[3].innerHTML;
-            var endAt = tds[4].innerHTML;
-            var itemPrice = tds[5].innerHTML;
-            var itemSrcPrice = tds[6].innerHTML;
-            var itemCostPrice = tds[7].innerHTML;
-            var itemDiscount = tds[8].innerHTML;
-            var invWeight = tds[9].innerHTML;
-            var restrictAmount = tds[10].innerHTML;
-            var amount = tds[11].innerHTML;
-            var restAmount = tds[12].innerHTML;
-            var carriageModelCode = tds[13].innerHTML;
-            var invArea = tds[14].innerHTML;
-            var invCustoms = tds[15].innerHTML;
-            var postalTaxRate = tds[17].innerHTML;
-            var postalTaxCode = tds[18].innerHTML;
-            var recordHZ = tds[19].innerHTML;
-            var recordGZ = tds[20].innerHTML;
-            var recordSH = tds[21].innerHTML;
+            var invCode = tds[3].innerHTML;
+            var startAt = tds[4].innerHTML;
+            var endAt = tds[5].innerHTML;
+            var itemPrice = tds[6].innerHTML;
+            var itemSrcPrice = tds[7].innerHTML;
+            var itemCostPrice = tds[8].innerHTML;
+            var itemDiscount = tds[9].innerHTML;
+            var invWeight = tds[10].innerHTML;
+            var restrictAmount = tds[11].innerHTML;
+            var amount = tds[12].innerHTML;
+            var restAmount = tds[13].innerHTML;
+            var carriageModelCode = tds[14].innerHTML;
+            var invArea = tds[15].innerHTML;
+            var invCustoms = tds[16].innerHTML;
+            var postalTaxRate = tds[18].innerHTML;
+            var postalTaxCode = tds[19].innerHTML;
+            var recordHZ = tds[20].innerHTML;
+            var recordGZ = tds[21].innerHTML;
+            var recordSH = tds[22].innerHTML;
             var recordCode = {};
             if(recordHZ!="") recordCode["hangzhou"] = recordHZ;
             if(recordGZ!="") recordCode["guangzhou"] = recordGZ;
             if(recordSH!="") recordCode["shanghai"] = recordSH;
-            var invImg = tds[22].innerHTML;
-            var itemPreviewImgs = tds[23].innerHTML;
-            var orVaryPrice = tds[24].innerHTML;
+            var invImg = tds[23].innerHTML;
+            var itemPreviewImgs = tds[24].innerHTML;
+            var orVaryPrice = tds[25].innerHTML;
+            var invId = tds[27].innerHTML;
             //拼装成一条数据
             var invData = new Object();
             var inventory = new Object();
@@ -382,6 +369,7 @@ $(function(){
             inventory.orMasterInv = orMasterInv;
             inventory.itemColor = itemColor;
             inventory.itemSize = itemSize;
+            inventory.invCode = invCode;
             inventory.startAt = startAt;
             inventory.endAt = endAt;
             inventory.itemPrice = itemPrice;
@@ -403,21 +391,25 @@ $(function(){
             inventory.invImg = invImg;
             inventory.itemPreviewImgs = itemPreviewImgs;
             inventory.orVaryPrice = orVaryPrice;
+            if (invId!=null && invId !=""  && divId =="submitItem") {
+                inventory.id = invId;
+            }
             invData.inventory = inventory;
             if (orVaryPrice) {
-                var vp_arr = tds[25].innerHTML.split(",");
+                var vp_arr = tds[26].innerHTML.split(",");
                 for(v=0;v<vp_arr.length;v++) {
-                    if (v%2==0) {
+                    if (v%3==0) {
                         var varyPrice = new Object();
-                        varyPrice.price = vp_arr[v];
-                        varyPrice.limitAmount = vp_arr[v+1];
+                        if (vp_arr[v]!="" && vp_arr[v]!=null && divId =="submitItem") {
+                            varyPrice.id = vp_arr[v];
+                        }
+                        varyPrice.price = vp_arr[v+1];
+                        varyPrice.limitAmount = vp_arr[v+2];
                         varyPrices.push(varyPrice);
                     }
                 }
                 invData.varyPrices = varyPrices;
             }
-
-
 //            if (tds[20].getElementsByTagName("input")[0].value != "" && divId =="submitItem") {
 //                inventory.id = tds[20].getElementsByTagName("input")[0].value;
 //                inventory.state = tds[19].getElementsByTagName("select")[0].value;
@@ -438,20 +430,17 @@ $(function(){
         if ($(".pic").is(":checked")) {
             item.itemDetailImgs = itemDetailImgs;
             item.itemNotice = itemNotice;
+//            item.itemDetail = "";
         }
         if ($(".edit").is(":checked")) {
+//            item.itemDetailImgs = null;
+//            item.itemNotice = "";
             item.itemDetail = itemDetail;
         }
 
-//        if ($("#itemId").val() != "" && divId=="submitItem") {
-//            item.id = $("#itemId").val();
-//            item.shareCount = $("#shareCount").val();
-//            item.collectCount = $("#collectCount").val();
-//            item.browseCount = $("#browseCount").val();
-//            item.orDestroy = $("#orDestroy").val();
-//            item.themeId = $("#themeId").val();
-//            item.state = $("#state").val();
-//        }
+        if ($("#itemId").val()!="" && $("#itemId").val()!=null && divId=="submitItem") {
+            item.id = $("#itemId").val();
+        }
 
         itemData.item = item;
         itemData.inventories = inventories;

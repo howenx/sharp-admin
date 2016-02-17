@@ -60,6 +60,7 @@ function Init () {
         if (sizeCount>$(".size").find("input").size()) {
             $("<label class='radio-inline'>").html('<input type="radio" name="itemSize" checked="checked" value="'+skuObj.itemSize+'" /> <span>'+skuObj.itemSize+'</span>').appendTo($(".size"));
         }
+        $("#invCode").val(skuObj.invCode);
         $("#startAt").val(skuObj.startAt);
         $("#endAt").val(skuObj.endAt);
         $("#itemPrice").val(skuObj.itemPrice);
@@ -108,23 +109,31 @@ function Init () {
         }
         if (itemPreviewImgs.length==6) $("#P").parent().css("display","none");
         //填充多样化价格
-        $("#openVaryPrice").attr("checked",skuObj.orVaryPrice);
-        if (skuObj.orVaryPrice==false) {
-            $(".guige").removeClass("block");
+        if (skuObj.orVaryPrice=="false") {
+            $("#openVaryPrice").attr("checked",false);
         }
-        var varyPriceArr = skuObj.varyPrice.split(",");
-        var priceAmountData = document.getElementById("varyPriceTab").getElementsByTagName("input");
-        for(v=0;v<varyPriceArr.length;v++) {
-            if (v<=1)
-                priceAmountData[v].value = varyPriceArr[v];
-            if (v>1 && v%2==0)
-                $("<tr>").html('<td><input type="text" name="price" value="'+varyPriceArr[v]+'"></td><td><input type="text" name="limitAmount" value="'+varyPriceArr[v+1]+'"></td><td class="del delTr">删除</td>').appendTo($(".guige"));
+        if (skuObj.orVaryPrice=="true") {
+            $("#openVaryPrice").attr("checked",true);
+            $(".guige").addClass("block");
+            var varyPriceArr = skuObj.varyPrice.split(",");
+            var priceAmountData = document.getElementById("varyPriceTab").getElementsByTagName("input");
+            for(v=0;v<varyPriceArr.length;v++) {
+                if (v<=2)
+                    priceAmountData[v].value = varyPriceArr[v];
+                if (v>2 && v%3==0)
+                    $("<tr>").html('<td><input type="text" name="vpId" value="'+varyPriceArr[v]+'"></td><td><input type="text" name="price" value="'+varyPriceArr[v+1]+'"></td><td><input type="text" name="limitAmount" value="'+varyPriceArr[v+2]+'"></td><td class="del delTr">删除</td>').appendTo($(".guige"));
+            }
         }
+        $("#invId").val(skuObj.invId);
+        $(".delTr").text("");
+        $(".delTr").css('cursor','default');
+        $(".delTr").removeClass("delTr");
     }
 }
 
 /***** 保存当前按钮功能 ******/
 function saveCurr() {
+    var btn = window.event.srcElement;
     var orSave = true;
     var numberReg1 =    /^-?\d+$/;   //正整数
     var numberReg2 =    /^-?\d+\.?\d{0,2}$/; //整数或两位小数
@@ -136,6 +145,7 @@ function saveCurr() {
     var trdobj = {};
     var itemColor = $("input[name=itemColor]:checked").val();//颜色
     var itemSize = $("input[name=itemSize]:checked").val();//尺寸
+    var invCode = $("#invCode").val();//规格编号
     var startAt = $("#startAt").val();//开始时间
     var endAt =  $("#endAt").val();//结束时间;
     var itemPrice = $("#itemPrice").val();//现价;
@@ -236,6 +246,7 @@ function saveCurr() {
 
     trdobj.itemColor = itemColor;
     trdobj.itemSize = itemSize;
+    trdobj.invCode = invCode;
     trdobj.startAt = startAt;
     trdobj.endAt = endAt;
     trdobj.itemPrice = itemPrice;
@@ -259,8 +270,9 @@ function saveCurr() {
     trdobj.itemPreviewImgs = JSON.stringify(itemPreviewImgs);
     //多样化价格
     if ($("#openVaryPrice").is(":checked")) {
-        trdobj.openVaryPrice = true;
+        trdobj.openVaryPrice = "true";
         var varyPrice = [];
+        var vpId = document.getElementsByName("vpId");
         var price = document.getElementsByName("price");
         var limitAmount = document.getElementsByName("limitAmount");
         for(i=0;i<price.length;i++) {
@@ -268,15 +280,20 @@ function saveCurr() {
                 orSave = false;
                 $("#warn-vary-price").text("多样化价格数据不正确");
             } else $("#warn-vary-price").text("");
+            varyPrice.push(vpId[i].value);
             varyPrice.push(price[i].value);
             varyPrice.push(limitAmount[i].value);
         }
         trdobj.varyPrice = varyPrice.toString();
     }
     else {
-        trdobj.openVaryPrice = false;
+        trdobj.openVaryPrice = "false";
         trdobj.varyPrice = "";
     }
+    var invId = $("#invId").val();//sku id
+    trdobj.invId = invId;
+
+    console.log(trdobj);
     $("<td>").html('<input type="radio" name="orMasterInv" checked="checked" class="master-radio"/>').appendTo(trd);
     var count = 0;
     //行数据,其余的隐藏
@@ -304,6 +321,9 @@ function saveCurr() {
     }
     sharedObject.trd = trd;
     sharedObject.index = $("#index").val();
+    if(btn.className.indexOf("saveNew")>0) {
+        sharedObject.index = "";
+    }
     console.log(orSave);
     if (true) {
         if (window.showModalDialog) {
@@ -313,6 +333,11 @@ function saveCurr() {
             window.opener.UpdateFields(sharedObject);
         }
     }
+}
+
+/**** 存为新规格 ****/
+function saveNew() {
+    saveCurr();
 }
 
 /**** 保存并关闭按钮功能 ****/
@@ -523,7 +548,7 @@ $(function(){
         var price = document.getElementsByName("price");
         var len = price.length;
         if (varyPriceTab.getElementsByTagName("tr").length>1 && limitAmount[len-1].value!="" && price[len-1].value!="" ) {
-            var trHtml = '<td><input type="text" name="price"></td><td><input type="text" name="limitAmount"></td><td class="del delTr">删除</td>';
+            var trHtml = '<td><input type="text" name="vpId"></td><td><input type="text" name="price"></td><td><input type="text" name="limitAmount"></td><td class="del delTr">删除</td>';
             $("<tr>").html(trHtml).appendTo($(".guige"));
         }
     });

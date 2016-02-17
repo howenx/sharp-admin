@@ -66,6 +66,13 @@
                 </div>
             </div>
             <div class="form-group">
+                <!--sku编号 -->
+                <label class="col-sm-2 control-label thval">规格编号</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="invCode" name="invCode">
+                </div>
+            </div>
+            <div class="form-group">
                 <!-- 销售期限 -->
                 <label class="col-sm-2 control-label l-pad thval">上架时间</label>
                 <div class="col-sm-2" style="padding-right: 0; width:212px;">
@@ -231,19 +238,21 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10" style="height:22px;">
                     <label class="thval">
-                        <input type="checkbox" class="YN" id="openVaryPrice" checked> 开启多样化价格
+                        <input type="checkbox" class="YN" id="openVaryPrice"> 开启多样化价格
                         <span id="warn-vary-price" style="color:red;font-weight:200; margin-left:10px;"></span>
                     </label>
                 </div>
                 <label class="thval" style="display:none;">多样化价格</label>
                 <div class="col-sm-offset-2 col-sm-10">
-                    <table class="table table-bordered qubian guige block" id="varyPriceTab">
+                    <table class="table table-bordered qubian guige" id="varyPriceTab">
                         <tr>
+                            <th style="display:none;">多样化价格id</th>
                             <th>销售价格</th>
                             <th>限制销售量</th>
                             <th class="addTr add">添加</th>
                         </tr>
                         <tr>
+                            <td style="display:none;"><input type="text" name="vpId"></td>
                             <td><input type="text" name="price"></td>
                             <td><input type="text" name="limitAmount"></td>
                             <td class="delTr del">删除</td>
@@ -251,12 +260,20 @@
                     </table>
                 </div>
             </div>
+            <!--sku id-->
+            <div class="form-group" style="display:none;">
+                <label class="col-sm-2 control-label thval">skuId</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="invId" name="invId">
+                </div>
+            </div>
             <div class="form-group">
                 <!-- 保存 -->
                 <div class="col-sm-offset-2 col-sm-8" style="text-align:center;">
-                    <button type="button" class="btn btn-primary" onclick="saveClose()" style="margin:auto;">保存并关闭</button>
                     <button type="button" class="btn btn-primary" onclick="saveCurr()" style="margin-left:20px;">保存当前</button>
-                    <button type="button" class="btn btn-primary" id="return" style="margin-left:20px;">关闭窗口</button>
+                    <button type="button" class="btn btn-primary saveNew" onclick="saveNew()" style="margin-left:20px;">存为新规格</button>
+                    <button type="button" class="btn btn-primary" onclick="saveClose()" style="margin-left:20px;">保存并关闭</button>
+                    <button id="return" type="button" class="btn btn-primary" style="margin-left:20px;">关闭窗口</button>
                 </div>
             </div>
         </form>

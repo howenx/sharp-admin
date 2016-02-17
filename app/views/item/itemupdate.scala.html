@@ -34,29 +34,31 @@
             trData.find("td").each(function(){
                 if (count==1) skuObj.itemColor = $(this).text();
                 if (count==2) skuObj.itemSize = $(this).text();
-                if (count==3) skuObj.startAt = $(this).text();
-                if (count==4) skuObj.endAt = $(this).text();
-                if (count==5) skuObj.itemPrice = $(this).text();
-                if (count==6) skuObj.itemSrcPrice = $(this).text();
-                if (count==7) skuObj.itemCostPrice = $(this).text();
-                if (count==8) skuObj.itemDiscount = $(this).text();
-                if (count==9) skuObj.invWeight = $(this).text();
-                if (count==10) skuObj.restrictAmount = $(this).text();
-                if (count==11) skuObj.amount = $(this).text();
-                if (count==12) skuObj.restAmount = $(this).text();
-                if (count==13) skuObj.carriageModelCode = $(this).text();
-                if (count==14) skuObj.invArea = $(this).text();
-                if (count==15) skuObj.invCustoms = $(this).text();
-                if (count==16) skuObj.rateSet = $(this).text();
-                if (count==17) skuObj.postalTaxRate = $(this).text();
-                if (count==18) skuObj.postalTaxCode = $(this).text();
-                if (count==19) skuObj.recordHZ = $(this).text();
-                if (count==20) skuObj.recordGZ = $(this).text();
-                if (count==21) skuObj.recordSH = $(this).text();
-                if (count==22) skuObj.invImg = $(this).text();
-                if (count==23) skuObj.itemPreviewImgs = $(this).text();
-                if (count==24) skuObj.orVaryPrice = $(this).text();
-                if (count==25) skuObj.varyPrice = $(this).text();
+                if (count==3) skuObj.invCode = $(this).text();
+                if (count==4) skuObj.startAt = $(this).text();
+                if (count==5) skuObj.endAt = $(this).text();
+                if (count==6) skuObj.itemPrice = $(this).text();
+                if (count==7) skuObj.itemSrcPrice = $(this).text();
+                if (count==8) skuObj.itemCostPrice = $(this).text();
+                if (count==9) skuObj.itemDiscount = $(this).text();
+                if (count==10) skuObj.invWeight = $(this).text();
+                if (count==11) skuObj.restrictAmount = $(this).text();
+                if (count==12) skuObj.amount = $(this).text();
+                if (count==13) skuObj.restAmount = $(this).text();
+                if (count==14) skuObj.carriageModelCode = $(this).text();
+                if (count==15) skuObj.invArea = $(this).text();
+                if (count==16) skuObj.invCustoms = $(this).text();
+                if (count==17) skuObj.rateSet = $(this).text();
+                if (count==18) skuObj.postalTaxRate = $(this).text();
+                if (count==19) skuObj.postalTaxCode = $(this).text();
+                if (count==20) skuObj.recordHZ = $(this).text();
+                if (count==21) skuObj.recordGZ = $(this).text();
+                if (count==22) skuObj.recordSH = $(this).text();
+                if (count==23) skuObj.invImg = $(this).text();
+                if (count==24) skuObj.itemPreviewImgs = $(this).text();
+                if (count==25) skuObj.orVaryPrice = $(this).text();
+                if (count==26) skuObj.varyPrice = $(this).text();
+                if (count==27) skuObj.invId = $(this).text();
                 count++;
             });
             sharedObject.skuObj = skuObj;
@@ -75,13 +77,12 @@
         }
     }
 
-    var table = $("#inventory");
-
     function UpdateFields(obj){
+        var table = $("#inventory");
         //编辑修改
         if (obj.index!="") {
             var index = obj.index;
-            var trIndex = table.find("tr").eq(index).html("");
+            var trIndex = $(table).find("tr").eq(index).html("");
             var objTrd = $(obj.trd).find("td");
             for(var i=0;i<objTrd.length;i++) {
                 $(objTrd[i]).appendTo(trIndex);
@@ -143,11 +144,6 @@
         <form class="form-horizontal" method="post"   enctype="multipart/form-data">
             <div class="upinfo">
                 <input type="hidden" id="itemId" name="itemId" value="@item.getId()"/>
-                <input type="hidden" id="shareCount" name="shareCount" value="@item.getShareCount()"/>
-                <input type="hidden" id="collectCount" name="collectCount" value="@item.getCollectCount()"/>
-                <input type="hidden" id="browseCount" name="browseCount" value="@item.getBrowseCount()"/>
-                <input type="hidden" id="orDestroy" name="orDestroy" value="@item.getOrDestroy()"/>
-                <input type="hidden" id="themeId" name="themeId" value="@item.getThemeId()"/>
                 <!-- 商品基本信息 -->
                 <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.basics")</h4>
                 <div class="form-group">
@@ -210,6 +206,7 @@
                                     <th>设为主商品</th>
                                     <th>颜色</th>
                                     <th>尺寸</th>
+                                    <th>规格编号</th>
                                     <th>上架时间</th>
                                     <th>下架时间</th>
                                     <th>现价</th>
@@ -233,15 +230,15 @@
                                     <th>预览图</th>
                                     <th>开启多样化价格</th>
                                     <th>多样化价格</th>
+                                    <th>skuId</th>
                                     <th>修改</th>
                                 </tr>
                                 @for(obj <-  invList) {
                                 <tr>
-                                    <input type="hidden" name="invId" value="@obj(0)"/>
-                                    <input type="hidden" name="itemId" value="@obj(1)"/>
                                     <td><input type="radio" name="orMasterInv" class="master-radio" checked="checked" value="@obj(2)"/></td>
                                     <td>@obj(3)</td>
                                     <td>@obj(4)</td>
+                                    <td>@obj(27)</td>
                                     <td>@obj(5)</td>
                                     <td>@obj(6)</td>
                                     <td>@obj(7)</td>
@@ -267,9 +264,9 @@
                                     <td>@obj(24)</td>
                                     <td>@obj(25)</td>
                                     <td>@obj(26)</td>
+                                    <td>@obj(0)</td>
                                     <td class="trEdit">
                                         <span onclick="ShowModal(this)">编辑</span>
-                                        <span class="delTr">删除</span>
                                     </td>
                                 </tr>
                                 }
@@ -322,16 +319,28 @@
                     <label class="col-sm-1 control-label">详情信息</label>
                     <div class="col-sm-3">
                         <div>
+                            @if(item.getItemDetailImgs()!=null&&item.getItemDetail()==null) {
                             <label class="radio-inline">
                                 <input type="radio" name="detail-info" class="pic" value="" checked> <span>图片</span>
                             </label>
                             <label class="radio-inline">
                                 <input type="radio" name="detail-info" class="edit" value=""> <span>编辑器</span>
                             </label>
+                            }
+                            @if(item.getItemDetailImgs()==null&&item.getItemDetail()!=null) {
+                            <label class="radio-inline">
+                                <input type="radio" name="detail-info" class="pic" value=""> <span>图片</span>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="detail-info" class="edit" value="" checked> <span>编辑器</span>
+                            </label>
+                            }
                         </div>
                     </div>
                 </div>
-                <div class="form-group pic-info" style="display:block;">
+                <!--详细信息为图片-->
+                @if(item.getItemDetailImgs()!=null && item.getItemDetailImgs()!="") {
+                <div class="form-group pic-info">
                     <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
                     <div class="col-sm-7">
                         <div class="detail-img" style="border:1px solid #ccc;">
@@ -352,21 +361,51 @@
                         <div id="warn-detailImg" style="color:red;margin-left:700px;width:120px;margin-top:-50px;margin-bottom:50px;"></div>
                     </div>
                 </div>
-                <div class="form-group pic-info" style="display:block;">
+                <div class="form-group pic-info">
                     <label class="col-sm-1 control-label" ><div class="r">重要通告</div></label>
                     <div class="col-sm-7">
-                        <textarea rows="6"  class="form-control" id="itemNotice" name="itemNotice"  readonly>@item.getItemNotice()</textarea>
+                        <textarea rows="6"  class="form-control" id="itemNotice" name="itemNotice">@item.getItemNotice()</textarea>
                     </div>
                 </div>
                 <div class="form-group edit-info" style="display:none;">
                     <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">商品详情</div></label>
-                    <span onclick="setContent(false)">写入内容</span>
+                    <div class="col-sm-7">
+                        <script id="editor" type="text/plain" style="height:500px;"></script>
+                    </div>
+                    <div id="warn-edit" style="color:red;margin-left:800px;width:200px;"></div>
+                </div>
+                }
+                <!--详细信息为图文-->
+                @if(item.getItemDetail()!=null && item.getItemDetail()!="") {
+                <div class="form-group pic-info" style="display:none;">
+                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
+                    <div class="col-sm-7">
+                        <div class="detail-img" style="border:1px solid #ccc;">
+                            <div id="galleryD" style="float: left;">
+                            </div>
+                            <span class="add" id="detailImgAddD">＋
+                                <input type="file" id="D" name="itemDetailImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                            </span>
+                        </div>
+                        <div id="warn-detailImg" style="color:red;margin-left:700px;width:120px;margin-top:-50px;margin-bottom:50px;"></div>
+                    </div>
+                </div>
+                <div class="form-group pic-info" style="display:none;">
+                    <label class="col-sm-1 control-label" ><div class="r">重要通告</div></label>
+                    <div class="col-sm-7">
+                        <textarea rows="6"  class="form-control" id="itemNotice" name="itemNotice"></textarea>
+                    </div>
+                </div>
+                <div class="form-group edit-info">
+                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">商品详情</div></label>
+                    <span onclick="setContent(false)" style="cursor: pointer;">写入内容</span>
                     <div class="col-sm-7">
                         <script id="editor" type="text/plain" style="height:500px;" ></script>
                         <input type="hidden" id="itemDetail" value="@item.getItemDetail()">
                     </div>
                     <div id="warn-edit" style="color:red;margin-left:800px;width:200px;"></div>
                 </div>
+                }
             </div>
         </form>
     </div>
