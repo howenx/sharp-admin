@@ -1,11 +1,29 @@
 @import play.i18n._
-@(lang:String="cn",user:entity.User)
+@(lang:String="cn",user:entity.User,uploadURL:String)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
 <script src="/assets/js/jquery.min.js"></script>
+<script>window.uploadURL = '@uploadURL'</script>
 <script>
     $(function(){
+
+        /** 上传图片 **/
+        $(document).on('change','.upload-logo',function() {
+            var file = $(this);
+            file.after(file.clone().val(""));
+            file.remove();
+            var files = this.files;
+            var label_img = $('<span>').css({"width":"300","display":"inline-block"}).appendTo($('.img-logo'));
+            $(this).parent().css("display","none");
+            $("<button>").addClass("close").attr("type", "button").attr("aria-lable", "Close").html('<span aria-hidden="true">' +
+                    '&times;' +
+                    '</span>').appendTo(label_img);
+            for (var i = 0; i < files.length; i++) {
+                previewImage1(label_img, this.files[i]);
+            }
+        });
+
         function previewImage1(obj, file) {
             var gallery = obj;
             var imageType = /image.*/;
@@ -18,6 +36,7 @@
             $(img).width('100%');
             $(img).height('100%');
             $(gallery).append($(img));
+            $('.upload-logo').parent().css("display","none");
             upload(gallery, file);
             // Using FileReader to display the image content
             var reader = new FileReader();
@@ -30,40 +49,27 @@
         }
 
         function upload(thumb, file, id) {
+            document.getElementById("mask").style.display = 'block';
             var formdata = new FormData();
             formdata.append("photo", file);
             formdata.append("params", "minify");
             var http = new XMLHttpRequest();
-            var url = "http://172.28.3.18:3008/upload";
+            var url = window.uploadURL + "/upload";
             http.open("POST", url, true);
             http.onreadystatechange = function () {
                 if (http.readyState == 4 && http.status == 200) {
+                    document.getElementById("mask").style.display = 'none';
                     var data = JSON.parse(http.responseText);
-                    console.log(data.minify_url);
-                    var input = document.createElement("input");
+                    <!--console.log(data.minify_url);-->
                     imgName = data.imgid;
-                    input.id = imgName.substr(0, imgName.lastIndexOf("."));
-                    input.type = "hidden";
-                    input.name = data.imgid;
-                    input.value = data.path;
-                    $(thumb).find("img").attr('src', data.minify_url);
-                    $(thumb).append(input);
-                    alert(data.message);
+                    $(thumb).find("img").attr('src', data.oss_prefix+data.oss_url);
+                    <!--alert(data.message);-->
                 }
             }
             http.send(formdata);
         }
-        $('.upload-logo').change(function(){
-            var files = this.files;
-            var label_img = $('<span>').css({"width":"300","display":"inline-block"}).appendTo($('.img-logo'));
-            $(this).parent().css("display","none");
-            $("<button>").addClass("close").attr("type", "button").attr("aria-lable", "Close").html('<span aria-hidden="true">' +
-                    '&times;' +
-                    '</span>').appendTo(label_img);
-            for (var i = 0; i < files.length; i++) {
-                previewImage1(label_img, this.files[i]);
-            }
-        })
+
+        /** 移除图片 **/
         $(document).on('click','.img-logo .close',function(){
             $(this).parent().remove();
             $('.upload-logo').parent().css("display","block");
@@ -77,7 +83,7 @@
 <div class="mbread">
     <div class="bread-path">
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
-        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
         <span class="icon-path">&gt;</span>
         <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
         <span class="icon-path">&gt;</span>
@@ -100,13 +106,13 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">品牌名称</label>
             <div class="col-sm-10">
-                <input id="brandName" type="text" class="form-control" placeholder="品牌名称">
+                <input id="brandName" type="text" class="form-control form-data-area" placeholder="品牌名称">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">品牌描述</label>
             <div class="col-sm-10">
-                <input type="text" id="brandDesc" class="form-control" placeholder="品牌描述">
+                <input type="text" id="brandDesc" class="form-control form-data-area" placeholder="品牌描述">
             </div>
         </div>
         <div class="form-group">
@@ -115,7 +121,7 @@
                 <div class="img-logo">
                     <button type="button" class="btn btn-primary btn-sm" style="position: relative">
                         上传图片
-                        <input id="logo" type="file" class="upload-logo">
+                        <input id="logo" type="file" class="upload-logo form-data-area">
                     </button>
                 </div>
             </div>
@@ -130,6 +136,14 @@
     </div>
 </div>
 <script>
+
+    /** 数据改变的提示 **/
+    $(document).on('change', '.form-data-area', function() {
+		$('.usercenter-option > .user-state').css('background-position', '20px -73px');
+		$('.usercenter-option > .user-state').text('已更改');
+	});
+
+    /** 数据提交 **/
     $("#brandSubmit").click(function(){
         var isPost = true;
         if($("#brandName").val() == "")
@@ -140,40 +154,39 @@
 
         var brandName = $("#brandName").val();
         var brandDesc = $("#brandDesc").val();
-        var url = $("img").attr("src");
-        var logoUrl = url.substring(url.indexOf('/',url.indexOf('/')+2));
-
+        var url = $(".img-logo").find("img").attr("src");
+        var logoUrl = url.substring(url.lastIndexOf('/')+1,url.length);
         var brand = new Object();
         brand.brandNm = brandName;
         brand.brandDesc = brandDesc;
         brand.logo = logoUrl;
         if (isPost) {
-                        $.ajax({
-                                type :  "POST",
-                                url : "/comm/brand/brandSave",
-                                contentType: "application/json; charset=utf-8",
-                                data : JSON.stringify(brand),
-                                error : function(request) {
-                                    if (window.lang = 'cn') {
-                                        $('#js-userinfo-error').text('保存失败');
-                                    } else {
-                                        $('#js-userinfo-error').text('Save error');
-                                    }
-                                    setTimeout("$('#js-userinfo-error').text('')", 2000);
-                                },
-                                success: function(data) {
-                                    if (window.lang = 'cn') {
-                                        $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
-                                    } else {
-                                        $('#js-userinfo-error').text('Save success');
-                                    }
-                                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 1000);
-                                    //主题录入, 成功后返回到主题录入页面
-                                    setTimeout("location.href='/"+window.lang+"/comm/brand/add'", 1000);
-                                }
-                            });
+            $.ajax({
+                    type :  "POST",
+                    url : "/comm/brand/brandSave",
+                    contentType: "application/json; charset=utf-8",
+                    data : JSON.stringify(brand),
+                    error : function(request) {
+                        if (window.lang = 'cn') {
+                            $('#js-userinfo-error').text('保存失败');
+                        } else {
+                            $('#js-userinfo-error').text('Save error');
                         }
-    })
+                        setTimeout("$('#js-userinfo-error').text('')", 2000);
+                    },
+                    success: function(data) {
+                        if (window.lang = 'cn') {
+                            $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                        } else {
+                            $('#js-userinfo-error').text('Save success');
+                        }
+                        setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 1000);
+                        //主题录入, 成功后返回到主题录入页面
+                        setTimeout("location.href='/"+window.lang+"/comm/brand/add'", 1000);
+                    }
+                });
+            }
+        });
 
 
 

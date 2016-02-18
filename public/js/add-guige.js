@@ -404,22 +404,16 @@ $(function(){
 
     /** sku主图,点击移除的操作 **/
     $(document).on('click','.list-img .close',function(){
-        var id = $(this).parent().parent().attr("id");
         //没有商品主图时,上传按钮置为显示
-        if (document.getElementById(id).getElementsByTagName("div").length==1) {
-            id = id.substring(7,9);
-            $("#"+id).parent().css("display","inline-block");
-        }
+        $("#M").parent().css("display","inline-block");
         $(this).parent().remove();
     });
 
     /** 预览图 点击移除的操作 **/
     $(document).on('click','.preview-img .close',function(){
-        var id = $(this).parent().parent().attr("id");
         //商品预览图小于6张时恢复上传功能
         if (document.getElementById(id).getElementsByTagName("div").length==6) {
-            id = id.substring(7,9);
-            $("#"+id).parent().css("display","inline-block");
+            $("#P").parent().css("display","inline-block");
         }
         $(this).parent().remove();
     });

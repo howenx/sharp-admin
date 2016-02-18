@@ -31,7 +31,7 @@
             </div>
             <div class="form-group">
                 <input class=" btn btn-primary btn-block form-control" type="button" id="submit"  value="登录">
-                <span class="seller_login" id="seller_login">供应商登录...</span>
+                <!--<span class="seller_login" id="seller_login">供应商登录...</span>-->
             </div>
         </div>
 
@@ -69,11 +69,14 @@
                     alert("login error");
                 },
                 success: function(data) {
-                    if (data=="登录失败!") {
+                    if (data=="登录失败") {
                         window.location.href = "/";
                     }
-                    if (data=="登录成功!") {
+                    if (data==("登录成功")) {
                         window.location.href = "/summary ";
+                    }
+                    if (data==("供应商登录")) {
+                        window.location.href = "/front";
                     }
                 }
             });

@@ -396,7 +396,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result brandAdd(String lang){
-        return ok(views.html.item.brandadd.render(lang,(User) ctx().args.get("user")));
+        return ok(views.html.item.brandadd.render(lang,(User) ctx().args.get("user"),ThemeCtrl.IMG_UPLOAD_URL));
     }
 
     /**

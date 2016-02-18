@@ -113,6 +113,7 @@ public class AdminUserCtrl extends Controller {
      */
     public Result adminUserLogin() {
         String lang = request().getQueryString("lang");
+//        Logger.error("语言"+lang);
         return ok(views.html.adminuser.userlogin.render());
     }
 
@@ -128,6 +129,8 @@ public class AdminUserCtrl extends Controller {
         AdminUser adminUser = adminUserService.getUserBy(adu);
         Logger.error("login user:"+adu.toString());
         Logger.debug("login user:"+adminUser.toString());
+        //登录后返回信息
+        String data = "";
         if (null!=adminUser && !"".equals(adminUser)) {
             adminUser.setActiveYN("Y");
             adminUser.setLastLoginIp(loginIp);
@@ -143,12 +146,16 @@ public class AdminUserCtrl extends Controller {
             Cache.set(adminUser.getEnNm().trim(), user);
             session().put("username",adminUser.getEnNm().trim());
             Logger.debug("user login... "+user.enNm());
-            return ok("登录成功!");
+            if (adminUser.getUserType().equals("SADMIN") || adminUser.getUserType().equals("SUPPLIER") || adminUser.getUserType().equals("TRANSLATION") || adminUser.getUserType().equals("AUDIT")) {
+                data = "供应商登录";
+            }
+            else data = "登录成功";
         }
         else {
             Logger.debug("not admin user");
-            return ok("登录失败!");
+            data = "登录失败";
         }
+        return ok(data);
     }
 
     /**
