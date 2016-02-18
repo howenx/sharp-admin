@@ -4,6 +4,7 @@ import entity.pingou.PinActivity;
 import entity.pingou.PinCoupon;
 import entity.pingou.PinUser;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -67,4 +68,10 @@ public interface PinActivityMapper {
      * @param list
      */
     void pinUserAddList(List list);
+
+    /**
+     * 更新参加拼购活动的用户      Added by Tiffany Zhu 2016.02.18
+     * @param hashMap
+     */
+    void updJoinPersonById(HashMap hashMap);
 }

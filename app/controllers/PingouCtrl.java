@@ -334,7 +334,8 @@ public class PingouCtrl extends Controller {
         if(json.has("tieredPriceId")){
             pinTieredPrice = pingouService.getTieredPriceByTieredId(json.get("tieredPriceId").asLong());
         }
-
+        Logger.error(pinSku.toString());
+        Logger.error(pinTieredPrice.toString());
         if(pinSku != null && pinTieredPrice != null){
             Long userId = new Long(1111111);            //机器人用户ID
             //添加拼购活动
@@ -343,6 +344,7 @@ public class PingouCtrl extends Controller {
             pinActivity.setPinId(pinSku.getPinId());                //拼购商品ID
             pinActivity.setMasterUserId(userId);                    //机器人用户ID
             pinActivity.setPersonNum(pinTieredPrice.getPeopleNum());//拼购人数
+            pinActivity.setJoinPersons(1);                          //参加拼购的人数
             pinActivity.setPinPrice(pinTieredPrice.getPrice());     //拼购价格
             pinActivity.setStatus("Y");                             //拼购状态--正常
             pinActivity.setEndAt(pinSku.getEndAt());                //截止时间
@@ -419,14 +421,13 @@ public class PingouCtrl extends Controller {
         List<PinActivity> pinActivityList = pingouService.getPinActivityPage(pinActivity);
         for(PinActivity pinActivityTemp : pinActivityList){
             PinSku pinSku = pingouService.getPinSkuById(pinActivityTemp.getPinId());
-            List<PinUser> pinUserList = pingouService.getUserByActivityId(pinActivityTemp.getPinActiveId());
             Object[] object = new Object[9];
             object[0] = pinActivityTemp.getPinActiveId();
             object[1] = pinActivityTemp.getPinId();
             object[2] = pinActivityTemp.getMasterUserId();
             object[3] = pinActivityTemp.getPersonNum();
             object[4] = pinActivityTemp.getPinPrice();
-            object[5] = pinUserList.size();
+            object[5] = pinActivityTemp.getJoinPersons();
             object[6] = pinActivityTemp.getCreateAt();
             object[7] = pinActivityTemp.getEndAt();
             object[8] = pinSku.getPinTitle();
@@ -465,9 +466,7 @@ public class PingouCtrl extends Controller {
             List<PinActivity> rtnList = new ArrayList<>();
             for(PinActivity pinActivityTemp : activityList){
                 PinSku pinSku = pingouService.getPinSkuById(pinActivityTemp.getPinId());
-                List<PinUser> pinUserList = pingouService.getUserByActivityId(pinActivityTemp.getPinActiveId());
                 pinActivityTemp.setPinTitle(pinSku.getPinTitle());
-                pinActivityTemp.setJoinPersons(pinUserList.size());
                 rtnList.add(pinActivityTemp);
             }
             //组装返回数据
@@ -599,6 +598,11 @@ public class PingouCtrl extends Controller {
             }
         }
         pingouService.pinUserAddList(pinUserList);
+        //更新拼购团参加的人数
+        HashMap hashMap = new HashMap();
+        hashMap.put("userNum",userNum);
+        hashMap.put("pinActiveId",pinActiveId);
+        pingouService.updJoinPersonById(hashMap);
 
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
