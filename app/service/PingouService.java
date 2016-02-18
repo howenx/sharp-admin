@@ -120,4 +120,11 @@ public interface PingouService {
      */
     void updJoinPersonById(HashMap hashMap);
 
+    /**
+     * 通过拼购ID获取所有的拼购团       Added by Tiffany Zhu 2016.02.18
+     * @param pinId
+     * @return
+     */
+    List<PinActivity> getActivityByPinId(Long pinId);
+
 }

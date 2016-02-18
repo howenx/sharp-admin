@@ -120,17 +120,18 @@
                                     <th>开始日期</th>
                                     <th>结束日期</th>
                                 </tr>
-                                @if(pinCoupon.getMasterCouponClass() != null){
-                                <tr>
-                                    <td>团长</td>
-                                    <td>@pinCoupon.getMasterCouponClass()</td>
-                                    <td>@pinCoupon.getMasterCouponQuota()</td>
-                                    <td>@pinCoupon.getMasterCoupon()</td>
-                                    <td>@if(pinCoupon.getMasterCouponStartAt()!=null){@(pinCoupon.getMasterCouponStartAt().toString().substring(0,19))}</td>
-                                    <td>@if(pinCoupon.getMasterCouponEndAt()!=null){@(pinCoupon.getMasterCouponEndAt().toString().substring(0,19))}</td>
-                                </tr>
-                                }
-                                @if(pinCoupon.getMemberCouponClass() != null){
+                                @if(pinCoupon != null){
+                                    @if(pinCoupon.getMasterCouponClass() != null){
+                                    <tr>
+                                        <td>团长</td>
+                                        <td>@pinCoupon.getMasterCouponClass()</td>
+                                        <td>@pinCoupon.getMasterCouponQuota()</td>
+                                        <td>@pinCoupon.getMasterCoupon()</td>
+                                        <td>@if(pinCoupon.getMasterCouponStartAt()!=null){@(pinCoupon.getMasterCouponStartAt().toString().substring(0,19))}</td>
+                                        <td>@if(pinCoupon.getMasterCouponEndAt()!=null){@(pinCoupon.getMasterCouponEndAt().toString().substring(0,19))}</td>
+                                    </tr>
+                                    }
+                                    @if(pinCoupon.getMemberCouponClass() != null){
                                     <tr>
                                         <td>团员</td>
                                         <td>@pinCoupon.getMemberCouponClass()</td>
@@ -139,7 +140,13 @@
                                         <td>@if(pinCoupon.getMemberCouponStartAt()!=null){@(pinCoupon.getMemberCouponStartAt().toString().substring(0,19))}</td>
                                         <td>@if(pinCoupon.getMemberCouponEndAt()!=null){@(pinCoupon.getMemberCouponEndAt().toString().substring(0,19))}</td>
                                     </tr>
+                                    }
                                 }
+
+                                @if(pinCoupon == null){
+                                    <tr><td colspan="6">无</td></tr>
+                                }
+
                             </table>
                         </div>
                     </div>

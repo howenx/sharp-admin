@@ -65,8 +65,20 @@
         </if>
     </select>
 
+    <select id="getActivityByPinId" parameterType="java.lang.Long" resultType="entity.pingou.PinActivity">
+        select
+        <include refid="pinActivityColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from pin_activity t where pin_id = ${value}
+    </select>
+
     <update id="updJoinPersonById" parameterType="java.util.HashMap">
-        update pin_activity set join_persons = join_persons + #{userNum} where pin_active_id = #{pinActiveId}
+        update pin_activity set join_persons = join_persons + #{userNum}
+        <if test="isComplete == true">
+            ,status = 'C'
+        </if>
+        where pin_active_id = #{pinActiveId}
     </update>
 
 

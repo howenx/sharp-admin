@@ -237,6 +237,15 @@ GET             /pin/activity/geActivityById/:id                            cont
 GET             /$lang<(cn|en|kr)>/pin/activity/geActivityById/:id          controllers.PingouCtrl.activityDetail(lang,id:Long)
 POST            /pin/activity/addRobot                                      controllers.PingouCtrl.pinAddRobot(lang ="cn")
 POST            /$lang<(cn|en|kr)>/pin/activity/addRobot                    controllers.PingouCtrl.pinAddRobot(lang)
+GET             /pin/activity/list/:id                                      controllers.PingouCtrl.pingouActivityList(lang = "cn",id:Long)
+GET             /$lang<(cn|en|kr)>/pin/activity/list/:id                    controllers.PingouCtrl.pingouActivityList(lang,id:Long)
+
+
+
+
+
+
+
 
 
 #versiong

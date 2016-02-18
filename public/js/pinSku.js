@@ -785,9 +785,19 @@ $(function(){
             isPost = false;
             return false;
         }
+        if(parseInt($("#personNum").val()) - parseInt($("#joinPersonNum").val()) < parseInt(userNum)){
+            alert("参加人数超过拼购人数!");
+            isPost = false;
+            return false;
+        }
+        var isComplete = false;
+        if(parseInt($("#joinPersonNum").val()) + parseInt(userNum)  == parseInt($("#personNum").val())){
+            isComplete = true;
+        }
         var data = new Object();
         data.userNum = userNum;
         data.pinActiveId = $("#activeId").val();
+        data.isComplete = isComplete;
 
         if(isPost){
             $.ajax({
@@ -797,26 +807,22 @@ $(function(){
                 data : JSON.stringify(data),
                 error : function(request) {
                     if (window.lang = 'cn') {
-                        $('#js-userinfo-error').text('保存失败');
+                        alert("保存失败!");
                     } else {
-                        $('#js-userinfo-error').text('Save error');
+                        alert("Save error!");
                     }
-                    setTimeout("$('#js-userinfo-error').text('')", 2000);
                 },
                 success: function(data) {
-                    alert("Save Success");
                     if (window.lang = 'cn') {
-                        $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                       alert("保存成功!");
                     } else {
-                        $('#js-userinfo-error').text('Save success');
+                        alert("Save Success");
                     }
-                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
                     //拼购录入, 成功后返回到拼购录入页面
                     setTimeout("location.href='/"+window.lang+"/pin/activity/geActivityById/" + $("#activeId").val() + "'", 3000);
                 }
             });
         }
     })
-
 })
 
