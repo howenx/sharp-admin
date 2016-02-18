@@ -24,10 +24,7 @@ import service.IDService;
 
 import javax.inject.Inject;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -57,9 +54,16 @@ public class AdminUserCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result adminUserCreate(String lang) {
         //用户的角色从配置文件中读取
-        Map<String,String> userTypeList = new ObjectMapper().convertValue(configuration.getObject("role"),HashMap.class);
+        Map<String,String> userTypeList = new HashMap<>();
+        Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
+        Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
+        for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        for(Map.Entry<String, String> ut:userTypeList2.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
 //        Map<String,String> menus = new ObjectMapper().convertValue(configuration.getObject("menu"),HashMap.class);
-//        Logger.error(userTypeList.toString());
         return ok(views.html.adminuser.adduser.render(lang, userTypeList, (User) ctx().args.get("user")));
     }
 
@@ -74,7 +78,6 @@ public class AdminUserCtrl extends Controller {
         adminUser.setEmail(adminUser.getEmail()+"@kakaocorp.com");
         //先验证是否已注册
         AdminUser adu  = adminUserService.getUserBy(adminUser);
-//        Logger.error("用户信息:"+adu);
         if (null!=adu && !"".equals(adu)) {
             return ok("该用户已注册!");
         } else {
@@ -101,7 +104,6 @@ public class AdminUserCtrl extends Controller {
                 e.printStackTrace();
                 Logger.error("发送邮件错误"+e);
             }
-//            Logger.error("用户信息:"+adminUser);
             adminUserService.insertUser(adminUser);
             return ok();
         }
@@ -125,9 +127,8 @@ public class AdminUserCtrl extends Controller {
         JsonNode json = request().body().asJson();
         String loginIp = request().remoteAddress();
         AdminUser adu  = Json.fromJson(json, AdminUser.class);//查询条件adu
-//        Logger.error("登录条件:"+adu.toString());
         AdminUser adminUser = adminUserService.getUserBy(adu);
-        Logger.error("login user:"+adu.toString());
+        Logger.debug("login user:"+adu.toString());
         Logger.debug("login user:"+adminUser.toString());
         //登录后返回信息
         String data = "";
@@ -136,7 +137,6 @@ public class AdminUserCtrl extends Controller {
             adminUser.setLastLoginIp(loginIp);
             adminUser.setLastLoginDt(new Timestamp(new Date().getTime()));
             adminUser.setStatus("Y");
-//            Logger.error("更新后:"+adminUser.toString());
             adminUserService.updateUser(adminUser);
             User user = new User (adminUser.getUserId(), null,null, null , User_Type.ADMIN(),
                     Option.apply(adminUser.getUserId()), Option.apply(adminUser.getEnNm()), Option.apply(adminUser.getChNm()), Option.apply(adminUser.getEmail()),
@@ -146,10 +146,18 @@ public class AdminUserCtrl extends Controller {
             Cache.set(adminUser.getEnNm().trim(), user);
             session().put("username",adminUser.getEnNm().trim());
             Logger.debug("user login... "+user.enNm());
-            if (adminUser.getUserType().equals("SADMIN") || adminUser.getUserType().equals("SUPPLIER") || adminUser.getUserType().equals("TRANSLATION") || adminUser.getUserType().equals("AUDIT")) {
-                data = "供应商登录";
+            Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
+            Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
+            for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
+                if (adminUser.getUserType().equals(ut.getKey())) {
+                    data = "后台用户登录成功";
+                }
             }
-            else data = "登录成功";
+            for(Map.Entry<String, String> ut:userTypeList2.entrySet()) {
+                if (adminUser.getUserType().equals(ut.getKey())) {
+                    data = "供应商登录成功";
+                }
+            }
         }
         else {
             Logger.debug("not admin user");
@@ -177,7 +185,15 @@ public class AdminUserCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result adminUserInfo(String lang) {
-        Map<String,String> userTypeList = new ObjectMapper().convertValue(configuration.getObject("role"),HashMap.class);
+        Map<String,String> userTypeList = new HashMap<>();
+        Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
+        Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
+        for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        for(Map.Entry<String, String> ut:userTypeList2.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
         return ok(views.html.adminuser.userinfo.render(lang, userTypeList, (User) ctx().args.get("user")));
     }
 
