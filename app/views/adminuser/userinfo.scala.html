@@ -14,7 +14,7 @@
 <div class="mbread" style="width:65%">
     <div class="bread-path">
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
-        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
         <span class="icon-path">&gt;</span>
         <span class="current">@user.enNm</span>
         <span class="icon-path">&gt;</span>
@@ -45,7 +45,7 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label" >中文名称</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" id="chNm" name="chNm" value="@user.chNm">
+                        <input type="text" class="form-control form-data-area" id="chNm" name="chNm" value="@user.chNm">
                     </div>
                 </div>
                 <div class="form-group">
@@ -71,6 +71,12 @@
 }
 
 <script>
+
+    /** 数据改变的提示 **/
+    $(document).on('change', '.form-data-area', function() {
+		$('.usercenter-option > .user-state').css('background-position', '20px -73px');
+		$('.usercenter-option > .user-state').text('已更改');
+	});
 
     /** 数据提交 **/
     $("#submit").click(function(){

@@ -26,6 +26,12 @@ $(function(){
         });
     });
 
+    /** 数据改变的提示 **/
+    $(document).on('change', '.form-data-area', function() {
+        $('.usercenter-option > .user-state').css('background-position', '20px -73px');
+        $('.usercenter-option > .user-state').text('已更改');
+    });
+
 	/** 点击返回按钮,返回到列表查询页面 **/
 	$("#return").on("click", function() {
 	    location.href="/"+window.lang+"/comm/search";
@@ -210,7 +216,7 @@ $(function(){
         var attrV = document.getElementsByName("attrV");
         var len = attrN.length;
         if (document.getElementById("tabFea").getElementsByTagName("tr").length>1 && attrN[len-1].value!="" && attrV[len-1].value!="") {
-            $("<tr>").html('<td><input type="text" name="attrN"/></td><td><input type="text" name="attrV"/></td><td class="del">删除</td>').appendTo($(".feature"));
+            $("<tr>").html('<td><input type="text" name="attrN" class="form-data-area"/></td><td><input type="text" name="attrV" class="form-data-area"/></td><td class="del">删除</td>').appendTo($(".feature"));
         }
     });
 
@@ -307,7 +313,7 @@ $(function(){
                    itemDetailImgs.push(spanArr);
                }
            }
-           console.log(itemDetailImgs.toString());
+//           console.log(itemDetailImgs.toString());
         }
         if ($(".edit").is(":checked")) {
             if (itemDetail=="") {
@@ -336,32 +342,33 @@ $(function(){
             var itemColor = tds[1].innerHTML;
             var itemSize = tds[2].innerHTML;
             var invCode = tds[3].innerHTML;
-            var startAt = tds[4].innerHTML;
-            var endAt = tds[5].innerHTML;
-            var itemPrice = tds[6].innerHTML;
-            var itemSrcPrice = tds[7].innerHTML;
-            var itemCostPrice = tds[8].innerHTML;
-            var itemDiscount = tds[9].innerHTML;
-            var invWeight = tds[10].innerHTML;
-            var restrictAmount = tds[11].innerHTML;
-            var amount = tds[12].innerHTML;
-            var restAmount = tds[13].innerHTML;
-            var carriageModelCode = tds[14].innerHTML;
-            var invArea = tds[15].innerHTML;
-            var invCustoms = tds[16].innerHTML;
-            var postalTaxRate = tds[18].innerHTML;
-            var postalTaxCode = tds[19].innerHTML;
-            var recordHZ = tds[20].innerHTML;
-            var recordGZ = tds[21].innerHTML;
-            var recordSH = tds[22].innerHTML;
+            var state = tds[4].innerHTML;
+            var startAt = tds[5].innerHTML;
+            var endAt = tds[6].innerHTML;
+            var itemPrice = tds[7].innerHTML;
+            var itemSrcPrice = tds[8].innerHTML;
+            var itemCostPrice = tds[9].innerHTML;
+            var itemDiscount = tds[10].innerHTML;
+            var invWeight = tds[11].innerHTML;
+            var restrictAmount = tds[12].innerHTML;
+            var amount = tds[13].innerHTML;
+            var restAmount = tds[14].innerHTML;
+            var carriageModelCode = tds[15].innerHTML;
+            var invArea = tds[16].innerHTML;
+            var invCustoms = tds[17].innerHTML;
+            var postalTaxRate = tds[19].innerHTML;
+            var postalTaxCode = tds[20].innerHTML;
+            var recordHZ = tds[21].innerHTML;
+            var recordGZ = tds[22].innerHTML;
+            var recordSH = tds[23].innerHTML;
             var recordCode = {};
             if(recordHZ!="") recordCode["hangzhou"] = recordHZ;
             if(recordGZ!="") recordCode["guangzhou"] = recordGZ;
             if(recordSH!="") recordCode["shanghai"] = recordSH;
-            var invImg = tds[23].innerHTML;
-            var itemPreviewImgs = tds[24].innerHTML;
-            var orVaryPrice = tds[25].innerHTML;
-            var invId = tds[27].innerHTML;
+            var invImg = tds[24].innerHTML;
+            var itemPreviewImgs = tds[25].innerHTML;
+            var orVaryPrice = tds[26].innerHTML;
+            var invId = tds[28].innerHTML;
             //拼装成一条数据
             var invData = new Object();
             var inventory = new Object();
@@ -393,32 +400,25 @@ $(function(){
             inventory.orVaryPrice = orVaryPrice;
             if (invId!=null && invId !=""  && divId =="submitItem") {
                 inventory.id = invId;
+                inventory.state = state;
             }
             invData.inventory = inventory;
             if (orVaryPrice) {
-                var vp_arr = tds[26].innerHTML.split(",");
+                var vp_arr = tds[27].innerHTML.split(",");
                 for(v=0;v<vp_arr.length;v++) {
-                    if (v%3==0) {
+                    if (v%4==0) {
                         var varyPrice = new Object();
                         if (vp_arr[v]!="" && vp_arr[v]!=null && divId =="submitItem") {
                             varyPrice.id = vp_arr[v];
+                            varyPrice.status = vp_arr[v+1];
                         }
-                        varyPrice.price = vp_arr[v+1];
-                        varyPrice.limitAmount = vp_arr[v+2];
+                        varyPrice.price = vp_arr[v+2];
+                        varyPrice.limitAmount = vp_arr[v+3];
                         varyPrices.push(varyPrice);
                     }
                 }
                 invData.varyPrices = varyPrices;
             }
-//            if (tds[20].getElementsByTagName("input")[0].value != "" && divId =="submitItem") {
-//                inventory.id = tds[20].getElementsByTagName("input")[0].value;
-//                inventory.state = tds[19].getElementsByTagName("select")[0].value;
-//                inventory.soldAmount = tds[20].getElementsByTagName("input")[1].value;
-//                inventory.restAmount = tds[20].getElementsByTagName("input")[2].value;
-//                inventory.orDestroy = tds[20].getElementsByTagName("input")[3].value;
-//                if (tds[0].getElementsByTagName("input")[0].checked==true)
-//                item.masterInvId = tds[20].getElementsByTagName("input")[0].value;
-//            }
             inventories.push(invData);
         }
         item.cateId = cateId;

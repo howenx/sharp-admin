@@ -35,29 +35,30 @@
             trData.find("td").each(function(){
                 if (count==1) skuObj.itemColor = $(this).text();
                 if (count==2) skuObj.itemSize = $(this).text();
-                if (count==3) skuObj.startAt = $(this).text();
-                if (count==4) skuObj.endAt = $(this).text();
-                if (count==5) skuObj.itemPrice = $(this).text();
-                if (count==6) skuObj.itemSrcPrice = $(this).text();
-                if (count==7) skuObj.itemCostPrice = $(this).text();
-                if (count==8) skuObj.itemDiscount = $(this).text();
-                if (count==9) skuObj.invWeight = $(this).text();
-                if (count==10) skuObj.restrictAmount = $(this).text();
-                if (count==11) skuObj.amount = $(this).text();
-                if (count==12) skuObj.restAmount = $(this).text();
-                if (count==13) skuObj.carriageModelCode = $(this).text();
-                if (count==14) skuObj.invArea = $(this).text();
-                if (count==15) skuObj.invCustoms = $(this).text();
-                if (count==16) skuObj.rateSet = $(this).text();
-                if (count==17) skuObj.postalTaxRate = $(this).text();
-                if (count==18) skuObj.postalTaxCode = $(this).text();
-                if (count==19) skuObj.recordHZ = $(this).text();
-                if (count==20) skuObj.recordGZ = $(this).text();
-                if (count==21) skuObj.recordSH = $(this).text();
-                if (count==22) skuObj.invImg = $(this).text();
-                if (count==23) skuObj.itemPreviewImgs = $(this).text();
-                if (count==24) skuObj.orVaryPrice = $(this).text();
-                if (count==25) skuObj.varyPrice = $(this).text();
+                if (count==3) skuObj.invCode = $(this).text();
+                if (count==4) skuObj.startAt = $(this).text();
+                if (count==5) skuObj.endAt = $(this).text();
+                if (count==6) skuObj.itemPrice = $(this).text();
+                if (count==7) skuObj.itemSrcPrice = $(this).text();
+                if (count==8) skuObj.itemCostPrice = $(this).text();
+                if (count==9) skuObj.itemDiscount = $(this).text();
+                if (count==10) skuObj.invWeight = $(this).text();
+                if (count==11) skuObj.restrictAmount = $(this).text();
+                if (count==12) skuObj.amount = $(this).text();
+                if (count==13) skuObj.restAmount = $(this).text();
+                if (count==14) skuObj.carriageModelCode = $(this).text();
+                if (count==15) skuObj.invArea = $(this).text();
+                if (count==16) skuObj.invCustoms = $(this).text();
+                if (count==17) skuObj.rateSet = $(this).text();
+                if (count==18) skuObj.postalTaxRate = $(this).text();
+                if (count==19) skuObj.postalTaxCode = $(this).text();
+                if (count==20) skuObj.recordHZ = $(this).text();
+                if (count==21) skuObj.recordGZ = $(this).text();
+                if (count==22) skuObj.recordSH = $(this).text();
+                if (count==23) skuObj.invImg = $(this).text();
+                if (count==24) skuObj.itemPreviewImgs = $(this).text();
+                if (count==25) skuObj.orVaryPrice = $(this).text();
+                if (count==26) skuObj.varyPrice = $(this).text();
                 count++;
             });
             sharedObject.skuObj = skuObj;
@@ -129,7 +130,7 @@
 <div class="mbread" style="width:80%">
     <div class="bread-path">
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
-        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
         <span class="icon-path">&gt;</span>
         <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
         <span class="icon-path">&gt;</span>
@@ -155,7 +156,7 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</div></label>
                     <div class="col-sm-2">
-                        <select class="form-control" id="categorySelect" name="pcateId">
+                        <select class="form-control form-data-area" id="categorySelect" name="pcateId">
                             <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
                             @for(cates <- catesParentList) {
                             <option value="@cates.getCateId()">@cates.getCateNm()
@@ -170,7 +171,7 @@
                     </div>
                     <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</div></label>
                     <div class="col-sm-2">
-                        <select class="form-control" id="bandSelect" name="brandId">
+                        <select class="form-control form-data-area" id="bandSelect" name="brandId">
                             <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
                             @for(b <- brandsList) {
                             <option value="@b.getBrandId()">@b.getBrandNm()
@@ -182,11 +183,11 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">商品标题</div></label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="itemTitle" name="itemTitle">
+                        <input type="text" class="form-control form-data-area" id="itemTitle" name="itemTitle">
                     </div>
                     <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</div></label>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control" id="supplyMerch" name="supplyMerch">
+                        <input type="text" class="form-control form-data-area" id="supplyMerch" name="supplyMerch">
                     </div>
                 </div>
                 <!-- 商品库存信息-->
@@ -212,8 +213,8 @@
                                 <td class="add">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.add")</td>
                             </tr>
                             <tr>
-                                <td><input type="text" name="attrN"/></td>
-                                <td><input type="text" name="attrV"/></td>
+                                <td><input type="text" name="attrN" class="form-data-area"/></td>
+                                <td><input type="text" name="attrV" class="form-data-area"/></td>
                                 <td class="del" >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")</td>
                             </tr>
                         </table>
@@ -225,7 +226,7 @@
                     <div class="col-sm-7">
                         <table class="table table-bordered pub" id="publicityTab">
                             <tr>
-                                <td><input type="text" id="publicity"/></td>
+                                <td><input type="text" id="publicity" class="form-data-area"/></td>
                                 <td class="add1">添加</td>
                             </tr>
                         </table>
@@ -252,16 +253,16 @@
                             <div id="galleryD" style="float: left;">
                             </div>
                             <span class="add" id="detailImgAddD">＋
-                                <input type="file" id="D" name="itemDetailImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
+                                <input type="file" id="D" name="itemDetailImgs" class="hidden1  form-data-area" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
                             </span>
                         </div>
                         <div id="warn-detailImg" style="color:red;margin-left:700px;width:120px;margin-top:-50px;margin-bottom:50px;"></div>
                     </div>
                 </div>
                 <div class="form-group pic-info" style="display:block;">
-                    <label class="col-sm-1 control-label" ><div class="r">重要通告</div></label>
+                    <label class="col-sm-1 control-label"><div class="r">重要通告</div></label>
                     <div class="col-sm-7">
-                        <textarea rows="6"  class="form-control" id="itemNotice" name="itemNotice"></textarea>
+                        <textarea rows="6"  class="form-control form-data-area" id="itemNotice" name="itemNotice"></textarea>
                     </div>
                 </div>
                 <div class="form-group edit-info" style="display:none;">

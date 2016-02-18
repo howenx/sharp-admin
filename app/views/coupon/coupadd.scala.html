@@ -68,7 +68,7 @@
 <div class="mbread" style="width:65%">
     <div class="bread-path">
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
-        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
         <span class="icon-path">&gt;</span>
         <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
         <span class="icon-path">&gt;</span>
@@ -92,7 +92,7 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label" >类别</label>
                     <div class="col-sm-3">
-                        <select class="form-control" id="cateId" name="cateId">
+                        <select class="form-control form-data-area" id="cateId" name="cateId">
                             <option value="">请选择</option>
                             <option value="153">化妆品类商品适用券</option>
                             <option value="172">配饰类商品适用券</option>
@@ -103,27 +103,27 @@
                             <option value="999">免邮券</option>
                         </select>
                     </div>
-                    <label class="col-sm-1 control-label" >限额(￥)</label>
+                    <label class="col-sm-1 control-label">限额(￥)</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" id="limitQuota" name="limitQuota">
+                        <input type="text" class="form-control form-data-area" id="limitQuota" name="limitQuota">
                     </div>
-                    <label class="col-sm-1 control-label" >面值(￥)</label>
+                    <label class="col-sm-1 control-label">面值(￥)</label>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control" id="denomination" name="denomination">
+                        <input type="text" class="form-control form-data-area" id="denomination" name="denomination">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" >使用期限</label>
+                    <label class="col-sm-1 control-label ">使用期限</label>
                     <div class="col-sm-3">
                         <div class="input-group date" id='datetimepicker1'>
-                            <input class="form-control col-sm-2"  type="text"  id="startAt" name="startAt">
+                            <input class="form-control col-sm-2 form-data-area" type="text"  id="startAt" name="startAt"/>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
                     <div class="col-sm-1" style="font-size: 24px;width:30px;margin-left:30px;margin-right:30px;">~</div>
                     <div class="col-sm-3">
                         <div class="input-group date" id='datetimepicker2'>
-                            <input class="form-control col-sm-2"  type="text"  id="endAt" name="endAt">
+                            <input class="form-control col-sm-2 form-data-area" type="text"  id="endAt" name="endAt"/>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
@@ -165,6 +165,14 @@
 }
 
 <script>
+
+    /** 数据改变的提示 **/
+    $(document).on('change', '.form-data-area', function() {
+		$('.usercenter-option > .user-state').css('background-position', '20px -73px');
+		$('.usercenter-option > .user-state').text('已更改');
+	});
+
+    /** 删除一条用户 **/
      $(document).on("click",".cou-del",function(){
          if (window.confirm("确定删除吗?")) {
             //用户总数

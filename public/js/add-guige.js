@@ -60,7 +60,9 @@ function Init () {
         if (sizeCount>$(".size").find("input").size()) {
             $("<label class='radio-inline'>").html('<input type="radio" name="itemSize" checked="checked" value="'+skuObj.itemSize+'" /> <span>'+skuObj.itemSize+'</span>').appendTo($(".size"));
         }
+        $("#invId").val(skuObj.invId);
         $("#invCode").val(skuObj.invCode);
+        $("#state").val(skuObj.state);
         $("#startAt").val(skuObj.startAt);
         $("#endAt").val(skuObj.endAt);
         $("#itemPrice").val(skuObj.itemPrice);
@@ -98,6 +100,12 @@ function Init () {
         $("#recordHZ").val(skuObj.recordHZ);
         $("#recordGZ").val(skuObj.recordGZ);
         $("#recordSH").val(skuObj.recordSH);
+        if (skuObj.invId!="") {
+            //sku 状态
+            $("#skuState").css('display','block');
+            if (skuObj.state=="Y")  $("#state option[value='Y']").attr("selected", true);
+            if (skuObj.state=="D")  $("#state option[value='D']").attr("selected", true);
+        }
         //填充sku主图
         var invImg = JSON.parse(skuObj.invImg);
         $("<div>").html('<img class="main-img" width="'+invImg.width+'" height="'+invImg.height+'" src="'+window.imageUrl+invImg.url+'" ><button class="close"><span>&times;</span></button>').appendTo($("#galleryM"));
@@ -114,20 +122,30 @@ function Init () {
         }
         if (skuObj.orVaryPrice=="true") {
             $("#openVaryPrice").attr("checked",true);
+            $(".del").text("");
+            $(".del").css('cursor','default');
+            $(".del").removeClass("delTr");
             $(".guige").addClass("block");
             var varyPriceArr = skuObj.varyPrice.split(",");
             var priceAmountData = document.getElementById("varyPriceTab").getElementsByTagName("input");
+            var status = document.getElementById("varyPriceTab").getElementsByTagName("select");
             for(v=0;v<varyPriceArr.length;v++) {
-                if (v<=2)
-                    priceAmountData[v].value = varyPriceArr[v];
-                if (v>2 && v%3==0)
-                    $("<tr>").html('<td><input type="text" name="vpId" value="'+varyPriceArr[v]+'"></td><td><input type="text" name="price" value="'+varyPriceArr[v+1]+'"></td><td><input type="text" name="limitAmount" value="'+varyPriceArr[v+2]+'"></td><td class="del delTr">删除</td>').appendTo($(".guige"));
+                if (v<=3) {
+                    priceAmountData[0].value = varyPriceArr[0];
+                    priceAmountData[1].value = varyPriceArr[2];
+                    priceAmountData[2].value = varyPriceArr[3];
+                    if(varyPriceArr[0]!="") {
+                        $("#staTh").css('display','block');
+                        console.log(status[0]);
+                        status[0].style.display = "block";
+                        if (varyPriceArr[1]=="Y")  status[0].options[0].selected = true;
+                        if (varyPriceArr[1]=="D")  status[0].options[1].selected = true;
+                    }
+                }
+                if (v>3 && v%4==0)
+                    $("<tr>").html('<td style="display:none;"><input type="text" name="vpId" value="'+varyPriceArr[v]+'"></td><td style="display:none;"><select class="status"><option value="Y">正常</option><option value="D">下架</option></select></td><td><input type="text" name="price" value="'+varyPriceArr[v+2]+'"></td><td><input type="text" name="limitAmount" value="'+varyPriceArr[v+3]+'"></td><td class="del" style="cursor:default;"></td>').appendTo($(".guige"));
             }
         }
-        $("#invId").val(skuObj.invId);
-        $(".delTr").text("");
-        $(".delTr").css('cursor','default');
-        $(".delTr").removeClass("delTr");
     }
 }
 
@@ -229,7 +247,7 @@ function saveCurr() {
                 var height = img.getAttribute("height");
                 if (width!=preWidth || height!=preHeight) {
                     if (window.confirm("上传的预览图尺寸不一致,是否继续?")) {}
-                    else isPost = false;
+                    else orSave = false;
                     break;
                 }
             }
@@ -243,7 +261,6 @@ function saveCurr() {
             itemPreviewImgs.push(imgsV);
         });
     }
-
     trdobj.itemColor = itemColor;
     trdobj.itemSize = itemSize;
     trdobj.invCode = invCode;
@@ -273,16 +290,24 @@ function saveCurr() {
         trdobj.openVaryPrice = "true";
         var varyPrice = [];
         var vpId = document.getElementsByName("vpId");
+        var status = document.getElementsByName("status");
         var price = document.getElementsByName("price");
         var limitAmount = document.getElementsByName("limitAmount");
+        var amountSum = 0;
         for(i=0;i<price.length;i++) {
             if (!numberReg2.test(price[i].value) || !numberReg1.test(limitAmount[i].value)) {
                 orSave = false;
                 $("#warn-vary-price").text("多样化价格数据不正确");
             } else $("#warn-vary-price").text("");
             varyPrice.push(vpId[i].value);
+            varyPrice.push(status[i].value);
             varyPrice.push(price[i].value);
             varyPrice.push(limitAmount[i].value);
+            amountSum += Number(limitAmount[i].value);
+        }
+        if (amountSum>restAmount) {
+            orSave = false;
+            alert("限制销售量之和大于剩余库存");
         }
         trdobj.varyPrice = varyPrice.toString();
     }
@@ -298,12 +323,15 @@ function saveCurr() {
     var count = 0;
     //行数据,其余的隐藏
     for(var item in trdobj){
-//        if (count==0||count==1||count==4||count==13)
+//        if (count==0||count==1||count==5||count==14)
         $("<td>").html(trdobj[item]).appendTo(trd);
 //        else $("<td style='display:none;'>").html(trdobj[item]).appendTo(trd);
         count++;
     }
-    $("<td class='trEdit'>").html("<span onclick='ShowModal(this)'> 编辑 </span>  <span class='delTr'> 删除 </span>").appendTo(trd);
+    if (invId!="" && invId!=null) {
+        $("<td class='trEdit'>").html("<span onclick='ShowModal(this)'> 编辑 </span>").appendTo(trd);
+    }
+    else $("<td class='trEdit'>").html("<span onclick='ShowModal(this)'> 编辑 </span>  <span class='delTr'> 删除 </span>").appendTo(trd);
     console.log(trd.html());
     //点击的是添加规格按钮
     if($(option).hasClass("add-guige")){
@@ -338,6 +366,7 @@ function saveCurr() {
 /**** 存为新规格 ****/
 function saveNew() {
     saveCurr();
+    window.close();
 }
 
 /**** 保存并关闭按钮功能 ****/
@@ -548,7 +577,7 @@ $(function(){
         var price = document.getElementsByName("price");
         var len = price.length;
         if (varyPriceTab.getElementsByTagName("tr").length>1 && limitAmount[len-1].value!="" && price[len-1].value!="" ) {
-            var trHtml = '<td><input type="text" name="vpId"></td><td><input type="text" name="price"></td><td><input type="text" name="limitAmount"></td><td class="del delTr">删除</td>';
+            var trHtml = '<td style="display:none;"><input type="text" name="vpId"></td><td><input type="text" name="price"></td><td><input type="text" name="limitAmount"></td><td class="del delTr">删除</td>';
             $("<tr>").html(trHtml).appendTo($(".guige"));
         }
     });
