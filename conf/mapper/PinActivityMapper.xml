@@ -21,6 +21,50 @@
         insert into pin_activity(pin_url,pin_id,master_user_id,person_num,pin_price,create_at,status,end_at)
         values(#{pinUrl},#{pinId},#{masterUserId},#{personNum},#{pinPrice},CURRENT_TIMESTAMP(0),#{status},#{endAt}::timestamp)
     </insert>
+    <select id="getActivityAll" resultType="entity.pingou.PinActivity">
+        select
+        <include refid="pinActivityColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from pin_activity t where 1=1
+    </select>
+
+    <select id="getActivityById" parameterType="java.lang.Long" resultType="entity.pingou.PinActivity">
+        select
+        <include refid="pinActivityColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from pin_activity t where pin_active_id = ${value}
+    </select>
+
+    <select id="getPinActivityPage" parameterType="entity.pingou.PinActivity" resultType="entity.pingou.PinActivity">
+        select
+        <include refid="pinActivityColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from pin_activity t where 1=1
+        <if test="pinActiveId != null">
+            and t.pin_active_id = #{pinActiveId}
+        </if>
+        <if test="pinId != null">
+            and t.pin_id = #{pinId}
+        </if>
+        <if test="createAt != null">
+            and t.create_at &gt;= #{createAt} ::timestamp
+        </if>
+        <if test="endAt != null">
+            and t.end_at &lt;= #{endAt} ::timestamp
+        </if>
+        ORDER BY t.create_at DESC
+
+        <if test="pageSize == -1 and offset >= -1">
+            LIMIT ALL OFFSET 0
+        </if>
+        <if test="pageSize >= 1 and offset >= 0">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
 
     <!--   拼购活动优惠券   -->
     <sql id="pinCouponColumns">
@@ -43,6 +87,13 @@
         values(#{memberCouponEndAt}::timestamp,#{memberCouponQuota},#{pinActiveId},#{masterCoupon},#{masterCouponClass},#{masterCouponStartAt}::timestamp,#{masterCouponEndAt}::timestamp,#{masterCouponQuota},
                 #{memberCoupon},#{memberCouponClass},#{memberCouponStartAt}::timestamp)
     </insert>
+    <select id="getCouponByActivityId" parameterType="java.lang.Long" resultType="entity.pingou.PinCoupon">
+        select
+        <include refid="pinCouponColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from pin_coupon t where pin_active_id = ${value}
+    </select>
 
     <sql id="pinUserColumns">
         ${alias}.id,
@@ -51,12 +102,29 @@
         ${alias}.pin_active_id,
         ${alias}.user_ip,
         ${alias}.or_robot,
-        ${alias}.user_img
+        ${alias}.user_img,
+        ${alias}.join_at
     </sql>
 
     <insert id="pinUserAdd" parameterType="entity.pingou.PinUser" useGeneratedKeys="true" keyProperty="id">
-        insert into pin_user(user_id,or_master,pin_active_id,user_ip,or_robot,user_img)
-        values(#{userId},#{orMaster},#{pinActiveId},#{userIp}::CIDR,#{orRobot},#{userImg})
+        insert into pin_user(user_id,or_master,pin_active_id,user_ip,or_robot,join_at)
+        values(#{userId},#{orMaster},#{pinActiveId},#{userIp}::CIDR,#{orRobot},CURRENT_TIMESTAMP(0))
     </insert>
+
+    <insert id="pinUserAddList" parameterType="java.util.List">
+        insert into pin_user(user_id,or_master,pin_active_id,user_ip,or_robot,join_at)
+        values
+        <foreach collection="list" item="item" index="index"  separator=",">
+            (#{item.userId},#{item.orMaster},#{item.pinActiveId},#{item.userIp}::CIDR,#{item.orRobot},CURRENT_TIMESTAMP(0))
+        </foreach>
+    </insert>
+
+    <select id="getUserByActivityId" parameterType="java.lang.Long" resultType="entity.pingou.PinUser">
+        select
+        <include refid="pinUserColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from pin_user t where pin_active_id = ${value}
+    </select>
 
 </mapper>

@@ -1,0 +1,180 @@
+@import play.i18n._
+@(lang:String="cn",pinActivity:entity.pingou.PinActivity,pinCoupon:entity.pingou.PinCoupon,masterObject:String,memberObject:String,user:entity.User)
+@scripts = {
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/pinSku.css">
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/rili.js"></script>
+<script src="/assets/js/pinSku.js"></script>
+<script>
+    $(function(){
+        $("#status").val("@pinActivity.getStatus()");
+
+
+
+    })
+</script>
+}
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"拼购团详情")
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span>拼购管理</span>
+        <span class="icon-path">&gt;</span>
+        <span>拼购团详情</span>
+    </div>
+</div>
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">拼购团详情</span>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="form-horizontal">
+                <h4 class="h4-custom-hmm">基本信息</h4>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">团ID:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" value="@pinActivity.getPinActiveId()" id="activeId" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">活动ID:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" value="@pinActivity.getPinId()" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">商品标题:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" value="@pinActivity.getPinTitle()" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">拼购人数:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" value="@pinActivity.getPersonNum()" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">拼购价格:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" value="@pinActivity.getPinPrice()"  disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">已参加人数:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" value="@pinActivity.getJoinPersons()" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">发起时间:</label>
+                    <div class="col-sm-8">
+                        <div class="input-group" id='datetimepicker1'>
+                            <input class="form-control col-sm-2"  type="text"  id="onShelvesAt" name="onShelvesAt" value="@pinActivity.getCreateAt()" disabled>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">结束时间:</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date" id='datetimepicker2'>
+                            <input class="form-control col-sm-2"  type="text"  id="offShelvesAt" name="offShelvesAt" value="@pinActivity.getEndAt()" disabled>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">状态:</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" id="status" disabled>
+                            <option value=""></option>
+                            <option value="Y">正常</option>
+                            <option value="N">取消</option>
+                            <option value="C">完成</option>
+                        </select>
+                    </div>
+                </div>
+                <hr/>
+                <h4 class="h4-custom-hmm">优惠券</h4>
+                <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <table class="table table-bordered pingou">
+                                <tr>
+                                    <th>用户类型</th>
+                                    <th>优惠券类别</th>
+                                    <th>限额</th>
+                                    <th>面值</th>
+                                    <th>开始日期</th>
+                                    <th>结束日期</th>
+                                </tr>
+
+                                <tr>
+                                    <td>团长</td>
+                                    <td>@pinCoupon.getMasterCouponClass()</td>
+                                    <td>@pinCoupon.getMasterCouponQuota()</td>
+                                    <td>@pinCoupon.getMasterCoupon()</td>
+                                    <td>@(pinCoupon.getMasterCouponStartAt().toString().substring(0,19))</td>
+                                    <td>@(pinCoupon.getMasterCouponEndAt().toString().substring(0,19))</td>
+                                </tr>
+                                <tr>
+                                    <td>团员</td>
+                                    <td>@pinCoupon.getMemberCouponClass()</td>
+                                    <td>@pinCoupon.getMemberCouponQuota()</td>
+                                    <td>@pinCoupon.getMemberCoupon()</td>
+                                    <td>@(pinCoupon.getMemberCouponStartAt().toString().substring(0,19))</td>
+                                    <td>@(pinCoupon.getMemberCouponEndAt().toString().substring(0,19))</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                <hr/>
+                <h4 class="h4-custom-hmm">参团人员</h4>
+                <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <table class="table table-bordered pingou">
+                                <tr>
+                                    <th style="width:250px">团长</th>
+                                    <th>团员</th>
+                                </tr>
+                                <tr>
+                                    <td>@masterObject</td>
+                                    <td>@memberObject</td>
+                                </tr>
+                            </table>
+                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">用户个数:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="userNum">
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-primary btn-xm add-robot">添加</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 点击图片预览-->
+<div class="goods-img-bg">
+    <div class="goods-bg"></div>
+    <div class="goods-img">
+        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>
+
+}

@@ -263,9 +263,44 @@ $(function() {
         		})
         	}
 
+        //每个查询页面对应一个相应的组装函数 拼购活动查询页面      Added by Tiffany Zhu 2016.02.16
+        funcList.activitylist_search = function activitylist_search(pageIndex) {
+        	var activityDto = new Object();
+        	activityDto.pinActiveId = $("#activity_id").val();
+        	activityDto.pinId = $("#pin_id").val();
 
+        	activityDto.createAt = $("#topic-form-starttime").val();
+        	activityDto.endAt = $("#topic-form-endtime").val();
+        	//开始时间如果为空
+            if ($("#topic-form-starttime").val() == '' || $("#topic-form-starttime").val() == null) {
+                activityDto.createAt = "0000-01-01 00:00:00";
+            }
+            if ($("#topic-form-endtime").val() == '' || $("#topic-form-endtime").val() == null) {
+            	activityDto.endAt = "99999-12-31 23:59:59";
+            }
+        	//调用共用ajax,url从根目录开始不需要加上语言
+        	search("/pin/activity/search/" + pageIndex, activityDto);
+        }
 
-
+        //每个查询页面对应一个相应的返回时填充函数 拼购活动查询页面       Added by Tiffany Zhu 2016.02.16
+        funcList.activitylist_data = function activitylist_data(data) {
+        	//填充列表数据
+        	$(data).each(function(index, element) {
+                $('#tb-topic').find('tbody').append('' +
+                    '<tr class="tb-list-data">' +
+                    '<td><a href="/'+window.lang+'/pin/activity/geActivityById/'+$(this)[0].pinActiveId + ' ">' + $(this)[0].pinActiveId + '</a></td>' +
+                    '<td>' + $(this)[0].pinId + '</td>' +
+                    '<td>' + $(this)[0].pinTitle + '</td>' +
+                    '<td>' + ($(this)[0].createAt != null && $(this)[0].createAt != '' ? $(this)[0].createAt.substr(0, 16) : '') + '</td>}' +
+                    '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 16) : '') + '</td>}' +
+                    '<td>' + $(this)[0].masterUserId + '</td>' +
+                    '<td>' + $(this)[0].personNum + '</td>' +
+                    '<td>' + $(this)[0].pinPrice + '</td>' +
+                    '<td>' + $(this)[0].joinPersons + '</td>' +
+                    '</tr>'
+                );
+        	})
+        }
 
         //每个查询页面对应一个相应的组装函数  erp商品资料查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Sunny Wu
         funcList.itemInfoList_search = function orderlist_search(pageIndex) {

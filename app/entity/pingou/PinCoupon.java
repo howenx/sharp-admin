@@ -13,15 +13,15 @@ public class PinCoupon implements Serializable {
     private Long id;                        // 主键ID
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp memberCouponEndAt;    //团员优惠券结束时间
-    private int memberCouponQuota;          //团员优惠券限额
-    private int masterCoupon;               //团长返券额度
+    private Integer memberCouponQuota;          //团员优惠券限额
+    private Integer masterCoupon;               //团长返券额度
     private String masterCouponClass;       //团长返券类别
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp masterCouponStartAt;  //团长优惠券开始时间
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp masterCouponEndAt;    //团长优惠券结束时间
-    private int masterCouponQuota;          //团长优惠券限额
-    private int memberCoupon;               //团员返券额度
+    private Integer masterCouponQuota;          //团长优惠券限额
+    private Integer memberCoupon;               //团员返券额度
     private String memberCouponClass;       //团员返券类别
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp memberCouponStartAt;  //团员优惠券开始时间
@@ -30,7 +30,7 @@ public class PinCoupon implements Serializable {
     public PinCoupon() {
     }
 
-    public PinCoupon(Long id, Timestamp memberCouponEndAt, int memberCouponQuota, int masterCoupon, String masterCouponClass, Timestamp masterCouponStartAt, Timestamp masterCouponEndAt, int masterCouponQuota, int memberCoupon, String memberCouponClass, Timestamp memberCouponStartAt, Long pinActiveId) {
+    public PinCoupon(Long id, Timestamp memberCouponEndAt, Integer memberCouponQuota, Integer masterCoupon, String masterCouponClass, Timestamp masterCouponStartAt, Timestamp masterCouponEndAt, Integer masterCouponQuota, Integer memberCoupon, String memberCouponClass, Timestamp memberCouponStartAt, Long pinActiveId) {
         this.id = id;
         this.memberCouponEndAt = memberCouponEndAt;
         this.memberCouponQuota = memberCouponQuota;
@@ -63,7 +63,6 @@ public class PinCoupon implements Serializable {
                 '}';
     }
 
-
     public Long getId() {
         return id;
     }
@@ -80,19 +79,19 @@ public class PinCoupon implements Serializable {
         this.memberCouponEndAt = memberCouponEndAt;
     }
 
-    public int getMemberCouponQuota() {
+    public Integer getMemberCouponQuota() {
         return memberCouponQuota;
     }
 
-    public void setMemberCouponQuota(int memberCouponQuota) {
+    public void setMemberCouponQuota(Integer memberCouponQuota) {
         this.memberCouponQuota = memberCouponQuota;
     }
 
-    public int getMasterCoupon() {
+    public Integer getMasterCoupon() {
         return masterCoupon;
     }
 
-    public void setMasterCoupon(int masterCoupon) {
+    public void setMasterCoupon(Integer masterCoupon) {
         this.masterCoupon = masterCoupon;
     }
 
@@ -120,19 +119,19 @@ public class PinCoupon implements Serializable {
         this.masterCouponEndAt = masterCouponEndAt;
     }
 
-    public int getMasterCouponQuota() {
+    public Integer getMasterCouponQuota() {
         return masterCouponQuota;
     }
 
-    public void setMasterCouponQuota(int masterCouponQuota) {
+    public void setMasterCouponQuota(Integer masterCouponQuota) {
         this.masterCouponQuota = masterCouponQuota;
     }
 
-    public int getMemberCoupon() {
+    public Integer getMemberCoupon() {
         return memberCoupon;
     }
 
-    public void setMemberCoupon(int memberCoupon) {
+    public void setMemberCoupon(Integer memberCoupon) {
         this.memberCoupon = memberCoupon;
     }
 
