@@ -3,6 +3,7 @@ package service;
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.pingou.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -112,5 +113,18 @@ public interface PingouService {
      * @param list
      */
     void pinUserAddList(List list);
+
+    /**
+     * 更新参加拼购活动的用户      Added by Tiffany Zhu 2016.02.18
+     * @param hashMap
+     */
+    void updJoinPersonById(HashMap hashMap);
+
+    /**
+     * 通过拼购ID获取所有的拼购团       Added by Tiffany Zhu 2016.02.18
+     * @param pinId
+     * @return
+     */
+    List<PinActivity> getActivityByPinId(Long pinId);
 
 }

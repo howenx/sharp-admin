@@ -23,13 +23,13 @@
     </sql>
 
     <insert id="insertPinSku" parameterType="entity.pingou.PinSku" useGeneratedKeys="true" keyProperty="pinId">
-        insert into pin_sku(pin_img,share_url,status,create_at,pin_title,start_at,end_at,restrict_amount,floor_price,inv_id,pin_discount)
-        values(#{pinImg},#{shareUrl},#{status},CURRENT_TIMESTAMP(0),#{pinTitle},#{startAt}::timestamp,#{endAt}::timestamp,#{restrictAmount},#{floorPrice},#{invId},#{pinDiscount})
+        insert into pin_sku(pin_img,status,create_at,pin_title,start_at,end_at,restrict_amount,floor_price,inv_id,pin_discount)
+        values(#{pinImg},#{status},CURRENT_TIMESTAMP(0),#{pinTitle},#{startAt}::timestamp,#{endAt}::timestamp,#{restrictAmount},#{floorPrice},#{invId},#{pinDiscount})
     </insert>
 
     <update id="updatePinSku" parameterType="entity.pingou.PinSku">
         update pin_sku
-        set pin_img=#{pinImg},share_url=#{shareUrl},status=#{status},update_at = CURRENT_TIMESTAMP(0),pin_title=#{pinTitle},start_at=#{startAt}::timestamp,
+        set pin_img=#{pinImg},status=#{status},update_at = CURRENT_TIMESTAMP(0),pin_title=#{pinTitle},start_at=#{startAt}::timestamp,
         end_at=#{endAt}::timestamp,restrict_amount=#{restrictAmount},floor_price=#{floorPrice},inv_id=#{invId},pin_discount=#{pinDiscount}
         where pin_id = ${pinId}
     </update>

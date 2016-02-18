@@ -293,10 +293,10 @@ $(function() {
                     '<td>' + $(this)[0].pinTitle + '</td>' +
                     '<td>' + ($(this)[0].createAt != null && $(this)[0].createAt != '' ? $(this)[0].createAt.substr(0, 16) : '') + '</td>}' +
                     '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 16) : '') + '</td>}' +
-                    '<td>' + $(this)[0].masterUserId + '</td>' +
                     '<td>' + $(this)[0].personNum + '</td>' +
                     '<td>' + $(this)[0].pinPrice + '</td>' +
                     '<td>' + $(this)[0].joinPersons + '</td>' +
+                    '<td>' + $(this)[0].status + '</td>' +
                     '</tr>'
                 );
         	})

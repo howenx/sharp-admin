@@ -10,6 +10,7 @@ import play.libs.Json;
 import javax.inject.Inject;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -267,5 +268,24 @@ public class PingouServiceImpl implements PingouService {
     @Override
     public void pinUserAddList(List list) {
         pinActivityMapper.pinUserAddList(list);
+    }
+
+    /**
+     * 更新参加拼购活动的用户      Added by Tiffany Zhu 2016.02.18
+     * @param hashMap
+     */
+    @Override
+    public void updJoinPersonById(HashMap hashMap) {
+        pinActivityMapper.updJoinPersonById(hashMap);
+    }
+
+    /**
+     * 通过拼购ID获取所有的拼购团       Added by Tiffany Zhu 2016.02.18
+     * @param pinId
+     * @return
+     */
+    @Override
+    public List<PinActivity> getActivityByPinId(Long pinId) {
+        return pinActivityMapper.getActivityByPinId(pinId);
     }
 }

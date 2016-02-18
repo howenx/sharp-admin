@@ -19,7 +19,7 @@
 <div class="mbread">
     <div class="bread-path">
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
-        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
         <span class="icon-path">&gt;</span>
         <span>拼购管理</span>
         <span class="icon-path">&gt;</span>
@@ -76,10 +76,10 @@
             <th>商品标题</th>
             <th>发起时间</th>
             <th>截止时间</th>
-            <th>团长ID</th>
             <th>拼购人数</th>
             <th>拼购价格(元)</th>
             <th>已参加人数</th>
+            <th>状态</th>
 
             </thead>
             <tbody>
@@ -88,7 +88,9 @@
                 <td>
                     <a href="/@lang/pin/activity/geActivityById/@pinActivity(0)">@pinActivity(0)</a>
                 </td>
-                <td>@pinActivity(1)</td>
+                <td>
+                    <a href="/@lang/pin/getPinById/@pinActivity(1)">@pinActivity(1)</a>
+                </td>
                 <td>@pinActivity(8)</td>
                 <td>
                     @(pinActivity(6).toString().substring(0,16))
@@ -96,10 +98,10 @@
                 <td>
                     @(pinActivity(7).toString().substring(0,16))
                 </td>
-                <td>@pinActivity(2)</td>
                 <td>@pinActivity(3)</td>
                 <td>@pinActivity(4)</td>
                 <td>@pinActivity(5)</td>
+                <td>@pinActivity(9)</td>
             </tr>
             }
 

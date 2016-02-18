@@ -240,7 +240,6 @@ public class PingouCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result activityManualAdd(String lang, Long pinId){
         PinSku pinSku = pingouService.getPinSkuById(pinId);
-        JsonNode imgJson = Json.parse(pinSku.getPinImg());
         List<PinTieredPrice> tieredPrices = pingouService.getTieredPriceByPinId(pinId);
         List<Object[]> tieredList = new ArrayList<>();
         int index = 0;
@@ -334,7 +333,8 @@ public class PingouCtrl extends Controller {
         if(json.has("tieredPriceId")){
             pinTieredPrice = pingouService.getTieredPriceByTieredId(json.get("tieredPriceId").asLong());
         }
-
+        Logger.error(pinSku.toString());
+        Logger.error(pinTieredPrice.toString());
         if(pinSku != null && pinTieredPrice != null){
             Long userId = new Long(1111111);            //机器人用户ID
             //添加拼购活动
@@ -343,6 +343,7 @@ public class PingouCtrl extends Controller {
             pinActivity.setPinId(pinSku.getPinId());                //拼购商品ID
             pinActivity.setMasterUserId(userId);                    //机器人用户ID
             pinActivity.setPersonNum(pinTieredPrice.getPeopleNum());//拼购人数
+            pinActivity.setJoinPersons(1);                          //参加拼购的人数
             pinActivity.setPinPrice(pinTieredPrice.getPrice());     //拼购价格
             pinActivity.setStatus("Y");                             //拼购状态--正常
             pinActivity.setEndAt(pinSku.getEndAt());                //截止时间
@@ -419,17 +420,28 @@ public class PingouCtrl extends Controller {
         List<PinActivity> pinActivityList = pingouService.getPinActivityPage(pinActivity);
         for(PinActivity pinActivityTemp : pinActivityList){
             PinSku pinSku = pingouService.getPinSkuById(pinActivityTemp.getPinId());
-            List<PinUser> pinUserList = pingouService.getUserByActivityId(pinActivityTemp.getPinActiveId());
-            Object[] object = new Object[9];
+            Object[] object = new Object[10];
             object[0] = pinActivityTemp.getPinActiveId();
             object[1] = pinActivityTemp.getPinId();
             object[2] = pinActivityTemp.getMasterUserId();
             object[3] = pinActivityTemp.getPersonNum();
             object[4] = pinActivityTemp.getPinPrice();
-            object[5] = pinUserList.size();
+            object[5] = pinActivityTemp.getJoinPersons();
             object[6] = pinActivityTemp.getCreateAt();
             object[7] = pinActivityTemp.getEndAt();
             object[8] = pinSku.getPinTitle();
+            if("Y".equals(pinActivityTemp.getStatus())){
+                object[9] = "正常";
+            }
+            if("N".equals(pinActivityTemp.getStatus())){
+                object[9] = "取消";
+            }
+            if("C".equals(pinActivityTemp.getStatus())){
+                object[9] = "完成";
+            }
+            if("F".equals(pinActivityTemp.getStatus())){
+                object[9] = "失败";
+            }
             rtnPinActivityList.add(object);
         }
         return ok(views.html.pingou.activitySearch.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,rtnPinActivityList,(User) ctx().args.get("user")));
@@ -465,9 +477,19 @@ public class PingouCtrl extends Controller {
             List<PinActivity> rtnList = new ArrayList<>();
             for(PinActivity pinActivityTemp : activityList){
                 PinSku pinSku = pingouService.getPinSkuById(pinActivityTemp.getPinId());
-                List<PinUser> pinUserList = pingouService.getUserByActivityId(pinActivityTemp.getPinActiveId());
                 pinActivityTemp.setPinTitle(pinSku.getPinTitle());
-                pinActivityTemp.setJoinPersons(pinUserList.size());
+                if("Y".equals(pinActivityTemp.getStatus())){
+                    pinActivityTemp.setStatus("正常");
+                }
+                if("N".equals(pinActivityTemp.getStatus())){
+                    pinActivityTemp.setStatus("取消");
+                }
+                if("C".equals(pinActivityTemp.getStatus())){
+                    pinActivityTemp.setStatus("完成");
+                }
+                if("F".equals(pinActivityTemp.getStatus())){
+                    pinActivityTemp.setStatus("失败");
+                }
                 rtnList.add(pinActivityTemp);
             }
             //组装返回数据
@@ -497,49 +519,51 @@ public class PingouCtrl extends Controller {
         pinActivity.setPinTitle(pinSku.getPinTitle());
         //拼购团优惠券
         PinCoupon pinCoupon = pingouService.getCouponByActivityId(id);
-        //团长优惠券类型
-        if("153".equals(pinCoupon.getMasterCouponClass())){
-            pinCoupon.setMasterCouponClass("化妆品类商品适用券"); //团长优惠券类别
-        }
-        if("172".equals(pinCoupon.getMasterCouponClass())){
-            pinCoupon.setMasterCouponClass("配饰类商品适用券");  //团长优惠券类别
-        }
-        if("165".equals(pinCoupon.getMasterCouponClass())){
-            pinCoupon.setMasterCouponClass("服饰类商品适用券");  //团长优惠券类别
-        }
-        if("555".equals(pinCoupon.getMasterCouponClass())){
-            pinCoupon.setMasterCouponClass("全场通用券");       //团长优惠券类别
-        }
-        if("777".equals(pinCoupon.getMasterCouponClass())){
-            pinCoupon.setMasterCouponClass("新人优惠券");       //团长优惠券类别
-        }
-        if("211".equals(pinCoupon.getMasterCouponClass())){
-            pinCoupon.setMasterCouponClass("指定商品适用券");   //团长优惠券类别
-        }
-        if("999".equals(pinCoupon.getMasterCouponClass())){
-            pinCoupon.setMasterCouponClass("免邮券");          //团长优惠券类别
-        }
-        //团员优惠券类型
-        if("153".equals(pinCoupon.getMemberCouponClass())){
-            pinCoupon.setMemberCouponClass("化妆品类商品适用券"); //团长优惠券类别
-        }
-        if("172".equals(pinCoupon.getMemberCouponClass())){
-            pinCoupon.setMemberCouponClass("配饰类商品适用券");  //团长优惠券类别
-        }
-        if("165".equals(pinCoupon.getMemberCouponClass())){
-            pinCoupon.setMemberCouponClass("服饰类商品适用券");  //团长优惠券类别
-        }
-        if("555".equals(pinCoupon.getMemberCouponClass())){
-            pinCoupon.setMemberCouponClass("全场通用券");       //团长优惠券类别
-        }
-        if("777".equals(pinCoupon.getMemberCouponClass())){
-            pinCoupon.setMemberCouponClass("新人优惠券");       //团长优惠券类别
-        }
-        if("211".equals(pinCoupon.getMemberCouponClass())){
-            pinCoupon.setMemberCouponClass("指定商品适用券");   //团长优惠券类别
-        }
-        if("999".equals(pinCoupon.getMemberCouponClass())) {
-            pinCoupon.setMemberCouponClass("免邮券");          //团长优惠券类别
+        if(pinCoupon != null) {
+            //团长优惠券类型
+            if ("153".equals(pinCoupon.getMasterCouponClass())) {
+                pinCoupon.setMasterCouponClass("化妆品类商品适用券"); //团长优惠券类别
+            }
+            if ("172".equals(pinCoupon.getMasterCouponClass())) {
+                pinCoupon.setMasterCouponClass("配饰类商品适用券");  //团长优惠券类别
+            }
+            if ("165".equals(pinCoupon.getMasterCouponClass())) {
+                pinCoupon.setMasterCouponClass("服饰类商品适用券");  //团长优惠券类别
+            }
+            if ("555".equals(pinCoupon.getMasterCouponClass())) {
+                pinCoupon.setMasterCouponClass("全场通用券");       //团长优惠券类别
+            }
+            if ("777".equals(pinCoupon.getMasterCouponClass())) {
+                pinCoupon.setMasterCouponClass("新人优惠券");       //团长优惠券类别
+            }
+            if ("211".equals(pinCoupon.getMasterCouponClass())) {
+                pinCoupon.setMasterCouponClass("指定商品适用券");   //团长优惠券类别
+            }
+            if ("999".equals(pinCoupon.getMasterCouponClass())) {
+                pinCoupon.setMasterCouponClass("免邮券");          //团长优惠券类别
+            }
+            //团员优惠券类型
+            if ("153".equals(pinCoupon.getMemberCouponClass())) {
+                pinCoupon.setMemberCouponClass("化妆品类商品适用券"); //团长优惠券类别
+            }
+            if ("172".equals(pinCoupon.getMemberCouponClass())) {
+                pinCoupon.setMemberCouponClass("配饰类商品适用券");  //团长优惠券类别
+            }
+            if ("165".equals(pinCoupon.getMemberCouponClass())) {
+                pinCoupon.setMemberCouponClass("服饰类商品适用券");  //团长优惠券类别
+            }
+            if ("555".equals(pinCoupon.getMemberCouponClass())) {
+                pinCoupon.setMemberCouponClass("全场通用券");       //团长优惠券类别
+            }
+            if ("777".equals(pinCoupon.getMemberCouponClass())) {
+                pinCoupon.setMemberCouponClass("新人优惠券");       //团长优惠券类别
+            }
+            if ("211".equals(pinCoupon.getMemberCouponClass())) {
+                pinCoupon.setMemberCouponClass("指定商品适用券");   //团长优惠券类别
+            }
+            if ("999".equals(pinCoupon.getMemberCouponClass())) {
+                pinCoupon.setMemberCouponClass("免邮券");          //团长优惠券类别
+            }
         }
         //拼购团成员
         List<PinUser> pinUserList = pingouService.getUserByActivityId(id);
@@ -577,11 +601,15 @@ public class PingouCtrl extends Controller {
         JsonNode json = request().body().asJson();
         int userNum = 0;
         Long pinActiveId = new  Long(0);
+        boolean isComplete = false;
         if(json.has("userNum")){
             userNum = json.get("userNum").asInt();
         }
         if(json.has("pinActiveId")){
             pinActiveId = json.get("pinActiveId").asLong();
+        }
+        if(json.has("isComplete")){
+            isComplete = json.get("isComplete").asBoolean();
         }
         List<PinUser> pinUserList = new ArrayList<>();
         if(userNum > 0){
@@ -599,7 +627,42 @@ public class PingouCtrl extends Controller {
             }
         }
         pingouService.pinUserAddList(pinUserList);
+        //更新拼购团参加的人数
+        HashMap hashMap = new HashMap();
+        hashMap.put("userNum",userNum);
+        hashMap.put("pinActiveId",pinActiveId);
+        hashMap.put("isComplete",isComplete);
+        pingouService.updJoinPersonById(hashMap);
 
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
+    }
+
+    /**
+     *拼购活动已开的所有团        Added by Tiffany Zhu 2016.02.18
+     * @param lang
+     * @param pinId
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result pingouActivityList(String lang,Long pinId){
+        List<PinActivity> pinActivityList = pingouService.getActivityByPinId(pinId);
+        List<PinActivity> rtnActivityList = new ArrayList<>();
+        for(PinActivity activity : pinActivityList){
+            if("Y".equals(activity.getStatus())){
+                activity.setStatus("正常");
+            }
+            if("N".equals(activity.getStatus())){
+                activity.setStatus("取消");
+            }
+            if("C".equals(activity.getStatus())){
+                activity.setStatus("完成");
+            }
+            if("F".equals(activity.getStatus())){
+                activity.setStatus("失败");
+            }
+            rtnActivityList.add(activity);
+        }
+        PinSku pinSku = pingouService.getPinSkuById(pinId);
+        return ok(views.html.pingou.pingouActivityList.render(lang,pinSku,rtnActivityList,(User) ctx().args.get("user")));
     }
 }

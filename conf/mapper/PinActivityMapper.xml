@@ -18,8 +18,8 @@
     </sql>
 
     <insert id="activityManualAdd" parameterType="entity.pingou.PinActivity" useGeneratedKeys="true" keyProperty="pinActiveId">
-        insert into pin_activity(pin_url,pin_id,master_user_id,person_num,pin_price,create_at,status,end_at)
-        values(#{pinUrl},#{pinId},#{masterUserId},#{personNum},#{pinPrice},CURRENT_TIMESTAMP(0),#{status},#{endAt}::timestamp)
+        insert into pin_activity(pin_url,pin_id,master_user_id,person_num,pin_price,join_persons,create_at,status,end_at)
+        values(#{pinUrl},#{pinId},#{masterUserId},#{personNum},#{pinPrice},#{joinPersons},CURRENT_TIMESTAMP(0),#{status},#{endAt}::timestamp)
     </insert>
     <select id="getActivityAll" resultType="entity.pingou.PinActivity">
         select
@@ -65,6 +65,23 @@
         </if>
     </select>
 
+    <select id="getActivityByPinId" parameterType="java.lang.Long" resultType="entity.pingou.PinActivity">
+        select
+        <include refid="pinActivityColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from pin_activity t where pin_id = ${value}
+    </select>
+
+    <update id="updJoinPersonById" parameterType="java.util.HashMap">
+        update pin_activity set join_persons = join_persons + #{userNum}
+        <if test="isComplete == true">
+            ,status = 'C'
+        </if>
+        where pin_active_id = #{pinActiveId}
+    </update>
+
+
 
     <!--   拼购活动优惠券   -->
     <sql id="pinCouponColumns">
@@ -95,6 +112,8 @@
         from pin_coupon t where pin_active_id = ${value}
     </select>
 
+
+    <!--  参加拼购活动的用户  -->
     <sql id="pinUserColumns">
         ${alias}.id,
         ${alias}.user_id,
