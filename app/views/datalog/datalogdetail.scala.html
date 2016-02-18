@@ -15,9 +15,9 @@
 <div class="mbread">
     <div class="bread-path">
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
-        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
         <span class="icon-path">&gt;</span>
-        <span class="current">@user.nickname</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.data.sell")</span>
         <span class="icon-path">&gt;</span>
         <span>日志详情</span>
     </div>
@@ -27,7 +27,6 @@
         <span class="title-name">日志详情</span>
     </div>
     <div class="usercenter-option">
-        <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
         <div id="return" class="btn-white btn-form fr ml20">返回</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>

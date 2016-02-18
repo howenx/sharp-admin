@@ -19,7 +19,7 @@
 <div class="mbread" style="width:65%">
     <div class="bread-path">
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
-        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
         <span class="icon-path">&gt;</span>
         <span class="current">个人中心</span>
         <span class="icon-path">&gt;</span>
@@ -45,7 +45,7 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label" >密码</label>
                     <div class="col-sm-3">
-                        <input type="password" class="form-control" id="passwd" name="passwd">
+                        <input type="password" class="form-control form-data-area" id="passwd" name="passwd">
                         <input type="hidden" class="form-control" id="enNm" name="enNm" value="@user.enNm" >
                         <input type="hidden" class="form-control" id="userId" name="userId" value="@user.userId" >
                     </div>
@@ -53,13 +53,13 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label" >新密码</label>
                     <div class="col-sm-3">
-                        <input type="password" class="form-control" id="new_pwd" name="new_pwd"><div style="margin-left:250px;width:200px;margin-top:-25px;">至少需要 8 个字符</div>
+                        <input type="password" class="form-control form-data-area" id="new_pwd" name="new_pwd"><div style="margin-left:250px;width:200px;margin-top:-25px;">至少需要 8 个字符</div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label" >确认</label>
                     <div class="col-sm-3">
-                        <input type="password" class="form-control" id="re_pwd" name="re_pwd">
+                        <input type="password" class="form-control form-data-area" id="re_pwd" name="re_pwd">
                     </div>
                 </div>
             </div>
@@ -69,6 +69,12 @@
 }
 
 <script>
+
+    /** 数据改变的提示 **/
+    $(document).on('change', '.form-data-area', function() {
+		$('.usercenter-option > .user-state').css('background-position', '20px -73px');
+		$('.usercenter-option > .user-state').text('已更改');
+	});
 
     /** 数据提交 修改密码 **/
     $("#submit").click(function(){

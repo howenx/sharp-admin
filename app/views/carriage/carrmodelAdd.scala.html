@@ -35,10 +35,10 @@
                 '<td width="300"><span>'+cityNameGiven+' </span><a href="javascript:void(0)" class="edit" style="float: right">编辑</a><span class="cnm" style="display:none;">'+
                 cityCodeGiven +
                 '</span></td>' +
-                '<td><input type="text" value="" name="firstNum"></td>' +
-                '<td><input type="text" value="" name="firstFee"></td>' +
-                '<td><input type="text" value="" name="addNum"></td>' +
-                '<td><input type="text" value="" name="addFee"></td>' +
+                '<td><input type="text" value="" name="firstNum" class="form-data-area"></td>' +
+                '<td><input type="text" value="" name="firstFee" class="form-data-area"></td>' +
+                '<td><input type="text" value="" name="addNum" class="form-data-area"></td>' +
+                '<td><input type="text" value="" name="addFee" class="form-data-area"></td>' +
                 '<td><a href="javascript:void(0)" class="del">删除</a></td>' +
                 '</tr>')
     }
@@ -96,7 +96,7 @@
 <div class="mbread">
     <div class="bread-path">
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
-        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
         <span class="icon-path">&gt;</span>
         <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
         <span class="icon-path">&gt;</span>
@@ -120,20 +120,20 @@
             <!--运费模版名称-->
             <div class="input-item" style="padding-top: 30px">
                 <span>运费模版名称:</span>
-                <input type="text" id="modelName" name="modelName" style="color:black;">  请输入汉字、 -、 字母或者数字<font id="modelName-warn" style="color:red;margin-left:10px;"></font>
+                <input type="text" id="modelName" name="modelName" class="form-data-area" style="color:black;">  请输入汉字、 -、 字母或者数字<font id="modelName-warn" style="color:red;margin-left:10px;"></font>
             </div>
             <!--是否包邮-->
             <div class="input-item">
                 <span>是否包邮:</span>
                 <input type="radio" name="free-shipping" checked>  买家承担运费
-                <input type="radio" name="free-shipping">  卖家承担运费
+                <!--<input type="radio" name="free-shipping">  卖家承担运费-->
             </div>
             <!--计费规则-->
             <div class="input-item">
                 <span>计费规则:</span>
                 <input type="radio" name="cost-role" checked>  按件数
-                <input type="radio" name="cost-role">  按重量
-                <input type="radio" name="cost-role">  按体积
+                <!--<input type="radio" name="cost-role">  按重量-->
+                <!--<input type="radio" name="cost-role">  按体积-->
             </div>
             <!--运送方式-->
             <div class="input-item">
@@ -144,7 +144,7 @@
                     <table cellspacing="0" id="dataTab">
                         <tr style="background: rgb(224,238,255)">
                             <td colspan="6">
-                                默认运费: <input type="text" name="firstNum">件内, <input type="text" name="firstFee">元,每增加<input type="text"  name="addNum">件,增加运费 <input type="text" name="addFee">元
+                                默认运费: <input type="text" name="firstNum" class="form-data-area">件内, <input type="text" name="firstFee" class="form-data-area">元,每增加<input type="text" name="addNum" class="form-data-area">件,增加运费 <input type="text" name="addFee" class="form-data-area">元
                             </td>
                         </tr>
                         <tr>
@@ -197,10 +197,19 @@
 }
 
 <script>
+
+    /** 数据改变的提示 **/
+    $(document).on('change', '.form-data-area', function() {
+		$('.usercenter-option > .user-state').css('background-position', '20px -73px');
+		$('.usercenter-option > .user-state').text('已更改');
+	});
+
+    /** 返回按钮返回到运费模板列表**/
     $("#return").click(function() {
         window.location.href="/"+window.lang+"/carr/search  ";
     });
 
+    /** 数据提交 **/
     $("#modelSubmit").click(function() {
         var carrModels = [];
         var isPost = true;

@@ -230,7 +230,7 @@ public class ItemCtrl extends Controller {
         //包含modelName的库存列表
         List<Object[]> invList = new ArrayList<>();
         for(Inventory inventory : inventories) {
-            Object[] object = new Object[28];
+            Object[] object = new Object[29];
             object[0] = inventory.getId();
             object[1] = inventory.getItemId();
             object[2] = inventory.getOrMasterInv();
@@ -276,11 +276,13 @@ public class ItemCtrl extends Controller {
             List<VaryPrice> vpList = varyPriceService.getVaryPriceBy(varyPrice);
             for(VaryPrice vp : vpList) {
                 object[26]=object[26] + vp.getId().toString()+",";
+                object[26]=object[26] + vp.getStatus()+",";
                 object[26]=object[26] + vp.getPrice().toString()+",";
                 object[26]=object[26] + vp.getLimitAmount().toString()+",";
             }
             object[26] = object[26].toString().substring(0,object[26].toString().length()-1);
             object[27] = inventory.getInvCode();
+            object[28] = inventory.getState();
             invList.add(object);
         }
         return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,ThemeCtrl.IMG_UPLOAD_URL,lang,itemService.getAllBrands(),itemService.getParentCates(),carriageService.getModels(),(User) ctx().args.get("user")));
