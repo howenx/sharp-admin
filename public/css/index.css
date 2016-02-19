@@ -39,15 +39,15 @@ a:hover{text-decoration:none;}
     margin-right:40px;
     padding:10px 0 0 0;
 }
-.box-top ul .first{
+.box-top ul .sales{
     background-color: #B1A1C6;
 }
 
-.box-top ul .second{
+.box-top ul .order{
      background-color: #76D1E6;
  }
 
-.box-top ul .third{
+.box-top ul .user{
     background-color:#D9E3BE;
 }
 

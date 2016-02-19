@@ -171,12 +171,12 @@ public class AdminUserCtrl extends Controller {
      * @param lang 语言
      * @return views
      */
-    @Security.Authenticated(UserAuth.class)
-    public Result summary(String lang) {
-        String username = session().get("username");
-        User user = (User) Cache.get(username.trim());
-        return ok(views.html.summary.summary.render(lang, user));
-    }
+//    @Security.Authenticated(UserAuth.class)
+//    public Result summary(String lang) {
+//        String username = session().get("username");
+//        User user = (User) Cache.get(username.trim());
+//        return ok(views.html.summary.summary.render(lang, user));
+//    }
 
     /**
      * 用户个人中心

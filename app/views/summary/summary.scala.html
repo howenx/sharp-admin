@@ -2,12 +2,12 @@
 @import entity.User_Type
 @import entity.User
 
-@(lang:String="cn", user:entity.User)
+@(lang:String="cn", user:entity.User, userNum:Integer, orderNum:Integer, salesTotalFee:Double)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
 <link rel="shortcut icon" type="image/png" href="/assets/images/favicon.ico">
-<link href="/assets/css/index.css" rel="stylesheet">
 <script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>
+<link href="/assets/css/index.css" rel="stylesheet">
 }
 
 @body = {
@@ -19,16 +19,16 @@
                         <span class="one">234567</span>
                         <span>流量(今日)</span>
                     </li>
-                    <li class="first">
-                        <span class="one">234567</span>
+                    <li class="sales">
+                        <span class="one">@salesTotalFee</span>
                         <span>销售量(今日)</span>
                     </li>
-                    <li class="second">
-                        <span class="one">234567</span>
+                    <li class="order">
+                        <span class="one">@orderNum</span>
                         <span>新订单(今日)</span>
                     </li>
-                    <li class="third">
-                        <span class="one">234567</span>
+                    <li class="user">
+                        <span class="one">@userNum</span>
                         <span>新用户(今日)</span>
                     </li>
                 </ul>
