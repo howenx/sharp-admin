@@ -1,6 +1,6 @@
 package service;
 
-import entity.OrderSplit;
+import entity.order.OrderSplit;
 import mapper.OrderSplitMapper;
 
 import javax.inject.Inject;

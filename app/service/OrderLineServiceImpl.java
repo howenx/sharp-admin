@@ -1,6 +1,6 @@
 package service;
 
-import entity.OrderLine;
+import entity.order.OrderLine;
 import mapper.OrderLineMapper;
 import java.util.List;
 import javax.inject.Inject;

@@ -17,7 +17,7 @@
         ${alias}.sku_size,
         ${alias}.sku_color
     </sql>
-    <select id="getLineBySplitId" resultType="entity.OrderLine" parameterType="java.lang.Long">
+    <select id="getLineBySplitId" resultType="entity.order.OrderLine" parameterType="java.lang.Long">
         select
         <include refid="orderLineColumns">
             <property name="alias" value="t"/>

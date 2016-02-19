@@ -21,7 +21,7 @@
         ${alias}.express_code,
         ${alias}.express_nm
     </sql>
-    <select id="getSplitByOrderId" resultType="entity.OrderSplit" parameterType="java.lang.Long">
+    <select id="getSplitByOrderId" resultType="entity.order.OrderSplit" parameterType="java.lang.Long">
         select
         <include refid="orderSplitColumns">
             <property name="alias" value="t"/>

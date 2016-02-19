@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 public class PinActivity implements Serializable {
     private Long pinActiveId;   //拼购活动ID
     private String pinUrl;      //此团的分享短连接
+    private Long pinTieredId;   //阶梯价格ID
     private Long pinId;         //拼购ID
     private Long masterUserId;  //团长用户ID
     private int personNum;      //拼购人数
@@ -39,9 +40,10 @@ public class PinActivity implements Serializable {
     public PinActivity() {
     }
 
-    public PinActivity(Long pinActiveId, String pinUrl, Long pinId, Long masterUserId, int personNum, BigDecimal pinPrice, int joinPersons, Timestamp createAt, String status, Timestamp endAt, String pinTitle, Timestamp joinAt, int persons, Integer pageSize, Integer offset, String sort, String order) {
+    public PinActivity(Long pinActiveId, String pinUrl, Long pinTieredId, Long pinId, Long masterUserId, int personNum, BigDecimal pinPrice, int joinPersons, Timestamp createAt, String status, Timestamp endAt, String pinTitle, Timestamp joinAt, int persons, Integer pageSize, Integer offset, String sort, String order) {
         this.pinActiveId = pinActiveId;
         this.pinUrl = pinUrl;
+        this.pinTieredId = pinTieredId;
         this.pinId = pinId;
         this.masterUserId = masterUserId;
         this.personNum = personNum;
@@ -64,6 +66,7 @@ public class PinActivity implements Serializable {
         return "PinActivity{" +
                 "pinActiveId=" + pinActiveId +
                 ", pinUrl='" + pinUrl + '\'' +
+                ", pinTieredId=" + pinTieredId +
                 ", pinId=" + pinId +
                 ", masterUserId=" + masterUserId +
                 ", personNum=" + personNum +
@@ -96,6 +99,14 @@ public class PinActivity implements Serializable {
 
     public void setPinUrl(String pinUrl) {
         this.pinUrl = pinUrl;
+    }
+
+    public Long getPinTieredId() {
+        return pinTieredId;
+    }
+
+    public void setPinTieredId(Long pinTieredId) {
+        this.pinTieredId = pinTieredId;
     }
 
     public Long getPinId() {

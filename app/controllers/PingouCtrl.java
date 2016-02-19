@@ -340,6 +340,7 @@ public class PingouCtrl extends Controller {
             //添加拼购活动
             PinActivity pinActivity = new PinActivity();
             pinActivity.setPinUrl("");                              //分享链接
+            pinActivity.setPinTieredId(pinTieredPrice.getId());     //阶梯价格ID
             pinActivity.setPinId(pinSku.getPinId());                //拼购商品ID
             pinActivity.setMasterUserId(userId);                    //机器人用户ID
             pinActivity.setPersonNum(pinTieredPrice.getPeopleNum());//拼购人数

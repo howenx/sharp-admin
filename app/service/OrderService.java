@@ -1,6 +1,6 @@
 package service;
 
-import entity.Order;
+import entity.order.Order;
 import java.util.List;
 
 /**
