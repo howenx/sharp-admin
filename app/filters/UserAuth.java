@@ -1,7 +1,6 @@
 package filters;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.User;
 import play.Configuration;
 import play.Logger;
@@ -12,8 +11,6 @@ import play.mvc.Result;
 import play.mvc.Security;
 
 import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -41,11 +38,6 @@ public class UserAuth extends Security.Authenticator {
                 User user = (User) Cache.get(username.trim());
                 if(user != null) {
                     Logger.debug("user:"+user.userType().get());
-                    
-                    Map<String,String> mappedObject = new ObjectMapper().convertValue(configuration.getObject("role"),HashMap.class);
-
-//                    Logger.error("是否是大丰收的----->  "+ mappedObject.get("SYSTEM"));
-
                     if (configuration.getStringList(String.valueOf(user.userType().get())).contains(header.get())){
                         ctx.args.put("user",user);
                     } else if (configuration.getStringList(String.valueOf(user.userType().get())).contains(header2.get())) {

@@ -7,7 +7,7 @@ import javax.inject.{Inject, Named, Singleton}
 import actor.OSS
 import akka.actor.ActorRef
 import entity.{Prod, Prod_Type, User_Type}
-import filters.Secured
+import filters.{UserAuth, Secured}
 import modules.OSSClientProvider
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.util.CellRangeAddress
@@ -18,6 +18,7 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.json.Json
 import play.api.mvc.Controller
 import play.api.{Configuration, Logger}
+import play.mvc.Security
 
 import scala.collection.immutable.HashMap
 import scala.util.Try
@@ -189,16 +190,16 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
   /**
     *admin list
- *
     * @param id
     * @param stat
     * @param start
     * @return
     */
+//  @Security.Authenticated(classOf[UserAuth])
   def list_admin(id: Option[Int], stat:Option[String], start: Int) = withUser { user => {
     implicit request => {
       val m = request.queryString.map { case (k, v) => k -> v.head }
-      Logger.debug(m.toString())
+//      Logger.debug(m.toString())
       val status:Option[String] = m.get("stat") match {
         case Some("") =>
           None

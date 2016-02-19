@@ -3,9 +3,9 @@ package filters
 import controllers.routes
 import entity.User
 import play.api.Logger
+import play.api.Play.current
 import play.api.cache.Cache
 import play.api.mvc._
-import play.api.Play.current
 
 /**
  * Created by handy on 15/10/28.
@@ -16,7 +16,9 @@ trait Secured {
   def username(request: RequestHeader) = request.session.get("username")
 
   def onUnauthorized(request: RequestHeader) = {
-    Results.Redirect(routes.Auth.login)
+//    Results.Redirect(routes.Auth.login)
+    //Modified By Sunny.Wu 2016/02/19
+    Results.Redirect(routes.AdminUserCtrl.adminUserLogin)
   }
 
   def withAuth(f: => String => Request[AnyContent] => Result) = {

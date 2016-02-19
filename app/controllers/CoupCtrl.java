@@ -36,7 +36,7 @@ public class CoupCtrl extends Controller {
     public Result coupSave() {
         JsonNode json = request().body().asJson();
         couponsService.couponsSave(json);
-        return ok();
+        return ok("保存成功");
     }
 
 }

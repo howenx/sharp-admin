@@ -84,17 +84,6 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result itemSearch(String lang){
-//        Item item = new Item();
-//        item.setPageSize(-1);
-//        item.setOffset(-1);
-//        int countNum = itemService.itemSearch(item).size();//取总数
-//        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
-//        if(countNum%ThemeCtrl.PAGE_SIZE!=0){
-//            pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
-//        }
-//        item.setPageSize(ThemeCtrl.PAGE_SIZE);
-//        item.setOffset(0);
-
         //查询页为sku信息
         Inventory inventory = new Inventory();
         inventory.setPageSize(-1);
@@ -106,9 +95,6 @@ public class ItemCtrl extends Controller {
         }
         inventory.setPageSize(ThemeCtrl.PAGE_SIZE);
         inventory.setOffset(0);
-
-//        Logger.error("所有商品:"+service.itemSearch(item).toString());
-
         return ok(views.html.item.itemsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,inventoryService.invSearch(inventory),(User) ctx().args.get("user")));
     }
 
@@ -334,7 +320,7 @@ public class ItemCtrl extends Controller {
     public Result carrSave() {
         JsonNode json = request().body().asJson();
         carriageService.carrModelSave(json);
-        return ok();
+        return ok("保存成功");
 
     }
 
@@ -373,7 +359,7 @@ public class ItemCtrl extends Controller {
         return ok(views.html.carriage.carrmodelList.render(lang,modelList,carriageList,(User) ctx().args.get("user")));
     }
 
-
+    @Security.Authenticated(UserAuth.class)
     public Result carrPop() {
         return ok(views.html.carriage.cityPop.render());
     }
@@ -407,7 +393,7 @@ public class ItemCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result brandSave(String lang){
         JsonNode json = request().body().asJson();
-        Logger.error(json.toString());
+//        Logger.error(json.toString());
         itemService.insertBrands(json);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
@@ -458,7 +444,7 @@ public class ItemCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result cateSave(String lang){
         JsonNode json = request().body().asJson();
-        Logger.error(json.toString());
+//        Logger.error(json.toString());
         itemService.catesSave(json);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
