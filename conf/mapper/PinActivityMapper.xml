@@ -7,6 +7,7 @@
     <sql id="pinActivityColumns">
         ${alias}.pin_active_id,
         ${alias}.pin_url,
+        ${alias}.pin_tiered_id,
         ${alias}.pin_id,
         ${alias}.master_user_id,
         ${alias}.person_num,
@@ -18,8 +19,8 @@
     </sql>
 
     <insert id="activityManualAdd" parameterType="entity.pingou.PinActivity" useGeneratedKeys="true" keyProperty="pinActiveId">
-        insert into pin_activity(pin_url,pin_id,master_user_id,person_num,pin_price,join_persons,create_at,status,end_at)
-        values(#{pinUrl},#{pinId},#{masterUserId},#{personNum},#{pinPrice},#{joinPersons},CURRENT_TIMESTAMP(0),#{status},#{endAt}::timestamp)
+        insert into pin_activity(pin_tiered_id,pin_id,master_user_id,person_num,pin_price,join_persons,create_at,status,end_at)
+        values(#{pinTieredId},#{pinId},#{masterUserId},#{personNum},#{pinPrice},#{joinPersons},CURRENT_TIMESTAMP(0),#{status},#{endAt}::timestamp)
     </insert>
     <select id="getActivityAll" resultType="entity.pingou.PinActivity">
         select

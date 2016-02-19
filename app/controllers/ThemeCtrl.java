@@ -6,6 +6,9 @@ import entity.*;
 import entity.pingou.PinSku;
 import filters.UserAuth;
 import play.Logger;
+import play.data.Form;
+import play.data.validation.Constraints;
+import play.data.validation.Validation;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
@@ -369,6 +372,10 @@ public class ThemeCtrl extends Controller {
         }
         Logger.error(json.toString());
         Theme theme = play.libs.Json.fromJson(json,Theme.class);
+        Form<Theme> themeForm = Form.form(Theme.class);
+        if(themeForm.hasErrors()){
+            return badRequest();
+        }
         theme.setOrDestory(false);
         service.themeSave(theme);
 
