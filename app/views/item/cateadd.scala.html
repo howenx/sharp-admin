@@ -118,14 +118,17 @@
                     setTimeout("$('#js-userinfo-error').text('')", 2000);
                 },
                 success: function(data) {
-                    if (window.lang = 'cn') {
+                   if (data!="" && data!=null) {
                         $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
-                    } else {
-                        $('#js-userinfo-error').text('Save success');
+                        $('.usercenter-option > .user-state').css('background-position', '20px -174px');
+                        $('.usercenter-option > .user-state').text('未更改');
+                        //类别录入, 成功后返回到类别录入页面
+                        setTimeout("location.href='/"+window.lang+"/comm/cate/add'", 2000);
+                    }
+                    else {
+                       $('#js-userinfo-error').text('保存失败');
                     }
                     setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
-                    //主题录入, 成功后返回到主题录入页面
-                    setTimeout("location.href='/"+window.lang+"/comm/cate/add'", 2000);
                 }
             });
          }

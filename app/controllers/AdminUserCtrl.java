@@ -105,7 +105,7 @@ public class AdminUserCtrl extends Controller {
                 Logger.error("发送邮件错误"+e);
             }
             adminUserService.insertUser(adminUser);
-            return ok();
+            return ok("保存成功");
         }
     }
 

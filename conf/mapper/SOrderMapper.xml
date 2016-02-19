@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.SOrderMapper">
+    <!--enable mybatis default cache configure reference:
+        https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
+    -->
+    <sql id="sOrderColumns">
+        ${alias}.s_date,
+        ${alias}.pg_trade_no,
+        ${alias}.order_status,
+        ${alias}.order_id,
+        ${alias}.user_id,
+        ${alias}.pay_total,
+        ${alias}.pay_method,
+        ${alias}.order_create_at,
+        ${alias}.order_ip,
+        ${alias}.total_fee,
+        ${alias}.client_type
+    </sql>
+
+    <!-- 根据日期获取订单信息 -->
+    <select id="getSOrderBy" resultType="entity.SOrder" parameterType="entity.SOrder">
+        select
+        <include refid="sOrderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from "s_order" t where 1=1
+        <if test="sDate!=null and sDate!=''">
+            and t.s_date = #{sDate}
+        </if>
+    </select>
+
+    <!-- 获取所有的信息 -->
+    <select id="getAllSOrder" resultType="entity.SOrder">
+        select
+        <include refid="sOrderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from "s_order" t where 1=1
+    </select>
+
+</mapper>

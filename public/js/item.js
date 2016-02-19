@@ -464,22 +464,23 @@ $(function(){
                     setTimeout("$('#js-userinfo-error').text('')", 2000);
                 },
                 success: function(data) {
-                    $('.usercenter-option > .user-state').css('background-position', '20px -174px');
-                    if (window.lang = 'cn') {
-                        $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                    if (data!=""&&data!=null) {
+                        $('.usercenter-option > .user-state').css('background-position', '20px -174px');
                         $('.usercenter-option > .user-state').text('未更改');
-                    } else {
-                        $('#js-userinfo-error').text('Save success');
-                        $('.usercenter-option > .user-state').text('Unchanged');
+                        $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                        //商品更新, 成功后返回到列表查询页面
+                        if($("#itemId").val() != "") {
+                            setTimeout("location.href='/"+window.lang+"/comm/search'", 3000);
+                        }
+                        //商品录入, 成功后返回到商品录入页面
+                        else {
+                            setTimeout("location.href='/"+window.lang+"/comm/add'", 3000);
+                        }
+                    }
+                    else {
+                        $('#js-userinfo-error').text('保存失败');
                     }
                     setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
-                    //商品更新, 成功后返回到列表查询页面
-                    if($("#itemId").val() != "") {
-                        setTimeout("location.href='/"+window.lang+"/comm/search'", 3000);
-                    }
-                    //商品录入, 成功后返回到商品录入页面
-                    else {}
-//                    setTimeout("location.href='/"+window.lang+"/comm/add'", 3000);
                 }
             });
         }
