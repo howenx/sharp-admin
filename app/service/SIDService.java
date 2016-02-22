@@ -1,6 +1,6 @@
 package service;
 
-import entity.SID;
+import entity.statistics.SID;
 
 import java.util.List;
 

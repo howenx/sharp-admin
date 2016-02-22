@@ -22,24 +22,27 @@
     </sql>
 
     <!-- 根据日期获取订单信息 -->
-    <select id="getSOrderBy" resultType="entity.SOrder" parameterType="entity.SOrder">
+    <select id="getSOrderBy" resultType="entity.statistics.SOrder" parameterType="entity.statistics.SOrder">
         select
         <include refid="sOrderColumns">
             <property name="alias" value="t"/>
         </include>
-        from "s_order" t where 1=1
+        from s_order t where 1=1
         <if test="sDate!=null and sDate!=''">
             and t.s_date = #{sDate}
+        </if>
+        <if test="orderStatus!=null and orderStatus!=''">
+            and t.order_status = #{orderStatus}
         </if>
     </select>
 
     <!-- 获取所有的信息 -->
-    <select id="getAllSOrder" resultType="entity.SOrder">
+    <select id="getAllSOrder" resultType="entity.statistics.SOrder">
         select
         <include refid="sOrderColumns">
             <property name="alias" value="t"/>
         </include>
-        from "s_order" t where 1=1
+        from s_order t where 1=1
     </select>
 
 </mapper>

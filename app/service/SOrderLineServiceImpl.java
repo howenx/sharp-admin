@@ -1,6 +1,6 @@
 package service;
 
-import entity.SOrderLine;
+import entity.statistics.SOrderLine;
 import mapper.SOrderLineMapper;
 
 import javax.inject.Inject;

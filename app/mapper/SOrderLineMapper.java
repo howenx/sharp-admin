@@ -1,6 +1,6 @@
 package mapper;
 
-import entity.SOrderLine;
+import entity.statistics.SOrderLine;
 
 import java.util.List;
 

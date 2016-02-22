@@ -1,6 +1,6 @@
 package service;
 
-import entity.SOrderLine;
+import entity.statistics.SOrderLine;
 
 import java.util.List;
 

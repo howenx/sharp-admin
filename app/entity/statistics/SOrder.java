@@ -1,4 +1,4 @@
-package entity;
+package entity.statistics;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
