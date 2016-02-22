@@ -1,7 +1,6 @@
 @import play.i18n._
 @(lang:String="cn",url:String,user:entity.User)
 @scripts = {
-<script src="/assets/js/disable-js-console.js"></script>
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
 <link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
@@ -13,6 +12,14 @@
 <script src="/assets/js/rili.js"></script>
 <script src="/assets/js/pinSku.js"></script>
 <script>window.url = "@url"</script>
+<script>
+    $(function(){
+        $(":radio[value = 'ty-no']").click();
+        $(":radio[value = 'tz-no']").click();
+
+
+    })
+</script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"新增拼购")
 
@@ -274,7 +281,7 @@
                 </div>
                 <div class="form-group tiered-price">
                     <div class="col-sm-2">
-                        <button type="button" class="btn btn-primary btn-xm addPriceLevel" style="margin-left: 800px;">添加</button>
+                        <button type="button" class="btn btn-primary btn-xm addPriceLevel" style="margin-left: 800px;">添加阶梯价格</button>
                     </div>
                     <div class="col-sm-2">
                         <button type="button" class="btn btn-primary btn-xm editPriceLevel" style="margin-left: 530px;">确定修改</button>
