@@ -1,6 +1,6 @@
 package service;
 
-import entity.SOrder;
+import entity.statistics.SOrder;
 import mapper.SOrderMapper;
 
 import javax.inject.Inject;

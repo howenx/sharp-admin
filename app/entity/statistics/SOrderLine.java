@@ -1,4 +1,4 @@
-package entity;
+package entity.statistics;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

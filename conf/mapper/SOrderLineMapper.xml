@@ -19,7 +19,7 @@
     </sql>
 
     <!-- 根据条件获取订单商品信息 -->
-    <select id="getSOrderLineBy" resultType="entity.SOrderLine" parameterType="entity.SOrderLine">
+    <select id="getSOrderLineBy" resultType="entity.statistics.SOrderLine" parameterType="entity.statistics.SOrderLine">
         select
         <include refid="sOrderLineColumns">
             <property name="alias" value="t"/>
@@ -31,7 +31,7 @@
     </select>
 
     <!-- 获取所有的信息 -->
-    <select id="getAllSOrderLine" resultType="entity.SOrderLine">
+    <select id="getAllSOrderLine" resultType="entity.statistics.SOrderLine">
         select
         <include refid="sOrderLineColumns">
             <property name="alias" value="t"/>

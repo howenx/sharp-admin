@@ -97,9 +97,32 @@ function Init () {
         }
         $("#postalTaxRate").val(skuObj.postalTaxRate);
         $("#postalTaxCode").val(skuObj.postalTaxCode);
-        $("#recordHZ").val(skuObj.recordHZ);
-        $("#recordGZ").val(skuObj.recordGZ);
-        $("#recordSH").val(skuObj.recordSH);
+//        var recordCode = {};
+         var recordCode = skuObj.recordCode;
+         console.log(recordCode);
+//        for(var key in recordCode) {
+//            $("#"+key).val(recordCode[key]);
+//            console.log(key);
+//           console.log(recordCode[key]);
+//        }
+//        $.each(recordCode, function(r) {
+//            console.log(r);
+//            console.log(recordCode[r]);
+//        });
+
+        var inputArr = document.getElementById("recordCode").getElementsByTagName("input");
+        var recordArr = skuObj.recordCode.substring(1,skuObj.recordCode.length-1).split(",");
+        for(var r=0;r<recordArr.length;r++) {
+            var kv = [];
+            if (recordArr[r].indexOf(": ")>0) {
+                kv = recordArr[r].split(": ");
+            }else kv = recordArr[r].split(":");
+            for(var i=0;i<inputArr.length;i++) {
+                if (kv[0].indexOf(inputArr[i].id)>0) {
+                    inputArr[i].value = kv[1].substring(1,kv[1].length-1);
+                }
+            }
+        }
         if (skuObj.invId!="") {
             //sku 状态
             $("#skuState").css('display','block');
@@ -134,16 +157,22 @@ function Init () {
                     priceAmountData[0].value = varyPriceArr[0];
                     priceAmountData[1].value = varyPriceArr[2];
                     priceAmountData[2].value = varyPriceArr[3];
-                    if(varyPriceArr[0]!="") {
+                    if (varyPriceArr[0]!="") {
                         $("#staTh").css('display','block');
-                        console.log(status[0]);
-                        status[0].style.display = "block";
+                        status[0].parentNode.style.display = "block";
                         if (varyPriceArr[1]=="Y")  status[0].options[0].selected = true;
                         if (varyPriceArr[1]=="D")  status[0].options[1].selected = true;
                     }
                 }
-                if (v>3 && v%4==0)
+                if (v>3 && v%4==0) {
                     $("<tr>").html('<td style="display:none;"><input type="text" name="vpId" value="'+varyPriceArr[v]+'"></td><td style="display:none;"><select class="status"><option value="Y">正常</option><option value="D">下架</option></select></td><td><input type="text" name="price" value="'+varyPriceArr[v+2]+'"></td><td><input type="text" name="limitAmount" value="'+varyPriceArr[v+3]+'"></td><td class="del" style="cursor:default;"></td>').appendTo($(".guige"));
+                    if (varyPriceArr[v]!="") {
+                        var status1 = document.getElementById("varyPriceTab").getElementsByTagName("select");
+                        status1[v/4].parentNode.style.display = "block";
+                        if (varyPriceArr[v+1]=="Y")  status1[v/4].options[0].selected = true;
+                        if (varyPriceArr[v+1]=="D")  status1[v/4].options[1].selected = true;
+                    }
+                }
             }
         }
     }
@@ -164,6 +193,7 @@ function saveCurr() {
     var itemColor = $("input[name=itemColor]:checked").val();//颜色
     var itemSize = $("input[name=itemSize]:checked").val();//尺寸
     var invCode = $("#invCode").val();//规格编号
+    var state = $("#state").val();//状态
     var startAt = $("#startAt").val();//开始时间
     var endAt =  $("#endAt").val();//结束时间;
     var itemPrice = $("#itemPrice").val();//现价;
@@ -180,12 +210,13 @@ function saveCurr() {
     var rateSet = $("#rateSet").val();//税率设置
     var postalTaxRate = $("#postalTaxRate").val();//税率
     var postalTaxCode = $("#postalTaxCode").val();//行邮税号
-    var recordHZ = $("#recordHZ").val();//备案号:杭州
-    var recordGZ = $("#recordGZ").val();//备案号:广州
-    var recordSH = $("#recordSH").val();//备案号:上海
+    var recordCode = {};//海关商品备案号
+    $("#recordCode").find(".record-code").each(function() {
+        recordCode[$(this).attr("id")] = $(this).val();
+    });
     //验证输入数据合法性
     if (!numberReg2.test(itemPrice) || !numberReg2.test(itemSrcPrice) || !numberReg2.test(itemCostPrice)|| !numberReg2.test(itemDiscount) || !numberReg1.test(invWeight)
-        || !numberReg1.test(restrictAmount) || !numberReg1.test(amount) || !numberReg1.test(restAmount) || carriageModelCode=="" || (recordHZ=="" && recordGZ=="" && recordSH=="")) {
+        || !numberReg1.test(restrictAmount) || !numberReg1.test(amount) || !numberReg1.test(restAmount)) {
         orSave = false;
         alert("输入数据不合法!");
     }
@@ -264,6 +295,7 @@ function saveCurr() {
     trdobj.itemColor = itemColor;
     trdobj.itemSize = itemSize;
     trdobj.invCode = invCode;
+    trdobj.state = state;
     trdobj.startAt = startAt;
     trdobj.endAt = endAt;
     trdobj.itemPrice = itemPrice;
@@ -280,9 +312,7 @@ function saveCurr() {
     trdobj.rateSet = rateSet;
     trdobj.postalTaxRate = postalTaxRate;
     trdobj.postalTaxCode = postalTaxCode;
-    trdobj.recordHZ = recordHZ;
-    trdobj.recordGZ = recordGZ;
-    trdobj.recordSH = recordSH;
+    trdobj.recordCode = JSON.stringify(recordCode);
     trdobj.invImg = JSON.stringify(invImg);
     trdobj.itemPreviewImgs = JSON.stringify(itemPreviewImgs);
     //多样化价格
@@ -290,7 +320,7 @@ function saveCurr() {
         trdobj.openVaryPrice = "true";
         var varyPrice = [];
         var vpId = document.getElementsByName("vpId");
-        var status = document.getElementsByName("status");
+        var status = document.getElementsByClassName("status");
         var price = document.getElementsByName("price");
         var limitAmount = document.getElementsByName("limitAmount");
         var amountSum = 0;
@@ -571,7 +601,9 @@ $(function(){
         var price = document.getElementsByName("price");
         var len = price.length;
         if (varyPriceTab.getElementsByTagName("tr").length>1 && limitAmount[len-1].value!="" && price[len-1].value!="" ) {
-            var trHtml = '<td style="display:none;"><input type="text" name="vpId"></td><td><input type="text" name="price"></td><td><input type="text" name="limitAmount"></td><td class="del delTr">删除</td>';
+            if ($("#varyPriceTab").find("tr").eq(0).find("th").eq(1).css("display")=="block")
+            var trHtml = '<td style="display:none;"><input type="text" name="vpId"></td><td>正常</td><td><input type="text" name="price"></td><td><input type="text" name="limitAmount"></td><td class="del delTr">删除</td>';
+            else var trHtml = '<td style="display:none;"><input type="text" name="vpId"></td><td><input type="text" name="price"></td><td><input type="text" name="limitAmount"></td><td class="del delTr">删除</td>';
             $("<tr>").html(trHtml).appendTo($(".guige"));
         }
     });

@@ -100,6 +100,9 @@
                     <div id="warn-date" style="color:red; margin-left:220px;margin-top:-25px; width:100px;"></div>
                 </div>
             </div>
+            <!--<div class="form-group col-sm-3">-->
+            <!--(价格为整数或两位小数)-->
+            <!--</div>-->
             <div class="form-group">
                 <!-- 现价 -->
                 <label class="col-sm-2 control-label thval">现价</label>
@@ -111,6 +114,7 @@
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="itemSrcPrice" name="itemSrcPrice">
                 </div>
+                (注意:价格为整数或两位小数)
             </div>
             <div class="form-group">
                 <!-- 成本价 -->
@@ -153,7 +157,6 @@
                 <label class="col-sm-2 control-label thval">运费设置</label>
                 <div class="col-sm-2">
                     <select class="form-control" id="carriageModelCode" name="carriageModelCode">
-                        <option value="">请选择</option>
                         @for(m <- modelList) {
                         <option value="@m.getModelCode()">@m.getModelName()
                         </option>
@@ -204,20 +207,14 @@
             </div>
             <div class="form-group">
                 <!-- 海关商品备案号 -->
-                <label class="col-sm-2 control-label">海关商品备案号</label>
-                <div>
-                    <label class="col-sm-1 control-label thval" style="width:45px;padding-right: 0">杭州</label>
+                <label class="col-sm-2 control-label thval">海关商品备案号</label>
+                <div id="recordCode">
+                    @for(cus <- customs) {
+                    <label class="col-sm-1 control-label" style="width:60px;padding-right: 0;">@cus.toString.substring(1,cus.toString.length-1).split(",")(1)</label>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control" name="recordHZ" id="recordHZ">
+                        <input type="text" class="form-control record-code" name='@cus.toString.substring(1,cus.toString.length-1).split(",")(0)' id='@cus.toString.substring(1,cus.toString.length-1).split(",")(0)'>
                     </div>
-                    <label class="col-sm-1 control-label thval" style="width:70px;padding-right: 0">上海</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control" name="recordSH" id="recordSH">
-                    </div>
-                    <label class="col-sm-1 control-label thval" style="width:75px;padding-right: 0;">广州</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control" name="recordGZ" id="recordGZ">
-                    </div>
+                    }
                 </div>
             </div>
             <div class="form-group">

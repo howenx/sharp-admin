@@ -1,8 +1,7 @@
 @import play.i18n._
-@import entity.User_Type
 @import entity.User
 
-@(lang:String="cn", user:entity.User, userNum:Integer, orderNum:Integer, salesTotalFee:Double)
+@(lang:String="cn", user:entity.User, userNum:Integer, orderNum:Integer, yes_order:Integer, unPaidOrder:Integer,deliverOrder:Integer, soldNum:Integer)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
 <link rel="shortcut icon" type="image/png" href="/assets/images/favicon.ico">
@@ -16,11 +15,11 @@
             <div class="box-top clearfix">
                 <ul>
                     <li>
-                        <span class="one">234567</span>
+                        <span class="one">432</span>
                         <span>流量(今日)</span>
                     </li>
                     <li class="sales">
-                        <span class="one">@salesTotalFee</span>
+                        <span class="one">@soldNum</span>
                         <span>销售量(今日)</span>
                     </li>
                     <li class="order">
@@ -44,7 +43,7 @@
                     <ul>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f6">2345678</span>
+                                <span class="f6">@orderNum</span>
                                 <span class="f7">今日订单</span>
                             </a>
                             <a href="javascript:;" class="box-t-right">
@@ -55,7 +54,7 @@
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f6">2345678</span>
+                                <span class="f6">@yes_order</span>
                                 <span class="f7">昨日订单</span>
                             </a>
                             <a href="javascript:;" class="box-t-right">
@@ -66,7 +65,7 @@
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f6">2345678</span>
+                                <span class="f6">@unPaidOrder</span>
                                 <span class="f7">支付超时</span>
                             </a>
                             <a href="javascript:;" class="box-t-right">
@@ -77,8 +76,8 @@
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f6">2345678</span>
-                                <span class="f7">待发货</span>
+                                <span class="f6">@deliverOrder</span>
+                                <span class="f7">待收货</span>
                             </a>
                             <a href="javascript:;" class="box-t-right">
                                 <i class="number">98%</i>
@@ -92,178 +91,178 @@
 
             </div>
 
-            <div class="box-right">
-                <div class="box-t ">
-                    <div class="icon">
-                        <i class="icon-s"></i>
-                        <i class="icon-x"></i>
-                    </div>
-                    <p>商品:</p>
-                    <ul>
-                        <li>
-                            <a href="javascript:;" class="box-t-left">
-                                <span class="f6">2345678</span>
-                                <span class="f7">今日订单</span>
-                            </a>
-                            <a href="javascript:;" class="box-t-right">
-                                <i class="number">98%</i>
-                                <i class="upload"></i>
-                            </a>
+            <!--<div class="box-right">-->
+                <!--<div class="box-t ">-->
+                    <!--<div class="icon">-->
+                        <!--<i class="icon-s"></i>-->
+                        <!--<i class="icon-x"></i>-->
+                    <!--</div>-->
+                    <!--<p>商品:</p>-->
+                    <!--<ul>-->
+                        <!--<li>-->
+                            <!--<a href="javascript:;" class="box-t-left">-->
+                                <!--<span class="f6">2345678</span>-->
+                                <!--<span class="f7">今日订单</span>-->
+                            <!--</a>-->
+                            <!--<a href="javascript:;" class="box-t-right">-->
+                                <!--<i class="number">98%</i>-->
+                                <!--<i class="upload"></i>-->
+                            <!--</a>-->
 
-                        </li>
-                        <li>
-                            <a href="javascript:;" class="box-t-left">
-                                <span class="f6">2345678</span>
-                                <span class="f7">昨日订单</span>
-                            </a>
-                            <a href="javascript:;" class="box-t-right">
-                                <i class="number">8%</i>
-                                <i class="upload"></i>
-                            </a>
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="javascript:;" class="box-t-left">-->
+                                <!--<span class="f6">2345678</span>-->
+                                <!--<span class="f7">昨日订单</span>-->
+                            <!--</a>-->
+                            <!--<a href="javascript:;" class="box-t-right">-->
+                                <!--<i class="number">8%</i>-->
+                                <!--<i class="upload"></i>-->
+                            <!--</a>-->
 
-                        </li>
-                        <li>
-                            <a href="javascript:;" class="box-t-left">
-                                <span class="f6">2345678</span>
-                                <span class="f7">支付超时</span>
-                            </a>
-                            <a href="javascript:;" class="box-t-right">
-                                <i class="number">98%</i>
-                                <i class="upload"></i>
-                            </a>
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="javascript:;" class="box-t-left">-->
+                                <!--<span class="f6">2345678</span>-->
+                                <!--<span class="f7">支付超时</span>-->
+                            <!--</a>-->
+                            <!--<a href="javascript:;" class="box-t-right">-->
+                                <!--<i class="number">98%</i>-->
+                                <!--<i class="upload"></i>-->
+                            <!--</a>-->
 
-                        </li>
-                        <li>
-                            <a href="javascript:;" class="box-t-left">
-                                <span class="f6">2345678</span>
-                                <span class="f7">待发货</span>
-                            </a>
-                            <a href="javascript:;" class="box-t-right">
-                                <i class="number">98%</i>
-                                <i class="upload"></i>
-                            </a>
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="javascript:;" class="box-t-left">-->
+                                <!--<span class="f6">2345678</span>-->
+                                <!--<span class="f7">待发货</span>-->
+                            <!--</a>-->
+                            <!--<a href="javascript:;" class="box-t-right">-->
+                                <!--<i class="number">98%</i>-->
+                                <!--<i class="upload"></i>-->
+                            <!--</a>-->
 
-                        </li>
+                        <!--</li>-->
 
-                    </ul>
-                </div>
-            </div>
+                    <!--</ul>-->
+                <!--</div>-->
+            <!--</div>-->
 
 
-            <div class="box-left">
-                <div class="box-t ">
-                    <div class="icon">
-                        <i class="icon-s"></i>
-                        <i class="icon-x"></i>
-                    </div>
-                    <p>主题:</p>
-                    <ul>
-                        <li>
-                            <a href="javascript:;" class="box-t-left">
-                                <span class="f6">2345678</span>
-                                <span class="f7">今日订单</span>
-                            </a>
-                            <a href="javascript:;" class="box-t-right">
-                                <i class="number">98%</i>
-                                <i class="upload"></i>
-                            </a>
+            <!--<div class="box-left">-->
+                <!--<div class="box-t ">-->
+                    <!--<div class="icon">-->
+                        <!--<i class="icon-s"></i>-->
+                        <!--<i class="icon-x"></i>-->
+                    <!--</div>-->
+                    <!--<p>主题:</p>-->
+                    <!--<ul>-->
+                        <!--<li>-->
+                            <!--<a href="javascript:;" class="box-t-left">-->
+                                <!--<span class="f6">2345678</span>-->
+                                <!--<span class="f7">今日订单</span>-->
+                            <!--</a>-->
+                            <!--<a href="javascript:;" class="box-t-right">-->
+                                <!--<i class="number">98%</i>-->
+                                <!--<i class="upload"></i>-->
+                            <!--</a>-->
 
-                        </li>
-                        <li>
-                            <a href="javascript:;" class="box-t-left">
-                                <span class="f6">2345678</span>
-                                <span class="f7">昨日订单</span>
-                            </a>
-                            <a href="javascript:;" class="box-t-right">
-                                <i class="number">8%</i>
-                                <i class="upload"></i>
-                            </a>
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="javascript:;" class="box-t-left">-->
+                                <!--<span class="f6">2345678</span>-->
+                                <!--<span class="f7">昨日订单</span>-->
+                            <!--</a>-->
+                            <!--<a href="javascript:;" class="box-t-right">-->
+                                <!--<i class="number">8%</i>-->
+                                <!--<i class="upload"></i>-->
+                            <!--</a>-->
 
-                        </li>
-                        <li>
-                            <a href="javascript:;" class="box-t-left">
-                                <span class="f6">2345678</span>
-                                <span class="f7">支付超时</span>
-                            </a>
-                            <a href="javascript:;" class="box-t-right">
-                                <i class="number">98%</i>
-                                <i class="upload"></i>
-                            </a>
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="javascript:;" class="box-t-left">-->
+                                <!--<span class="f6">2345678</span>-->
+                                <!--<span class="f7">支付超时</span>-->
+                            <!--</a>-->
+                            <!--<a href="javascript:;" class="box-t-right">-->
+                                <!--<i class="number">98%</i>-->
+                                <!--<i class="upload"></i>-->
+                            <!--</a>-->
 
-                        </li>
-                        <li>
-                            <a href="javascript:;" class="box-t-left">
-                                <span class="f6">2345678</span>
-                                <span class="f7">待发货</span>
-                            </a>
-                            <a href="javascript:;" class="box-t-right">
-                                <i class="number">98%</i>
-                                <i class="upload"></i>
-                            </a>
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="javascript:;" class="box-t-left">-->
+                                <!--<span class="f6">2345678</span>-->
+                                <!--<span class="f7">待发货</span>-->
+                            <!--</a>-->
+                            <!--<a href="javascript:;" class="box-t-right">-->
+                                <!--<i class="number">98%</i>-->
+                                <!--<i class="upload"></i>-->
+                            <!--</a>-->
 
-                        </li>
+                        <!--</li>-->
 
-                    </ul>
-                </div>
+                    <!--</ul>-->
+                <!--</div>-->
 
-            </div>
+            <!--</div>-->
 
-            <div class="box-right">
-                <div class="box-t ">
-                    <div class="icon">
-                        <i class="icon-s"></i>
-                        <i class="icon-x"></i>
-                    </div>
-                    <p>商品:</p>
-                    <ul>
-                        <li>
-                            <a href="javascript:;" class="box-t-left">
-                                <span class="f6">2345678</span>
-                                <span class="f7">今日订单</span>
-                            </a>
-                            <a href="javascript:;" class="box-t-right">
-                                <i class="number">98%</i>
-                                <i class="upload"></i>
-                            </a>
+            <!--<div class="box-right">-->
+                <!--<div class="box-t ">-->
+                    <!--<div class="icon">-->
+                        <!--<i class="icon-s"></i>-->
+                        <!--<i class="icon-x"></i>-->
+                    <!--</div>-->
+                    <!--<p>拼购:</p>-->
+                    <!--<ul>-->
+                        <!--<li>-->
+                            <!--<a href="javascript:;" class="box-t-left">-->
+                                <!--<span class="f6">2345678</span>-->
+                                <!--<span class="f7">今日订单</span>-->
+                            <!--</a>-->
+                            <!--<a href="javascript:;" class="box-t-right">-->
+                                <!--<i class="number">98%</i>-->
+                                <!--<i class="upload"></i>-->
+                            <!--</a>-->
 
-                        </li>
-                        <li>
-                            <a href="javascript:;" class="box-t-left">
-                                <span class="f6">2345678</span>
-                                <span class="f7">昨日订单</span>
-                            </a>
-                            <a href="javascript:;" class="box-t-right">
-                                <i class="number">8%</i>
-                                <i class="upload"></i>
-                            </a>
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="javascript:;" class="box-t-left">-->
+                                <!--<span class="f6">2345678</span>-->
+                                <!--<span class="f7">昨日订单</span>-->
+                            <!--</a>-->
+                            <!--<a href="javascript:;" class="box-t-right">-->
+                                <!--<i class="number">8%</i>-->
+                                <!--<i class="upload"></i>-->
+                            <!--</a>-->
 
-                        </li>
-                        <li>
-                            <a href="javascript:;" class="box-t-left">
-                                <span class="f6">2345678</span>
-                                <span class="f7">支付超时</span>
-                            </a>
-                            <a href="javascript:;" class="box-t-right">
-                                <i class="number">98%</i>
-                                <i class="upload"></i>
-                            </a>
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="javascript:;" class="box-t-left">-->
+                                <!--<span class="f6">2345678</span>-->
+                                <!--<span class="f7">支付超时</span>-->
+                            <!--</a>-->
+                            <!--<a href="javascript:;" class="box-t-right">-->
+                                <!--<i class="number">98%</i>-->
+                                <!--<i class="upload"></i>-->
+                            <!--</a>-->
 
-                        </li>
-                        <li>
-                            <a href="javascript:;" class="box-t-left">
-                                <span class="f6">2345678</span>
-                                <span class="f7">待发货</span>
-                            </a>
-                            <a href="javascript:;" class="box-t-right">
-                                <i class="number">98%</i>
-                                <i class="upload"></i>
-                            </a>
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="javascript:;" class="box-t-left">-->
+                                <!--<span class="f6">2345678</span>-->
+                                <!--<span class="f7">待发货</span>-->
+                            <!--</a>-->
+                            <!--<a href="javascript:;" class="box-t-right">-->
+                                <!--<i class="number">98%</i>-->
+                                <!--<i class="upload"></i>-->
+                            <!--</a>-->
 
-                        </li>
+                        <!--</li>-->
 
-                    </ul>
-                </div>
-            </div>
+                    <!--</ul>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
     </div>
 }
@@ -272,3 +271,10 @@
 @body
 
 }
+
+<script>
+    $(document).on("click", ".icon-x", function(e) {
+        $(this).parent().parent().parent().remove();
+    });
+
+</script>

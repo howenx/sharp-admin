@@ -189,7 +189,6 @@ public class ItemCtrl extends Controller {
             object[20] = inventory.getRestAmount();
             invList.add(object);
         }
-
         return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,(User) ctx().args.get("user")));
     }
 
@@ -216,7 +215,7 @@ public class ItemCtrl extends Controller {
         //包含modelName的库存列表
         List<Object[]> invList = new ArrayList<>();
         for(Inventory inventory : inventories) {
-            Object[] object = new Object[29];
+            Object[] object = new Object[27];
             object[0] = inventory.getId();
             object[1] = inventory.getItemId();
             object[2] = inventory.getOrMasterInv();
@@ -239,36 +238,23 @@ public class ItemCtrl extends Controller {
             object[17] = inventory.getInvCustoms();
             object[18] = inventory.getPostalTaxRate();
             object[19] = inventory.getPostalTaxCode();
-            String recordCode = inventory.getRecordCode();
-            String[] recordArr = recordCode.substring(1,recordCode.length()-1).split(", ");
-            for(int i=0;i<recordArr.length;i++) {
-                String[] a_record = recordArr[i].split(": ");
-                if (a_record[0].contains("hangzhou")) {
-                object[20] = a_record[1].substring(1,a_record[1].length()-1);
-                } else object[20] = "";
-                if (a_record[0].contains("shanghai")) {
-                object[21] = a_record[1].substring(1,a_record[1].length()-1);
-                } else object[21] = "";
-                if (a_record[0].contains("guangzhou")) {
-                object[22] = a_record[1].substring(1,a_record[1].length()-1);
-                } else object[22] = "";
-            }
-            object[23] = inventory.getInvImg();
-            object[24] = inventory.getItemPreviewImgs();
-            object[25] = inventory.getOrVaryPrice();
-            object[26] = "";
+            object[20] = inventory.getRecordCode();
+            object[21] = inventory.getInvImg();
+            object[22] = inventory.getItemPreviewImgs();
+            object[23] = inventory.getOrVaryPrice();
+            object[24] = "";
             VaryPrice varyPrice = new VaryPrice();
             varyPrice.setInvId(inventory.getId());
             List<VaryPrice> vpList = varyPriceService.getVaryPriceBy(varyPrice);
             for(VaryPrice vp : vpList) {
-                object[26]=object[26] + vp.getId().toString()+",";
-                object[26]=object[26] + vp.getStatus()+",";
-                object[26]=object[26] + vp.getPrice().toString()+",";
-                object[26]=object[26] + vp.getLimitAmount().toString()+",";
+                object[24]=object[24] + vp.getId().toString()+",";
+                object[24]=object[24] + vp.getStatus()+",";
+                object[24]=object[24] + vp.getPrice().toString()+",";
+                object[24]=object[24] + vp.getLimitAmount().toString()+",";
             }
-            object[26] = object[26].toString().substring(0,object[26].toString().length()-1);
-            object[27] = inventory.getInvCode();
-            object[28] = inventory.getState();
+            object[24] = object[24].toString().substring(0,object[24].toString().length()-1);
+            object[25] = inventory.getInvCode();
+            object[26] = inventory.getState();
             invList.add(object);
         }
         return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,ThemeCtrl.IMG_UPLOAD_URL,lang,itemService.getAllBrands(),itemService.getParentCates(),carriageService.getModels(),(User) ctx().args.get("user")));

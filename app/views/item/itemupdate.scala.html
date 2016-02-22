@@ -52,14 +52,12 @@
                 if (count==18) skuObj.rateSet = $(this).text();
                 if (count==19) skuObj.postalTaxRate = $(this).text();
                 if (count==20) skuObj.postalTaxCode = $(this).text();
-                if (count==21) skuObj.recordHZ = $(this).text();
-                if (count==22) skuObj.recordGZ = $(this).text();
-                if (count==23) skuObj.recordSH = $(this).text();
-                if (count==24) skuObj.invImg = $(this).text();
-                if (count==25) skuObj.itemPreviewImgs = $(this).text();
-                if (count==26) skuObj.orVaryPrice = $(this).text();
-                if (count==27) skuObj.varyPrice = $(this).text();
-                if (count==28) skuObj.invId = $(this).text();
+                if (count==21) skuObj.recordCode = $(this).text();
+                if (count==22) skuObj.invImg = $(this).text();
+                if (count==23) skuObj.itemPreviewImgs = $(this).text();
+                if (count==24) skuObj.orVaryPrice = $(this).text();
+                if (count==25) skuObj.varyPrice = $(this).text();
+                if (count==26) skuObj.invId = $(this).text();
                 count++;
             });
             sharedObject.skuObj = skuObj;
@@ -225,9 +223,7 @@
                                     <th>税率设置</th>
                                     <th>税率(整数)</th>
                                     <th>行邮税号</th>
-                                    <th>杭州</th>
-                                    <th>广州</th>
-                                    <th>上海</th>
+                                    <th>海关商品备案号</th>
                                     <th>主图</th>
                                     <th>预览图</th>
                                     <th>开启多样化价格</th>
@@ -240,8 +236,8 @@
                                     <td><input type="radio" name="orMasterInv" class="master-radio" checked="checked" value="@obj(2)"/></td>
                                     <td>@obj(3)</td>
                                     <td>@obj(4)</td>
-                                    <td>@obj(27)</td>
-                                    <td>@obj(28)</td>
+                                    <td>@obj(25)</td>
+                                    <td>@obj(26)</td>
                                     <td>@obj(5)</td>
                                     <td>@obj(6)</td>
                                     <td>@obj(7)</td>
@@ -265,8 +261,6 @@
                                     <td>@obj(22)</td>
                                     <td>@obj(23)</td>
                                     <td>@obj(24)</td>
-                                    <td>@obj(25)</td>
-                                    <td>@obj(26)</td>
                                     <td>@obj(0)</td>
                                     <td class="trEdit">
                                         <span onclick="ShowModal(this)">编辑</span>
@@ -312,8 +306,8 @@
                                     <!--<td><input type="radio" name="orMasterInv" class="master-radio" checked="checked" value="@obj(2)"/></td>-->
                                     <!--<td>@obj(3)</td>-->
                                     <!--<td>@obj(4)</td>-->
-                                    <!--<td style='display:none;'>@obj(27)</td>-->
-                                    <!--<td style='display:none;'>@obj(28)</td>-->
+                                    <!--<td style='display:none;'>@obj(25)</td>-->
+                                    <!--<td style='display:none;'>@obj(26)</td>-->
                                     <!--<td style='display:none;'>@obj(5)</td>-->
                                     <!--<td style='display:none;'>@obj(6)</td>-->
                                     <!--<td>@obj(7)</td>-->
@@ -337,8 +331,6 @@
                                     <!--<td style='display:none;'>@obj(22)</td>-->
                                     <!--<td style='display:none;'>@obj(23)</td>-->
                                     <!--<td style='display:none;'>@obj(24)</td>-->
-                                    <!--<td style='display:none;'>@obj(25)</td>-->
-                                    <!--<td style='display:none;'>@obj(26)</td>-->
                                     <!--<td style='display:none;'>@obj(0)</td>-->
                                     <!--<td class="trEdit">-->
                                         <!--<span onclick="ShowModal(this)">编辑</span>-->
