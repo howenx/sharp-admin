@@ -203,148 +203,150 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group tiered-price">
-                    <label class="col-sm-2 control-label">拼购人数:</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" id="peopleNum">
-                    </div>
-                    <label class="col-sm-1 control-label" style="padding-left: 0">拼购价格:</label>
-                    <div class="col-sm-3">
-                        <input type="text" id="price"  class="form-control">
-                    </div>
-                </div>
-                <div class="form-group tiered-price">
-                    <label class="col-sm-2 control-label">团长减价:</label>
-                    <div class="col-sm-3">
-                        <input type="text" id="masterMin" class="form-control">
-                    </div>
-                    <label class="col-sm-1 control-label" style="padding-left: 0">团员减价:</label>
-                    <div class="col-sm-3">
-                        <input type="text" id="memberMin" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group tiered-price">
-                    <label class="col-sm-2 control-label">团长:</label>
-                    <div class="col-sm-3">
-                        <label class="radio-inline">
-                            <input type="radio" name="tzyhj" value="tz-yes" checked> 发放优惠券
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="tzyhj" value="tz-no"> 不发放优惠券
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group tz tiered-price">
-                    <label class="col-sm-2 control-label">优惠券类别:</label>
-                    <div class="col-sm-3">
-                        <select class="form-control">
-                            <option value="">请选择</option>
-                            <option value="153">化妆品类商品适用券</option>
-                            <option value="172">配饰类商品适用券</option>
-                            <option value="165">服饰类商品适用券</option>
-                            <option value="555">全场通用券</option>
-                            <option value="777">新人优惠券</option>
-                            <option value="211">指定商品适用券</option>
-                            <option value="999">免邮券</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group tz tiered-price">
-                    <label class="col-sm-2 control-label">限额:</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group tz tiered-price">
-                    <label class="col-sm-2 control-label">面值:</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group tz tiered-price">
-                    <label class="col-sm-2 control-label">使用期限:</label>
-                    <div class="col-sm-3">
-                        <div class="input-group" id='datetimepicker3'>
-                            <input class="form-control col-sm-2"  type="text" name="onShelvesAt">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                <div style="border: 1px solid #ccc;padding-top: 15px;display: none">
+                    <div class="form-group tiered-price">
+                        <label class="col-sm-2 control-label">拼购人数:</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="peopleNum">
+                        </div>
+                        <label class="col-sm-1 control-label" style="padding-left: 0">拼购价格:</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="price"  class="form-control">
                         </div>
                     </div>
-                    <div style="font-size: 20px;line-height: 1.6;float: left">~</div>
-                    <div class="col-sm-3">
-                        <div class="input-group date" id='datetimepicker4'>
-                            <input class="form-control col-sm-2"  type="text" name="offShelvesAt">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    <div class="form-group tiered-price">
+                        <label class="col-sm-2 control-label">团长减价:</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="masterMin" class="form-control">
+                        </div>
+                        <label class="col-sm-1 control-label" style="padding-left: 0">团员减价:</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="memberMin" class="form-control">
                         </div>
                     </div>
-                </div>
-                <div class="form-group tiered-price">
+                    <div class="form-group tiered-price">
+                        <label class="col-sm-2 control-label">团长:</label>
+                        <div class="col-sm-3">
+                            <label class="radio-inline">
+                                <input type="radio" name="tzyhj" value="tz-yes" checked> 发放优惠券
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="tzyhj" value="tz-no"> 不发放优惠券
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group tz tiered-price">
+                        <label class="col-sm-2 control-label">优惠券类别:</label>
+                        <div class="col-sm-3">
+                            <select class="form-control">
+                                <option value="">请选择</option>
+                                <option value="153">化妆品类商品适用券</option>
+                                <option value="172">配饰类商品适用券</option>
+                                <option value="165">服饰类商品适用券</option>
+                                <option value="555">全场通用券</option>
+                                <option value="777">新人优惠券</option>
+                                <option value="211">指定商品适用券</option>
+                                <option value="999">免邮券</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group tz tiered-price">
+                        <label class="col-sm-2 control-label">限额:</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group tz tiered-price">
+                        <label class="col-sm-2 control-label">面值:</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group tz tiered-price">
+                        <label class="col-sm-2 control-label">使用期限:</label>
+                        <div class="col-sm-3">
+                            <div class="input-group" id='datetimepicker3'>
+                                <input class="form-control col-sm-2"  type="text" name="onShelvesAt">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                        <div style="font-size: 20px;line-height: 1.6;float: left">~</div>
+                        <div class="col-sm-3">
+                            <div class="input-group date" id='datetimepicker4'>
+                                <input class="form-control col-sm-2"  type="text" name="offShelvesAt">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group tiered-price">
 
-                    <label class="col-sm-2 control-label">团员:</label>
-                    <div class="col-sm-3">
-                        <label class="radio-inline">
-                            <input type="radio" name="tyyhj" value="ty-yes" checked> 发放优惠券
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="tyyhj" value="ty-no"> 不发放优惠券
-                        </label>
+                        <label class="col-sm-2 control-label">团员:</label>
+                        <div class="col-sm-3">
+                            <label class="radio-inline">
+                                <input type="radio" name="tyyhj" value="ty-yes" checked> 发放优惠券
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="tyyhj" value="ty-no"> 不发放优惠券
+                            </label>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group ty tiered-price">
-                    <label class="col-sm-2 control-label">优惠券类别:</label>
-                    <div class="col-sm-3">
-                        <select class="form-control">
-                            <option value="">请选择</option>
-                            <option value="153">化妆品类商品适用券</option>
-                            <option value="172">配饰类商品适用券</option>
-                            <option value="165">服饰类商品适用券</option>
-                            <option value="555">全场通用券</option>
-                            <option value="777">新人优惠券</option>
-                            <option value="211">指定商品适用券</option>
-                            <option value="999">免邮券</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group ty tiered-price">
-                    <label class="col-sm-2 control-label">限额:</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group ty tiered-price">
-                    <label class="col-sm-2 control-label">面值:</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group ty tiered-price">
-                    <label class="col-sm-2 control-label">使用期限:</label>
-                    <div class="col-sm-3">
-                        <div class="input-group" id='datetimepicker5'>
-                            <input class="form-control col-sm-2"  type="text" name="onShelvesAt">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    <div class="form-group ty tiered-price">
+                        <label class="col-sm-2 control-label">优惠券类别:</label>
+                        <div class="col-sm-3">
+                            <select class="form-control">
+                                <option value="">请选择</option>
+                                <option value="153">化妆品类商品适用券</option>
+                                <option value="172">配饰类商品适用券</option>
+                                <option value="165">服饰类商品适用券</option>
+                                <option value="555">全场通用券</option>
+                                <option value="777">新人优惠券</option>
+                                <option value="211">指定商品适用券</option>
+                                <option value="999">免邮券</option>
+                            </select>
                         </div>
                     </div>
-                    <div style="font-size: 20px;line-height: 1.6;float: left">~</div>
-                    <div class="col-sm-3">
-                        <div class="input-group date" id='datetimepicker6'>
-                            <input class="form-control col-sm-2"  type="text" name="offShelvesAt">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    <div class="form-group ty tiered-price">
+                        <label class="col-sm-2 control-label">限额:</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control">
                         </div>
                     </div>
-                </div>
-                <div class="form-group tiered-price">
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-primary btn-xm addPriceLevel" style="margin-left: 800px;">添加阶梯价格</button>
+                    <div class="form-group ty tiered-price">
+                        <label class="col-sm-2 control-label">面值:</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control">
+                        </div>
                     </div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-primary btn-xm editPriceLevel" style="margin-left: 530px;">确定修改</button>
+                    <div class="form-group ty tiered-price">
+                        <label class="col-sm-2 control-label">使用期限:</label>
+                        <div class="col-sm-3">
+                            <div class="input-group" id='datetimepicker5'>
+                                <input class="form-control col-sm-2"  type="text" name="onShelvesAt">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                        <div style="font-size: 20px;line-height: 1.6;float: left">~</div>
+                        <div class="col-sm-3">
+                            <div class="input-group date" id='datetimepicker6'>
+                                <input class="form-control col-sm-2"  type="text" name="offShelvesAt">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-primary btn-xm cancelPriceLevel" style="margin-left: 460px;">返回添加</button>
-                    </div>
-                    <div class="col-sm-2">
-                        <input id="colIndex" style="display:none;">
+                    <div class="form-group tiered-price">
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary btn-xm addPriceLevel" style="margin-left: 800px;">添加阶梯价格</button>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary btn-xm editPriceLevel" style="margin-left: 530px;">确定修改</button>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary btn-xm cancelPriceLevel" style="margin-left: 460px;">返回添加</button>
+                        </div>
+                        <div class="col-sm-2">
+                            <input id="colIndex" style="display:none;">
+                        </div>
                     </div>
                 </div>
             </form>
