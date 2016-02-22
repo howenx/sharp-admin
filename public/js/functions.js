@@ -463,6 +463,7 @@ function delDire(obj){
 }
 /*$(function(){})*/
 $(function(){
+    $(".advanced").css("display","none");
 
     /***Loading..***/
     $(document).ajaxStart(function() {
@@ -705,13 +706,16 @@ $(function(){
                var sharedObject = window.dialogArguments;
                var isNext = true;
                var url = "";
+
                $(".templates-choose").find("li").each(function(){
                    if($(this).css("border-top-style") == "solid"){
                         url = $(this).find("input").attr("id");
+                        /**
                         if(url == "" || url == null){
                         alert("请先生成图片!");
                           isNext = false;
                         }
+                        **/
                    }
                })
 
@@ -719,7 +723,12 @@ $(function(){
                     var width = $(".templates").find("li:visible").find(".temp-img").width();
                     var height = $(".templates").find("li:visible").find(".temp-img").height();
                     sharedObject = {};
-                    sharedObject.url = url;
+                    if(url !=  null && url != ""){
+                        sharedObject.url = url;
+                    }else{
+                        var tempUrl = $(".templates").find("li:visible").find(".temp-img").find("img").attr("src");
+                        sharedObject.url = tempUrl.substring(tempUrl.indexOf('/',tempUrl.indexOf('/')+2) + 1);
+                    }
                     sharedObject.width = width;
                     sharedObject.height = height;
                     window.opener.updateThemeImg (sharedObject);

@@ -3,6 +3,7 @@ package entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import play.data.validation.Constraints;
 
+import javax.annotation.MatchesPattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -34,6 +35,7 @@ public class Theme implements Serializable{
     private Integer itemCount;
     private Integer themeTagCount;
     @Constraints.Required
+    @MatchesPattern(Tool.NON_ZERO_POSTIVE_INT)
     private Integer sortNu;
     private Boolean orDestory;
     private Long destoryUid;

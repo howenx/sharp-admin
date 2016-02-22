@@ -36,7 +36,6 @@ function updateThemeImg(obj){
 $(function(){
      $(".tiered-price").find("button").eq(1).css("display","none");
      $(".tiered-price").find("button").eq(2).css("display","none");
-
     //更新操作前的阶梯价格
     var beforeUpdPrice = []
     $(".pingou").find("tr").each(function(){
@@ -89,7 +88,7 @@ $(function(){
     $(document).on("click",".addPriceLevel",function(){
         //验证用
         var positive_int = /^[0-9]*[1-9][0-9]*$/;
-        var positive_float = /^(([0-9]+.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*.[0-9]+)|([0-9]*[1-9][0-9]*))$/;
+        var positive_float = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;       //金钱校验
 
 
         var peopleNum = $("#peopleNum").val();
@@ -554,6 +553,8 @@ $(function(){
              }
          })
          $(".tiered-price").css("display","");      //编辑阶梯价格
+         $(":radio[value = 'ty-no']").click();
+         $(":radio[value = 'tz-no']").click();
 
      })
 
@@ -566,7 +567,7 @@ $(function(){
     $(document).on("click","#pinSkuSubmit",function(){
         var isPost = true;
         var positive_int = /^[0-9]*[1-9][0-9]*$/;
-        var positive_float = /^(([0-9]+.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*.[0-9]+)|([0-9]*[1-9][0-9]*))$/;
+        var positive_float = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;       //金钱校验
         //必填项验证
         if($("#onShelvesAt").val() == "" || $("#offShelvesAt").val() == "" || $("#input_imgurl").val() == "" || $("#restrict").val() == "" || $("#status").val() == ""){
             isPost = false;
