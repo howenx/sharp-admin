@@ -540,6 +540,7 @@ $(function(){
          $("#offShelvesAt").attr("disabled",false);   //结束时间
          $("#status").attr("disabled",false);         //状态
          $("#restrict").attr("disabled",false);       //每用户限购
+         $("#pinTitle").attr("disabled",false);       //商品标题
          $(".btn-xm").eq(0).css("display","");        //选择商品'按钮'
          $("#getTemplate").eq(0).css("display","");   //图片模板'按钮'
 
@@ -569,7 +570,7 @@ $(function(){
         var positive_int = /^[0-9]*[1-9][0-9]*$/;
         var positive_float = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;       //金钱校验
         //必填项验证
-        if($("#onShelvesAt").val() == "" || $("#offShelvesAt").val() == "" || $("#input_imgurl").val() == "" || $("#restrict").val() == "" || $("#status").val() == ""){
+        if($("#onShelvesAt").val() == "" || $("#offShelvesAt").val() == "" || $("#input_imgurl").val() == "" || $("#restrict").val() == "" || $("#status").val() == "" || $("#pinTitle").val() == ""){
             isPost = false;
             $('#js-userinfo-error').text('基本信息不能为空!').css('color', '#c00');
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
@@ -691,7 +692,7 @@ $(function(){
         pinSku.restrictAmount = $("#restrict").val();
         pinSku.floorPrice = JSON.stringify(floorPrice);
         pinSku.invId = $("#input_imgurl").val();
-        pinSku.pinTitle = $("#itemTitle").val();
+        pinSku.pinTitle = $("#pinTitle").val();
         pinSku.pinDiscount = $("#pin_discount").val();
 
         pinData.pinSku = pinSku;

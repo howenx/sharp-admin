@@ -29,6 +29,7 @@
         $("#offShelvesAt").attr("disabled",true);   //结束时间
         $("#status").attr("disabled",true);         //状态
         $("#restrict").attr("disabled",true);       //每用户限购
+        $("#pinTitle").attr("disabled",true);       //商品标题
         $(".btn-xm").eq(0).css("display","none");   //选择商品'按钮'
         $("#getTemplate").eq(0).css("display","none"); //图片模板'按钮'
         $("#pin_discount").attr("disabled",true);      //最低折扣率
@@ -130,7 +131,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">商品标题:</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="itemTitle" value="@pinSku.getPinTitle()" disabled>
+                        <input type="text" class="form-control" id="pinTitle" value="@pinSku.getPinTitle()" >
                     </div>
                 </div>
                 <hr/>
@@ -205,7 +206,7 @@
                         </div>
                     </div>
                 </div>
-                <div class= "tiered-edit" style="border: 1px solid #ccc;padding-top: 15px;display: none">
+                <div class= "tiered-edit" style="display: none">
                     <div class="form-group tiered-price">
                         <label class="col-sm-2 control-label">拼购人数:</label>
                         <div class="col-sm-3">

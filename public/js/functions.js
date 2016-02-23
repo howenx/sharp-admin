@@ -464,6 +464,7 @@ function delDire(obj){
 /*$(function(){})*/
 $(function(){
     $(".advanced").css("display","none");
+    $("#createImg").css("display","none");
 
     /***Loading..***/
     $(document).ajaxStart(function() {
@@ -579,160 +580,168 @@ $(function(){
         }
     })
 
+    //高级设置      Added by Tiffany Zhu
+    $("#advanced-set").click(function(){
+        $(".advanced").css("display","");
+        $("#createImg").css("display","");
+        $("#advanced-set").css("display","none");
+    })
+
     //生成图片    Added by Tiffany Zhu
-            $("#createImg").click(function(){
-                    var isPost = true;
-                    var width = $(".templates").find("li:visible").find(".temp-img").css("width");
-                    width = width.replace("px","");
-                    var height = $(".templates").find("li:visible").find(".temp-img").height();
-                    var html = $(".templates").find("li:visible").find(".temp-img").prop("outerHTML");
-                    //alert("html:" + html);
-                    //alert("图片宽度:" + width + "图片高度:" + height );
-                    if(html == null || html == ""){
-                        isPost = false;
-                        alert("请添加模板!");
-                        return false;
-                    }
-                    //只上传一张图片,没有添加其他
-                    if($(".templates").find("li:visible").find(".temp-img").children().length == 1){
-                        isPost = false;
-                        var index = $(".templates").find("li:visible").index();
-                        var input = document.createElement("input");
-                        input.type = "hidden";
-                        var url = "";
-                        $(".templates-choose").find("li").each(function(){
-
-                            if($(this).css("border-top-style") == "solid"){
-                                 url = $(this).find("img").attr("src");
-                                 input.id = url.substring(url.indexOf('/',url.indexOf('/')+2)+1);
-                                 if($(this).find("input").length > 0){
-                                     $(this).find("input").remove();
-                                 }
-                                 $(this).append(input);
-                            }
-                        })
-                        window.open(window.uploaded + input.id,"_blank");
-                    }
-
-                     if(isPost){
-                         $.ajax({
-                            url: window.cutUrl, //Server script to process data
-                            //url: "http://172.28.3.18:3008/cut", //Server script to process data
-                            type: 'post',
-                            data: {
-                                html: '' +html,
-                                width:width,
-                                height:height
-                            },
-                            success: function(data) {
-                                console.log(JSON.stringify(data));
-                                var input = document.createElement("input");
-                                input.id = data.oss_url;
-                                input.type = "hidden";
-                                $(".templates-choose").find("li").each(function(){
-
-                                    if($(this).css("border-top-style") == "solid"){
-                                         if($(this).find("input").length > 0){
-                                             $(this).find("input").remove();
-                                         }
-                                         $(this).append(input);
-                                    }
-                                })
-                                //window.open(data.shot_url,'_blank');
-                                window.open(data.oss_prefix + data.oss_url,'_blank');
-                            },
-                            error: function(data, error, errorThrown) {
-                                if (data.status && data.status >= 400) {
-                                    alert(data.responseText);
-                                } else {
-                                    alert("Something went wrong");
-                                }
-                            }
-                         });
-                      }
-                })
-            //保存 Added by Tiffany Zhu
-            $("#save").click(function(){
-                var template = {};
+    $("#createImg").click(function(){
+            var isPost = true;
+            var width = $(".templates").find("li:visible").find(".temp-img").css("width");
+            width = width.replace("px","");
+            var height = $(".templates").find("li:visible").find(".temp-img").height();
+            var html = $(".templates").find("li:visible").find(".temp-img").prop("outerHTML");
+            //alert("html:" + html);
+            //alert("图片宽度:" + width + "图片高度:" + height );
+            if(html == null || html == ""){
+                isPost = false;
+                alert("请添加模板!");
+                return false;
+            }
+            //只上传一张图片,没有添加其他
+            if($(".templates").find("li:visible").find(".temp-img").children().length == 1){
+                isPost = false;
+                var index = $(".templates").find("li:visible").index();
+                var input = document.createElement("input");
+                input.type = "hidden";
                 var url = "";
-                var navigatorHtml = "";
-                var id = 0;
                 $(".templates-choose").find("li").each(function(){
+
                     if($(this).css("border-top-style") == "solid"){
-                        if($(this).find("input").length != 0){
-                            url = $(this).find("input").attr("id");
-                        }
-                        navigatorHtml = $(this).html();
+                         url = $(this).find("img").attr("src");
+                         input.id = url.substring(url.indexOf('/',url.indexOf('/')+2)+1);
+                         if($(this).find("input").length > 0){
+                             $(this).find("input").remove();
+                         }
+                         $(this).append(input);
                     }
                 })
+                window.open(window.uploaded + input.id,"_blank");
+            }
 
-                if($(".templates").find("li:visible").attr("id") != null){
-                    id = Number($(".templates").find("li:visible").attr("id"));
-                }
-
-                template.id = id;
-                template.url = url.substring(url.indexOf('/',url.indexOf('/')+2)+1);
-                template.navigatorHtml = navigatorHtml;
-                template.contentHtml = $(".templates").find("li:visible").find(".temp-img").prop("outerHTML");
-
+            if(isPost){
                 $.ajax({
-                   type :  "POST",
-                   url : "/topic/templates/save",
-                   contentType: "application/json; charset=utf-8",
-                   data : JSON.stringify(template),
-                   error : function(request) {
-                     if (window.lang = 'cn') {
-                         $('#js-userinfo-error').text('保存失败');
-                     } else {
-                         $('#js-userinfo-error').text('Save error');
-                     }
-                         setTimeout("$('#js-userinfo-error').text('')", 2000);
-                     },
+                   url: window.cutUrl, //Server script to process data
+                   //url: "http://172.28.3.18:3008/cut", //Server script to process data
+                   type: 'post',
+                   data: {
+                       html: '' +html,
+                       width:width,
+                       height:height
+                   },
                    success: function(data) {
-                     alert("Save Success");
-                     if (window.lang = 'cn') {
-                         $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
-                     } else {
-                         $('#js-userinfo-error').text('Save success');
-                     }
-                     //setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
+                       console.log(JSON.stringify(data));
+                       var input = document.createElement("input");
+                       input.id = data.oss_url;
+                       input.type = "hidden";
+                       $(".templates-choose").find("li").each(function(){
 
+                           if($(this).css("border-top-style") == "solid"){
+                                if($(this).find("input").length > 0){
+                                    $(this).find("input").remove();
+                                }
+                                $(this).append(input);
+                           }
+                       })
+                       //window.open(data.shot_url,'_blank');
+                       window.open(data.oss_prefix + data.oss_url,'_blank');
+                   },
+                   error: function(data, error, errorThrown) {
+                       if (data.status && data.status >= 400) {
+                           alert(data.responseText);
+                       } else {
+                           alert("Something went wrong");
+                       }
                    }
                 });
-            })
+            }
+    })
 
-            //下一步   Added by Tiffany Zhu
-            $("#nextStep").click(function(){
-               var sharedObject = window.dialogArguments;
-               var isNext = true;
-               var url = "";
+    //保存 Added by Tiffany Zhu
+    $("#save").click(function(){
+        var template = {};
+        var url = "";
+        var navigatorHtml = "";
+        var id = 0;
+        $(".templates-choose").find("li").each(function(){
+            if($(this).css("border-top-style") == "solid"){
+                if($(this).find("input").length != 0){
+                    url = $(this).find("input").attr("id");
+                }
+                navigatorHtml = $(this).html();
+            }
+        })
 
-               $(".templates-choose").find("li").each(function(){
-                   if($(this).css("border-top-style") == "solid"){
-                        url = $(this).find("input").attr("id");
-                        /**
-                        if(url == "" || url == null){
-                        alert("请先生成图片!");
-                          isNext = false;
-                        }
-                        **/
-                   }
-               })
+        if($(".templates").find("li:visible").attr("id") != null){
+            id = Number($(".templates").find("li:visible").attr("id"));
+        }
 
-               if(isNext){
-                    var width = $(".templates").find("li:visible").find(".temp-img").width();
-                    var height = $(".templates").find("li:visible").find(".temp-img").height();
-                    sharedObject = {};
-                    if(url !=  null && url != ""){
-                        sharedObject.url = url;
-                    }else{
-                        var tempUrl = $(".templates").find("li:visible").find(".temp-img").find("img").attr("src");
-                        sharedObject.url = tempUrl.substring(tempUrl.indexOf('/',tempUrl.indexOf('/')+2) + 1);
-                    }
-                    sharedObject.width = width;
-                    sharedObject.height = height;
-                    window.opener.updateThemeImg (sharedObject);
-                    window.close();
-               }
-            })
+        template.id = id;
+        template.url = url.substring(url.indexOf('/',url.indexOf('/')+2)+1);
+        template.navigatorHtml = navigatorHtml;
+        template.contentHtml = $(".templates").find("li:visible").find(".temp-img").prop("outerHTML");
+
+        $.ajax({
+           type :  "POST",
+           url : "/topic/templates/save",
+           contentType: "application/json; charset=utf-8",
+           data : JSON.stringify(template),
+           error : function(request) {
+             if (window.lang = 'cn') {
+                 $('#js-userinfo-error').text('保存失败');
+             } else {
+                 $('#js-userinfo-error').text('Save error');
+             }
+                 setTimeout("$('#js-userinfo-error').text('')", 2000);
+             },
+           success: function(data) {
+             alert("Save Success");
+             if (window.lang = 'cn') {
+                 $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+             } else {
+                 $('#js-userinfo-error').text('Save success');
+             }
+              //setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
+
+           }
+        });
+    })
+
+    //下一步   Added by Tiffany Zhu
+    $("#nextStep").click(function(){
+       var sharedObject = window.dialogArguments;
+       var isNext = true;
+       var url = "";
+
+       $(".templates-choose").find("li").each(function(){
+           if($(this).css("border-top-style") == "solid"){
+                url = $(this).find("input").attr("id");
+                /**
+                if(url == "" || url == null){
+                alert("请先生成图片!");
+                  isNext = false;
+                }
+                **/
+           }
+       })
+
+       if(isNext){
+            var width = $(".templates").find("li:visible").find(".temp-img").width();
+            var height = $(".templates").find("li:visible").find(".temp-img").height();
+            sharedObject = {};
+            if(url !=  null && url != ""){
+                sharedObject.url = url;
+            }else{
+                var tempUrl = $(".templates").find("li:visible").find(".temp-img").find("img").attr("src");
+                sharedObject.url = tempUrl.substring(tempUrl.indexOf('/',tempUrl.indexOf('/')+2) + 1);
+            }
+            sharedObject.width = width;
+            sharedObject.height = height;
+            window.opener.updateThemeImg (sharedObject);
+            window.close();
+       }
+    })
 });

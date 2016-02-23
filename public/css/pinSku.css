@@ -1,3 +1,7 @@
 .table>tbody>tr>td, .table>tbody>tr>th {
     white-space: nowrap;
 }
+.tiered-edit{
+    border: 1px solid #ccc;
+    padding-top: 15px;
+}

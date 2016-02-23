@@ -591,147 +591,155 @@ public class ThemeCtrl extends Controller {
                 if("item".equals(resultType)){
                     Object[] object = new Object[11];
                     Inventory inventory = inventoryService.getInventory(tempId.get("id").asLong());
-                    Item item = itemService.getItem(inventory.getItemId());
-                    object[0] = inventory.getId();
-                    object[1] = item.getItemTitle();
-                    String  url = Json.parse(inventory.getInvImg()).get("url").toString();
-                    url = url.substring(1,url.length()-1);
-                    object[2] = url;
-                    object[3] = item.getOnShelvesAt().toString().substring(0,19);
-                    if("Y".equals(item.getState())){
-                        object[4] = "正常";
+                    if(inventory != null){
+                        object[0] = inventory.getId();
+                        object[1] = inventory.getInvTitle();
+                        String  url = Json.parse(inventory.getInvImg()).get("url").toString();
+                        url = url.substring(1,url.length()-1);
+                        object[2] = url;
+                        object[3] = inventory.getStartAt().toString().substring(0,19);
+                        if("Y".equals(inventory.getState())){
+                            object[4] = "正常";
 
-                    }
-                    if("D".equals(item.getState())){
-                        object[4] = "下架";
+                        }
+                        if("D".equals(inventory.getState())){
+                            object[4] = "下架";
 
-                    }
-                    if("N".equals(item.getState())){
-                        object[4] = "删除";
+                        }
+                        if("N".equals(inventory.getState())){
+                            object[4] = "删除";
 
-                    }
-                    if("K".equals(item.getState())){
-                        object[4] = "售空";
+                        }
+                        if("K".equals(inventory.getState())){
+                            object[4] = "售空";
 
-                    }
-                    if("P".equals(item.getState())){
-                        object[4] = "预售";
+                        }
+                        if("P".equals(inventory.getState())){
+                            object[4] = "预售";
 
+                        }
+                        object[5] = inventory.getItemPrice();
+                        object[6] = inventory.getItemSrcPrice();
+                        object[7] = inventory.getItemDiscount();
+                        object[8] = itemNum;
+                        object[9] = "普通";
+                        object[10] = inventory.getId();
+                        itemList.add(object);
                     }
-                    object[5] = inventory.getItemPrice();
-                    object[6] = inventory.getItemSrcPrice();
-                    object[7] = inventory.getItemDiscount();
-                    object[8] = itemNum;
-                    object[9] = "普通";
-                    object[10] = inventory.getId();
-                    itemList.add(object);
                 }
 
                 if("pin".equals(resultType)){
                     Object[] object = new Object[11];
                     PinSku pinSku = pingouService.getPinSkuById(tempId.get("id").asLong());
-                    Inventory inventory = inventoryService.getInventory(pinSku.getInvId());
-                    object[0] = pinSku.getInvId();
-                    object[1] = pinSku.getPinTitle();
-                    String url = Json.parse(pinSku.getPinImg()).get("url").toString();
-                    url = url.substring(1,url.length()-1);
-                    object[2] = url;
-                    object[3] = pinSku.getStartAt().toString().substring(0,19);
-                    if("Y".equals(pinSku.getStatus())){
-                        object[4] = "正常";
+                    if(pinSku != null){
+                        Inventory inventory = inventoryService.getInventory(pinSku.getInvId());
+                        object[0] = pinSku.getInvId();
+                        object[1] = pinSku.getPinTitle();
+                        String url = Json.parse(pinSku.getPinImg()).get("url").toString();
+                        url = url.substring(1,url.length()-1);
+                        object[2] = url;
+                        object[3] = pinSku.getStartAt().toString().substring(0,19);
+                        if("Y".equals(pinSku.getStatus())){
+                            object[4] = "正常";
 
-                    }
-                    if("D".equals(pinSku.getStatus())){
-                        object[4] = "下架";
+                        }
+                        if("D".equals(pinSku.getStatus())){
+                            object[4] = "下架";
 
-                    }
-                    if("N".equals(pinSku.getStatus())){
-                        object[4] = "删除";
+                        }
+                        if("N".equals(pinSku.getStatus())){
+                            object[4] = "删除";
 
-                    }
-                    if("K".equals(pinSku.getStatus())){
-                        object[4] = "售空";
+                        }
+                        if("K".equals(pinSku.getStatus())){
+                            object[4] = "售空";
 
-                    }
-                    if("P".equals(pinSku.getStatus())){
-                        object[4] = "预售";
+                        }
+                        if("P".equals(pinSku.getStatus())){
+                            object[4] = "预售";
 
+                        }
+                        JsonNode floorPrice = Json.parse(pinSku.getFloorPrice());
+                        object[5] = floorPrice.get("price");
+                        object[6] = inventory.getItemSrcPrice();
+                        object[7] = pinSku.getPinDiscount();
+                        object[8] = itemNum;
+                        object[9] = "拼购";
+                        object[10] = pinSku.getPinId();
+                        itemList.add(object);
                     }
-                    JsonNode floorPrice = Json.parse(pinSku.getFloorPrice());
-                    object[5] = floorPrice.get("price");
-                    object[6] = inventory.getItemSrcPrice();
-                    object[7] = pinSku.getPinDiscount();
-                    object[8] = itemNum;
-                    object[9] = "拼购";
-                    object[10] = pinSku.getPinId();
-                    itemList.add(object);
                 }
 
                 if("vary".equals(resultType)){
                     Object[] object = new Object[11];
                     VaryPrice varyPrice = varyPriceService.getVaryPriceById(tempId.get("id").asLong());
-                    Inventory inventory = inventoryService.getInventory(varyPrice.getInvId());
-                    Item item = itemService.getItem(inventory.getItemId());
-                    object[0] = varyPrice.getInvId();
-                    object[1] = item.getItemTitle();
-                    String url = Json.parse(inventory.getInvImg()).get("url").toString();
-                    url = url.substring(1,url.length()-1);
-                    object[2] = url;
-                    object[3] = inventory.getStartAt().toString().substring(0,19);
-                    if("Y".equals(varyPrice.getStatus())){
-                        object[4] = "正常";
+                    if(varyPrice != null){
+                        Inventory inventory = inventoryService.getInventory(varyPrice.getInvId());
+                        Item item = itemService.getItem(inventory.getItemId());
+                        object[0] = varyPrice.getInvId();
+                        object[1] = item.getItemTitle();
+                        String url = Json.parse(inventory.getInvImg()).get("url").toString();
+                        url = url.substring(1,url.length()-1);
+                        object[2] = url;
+                        object[3] = inventory.getStartAt().toString().substring(0,19);
+                        if("Y".equals(varyPrice.getStatus())){
+                            object[4] = "正常";
 
-                    }
-                    if("N".equals(varyPrice.getStatus())){
-                        object[4] = "下架";
+                        }
+                        if("N".equals(varyPrice.getStatus())){
+                            object[4] = "下架";
 
+                        }
+                        object[5] = varyPrice.getPrice();
+                        object[6] = inventory.getItemSrcPrice();
+                        object[7] = varyPrice.getPrice().divide(inventory.getItemSrcPrice(),2);
+                        object[8] = itemNum;
+                        object[9] = "多样化";
+                        object[10] = varyPrice.getId();
+                        itemList.add(object);
                     }
-                    object[5] = varyPrice.getPrice();
-                    object[6] = inventory.getItemSrcPrice();
-                    object[7] = varyPrice.getPrice().divide(inventory.getItemSrcPrice(),2);
-                    object[8] = itemNum;
-                    object[9] = "多样化";
-                    object[10] = varyPrice.getId();
-                    itemList.add(object);
+
                 }
                 if("customize".equals(resultType)){
                     Object[] object = new Object[11];
                     SubjectPrice subjectPrice = subjectPriceService.getSbjPriceById(tempId.get("id").asLong());
-                    Inventory inventory = inventoryService.getInventory(subjectPrice.getInvId());
-                    Item item = itemService.getItem(inventory.getItemId());
-                    object[0] = subjectPrice.getInvId();
-                    object[1] = item.getItemTitle();
-                    String  url = Json.parse(inventory.getInvImg()).get("url").toString();
-                    url = url.substring(1,url.length()-1);
-                    object[2] = url;
-                    object[3] = item.getOnShelvesAt().toString().substring(0,19);
-                    if("Y".equals(item.getState())){
-                        object[4] = "正常";
+                    if(subjectPrice != null){
+                        Inventory inventory = inventoryService.getInventory(subjectPrice.getInvId());
+                        Item item = itemService.getItem(inventory.getItemId());
+                        object[0] = subjectPrice.getInvId();
+                        object[1] = item.getItemTitle();
+                        String  url = Json.parse(inventory.getInvImg()).get("url").toString();
+                        url = url.substring(1,url.length()-1);
+                        object[2] = url;
+                        object[3] = item.getOnShelvesAt().toString().substring(0,19);
+                        if("Y".equals(item.getState())){
+                            object[4] = "正常";
 
-                    }
-                    if("D".equals(item.getState())){
-                        object[4] = "下架";
+                        }
+                        if("D".equals(item.getState())){
+                            object[4] = "下架";
 
-                    }
-                    if("N".equals(item.getState())){
-                        object[4] = "删除";
+                        }
+                        if("N".equals(item.getState())){
+                            object[4] = "删除";
 
-                    }
-                    if("K".equals(item.getState())){
-                        object[4] = "售空";
+                        }
+                        if("K".equals(item.getState())){
+                            object[4] = "售空";
 
-                    }
-                    if("P".equals(item.getState())){
-                        object[4] = "预售";
+                        }
+                        if("P".equals(item.getState())){
+                            object[4] = "预售";
 
+                        }
+                        object[5] = subjectPrice.getPrice();
+                        object[6] = inventory.getItemSrcPrice();
+                        object[7] = subjectPrice.getDiscount();
+                        object[8] = itemNum;
+                        object[9] = "自定义";
+                        object[10] = subjectPrice.getId();
+                        itemList.add(object);
                     }
-                    object[5] = subjectPrice.getPrice();
-                    object[6] = inventory.getItemSrcPrice();
-                    object[7] = subjectPrice.getDiscount();
-                    object[8] = itemNum;
-                    object[9] = "自定义";
-                    object[10] = subjectPrice.getId();
-                    itemList.add(object);
                 }
             }
         }
