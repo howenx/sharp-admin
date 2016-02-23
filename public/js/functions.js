@@ -742,6 +742,7 @@ $(function(){
             sharedObject.height = height;
             window.opener.updateThemeImg (sharedObject);
             window.close();
+
        }
     })
 });
