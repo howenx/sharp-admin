@@ -21,6 +21,7 @@
         $("#themeImg").find("input").css({"width":@img(1),"height":@img(2)});
 
         //设置不可编辑项
+
         $("#pinSkuSubmit").css("display","none");   //保存
         $("#cancel").css("display","none");         //取消
 
@@ -40,7 +41,8 @@
             }
         })
 
-        $(".tiered-price").css("display","none");//编辑阶梯价格
+        //$(".tiered-price").css("display","none");//编辑阶梯价格
+
     })
 </script>
 
@@ -203,7 +205,7 @@
                         </div>
                     </div>
                 </div>
-                <div style="border: 1px solid #ccc;padding-top: 15px;display: none">
+                <div class= "tiered-edit" style="border: 1px solid #ccc;padding-top: 15px;display: none">
                     <div class="form-group tiered-price">
                         <label class="col-sm-2 control-label">拼购人数:</label>
                         <div class="col-sm-3">

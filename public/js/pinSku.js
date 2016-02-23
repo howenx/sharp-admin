@@ -334,8 +334,8 @@ $(function(){
         $(".ty").find("input").eq(1).val("");
         $(".ty").find("input").eq(2).val("");
         $(".ty").find("input").eq(3).val("");
-         $(":radio[value='tz-yes']").click();
-          $(":radio[value='ty-yes']").click();
+         $(":radio[value='tz-no']").click();
+          $(":radio[value='ty-no']").click();
         $(".tiered-price").find("button").eq(0).css("display","");
         $(".tiered-price").find("button").eq(1).css("display","none");
         $(".tiered-price").find("button").eq(2).css("display","none");
@@ -552,7 +552,7 @@ $(function(){
                  $(this).find("td").eq(18).css("display","");
              }
          })
-         $(".tiered-price").css("display","");      //编辑阶梯价格
+         $(".tiered-edit").css("display","");      //编辑阶梯价格
          $(":radio[value = 'ty-no']").click();
          $(":radio[value = 'tz-no']").click();
 
