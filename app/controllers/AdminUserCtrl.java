@@ -37,9 +37,6 @@ public class AdminUserCtrl extends Controller {
     private AdminUserService adminUserService;
 
     @Inject
-    private IDAdminService idAdminService;
-
-    @Inject
     private IDService idService;
 
     @Inject
