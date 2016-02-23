@@ -4,7 +4,6 @@ import com.google.inject.PrivateModule;
 import com.google.inject.Scopes;
 import com.google.inject.name.Names;
 import mapper.AdminUserMapper;
-import mapper.IDAdminMapper;
 import mapper.IDMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
@@ -37,7 +36,6 @@ public class AccountDBModule extends PrivateModule {
                 //只针对account数据库的Mapper,不可以将一个Mapper多Module进行Add
                 addMapperClass(IDMapper.class);
                 addMapperClass(AdminUserMapper.class);
-                addMapperClass(IDAdminMapper.class);
             }
         });
 
@@ -52,12 +50,10 @@ public class AccountDBModule extends PrivateModule {
          */
         bind(IDService.class).to(IDServiceImpl.class);
         bind(AdminUserService.class).to(AdminUserServiceImpl.class);
-        bind(IDAdminService.class).to(IDAdminServiceImpl.class);
 
         //必须expose
         expose(IDService.class);
         expose(AdminUserService.class);
-        expose(IDAdminService.class);
     }
 
     @Singleton

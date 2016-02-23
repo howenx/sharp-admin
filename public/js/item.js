@@ -358,17 +358,11 @@ $(function(){
             var invCustoms = tds[17].innerHTML;
             var postalTaxRate = tds[19].innerHTML;
             var postalTaxCode = tds[20].innerHTML;
-            var recordHZ = tds[21].innerHTML;
-            var recordGZ = tds[22].innerHTML;
-            var recordSH = tds[23].innerHTML;
-            var recordCode = {};
-            if(recordHZ!="") recordCode["hangzhou"] = recordHZ;
-            if(recordGZ!="") recordCode["guangzhou"] = recordGZ;
-            if(recordSH!="") recordCode["shanghai"] = recordSH;
-            var invImg = tds[24].innerHTML;
-            var itemPreviewImgs = tds[25].innerHTML;
-            var orVaryPrice = tds[26].innerHTML;
-            var invId = tds[28].innerHTML;
+            var recordCode = tds[21].innerHTML;
+            var invImg = tds[22].innerHTML;
+            var itemPreviewImgs = tds[23].innerHTML;
+            var orVaryPrice = tds[24].innerHTML;
+            var invId = tds[26].innerHTML;
             //拼装成一条数据
             var invData = new Object();
             var inventory = new Object();
@@ -377,6 +371,7 @@ $(function(){
             inventory.itemColor = itemColor;
             inventory.itemSize = itemSize;
             inventory.invCode = invCode;
+            inventory.state = state;
             inventory.startAt = startAt;
             inventory.endAt = endAt;
             inventory.itemPrice = itemPrice;
@@ -400,18 +395,17 @@ $(function(){
             inventory.orVaryPrice = orVaryPrice;
             if (invId!=null && invId !=""  && divId =="submitItem") {
                 inventory.id = invId;
-                inventory.state = state;
             }
             invData.inventory = inventory;
             if (orVaryPrice) {
-                var vp_arr = tds[27].innerHTML.split(",");
+                var vp_arr = tds[25].innerHTML.split(",");
                 for(v=0;v<vp_arr.length;v++) {
                     if (v%4==0) {
                         var varyPrice = new Object();
                         if (vp_arr[v]!="" && vp_arr[v]!=null && divId =="submitItem") {
                             varyPrice.id = vp_arr[v];
-                            varyPrice.status = vp_arr[v+1];
                         }
+                        varyPrice.status = vp_arr[v+1];
                         varyPrice.price = vp_arr[v+2];
                         varyPrice.limitAmount = vp_arr[v+3];
                         varyPrices.push(varyPrice);

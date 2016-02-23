@@ -89,7 +89,7 @@
         insert into items
         (cate_id,brand_id,item_title,supply_merch,on_shelves_at,off_shelves_at,item_master_img,item_detail_imgs,item_features,theme_id,state,share_url,share_count,collect_count,browse_count,item_notice,or_destroy,destroy_at,update_at,create_at,master_inv_id,item_detail,publicity)
         values
-        (#{cateId},#{brandId},#{itemTitle},#{supplyMerch},#{onShelvesAt},#{offShelvesAt},#{itemMasterImg},#{itemDetailImgs}::jsonb,#{itemFeatures}::jsonb,#{themeId},#{state},#{shareUrl},0,0,0,#{itemNotice},false,#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{masterInvId},#{itemDetail},#{publicity}::jsonb)
+        (#{cateId},#{brandId},#{itemTitle},#{supplyMerch},#{onShelvesAt},#{offShelvesAt},#{itemMasterImg},#{itemDetailImgs}::jsonb,#{itemFeatures}::jsonb,#{themeId},#{state},#{shareUrl},#{shareCount},#{collectCount},#{browseCount},#{itemNotice},false,#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{masterInvId},#{itemDetail},#{publicity}::jsonb)
     </insert>
 
     <!-- 更新一条商品信息 -->
