@@ -72,7 +72,7 @@
                     <input type="text" class="form-control" id="invCode" name="invCode">
                 </div>
                 <!-- 状态 -->
-                <div id="skuState" style="display:none;">
+                <div id="skuState">
                 <label class="col-sm-1 control-label thval">状态</label>
                 <div class="col-sm-2">
                     <select class="form-control" id="state" name="state">
@@ -100,9 +100,6 @@
                     <div id="warn-date" style="color:red; margin-left:220px;margin-top:-25px; width:100px;"></div>
                 </div>
             </div>
-            <!--<div class="form-group col-sm-3">-->
-            <!--(价格为整数或两位小数)-->
-            <!--</div>-->
             <div class="form-group">
                 <!-- 现价 -->
                 <label class="col-sm-2 control-label thval">现价</label>
@@ -114,7 +111,9 @@
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="itemSrcPrice" name="itemSrcPrice">
                 </div>
+                <div style="margin-top:5px;font-weight:500;">
                 (注意:价格为整数或两位小数)
+                </div>
             </div>
             <div class="form-group">
                 <!-- 成本价 -->
@@ -254,14 +253,14 @@
                     <table class="table table-bordered qubian guige" id="varyPriceTab">
                         <tr>
                             <th style="display:none;">多样化价格id</th>
-                            <th id="staTh" style="display:none;">状态</th>
+                            <th>状态</th>
                             <th>销售价格</th>
                             <th>限制销售量</th>
                             <th class="addTr add">添加</th>
                         </tr>
                         <tr>
                             <td style="display:none;"><input type="text" name="vpId"></td>
-                            <td style="display:none;">
+                            <td>
                                 <select class="status">
                                     <option value="Y">正常</option>
                                     <option value="D">下架</option>

@@ -125,7 +125,7 @@ function Init () {
         }
         if (skuObj.invId!="") {
             //sku 状态
-            $("#skuState").css('display','block');
+//            $("#skuState").css('display','block');
             if (skuObj.state=="Y")  $("#state option[value='Y']").attr("selected", true);
             if (skuObj.state=="D")  $("#state option[value='D']").attr("selected", true);
         }
@@ -145,9 +145,6 @@ function Init () {
         }
         if (skuObj.orVaryPrice=="true") {
             $("#openVaryPrice").attr("checked",true);
-            $(".del").text("");
-            $(".del").css('cursor','default');
-            $(".del").removeClass("delTr");
             $(".guige").addClass("block");
             var varyPriceArr = skuObj.varyPrice.split(",");
             var priceAmountData = document.getElementById("varyPriceTab").getElementsByTagName("input");
@@ -157,21 +154,19 @@ function Init () {
                     priceAmountData[0].value = varyPriceArr[0];
                     priceAmountData[1].value = varyPriceArr[2];
                     priceAmountData[2].value = varyPriceArr[3];
-                    if (varyPriceArr[0]!="") {
-                        $("#staTh").css('display','block');
-                        status[0].parentNode.style.display = "block";
-                        if (varyPriceArr[1]=="Y")  status[0].options[0].selected = true;
-                        if (varyPriceArr[1]=="D")  status[0].options[1].selected = true;
-                    }
+                    if (varyPriceArr[1]=="Y")  status[0].options[0].selected = true;
+                    if (varyPriceArr[1]=="D")  status[0].options[1].selected = true;
                 }
                 if (v>3 && v%4==0) {
-                    $("<tr>").html('<td style="display:none;"><input type="text" name="vpId" value="'+varyPriceArr[v]+'"></td><td style="display:none;"><select class="status"><option value="Y">正常</option><option value="D">下架</option></select></td><td><input type="text" name="price" value="'+varyPriceArr[v+2]+'"></td><td><input type="text" name="limitAmount" value="'+varyPriceArr[v+3]+'"></td><td class="del" style="cursor:default;"></td>').appendTo($(".guige"));
-                    if (varyPriceArr[v]!="") {
-                        var status1 = document.getElementById("varyPriceTab").getElementsByTagName("select");
-                        status1[v/4].parentNode.style.display = "block";
-                        if (varyPriceArr[v+1]=="Y")  status1[v/4].options[0].selected = true;
-                        if (varyPriceArr[v+1]=="D")  status1[v/4].options[1].selected = true;
-                    }
+                    $("<tr>").html('<td style="display:none;"><input type="text" name="vpId" value="'+varyPriceArr[v]+'"></td><td><select class="status"><option value="Y">正常</option><option value="D">下架</option></select></td><td><input type="text" name="price" value="'+varyPriceArr[v+2]+'"></td><td><input type="text" name="limitAmount" value="'+varyPriceArr[v+3]+'"></td><td class="delTr del">删除</td>').appendTo($(".guige"));
+                    var status1 = document.getElementById("varyPriceTab").getElementsByTagName("select");
+                    if (varyPriceArr[v+1]=="Y")  status1[v/4].options[0].selected = true;
+                    if (varyPriceArr[v+1]=="D")  status1[v/4].options[1].selected = true;
+                }
+                if (v%4==0 && varyPriceArr[v]!="") {
+                    $(".del").text("");
+                    $(".del").css('cursor','default');
+                    $(".del").removeClass("delTr");
                 }
             }
         }
@@ -212,7 +207,10 @@ function saveCurr() {
     var postalTaxCode = $("#postalTaxCode").val();//行邮税号
     var recordCode = {};//海关商品备案号
     $("#recordCode").find(".record-code").each(function() {
-        recordCode[$(this).attr("id")] = $(this).val();
+        var recordValue = $(this).val();
+        if (recordValue!="") {
+            recordCode[$(this).attr("id")] = recordValue;
+        }
     });
     //验证输入数据合法性
     if (!numberReg2.test(itemPrice) || !numberReg2.test(itemSrcPrice) || !numberReg2.test(itemCostPrice)|| !numberReg2.test(itemDiscount) || !numberReg1.test(invWeight)
@@ -353,9 +351,9 @@ function saveCurr() {
     var count = 0;
     //行数据,其余的隐藏
     for(var item in trdobj){
-//        if (count==0||count==1||count==5||count==14)
+        if (count==0||count==1||count==5||count==14)
         $("<td>").html(trdobj[item]).appendTo(trd);
-//        else $("<td style='display:none;'>").html(trdobj[item]).appendTo(trd);
+        else $("<td style='display:none;'>").html(trdobj[item]).appendTo(trd);
         count++;
     }
     if (invId!="" && invId!=null) {
@@ -370,9 +368,9 @@ function saveCurr() {
         //表头,其余的表头项隐藏
         $(".thval").each(function(){
             var thName = $(this).html();
-//            if (thName=="颜色"||thName=="尺寸"||thName=="现价"||thName=="库存区域")
+            if (thName=="颜色"||thName=="尺寸"||thName=="现价"||thName=="库存区域")
             $("<th>").html(thName).appendTo(trh);
-//            else $("<th style='display:none;'>").html(thName).appendTo(trh);
+            else $("<th style='display:none;'>").html(thName).appendTo(trh);
         });
         $("<th>").html("修改").appendTo(trh);
         sharedObject.trh = trh;
@@ -383,7 +381,7 @@ function saveCurr() {
         sharedObject.index = "";
     }
     console.log(orSave);
-    if (true) {
+    if (orSave) {
         if (window.showModalDialog) {
             window.returnValue = sharedObject;
         }
@@ -601,9 +599,7 @@ $(function(){
         var price = document.getElementsByName("price");
         var len = price.length;
         if (varyPriceTab.getElementsByTagName("tr").length>1 && limitAmount[len-1].value!="" && price[len-1].value!="" ) {
-            if ($("#varyPriceTab").find("tr").eq(0).find("th").eq(1).css("display")=="block")
-            var trHtml = '<td style="display:none;"><input type="text" name="vpId"></td><td>正常</td><td><input type="text" name="price"></td><td><input type="text" name="limitAmount"></td><td class="del delTr">删除</td>';
-            else var trHtml = '<td style="display:none;"><input type="text" name="vpId"></td><td><input type="text" name="price"></td><td><input type="text" name="limitAmount"></td><td class="del delTr">删除</td>';
+            var trHtml = '<td style="display:none;"><input type="text" name="vpId"></td><td><select class="status"><option value="Y">正常</option><option value="D">下架</option></select></td><td><input type="text" name="price"></td><td><input type="text" name="limitAmount"></td><td class="del delTr">删除</td>';
             $("<tr>").html(trHtml).appendTo($(".guige"));
         }
     });

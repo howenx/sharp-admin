@@ -246,13 +246,15 @@ public class ItemCtrl extends Controller {
             VaryPrice varyPrice = new VaryPrice();
             varyPrice.setInvId(inventory.getId());
             List<VaryPrice> vpList = varyPriceService.getVaryPriceBy(varyPrice);
-            for(VaryPrice vp : vpList) {
-                object[24]=object[24] + vp.getId().toString()+",";
-                object[24]=object[24] + vp.getStatus()+",";
-                object[24]=object[24] + vp.getPrice().toString()+",";
-                object[24]=object[24] + vp.getLimitAmount().toString()+",";
+            if (vpList.size()>0) {
+                for(VaryPrice vp : vpList) {
+                    object[24]=object[24] + vp.getId().toString()+",";
+                    object[24]=object[24] + vp.getStatus()+",";
+                    object[24]=object[24] + vp.getPrice().toString()+",";
+                    object[24]=object[24] + vp.getLimitAmount().toString()+",";
+                }
+                object[24] = object[24].toString().substring(0,object[24].toString().length()-1);
             }
-            object[24] = object[24].toString().substring(0,object[24].toString().length()-1);
             object[25] = inventory.getInvCode();
             object[26] = inventory.getState();
             invList.add(object);

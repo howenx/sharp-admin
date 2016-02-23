@@ -108,12 +108,6 @@ public class ItemMiddle {
                 Inventory inventory = new Inventory();
                 if (jsonNode.has("inventory")) {
                     JsonNode jsonInv = jsonNode.findValue("inventory");
-//                    if (jsonInv.has("itemPreviewImgs")) {
-//                        ((ObjectNode) jsonInv).put("itemPreviewImgs",jsonInv.findValue("itemPreviewImgs").toString());
-//                    }
-                    if (jsonInv.has("recordCode")) {
-                        ((ObjectNode) jsonInv).put("recordCode",jsonInv.findValue("recordCode").toString());
-                    }
                     inventory = Json.fromJson(jsonInv, Inventory.class);
                     inventory.setItemId(item.getId());
 //                Logger.error(inventory.toString());
@@ -122,7 +116,7 @@ public class ItemMiddle {
                         Inventory originInv = inventoryService.getInventory(inventory.getId());
                         inventory.setSoldAmount(originInv.getSoldAmount());
                         inventory.setOrDestroy(originInv.getOrDestroy());
-                        inventory.setState(originInv.getState());
+//                        inventory.setState(originInv.getState());
                         inventory.setInvTitle(originInv.getInvTitle());
                         inventory.setShareCount(originInv.getShareCount());
                         inventory.setCollectCount(originInv.getCollectCount());
@@ -132,7 +126,7 @@ public class ItemMiddle {
                     //录入库存信息
                     else {
                         inventory.setInvTitle(item.getItemTitle());
-                        inventory.setState("Y");
+//                        inventory.setState("Y");
 //                    Logger.error("sku信息:"+inventory);
                         inventoryService.insertInventory(inventory);
                         Logger.error("录入一条库存:"+inventory.getId());
@@ -150,7 +144,7 @@ public class ItemMiddle {
                     for(final JsonNode varyPriceNode : jsonNode.findValue("varyPrices")) {
                         VaryPrice varyPrice = Json.fromJson(varyPriceNode, VaryPrice.class);
                         varyPrice.setInvId(inventory.getId());
-                        varyPrice.setStatus("Y");
+//                        varyPrice.setStatus("Y");
                         //更新多样化价格信息
                         if (varyPriceNode.has("id")) {
                             VaryPrice originVp = varyPriceService.getVaryPriceById(varyPrice.getId());
