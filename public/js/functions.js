@@ -41,6 +41,7 @@ $(".upload").change(function(){
             for(var i=0;i<obj.length;i++){
                 obj[i].appendChild(input);
             }
+            $(obj).eq(0).parent().parent().find("input").remove();
             //alert(data.message);
         }
     }
@@ -466,6 +467,7 @@ $(function(){
     $(".advanced").css("display","none");
     $("#createImg").css("display","none");
 
+
     /***Loading..***/
     $(document).ajaxStart(function() {
     	$('#mask').show();
@@ -715,7 +717,8 @@ $(function(){
        var sharedObject = window.dialogArguments;
        var isNext = true;
        var url = "";
-
+       var tempUrl = $(".templates").find("li:visible").find(".temp-img").find("img").attr("src");
+           uplUrl = tempUrl.substring(tempUrl.indexOf('/',tempUrl.indexOf('/')+2) + 1);
        $(".templates-choose").find("li").each(function(){
            if($(this).css("border-top-style") == "solid"){
                 url = $(this).find("input").attr("id");
@@ -735,8 +738,7 @@ $(function(){
             if(url !=  null && url != ""){
                 sharedObject.url = url;
             }else{
-                var tempUrl = $(".templates").find("li:visible").find(".temp-img").find("img").attr("src");
-                sharedObject.url = tempUrl.substring(tempUrl.indexOf('/',tempUrl.indexOf('/')+2) + 1);
+                sharedObject.url = uplUrl;
             }
             sharedObject.width = width;
             sharedObject.height = height;

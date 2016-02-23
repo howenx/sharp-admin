@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.deser.std.ObjectArrayDeserializer;
 import entity.Theme;
 import entity.User;
 import entity.pingou.*;
@@ -642,7 +643,7 @@ public class PingouCtrl extends Controller {
         }
         pingouService.pinUserAddList(pinUserList);
         //更新拼购团参加的人数
-        HashMap hashMap = new HashMap();
+        HashMap<String,Object> hashMap = new HashMap<String,Object>();
         hashMap.put("userNum",userNum);
         hashMap.put("pinActiveId",pinActiveId);
         hashMap.put("isComplete",isComplete);
