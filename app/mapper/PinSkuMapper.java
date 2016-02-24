@@ -78,4 +78,9 @@ public interface PinSkuMapper {
      */
     PinTieredPrice getTieredPriceByTieredId(Long id);
 
+    /**
+     * 更新拼购商品状态         Added by Tiffany Zhu 2016.02.24
+     */
+    void updStatus();
+
 }

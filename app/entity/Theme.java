@@ -2,8 +2,6 @@ package entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import play.data.validation.Constraints;
-
-import javax.annotation.MatchesPattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -17,6 +15,8 @@ public class Theme implements Serializable{
 
     private Long id;
     private Long masterItemId;
+    @Constraints.Required
+
     private String title;
     private String themeDesc;
     @Constraints.Required
@@ -35,9 +35,8 @@ public class Theme implements Serializable{
     private Integer itemCount;
     private Integer themeTagCount;
     @Constraints.Required
-    @MatchesPattern(Tool.NON_ZERO_POSTIVE_INT)
     private Integer sortNu;
-    private Boolean orDestory;
+    private Boolean orDestroy;
     private Long destoryUid;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Timestamp   destoryAt;
@@ -69,7 +68,7 @@ public class Theme implements Serializable{
     public Theme() {
     }
 
-    public Theme(Long id, Long masterItemId, String title, String themeDesc, Timestamp startAt, Timestamp endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean orDestory, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, String themeItem, String themeMasterImg, String masterItemTag, String type, String h5Link, Integer pageSize, Integer offset, String sort, String order) {
+    public Theme(Long id, Long masterItemId, String title, String themeDesc, Timestamp startAt, Timestamp endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean orDestroy, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, String themeItem, String themeMasterImg, String masterItemTag, String type, String h5Link, Integer pageSize, Integer offset, String sort, String order) {
         this.id = id;
         this.masterItemId = masterItemId;
         this.title = title;
@@ -85,7 +84,7 @@ public class Theme implements Serializable{
         this.itemCount = itemCount;
         this.themeTagCount = themeTagCount;
         this.sortNu = sortNu;
-        this.orDestory = orDestory;
+        this.orDestroy = orDestroy;
         this.destoryUid = destoryUid;
         this.destoryAt = destoryAt;
         this.updateAt = updateAt;
@@ -122,7 +121,7 @@ public class Theme implements Serializable{
                 ", itemCount=" + itemCount +
                 ", themeTagCount=" + themeTagCount +
                 ", sortNu=" + sortNu +
-                ", orDestory=" + orDestory +
+                ", orDestroy=" + orDestroy +
                 ", destoryUid=" + destoryUid +
                 ", destoryAt=" + destoryAt +
                 ", updateAt=" + updateAt +
@@ -262,12 +261,12 @@ public class Theme implements Serializable{
         this.sortNu = sortNu;
     }
 
-    public Boolean getOrDestory() {
-        return orDestory;
+    public Boolean getOrDestroy() {
+        return orDestroy;
     }
 
-    public void setOrDestory(Boolean orDestory) {
-        this.orDestory = orDestory;
+    public void setOrDestroy(Boolean orDestroy) {
+        this.orDestroy = orDestroy;
     }
 
     public Long getDestoryUid() {

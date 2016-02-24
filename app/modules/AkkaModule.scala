@@ -1,6 +1,6 @@
 package modules
 
-import actor.OSSActor
+import actor.{SchedulerCancelOrderActor, OSSActor}
 import com.google.inject.AbstractModule
 import play.api.libs.concurrent.AkkaGuiceSupport
 
@@ -11,6 +11,6 @@ import play.api.libs.concurrent.AkkaGuiceSupport
 class AkkaModule extends AbstractModule with AkkaGuiceSupport {
   override def configure() ={
     bindActor[OSSActor] ("oss")
-//    bindActor[SendActor] ("send")
+    bindActor[SchedulerCancelOrderActor] ("schedulerCancelOrderActor")
   }
 }

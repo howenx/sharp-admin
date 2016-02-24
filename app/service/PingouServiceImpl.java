@@ -288,4 +288,12 @@ public class PingouServiceImpl implements PingouService {
     public List<PinActivity> getActivityByPinId(Long pinId) {
         return pinActivityMapper.getActivityByPinId(pinId);
     }
+
+    /**
+     * 更新拼购商品状态         Added by Tiffany Zhu 2016.02.24
+     */
+    @Override
+    public void updStatus() {
+        pinSkuMapper.updStatus();
+    }
 }

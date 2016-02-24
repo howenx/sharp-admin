@@ -49,4 +49,9 @@ public interface ThemeService {
      */
     void updThemeItems(Theme theme);
 
+    /**
+     * 更新主题下架       Added by Tiffany Zhu
+     */
+    void updDestroy();
+
 }

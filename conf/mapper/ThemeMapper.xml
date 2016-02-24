@@ -154,6 +154,14 @@
                 update_at=CURRENT_TIMESTAMP(0),h5_link = #{h5Link}
                 where id = #{id}
         </update>
+        <update id="updDestroy">
+                update themes set or_destroy = true
+                where end_at &lt;= CURRENT_TIMESTAMP(0)
+        </update>
+
+
+
+
 
         <!---  主题模板    -->
         <sql id="templateColumns">
@@ -182,5 +190,4 @@
                 set url = #{url},navigator_html = #{navigatorHtml}::text,content_html = #{contentHtml}::text
                 where id = #{id}
         </update>
-
 </mapper>

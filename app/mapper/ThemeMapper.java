@@ -66,4 +66,9 @@ public interface ThemeMapper {
      */
     void updH5Theme(Theme theme);
 
+    /**
+     * 更新主题下架       Added by Tiffany Zhu
+     */
+    void updDestroy();
+
 }

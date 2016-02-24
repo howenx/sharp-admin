@@ -526,7 +526,7 @@ $(function(){
     //打开图片模板
     $("#getTemplate").click(function(){
         var sharedObject = {};
-        var modal = window.open("/"+window.lang+"/topic/add/templates", null, null, null);
+        var modal = window.open("/"+window.lang+"/topic/add/templates", null, "modal=yes,alwaysRaised=yes", null);
         modal.dialogArguments = sharedObject;
     });
 

@@ -38,6 +38,9 @@ libraryDependencies += "org.apache.poi" % "poi-ooxml" % "3.13" withSources() wit
 
 libraryDependencies += "org.apache.commons" % "commons-email" % "1.4" withSources() withJavadoc()
 
+libraryDependencies += "com.squareup.okhttp" % "okhttp" % "2.7.2"
+
+
 // 检查代码中使用的过时类细节
 javacOptions += "-Xlint:deprecation"
 javacOptions += "-Xlint:unchecked"

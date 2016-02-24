@@ -84,6 +84,9 @@
         where pin_id = #{pinId}
     </update>
 
+    <update id="updStatus">
+        update pin_sku set status = 'D' where end_at &lt;= CURRENT_TIMESTAMP(0)
+    </update>
 
     <!--  拼购阶梯价格  -->
     <sql id="tieredPriceColumns">

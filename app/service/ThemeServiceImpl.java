@@ -155,4 +155,12 @@ public class ThemeServiceImpl implements ThemeService {
     public void updThemeItems(Theme theme) {
         themeMapper.updThemeItems(theme);
     }
+
+    /**
+     * 更新主题下架       Added by Tiffany Zhu
+     */
+    @Override
+    public void updDestroy() {
+        themeMapper.updDestroy();
+    }
 }
