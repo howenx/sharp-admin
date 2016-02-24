@@ -19,7 +19,7 @@
 
 <body>
 
-<form class="form-horizontal" method="post" enctype="multipart/form-data">
+<form class="form-horizontal" method="post" enctype="multipart/form-data" id="form-login">
     <div class="loginbox" style="position:absolute;left:40%;width:20%;top:30%">
         <div class="container-fluid">
             <h1 style="text-align: center">登录</h1>
@@ -45,6 +45,13 @@
      /** 供应商及其他用户登录入口 **/
     $("#seller_login").click(function(){
         window.location.href = "/otheruser/login";
+    });
+
+    /** 回车键登录 **/
+    $(document).keydown(function(e) {
+        if (e.keyCode==13) {
+            $("#submit").trigger("click");
+        }
     });
 
     /** 数据提交 **/

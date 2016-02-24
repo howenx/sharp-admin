@@ -424,11 +424,11 @@ $(function(){
         if ($(".pic").is(":checked")) {
             item.itemDetailImgs = itemDetailImgs;
             item.itemNotice = itemNotice;
-//            item.itemDetail = "";
+//            item.itemDetail = null;
         }
         if ($(".edit").is(":checked")) {
 //            item.itemDetailImgs = null;
-//            item.itemNotice = "";
+//            item.itemNotice = null;
             item.itemDetail = itemDetail;
         }
 

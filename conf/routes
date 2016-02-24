@@ -74,11 +74,12 @@ GET             /$lang<(cn|en|kr)>/comm/updateById/:id                      cont
 
 
 #erp中商品,订单
-GET             /itemInfo/search                                            controllers.ItemInfoCtrl.itemInfoList(lang="cn")
-POST            /itemInfo/search/$pageNum<[0-9]+>                           controllers.ItemInfoCtrl.itemInfoSearchAjax(lang ="cn",pageNum:Int)
-POST            /$lang<(cn|en|kr)>/itemInfo/search/$pageNum<[0-9]+>         controllers.ItemInfoCtrl.itemInfoSearchAjax(lang, pageNum:Int)
-GET             /shopOrder/push                                             controllers.ShopOrderCtrl.shopOrderPush
+GET             /shopItem/search                                            controllers.ShopItemCtrl.shopItemList(lang="cn")
+POST            /shopItem/search/$pageNum<[0-9]+>                           controllers.ShopItemCtrl.shopItemSearchAjax(lang ="cn",pageNum:Int)
+POST            /$lang<(cn|en|kr)>/shopItem/search/$pageNum<[0-9]+>         controllers.ShopItemCtrl.shopItemSearchAjax(lang, pageNum:Int)
 GET             /shopItem/push                                              controllers.ShopItemCtrl.shopItemPush
+GET             /shopOrder/push                                             controllers.ShopOrderCtrl.shopOrderPush
+
 
 
 

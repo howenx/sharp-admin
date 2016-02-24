@@ -65,6 +65,7 @@
         <div class="btn-s">
             <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
             <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
+            <a id="item-push" href="javascript:void(0)" class="btn btn-primary btn-s-2">导入</a>
         </div>
     </form>
     <div class="table-content">
@@ -72,8 +73,13 @@
         <table id="tb-topic" class="table table-bordered table-hover">
             <thead>
             <tr>
-                <th>货号</th>
+                <!--<th><input type="checkbox" name="selAll">全选</th>-->
+                <th>宝贝编码</th>
+                <th>商家编码</th>
                 <th>商品名称</th>
+                <th>价格</th>
+                <th>状态</th>
+                <th>创建日期</th>
                 <th>主图</th>
             </tr>
             </thead>
@@ -81,8 +87,13 @@
             @for(itemInfo <- itemInfoList){
             <tr class = "tb-list-data">
                 <!--必须使用tb-list-data类名，公用-->
+                <!--<td><input type="checkbox" name="selItem"></td>-->
                 <td>@itemInfo.getShopItemCode()</td>
+                <td>@itemInfo.getOuterId()</td>
                 <td>@itemInfo.getShopItemName()</td>
+                <td>@itemInfo.getPrice()</td>
+                <td>@itemInfo.getStatus()</td>
+                <td>@itemInfo.getCreatedTime().format("yyyy-MM-dd HH:mm:ss")</td>
                 <td><img class="main-img" src="@itemInfo.getPictureUrl()" alt="" width="50"></td>
 
             </tr>
@@ -91,17 +102,17 @@
             </tbody>
         </table>
         <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
-        <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
-        <div class="paging">
-            <ul class="pagination">
-                <li class="prev"><a href="javascript:void(0)">&laquo;</a></li>
-                <li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>
-                @for(count <- 1 until pageCount){
-                <li class="page-num"><a href="javascript:void(0)">@(count+1)</a></li>
-                }
-                <li class="next"><a href="javascript:void(0)">&raquo;</a></li>
-            </ul>
-        </div>
+        <!--<span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>-->
+        <!--<div class="paging">-->
+            <!--<ul class="pagination">-->
+                <!--<li class="prev"><a href="javascript:void(0)">&laquo;</a></li>-->
+                <!--<li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>-->
+                <!--@for(count <- 1 until pageCount){-->
+                <!--<li class="page-num"><a href="javascript:void(0)">@(count+1)</a></li>-->
+                <!--}-->
+                <!--<li class="next"><a href="javascript:void(0)">&raquo;</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
         <!-- 公用模块,直接拷贝-->
     </div>
 </div>
@@ -114,3 +125,15 @@
     </div>
 </div>
 }
+
+<script>
+
+    /** 全选/取消全选 **/
+    $("input[name='selAll']").click(function(){
+        $("input[name='selItem']").prop('checked',$(this).prop("checked"));
+    });
+
+    $(document).on("click", "#item-push", function() {
+        window.location.href = "/shopItem/push";
+    });
+</script>

@@ -125,7 +125,6 @@ public class AdminUserCtrl extends Controller {
         AdminUser adu  = Json.fromJson(json, AdminUser.class);//查询条件adu
         AdminUser adminUser = adminUserService.getUserBy(adu);
         Logger.debug("login user:"+adu.toString());
-        Logger.debug("login user:"+adminUser.toString());
         //登录后返回信息
         String data = "";
         if (null!=adminUser && !"".equals(adminUser)) {
