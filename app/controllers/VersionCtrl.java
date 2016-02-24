@@ -1,5 +1,7 @@
 package controllers;
 
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.AdminUser;
@@ -10,16 +12,20 @@ import middle.VersionMiddle;
 import modules.OSSClientProvider;
 import play.Configuration;
 import play.Logger;
+import play.api.libs.Codecs;
 import play.libs.Json;
 import play.mvc.*;
+import scala.concurrent.duration.Duration;
 import service.AdminUserService;
 import service.ItemService;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static play.libs.Json.newObject;
@@ -41,6 +47,13 @@ public class VersionCtrl extends Controller {
     private Configuration configuration;
 
     private OSSClientProvider oss_client;
+
+    @Inject
+    private ActorSystem system;
+
+    @Inject
+    @Named("schedulerCancelOrderActor")
+    private ActorRef schedulerCancelOrderActor;
 
     @Inject
     public VersionCtrl(ItemService itemService,AdminUserService idService, Configuration configuration, OSSClientProvider oss_client ){
@@ -113,5 +126,22 @@ public class VersionCtrl extends Controller {
             Logger.error("发布版本出错:"+ex.getMessage());
             return badRequest("error");
         }
+    }
+
+    /**
+     * 处理系统启动时候去做第一次请求,完成对定时任务的执行
+     * @return string
+     */
+    public Result getFirstApp(String cipher){
+        if (Codecs.md5("hmm-100901".getBytes()).equals(cipher)){
+            system.scheduler()
+                    .schedule(Duration.Zero(),
+                            Duration.create(2, TimeUnit.SECONDS),
+                            schedulerCancelOrderActor,
+                            77701021L,
+                            system.dispatcher(),
+                            null);
+        }
+        return ok("success");
     }
 }
