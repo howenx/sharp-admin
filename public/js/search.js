@@ -125,6 +125,7 @@ $(function() {
             if($(this)[0].orMasterInv==false){orMasterInv="否"}
             $('#tb-topic').find('tbody').append('' +
                 '<tr class="tb-list-data">' +
+                '<td><input type="checkbox" name="selectItem"></td>' +
                 '<td><a href="javascript:void(0)" class="item-info">' + $(this)[0].id + '</a><input type="hidden" value="'+$(this)[0].id+'"><input type="hidden" value="'+$(this)[0].itemId+'"></td>' +
                 '<td style="width: 20%;">' + $(this)[0].invTitle + '</td>' +
                 '<td>' +

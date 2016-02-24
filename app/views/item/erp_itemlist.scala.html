@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String, itemInfoList:List[com.iwilley.b1ec2.api.domain.ShopItem], pageSize:Integer, countNum:Integer, pageCount:Integer, user:entity.User)
+@(lang:String, itemInfoList:List[com.iwilley.b1ec2.api.domain.ItemInfo],skuInfoList:List[com.iwilley.b1ec2.api.domain.SkuInfo], pageSize:Integer, countNum:Integer, pageCount:Integer, user:entity.User)
 @scripts = {
     <link rel="stylesheet" href="/assets/css/search.css">
     <link rel="stylesheet" href="/assets/css/slider.css">
@@ -65,7 +65,7 @@
         <div class="btn-s">
             <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
             <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
-            <a id="item-push" href="javascript:void(0)" class="btn btn-primary btn-s-2">导入</a>
+            <a id="item-import" href="javascript:void(0)" class="btn btn-primary btn-s-2">导入</a>
         </div>
     </form>
     <div class="table-content">
@@ -74,30 +74,50 @@
             <thead>
             <tr>
                 <!--<th><input type="checkbox" name="selAll">全选</th>-->
-                <th>宝贝编码</th>
-                <th>商家编码</th>
+                <th>商品ID</th>
+                <th>货号</th>
+                <th>条形码</th>
                 <th>商品名称</th>
-                <th>价格</th>
-                <th>状态</th>
+                <th>商品类目</th>
+                <th>销售价格</th>
+                <th>品牌名称</th>
                 <th>创建日期</th>
                 <th>主图</th>
+
+                <!--<th>SKU ID</th>-->
+                <!--<th>规格编码</th>-->
+                <!--<th>规格名称</th>-->
+                <!--<th>条形码</th>-->
+                <!--<th>销售价格</th>-->
             </tr>
             </thead>
             <tbody>
             @for(itemInfo <- itemInfoList){
             <tr class = "tb-list-data">
                 <!--必须使用tb-list-data类名，公用-->
-                <!--<td><input type="checkbox" name="selItem"></td>-->
-                <td>@itemInfo.getShopItemCode()</td>
-                <td>@itemInfo.getOuterId()</td>
-                <td>@itemInfo.getShopItemName()</td>
-                <td>@itemInfo.getPrice()</td>
-                <td>@itemInfo.getStatus()</td>
+                <!--<td><input type="checkbox" name="selectItem"></td>-->
+                <td>@itemInfo.getItemId()</td>
+                <td>@itemInfo.getItemCode()</td>
+                <td>@itemInfo.getBarCode()</td>
+                <td>@itemInfo.getItemName()</td>
+                <td>@itemInfo.getCatName()</td>
+                <td>@itemInfo.getSalesPrice()</td>
+                <td>@if(itemInfo.getBrand()!=null && itemInfo.getBrand()!="" ){@itemInfo.getBrand().getBrandName()}</td>
                 <td>@itemInfo.getCreatedTime().format("yyyy-MM-dd HH:mm:ss")</td>
                 <td><img class="main-img" src="@itemInfo.getPictureUrl()" alt="" width="50"></td>
-
             </tr>
             }
+
+            <!--@for(skuInfo <- skuInfoList){-->
+            <!--<tr class = "tb-list-data">-->
+                <!--<td>@skuInfo.getSkuId()</td>-->
+                <!--<td>@skuInfo.getSkuCode()</td>-->
+                <!--<td>@skuInfo.getSkuName()</td>-->
+                <!--<td>@skuInfo.getBarCode()</td>-->
+                <!--<td>@skuInfo.getSalesPrice()</td>-->
+            <!--</tr>-->
+            <!--}-->
+
             <tr id="nodata-td" style="display:none;"><td colspan="13">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
@@ -130,10 +150,32 @@
 
     /** 全选/取消全选 **/
     $("input[name='selAll']").click(function(){
-        $("input[name='selItem']").prop('checked',$(this).prop("checked"));
+        $("input[name='selectItem']").prop('checked',$(this).prop("checked"));
     });
 
-    $(document).on("click", "#item-push", function() {
-        window.location.href = "/shopItem/push";
+    /** 导入商品 **/
+    $("#item-import").click(function(){
+        $.ajax({
+            type :  "GET",
+            url : "/comm/import",
+            contentType: "application/json; charset=utf-8",
+            error : function(request) {
+                alert("导入失败");
+            },
+            success: function(data) {
+                if (data=="导入成功") {
+                    alert(data);
+                }
+                else {
+                    alert("导入异常");
+                }
+            }
+        });
     });
+
+    /**
+    $(document).on("click", "#item-import", function() {
+        window.location.href = "/comm/import";
+    });
+    **/
 </script>
