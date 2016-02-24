@@ -201,7 +201,6 @@ $(function() {
                             }
                         },
                         success: function(data) {
-                            alert("Save Success");
                             if (window.lang = 'cn') {
                                 alert("保存成功!");
                             } else {
@@ -267,20 +266,19 @@ $(function() {
                 data : JSON.stringify(theme),
                 error : function(request) {
                     if (window.lang = 'cn') {
-                        $('#js-userinfo-error').text('保存失败');
+                         alert("保存失败!");
                     } else {
-                        $('#js-userinfo-error').text('Save error');
+                        alert("Save error!");
                     }
-                    setTimeout("$('#js-userinfo-error').text('')", 2000);
+                    //setTimeout("$('#js-userinfo-error').text('')", 2000);
                 },
                 success: function(data) {
-                    alert("Save Success");
                     if (window.lang = 'cn') {
-                        $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                        alert("保存成功!");
                     } else {
-                        $('#js-userinfo-error').text('Save success');
+                        alert("Save Success!");
                     }
-                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
+                    //setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
 
                     if(themeId != null){
                         //主题修改, 成功后返回到主题修改页面

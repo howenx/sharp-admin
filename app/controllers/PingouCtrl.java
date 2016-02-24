@@ -1,6 +1,8 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.deser.std.ObjectArrayDeserializer;
+import entity.Theme;
 import entity.User;
 import entity.pingou.*;
 import filters.UserAuth;
@@ -72,7 +74,7 @@ public class PingouCtrl extends Controller {
         List<Object[]> rtnPinSkuList = new ArrayList<>();
         List<PinSku> pinSkuList = pingouService.getPinSkuPage(pinSku_temp);
         for(PinSku pinSku : pinSkuList){
-            Object[] object = new Object[6];
+            Object[] object = new Object[7];
             object[0] = pinSku.getPinId();      //活动ID
             object[1] = pinSku.getPinTitle();   //商品标题
             object[2] = pinSku.getStartAt();    //开始时间
@@ -92,11 +94,15 @@ public class PingouCtrl extends Controller {
             if("P".equals(pinSku.getStatus())){
                 object[4] = "预售";              //状态
             }
-
             object[5] = pinSku.getActivityCount(); //已开团数
+
+            JsonNode imgJson = Json.parse(pinSku.getPinImg());
+            String imgUrl =  imgJson.get("url").toString();
+            object[6] = imgUrl.substring(1,imgUrl.length()-1);
             rtnPinSkuList.add(object);
         }
-        return ok(views.html.pingou.pingouSearch.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,rtnPinSkuList,(User) ctx().args.get("user")));
+        return ok(views.html.pingou.pingouSearch.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,rtnPinSkuList,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
+
 
     }
 
@@ -124,9 +130,17 @@ public class PingouCtrl extends Controller {
             }
             pinSku.setPageSize(ThemeCtrl.PAGE_SIZE);
             pinSku.setOffset(offset);
+            List<PinSku> pinSkuList = pingouService.getPinSkuPage(pinSku);
+            List<PinSku> rtnPinSkuList = new ArrayList<>();
+            for (PinSku pinSkuTemp :pinSkuList){
+                JsonNode imgJson = Json.parse(pinSkuTemp.getPinImg());
+                String imgUrl =  imgJson.get("url").toString();
+                pinSkuTemp.setPinImg(imgUrl.substring(1,imgUrl.length()-1));
+                rtnPinSkuList.add(pinSkuTemp);
+            }
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
-            returnMap.put("topic",pingouService.getPinSkuPage(pinSku));
+            returnMap.put("topic",rtnPinSkuList);
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
@@ -629,7 +643,7 @@ public class PingouCtrl extends Controller {
         }
         pingouService.pinUserAddList(pinUserList);
         //更新拼购团参加的人数
-        HashMap hashMap = new HashMap();
+        HashMap<String,Object> hashMap = new HashMap<String,Object>();
         hashMap.put("userNum",userNum);
         hashMap.put("pinActiveId",pinActiveId);
         hashMap.put("isComplete",isComplete);
