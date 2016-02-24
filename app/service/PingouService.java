@@ -127,4 +127,9 @@ public interface PingouService {
      */
     List<PinActivity> getActivityByPinId(Long pinId);
 
+    /**
+     * 更新拼购商品状态         Added by Tiffany Zhu 2016.02.24
+     */
+    void updStatus();
+
 }

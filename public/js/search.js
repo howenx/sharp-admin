@@ -66,6 +66,15 @@ $(function() {
 	funcList.thmlist_data = function thmlist_data(data) {
 		//填充列表数据
 		$(data).each(function(index, element) {
+		    var status;
+        	if($(this)[0].orDestroy == false){
+        	    status = "正常";
+        	}
+        	if($(this)[0].orDestroy == true){
+                status = "下架";
+            }
+
+
 			$('#tb-topic').find('tbody').append('' +
 				'<tr class="tb-list-data">' +
 				'<td><a href="/' + window.lang +'/topic/updateById/' + $(this)[0].id + '">' + $(this)[0].id + '</a></td>' +
@@ -76,6 +85,7 @@ $(function() {
 				'<td>' + $(this)[0].title + '</td>' +
 				'<td>' + $(this)[0].startAt + '</td>' +
 				'<td>' + $(this)[0].endAt + '</td>' +
+				'<td>' + status + '</td>' +
 				'</tr>'
 			);
 		})
