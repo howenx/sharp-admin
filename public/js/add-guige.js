@@ -351,7 +351,7 @@ function saveCurr() {
     var count = 0;
     //行数据,其余的隐藏
     for(var item in trdobj){
-        if (count==0||count==1||count==5||count==14)
+        if (count==0||count==1||count==6||count==15)
         $("<td>").html(trdobj[item]).appendTo(trd);
         else $("<td style='display:none;'>").html(trdobj[item]).appendTo(trd);
         count++;

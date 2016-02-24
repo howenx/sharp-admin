@@ -322,8 +322,8 @@
                                     <td>@obj(16)</td>
                                     <td  style='display:none;'>@obj(17)</td>
                                     @if(obj(18)==0) {<td style='display:none;'>F</td>}
-                                    @if(obj(19)!="") {<td style='display:none;'>S</td>}
-                                    @if(obj(19)=="" && obj(18)!=0) {<td style='display:none;'>D</td>}
+                                    @if(obj(19)!=null) {<td style='display:none;'>S</td>}
+                                    @if(obj(19)==null && obj(18)!=0) {<td style='display:none;'>D</td>}
                                     <td style='display:none;'>@obj(18)</td>
                                     <td style='display:none;'>@obj(19)</td>
                                     <td style='display:none;'>@obj(20)</td>

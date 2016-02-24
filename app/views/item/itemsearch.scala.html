@@ -78,6 +78,7 @@
 	    <div class="btn-s">
 			<input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
 	        <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
+            <a id="item-export" href="javascript:void(0)" class="btn btn-primary btn-s-2">导出</a>
 	    </div>
 	</form>
 	<div class="table-content">
@@ -85,6 +86,7 @@
         <table id="tb-topic" class="table table-bordered table-hover">
             <thead>
                 <tr>
+                    <th><input type="checkbox" name="selAll">全选</th>
                     <th>SKU ID <span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
                     <th>SKU 标题</th>
                     <th>主图</th>
@@ -101,6 +103,7 @@
                 @for(inv <- invs){
 					<!--必须使用tb-list-data类名，公用-->
                     <tr class = "tb-list-data">
+                        <td><input type="checkbox" name="selectItem"></td>
                         <td><a href="javascript:void(0)" class="item-info">@inv.getId()</a><input type="hidden" value="@inv.getId()"><input type="hidden" value="@inv.getItemId()"></td>
                         <td style="width: 20%;">@inv.getInvTitle()</td>
                         <td>
@@ -154,6 +157,60 @@
 }
 
 <script>
+
+    /** 全选/取消全选 **/
+    $("input[name='selAll']").click(function(){
+        $("input[name='selectItem']").prop('checked',$(this).prop("checked"));
+    });
+
+    /** 导出商品 **/
+    $("#item-export").click(function(){
+        var isPost = true;
+        if($("input[name='outTimeOrder']:checked").length <= 0){
+            isPost = false;
+            alert("请选择订单!");
+            return false;
+        }
+        if(confirm("确定取消订单?")){
+
+        }else{
+            isPost = false;
+            return false;
+        }
+        //被取消的订单ID
+        var cancelOrders = [];
+        $("input[name='outTimeOrder']:checked").each(function(){
+            var clOrderNum = $(this).parents("tr").find("td:eq(1)").text();
+            cancelOrders.push(clOrderNum);
+            console.log(clOrderNum);
+        })
+
+        if(isPost){
+            $.ajax({
+                type :  "POST",
+                url : "/"+window.lang+"/comm/order/cancel",
+                contentType: "application/json; charset=utf-8",
+                data : JSON.stringify(cancelOrders),
+                error : function(request) {
+                    if (window.lang = 'cn') {
+                        alert("订单取消失败!");
+                    } else {
+                        alert("Order cancel failed!");
+                    }
+                },
+                success: function(data) {
+                    if (window.lang = 'cn') {
+                        alert("订单取消成功!");
+                    } else {
+                        alert("Order cancel success!");
+                    }
+                setTimeout("location.reload()", 1000);
+                }
+            });
+        }
+    });
+
+    /** 点击查看商品详细信息 **/
     $(document).on('click','.item-info',function(){
         var itemId = $(this).next().next().val();
         window.location.href = "/"+window.lang+"/comm/findById/"+itemId;
