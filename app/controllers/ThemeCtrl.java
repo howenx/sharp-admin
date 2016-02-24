@@ -6,6 +6,7 @@ import entity.*;
 import entity.pingou.PinSku;
 import filters.UserAuth;
 import play.Logger;
+import play.data.Form;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
@@ -380,6 +381,7 @@ public class ThemeCtrl extends Controller {
             return badRequest();
         }
         */
+
         service.themeSave(theme);
 
         //添加主题Id到商品中
