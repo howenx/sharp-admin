@@ -18,13 +18,13 @@ public class ID {
     private Timestamp regDt;    //注册时间
     private String activeYN;    //是否激活(默认:N)
     private String realYN;      //是否实名认证(默认:N)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp alterDt;  //修改时间
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp lastloginDt;//最后登录时间
     private String lastloginIp;   //最后登录IP
     private String nickname;      //用户名
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp lastpwdchgDt;//最后修改密码时间
     private String desc;           //备注
     private String status;         //状态(Y:正常,N:阻止)

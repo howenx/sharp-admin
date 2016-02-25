@@ -1,5 +1,6 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.iwilley.b1ec2.api.ApiException;
 import com.iwilley.b1ec2.api.domain.ItemInfo;
 import com.iwilley.b1ec2.api.domain.SkuInfo;
@@ -140,7 +141,16 @@ public class ShopItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result shopItemPush(){
-        
+        JsonNode json = request().body().asJson();
+        Logger.error(json.toString());
+        Long itemIds[] = new Long[json.size()];
+//        for(int i=0;i<json.size();i++){
+//            itemIds[i] = (json.get(i)).asLong();
+//            Item item = itemService.getItem(itemIds[i]);
+//            List<Inventory> invList = inventoryService.getInventoriesByItemId(itemIds[0]);
+//
+//        }
+
         return ok();
     }
 

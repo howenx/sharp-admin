@@ -15,7 +15,7 @@ public class SID implements Serializable {
     private String sDate;   //日期
     private Long userId;    //用户id
     private String regIp;   //注册ip
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp regDt;//注册时间
 
     public SID() {

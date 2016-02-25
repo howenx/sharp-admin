@@ -166,45 +166,39 @@
     /** 导出商品 **/
     $("#item-export").click(function(){
         var isPost = true;
-        if($("input[name='outTimeOrder']:checked").length <= 0){
+        if($("input[name='selectItem']:checked").length <= 0){
             isPost = false;
-            alert("请选择订单!");
+            alert("请选择商品");
             return false;
         }
-        if(confirm("确定取消订单?")){
-
+        if(window.confirm("确定导出吗?")){
         }else{
             isPost = false;
             return false;
         }
-        //被取消的订单ID
-        var cancelOrders = [];
-        $("input[name='outTimeOrder']:checked").each(function(){
-            var clOrderNum = $(this).parents("tr").find("td:eq(1)").text();
-            cancelOrders.push(clOrderNum);
-            console.log(clOrderNum);
-        })
-
+        //被取消商品的ID
+        var exportItems = [];
+        $("input[name='selectItem']:checked").each(function(){
+            var itemId = $(this).parents("tr").find("td:eq(1)").find("input:eq(1)").val();
+            exportItems.push(itemId);
+        });
+        console.log(JSON.stringify(exportItems));
         if(isPost){
             $.ajax({
                 type :  "POST",
-                url : "/"+window.lang+"/comm/order/cancel",
+                url : "/shopItem/push",
                 contentType: "application/json; charset=utf-8",
-                data : JSON.stringify(cancelOrders),
+                data : JSON.stringify(exportItems),
                 error : function(request) {
-                    if (window.lang = 'cn') {
-                        alert("订单取消失败!");
-                    } else {
-                        alert("Order cancel failed!");
-                    }
+                    alert("导出失败");
                 },
                 success: function(data) {
-                    if (window.lang = 'cn') {
-                        alert("订单取消成功!");
-                    } else {
-                        alert("Order cancel success!");
+                   if (data=="导出成功") {
+                        alert(data);
                     }
-                setTimeout("location.reload()", 1000);
+                    else {
+                        alert("导出异常");
+                    }
                 }
             });
         }

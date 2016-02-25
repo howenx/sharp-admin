@@ -20,15 +20,15 @@ public class AdminUser implements Serializable {
     private String userType;        //用户角色(OPERATE 运营人员   FINANCE 财务人员	SERVICE 客服人员 	ADMIN 管理人员  SYSTEM 系统管理员)
     private String passwd;          //密码
     private String regIp;           //注册ip
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp regDt;        //注册时间
     private String activeYN;        //是否激活
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp alterDt;      //修改时间
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp lastLoginDt;  //最后登录时间
     private String lastLoginIp;     //最后登录ip
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp lastPwdChgDt; //最后密码修改时间
     private String status;          //状态(Y 正常  N 阻止)
 

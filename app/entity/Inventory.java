@@ -26,12 +26,12 @@ public class Inventory implements Serializable{
     private Integer restAmount;     //剩余库存
     private String invImg;          //sku主图
     private String itemPreviewImgs;//sku预览图
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp createAt;     //创建时间
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateAt;     //更新时间
     private Boolean orDestroy;      //是否销毁
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp destroyAt;    //删除时间
     private Boolean orMasterInv;    //是否为主sku
     private String state;           //单个sku状态
@@ -49,9 +49,9 @@ public class Inventory implements Serializable{
     private  Integer invWeight;     //单个sku重量 单位克
     private String carriageModelCode;//邮费模板code
     private String recordCode;       //备案号
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp startAt;       //上架时间
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp endAt;         //下架时间
     private Boolean orVaryPrice;     //是否存在多样化价格
     private String invCode;          //货号

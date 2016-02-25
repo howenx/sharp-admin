@@ -18,7 +18,7 @@ public class DataLog implements Serializable {
     private String logContent;  //日志内容
     private String originData;//原数据
     private String newData;    //新数据
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String operateTime; //操作时间
 
 
@@ -26,9 +26,9 @@ public class DataLog implements Serializable {
     private Integer offset;     //分页,从第几条开始
     private String sort;        //按照哪个字段排序
     private String order;       //排序方式,降序,升序
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp startAt;  //查询开始时间
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp endAt;    //查询结束时间
 
     public Timestamp getEndAt() {

@@ -20,7 +20,7 @@ public class SOrder implements Serializable {
     private Long userId;            //用户ID
     private BigDecimal payTotal;    //订单支付总费用
     private String payMethod;       //支付渠道
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp orderCreateAt;//订单创建时间
     private String orderIp;         //订单IP
     private BigDecimal totalFee;    //购买商品的费用
