@@ -128,12 +128,12 @@
                 insert into themes
                 (master_item_id,title,start_at,end_at,theme_img,sort_nu,create_at,theme_item,master_item_tag,theme_master_img)
                 values
-                (#{masterItemId},#{title},#{startAt},#{endAt},#{themeImg},#{sortNu},CURRENT_TIMESTAMP(0),#{themeItem}::jsonb,#{themeTags}::jsonb,#{themeMasterImg})
+                (#{masterItemId},#{title},#{startAt}::timestamp,#{endAt}::timestamp,#{themeImg},#{sortNu},CURRENT_TIMESTAMP(0),#{themeItem}::jsonb,#{themeTags}::jsonb,#{themeMasterImg})
         </insert>
 
         <update id="updateTheme" parameterType="entity.Theme">
                 update themes
-                set title=#{title},start_at=#{startAt},end_at=#{endAt},theme_img=#{themeImg},sort_nu=#{sortNu},
+                set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},sort_nu=#{sortNu},
                     update_at=CURRENT_TIMESTAMP(0),theme_item=#{themeItem}::jsonb,master_item_tag=#{themeTags}::jsonb,theme_master_img=#{themeMasterImg}
                 where id = #{id}
         </update>
@@ -146,11 +146,11 @@
 
         <insert id="addH5Theme" parameterType="entity.Theme">
                 insert into themes (title,create_at,start_at,end_at,type,h5_link,theme_img,sort_nu)
-                values(#{title},CURRENT_TIMESTAMP(0),#{startAt},#{endAt},#{type},#{h5Link},#{themeImg},#{sortNu})
+                values(#{title},CURRENT_TIMESTAMP(0),#{startAt}::timestamp,#{endAt}::timestamp,#{type},#{h5Link},#{themeImg},#{sortNu})
         </insert>
         <update id="updH5Theme" parameterType="entity.Theme">
                 update themes
-                set title=#{title},start_at=#{startAt},end_at=#{endAt},theme_img=#{themeImg},sort_nu=#{sortNu},
+                set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},sort_nu=#{sortNu},
                 update_at=CURRENT_TIMESTAMP(0),h5_link = #{h5Link}
                 where id = #{id}
         </update>

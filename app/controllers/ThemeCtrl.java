@@ -14,6 +14,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import service.*;
+import tool.Regex;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
@@ -251,9 +252,11 @@ public class ThemeCtrl extends Controller {
             Object[] object = new Object[8];
             object[0] = inventory.getId();
             object[1] = item.getItemTitle();
-            JsonNode json = Json.parse(inventory.getInvImg());
-            String url = json.get("url").toString();
-            object[2] = url.substring(1,url.length()-1);
+            if(Regex.isJason(inventory.getInvImg())){
+                JsonNode json = Json.parse(inventory.getInvImg());
+                String url = json.get("url").toString();
+                object[2] = url.substring(1,url.length()-1);
+            }
             object[3] = inventory.getStartAt();
             if("Y".equals(item.getState())){
                 object[4] = "正常";
@@ -288,9 +291,11 @@ public class ThemeCtrl extends Controller {
             Object[] object = new Object[9];
             object[0] = pinSku.getPinId();
             object[1] = pinSku.getPinTitle();
-            JsonNode json = Json.parse(pinSku.getPinImg());
-            String url = json.get("url").toString();
-            object[2] = url.substring(1,url.length()-1);
+            if(Regex.isJason(pinSku.getPinImg())){
+                JsonNode json = Json.parse(pinSku.getPinImg());
+                String url = json.get("url").toString();
+                object[2] = url.substring(1,url.length()-1);
+            }
             object[3] = pinSku.getStartAt();
             if("Y".equals(pinSku.getStatus())){
                 object[4] = "正常";
@@ -312,9 +317,11 @@ public class ThemeCtrl extends Controller {
                 object[4] = "预售";
 
             }
-            JsonNode floorPriceJson = Json.parse(pinSku.getFloorPrice());
-            BigDecimal price = floorPriceJson.get("price").decimalValue();
-            object[5] = price;
+            if(Regex.isJason(pinSku.getFloorPrice())){
+                JsonNode floorPriceJson = Json.parse(pinSku.getFloorPrice());
+                BigDecimal price = floorPriceJson.get("price").decimalValue();
+                object[5] = price;
+            }
             object[6] = inventoryService.getInventory(pinSku.getInvId()).getItemSrcPrice();
             object[7] = pinSku.getPinDiscount();
             object[8] = pinSku.getInvId();
@@ -330,9 +337,11 @@ public class ThemeCtrl extends Controller {
             Object[] object = new Object[9];
             object[0] = varyPrice.getId();
             object[1] = item.getItemTitle();
-            String url = Json.parse(inventory.getInvImg()).get("url").toString();
-            url = url.substring(1,url.length()-1);
-            object[2] = url;
+            if(Regex.isJason(inventory.getInvImg())){
+                String url = Json.parse(inventory.getInvImg()).get("url").toString();
+                url = url.substring(1,url.length()-1);
+                object[2] = url;
+            }
             object[3] = inventory.getStartAt();
             if("Y".equals(inventory.getState())){
                 object[4] = "正常";
@@ -359,7 +368,6 @@ public class ThemeCtrl extends Controller {
     public Result themeSave(String lang){
         JsonNode jsonRequest = request().body().asJson();
         JsonNode json = jsonRequest.findValue("theme");
-        Logger.error(json.toString());
         JsonNode ids = null;
         if(json.has("themeDesc")){
             ((ObjectNode)json).put("themeDesc",json.findValue("themeDesc").toString());
@@ -371,16 +379,14 @@ public class ThemeCtrl extends Controller {
         if(json.has("themeTags")) {
             ((ObjectNode) json).put("themeTags", json.findValue("themeTags").toString());
         }
-        Logger.error(json.toString());
         Theme theme = play.libs.Json.fromJson(json,Theme.class);
-        /*
+        //数据验证      ----start
         Form<Theme> themeForm = Form.form(Theme.class).bind(json);
-        if(themeForm.hasErrors()){
-            Logger.error(themeForm.toString());
-            Logger.error(themeForm.errors().toString());
+        //基本样式不匹配;主图片,商品ID,首页主图,主图标签     不是Json格式
+        if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || !(Regex.isJason(theme.getThemeItem())) || !(Regex.isJason(theme.getThemeMasterImg())) || (theme.getMasterItemTag() != null && !(Regex.isJason(theme.getMasterItemTag())))    ){
             return badRequest();
         }
-        */
+        //数据验证      ----end
 
         service.themeSave(theme);
 
@@ -575,11 +581,9 @@ public class ThemeCtrl extends Controller {
                 String themeImgUrl = themeImg.get("url").toString();
                 themeImgObject[0] = themeImgUrl.substring(1,themeImgUrl.length()-1);
                 //width
-                String themeImgWidth = themeImg.get("width").toString();
-                themeImgObject[1] = themeImgWidth.substring(1,themeImgWidth.length()-1);
+                themeImgObject[1] = themeImg.get("width").asInt();
                 //height
-                String themeImgHeight =  themeImg.get("height").toString();
-                themeImgObject[2] = themeImgHeight.substring(1,themeImgHeight.length()-1);
+                themeImgObject[2] = themeImg.get("height").asInt();
                 return ok(views.html.theme.H5ThemeUpd.render(lang,theme,themeImgObject,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
 
             }
@@ -756,11 +760,9 @@ public class ThemeCtrl extends Controller {
             String themeImgUrl = themeImg.get("url").toString();
             themeImgObject[0] = themeImgUrl.substring(1,themeImgUrl.length()-1);
             //width
-            String themeImgWidth = themeImg.get("width").toString();
-            themeImgObject[1] = themeImgWidth.substring(1,themeImgWidth.length()-1);
+            themeImgObject[1] = themeImg.get("width").asInt();
             //height
-            String themeImgHeight =  themeImg.get("height").toString();
-            themeImgObject[2] = themeImgHeight.substring(1,themeImgHeight.length()-1);
+            themeImgObject[2] = themeImg.get("height").asInt();
 
             //主题的首页主图
             JsonNode themeMasterImg = Json.parse(theme.getThemeMasterImg());
@@ -769,11 +771,9 @@ public class ThemeCtrl extends Controller {
             String masterImgUrl = themeMasterImg.get("url").toString();
             masterImgObject[0] = masterImgUrl.substring(1,masterImgUrl.length()-1);
             //width
-            String masterImgWidth = themeMasterImg.get("width").toString();
-            masterImgObject[1] = masterImgWidth.substring(1,masterImgWidth.length()-1);
+            masterImgObject[1] = themeMasterImg.get("width").asInt();
             //height
-            String masterImgHeight = themeMasterImg.get("height").toString();
-            masterImgObject[2] = masterImgHeight.substring(1,masterImgHeight.length()-1);
+            masterImgObject[2] = themeMasterImg.get("height").asInt();
 
             //主题的首页主图的标签
             List<Object[]> tagList = new ArrayList<>();
@@ -785,10 +785,6 @@ public class ThemeCtrl extends Controller {
                     //top
                     tagObject[0] = tag.get("top").floatValue() * 100 + "%";
                     //url
-            /*
-            String tag_url = tag.get("url").toString();
-            tagObject[1] = (tag_url.substring(2,tag_url.length()-1)).substring(12);
-            */
                     JsonNode URLJson = tag.get("url");
                     String url_id = URLJson.get("id").toString();
                     url_id = url_id.substring(1, url_id.length() - 1);
@@ -830,7 +826,14 @@ public class ThemeCtrl extends Controller {
     public Result h5ThemeSave(String lang){
         JsonNode json = request().body().asJson();
         Theme theme = Json.fromJson(json,Theme.class);
-        Logger.error(json.toString());
+        //数据验证      ----start
+        Form<Theme> themeForm = Form.form(Theme.class).bind(json);
+        //基本样式不匹配;主图片,商品ID,首页主图,主图标签     不是Json格式
+        if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg()))){
+            return badRequest();
+        }
+        //数据验证      ----end
+        theme.setType("h5");
         service.h5ThemeSave(theme);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }

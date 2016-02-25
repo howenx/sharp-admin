@@ -2,8 +2,12 @@ package entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import play.data.validation.Constraints;
+import tool.Regex;
+
+import javax.annotation.MatchesPattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
@@ -15,16 +19,14 @@ public class Theme implements Serializable{
 
     private Long id;
     private Long masterItemId;
-    @Constraints.Required
-
     private String title;
     private String themeDesc;
     @Constraints.Required
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp startAt;
+    private String startAt;
     @Constraints.Required
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp endAt;
+    private String endAt;
     private BigDecimal themeDiscountUp;
     private BigDecimal itemPriceTop;
     private BigDecimal itemPriceLow;
@@ -47,11 +49,11 @@ public class Theme implements Serializable{
     private Timestamp   createAt;
     private Long createUid;
     private String themeSrcImg;
-    @Constraints.Required
     private String themeItem;
     private String themeMasterImg;
     private String masterItemTag;
     private String type;
+    @Constraints.Pattern(Regex.HTTP)
     private String h5Link;
 
     //分页,每页多少条
@@ -68,7 +70,7 @@ public class Theme implements Serializable{
     public Theme() {
     }
 
-    public Theme(Long id, Long masterItemId, String title, String themeDesc, Timestamp startAt, Timestamp endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean orDestroy, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, String themeItem, String themeMasterImg, String masterItemTag, String type, String h5Link, Integer pageSize, Integer offset, String sort, String order) {
+    public Theme(Long id, Long masterItemId, String title, String themeDesc, String startAt, String endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean orDestroy, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, String themeItem, String themeMasterImg, String masterItemTag, String type, String h5Link, Integer pageSize, Integer offset, String sort, String order) {
         this.id = id;
         this.masterItemId = masterItemId;
         this.title = title;
@@ -110,8 +112,8 @@ public class Theme implements Serializable{
                 ", masterItemId=" + masterItemId +
                 ", title='" + title + '\'' +
                 ", themeDesc='" + themeDesc + '\'' +
-                ", startAt=" + startAt +
-                ", endAt=" + endAt +
+                ", startAt='" + startAt + '\'' +
+                ", endAt='" + endAt + '\'' +
                 ", themeDiscountUp=" + themeDiscountUp +
                 ", itemPriceTop=" + itemPriceTop +
                 ", itemPriceLow=" + itemPriceLow +
@@ -173,19 +175,19 @@ public class Theme implements Serializable{
         this.themeDesc = themeDesc;
     }
 
-    public Timestamp getStartAt() {
+    public String getStartAt() {
         return startAt;
     }
 
-    public void setStartAt(Timestamp startAt) {
+    public void setStartAt(String startAt) {
         this.startAt = startAt;
     }
 
-    public Timestamp getEndAt() {
+    public String getEndAt() {
         return endAt;
     }
 
-    public void setEndAt(Timestamp endAt) {
+    public void setEndAt(String endAt) {
         this.endAt = endAt;
     }
 

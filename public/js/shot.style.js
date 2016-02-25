@@ -165,8 +165,8 @@ $(function() {
             themeMasterImgContent.width = jsFileShareContent.labelImgWidth.toString();
             themeMasterImgContent.height = jsFileShareContent.labelImgHeight.toString();
         }else{
-            themeMasterImgContent.width = $("#dragon-container").find("input").width();
-            themeMasterImgContent.height = $("#dragon-container").find("input").height();
+            themeMasterImgContent.width = $("#dragon-container").find("input").width().toString();
+            themeMasterImgContent.height = $("#dragon-container").find("input").height().toString();
         }
         theme.id = themeId;
         theme.title = title;
@@ -221,6 +221,8 @@ $(function() {
 
     //保存--H5主题
     $(document).on("click","#js-usercenter-submit-h5",function(){
+        var http = "^(http|https)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$";
+        var httpRe = new RegExp(http);
         var isPost = true;
         if($("#themeTitle").val()=="" || $("#onShelvesAt").val()=="" || $("#offShelvesAt").val()=="" || $("#h5-link").val()==""){
             isPost = false;
@@ -240,6 +242,12 @@ $(function() {
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
          }
+         if(!httpRe.test($("#h5-link").val())){
+            isPost = false;
+            $('#js-userinfo-error').text('H5链接格式错误!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+         }
 
          var theme = {};
          var themeId = $("#themeId").val();
@@ -255,7 +263,6 @@ $(function() {
          themeImgContent.width = $("#themeImg").find("input").width().toString();
          themeImgContent.height = $("#themeImg").find("input").height().toString();
          theme.themeImg = JSON.stringify(themeImgContent);
-         theme.type = "h5";
          theme.sortNu = 1;
 
          if(isPost){
