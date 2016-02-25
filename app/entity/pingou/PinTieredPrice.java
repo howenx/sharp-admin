@@ -13,16 +13,16 @@ public class PinTieredPrice implements Serializable {
 
     private Long id;                        //阶梯价格ID
     private String masterCouponClass;       //团长返券类别
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp masterCouponStartAt;  //团长优惠券开始时间
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp masterCouponEndAt;    //团长优惠券结束时间
     private Integer masterCouponQuota;          //团长优惠券限额
     private Integer memberCoupon;               //团员优惠券额度
     private String memberCouponClass;       //团员返券类别
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp memberCouponStartAt;  //团员优惠券开始时间
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp memberCouponEndAt;     //团员优惠券结束时间
     private Integer memberCouponQuota;          //团员优惠券限额
     private Long pinId;                     //pin库存ID
