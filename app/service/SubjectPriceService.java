@@ -22,12 +22,6 @@ public interface SubjectPriceService {
     List<SubjectPrice> getSbjPriceByThemeId(Long themeId);
 
     /**
-     * 删除多元化价格      Added by Tiffany Zhu 2016.02.05
-     * @param id
-     */
-    void sbjPriceDelById(Long  id);
-
-    /**
      *通过多元化价格ID获取多元化价格信息    Added by Tiffany Zhu 2016.02.06
      * @param id
      * @return
@@ -35,8 +29,15 @@ public interface SubjectPriceService {
     SubjectPrice getSbjPriceById(Long id);
 
     /**
-     * 通过主题ID删除多元化价格      Added by Tiffany Zhu 2016.02.05
+     * 通过ID令多元化价格商品下架       Added by Tiffany Zhu 2016.02.26
      * @param id
      */
-    void sbjPriceDelByThemeId(Long id);
+    void updStateById(Long id);
+
+    /**
+     * 通过主题ID令多元化价格商品下架       Added by Tiffany Zhu 2016.02.26
+     * @param themeId
+     */
+    void updStateByThemeId(Long themeId);
+
 }

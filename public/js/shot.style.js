@@ -25,6 +25,9 @@ $(function() {
             if(type == "多样化"){
                 object.type = "vary";
             }
+            if(type == "自定义"){
+                object.type = "customize";
+            }
             object.id =  itemId.toString();
             beforeUpdItems.push(object);
         }
@@ -295,7 +298,6 @@ $(function() {
                     } else {
                         alert("Save error!");
                     }
-                    //setTimeout("$('#js-userinfo-error').text('')", 2000);
                 },
                 success: function(data) {
                     if (window.lang = 'cn') {
@@ -303,8 +305,6 @@ $(function() {
                     } else {
                         alert("Save Success!");
                     }
-                    //setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
-
                     if(themeId != null){
                         //主题修改, 成功后返回到主题修改页面
                         setTimeout("location.href='/"+window.lang+"/topic/updateById/"+ themeId +"'", 2000);

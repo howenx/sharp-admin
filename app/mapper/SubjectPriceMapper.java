@@ -21,18 +21,6 @@ public interface SubjectPriceMapper {
     void sbjPriceUpd(SubjectPrice subjectPrice);
 
     /**
-     * 删除多元化价格      Added by Tiffany Zhu 2016.02.04
-     * @param id
-     */
-    void sbjPriceDelById(Long  id);
-
-    /**
-     * 通过主题ID删除多元化价格      Added by Tiffany Zhu 2016.02.05
-     * @param id
-     */
-    void sbjPriceDelByThemeId(Long id);
-
-    /**
      * 获取多元化价格      Added by Tiffany Zhu 2016.02.05
      * @param subjectPrice
      * @return
@@ -52,4 +40,16 @@ public interface SubjectPriceMapper {
      * @return
      */
     SubjectPrice getSbjPriceById(Long id);
+
+    /**
+     * 通过ID令多元化价格商品下架       Added by Tiffany Zhu 2016.02.26
+     * @param id
+     */
+    void updStateById(Long id);
+
+    /**
+     * 通过主题ID令多元化价格商品下架       Added by Tiffany Zhu 2016.02.26
+     * @param themeId
+     */
+    void updStateByThemeId(Long themeId);
 }

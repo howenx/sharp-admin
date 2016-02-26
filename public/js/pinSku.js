@@ -35,6 +35,15 @@ function updateThemeImg(obj){
 $(function(){
      $(".tiered-price").find("button").eq(1).css("display","none");
      $(".tiered-price").find("button").eq(2).css("display","none");
+
+     //验证用
+     var positive_int = /^[0-9]*[1-9][0-9]*$/;
+     var positive_float = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;       //金钱校验
+
+     //当前系统时间
+     var dateTime = new Date();
+     dateTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+
     //更新操作前的阶梯价格
     var beforeUpdPrice = []
     $(".pingou").find("tr").each(function(){
@@ -85,11 +94,6 @@ $(function(){
 
     //添加一行价格阶梯
     $(document).on("click",".addPriceLevel",function(){
-        //验证用
-        var positive_int = /^[0-9]*[1-9][0-9]*$/;
-        var positive_float = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;       //金钱校验
-
-
         var peopleNum = $("#peopleNum").val();
         var price = $("#price").val();
         var masterMin = $("#masterMin").val();
@@ -137,6 +141,12 @@ $(function(){
                    alert('团长优惠券-实用期限日期不正确!');
                     return false;
             }
+            if($(".tz").find("input").eq(3).val() <= dateTime){
+                   alert('团长优惠券-结束时间须大于当前时间!');
+                    return false;
+            }
+
+
         }
         //没有团长优惠券
         if($(":radio[value='tz-no']").prop("checked")){
@@ -163,7 +173,11 @@ $(function(){
                      return false;
             }
             if($(".ty").find("input").eq(2).val() > $(".ty").find("input").eq(3).val()){
-                    alert('团员优惠券-实用期限日期不正确!');
+                    alert('团员优惠券-使用期限日期不正确!');
+                    return false;
+            }
+            if($(".ty").find("input").eq(3).val() <= dateTime){
+                    alert('团员优惠券-结束时间须大于当前时间!');
                     return false;
             }
         }
@@ -341,11 +355,6 @@ $(function(){
     })
     //确定修改阶梯价格
     $(document).on("click",".editPriceLevel",function(){
-        //验证用
-        var positive_int = /^[0-9]*[1-9][0-9]*$/;
-        var positive_float = /^(([0-9]+.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*.[0-9]+)|([0-9]*[1-9][0-9]*))$/;
-
-
         var peopleNum = $("#peopleNum").val();
         var price = $("#price").val();
         var masterMin = $("#masterMin").val();
@@ -392,6 +401,10 @@ $(function(){
                    alert('团长优惠券-实用期限日期不正确!');
                     return false;
             }
+            if($(".tz").find("input").eq(3).val() <= dateTime){
+                   alert('团长优惠券-结束时间须大于当前时间!');
+                    return false;
+            }
         }
         //没有团长优惠券
         if($(":radio[value='tz-no']").prop("checked")){
@@ -419,6 +432,10 @@ $(function(){
             }
             if($(".ty").find("input").eq(2).val() > $(".ty").find("input").eq(3).val()){
                     alert('团员优惠券-实用期限日期不正确!');
+                    return false;
+            }
+            if($(".ty").find("input").eq(3).val() <= dateTime){
+                    alert('团员优惠券-结束时间须大于当前时间!');
                     return false;
             }
         }
@@ -566,8 +583,6 @@ $(function(){
     //保存
     $(document).on("click","#pinSkuSubmit",function(){
         var isPost = true;
-        var positive_int = /^[0-9]*[1-9][0-9]*$/;
-        var positive_float = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;       //金钱校验
         //必填项验证
         if($("#onShelvesAt").val() == "" || $("#offShelvesAt").val() == "" || $("#input_imgurl").val() == "" || $("#restrict").val() == "" || $("#status").val() == "" || $("#pinTitle").val() == ""){
             isPost = false;

@@ -12,7 +12,8 @@
         ${alias}.price,
         ${alias}.discount,
         ${alias}.create_at,
-        ${alias}.update_at
+        ${alias}.update_at,
+        ${alias}.state
     </sql>
     <select id="getSbjPrice" parameterType="entity.SubjectPrice" resultType="entity.SubjectPrice">
         select
@@ -27,7 +28,7 @@
         <include refid="subjectPriceColumns">
             <property name="alias" value="t"/>
         </include>
-        from subject_price t where theme_id = #{value}
+        from subject_price t where theme_id = #{value} and state != 'D' and state != 'N'
     </select>
 
     <select id="getSbjPriceById" parameterType="java.lang.Long" resultType="entity.SubjectPrice">
@@ -49,11 +50,13 @@
         where id = #{id}
     </update>
 
-    <delete id="sbjPriceDelById" parameterType="java.lang.Long">
-        delete from subject_price where id = #{value}
-    </delete>
-    <delete id="sbjPriceDelByThemeId" parameterType="java.lang.Long">
-        delete from subject_price where theme_id = #{value}
-    </delete>
+    <update id="updStateById" parameterType="java.lang.Long">
+        update subject_price
+        set state = 'D' where id = #{value}
+    </update>
+    <update id="updStateByThemeId" parameterType="java.lang.Long">
+        update subject_price
+        set state = 'D' where theme_id = #{value}
+    </update>
 
 </mapper>

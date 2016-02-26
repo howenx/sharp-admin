@@ -1,6 +1,8 @@
 package entity.pingou;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import play.data.validation.Constraints;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -24,7 +26,9 @@ public class PinTieredPrice implements Serializable {
     private String memberCouponEndAt;        //团员优惠券结束时间
     private Integer memberCouponQuota;          //团员优惠券限额
     private Long pinId;                          //pin库存ID
+    @Constraints.Required
     private int peopleNum;                       //人数
+    @Constraints.Required
     private BigDecimal price;                    //价格
     private BigDecimal masterMinPrice;           //团长减价
     private BigDecimal memberMinPrice;           //团员减价

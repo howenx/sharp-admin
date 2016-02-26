@@ -24,7 +24,6 @@ public class SubjectPriceServiceImpl  implements SubjectPriceService{
             subjectPriceMapper.sbjPriceUpd(subjectPrice);
         }
     }
-
     /**
      * 通过主题ID获取多元化价格    Added by Tiffany Zhu 2016.02.05
      * @param themeId
@@ -34,25 +33,6 @@ public class SubjectPriceServiceImpl  implements SubjectPriceService{
     public List<SubjectPrice> getSbjPriceByThemeId(Long themeId) {
         return subjectPriceMapper.getSbjPriceByThemeId(themeId);
     }
-
-    /**
-     * 删除多元化价格      Added by Tiffany Zhu 2016.02.05
-     * @param id
-     */
-    @Override
-    public void sbjPriceDelById(Long id) {
-        subjectPriceMapper.sbjPriceDelById(id);
-    }
-
-    /**
-     * 通过主题ID删除多元化价格      Added by Tiffany Zhu 2016.02.05
-     * @param id
-     */
-    @Override
-    public void sbjPriceDelByThemeId(Long id) {
-        subjectPriceMapper.sbjPriceDelByThemeId(id);
-    }
-
     /**
      *通过多元化价格ID获取多元化价格信息    Added by Tiffany Zhu 2016.02.06
      * @param id
@@ -61,5 +41,23 @@ public class SubjectPriceServiceImpl  implements SubjectPriceService{
     @Override
     public SubjectPrice getSbjPriceById(Long id) {
         return subjectPriceMapper.getSbjPriceById(id);
+    }
+
+    /**
+     * 通过ID令多元化价格商品下架       Added by Tiffany Zhu 2016.02.26
+     * @param id
+     */
+    @Override
+    public void updStateById(Long id) {
+        subjectPriceMapper.updStateById(id);
+    }
+
+    /**
+     * 通过主题ID令多元化价格商品下架       Added by Tiffany Zhu 2016.02.26
+     * @param themeId
+     */
+    @Override
+    public void updStateByThemeId(Long themeId) {
+        subjectPriceMapper.updStateByThemeId(themeId);
     }
 }

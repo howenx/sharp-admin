@@ -1,7 +1,6 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import entity.Theme;
 import entity.User;
 import entity.pingou.*;
 import filters.UserAuth;
@@ -61,11 +60,14 @@ public class PingouCtrl extends Controller {
                return badRequest();
            }
         }
-
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        String strNow = sdfDate.format(now);
         if(json.has("tieredPrice")) {
             JsonNode tieredPriceJson = json.findValue("tieredPrice");
             if (tieredPriceJson.size() > 0) {
                 for (JsonNode price : tieredPriceJson) {
+                    PinTieredPrice tPrice = Json.fromJson(price,PinTieredPrice.class);
                     Form<PinTieredPrice> pinTieredPriceForm = Form.form(PinTieredPrice.class).bind(price);
                     if(pinTieredPriceForm.hasErrors()){
                         return badRequest();

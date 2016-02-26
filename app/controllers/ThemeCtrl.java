@@ -530,11 +530,11 @@ public class ThemeCtrl extends Controller {
         if(customizeItems.size() > 0){
             for(SubjectPrice sbjPrice : subjectPriceList){
                 if(customizeItems.toString().indexOf(sbjPrice.getInvId().toString())<0){
-                    subjectPriceService.sbjPriceDelById(sbjPrice.getId());
+                    subjectPriceService.updStateById(sbjPrice.getId());
                 }
             }
         }else{
-            subjectPriceService.getSbjPriceByThemeId(theme.getId());
+            subjectPriceService.updStateByThemeId(theme.getId());
         }
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
@@ -837,7 +837,7 @@ public class ThemeCtrl extends Controller {
         Date now = new Date();
         String strNow = sdfDate.format(now);
         //基本样式不匹配;主图片,商品ID,首页主图,主图标签     不是Json格式
-        if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || (theme.getStartAt().compareTo(theme.getEndAt())>=0) || theme.getEndAt().compareTo(strNow) <= 0){
+        if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || (theme.getStartAt().compareTo(theme.getEndAt())>=0) || theme.getEndAt().compareTo(strNow) <= 0 ){
             return badRequest();
         }
         //数据验证      ----end
