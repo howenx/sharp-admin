@@ -25,7 +25,6 @@ function UpdateFields(obj) {
 //返回模板中选中的图片 Added by Tiffany Zhu
 function updateThemeImg(obj){
     $("#themeImg").find("img").attr("src",window.url + obj.url);
-    //$("#themeImg").css({"background-image":"url("+ obj.url +")","background-size":"cover"});
     var input = $("#themeImg").find("input");
     $(input).attr("id",obj.url);
     $(input).width(obj.width);
@@ -590,6 +589,15 @@ $(function(){
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
+         //当前系统时间
+         var dateTime = new Date();
+         dateTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+         if($("#offShelvesAt").val() <= dateTime){
+             isPost = false;
+             $('#js-userinfo-error').text('结束时间须大于当前时间!').css('color', '#c00');
+             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+             return false;
+         }
 
         if($("#themeImg").find("img").attr("src") == ""){
             isPost = false;
@@ -708,21 +716,17 @@ $(function(){
              data : JSON.stringify(pinData),
              error : function(request) {
                  if (window.lang = 'cn') {
-                     $('#js-userinfo-error').text('保存失败');
+                     alert("保存失败!");
                  } else {
-                     $('#js-userinfo-error').text('Save error');
+                     alert("Save error!");
                  }
-                 setTimeout("$('#js-userinfo-error').text('')", 2000);
              },
              success: function(data) {
-                 alert("Save Success");
                  if (window.lang = 'cn') {
-                     $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                     alert("保存成功!");
                  } else {
-                     $('#js-userinfo-error').text('Save success');
+                    alert("Save Success!");
                  }
-                 setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
-
                  if($("#pinId").val() != null){
                      //拼购修改, 成功后返回到拼购修改页面
                      setTimeout("location.href='/"+window.lang+"/pin/getPinById/"+ $("#pinId").val() +"'", 3000);

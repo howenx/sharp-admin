@@ -114,8 +114,8 @@
                                     member_coupon_end_at,member_coupon_quota,pin_id,people_num,price,master_min_price,member_min_price,master_coupon)
         values
         <foreach collection="list" item="item" index="index"  separator="," >
-             (#{item.masterCouponClass},#{item.masterCouponStartAt},#{item.masterCouponEndAt},#{item.masterCouponQuota},#{item.memberCoupon},#{item.memberCouponClass},#{item.memberCouponStartAt},
-             #{item.memberCouponEndAt},#{item.memberCouponQuota},#{item.pinId},#{item.peopleNum},#{item.price},#{item.masterMinPrice},#{item.memberMinPrice},#{item.masterCoupon})
+             (#{item.masterCouponClass},#{item.masterCouponStartAt}::timestamp,#{item.masterCouponEndAt}::timestamp,#{item.masterCouponQuota},#{item.memberCoupon},#{item.memberCouponClass},
+            #{item.memberCouponStartAt}::timestamp,#{item.memberCouponEndAt}::timestamp,#{item.memberCouponQuota},#{item.pinId},#{item.peopleNum},#{item.price},#{item.masterMinPrice},#{item.memberMinPrice},#{item.masterCoupon})
         </foreach>
 
     </insert>
@@ -131,9 +131,9 @@
     <update id="updTieredPrice" parameterType="java.util.List">
         <foreach collection="list" item="item" separator=";">
             update pin_tiered_price
-            set master_coupon_class=#{item.masterCouponClass},master_coupon_start_at=#{item.masterCouponStartAt},master_coupon_end_at=#{item.masterCouponEndAt},
-                master_coupon_quota=#{item.masterCouponQuota},member_coupon=#{item.memberCoupon},member_coupon_class=#{item.memberCouponClass},member_coupon_start_at=#{item.memberCouponStartAt},
-                member_coupon_end_at=#{item.memberCouponEndAt},member_coupon_quota=#{item.memberCouponQuota},pin_id=#{item.pinId},people_num=#{item.peopleNum},price=#{item.price},
+            set master_coupon_class=#{item.masterCouponClass},master_coupon_start_at=#{item.masterCouponStartAt}::timestamp,master_coupon_end_at=#{item.masterCouponEndAt}::timestamp,
+                master_coupon_quota=#{item.masterCouponQuota},member_coupon=#{item.memberCoupon},member_coupon_class=#{item.memberCouponClass},member_coupon_start_at=#{item.memberCouponStartAt}::timestamp,
+                member_coupon_end_at=#{item.memberCouponEndAt}::timestamp,member_coupon_quota=#{item.memberCouponQuota},pin_id=#{item.pinId},people_num=#{item.peopleNum},price=#{item.price},
                 master_min_price=#{item.masterMinPrice},member_min_price=#{item.memberMinPrice},master_coupon=#{item.masterCoupon}
             where id = #{item.id}
         </foreach>

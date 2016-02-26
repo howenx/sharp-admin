@@ -2,7 +2,7 @@ package entity.pingou;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import play.data.validation.Constraints;
-
+import tool.Regex;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -13,22 +13,32 @@ import java.sql.Timestamp;
 public class PinSku implements Serializable {
 
     private Long pinId;         //拼购ID
-    private String pinImg;      //生成后列表图
+    @Constraints.Required
+    private String pinImg;      //拼购图片
     private String shareUrl;    //分享短连接
+    @Constraints.Required
     private String status;      //状态
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp createAt; //创建时间
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateAt; //更新时间
     private String themeId;     //主题ID
+    @Constraints.Required
     private String pinTitle;    //拼购商品标题
+    @Constraints.Required
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp startAt;  //开始时间
+    private String startAt;  //开始时间
+    @Constraints.Required
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp endAt;        //结束时间
+    private String endAt;        //结束时间
+    @Constraints.Required
+    //@Constraints.Pattern(Regex.NON_ZERO_POSTIVE_INT)
     private int restrictAmount;     //每个ID限购数量
+    @Constraints.Required
     private String floorPrice;  //拼购最低价
+    @Constraints.Required
     private Long  invId;            //库存ID
+    @Constraints.Required
     private BigDecimal pinDiscount; //拼购最低折扣
     private int activityCount;      //已开团数
 
@@ -44,7 +54,7 @@ public class PinSku implements Serializable {
     public PinSku() {
     }
 
-    public PinSku(Long pinId, String pinImg, String shareUrl, String status, Timestamp createAt, Timestamp updateAt, String themeId, String pinTitle, Timestamp startAt, Timestamp endAt, int restrictAmount, String floorPrice, Long invId, BigDecimal pinDiscount, int activityCount, Integer pageSize, Integer offset, String sort, String order) {
+    public PinSku(Long pinId, String pinImg, String shareUrl, String status, Timestamp createAt, Timestamp updateAt, String themeId, String pinTitle, String startAt, String endAt, int restrictAmount, String floorPrice, Long invId, BigDecimal pinDiscount, int activityCount, Integer pageSize, Integer offset, String sort, String order) {
         this.pinId = pinId;
         this.pinImg = pinImg;
         this.shareUrl = shareUrl;
@@ -77,8 +87,8 @@ public class PinSku implements Serializable {
                 ", updateAt=" + updateAt +
                 ", themeId='" + themeId + '\'' +
                 ", pinTitle='" + pinTitle + '\'' +
-                ", startAt=" + startAt +
-                ", endAt=" + endAt +
+                ", startAt='" + startAt + '\'' +
+                ", endAt='" + endAt + '\'' +
                 ", restrictAmount=" + restrictAmount +
                 ", floorPrice='" + floorPrice + '\'' +
                 ", invId=" + invId +
@@ -155,19 +165,19 @@ public class PinSku implements Serializable {
         this.pinTitle = pinTitle;
     }
 
-    public Timestamp getStartAt() {
+    public String getStartAt() {
         return startAt;
     }
 
-    public void setStartAt(Timestamp startAt) {
+    public void setStartAt(String startAt) {
         this.startAt = startAt;
     }
 
-    public Timestamp getEndAt() {
+    public String getEndAt() {
         return endAt;
     }
 
-    public void setEndAt(Timestamp endAt) {
+    public void setEndAt(String endAt) {
         this.endAt = endAt;
     }
 

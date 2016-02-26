@@ -1,10 +1,12 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import entity.Theme;
 import entity.User;
 import entity.pingou.*;
 import filters.UserAuth;
 import play.Logger;
+import play.data.Form;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
@@ -12,10 +14,10 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import service.PingouService;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import tool.Regex;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.inject.Inject;
 
@@ -46,6 +48,33 @@ public class PingouCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result pingouSave(String lang){
         JsonNode json = request().body().asJson();
+        //数据验证-------------------------start
+        if(json.has("pinSku")){
+           JsonNode pinSkuJson = json.findValue("pinSku");
+           PinSku pinSku = Json.fromJson(pinSkuJson,PinSku.class);
+           Form<PinSku> pinSkuForm = Form.form(PinSku.class).bind(pinSkuJson);
+            SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date now = new Date();
+            String strNow = sdfDate.format(now);
+           if(pinSkuForm.hasErrors() || !(Regex.isJason(pinSku.getFloorPrice())) || !(Regex.isJason(pinSku.getPinImg())) ||
+                   pinSku.getRestrictAmount() <= 0 || pinSku.getStartAt().compareTo(pinSku.getEndAt()) >= 0 || pinSku.getEndAt().compareTo(strNow) <=0 ){
+               return badRequest();
+           }
+        }
+
+        if(json.has("tieredPrice")) {
+            JsonNode tieredPriceJson = json.findValue("tieredPrice");
+            if (tieredPriceJson.size() > 0) {
+                for (JsonNode price : tieredPriceJson) {
+                    Form<PinTieredPrice> pinTieredPriceForm = Form.form(PinTieredPrice.class).bind(price);
+                    if(pinTieredPriceForm.hasErrors()){
+                        return badRequest();
+                    }
+                }
+            }
+        }
+
+        //数据验证-------------------------end
         pingouService.pinSkuSave(json);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }

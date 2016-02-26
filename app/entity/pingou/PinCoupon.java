@@ -12,25 +12,25 @@ public class PinCoupon implements Serializable {
 
     private Long id;                        // 主键ID
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp memberCouponEndAt;    //团员优惠券结束时间
+    private String memberCouponEndAt;    //团员优惠券结束时间
     private Integer memberCouponQuota;          //团员优惠券限额
     private Integer masterCoupon;               //团长返券额度
     private String masterCouponClass;       //团长返券类别
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp masterCouponStartAt;  //团长优惠券开始时间
+    private String masterCouponStartAt;  //团长优惠券开始时间
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp masterCouponEndAt;    //团长优惠券结束时间
+    private String masterCouponEndAt;    //团长优惠券结束时间
     private Integer masterCouponQuota;          //团长优惠券限额
     private Integer memberCoupon;               //团员返券额度
     private String memberCouponClass;       //团员返券类别
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp memberCouponStartAt;  //团员优惠券开始时间
+    private String memberCouponStartAt;  //团员优惠券开始时间
     private Long pinActiveId;                     //拼购活动ID
 
     public PinCoupon() {
     }
 
-    public PinCoupon(Long id, Timestamp memberCouponEndAt, Integer memberCouponQuota, Integer masterCoupon, String masterCouponClass, Timestamp masterCouponStartAt, Timestamp masterCouponEndAt, Integer masterCouponQuota, Integer memberCoupon, String memberCouponClass, Timestamp memberCouponStartAt, Long pinActiveId) {
+    public PinCoupon(Long id, String memberCouponEndAt, Integer memberCouponQuota, Integer masterCoupon, String masterCouponClass, String masterCouponStartAt, String masterCouponEndAt, Integer masterCouponQuota, Integer memberCoupon, String memberCouponClass, String memberCouponStartAt, Long pinActiveId) {
         this.id = id;
         this.memberCouponEndAt = memberCouponEndAt;
         this.memberCouponQuota = memberCouponQuota;
@@ -49,16 +49,16 @@ public class PinCoupon implements Serializable {
     public String toString() {
         return "PinCoupon{" +
                 "id=" + id +
-                ", memberCouponEndAt=" + memberCouponEndAt +
+                ", memberCouponEndAt='" + memberCouponEndAt + '\'' +
                 ", memberCouponQuota=" + memberCouponQuota +
                 ", masterCoupon=" + masterCoupon +
                 ", masterCouponClass='" + masterCouponClass + '\'' +
-                ", masterCouponStartAt=" + masterCouponStartAt +
-                ", masterCouponEndAt=" + masterCouponEndAt +
+                ", masterCouponStartAt='" + masterCouponStartAt + '\'' +
+                ", masterCouponEndAt='" + masterCouponEndAt + '\'' +
                 ", masterCouponQuota=" + masterCouponQuota +
                 ", memberCoupon=" + memberCoupon +
                 ", memberCouponClass='" + memberCouponClass + '\'' +
-                ", memberCouponStartAt=" + memberCouponStartAt +
+                ", memberCouponStartAt='" + memberCouponStartAt + '\'' +
                 ", pinActiveId=" + pinActiveId +
                 '}';
     }
@@ -71,11 +71,11 @@ public class PinCoupon implements Serializable {
         this.id = id;
     }
 
-    public Timestamp getMemberCouponEndAt() {
+    public String getMemberCouponEndAt() {
         return memberCouponEndAt;
     }
 
-    public void setMemberCouponEndAt(Timestamp memberCouponEndAt) {
+    public void setMemberCouponEndAt(String memberCouponEndAt) {
         this.memberCouponEndAt = memberCouponEndAt;
     }
 
@@ -103,19 +103,19 @@ public class PinCoupon implements Serializable {
         this.masterCouponClass = masterCouponClass;
     }
 
-    public Timestamp getMasterCouponStartAt() {
+    public String getMasterCouponStartAt() {
         return masterCouponStartAt;
     }
 
-    public void setMasterCouponStartAt(Timestamp masterCouponStartAt) {
+    public void setMasterCouponStartAt(String masterCouponStartAt) {
         this.masterCouponStartAt = masterCouponStartAt;
     }
 
-    public Timestamp getMasterCouponEndAt() {
+    public String getMasterCouponEndAt() {
         return masterCouponEndAt;
     }
 
-    public void setMasterCouponEndAt(Timestamp masterCouponEndAt) {
+    public void setMasterCouponEndAt(String masterCouponEndAt) {
         this.masterCouponEndAt = masterCouponEndAt;
     }
 
@@ -143,11 +143,11 @@ public class PinCoupon implements Serializable {
         this.memberCouponClass = memberCouponClass;
     }
 
-    public Timestamp getMemberCouponStartAt() {
+    public String getMemberCouponStartAt() {
         return memberCouponStartAt;
     }
 
-    public void setMemberCouponStartAt(Timestamp memberCouponStartAt) {
+    public void setMemberCouponStartAt(String memberCouponStartAt) {
         this.memberCouponStartAt = memberCouponStartAt;
     }
 

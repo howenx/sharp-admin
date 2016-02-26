@@ -66,6 +66,16 @@ $(function() {
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
+       //当前系统时间
+       var dateTime = new Date();
+       dateTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+       if($("#offShelvesAt").val() <= dateTime){
+           isPost = false;
+           $('#js-userinfo-error').text('结束时间须大于当前时间!').css('color', '#c00');
+           setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+           return false;
+       }
+
         //填充数据
         var theme = new Object();
         //主题ID
@@ -165,8 +175,8 @@ $(function() {
             themeMasterImgContent.width = jsFileShareContent.labelImgWidth.toString();
             themeMasterImgContent.height = jsFileShareContent.labelImgHeight.toString();
         }else{
-            themeMasterImgContent.width = $("#dragon-container").find("input").width();
-            themeMasterImgContent.height = $("#dragon-container").find("input").height();
+            themeMasterImgContent.width = $("#dragon-container").find("input").width().toString();
+            themeMasterImgContent.height = $("#dragon-container").find("input").height().toString();
         }
         theme.id = themeId;
         theme.title = title;
@@ -185,8 +195,6 @@ $(function() {
         data.theme = theme;
         data.beforeUpdItems = beforeUpdItems;
         data.customizeItems = customizeItems;
-        console.log(customizeItems);
-
         if (isPost) {
                     $.ajax({
                         type :  "POST",
@@ -216,11 +224,14 @@ $(function() {
                         }
                     });
         }
+
   	})
 
 
     //保存--H5主题
     $(document).on("click","#js-usercenter-submit-h5",function(){
+        var http = "^(http|https)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$";
+        var httpRe = new RegExp(http);
         var isPost = true;
         if($("#themeTitle").val()=="" || $("#onShelvesAt").val()=="" || $("#offShelvesAt").val()=="" || $("#h5-link").val()==""){
             isPost = false;
@@ -240,6 +251,21 @@ $(function() {
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
          }
+         if(!httpRe.test($("#h5-link").val())){
+            isPost = false;
+            $('#js-userinfo-error').text('H5链接格式错误!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+         }
+         //当前系统时间
+         var dateTime = new Date();
+         dateTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+         if($("#offShelvesAt").val() <= dateTime){
+             isPost = false;
+             $('#js-userinfo-error').text('结束时间须大于当前时间!').css('color', '#c00');
+             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+             return false;
+         }
 
          var theme = {};
          var themeId = $("#themeId").val();
@@ -255,7 +281,6 @@ $(function() {
          themeImgContent.width = $("#themeImg").find("input").width().toString();
          themeImgContent.height = $("#themeImg").find("input").height().toString();
          theme.themeImg = JSON.stringify(themeImgContent);
-         theme.type = "h5";
          theme.sortNu = 1;
 
          if(isPost){

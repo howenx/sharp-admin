@@ -51,7 +51,7 @@ $(function() {
 		//起止时间如果为空
 		if ($("#topic-form-starttime").val() == '' || $("#topic-form-starttime").val() == null) {
 //			topicDto.startAt = $.format.date("0000-01-01 00:00:00", longDateFormat);
-			topicDto.startAt = "0000-01-01 00:00:00";
+			topicDto.startAt = "0001-01-01 00:00:00";
 		}
 		if ($("#topic-form-endtime").val() == '' || $("#topic-form-endtime").val() == null) {
 //			topicDto.endAt = $.format.date("99999-12-31 23:59:59", longDateFormat);
@@ -83,8 +83,8 @@ $(function() {
 				'</td>' +
 				'<td>' + $(this)[0].type + '</td>' +
 				'<td>' + $(this)[0].title + '</td>' +
-				'<td>' + $(this)[0].startAt + '</td>' +
-				'<td>' + $(this)[0].endAt + '</td>' +
+				'<td>' + ($(this)[0].startAt != null && $(this)[0].startAt != '' ? $(this)[0].startAt.substr(0, 16) : '') + '</td>' +
+				'<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 16) : '') + '</td>' +
 				'<td>' + status + '</td>' +
 				'</tr>'
 			);
@@ -241,7 +241,7 @@ $(function() {
         		pinDto.endAt = $("#topic-form-endtime").val();
         		//开始时间如果为空
                 if ($("#topic-form-starttime").val() == '' || $("#topic-form-starttime").val() == null) {
-                    pinDto.startAt = "0000-01-01 00:00:00";
+                    pinDto.startAt = "0001-01-01 00:00:00";
                 }
                 if ($("#topic-form-endtime").val() == '' || $("#topic-form-endtime").val() == null) {
                 	pinDto.endAt = "99999-12-31 23:59:59";

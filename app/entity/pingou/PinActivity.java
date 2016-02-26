@@ -22,7 +22,7 @@ public class PinActivity implements Serializable {
     private Timestamp createAt; //发起时间
     private String status;      //状态
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp endAt;    //截止时间
+    private String endAt;    //截止时间
     private String pinTitle;    //商品标题
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp joinAt;   //参团时间
@@ -40,7 +40,7 @@ public class PinActivity implements Serializable {
     public PinActivity() {
     }
 
-    public PinActivity(Long pinActiveId, String pinUrl, Long pinTieredId, Long pinId, Long masterUserId, int personNum, BigDecimal pinPrice, int joinPersons, Timestamp createAt, String status, Timestamp endAt, String pinTitle, Timestamp joinAt, int persons, Integer pageSize, Integer offset, String sort, String order) {
+    public PinActivity(Long pinActiveId, String pinUrl, Long pinTieredId, Long pinId, Long masterUserId, int personNum, BigDecimal pinPrice, int joinPersons, Timestamp createAt, String status, String endAt, String pinTitle, Timestamp joinAt, int persons, Integer pageSize, Integer offset, String sort, String order) {
         this.pinActiveId = pinActiveId;
         this.pinUrl = pinUrl;
         this.pinTieredId = pinTieredId;
@@ -74,7 +74,7 @@ public class PinActivity implements Serializable {
                 ", joinPersons=" + joinPersons +
                 ", createAt=" + createAt +
                 ", status='" + status + '\'' +
-                ", endAt=" + endAt +
+                ", endAt='" + endAt + '\'' +
                 ", pinTitle='" + pinTitle + '\'' +
                 ", joinAt=" + joinAt +
                 ", persons=" + persons +
@@ -165,11 +165,11 @@ public class PinActivity implements Serializable {
         this.status = status;
     }
 
-    public Timestamp getEndAt() {
+    public String getEndAt() {
         return endAt;
     }
 
-    public void setEndAt(Timestamp endAt) {
+    public void setEndAt(String endAt) {
         this.endAt = endAt;
     }
 
