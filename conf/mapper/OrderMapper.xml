@@ -47,7 +47,7 @@
         </if>
         <if test="orderStatus != null and orderStatus != ''">
            <if test="orderStatus != 'TO'">
-               and t.order_status = '${orderStatus}'
+               and t.order_status = #{orderStatus}
            </if>
 
             <if test="orderStatus == 'TO'">
@@ -68,7 +68,7 @@
         <include refid="orderColumns">
             <property name="alias" value="t"/>
         </include>
-        from sp_order t where order_id = ${value}
+        from sp_order t where order_id = #{value}
     </select>
 
     <select id="getOutTimeOrders" resultType="entity.order.Order">
