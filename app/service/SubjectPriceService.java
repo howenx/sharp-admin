@@ -39,4 +39,18 @@ public interface SubjectPriceService {
      * @param id
      */
     void sbjPriceDelByThemeId(Long id);
+
+
+    /**
+     * 由invId获取多元化价格     Added By Sunny.Wu 2016.02.26
+     * @param invId 库存Id
+     * @return List of SubjectPrice
+     */
+    List<SubjectPrice> getSbjPriceByInvId(Long invId);
+
+    /**
+     * 更新多元化价格          Added By Sunny.Wu 2016.02.26
+     * @param subjectPrice
+     */
+    void sbjPriceUpd(SubjectPrice subjectPrice);
 }

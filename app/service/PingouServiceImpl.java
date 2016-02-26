@@ -8,7 +8,6 @@ import play.Logger;
 import play.libs.Json;
 
 import javax.inject.Inject;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -295,5 +294,25 @@ public class PingouServiceImpl implements PingouService {
     @Override
     public void updStatus() {
         pinSkuMapper.updStatus();
+    }
+
+
+    /**
+     * 由invId获取拼购商品     Added By Sunny.Wu 2016.02.26
+     * @param invId 库存Id
+     * @return List of PinSku
+     */
+    @Override
+    public List<PinSku> getPinSkuByInvId(Long invId) {
+        return pinSkuMapper.getPinSkuByInvId(invId);
+    }
+
+    /**
+     * 更新拼购             Added By Sunny.Wu 2016.02.26
+     * @param pinSku
+     */
+    @Override
+    public void updatePinSku(PinSku pinSku) {
+        pinSkuMapper.updatePinSku(pinSku);
     }
 }

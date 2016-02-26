@@ -83,4 +83,11 @@ public interface PinSkuMapper {
      */
     void updStatus();
 
+
+    /**
+     * 由invId获取拼购商品     Added By Sunny.Wu 2016.02.26
+     * @param invId 库存Id
+     * @return List of PinSku
+     */
+    List<PinSku> getPinSkuByInvId(Long invId);
 }

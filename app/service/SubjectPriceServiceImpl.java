@@ -62,4 +62,24 @@ public class SubjectPriceServiceImpl  implements SubjectPriceService{
     public SubjectPrice getSbjPriceById(Long id) {
         return subjectPriceMapper.getSbjPriceById(id);
     }
+
+
+    /**
+     * 由invId获取多元化价格     Added By Sunny.Wu 2016.02.26
+     * @param invId 库存Id
+     * @return List of SubjectPrice
+     */
+    @Override
+    public List<SubjectPrice> getSbjPriceByInvId(Long invId) {
+        return subjectPriceMapper.getSbjPriceByInvId(invId);
+    }
+
+    /**
+     * 更新多元化价格          Added By Sunny.Wu 2016.02.26
+     * @param subjectPrice
+     */
+    @Override
+    public void sbjPriceUpd(SubjectPrice subjectPrice) {
+        subjectPriceMapper.sbjPriceUpd(subjectPrice);
+    }
 }

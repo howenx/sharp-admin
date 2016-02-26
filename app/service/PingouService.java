@@ -132,4 +132,17 @@ public interface PingouService {
      */
     void updStatus();
 
+    /**
+     * 由invId获取拼购商品     Added By Sunny.Wu 2016.02.26
+     * @param invId 库存Id
+     * @return List of PinSku
+     */
+    List<PinSku> getPinSkuByInvId(Long invId);
+
+    /**
+     * 更新拼购             Added By Sunny.Wu 2016.02.26
+     * @param pinSku
+     */
+    void updatePinSku(PinSku pinSku);
+
 }

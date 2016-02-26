@@ -156,12 +156,18 @@ function Init () {
                     priceAmountData[2].value = varyPriceArr[3];
                     if (varyPriceArr[1]=="Y")  status[0].options[0].selected = true;
                     if (varyPriceArr[1]=="D")  status[0].options[1].selected = true;
+                    if (varyPriceArr[1]=="P")  status[0].options[2].selected = true;
+                    if (varyPriceArr[1]=="K")  status[0].options[3].selected = true;
+                    if (varyPriceArr[1]=="N")  status[0].options[4].selected = true;
                 }
                 if (v>3 && v%4==0) {
-                    $("<tr>").html('<td style="display:none;"><input type="text" name="vpId" value="'+varyPriceArr[v]+'"></td><td><select class="status"><option value="Y">正常</option><option value="D">下架</option></select></td><td><input type="text" name="price" value="'+varyPriceArr[v+2]+'"></td><td><input type="text" name="limitAmount" value="'+varyPriceArr[v+3]+'"></td><td class="delTr del">删除</td>').appendTo($(".guige"));
+                    $("<tr>").html('<td style="display:none;"><input type="text" name="vpId" value="'+varyPriceArr[v]+'"></td><td><select class="status"><option value="Y">正常</option><option value="D">下架</option><option value="P">预售</option><option value="K">售空</option><option value="N">删除</option></select></td><td><input type="text" name="price" value="'+varyPriceArr[v+2]+'"></td><td><input type="text" name="limitAmount" value="'+varyPriceArr[v+3]+'"></td><td class="delTr del">删除</td>').appendTo($(".guige"));
                     var status1 = document.getElementById("varyPriceTab").getElementsByTagName("select");
                     if (varyPriceArr[v+1]=="Y")  status1[v/4].options[0].selected = true;
                     if (varyPriceArr[v+1]=="D")  status1[v/4].options[1].selected = true;
+                    if (varyPriceArr[v+1]=="P")  status1[v/4].options[2].selected = true;
+                    if (varyPriceArr[v+1]=="K")  status1[v/4].options[3].selected = true;
+                    if (varyPriceArr[v+1]=="N")  status1[v/4].options[4].selected = true;
                 }
                 if (v%4==0 && varyPriceArr[v]!="") {
                     $(".del").text("");
@@ -351,7 +357,7 @@ function saveCurr() {
     var count = 0;
     //行数据,其余的隐藏
     for(var item in trdobj){
-        if (count==0||count==1||count==6||count==15)
+        if (count==0||count==1||count==6)
         $("<td>").html(trdobj[item]).appendTo(trd);
         else $("<td style='display:none;'>").html(trdobj[item]).appendTo(trd);
         count++;
@@ -368,7 +374,7 @@ function saveCurr() {
         //表头,其余的表头项隐藏
         $(".thval").each(function(){
             var thName = $(this).html();
-            if (thName=="颜色"||thName=="尺寸"||thName=="现价"||thName=="库存区域")
+            if (thName=="颜色"||thName=="尺寸"||thName=="现价")
             $("<th>").html(thName).appendTo(trh);
             else $("<th style='display:none;'>").html(thName).appendTo(trh);
         });
@@ -599,7 +605,7 @@ $(function(){
         var price = document.getElementsByName("price");
         var len = price.length;
         if (varyPriceTab.getElementsByTagName("tr").length>1 && limitAmount[len-1].value!="" && price[len-1].value!="" ) {
-            var trHtml = '<td style="display:none;"><input type="text" name="vpId"></td><td><select class="status"><option value="Y">正常</option><option value="D">下架</option></select></td><td><input type="text" name="price"></td><td><input type="text" name="limitAmount"></td><td class="del delTr">删除</td>';
+            var trHtml = '<td style="display:none;"><input type="text" name="vpId"></td><td><select class="status"><option value="Y">正常</option><option value="D">下架</option><option value="P">预售</option><option value="K">售空</option><option value="N">删除</option></select></td><td><input type="text" name="price"></td><td><input type="text" name="limitAmount"></td><td class="del delTr">删除</td>';
             $("<tr>").html(trHtml).appendTo($(".guige"));
         }
     });

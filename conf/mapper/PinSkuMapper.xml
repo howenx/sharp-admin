@@ -153,4 +153,13 @@
         </include>
         from pin_tiered_price t where id = ${value}
     </select>
+
+    <!-- 由inv_id 获取拼购商品         Add By Sunny.Wu 2016/02/26-->
+    <select id="getPinSkuByInvId" resultType="entity.pingou.PinSku" parameterType="java.lang.Long">
+        select
+        <include refid="pinSkuColumns">
+                <property name="alias" value="t"/>
+        </include>
+        from pin_sku t where inv_id = #{value}
+    </select>
 </mapper>
