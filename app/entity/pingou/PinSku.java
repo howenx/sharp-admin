@@ -3,8 +3,6 @@ package entity.pingou;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import play.data.validation.Constraints;
 import tool.Regex;
-
-import javax.annotation.MatchesPattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -34,7 +32,7 @@ public class PinSku implements Serializable {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String endAt;        //结束时间
     @Constraints.Required
-    @Constraints.Pattern(Regex.NON_ZERO_POSTIVE_INT)
+    //@Constraints.Pattern(Regex.NON_ZERO_POSTIVE_INT)
     private int restrictAmount;     //每个ID限购数量
     @Constraints.Required
     private String floorPrice;  //拼购最低价

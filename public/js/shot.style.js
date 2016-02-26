@@ -66,6 +66,16 @@ $(function() {
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
+       //当前系统时间
+       var dateTime = new Date();
+       dateTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+       if($("#offShelvesAt").val() <= dateTime){
+           isPost = false;
+           $('#js-userinfo-error').text('结束时间须大于当前时间!').css('color', '#c00');
+           setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+           return false;
+       }
+
         //填充数据
         var theme = new Object();
         //主题ID
@@ -185,8 +195,6 @@ $(function() {
         data.theme = theme;
         data.beforeUpdItems = beforeUpdItems;
         data.customizeItems = customizeItems;
-        console.log(customizeItems);
-
         if (isPost) {
                     $.ajax({
                         type :  "POST",
@@ -216,6 +224,7 @@ $(function() {
                         }
                     });
         }
+
   	})
 
 
@@ -247,6 +256,15 @@ $(function() {
             $('#js-userinfo-error').text('H5链接格式错误!').css('color', '#c00');
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
+         }
+         //当前系统时间
+         var dateTime = new Date();
+         dateTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+         if($("#offShelvesAt").val() <= dateTime){
+             isPost = false;
+             $('#js-userinfo-error').text('结束时间须大于当前时间!').css('color', '#c00');
+             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+             return false;
          }
 
          var theme = {};

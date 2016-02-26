@@ -1,41 +1,39 @@
 package entity.pingou;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 
 /**
  * Created by tiffany on 16/1/28.
  */
 public class PinTieredPrice implements Serializable {
 
-    private Long id;                        //阶梯价格ID
-    private String masterCouponClass;       //团长返券类别
+    private Long id;                            //阶梯价格ID
+    private String masterCouponClass;           //团长返券类别
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp masterCouponStartAt;  //团长优惠券开始时间
+    private String masterCouponStartAt;      //团长优惠券开始时间
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp masterCouponEndAt;    //团长优惠券结束时间
+    private String masterCouponEndAt;        //团长优惠券结束时间
     private Integer masterCouponQuota;          //团长优惠券限额
     private Integer memberCoupon;               //团员优惠券额度
-    private String memberCouponClass;       //团员返券类别
+    private String memberCouponClass;           //团员返券类别
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp memberCouponStartAt;  //团员优惠券开始时间
+    private String memberCouponStartAt;      //团员优惠券开始时间
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp memberCouponEndAt;     //团员优惠券结束时间
+    private String memberCouponEndAt;        //团员优惠券结束时间
     private Integer memberCouponQuota;          //团员优惠券限额
-    private Long pinId;                     //pin库存ID
-    private int peopleNum;                   //人数
-    private BigDecimal price;               //价格
-    private BigDecimal masterMinPrice;      //团长减价
-    private BigDecimal memberMinPrice;      //团员减价
-    private Integer masterCoupon;               //团长返券额度
+    private Long pinId;                          //pin库存ID
+    private int peopleNum;                       //人数
+    private BigDecimal price;                    //价格
+    private BigDecimal masterMinPrice;           //团长减价
+    private BigDecimal memberMinPrice;           //团员减价
+    private Integer masterCoupon;                //团长返券额度
 
     public PinTieredPrice() {
     }
 
-    public PinTieredPrice(Long id, String masterCouponClass, Timestamp masterCouponStartAt, Timestamp masterCouponEndAt, Integer masterCouponQuota, Integer memberCoupon, String memberCouponClass, Timestamp memberCouponStartAt, Timestamp memberCouponEndAt, Integer memberCouponQuota, Long pinId, int peopleNum, BigDecimal price, BigDecimal masterMinPrice, BigDecimal memberMinPrice, Integer masterCoupon) {
+    public PinTieredPrice(Long id, String masterCouponClass, String masterCouponStartAt, String masterCouponEndAt, Integer masterCouponQuota, Integer memberCoupon, String memberCouponClass, String memberCouponStartAt, String memberCouponEndAt, Integer memberCouponQuota, Long pinId, int peopleNum, BigDecimal price, BigDecimal masterMinPrice, BigDecimal memberMinPrice, Integer masterCoupon) {
         this.id = id;
         this.masterCouponClass = masterCouponClass;
         this.masterCouponStartAt = masterCouponStartAt;
@@ -59,13 +57,13 @@ public class PinTieredPrice implements Serializable {
         return "PinTieredPrice{" +
                 "id=" + id +
                 ", masterCouponClass='" + masterCouponClass + '\'' +
-                ", masterCouponStartAt=" + masterCouponStartAt +
-                ", masterCouponEndAt=" + masterCouponEndAt +
+                ", masterCouponStartAt='" + masterCouponStartAt + '\'' +
+                ", masterCouponEndAt='" + masterCouponEndAt + '\'' +
                 ", masterCouponQuota=" + masterCouponQuota +
                 ", memberCoupon=" + memberCoupon +
                 ", memberCouponClass='" + memberCouponClass + '\'' +
-                ", memberCouponStartAt=" + memberCouponStartAt +
-                ", memberCouponEndAt=" + memberCouponEndAt +
+                ", memberCouponStartAt='" + memberCouponStartAt + '\'' +
+                ", memberCouponEndAt='" + memberCouponEndAt + '\'' +
                 ", memberCouponQuota=" + memberCouponQuota +
                 ", pinId=" + pinId +
                 ", peopleNum=" + peopleNum +
@@ -92,19 +90,19 @@ public class PinTieredPrice implements Serializable {
         this.masterCouponClass = masterCouponClass;
     }
 
-    public Timestamp getMasterCouponStartAt() {
+    public String getMasterCouponStartAt() {
         return masterCouponStartAt;
     }
 
-    public void setMasterCouponStartAt(Timestamp masterCouponStartAt) {
+    public void setMasterCouponStartAt(String masterCouponStartAt) {
         this.masterCouponStartAt = masterCouponStartAt;
     }
 
-    public Timestamp getMasterCouponEndAt() {
+    public String getMasterCouponEndAt() {
         return masterCouponEndAt;
     }
 
-    public void setMasterCouponEndAt(Timestamp masterCouponEndAt) {
+    public void setMasterCouponEndAt(String masterCouponEndAt) {
         this.masterCouponEndAt = masterCouponEndAt;
     }
 
@@ -132,19 +130,19 @@ public class PinTieredPrice implements Serializable {
         this.memberCouponClass = memberCouponClass;
     }
 
-    public Timestamp getMemberCouponStartAt() {
+    public String getMemberCouponStartAt() {
         return memberCouponStartAt;
     }
 
-    public void setMemberCouponStartAt(Timestamp memberCouponStartAt) {
+    public void setMemberCouponStartAt(String memberCouponStartAt) {
         this.memberCouponStartAt = memberCouponStartAt;
     }
 
-    public Timestamp getMemberCouponEndAt() {
+    public String getMemberCouponEndAt() {
         return memberCouponEndAt;
     }
 
-    public void setMemberCouponEndAt(Timestamp memberCouponEndAt) {
+    public void setMemberCouponEndAt(String memberCouponEndAt) {
         this.memberCouponEndAt = memberCouponEndAt;
     }
 

@@ -18,10 +18,8 @@ import tool.Regex;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * ThemeCtrl management.
@@ -40,9 +38,6 @@ public class ThemeCtrl extends Controller {
 
     //图片上传服务器url
     public static final String IMG_UPLOAD_URL = play.Play.application().configuration().getString("image.upload.url");
-
-    //截图服务器url
-    //public static final String IMG_CUT_URL = play.Play.application().configuration().getString("image.cut.url");;
 
     @Inject
     private ThemeService service;
@@ -251,30 +246,31 @@ public class ThemeCtrl extends Controller {
             Item item = itemService.getItem(inventory.getItemId());
             Object[] object = new Object[8];
             object[0] = inventory.getId();
-            object[1] = item.getItemTitle();
+            object[1] = inventory.getInvTitle();
             if(Regex.isJason(inventory.getInvImg())){
                 JsonNode json = Json.parse(inventory.getInvImg());
                 String url = json.get("url").toString();
                 object[2] = url.substring(1,url.length()-1);
             }
             object[3] = inventory.getStartAt();
-            if("Y".equals(item.getState())){
+
+            if("Y".equals(inventory.getState())){
                 object[4] = "正常";
 
             }
-            if("D".equals(item.getState())){
+            if("D".equals(inventory.getState())){
                 object[4] = "下架";
 
             }
-            if("N".equals(item.getState())){
+            if("N".equals(inventory.getState())){
                 object[4] = "删除";
 
             }
-            if("K".equals(item.getState())){
+            if("K".equals(inventory.getState())){
                 object[4] = "售空";
 
             }
-            if("P".equals(item.getState())){
+            if("P".equals(inventory.getState())){
                 object[4] = "预售";
 
             }
@@ -322,7 +318,10 @@ public class ThemeCtrl extends Controller {
                 BigDecimal price = floorPriceJson.get("price").decimalValue();
                 object[5] = price;
             }
-            object[6] = inventoryService.getInventory(pinSku.getInvId()).getItemSrcPrice();
+            if(inventoryService.getInventory(pinSku.getInvId()) != null){
+                object[6] = inventoryService.getInventory(pinSku.getInvId()).getItemSrcPrice();
+            }
+
             object[7] = pinSku.getPinDiscount();
             object[8] = pinSku.getInvId();
             pinList.add(object);
@@ -333,7 +332,9 @@ public class ThemeCtrl extends Controller {
         List<Object[]> varyList = new ArrayList<>();
         for(VaryPrice varyPrice : varyPriceList){
             Inventory inventory = inventoryService.getInventory(varyPrice.getInvId());
+
             Item item = itemService.getItem(inventory.getItemId());
+
             Object[] object = new Object[9];
             object[0] = varyPrice.getId();
             object[1] = item.getItemTitle();
@@ -349,9 +350,9 @@ public class ThemeCtrl extends Controller {
             if("N".equals(inventory.getState())){
                 object[4] = "下架";
             }
-            object[5] = varyPrice.getPrice();
             object[6] = inventory.getItemSrcPrice();
             object[7] = varyPrice.getPrice().divide(inventory.getItemSrcPrice(),2);
+            object[5] = varyPrice.getPrice();
             object[8] = varyPrice.getInvId();
             varyList.add(object);
         }
@@ -382,8 +383,12 @@ public class ThemeCtrl extends Controller {
         Theme theme = play.libs.Json.fromJson(json,Theme.class);
         //数据验证      ----start
         Form<Theme> themeForm = Form.form(Theme.class).bind(json);
-        //基本样式不匹配;主图片,商品ID,首页主图,主图标签     不是Json格式
-        if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || !(Regex.isJason(theme.getThemeItem())) || !(Regex.isJason(theme.getThemeMasterImg())) || (theme.getMasterItemTag() != null && !(Regex.isJason(theme.getMasterItemTag())))    ){
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        String strNow = sdfDate.format(now);
+        //基本样式不匹配;主图片,商品ID不是Json格式;首页主图不是Json格式;主图标签不是Json格式;开始日期大于结束日期;
+        if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || !(Regex.isJason(theme.getThemeItem())) || !(Regex.isJason(theme.getThemeMasterImg()))
+                || (theme.getMasterItemTag() != null && !(Regex.isJason(theme.getMasterItemTag()))) || (theme.getStartAt().compareTo(theme.getEndAt())>= 0) || theme.getEndAt().compareTo(strNow) <= 0){
             return badRequest();
         }
         //数据验证      ----end
@@ -828,8 +833,11 @@ public class ThemeCtrl extends Controller {
         Theme theme = Json.fromJson(json,Theme.class);
         //数据验证      ----start
         Form<Theme> themeForm = Form.form(Theme.class).bind(json);
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        String strNow = sdfDate.format(now);
         //基本样式不匹配;主图片,商品ID,首页主图,主图标签     不是Json格式
-        if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg()))){
+        if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || (theme.getStartAt().compareTo(theme.getEndAt())>=0) || theme.getEndAt().compareTo(strNow) <= 0){
             return badRequest();
         }
         //数据验证      ----end
