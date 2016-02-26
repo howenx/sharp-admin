@@ -6,7 +6,8 @@
     <script src="/assets/js/moment-with-locales.js"></script>
     <script src="/assets/js/bootstrap.min.js"></script>
     <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
-    <script src="/assets/js/search.js"></script>
+    <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
+    <!--<script src="/assets/js/search.js"></script>-->
     <!-- 此为调用分页所提供的函数名前缀 -->
     <script>window.search_args = 'itemInfoList'</script>
     <script>
@@ -45,18 +46,17 @@
         <div class="form-group">
             <!--开始-->
             <label class="col-sm-2 control-label">修改开始时间</label>
-
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div id="datetimepicker-starttime" class="input-group date">
-                    <input id = "itemInfo-form-starttime" class="form-control col-sm-2"  type="text">
+                    <input id = "itemInfo-form-starttime" class="form-control col-sm-2"  type="text" value="2016-01-28 00:00:00">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
             </div>
             <!--结束-->
             <label class="col-sm-2 control-label">修改结束时间</label>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div id="datetimepicker-endtime" class="input-group date">
-                    <input id = "itemInfo-form-endtime" class="form-control col-sm-2"  type="text">
+                    <input id = "itemInfo-form-endtime" class="form-control col-sm-2"  type="text" value="2016-01-28 10:22:45">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
             </div>
@@ -73,52 +73,31 @@
         <table id="tb-topic" class="table table-bordered table-hover">
             <thead>
             <tr>
-                <!--<th><input type="checkbox" name="selAll">全选</th>-->
                 <th>商品ID</th>
                 <th>货号</th>
                 <th>条形码</th>
                 <th>商品名称</th>
                 <th>商品类目</th>
                 <th>销售价格</th>
-                <th>品牌名称</th>
-                <th>创建日期</th>
+                <th>最后修改日期</th>
                 <th>主图</th>
-
-                <!--<th>SKU ID</th>-->
-                <!--<th>规格编码</th>-->
-                <!--<th>规格名称</th>-->
-                <!--<th>条形码</th>-->
-                <!--<th>销售价格</th>-->
             </tr>
             </thead>
             <tbody>
             @for(itemInfo <- itemInfoList){
             <tr class = "tb-list-data">
                 <!--必须使用tb-list-data类名，公用-->
-                <!--<td><input type="checkbox" name="selectItem"></td>-->
                 <td>@itemInfo.getItemId()</td>
                 <td>@itemInfo.getItemCode()</td>
                 <td>@itemInfo.getBarCode()</td>
                 <td>@itemInfo.getItemName()</td>
                 <td>@itemInfo.getCatName()</td>
                 <td>@itemInfo.getSalesPrice()</td>
-                <td>@if(itemInfo.getBrand()!=null && itemInfo.getBrand()!="" ){@itemInfo.getBrand().getBrandName()}</td>
-                <td>@itemInfo.getCreatedTime().format("yyyy-MM-dd HH:mm:ss")</td>
+                <td>@itemInfo.getUpdateTime().format("yyyy-MM-dd HH:mm:ss")</td>
                 <td><img class="main-img" src="@itemInfo.getPictureUrl()" alt="" width="50"></td>
             </tr>
             }
-
-            <!--@for(skuInfo <- skuInfoList){-->
-            <!--<tr class = "tb-list-data">-->
-                <!--<td>@skuInfo.getSkuId()</td>-->
-                <!--<td>@skuInfo.getSkuCode()</td>-->
-                <!--<td>@skuInfo.getSkuName()</td>-->
-                <!--<td>@skuInfo.getBarCode()</td>-->
-                <!--<td>@skuInfo.getSalesPrice()</td>-->
-            <!--</tr>-->
-            <!--}-->
-
-            <tr id="nodata-td" style="display:none;"><td colspan="13">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            <tr id="nodata-td" style="display:none;"><td colspan="9">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
         <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
@@ -153,29 +132,110 @@
         $("input[name='selectItem']").prop('checked',$(this).prop("checked"));
     });
 
-    /** 导入商品 **/
-    $("#item-import").click(function(){
+    /** 按输入时间条件查询 **/
+    $("#topic-search-bt").click(function(){
+        var searchTime = [];
+        var startTime = $("#itemInfo-form-starttime").val();
+        var endTime = $("#itemInfo-form-endtime").val();
+        //起止时间如果为空
+        if (startTime == '' || startTime == null) {
+            searchTime.push("2015-01-01 00:00:00");
+        }
+        else searchTime.push(startTime);
+        if (endTime == '' || endTime == null) {
+            searchTime.push("2099-12-31 23:59:59");
+        }
+        else searchTime.push(endTime);
         $.ajax({
-            type :  "GET",
-            url : "/comm/import",
-            contentType: "application/json; charset=utf-8",
-            error : function(request) {
-                alert("导入失败");
-            },
+            type: 'POST',
+			url: "/itemInfo/timeSearch",
+			data: JSON.stringify(searchTime),
+			contentType: "application/json; charset=utf-8",
+            error: function(jqXHR) {
+				console.log(jqXHR);
+			},
             success: function(data) {
-                if (data=="导入成功") {
-                    alert(data);
-                }
-                else {
-                    alert("导入异常");
+                //回传结果数据不为空
+				if (data.itemInfoList.length != 0) {
+				    //清空列表数据
+					$('#tb-topic').find('tbody').find(".tb-list-data").remove();
+					//不显示没有数据
+					$('#nodata-td').css('display', 'none');
+					//填充列表数据
+				    $(data.itemInfoList).each(function(index, element) {
+				        var updateTime = $(this)[0].updateTime != null && $(this)[0].updateTime != '' ? new Date($(this)[0].updateTime) : '';
+				        if (updateTime!='')  updateTime = updateTime.getFullYear() + '-' + (updateTime.getMonth() + 1) + '-' + updateTime.getDate() + ' ' + updateTime.getHours() + ':' + updateTime.getMinutes() + ':' + updateTime.getSeconds();
+				        var pictureUrl = $(this)[0].pictureUrl != null && $(this)[0].pictureUrl != '' ? $(this)[0].pictureUrl : '';
+                        $('#tb-topic').find('tbody').append('' +
+                            '<tr class="tb-list-data">' +
+                            '<td>' + $(this)[0].itemId + '</td>' +
+                            '<td>' + $(this)[0].itemCode + '</td>' +
+                            '<td>' + $(this)[0].barCode + '</td>' +
+                            '<td>' + $(this)[0].itemName + '</td>' +
+                            '<td>' + $(this)[0].catName + '</td>' +
+                            '<td>' + $(this)[0].salesPrice + '</td>' +
+                            '<td>' + updateTime +
+                            '<td><img class="main-img" src="' + pictureUrl + '" alt="" width="50"></td>'+
+                            '</tr>'
+                        );
+                    });
+				} else {
+					//清空数据
+					$('#tb-topic').find('tbody').find(".tb-list-data").remove();
+					//回传结果数据为空，显示没有数据
+					$('#nodata-td').css('display', 'table-row');
                 }
             }
         });
     });
 
-    /**
-    $(document).on("click", "#item-import", function() {
-        window.location.href = "/comm/import";
+    /** 导入商品 **/
+    $("#item-import").click(function(){
+        var isPost = true;
+        //导入之前先查看查询导入数据
+        $("#topic-search-bt").trigger("click");
+        var searchTime = [];
+        var startTime = $("#itemInfo-form-starttime").val();
+        var endTime = $("#itemInfo-form-endtime").val();
+        if ((startTime==""||startTime==null) && (endTime==""||endTime==null)) {
+            isPost = false;
+            alert("请设置时间!");
+        }
+        //起止时间如果为空
+        if (startTime == '' || startTime == null) {
+            searchTime.push("2015-01-01 00:00:00");
+        }
+        else searchTime.push(startTime);
+        if (endTime == '' || endTime == null) {
+            searchTime.push("2099-12-31 23:59:59");
+        }
+        else searchTime.push(endTime);
+        if ($('#nodata-td').css('display')=='table-row') {
+            isPost = false;
+            alert("没有数据");
+        } else {
+            if(window.confirm("确定导入吗?")) {
+            } else isPost = false;
+        }
+        if (isPost) {
+            $.ajax({
+                type :  "POST",
+                url : "/comm/import",
+                data: JSON.stringify(searchTime),
+                contentType: "application/json; charset=utf-8",
+                error : function(request) {
+                    alert("导入失败");
+                },
+                success: function(data) {
+                    if (data=="导入成功") {
+                        alert(data);
+                    }
+                    else {
+                        alert("导入异常");
+                    }
+                }
+            });
+        }
     });
-    **/
+
 </script>

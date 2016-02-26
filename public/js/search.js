@@ -146,8 +146,8 @@ $(function() {
                 '<td>' + ($(this)[0].startAt != null && $(this)[0].startAt != '' ? $(this)[0].startAt.substr(0, 16) : '') + '</td>}' +
                 '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 16) : '') + '</td>}' +
                 '<td>' + $(this)[0].restAmount + '</td>' +
-                '<td>' + state + '</td>' +
                 '<td>' + orMasterInv + '</td>' +
+                '<td>' + state + '</td>' +
                 '</tr>'
             );
 		})

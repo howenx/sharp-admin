@@ -3,13 +3,16 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.iwilley.b1ec2.api.ApiException;
 import com.iwilley.b1ec2.api.domain.ItemInfo;
+import com.iwilley.b1ec2.api.domain.ShopSkuPushLine;
 import com.iwilley.b1ec2.api.domain.SkuInfo;
+import com.iwilley.b1ec2.api.request.ShopItemPushRequest;
 import entity.Inventory;
 import entity.Item;
 import entity.User;
 import entity.erp.ShopItemOperate;
 import filters.UserAuth;
 import play.Logger;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -22,7 +25,9 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Sunny Wu 16/2/23.
@@ -49,20 +54,49 @@ public class ShopItemCtrl extends Controller {
         String endTime = "2016-01-28 10:22:45";
         List<ItemInfo> itemInfoList = shopItemOperate.ItemInfoQuery(startTime, endTime);
         List<SkuInfo> skuInfoList = new ArrayList<>();
-        for(ItemInfo itemInfo : itemInfoList) {
-            for(SkuInfo skuInfo : itemInfo.getLines()) {
-                skuInfoList.add(skuInfo);
-            }
-        }
+//        for(ItemInfo itemInfo : itemInfoList) {
+//            for(SkuInfo skuInfo : itemInfo.getLines()) {
+//                skuInfoList.add(skuInfo);
+//            }
+//        }
         int pageSize = 10;
         //取总数
         int countNum = itemInfoList.size();
         int skuNum = skuInfoList.size();
-        Logger.error("商品"+countNum);
-        Logger.error("sku"+skuNum);
         //共分几页
         int pageCount = (int) Math.ceil((double) countNum / pageSize);
         return ok(views.html.item.erp_itemlist.render(lang,itemInfoList,skuInfoList,ThemeCtrl.PAGE_SIZE,countNum,pageCount, (User)ctx().args.get("user")));
+    }
+
+    /**
+     * 按照输入的时间查询条件查询商品资料
+     * @param lang 语言
+     * @return map
+     * @throws ParseException
+     * @throws ApiException
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result itemInfoTimeSearch(String lang) throws ParseException, ApiException {
+        JsonNode json = request().body().asJson();
+        String startTime = json.get(0).asText();
+        String endTime = json.get(1).asText();
+        ShopItemOperate shopItemOperate = new ShopItemOperate();
+        List<ItemInfo> itemInfoList = shopItemOperate.ItemInfoQuery(startTime, endTime);
+        Map<String,Object> returnMap=new HashMap<>();
+        returnMap.put("itemInfoList",itemInfoList);
+        return ok(Json.toJson(returnMap));
+    }
+
+    /**
+     * ERP 商品资料分页查询
+     * @param lang 语言
+     * @param pageNum 当前页
+     * @return json
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result itemInfoSearchAjax(String lang, int pageNum) {
+
+        return ok();
     }
 
     /**
@@ -71,11 +105,20 @@ public class ShopItemCtrl extends Controller {
      * @throws ParseException
      * @throws ApiException
      */
-//    @Security.Authenticated(UserAuth.class)
+    @Security.Authenticated(UserAuth.class)
     public Result itemImport() throws ParseException, ApiException {
         ShopItemOperate shopItemOperate = new ShopItemOperate();
-        String startTime = "2016-01-28 00:00:00";
-        String endTime = "2016-01-28 10:22:45";
+        JsonNode json = request().body().asJson();
+        String startTime = "";
+        String endTime = "";
+        if (null==json||"".equals(json)) {
+            startTime = "2016-01-28 00:00:00";
+            endTime = "2016-01-28 10:22:45";
+        } else {
+            Logger.error("导入时间"+json.asText());
+            startTime = json.get(0).asText();
+            endTime = json.get(1).asText();
+        }
         List<ItemInfo> itemInfoList = shopItemOperate.ItemInfoQuery(startTime, endTime);
         //查询所有的库存数据
         List<Inventory> invList = inventoryService.getAllInventories();
@@ -140,29 +183,40 @@ public class ShopItemCtrl extends Controller {
      * @return
      */
     @Security.Authenticated(UserAuth.class)
-    public Result shopItemPush(){
+    public Result shopItemPush() throws ApiException, ParseException {
+        ShopItemOperate shopItemOperate = new ShopItemOperate();
         JsonNode json = request().body().asJson();
-        Logger.error(json.toString());
         Long itemIds[] = new Long[json.size()];
-//        for(int i=0;i<json.size();i++){
-//            itemIds[i] = (json.get(i)).asLong();
-//            Item item = itemService.getItem(itemIds[i]);
-//            List<Inventory> invList = inventoryService.getInventoriesByItemId(itemIds[0]);
-//
-//        }
-
-        return ok();
+        List<String> shopItemCodeList = new ArrayList<>();
+        for(int i=0;i<json.size();i++){
+            itemIds[i] = (json.get(i)).asLong();
+            Item item = itemService.getItem(itemIds[i]);
+            List<Inventory> invList = inventoryService.getInventoriesByItemId(itemIds[i]);
+            ShopItemPushRequest request = new ShopItemPushRequest();
+            request.setShopItemCode(item.getId().toString());//宝贝编码
+            request.setShopId(1);                           //店铺Id
+            request.setStatus("在售中");                     //上架状态
+            request.setCreatedTime(item.getCreateAt());     //创建时间
+            request.setUpdateTime(null==item.getUpdateAt()?item.getCreateAt():item.getUpdateAt());//修改时间
+            request.setShopItemName(item.getItemTitle());   //宝贝名称
+            request.setOuterId(invList.get(0).getInvCode());//商家编码
+            List<ShopSkuPushLine> lineList = new ArrayList<ShopSkuPushLine>();//sku信息
+            for(Inventory inventory : invList) {
+                ShopSkuPushLine shopSkuPushLine = new ShopSkuPushLine();
+                shopSkuPushLine.shopSkuCode = inventory.getId().toString();//网店skuCode
+                shopSkuPushLine.outerId = inventory.getInvCode();          //商家代码
+                shopSkuPushLine.property1 = inventory.getItemColor();      //平台属性1(颜色)
+                shopSkuPushLine.property2 = inventory.getItemSize();       //平台属性2(尺寸)
+                shopSkuPushLine.price = inventory.getItemPrice().doubleValue();//价格
+                shopSkuPushLine.weight = inventory.getInvWeight()/1000.0;      //重量(千克)
+                shopSkuPushLine.quantity = inventory.getAmount();              //数量
+                lineList.add(shopSkuPushLine);
+            }
+            request.setSkusInfo(lineList);
+            String shopItemCode = shopItemOperate.ShopItemPush(request);
+            shopItemCodeList.add(shopItemCode);
+        }
+        return ok(shopItemCodeList.toString());
     }
 
-    /**
-     * ERP 商品资料分页查询
-     * @param lang 语言
-     * @param pageNum 当前页
-     * @return json
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result itemInfoSearchAjax(String lang, int pageNum) {
-
-        return ok();
-    }
 }

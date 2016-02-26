@@ -440,7 +440,7 @@ $(function(){
     /** 预览图 点击移除的操作 **/
     $(document).on('click','.preview-img .close',function(){
         //商品预览图小于6张时恢复上传功能
-        if (document.getElementById(id).getElementsByTagName("div").length==6) {
+        if (document.getElementById("galleryP").getElementsByTagName("div").length==2) {
             $("#P").parent().css("display","inline-block");
         }
         $(this).parent().remove();
@@ -486,7 +486,7 @@ $(function(){
          }
 
          //商品预览图最多为6张
-         if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==6) {
+         if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==2) {
             $("#"+id).parent().css("display","none");
          }
 
