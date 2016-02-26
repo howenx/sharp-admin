@@ -3,7 +3,7 @@ package middle;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.*;
-import play.Logger;
+import entity.pingou.PinSku;
 import play.libs.Json;
 import service.*;
 
@@ -26,13 +26,17 @@ public class ItemMiddle {
     public static VaryPriceService varyPriceService;
     public static DataLogService dataLogService;
     public static ItemStatisService itemStatisService;
+    public static PingouService pingouService;
+    public static SubjectPriceService subjectPriceService;
 
-    public ItemMiddle(ItemService itemService, InventoryService inventoryService, VaryPriceService varyPriceService, DataLogService dataLogService, ItemStatisService itemStatisService) {
+    public ItemMiddle(ItemService itemService, InventoryService inventoryService, VaryPriceService varyPriceService, DataLogService dataLogService, ItemStatisService itemStatisService, PingouService pingouService, SubjectPriceService subjectPriceService) {
         this.itemService = itemService;
         this.inventoryService = inventoryService;
         this.varyPriceService = varyPriceService;
         this.dataLogService = dataLogService;
         this.itemStatisService = itemStatisService;
+        this.pingouService = pingouService;
+        this.subjectPriceService = subjectPriceService;
     }
 
     /**
@@ -104,7 +108,7 @@ public class ItemMiddle {
         //往inventories表插入数据
         if (json.has("inventories")) {
             for(final JsonNode jsonNode : json.findValue("inventories")) {
-                Logger.error("库存数据:"+jsonNode);
+//                Logger.error("库存数据:"+jsonNode);
                 Inventory inventory = new Inventory();
                 if (jsonNode.has("inventory")) {
                     JsonNode jsonInv = jsonNode.findValue("inventory");
@@ -121,7 +125,21 @@ public class ItemMiddle {
                         inventory.setShareCount(originInv.getShareCount());
                         inventory.setCollectCount(originInv.getCollectCount());
                         inventory.setBrowseCount(originInv.getBrowseCount());
+                        //修改SKU
                         inventoryService.updateInventory(inventory);
+                        //修改pin_sku表中状态(获取PinSku,更新状态)
+                        List<PinSku> pinSkuList = pingouService.getPinSkuByInvId(inventory.getId());
+                        for(PinSku pinSku : pinSkuList) {
+                            pinSku.setStatus(inventory.getState());
+                            pingouService.updatePinSku(pinSku);
+                        }
+                        //修改subject_price表中状态(获取SubjectPrice,更新状态)
+                        List<SubjectPrice> subjectPriceList = subjectPriceService.getSbjPriceByInvId(inventory.getId());
+                        for(SubjectPrice subjectPrice : subjectPriceList) {
+//                            subjectPrice.setState(inventory.getState());
+                            subjectPriceService.sbjPriceUpd(subjectPrice);
+                        }
+
                     }
                     //录入库存信息
                     else {
@@ -129,7 +147,6 @@ public class ItemMiddle {
 //                        inventory.setState("Y");
 //                    Logger.error("sku信息:"+inventory);
                         inventoryService.insertInventory(inventory);
-                        Logger.error("录入一条库存:"+inventory.getId());
                         String createDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
                         itemStatis.setCreateDate(createDate);
                         itemStatis.setSkuId(inventory.getId());
@@ -145,6 +162,10 @@ public class ItemMiddle {
                         VaryPrice varyPrice = Json.fromJson(varyPriceNode, VaryPrice.class);
                         varyPrice.setInvId(inventory.getId());
 //                        varyPrice.setStatus("Y");
+                        //多样化价格的状态和SKU的状态一致
+                        if (inventory.getState()!="Y") {
+                            varyPrice.setStatus(inventory.getState());
+                        }
                         //更新多样化价格信息
                         if (varyPriceNode.has("id")) {
                             VaryPrice originVp = varyPriceService.getVaryPriceById(varyPrice.getId());

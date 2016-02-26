@@ -41,6 +41,7 @@ public interface SubjectPriceMapper {
      */
     SubjectPrice getSbjPriceById(Long id);
 
+
     /**
      * 通过ID令多元化价格商品下架       Added by Tiffany Zhu 2016.02.26
      * @param id
@@ -52,4 +53,13 @@ public interface SubjectPriceMapper {
      * @param themeId
      */
     void updStateByThemeId(Long themeId);
+
+
+    /**
+     * 由invId获取多元化价格     Added By Sunny.Wu 2016.02.26
+     * @param invId 库存Id
+     * @return List of SubjectPrice
+     */
+    List<SubjectPrice> getSbjPriceByInvId(Long invId);
+
 }

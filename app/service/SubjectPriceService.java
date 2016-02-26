@@ -32,6 +32,7 @@ public interface SubjectPriceService {
      * 通过ID令多元化价格商品下架       Added by Tiffany Zhu 2016.02.26
      * @param id
      */
+
     void updStateById(Long id);
 
     /**
@@ -39,5 +40,19 @@ public interface SubjectPriceService {
      * @param themeId
      */
     void updStateByThemeId(Long themeId);
+
+
+    /**
+     * 由invId获取多元化价格     Added By Sunny.Wu 2016.02.26
+     * @param invId 库存Id
+     * @return List of SubjectPrice
+     */
+    List<SubjectPrice> getSbjPriceByInvId(Long invId);
+
+    /**
+     * 更新多元化价格          Added By Sunny.Wu 2016.02.26
+     * @param subjectPrice
+     */
+    void sbjPriceUpd(SubjectPrice subjectPrice);
 
 }

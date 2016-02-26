@@ -59,4 +59,15 @@
         set state = 'D' where theme_id = #{value}
     </update>
 
+
+    <!-- 由inv_id 获取一条记录         Add By Sunny.Wu 2016/02/26-->
+    <select id="getSbjPriceByInvId" parameterType="java.lang.Long" resultType="entity.SubjectPrice">
+        select
+        <include refid="subjectPriceColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from subject_price t where inv_id = #{value}
+    </select>
+
+
 </mapper>
