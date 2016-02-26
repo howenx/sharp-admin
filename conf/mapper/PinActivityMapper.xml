@@ -35,7 +35,7 @@
         <include refid="pinActivityColumns">
             <property name="alias" value="t"/>
         </include>
-        from pin_activity t where pin_active_id = ${value}
+        from pin_activity t where pin_active_id = #{value}
     </select>
 
     <select id="getPinActivityPage" parameterType="entity.pingou.PinActivity" resultType="entity.pingou.PinActivity">
@@ -71,7 +71,7 @@
         <include refid="pinActivityColumns">
             <property name="alias" value="t"/>
         </include>
-        from pin_activity t where pin_id = ${value}
+        from pin_activity t where pin_id = #{value}
     </select>
 
     <update id="updJoinPersonById" parameterType="java.util.HashMap">
@@ -110,7 +110,7 @@
         <include refid="pinCouponColumns">
             <property name="alias" value="t"/>
         </include>
-        from pin_coupon t where pin_active_id = ${value}
+        from pin_coupon t where pin_active_id = #{value}
     </select>
 
 
@@ -144,7 +144,7 @@
         <include refid="pinUserColumns">
             <property name="alias" value="t"/>
         </include>
-        from pin_user t where pin_active_id = ${value}
+        from pin_user t where pin_active_id = #{value}
     </select>
 
 </mapper>

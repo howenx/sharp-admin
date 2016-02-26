@@ -26,6 +26,6 @@
         <include refid="orderSplitColumns">
             <property name="alias" value="t"/>
         </include>
-        from order_split t where order_id = ${value}
+        from order_split t where order_id = #{value}
     </select>
 </mapper>

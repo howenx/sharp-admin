@@ -27,7 +27,7 @@
         <include refid="subjectPriceColumns">
             <property name="alias" value="t"/>
         </include>
-        from subject_price t where theme_id = ${value}
+        from subject_price t where theme_id = #{value}
     </select>
 
     <select id="getSbjPriceById" parameterType="java.lang.Long" resultType="entity.SubjectPrice">
@@ -35,7 +35,7 @@
         <include refid="subjectPriceColumns">
             <property name="alias" value="t"/>
         </include>
-        from subject_price t where id = ${value}
+        from subject_price t where id = #{value}
     </select>
 
     <insert id="sbjPriceAdd" parameterType="entity.SubjectPrice" useGeneratedKeys="true" keyProperty="id">
@@ -50,10 +50,10 @@
     </update>
 
     <delete id="sbjPriceDelById" parameterType="java.lang.Long">
-        delete from subject_price where id = ${value}
+        delete from subject_price where id = #{value}
     </delete>
     <delete id="sbjPriceDelByThemeId" parameterType="java.lang.Long">
-        delete from subject_price where theme_id = ${value}
+        delete from subject_price where theme_id = #{value}
     </delete>
 
 </mapper>

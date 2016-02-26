@@ -18,7 +18,7 @@
         <include refid="orderShipColumns">
             <property name="alias" value="t"></property>
         </include>
-        from sp_order_ship t where order_id = ${value}
+        from sp_order_ship t where order_id = #{value}
     </select>
 
 </mapper>

@@ -31,7 +31,7 @@
         update pin_sku
         set pin_img=#{pinImg},status=#{status},update_at = CURRENT_TIMESTAMP(0),pin_title=#{pinTitle},start_at=#{startAt}::timestamp,
         end_at=#{endAt}::timestamp,restrict_amount=#{restrictAmount},floor_price=#{floorPrice},inv_id=#{invId},pin_discount=#{pinDiscount}
-        where pin_id = ${pinId}
+        where pin_id = #{pinId}
     </update>
 
     <select id="getPinSkuAll" resultType="entity.pingou.PinSku">
@@ -76,7 +76,7 @@
         <include refid="pinSkuColumns">
             <property name="alias" value="t"/>
         </include>
-        from pin_sku t where pin_id = ${value}
+        from pin_sku t where pin_id = #{value}
     </select>
     <update id="updPinThemeId" parameterType="entity.pingou.PinSku">
         update pin_sku
@@ -125,7 +125,7 @@
         <include refid="tieredPriceColumns">
             <property name="alias" value="t"/>
         </include>
-        from pin_tiered_price t where pin_id = ${value}
+        from pin_tiered_price t where pin_id = #{value}
     </select>
 
     <update id="updTieredPrice" parameterType="java.util.List">
@@ -151,6 +151,6 @@
         <include refid="tieredPriceColumns">
             <property name="alias" value="t"/>
         </include>
-        from pin_tiered_price t where id = ${value}
+        from pin_tiered_price t where id = #{value}
     </select>
 </mapper>

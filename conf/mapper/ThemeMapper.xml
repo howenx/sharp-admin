@@ -43,7 +43,7 @@
 
         <delete id="deleteSlider" parameterType="java.lang.Long">
                 delete from slider
-                where id = ${value}
+                where id = #{value}
         </delete>
 
         <!---  主题    -->
@@ -120,7 +120,7 @@
                 <include refid="themeColumns">
                         <property name="alias" value="t"/>
                 </include>
-                from themes t where id = ${value}
+                from themes t where id = #{value}
 
         </select>
 
