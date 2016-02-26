@@ -21,13 +21,13 @@ import java.util.List;
  */
 public class ItemMiddle {
 
-    public ItemService itemService;
-    public InventoryService inventoryService;
-    public VaryPriceService varyPriceService;
-    public DataLogService dataLogService;
-    public ItemStatisService itemStatisService;
-    public PingouService pingouService;
-    public SubjectPriceService subjectPriceService;
+    public static ItemService itemService;
+    public static InventoryService inventoryService;
+    public static VaryPriceService varyPriceService;
+    public static DataLogService dataLogService;
+    public static ItemStatisService itemStatisService;
+    public static PingouService pingouService;
+    public static SubjectPriceService subjectPriceService;
 
     public ItemMiddle(ItemService itemService, InventoryService inventoryService, VaryPriceService varyPriceService, DataLogService dataLogService, ItemStatisService itemStatisService, PingouService pingouService, SubjectPriceService subjectPriceService) {
         this.itemService = itemService;
@@ -46,7 +46,7 @@ public class ItemMiddle {
      * @param operateIp 操作人员ip
      * @return
      */
-    public List<Long> itemSave(JsonNode json, String enNm, String operateIp) {
+    public static List<Long> itemSave(JsonNode json, String enNm, String operateIp) {
         List<Long> list = new ArrayList<>();
         Item item = new Item();
         //日志信息
