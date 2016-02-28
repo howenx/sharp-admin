@@ -40,6 +40,19 @@ libraryDependencies += "org.apache.commons" % "commons-email" % "1.4" withSource
 
 libraryDependencies += "com.squareup.okhttp" % "okhttp" % "2.7.2"
 
+libraryDependencies += "com.typesafe.akka" % "akka-actor_2.11" % "2.4.1" withSources() withJavadoc()
+
+libraryDependencies += "com.typesafe.akka" % "akka-kernel_2.11" % "2.4.1" withSources() withJavadoc()
+
+libraryDependencies += "com.typesafe.akka" % "akka-slf4j_2.11" % "2.4.1" withSources() withJavadoc()
+
+libraryDependencies += "com.typesafe.akka" %% "akka-remote" % "2.4.1" withSources() withJavadoc()
+
+libraryDependencies ++= Seq(
+  "com.typesafe.akka" %% "akka-persistence" % "2.4.1",
+  "org.iq80.leveldb" % "leveldb" % "0.7",
+  "org.fusesource.leveldbjni" % "leveldbjni-all" % "1.8"
+)
 
 // 检查代码中使用的过时类细节
 javacOptions += "-Xlint:deprecation"

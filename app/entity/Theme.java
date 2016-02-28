@@ -2,12 +2,10 @@ package entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import play.data.validation.Constraints;
-import tool.Regex;
+import util.Regex;
 
-import javax.annotation.MatchesPattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 /**

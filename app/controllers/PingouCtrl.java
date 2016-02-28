@@ -13,7 +13,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import service.PingouService;
-import tool.Regex;
+import util.Regex;
 
 import java.text.SimpleDateFormat;
 import java.util.*;

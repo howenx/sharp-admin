@@ -14,7 +14,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import service.*;
-import tool.Regex;
+import util.Regex;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;

@@ -1,29 +1,38 @@
 package controllers;
 
+import akka.actor.ActorRef;
+import akka.actor.ActorSelection;
+import akka.actor.ActorSystem;
+import akka.util.Timeout;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import entity.AdminUser;
-import entity.ID;
-import entity.User;
-import entity.User_Type;
+import entity.*;
 import filters.UserAuth;
+import modules.LevelFactory;
+import modules.NewScheduler;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
 import play.Configuration;
 import play.Logger;
+import play.api.libs.Codecs;
 import play.cache.Cache;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import scala.Option;
+import scala.concurrent.Await;
+import scala.concurrent.Future;
+import scala.concurrent.duration.Duration;
 import service.AdminUserService;
 import service.IDService;
 
 import javax.inject.Inject;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -41,6 +50,17 @@ public class AdminUserCtrl extends Controller {
 
     @Inject
     Configuration configuration;
+
+    @Inject
+    private NewScheduler newScheduler;
+
+    @Inject
+    private LevelFactory levelFactory;
+
+    @Inject
+    private ActorSystem system;
+
+    public static final Timeout TIMEOUT = new Timeout(100, TimeUnit.MILLISECONDS);
 
     /**
      * 添加管理员用户
@@ -289,5 +309,40 @@ public class AdminUserCtrl extends Controller {
         List<ID> idList = idService.getAllID();
         String IMAGE_URL = "http://img.hanmimei.com";
         return ok(views.html.coupon.coupaddPop.render(idList,IMAGE_URL));
+    }
+
+
+    /**
+     * 处理系统启动时候去做第一次请求,完成对定时任务的执行
+     *
+     * @return string
+     */
+    public Result getFirstApp(String cipher) {
+        if (Codecs.md5("hmm-100901".getBytes()).equals(cipher)) {
+            List<Persist> persists;
+            try {
+                persists = levelFactory.iterator();
+                if (persists != null && persists.size() > 0) {
+                    Logger.info("遍历所有持久化schedule---->\n" + persists);
+                    for (Persist p : persists) {
+                        Long time = p.getDelay() - (new Date().getTime() - p.getCreateAt().getTime());
+                        Logger.info("重启后schedule执行时间---> " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(new Date().getTime()+time)));
+                        if (time > 0) {
+                            ActorSelection sel = system.actorSelection(p.getActorPath());
+                            Future<ActorRef> fut = sel.resolveOne(TIMEOUT);
+                            ActorRef ref = Await.result(fut, TIMEOUT.duration());
+                            newScheduler.scheduleOnce(Duration.create(time, TimeUnit.MILLISECONDS), ref, p.getMessage());
+                        } else {
+                            levelFactory.delete(p.getMessage());
+                            system.actorSelection(p.getActorPath()).tell(p.getMessage(), ActorRef.noSender());
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                return notFound("error");
+            }
+            return ok("success");
+        } else throw new NullPointerException(cipher);
     }
 }

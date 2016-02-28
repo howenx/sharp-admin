@@ -2,7 +2,7 @@ package entity.pingou;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import play.data.validation.Constraints;
-import tool.Regex;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;

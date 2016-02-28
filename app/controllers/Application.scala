@@ -761,11 +761,11 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
   def upload() = withUser { user => {
     implicit request => {
-      Option(request.body.asMultipartFormData) match {
+      request.body.asMultipartFormData match {
 
         case Some(map) =>
           //var filename: String = null
-          map.get.files.map { f =>
+          map.files.map { f =>
             Logger.debug("update file " + f.filename)
             val filein = new FileInputStream(f.ref.file)
             val workbook = new XSSFWorkbook(filein)
@@ -794,6 +794,8 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
             }
 
           }
+        case None =>
+          BadRequest("append error")
       }
     }
       Redirect(routes.Application.list_supply(None,None))

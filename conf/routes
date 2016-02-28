@@ -2,10 +2,8 @@
 # 为了减少merge请覆盖空白行进行添加
 
 # Home page
-GET				/front                                                  controllers.Application.welcome(lang= "cn")
-GET				/$lang<(cn|en|kr)>/front                                controllers.Application.welcome(lang)
-#GET				/summary                                                controllers.Application.summary
-
+GET         /front                                                         controllers.Application.welcome(lang= "cn")
+GET         /$lang<(cn|en|kr)>/front                                       controllers.Application.welcome(lang)
 
 
 
@@ -14,39 +12,38 @@ GET				/$lang<(cn|en|kr)>/front                                controllers.Appli
 
 
 #app启动时定时
-GET           /client/schedule/:cipher                                                  controllers.VersionCtrl.getFirstApp(cipher:String)
-# Map static resources from the /public folder to the /assets URL path
-GET             /assets/*file                 controllers.Assets.versioned(path="/public", file: Asset)
+GET         /schedule/:cipher                                              controllers.AdminUserCtrl.getFirstApp(cipher:String)
+GET         /assets/*file                                                  controllers.Assets.versioned(path="/public", file: Asset)
 
 
 
 
 
 # Theme--->topic, 主题 为了不使url暴露代码内部用名
-GET             /topic/slider                                               controllers.ThemeCtrl.slider(lang = "cn")
-GET             /$lang<(cn|en|kr)>/topic/slider                             controllers.ThemeCtrl.slider(lang)
-GET             /topic/slider/popup                                         controllers.ThemeCtrl.sliderPop()
-POST            /topic/slider/update                                        controllers.ThemeCtrl.sliderSave(lang ="cn")
-POST            /$lang<(cn|en|kr)>/topic/slider/update                      controllers.ThemeCtrl.sliderSave(lang)
-GET             /topic/add                                                  controllers.ThemeCtrl.thadd(lang = "cn")
-GET             /$lang<(cn|en|kr)>/topic/add                                controllers.ThemeCtrl.thadd(lang)
-GET             /topic/add/popup                                            controllers.ThemeCtrl.thaddPop()
-GET             /topic/search                                               controllers.ThemeCtrl.thsearch(lang ="cn")
-GET             /$lang<(cn|en|kr)>/topic/search                             controllers.ThemeCtrl.thsearch(lang)
-POST            /topic/search/$pageNum<[0-9]+>                              controllers.ThemeCtrl.thsearchAjax(lang ="cn",pageNum:Int)
-POST            /$lang<(cn|en|kr)>/topic/search/$pageNum<[0-9]+>            controllers.ThemeCtrl.thsearchAjax(lang,pageNum:Int)
-POST            /topic/add/themeSave                                        controllers.ThemeCtrl.themeSave(lang = "cn")
-POST            /$lang<(cn|en|kr)>/topic/add/themeSave                      controllers.ThemeCtrl.themeSave(lang)
-GET             /topic/updateById/:id                                       controllers.ThemeCtrl.updateThemeById(lang = "cn",id:Long)
-GET             /$lang<(cn|en|kr)>/topic/updateById/:id                     controllers.ThemeCtrl.updateThemeById(lang,id:Long)
-GET             /topic/add/templates                                        controllers.ThemeCtrl.themeTemplates(lang ="cn")
-GET             /$lang<(cn|en|kr)>/topic/add/templates                      controllers.ThemeCtrl.themeTemplates(lang)
-POST            /topic/templates/save                                       controllers.ThemeCtrl.themeTemplateSave(lang ="cn")
-POST            /$lang<(cn|en|kr)>/topic/templates/save                     controllers.ThemeCtrl.themeTemplateSave(lang)
-GET             /topic/h5Add                                                controllers.ThemeCtrl.addH5Theme(lang = "cn")
-GET             /$lang<(cn|en|kr)>/topic/h5Add                              controllers.ThemeCtrl.addH5Theme(lang)
-POST            /topic/add/h5ThemeSave                                      controllers.ThemeCtrl.h5ThemeSave(lang = "cn")
-POST            /$lang<(cn|en|kr)>/topic/add/h5ThemeSave                    controllers.ThemeCtrl.h5ThemeSave(lang)
+GET         /topic/slider                                                  controllers.ThemeCtrl.slider(lang = "cn")
+GET         /$lang<(cn|en|kr)>/topic/slider                                controllers.ThemeCtrl.slider(lang)
+GET         /topic/slider/popup                                            controllers.ThemeCtrl.sliderPop()
+POST        /topic/slider/update                                           controllers.ThemeCtrl.sliderSave(lang ="cn")
+POST        /$lang<(cn|en|kr)>/topic/slider/update                         controllers.ThemeCtrl.sliderSave(lang)
+GET         /topic/add                                                     controllers.ThemeCtrl.thadd(lang = "cn")
+GET         /$lang<(cn|en|kr)>/topic/add                                   controllers.ThemeCtrl.thadd(lang)
+GET         /topic/add/popup                                               controllers.ThemeCtrl.thaddPop()
+GET         /topic/search                                                  controllers.ThemeCtrl.thsearch(lang ="cn")
+GET         /$lang<(cn|en|kr)>/topic/search                                controllers.ThemeCtrl.thsearch(lang)
+POST        /topic/search/$pageNum<[0-9]+>                                 controllers.ThemeCtrl.thsearchAjax(lang ="cn",pageNum:Int)
+POST        /$lang<(cn|en|kr)>/topic/search/$pageNum<[0-9]+>               controllers.ThemeCtrl.thsearchAjax(lang,pageNum:Int)
+POST        /topic/add/themeSave                                           controllers.ThemeCtrl.themeSave(lang = "cn")
+POST        /$lang<(cn|en|kr)>/topic/add/themeSave                         controllers.ThemeCtrl.themeSave(lang)
+GET         /topic/updateById/:id                                          controllers.ThemeCtrl.updateThemeById(lang = "cn",id:Long)
+GET         /$lang<(cn|en|kr)>/topic/updateById/:id                        controllers.ThemeCtrl.updateThemeById(lang,id:Long)
+GET         /topic/add/templates                                           controllers.ThemeCtrl.themeTemplates(lang ="cn")
+GET         /$lang<(cn|en|kr)>/topic/add/templates                         controllers.ThemeCtrl.themeTemplates(lang)
+POST        /topic/templates/save                                          controllers.ThemeCtrl.themeTemplateSave(lang ="cn")
+POST        /$lang<(cn|en|kr)>/topic/templates/save                        controllers.ThemeCtrl.themeTemplateSave(lang)
+GET         /topic/h5Add                                                   controllers.ThemeCtrl.addH5Theme(lang = "cn")
+GET         /$lang<(cn|en|kr)>/topic/h5Add                                 controllers.ThemeCtrl.addH5Theme(lang)
+POST        /topic/add/h5ThemeSave                                         controllers.ThemeCtrl.h5ThemeSave(lang = "cn")
+POST        /$lang<(cn|en|kr)>/topic/add/h5ThemeSave                       controllers.ThemeCtrl.h5ThemeSave(lang)
 
 
 
@@ -56,60 +53,60 @@ POST            /$lang<(cn|en|kr)>/topic/add/h5ThemeSave                    cont
 
 
 #Item -----> commodity,简写comm 商品
-GET             /getSubcates                                                controllers.ItemCtrl.getSubCategory
-GET             /comm/pop                                                   controllers.ItemCtrl.itemAddPop()
-GET             /comm/search                                                controllers.ItemCtrl.itemSearch(lang ="cn")
-GET             /$lang<(cn|en|kr)>/comm/search                              controllers.ItemCtrl.itemSearch(lang)
-POST            /comm/search/$pageNum<[0-9]+>                               controllers.ItemCtrl.itemSearchAjax(lang ="cn",pageNum:Int)
-POST            /$lang<(cn|en|kr)>/comm/search/$pageNum<[0-9]+>             controllers.ItemCtrl.itemSearchAjax(lang,pageNum:Int)
-GET             /comm/add                                                   controllers.ItemCtrl.itemCreate(lang="cn")
-GET             /$lang<cn|en|kr>/comm/add                                   controllers.ItemCtrl.itemCreate(lang)
-POST            /comm/itemSave                                              controllers.ItemCtrl.itemSave
-GET             /comm/findById/:id                                          controllers.ItemCtrl.findItemById(lang = "cn",id:Long)
-GET             /$lang<(cn|en|kr)>/comm/findById/:id                        controllers.ItemCtrl.findItemById(lang,id:Long)
-GET             /comm/updateById/:id                                        controllers.ItemCtrl.updateItemById(lang = "cn",id:Long)
-GET             /$lang<(cn|en|kr)>/comm/updateById/:id                      controllers.ItemCtrl.updateItemById(lang,id:Long)
+GET         /getSubcates                                                   controllers.ItemCtrl.getSubCategory
+GET         /comm/pop                                                      controllers.ItemCtrl.itemAddPop()
+GET         /comm/search                                                   controllers.ItemCtrl.itemSearch(lang ="cn")
+GET         /$lang<(cn|en|kr)>/comm/search                                 controllers.ItemCtrl.itemSearch(lang)
+POST        /comm/search/$pageNum<[0-9]+>                                  controllers.ItemCtrl.itemSearchAjax(lang ="cn",pageNum:Int)
+POST        /$lang<(cn|en|kr)>/comm/search/$pageNum<[0-9]+>                controllers.ItemCtrl.itemSearchAjax(lang,pageNum:Int)
+GET         /comm/add                                                      controllers.ItemCtrl.itemCreate(lang="cn")
+GET         /$lang<cn|en|kr>/comm/add                                      controllers.ItemCtrl.itemCreate(lang)
+POST        /comm/itemSave                                                 controllers.ItemCtrl.itemSave
+GET         /comm/findById/:id                                             controllers.ItemCtrl.findItemById(lang = "cn",id:Long)
+GET         /$lang<(cn|en|kr)>/comm/findById/:id                           controllers.ItemCtrl.findItemById(lang,id:Long)
+GET         /comm/updateById/:id                                           controllers.ItemCtrl.updateItemById(lang = "cn",id:Long)
+GET         /$lang<(cn|en|kr)>/comm/updateById/:id                         controllers.ItemCtrl.updateItemById(lang,id:Long)
 
 
 
 
 #erp中商品,订单
-GET             /itemInfo/search                                            controllers.ShopItemCtrl.itemInfoList(lang="cn")
-POST            /itemInfo/timeSearch                                        controllers.ShopItemCtrl.itemInfoTimeSearch(lang="cn")
-POST            /itemInfo/search/$pageNum<[0-9]+>                           controllers.ShopItemCtrl.itemInfoSearchAjax(lang ="cn",pageNum:Int)
-POST            /$lang<(cn|en|kr)>/itemInfo/search/$pageNum<[0-9]+>         controllers.ShopItemCtrl.itemInfoSearchAjax(lang, pageNum:Int)
-POST            /shopItem/push                                              controllers.ShopItemCtrl.shopItemPush
-POST            /comm/import                                                controllers.ShopItemCtrl.itemImport
-GET             /shopOrder/push                                             controllers.ShopOrderCtrl.shopOrderPush
+GET         /itemInfo/search                                               controllers.ShopItemCtrl.itemInfoList(lang="cn")
+POST        /itemInfo/timeSearch                                           controllers.ShopItemCtrl.itemInfoTimeSearch(lang="cn")
+POST        /itemInfo/search/$pageNum<[0-9]+>                              controllers.ShopItemCtrl.itemInfoSearchAjax(lang ="cn",pageNum:Int)
+POST        /$lang<(cn|en|kr)>/itemInfo/search/$pageNum<[0-9]+>            controllers.ShopItemCtrl.itemInfoSearchAjax(lang, pageNum:Int)
+POST        /shopItem/push                                                 controllers.ShopItemCtrl.shopItemPush
+POST        /comm/import                                                   controllers.ShopItemCtrl.itemImport
+GET         /shopOrder/push                                                controllers.ShopOrderCtrl.shopOrderPush
 
 
 
 #Carriage --> carr 运费模板设置
-GET             /carr/search                                                controllers.ItemCtrl.carrModelSearch(lang = "cn")
-GET             /$lang<(cn|en|kr)>/carr/search                              controllers.ItemCtrl.carrModelSearch(lang)
-GET             /carr/add                                                   controllers.ItemCtrl.carrCreate(lang="cn")
-GET             /$lang<(cn|en|kr)>/carr/add                                 controllers.ItemCtrl.carrCreate(lang)
-POST            /carr/carrSave                                              controllers.ItemCtrl.carrSave()
-GET             /carr/pop                                                   controllers.ItemCtrl.carrPop()
-GET             /carr/findModel/:modelCode                                  controllers.ItemCtrl.findModel(lang="cn",modelCode:String)
-GET             /$lang<(cn|en|kr)>/carr/findModel/:modelCode                controllers.ItemCtrl.findModel(lang,modelCode:String)
-GET             /carr/delModel/:modelCode                                   controllers.ItemCtrl.delModel(modelCode:String)
+GET         /carr/search                                                   controllers.ItemCtrl.carrModelSearch(lang = "cn")
+GET         /$lang<(cn|en|kr)>/carr/search                                 controllers.ItemCtrl.carrModelSearch(lang)
+GET         /carr/add                                                      controllers.ItemCtrl.carrCreate(lang="cn")
+GET         /$lang<(cn|en|kr)>/carr/add                                    controllers.ItemCtrl.carrCreate(lang)
+POST        /carr/carrSave                                                 controllers.ItemCtrl.carrSave()
+GET         /carr/pop                                                      controllers.ItemCtrl.carrPop()
+GET         /carr/findModel/:modelCode                                     controllers.ItemCtrl.findModel(lang="cn",modelCode:String)
+GET         /$lang<(cn|en|kr)>/carr/findModel/:modelCode                   controllers.ItemCtrl.findModel(lang,modelCode:String)
+GET         /carr/delModel/:modelCode                                      controllers.ItemCtrl.delModel(modelCode:String)
 
 
 
 
 
 #order 订单列表
-GET             /comm/order/search                                          controllers.OrderCtrl.orderList(lang ="cn")
-POST            /comm/order/search/$pageNum<[0-9]+>                         controllers.OrderCtrl.orderSearchAjax(lang ="cn",pageNum:Int)
-POST            /$lang<(cn|en|kr)>/comm/order/search/$pageNum<[0-9]+>       controllers.OrderCtrl.orderSearchAjax(lang,pageNum:Int)
-GET             /$lang<(cn|en|kr)>/comm/order/search                        controllers.OrderCtrl.orderList(lang)
-GET             /comm/order/detail/$id<[0-9]+>                              controllers.OrderCtrl.orderDetail(lang ="cn",id:Long)
-GET             /$lang<(cn|en|kr)>/comm/order/detail/$id<[0-9]+>            controllers.OrderCtrl.orderDetail(lang,id:Long)
-POST            /comm/order/cancel                                          controllers.OrderCtrl.orderCancel(lang ="cn")
-POST            /$lang<(cn|en|kr)>/comm/order/cancel                        controllers.OrderCtrl.orderCancel(lang)
-GET             /comm/order/unpaidOrders                                    controllers.OrderCtrl.unpaidOrders(lang ="cn")
-GET             /$lang<(cn|en|kr)>/comm/order/unpaidOrders                  controllers.OrderCtrl.unpaidOrders(lang)
+GET         /comm/order/search                                             controllers.OrderCtrl.orderList(lang ="cn")
+POST        /comm/order/search/$pageNum<[0-9]+>                            controllers.OrderCtrl.orderSearchAjax(lang ="cn",pageNum:Int)
+POST        /$lang<(cn|en|kr)>/comm/order/search/$pageNum<[0-9]+>          controllers.OrderCtrl.orderSearchAjax(lang,pageNum:Int)
+GET         /$lang<(cn|en|kr)>/comm/order/search                           controllers.OrderCtrl.orderList(lang)
+GET         /comm/order/detail/$id<[0-9]+>                                 controllers.OrderCtrl.orderDetail(lang ="cn",id:Long)
+GET         /$lang<(cn|en|kr)>/comm/order/detail/$id<[0-9]+>               controllers.OrderCtrl.orderDetail(lang,id:Long)
+POST        /comm/order/cancel                                             controllers.OrderCtrl.orderCancel(lang ="cn")
+POST        /$lang<(cn|en|kr)>/comm/order/cancel                           controllers.OrderCtrl.orderCancel(lang)
+GET         /comm/order/unpaidOrders                                       controllers.OrderCtrl.unpaidOrders(lang ="cn")
+GET         /$lang<(cn|en|kr)>/comm/order/unpaidOrders                     controllers.OrderCtrl.unpaidOrders(lang)
 
 
 
@@ -117,129 +114,129 @@ GET             /$lang<(cn|en|kr)>/comm/order/unpaidOrders                  cont
 
 
 #brand 品牌
-GET             /comm/brand/search                                          controllers.ItemCtrl.brandList(lang ="cn")
-GET             /$lang<(cn|en|kr)>/comm/brand/search                        controllers.ItemCtrl.brandList(lang)
-GET             /comm/brand/add                                             controllers.ItemCtrl.brandAdd(lang ="cn")
-GET             /$lang<(cn|en|kr)>/comm/brand/add                           controllers.ItemCtrl.brandAdd(lang)
-POST            /comm/brand/brandSave                                       controllers.ItemCtrl.brandSave(lang = "cn")
+GET         /comm/brand/search                                             controllers.ItemCtrl.brandList(lang ="cn")
+GET         /$lang<(cn|en|kr)>/comm/brand/search                           controllers.ItemCtrl.brandList(lang)
+GET         /comm/brand/add                                                controllers.ItemCtrl.brandAdd(lang ="cn")
+GET         /$lang<(cn|en|kr)>/comm/brand/add                              controllers.ItemCtrl.brandAdd(lang)
+POST        /comm/brand/brandSave                                          controllers.ItemCtrl.brandSave(lang = "cn")
 
 
 
 
 #cates -->cate 商品类别
-GET             /comm/cate/search                                           controllers.ItemCtrl.cateList(lang ="cn")
-GET             /$lang<(cn|en|kr)>/comm/cate/search                         controllers.ItemCtrl.cateList(lang)
-GET             /comm/cate/add                                              controllers.ItemCtrl.cateAdd(lang ="cn")
-GET             /$lang<(cn|en|kr)>/comm/cate/add                            controllers.ItemCtrl.cateAdd(lang)
-POST            /comm/cate/cateSave                                         controllers.ItemCtrl.cateSave(lang = "cn")
+GET         /comm/cate/search                                              controllers.ItemCtrl.cateList(lang ="cn")
+GET         /$lang<(cn|en|kr)>/comm/cate/search                            controllers.ItemCtrl.cateList(lang)
+GET         /comm/cate/add                                                 controllers.ItemCtrl.cateAdd(lang ="cn")
+GET         /$lang<(cn|en|kr)>/comm/cate/add                               controllers.ItemCtrl.cateAdd(lang)
+POST        /comm/cate/cateSave                                            controllers.ItemCtrl.cateSave(lang = "cn")
 
 
 
 
 # 登录 供应管理
 #GET             /                                                           controllers.Auth.login
-POST            /authenticate                                               controllers.Auth.authenticate
-GET             /logout                                                     controllers.Auth.logout
+POST        /authenticate                                                  controllers.Auth.authenticate
+GET         /logout                                                        controllers.Auth.logout
 #GET            /test                                                       controllers.Test.test
-GET             /supply/init/$id<[0-9]+>                                    controllers.Application.supply_init(id:Long)
-POST            /supply/init/add                                            controllers.Application.supply_init_add
-POST            /supply/add                                                 controllers.Application.supply
-POST            /supply/delete                                              controllers.Application.supply_delete
-POST            /supply/update/kr                                           controllers.Application.update_kr
-GET             /supply/my                                                  controllers.Application.list_supply(id:Option[Int],stat:Option[String], start:Int ?=0)
-GET             /supply/admin                                               controllers.Application.list_admin(id:Option[Int],stat:Option[String], start:Int ?=0)
-GET             /supply/list                                                controllers.Application.list(id:Option[Int],stat:Option[String], start:Int ?=0)
-GET             /supply/translation/$id<[0-9]+>                             controllers.Application.translation(id:Long)
-GET             /supply/update/$id<[0-9]+>                                  controllers.Application.supply_update(id:Long)
-GET             /supply/append/$id<[0-9]+>                                  controllers.Application.append(id:Long)
-GET             /supply/$id<[0-9]+>                                         controllers.Application.show(id:Long)
-POST            /supply/append/add                                          controllers.Application.append_add
-GET             /supply/download/shanghai                                   controllers.Application.download_shanghai
-GET             /supply/download/hangzhou                                   controllers.Application.download_hangzhou
-POST            /supply/upload                                              controllers.Application.upload
+GET         /supply/init/$id<[0-9]+>                                       controllers.Application.supply_init(id:Long)
+POST        /supply/init/add                                               controllers.Application.supply_init_add
+POST        /supply/add                                                    controllers.Application.supply
+POST        /supply/delete                                                 controllers.Application.supply_delete
+POST        /supply/update/kr                                              controllers.Application.update_kr
+GET         /supply/my                                                     controllers.Application.list_supply(id:Option[Int],stat:Option[String], start:Int ?=0)
+GET         /supply/admin                                                  controllers.Application.list_admin(id:Option[Int],stat:Option[String], start:Int ?=0)
+GET         /supply/list                                                   controllers.Application.list(id:Option[Int],stat:Option[String], start:Int ?=0)
+GET         /supply/translation/$id<[0-9]+>                                controllers.Application.translation(id:Long)
+GET         /supply/update/$id<[0-9]+>                                     controllers.Application.supply_update(id:Long)
+GET         /supply/append/$id<[0-9]+>                                     controllers.Application.append(id:Long)
+GET         /supply/$id<[0-9]+>                                            controllers.Application.show(id:Long)
+POST        /supply/append/add                                             controllers.Application.append_add
+GET         /supply/download/shanghai                                      controllers.Application.download_shanghai
+GET         /supply/download/hangzhou                                      controllers.Application.download_hangzhou
+POST        /supply/upload                                                 controllers.Application.upload
 
 
 
 #AdminUser --> aduser 用户管理 添加管理员用户 登录
-GET             /                                                            controllers.AdminUserCtrl.adminUserLogin
-POST            /aduser/login                                                controllers.AdminUserCtrl.authLogin
-GET             /otheruser/login                                             controllers.Auth.login
-GET				/summary                                                     controllers.StatisticsCtrl.summary(lang="cn")
-GET				/$lang<(cn|en|kr)>/summary                                   controllers.StatisticsCtrl.summary(lang)
-GET             /aduser/add                                                  controllers.AdminUserCtrl.adminUserCreate(lang="cn")
-GET             /$lang<(cn|en|kr)>/aduser/add                                controllers.AdminUserCtrl.adminUserCreate(lang)
-POST            /aduser/save                                                 controllers.AdminUserCtrl.adminUserSave
-GET             /aduser/info                                                 controllers.AdminUserCtrl.adminUserInfo(lang="cn")
-GET             /$lang<(cn|en|kr)>/aduser/info                               controllers.AdminUserCtrl.adminUserInfo(lang)
-POST            /aduser/update                                               controllers.AdminUserCtrl.adminUserUpdate(lang="cn")
-POST            /$lang<(cn|en|kr)>/aduser/update                             controllers.AdminUserCtrl.adminUserUpdate(lang)
-GET             /aduser/chgpwd                                               controllers.AdminUserCtrl.adminUserChgPwd(lang="cn")
-GET             /$lang<(cn|en|kr)>/aduser/chgpwd                             controllers.AdminUserCtrl.adminUserChgPwd(lang)
-POST            /aduser/resetpwd                                             controllers.AdminUserCtrl.adminUserResetPwd(lang="cn")
-POST            /$lang<(cn|en|kr)>/aduser/resetpwd                           controllers.AdminUserCtrl.adminUserResetPwd(lang)
-GET             /aduser/search                                               controllers.AdminUserCtrl.adminUserSearch(lang="cn")
-GET             /$lang<(cn|en|kr)>/aduser/search                             controllers.AdminUserCtrl.adminUserSearch(lang)
-GET             /aduser/del/$id<[0-9]+>                                      controllers.AdminUserCtrl.adminUserDelUser(lang="cn",id:Long)
-GET             /$lang<(cn|en|kr)>/aduser/del/$id<[0-9]+>                    controllers.AdminUserCtrl.adminUserDelUser(lang,id:Long)
+GET         /                                                              controllers.AdminUserCtrl.adminUserLogin
+POST        /aduser/login                                                  controllers.AdminUserCtrl.authLogin
+GET         /otheruser/login                                               controllers.Auth.login
+GET         /summary                                                       controllers.StatisticsCtrl.summary(lang="cn")
+GET         /$lang<(cn|en|kr)>/summary                                     controllers.StatisticsCtrl.summary(lang)
+GET         /aduser/add                                                    controllers.AdminUserCtrl.adminUserCreate(lang="cn")
+GET         /$lang<(cn|en|kr)>/aduser/add                                  controllers.AdminUserCtrl.adminUserCreate(lang)
+POST        /aduser/save                                                   controllers.AdminUserCtrl.adminUserSave
+GET         /aduser/info                                                   controllers.AdminUserCtrl.adminUserInfo(lang="cn")
+GET         /$lang<(cn|en|kr)>/aduser/info                                 controllers.AdminUserCtrl.adminUserInfo(lang)
+POST        /aduser/update                                                 controllers.AdminUserCtrl.adminUserUpdate(lang="cn")
+POST        /$lang<(cn|en|kr)>/aduser/update                               controllers.AdminUserCtrl.adminUserUpdate(lang)
+GET         /aduser/chgpwd                                                 controllers.AdminUserCtrl.adminUserChgPwd(lang="cn")
+GET         /$lang<(cn|en|kr)>/aduser/chgpwd                               controllers.AdminUserCtrl.adminUserChgPwd(lang)
+POST        /aduser/resetpwd                                               controllers.AdminUserCtrl.adminUserResetPwd(lang="cn")
+POST        /$lang<(cn|en|kr)>/aduser/resetpwd                             controllers.AdminUserCtrl.adminUserResetPwd(lang)
+GET         /aduser/search                                                 controllers.AdminUserCtrl.adminUserSearch(lang="cn")
+GET         /$lang<(cn|en|kr)>/aduser/search                               controllers.AdminUserCtrl.adminUserSearch(lang)
+GET         /aduser/del/$id<[0-9]+>                                        controllers.AdminUserCtrl.adminUserDelUser(lang="cn",id:Long)
+GET         /$lang<(cn|en|kr)>/aduser/del/$id<[0-9]+>                      controllers.AdminUserCtrl.adminUserDelUser(lang,id:Long)
 
 
 
 
 
 #System Parameter --> config 系统参数设置
-GET             /data/config/search                                       controllers.DataCtrl.systemParameterSearch(lang ="cn")
-GET             /$lang<(cn|en|kr)>/data/config/search                     controllers.DataCtrl.systemParameterSearch(lang)
-GET             /data/config/add                                          controllers.DataCtrl.systemParameterAdd(lang ="cn")
-GET             /$lang<(cn|en|kr)>/data/config/add                        controllers.DataCtrl.systemParameterAdd(lang)
-POST            /data/config/paramSave                                    controllers.DataCtrl.paramSave(lang = "cn")
+GET         /data/config/search                                            controllers.DataCtrl.systemParameterSearch(lang ="cn")
+GET         /$lang<(cn|en|kr)>/data/config/search                          controllers.DataCtrl.systemParameterSearch(lang)
+GET         /data/config/add                                               controllers.DataCtrl.systemParameterAdd(lang ="cn")
+GET         /$lang<(cn|en|kr)>/data/config/add                             controllers.DataCtrl.systemParameterAdd(lang)
+POST        /data/config/paramSave                                         controllers.DataCtrl.paramSave(lang = "cn")
 
 
 #Coupons -->coup 优惠券
-GET             /coup/add                                                  controllers.CoupCtrl.coupCreate(lang="cn")
-GET             /$lang<(cn|en|kr)>/coup/add                                controllers.CoupCtrl.coupCreate(lang)
-GET             /coup/add/popup                                            controllers.AdminUserCtrl.addIDUserPop()
-POST            /coup/coupSave                                             controllers.CoupCtrl.coupSave
+GET         /coup/add                                                      controllers.CoupCtrl.coupCreate(lang="cn")
+GET         /$lang<(cn|en|kr)>/coup/add                                    controllers.CoupCtrl.coupCreate(lang)
+GET         /coup/add/popup                                                controllers.AdminUserCtrl.addIDUserPop()
+POST        /coup/coupSave                                                 controllers.CoupCtrl.coupSave
 
 #edit 编辑器
-GET             /editorController			                                      controllers.EditorApplication.editorController()
-POST            /editorController			                                      controllers.EditorApplication.editorController()
-GET             /editor						                                          controllers.EditorApplication.editor()
+GET         /editorController                                              controllers.EditorApplication.editorController()
+POST        /editorController                                              controllers.EditorApplication.editorController()
+GET         /editor                                                        controllers.EditorApplication.editor()
 
 #DataLog    --> log 日志
-GET             /log/search                                                 controllers.DataLogCtrl.dataLogSearch(lang = "cn")
-GET             /$lang<(cn|en|kr)>/log/search                               controllers.DataLogCtrl.dataLogSearch(lang)
-POST            /log/search/$pageNum<[0-9]+>                                controllers.DataLogCtrl.dataLogSearchAjax(lang ="cn", pageNum:Int)
-POST            /$lang<(cn|en|kr)>/log/search/$pageNum<[0-9]+>              controllers.DataLogCtrl.dataLogSearchAjax(lang, pageNum:Int)
-GET             /log/findLog/:id                                            controllers.DataLogCtrl.findDataLogById(lang = "cn", id:Long)
-GET             /$lang<(cn|en|kr)>/log/findLog/:id                          controllers.DataLogCtrl.findDataLogById(lang, id:Long)
+GET         /log/search                                                    controllers.DataLogCtrl.dataLogSearch(lang = "cn")
+GET         /$lang<(cn|en|kr)>/log/search                                  controllers.DataLogCtrl.dataLogSearch(lang)
+POST        /log/search/$pageNum<[0-9]+>                                   controllers.DataLogCtrl.dataLogSearchAjax(lang ="cn", pageNum:Int)
+POST        /$lang<(cn|en|kr)>/log/search/$pageNum<[0-9]+>                 controllers.DataLogCtrl.dataLogSearchAjax(lang, pageNum:Int)
+GET         /log/findLog/:id                                               controllers.DataLogCtrl.findDataLogById(lang = "cn", id:Long)
+GET         /$lang<(cn|en|kr)>/log/findLog/:id                             controllers.DataLogCtrl.findDataLogById(lang, id:Long)
 
 
 
 #Pingou     --> pin 拼购
-GET             /pin/add                                                    controllers.PingouCtrl.addPingou(lang ="cn")
-GET             /$lang<(cn|en|kr)>/pin/add                                  controllers.PingouCtrl.addPingou(lang)
-GET             /pin/search                                                 controllers.PingouCtrl.pingouSearch(lang ="cn")
-GET             /$lang<(cn|en|kr)>/pin/search                               controllers.PingouCtrl.pingouSearch(lang)
-POST            /pin/search/$pageNum<[0-9]+>                                controllers.PingouCtrl.getPinSkuPage(lang ="cn",pageNum:Int)
-POST            /$lang<(cn|en|kr)>/pin/search/$pageNum<[0-9]+>              controllers.PingouCtrl.getPinSkuPage(lang,pageNum:Int)
-POST            /pin/save                                                   controllers.PingouCtrl.pingouSave(lang ="cn")
-POST            /$lang<(cn|en|kr)>/pin/save                                 controllers.PingouCtrl.pingouSave(lang)
-GET             /pin/getPinById/:id                                         controllers.PingouCtrl.getPinSkuById(lang = "cn",id:Long)
-GET             /$lang<(cn|en|kr)>/pin/getPinById/:id                       controllers.PingouCtrl.getPinSkuById(lang,id:Long)
-GET             /pin/activityAdd/:id                                        controllers.PingouCtrl.activityManualAdd(lang = "cn",id:Long)
-GET             /$lang<(cn|en|kr)>/pin/activityAdd/:id                      controllers.PingouCtrl.activityManualAdd(lang,id:Long)
-POST            /pin/activity/manualSave                                    controllers.PingouCtrl.activityManualSave(lang ="cn")
-POST            /$lang<(cn|en|kr)>/pin/activity/manualSave                  controllers.PingouCtrl.activityManualSave(lang)
-GET             /pin/activity/search                                        controllers.PingouCtrl.pinActivitySearch(lang ="cn")
-GET             /$lang<(cn|en|kr)>/pin/activity/search                      controllers.PingouCtrl.pinActivitySearch(lang)
-POST            /pin/activity/search/$pageNum<[0-9]+>                       controllers.PingouCtrl.getPinActivityPage(lang ="cn",pageNum:Int)
-POST            /$lang<(cn|en|kr)>/pin/activity/search/$pageNum<[0-9]+>     controllers.PingouCtrl.getPinActivityPage(lang,pageNum:Int)
-GET             /pin/activity/geActivityById/:id                            controllers.PingouCtrl.activityDetail(lang = "cn",id:Long)
-GET             /$lang<(cn|en|kr)>/pin/activity/geActivityById/:id          controllers.PingouCtrl.activityDetail(lang,id:Long)
-POST            /pin/activity/addRobot                                      controllers.PingouCtrl.pinAddRobot(lang ="cn")
-POST            /$lang<(cn|en|kr)>/pin/activity/addRobot                    controllers.PingouCtrl.pinAddRobot(lang)
-GET             /pin/activity/list/:id                                      controllers.PingouCtrl.pingouActivityList(lang = "cn",id:Long)
-GET             /$lang<(cn|en|kr)>/pin/activity/list/:id                    controllers.PingouCtrl.pingouActivityList(lang,id:Long)
+GET         /pin/add                                                       controllers.PingouCtrl.addPingou(lang ="cn")
+GET         /$lang<(cn|en|kr)>/pin/add                                     controllers.PingouCtrl.addPingou(lang)
+GET         /pin/search                                                    controllers.PingouCtrl.pingouSearch(lang ="cn")
+GET         /$lang<(cn|en|kr)>/pin/search                                  controllers.PingouCtrl.pingouSearch(lang)
+POST        /pin/search/$pageNum<[0-9]+>                                   controllers.PingouCtrl.getPinSkuPage(lang ="cn",pageNum:Int)
+POST        /$lang<(cn|en|kr)>/pin/search/$pageNum<[0-9]+>                 controllers.PingouCtrl.getPinSkuPage(lang,pageNum:Int)
+POST        /pin/save                                                      controllers.PingouCtrl.pingouSave(lang ="cn")
+POST        /$lang<(cn|en|kr)>/pin/save                                    controllers.PingouCtrl.pingouSave(lang)
+GET         /pin/getPinById/:id                                            controllers.PingouCtrl.getPinSkuById(lang = "cn",id:Long)
+GET         /$lang<(cn|en|kr)>/pin/getPinById/:id                          controllers.PingouCtrl.getPinSkuById(lang,id:Long)
+GET         /pin/activityAdd/:id                                           controllers.PingouCtrl.activityManualAdd(lang = "cn",id:Long)
+GET         /$lang<(cn|en|kr)>/pin/activityAdd/:id                         controllers.PingouCtrl.activityManualAdd(lang,id:Long)
+POST        /pin/activity/manualSave                                       controllers.PingouCtrl.activityManualSave(lang ="cn")
+POST        /$lang<(cn|en|kr)>/pin/activity/manualSave                     controllers.PingouCtrl.activityManualSave(lang)
+GET         /pin/activity/search                                           controllers.PingouCtrl.pinActivitySearch(lang ="cn")
+GET         /$lang<(cn|en|kr)>/pin/activity/search                         controllers.PingouCtrl.pinActivitySearch(lang)
+POST        /pin/activity/search/$pageNum<[0-9]+>                          controllers.PingouCtrl.getPinActivityPage(lang ="cn",pageNum:Int)
+POST        /$lang<(cn|en|kr)>/pin/activity/search/$pageNum<[0-9]+>        controllers.PingouCtrl.getPinActivityPage(lang,pageNum:Int)
+GET         /pin/activity/geActivityById/:id                               controllers.PingouCtrl.activityDetail(lang = "cn",id:Long)
+GET         /$lang<(cn|en|kr)>/pin/activity/geActivityById/:id             controllers.PingouCtrl.activityDetail(lang,id:Long)
+POST        /pin/activity/addRobot                                         controllers.PingouCtrl.pinAddRobot(lang ="cn")
+POST        /$lang<(cn|en|kr)>/pin/activity/addRobot                       controllers.PingouCtrl.pinAddRobot(lang)
+GET         /pin/activity/list/:id                                         controllers.PingouCtrl.pingouActivityList(lang = "cn",id:Long)
+GET         /$lang<(cn|en|kr)>/pin/activity/list/:id                       controllers.PingouCtrl.pingouActivityList(lang,id:Long)
 
 
 
@@ -250,9 +247,9 @@ GET             /$lang<(cn|en|kr)>/pin/activity/list/:id                    cont
 
 
 #versiong
-GET             /release/view                                                controllers.VersionCtrl.release()
-POST            /release/public                                              controllers.VersionCtrl.publicRelease()
-GET             /release/list                                                controllers.VersionCtrl.releaseList()
+GET         /release/view                                                  controllers.VersionCtrl.release()
+POST        /release/public                                                controllers.VersionCtrl.publicRelease()
+GET         /release/list                                                  controllers.VersionCtrl.releaseList()
 
 
 

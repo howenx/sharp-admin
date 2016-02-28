@@ -127,21 +127,4 @@ public class VersionCtrl extends Controller {
             return badRequest("error");
         }
     }
-
-    /**
-     * 处理系统启动时候去做第一次请求,完成对定时任务的执行
-     * @return string
-     */
-    public Result getFirstApp(String cipher){
-        if (Codecs.md5("hmm-100901".getBytes()).equals(cipher)){
-            system.scheduler()
-                    .schedule(Duration.Zero(),
-                            Duration.create(2, TimeUnit.SECONDS),
-                            schedulerCancelOrderActor,
-                            77701021L,
-                            system.dispatcher(),
-                            null);
-        }
-        return ok("success");
-    }
 }
