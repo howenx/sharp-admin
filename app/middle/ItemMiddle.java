@@ -163,7 +163,7 @@ public class ItemMiddle {
                         varyPrice.setInvId(inventory.getId());
 //                        varyPrice.setStatus("Y");
                         //多样化价格的状态和SKU的状态一致
-                        if (inventory.getState()!="Y") {
+                        if (!inventory.getState().equals("Y")) {
                             varyPrice.setStatus(inventory.getState());
                         }
                         //更新多样化价格信息
