@@ -167,7 +167,7 @@ $(function() {
 
         //主题主图片
         var themeImgContent = {};
-        var url = $("#themeImg").find("input").attr("id");
+        var url = $("#themeImg").find("img").attr("src");
         themeImgContent.url = url.substring(url.indexOf('/',url.indexOf('/')+2) + 1);
         themeImgContent.width = $("#themeImg").find("input").width().toString();
         themeImgContent.height = $("#themeImg").find("input").height().toString();

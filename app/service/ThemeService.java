@@ -50,8 +50,15 @@ public interface ThemeService {
     void updThemeItems(Theme theme);
 
     /**
-     * 更新主题下架       Added by Tiffany Zhu
+     * 更新主题下架   Added by Tiffany Zhu 2016.02.29
+     * @param id
+     */
+    void updThemeDestroy(Long id);
+
+    /**
+     * 更新过期主题下架 Added by Tiffany Zhu 2016.02.29
      */
     void updDestroy();
+
 
 }

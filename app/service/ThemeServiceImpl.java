@@ -25,6 +25,8 @@ public class ThemeServiceImpl implements ThemeService {
     @Inject
     private InventoryMapper inventoryMapper;
 
+
+
     /**
      * 滚动条查询
      * @return list
@@ -157,10 +159,20 @@ public class ThemeServiceImpl implements ThemeService {
     }
 
     /**
-     * 更新主题下架       Added by Tiffany Zhu
+     * 更新过期主题下架 Added by Tiffany Zhu 2016.02.29
      */
     @Override
     public void updDestroy() {
         themeMapper.updDestroy();
     }
+
+    /**
+     * 更新主题下架   Added by Tiffany Zhu 2016.02.29
+     * @param id
+     */
+    @Override
+    public void updThemeDestroy(Long id) {
+        themeMapper.updThemeDestroy(id);
+    }
+
 }

@@ -90,4 +90,10 @@ public interface PinSkuMapper {
      * @return List of PinSku
      */
     List<PinSku> getPinSkuByInvId(Long invId);
+
+    /**
+     * 更新拼购下架       Added by Tiffany Zhu 2016.02.29
+     * @param id
+     */
+    void updStatusById(Long id);
 }

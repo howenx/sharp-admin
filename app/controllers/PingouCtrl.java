@@ -1,22 +1,31 @@
 package controllers;
 
+import actor.PingouOffShelfActor;
+import actor.ThemeDestroyActor;
+import akka.actor.ActorRef;
+import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.User;
 import entity.pingou.*;
 import filters.UserAuth;
+import modules.NewScheduler;
 import play.Logger;
 import play.data.Form;
 import play.i18n.Lang;
 import play.i18n.Messages;
+import play.libs.Akka;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import scala.concurrent.duration.Duration;
+import scala.concurrent.duration.FiniteDuration;
 import service.PingouService;
 import util.Regex;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -27,6 +36,12 @@ public class PingouCtrl extends Controller {
 
     @Inject
     PingouService pingouService;
+
+    @Inject
+    private NewScheduler newScheduler;
+
+
+
     /**
      * 添加拼购     Added by Tiffany Zhu 2016.01.19
      * @param lang
@@ -75,9 +90,120 @@ public class PingouCtrl extends Controller {
                 }
             }
         }
-
         //数据验证-------------------------end
-        pingouService.pinSkuSave(json);
+
+        PinSku pinSku = new PinSku();
+        if(json.has("pinSku")){
+            pinSku = Json.fromJson(json.findValue("pinSku"), PinSku.class);
+        }
+        //更新拼购
+        if(pinSku.getPinId() != null){
+            //更新拼购
+            pingouService.pinSkuSave(pinSku);
+            //更新阶梯价格
+            String updPriceId = "";
+            List<PinTieredPrice> tieredPriceUpd = new ArrayList<>();
+            List<PinTieredPrice> tieredPriceInst = new ArrayList<>();
+            if(json.has("tieredPrice")){
+                JsonNode tieredPriceJson = json.findValue("tieredPrice");
+                if(tieredPriceJson.size()>0){
+                    for(JsonNode price : tieredPriceJson){
+                        PinTieredPrice pinTieredPrice = Json.fromJson(price,PinTieredPrice.class);
+                        if(pinTieredPrice.getMasterCouponClass() == null || pinTieredPrice.getMasterCouponClass().equals("")){
+                            pinTieredPrice.setMasterCouponClass(null);
+                            pinTieredPrice.setMasterCoupon(null);
+                            pinTieredPrice.setMasterCouponQuota(null);
+                            pinTieredPrice.setMasterCouponStartAt(null);
+                            pinTieredPrice.setMasterCouponEndAt(null);
+                        }
+                        if(pinTieredPrice.getMemberCouponClass() == null || pinTieredPrice.getMemberCouponClass().equals("")){
+                            pinTieredPrice.setMemberCouponClass(null);
+                            pinTieredPrice.setMemberCoupon(null);
+                            pinTieredPrice.setMemberCouponQuota(null);
+                            pinTieredPrice.setMemberCouponStartAt(null);
+                            pinTieredPrice.setMemberCouponEndAt(null);
+                        }
+                        pinTieredPrice.setPinId(pinSku.getPinId());
+                        //添加
+                        if(pinTieredPrice.getId() == null){
+                            tieredPriceInst.add(pinTieredPrice);
+                        }
+                        //更新
+                        else{
+                            updPriceId = updPriceId + "," + pinTieredPrice.getId().toString();
+                            tieredPriceUpd.add(pinTieredPrice);
+                        }
+                    }
+                    if(tieredPriceInst.size()>0){
+                        pingouService.addTieredPrice(tieredPriceInst);
+                    }
+                    if (tieredPriceUpd.size()>0){
+                        pingouService.updTieredPrice(tieredPriceUpd);
+                    }
+                    Logger.error(tieredPriceUpd.toString());
+                    Logger.error(updPriceId);
+                }
+            }
+
+            //删除阶梯价格
+            if(json.has("beforeUpdPrice")){
+                List<PinTieredPrice> delList = new ArrayList<>();
+                JsonNode beforeUpdPriceJson = json.findValue("beforeUpdPrice");
+                if(beforeUpdPriceJson.size() > 0){
+                    for (JsonNode beforePrice : beforeUpdPriceJson){
+                        PinTieredPrice beforeTieredPrice = Json.fromJson(beforePrice,PinTieredPrice.class);
+                        if(!updPriceId.contains(beforeTieredPrice.getId().toString())){
+                            delList.add(beforeTieredPrice);
+                        }
+                    }
+                    pingouService.delTieredPrice(delList);
+                }
+            }
+        }
+        //添加拼购
+        else{
+            pingouService.pinSkuSave(pinSku);
+            List<PinTieredPrice> tieredPriceList = new ArrayList<>();
+            if(json.has("tieredPrice")){
+                JsonNode tieredPriceJson = json.findValue("tieredPrice");
+                for(JsonNode price : tieredPriceJson){
+                    PinTieredPrice pinTieredPrice = Json.fromJson(price,PinTieredPrice.class);
+                    if(pinTieredPrice.getMasterCouponClass() == null || pinTieredPrice.getMasterCouponClass().equals("")){
+                        pinTieredPrice.setMasterCouponClass(null);
+                        pinTieredPrice.setMasterCoupon(null);
+                        pinTieredPrice.setMasterCouponQuota(null);
+                        pinTieredPrice.setMasterCouponStartAt(null);
+                        pinTieredPrice.setMasterCouponEndAt(null);
+                    }
+                    if(pinTieredPrice.getMemberCouponClass() == null || pinTieredPrice.getMemberCouponClass().equals("")){
+                        pinTieredPrice.setMemberCouponClass(null);
+                        pinTieredPrice.setMemberCoupon(null);
+                        pinTieredPrice.setMemberCouponQuota(null);
+                        pinTieredPrice.setMemberCouponStartAt(null);
+                        pinTieredPrice.setMemberCouponEndAt(null);
+                    }
+                    pinTieredPrice.setPinId(pinSku.getPinId());
+                    tieredPriceList.add(pinTieredPrice);
+                }
+            }
+            pingouService.addTieredPrice(tieredPriceList);
+        }
+
+        //创建Scheduled Actor         ---start
+        ActorRef pingouOffShelf = Akka.system().actorOf(Props.create(PingouOffShelfActor.class,pingouService));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date endAt = null;
+        try{
+            endAt = sdf.parse(pinSku.getEndAt());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        if(endAt != null){
+            FiniteDuration duration = Duration.create(endAt.getTime() - now.getTime(), TimeUnit.MILLISECONDS);
+            newScheduler.scheduleOnce(duration,pingouOffShelf,pinSku.getPinId());
+        }
+        //创建Scheduled Actor         ---end
+
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
