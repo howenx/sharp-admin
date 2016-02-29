@@ -25198,9 +25198,12 @@
 				function upload(file) {
 					document.getElementById("mask").style.display = 'block';
 					var formdata = new FormData();
+					var date = new Date();
+                    var dateStr = ''+date.getFullYear()+(date.getMonth()+1>=10?date.getMonth()+1:'0'+(date.getMonth()+1))+(date.getDate()>=10?date.getDate():'0'+date.getDate());
+					var prefix = "item/photo/" + dateStr + "/";
 					formdata.append("photo", file);
 					formdata.append("params", "minify");
-
+                    formdata.append("prefix", prefix);
 					$.ajax({
 						url: window.uploadURL + "/upload",
 						data: formdata,
@@ -25213,7 +25216,7 @@
 								url: window.uploadURL + "/split/file",
 	                            data: {
 	                                filename: '' +data.oss_url,
-	                                prefix:''
+	                                prefix:'' + prefix
 	                            },
 								type: 'post',
 								success: function(data2) {

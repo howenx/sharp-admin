@@ -179,6 +179,10 @@ function Init () {
     }
 }
 
+    var imageUrl = window.imageUrl;
+    var date = new Date();
+    var dateStr = ''+date.getFullYear()+(date.getMonth()+1>=10?date.getMonth()+1:'0'+(date.getMonth()+1))+(date.getDate()>=10?date.getDate():'0'+date.getDate());
+
 /***** 保存当前按钮功能 ******/
 function saveCurr() {
     var btn = window.event.srcElement;
@@ -258,7 +262,7 @@ function saveCurr() {
         $("#warn-m").text("");
         var imgM = $("#galleryM").find(".main-img");
         var imgSrc = imgM.attr("src");
-        if (imgSrc != null) invImg["url"] = imgSrc.substring(imgSrc.lastIndexOf('/')+1,imgSrc.length);
+        if (imgSrc != null) invImg["url"] = imgSrc.split(imageUrl)[1];
         invImg["width"] = imgM.attr("width");
         invImg["height"] = imgM.attr("height");
     }
@@ -290,7 +294,7 @@ function saveCurr() {
         $("#galleryP").find(".main-img").each(function() {
             var imgsV = {};
             var preSrc = $(this).attr("src");
-            if (preSrc != null) imgsV["url"] = preSrc.substring(preSrc.lastIndexOf('/')+1,preSrc.length);
+            if (preSrc != null) imgsV["url"] = preSrc.split(imageUrl)[1];
             imgsV["width"] = $(this).attr("width");
             imgsV["height"] = $(this).attr("height");
             itemPreviewImgs.push(imgsV);
@@ -516,8 +520,10 @@ $(function(){
     function upload(thumb, file, id) {
         document.getElementById("mask").style.display = 'block';
         var formdata = new FormData();
+        var prefix = "item/photo/" + dateStr + "/";
         formdata.append("photo", file);
         formdata.append("params", "minify");
+        formdata.append("prefix", prefix);
         var http = new XMLHttpRequest();
         var url = window.uploadURL+"/upload";
         http.open("POST", url, true);
