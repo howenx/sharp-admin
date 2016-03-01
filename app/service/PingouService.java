@@ -13,9 +13,9 @@ public interface PingouService {
 
     /**
      * 添加拼购商品和优惠券   Added by Tiffany Zhu 2016.01.20
-     * @param json
+     * @param pinSku
      */
-    void pinSkuSave(JsonNode json);
+    void pinSkuSave(PinSku pinSku);
 
     /**
      * 取得全部的拼购      Added by Tiffany Zhu 2016.01.21
@@ -144,5 +144,35 @@ public interface PingouService {
      * @param pinSku
      */
     void updatePinSku(PinSku pinSku);
+
+    /**
+     * 更新拼购下架       Added by Tiffany Zhu 2016.02.29
+     * @param id
+     */
+    void updStatusById(Long id);
+
+    /**
+     * 添加阶梯价格       Added by Tiffany Zhu 2016.01.28
+     * @param list
+     */
+    void addTieredPrice(List list);
+
+    /**
+     * 更新阶梯价格       Added by Tiffany Zhu 2016.01.29
+     * @param list
+     */
+    void updTieredPrice(List list);
+
+    /**
+     * 删除阶梯价格       Added by Tiffany Zhu 2016.01.29
+     * @param list
+     */
+    void delTieredPrice(List list);
+
+    /**
+     * 获取状态为"正常"和"预售"的拼购    Added by Tiffany Zhu 2016.03.01
+     * @return
+     */
+    List<PinSku> getAvailablePingou();
 
 }

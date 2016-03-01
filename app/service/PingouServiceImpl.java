@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import entity.pingou.*;
 import mapper.PinActivityMapper;
 import mapper.PinSkuMapper;
+import modules.NewScheduler;
 import play.Logger;
 import play.libs.Json;
 
@@ -22,13 +23,28 @@ public class PingouServiceImpl implements PingouService {
     @Inject
     PinActivityMapper pinActivityMapper;
 
+    @Inject
+    private NewScheduler newScheduler;
+
 
     /**
      * 保存拼购商品和优惠券   Added by Tiffany Zhu 2016.01.20
-     * @param json
+     * @param pinSku
      */
     @Override
-    public void pinSkuSave(JsonNode json) {
+    public void pinSkuSave(PinSku pinSku) {
+        //更新拼购
+        if(pinSku.getPinId() != null) {
+            //更新拼购
+            pinSkuMapper.updatePinSku(pinSku);
+        }
+        //添加拼购
+        else{
+            pinSkuMapper.insertPinSku(pinSku);
+        }
+
+
+        /*
         PinSku pinSku = new PinSku();
         if(json.has("pinSku")){
             pinSku = Json.fromJson(json.findValue("pinSku"), PinSku.class);
@@ -125,6 +141,7 @@ public class PingouServiceImpl implements PingouService {
             }
             pinSkuMapper.addTieredPrice(tieredPriceList);
         }
+*/
     }
 
     /**
@@ -314,5 +331,38 @@ public class PingouServiceImpl implements PingouService {
     @Override
     public void updatePinSku(PinSku pinSku) {
         pinSkuMapper.updatePinSku(pinSku);
+    }
+
+    /**
+     * 更新拼购下架       Added by Tiffany Zhu 2016.02.29
+     * @param id
+     */
+    @Override
+    public void updStatusById(Long id) {
+        pinSkuMapper.updStatusById(id);
+    }
+
+    @Override
+    public void addTieredPrice(List list) {
+        pinSkuMapper.addTieredPrice(list);
+    }
+
+    @Override
+    public void updTieredPrice(List list) {
+        pinSkuMapper.updTieredPrice(list);
+    }
+
+    @Override
+    public void delTieredPrice(List list) {
+        pinSkuMapper.delTieredPrice(list);
+    }
+
+    /**
+     * 获取状态为"正常"和"预售"的拼购    Added by Tiffany Zhu 2016.03.01
+     * @return
+     */
+    @Override
+    public List<PinSku> getAvailablePingou() {
+        return pinSkuMapper.getAvailablePingou();
     }
 }

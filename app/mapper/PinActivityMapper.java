@@ -2,6 +2,7 @@ package mapper;
 
 import entity.pingou.PinActivity;
 import entity.pingou.PinCoupon;
+import entity.pingou.PinSku;
 import entity.pingou.PinUser;
 
 import java.util.HashMap;
@@ -81,4 +82,6 @@ public interface PinActivityMapper {
      * @return
      */
     List<PinActivity> getActivityByPinId(Long pinId);
+
+
 }

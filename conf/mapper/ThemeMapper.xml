@@ -134,7 +134,7 @@
         <update id="updateTheme" parameterType="entity.Theme">
                 update themes
                 set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},sort_nu=#{sortNu},
-                    update_at=CURRENT_TIMESTAMP(0),theme_item=#{themeItem}::jsonb,master_item_tag=#{themeTags}::jsonb,theme_master_img=#{themeMasterImg}
+                    update_at=CURRENT_TIMESTAMP(0),theme_item=#{themeItem}::jsonb,master_item_tag=#{themeTags}::jsonb,theme_master_img=#{themeMasterImg},or_destroy=false
                 where id = #{id}
         </update>
 
@@ -151,17 +151,20 @@
         <update id="updH5Theme" parameterType="entity.Theme">
                 update themes
                 set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},sort_nu=#{sortNu},
-                update_at=CURRENT_TIMESTAMP(0),h5_link = #{h5Link}
+                update_at=CURRENT_TIMESTAMP(0),h5_link = #{h5Link},or_destroy=false
                 where id = #{id}
         </update>
+
         <update id="updDestroy">
                 update themes set or_destroy = true
                 where end_at &lt;= CURRENT_TIMESTAMP(0)
         </update>
 
-
-
-
+        <update id="updThemeDestroy" parameterType="java.lang.Long">
+                update themes
+                set or_destroy = 'Y',update_at = CURRENT_TIMESTAMP(0),destroy_at = CURRENT_TIMESTAMP(0)
+                where id = #{value}
+        </update>
 
         <!---  主题模板    -->
         <sql id="templateColumns">

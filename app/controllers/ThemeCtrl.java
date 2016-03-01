@@ -1,18 +1,25 @@
 package controllers;
 
+import actor.ThemeDestroyActor;
+import akka.actor.ActorRef;
+import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.*;
 import entity.pingou.PinSku;
 import filters.UserAuth;
+import modules.NewScheduler;
 import play.Logger;
 import play.data.Form;
 import play.i18n.Lang;
 import play.i18n.Messages;
+import play.libs.Akka;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import scala.concurrent.duration.Duration;
+import scala.concurrent.duration.FiniteDuration;
 import service.*;
 import util.Regex;
 
@@ -20,6 +27,7 @@ import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * ThemeCtrl management.
@@ -56,6 +64,9 @@ public class ThemeCtrl extends Controller {
 
     @Inject
     private SubjectPriceService subjectPriceService;
+
+    @Inject
+    private NewScheduler newScheduler;
 
     /**
      * 滚动条管理
@@ -240,7 +251,7 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result thaddPop(){
         //所有sku列表
-        List<Inventory> inventoryList = inventoryService.getAllInventories();
+        List<Inventory> inventoryList = inventoryService.getAvailableInventory();
         List<Object[]> inList = new ArrayList<>();
         for(Inventory inventory : inventoryList){
             Item item = itemService.getItem(inventory.getItemId());
@@ -281,7 +292,7 @@ public class ThemeCtrl extends Controller {
         }
 
         //拼购列表
-        List<PinSku> pinSkuList = pingouService.getPinSkuAll();
+        List<PinSku> pinSkuList = pingouService.getAvailablePingou();
         List<Object[]> pinList = new ArrayList<>();
         for(PinSku pinSku : pinSkuList){
             Object[] object = new Object[9];
@@ -328,7 +339,7 @@ public class ThemeCtrl extends Controller {
         }
 
         //多样化商品列表
-        List<VaryPrice> varyPriceList = varyPriceService.getAllVaryPrices();
+        List<VaryPrice> varyPriceList = varyPriceService.getAvailableVaryPrice();
         List<Object[]> varyList = new ArrayList<>();
         for(VaryPrice varyPrice : varyPriceList){
             Inventory inventory = inventoryService.getInventory(varyPrice.getInvId());
@@ -394,6 +405,21 @@ public class ThemeCtrl extends Controller {
         //数据验证      ----end
 
         service.themeSave(theme);
+
+        //创建Scheduled Actor         ---start
+        ActorRef themeOffShelf = Akka.system().actorOf(Props.create(ThemeDestroyActor.class,service));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date endAt = null;
+        try{
+            endAt = sdf.parse(theme.getEndAt());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        if(endAt != null){
+            FiniteDuration duration = Duration.create(endAt.getTime() - now.getTime(), TimeUnit.MILLISECONDS);
+            newScheduler.scheduleOnce(duration,themeOffShelf,theme.getId());
+        }
+        //创建Scheduled Actor         ---end
 
         //添加主题Id到商品中
         for(JsonNode idBar : ids){

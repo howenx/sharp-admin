@@ -55,4 +55,13 @@ public class VaryPriceServiceImpl implements VaryPriceService {
     public void updVaryThemeId(VaryPrice varyPrice) {
         varyPriceMapper.updVaryThemeId(varyPrice);
     }
+
+    /**
+     * 获取状态为"正常"和"预售"的多样化价格商品    Added by Tiffany Zhu 2016.03.01
+     * @return
+     */
+    @Override
+    public List<VaryPrice> getAvailableVaryPrice() {
+        return varyPriceMapper.getAvailableVaryPrice();
+    }
 }

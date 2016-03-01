@@ -145,6 +145,7 @@
         where id = #{id}
     </update>
 
+<<<<<<< HEAD
 
 
 
@@ -214,6 +215,15 @@
     <select id="getSkus" resultType="entity.Skus" parameterType="entity.Inventory">
         select sku_type, sku_type_id
         from skus t where inv_id=#{id}
+=======
+    <select id="getAvailableInventory" resultType="entity.Inventory">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where t.state = 'Y' or t.state = 'P'
+        ORDER BY id
+>>>>>>> 141c379777fc53d17874696fbc2d6474a1821a1b
     </select>
 
 </mapper>

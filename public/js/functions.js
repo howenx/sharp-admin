@@ -7,6 +7,9 @@ var drag_img_index,
     p_index;
 var div,nw, w,sw, s,se, e,ne,n;
 $(".upload").change(function(){
+    var date = new Date();
+    var dateStr = ''+date.getFullYear()+(date.getMonth()+1>=10?date.getMonth()+1:'0'+(date.getMonth()+1))+(date.getDate()>=10?date.getDate():'0'+date.getDate());
+
     var obj = $(templates_img).find(".bg-img");
     console.log(obj);
     if($(this).val()){
@@ -23,6 +26,7 @@ $(".upload").change(function(){
     var formdata = new FormData();
     formdata.append("photo", file);
     formdata.append("params", "minify");
+    formdata.append("prefix","templates/photo/"+ dateStr +"/");
     var http = new XMLHttpRequest();
 //    var url = "/test/upload";
     var url = window.uploadUrl;
@@ -50,6 +54,10 @@ $(".upload").change(function(){
     $(this).val("");
 });
 $(".add-upload").change(function(){
+
+    var date = new Date();
+    var dateStr = ''+date.getFullYear()+(date.getMonth()+1>=10?date.getMonth()+1:'0'+(date.getMonth()+1))+(date.getDate()>=10?date.getDate():'0'+date.getDate());
+
     var obj = $("<div class='drag-img' onmousedown='righthit(this)'>").css({"width":"50%","top":0,"left":0}).appendTo($(templates_img));
     $(obj).eq(1).width(($(templates_img).eq(1).width()/2)).on("click",function(){
         dire(this);
@@ -69,6 +77,7 @@ $(".add-upload").change(function(){
     var formdata = new FormData();
     formdata.append("photo", file);
     formdata.append("params", "minify");
+    formdata.append("prefix","templates/photo/" + dateStr + "");
     var http = new XMLHttpRequest();
     //var url = "http://172.28.3.18:3008/upload";
     var url = window.uploadUrl;

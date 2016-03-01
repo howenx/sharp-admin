@@ -84,9 +84,13 @@ function previewImage1(obj, file) {
    }
 
 function upload(thumb, file, id) {
+    //当前系统时间
+    var date = new Date();
+    var dateStr = ''+date.getFullYear()+(date.getMonth()+1>=10?date.getMonth()+1:'0'+(date.getMonth()+1))+(date.getDate()>=10?date.getDate():'0'+date.getDate());
     var formdata = new FormData();
     formdata.append("photo", file);
     formdata.append("params", "minify");
+    formdata.append("prefix","themes/photo/themeImg/"+ dateStr +"/");
     var http = new XMLHttpRequest();
     //var url = "http://172.28.3.18:3008/upload";
     var url  = window.uploadUrl;

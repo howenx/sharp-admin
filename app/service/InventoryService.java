@@ -35,6 +35,7 @@ public interface InventoryService {
      */
     void updInventoryThemeId(Inventory inventory);
 
+<<<<<<< HEAD
 
 
 
@@ -46,4 +47,11 @@ public interface InventoryService {
      * @return List of Skus
      */
     List<Skus> getSkus(Inventory inventory);
+=======
+    /**
+     * 获取状态为"正常"和"预售"的库存商品    Added by Tiffany Zhu 2016.03.01
+     * @return
+     */
+    List<Inventory> getAvailableInventory();
+>>>>>>> 141c379777fc53d17874696fbc2d6474a1821a1b
 }

@@ -90,4 +90,16 @@ public interface PinSkuMapper {
      * @return List of PinSku
      */
     List<PinSku> getPinSkuByInvId(Long invId);
+
+    /**
+     * 更新拼购下架       Added by Tiffany Zhu 2016.02.29
+     * @param id
+     */
+    void updStatusById(Long id);
+
+    /**
+     * 获取状态为"正常"和"预售"的拼购    Added by Tiffany Zhu 2016.03.01
+     * @return
+     */
+    List<PinSku> getAvailablePingou();
 }
