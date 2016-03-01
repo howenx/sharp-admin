@@ -32,7 +32,7 @@
         <include refid="dataLogColumns">
             <property name="alias" value="t"/>
         </include>
-        from data_log t where id=${value}
+        from data_log t where id=#{value}
     </select>
 
     <!-- 获取所有的日志信息 -->

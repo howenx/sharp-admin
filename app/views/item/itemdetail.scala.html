@@ -305,6 +305,8 @@
     /**页面加载时UEdit初始化数据**/
      window.onload=function() {
         setTimeout("UE.getEditor('editor').setContent(itemDetail, false)",500);
+        ue.setDisabled();   //设置UEditor不可编辑
+        $("#edui1_wordcount").css("display", "none");//UEditor输入提示信息隐藏
      };
 
     //实例化编辑器

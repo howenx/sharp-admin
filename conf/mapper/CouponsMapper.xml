@@ -35,7 +35,7 @@
         <include refid="couponsColumns">
             <property name="alias" value="t"/>
         </include>
-        from sp_coupons t where coup_id=${value}
+        from sp_coupons t where coup_id=#{value}
     </select>
 
     <!-- 获取所有的优惠券信息 -->
