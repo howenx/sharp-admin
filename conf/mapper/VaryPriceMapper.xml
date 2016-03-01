@@ -61,7 +61,7 @@
         <include refid="varyPriceColumns">
             <property name="alias" value="t"/>
         </include>
-        from vary_price t where id = ${value}
+        from vary_price t where id = #{value}
     </select>
 
     <update id="updVaryThemeId" parameterType="entity.VaryPrice">

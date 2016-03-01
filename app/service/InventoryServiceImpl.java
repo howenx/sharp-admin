@@ -1,6 +1,7 @@
 package service;
 
 import entity.Inventory;
+import entity.Skus;
 import mapper.InventoryMapper;
 
 import javax.inject.Inject;
@@ -89,5 +90,22 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public void updInventoryThemeId(Inventory inventory) {
         inventoryMapper.updInventoryThemeId(inventory);
+    }
+
+
+
+
+
+
+
+
+    /**
+     * 由库存id查询视图skus的信息     Added by Sunny Wu 2016.03.01
+     * @param inventory
+     * @return List of Skus
+     */
+    @Override
+    public List<Skus> getSkus(Inventory inventory) {
+        return inventoryMapper.getSkus(inventory);
     }
 }

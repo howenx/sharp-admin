@@ -1,6 +1,7 @@
 package mapper;
 
 import entity.Inventory;
+import entity.Skus;
 
 import java.util.List;
 
@@ -44,5 +45,18 @@ public interface InventoryMapper {
      * @param inventory
      */
     void updInventoryThemeId(Inventory inventory);
+
+
+
+
+
+
+
+    /**
+     * 由库存id查询视图skus的信息     Added by Sunny Wu 2016.03.01
+     * @param inventory
+     * @return List of Skus
+     */
+    List<Skus> getSkus(Inventory inventory);
 
 }

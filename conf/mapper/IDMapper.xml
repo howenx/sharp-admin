@@ -38,7 +38,7 @@
         <include refid="idColumns">
             <property name="alias" value="t"/>
         </include>
-        from "ID" t where user_id=${value}
+        from "ID" t where user_id=#{value}
     </select>
 
     <!-- 获取所有的用户信息 -->

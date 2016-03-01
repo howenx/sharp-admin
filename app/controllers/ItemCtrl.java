@@ -49,6 +49,7 @@ public class ItemCtrl extends Controller {
 
     private SubjectPriceService subjectPriceService;
 
+    @Inject
     private ItemMiddle itemMiddle;
 
     @Inject
@@ -63,7 +64,6 @@ public class ItemCtrl extends Controller {
         this.varyPriceService = varyPriceService;
         this.dataLogService = dataLogService;
         this.itemStatisService = itemStatisService;
-        itemMiddle = new ItemMiddle(itemService,inventoryService,varyPriceService,dataLogService,itemStatisService, pingouService, subjectPriceService);
     }
 
     /**
@@ -277,7 +277,7 @@ public class ItemCtrl extends Controller {
         String enNm = ((User) ctx().args.get("user")).enNm().get();
         JsonNode json = request().body().asJson();
 //        Logger.error(json.toString());
-        List<Long> list = ItemMiddle.itemSave(json, enNm, operateIp);
+        List<Long> list = itemMiddle.itemSave(json, enNm, operateIp);
         return ok(list.toString());
     }
 

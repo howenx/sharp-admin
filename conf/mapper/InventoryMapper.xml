@@ -68,7 +68,7 @@
         <include refid="inventoryColumns">
             <property name="alias" value="t"/>
         </include>
-        from inventories t where id=${value}
+        from inventories t where id=#{value}
     </select>
 
     <!-- 由itemId获取多条库存信息 -->
@@ -77,7 +77,7 @@
         <include refid="inventoryColumns">
             <property name="alias" value="t"/>
         </include>
-        from inventories t where item_id=${value}
+        from inventories t where item_id=#{value}
         ORDER BY id
     </select>
 
@@ -136,7 +136,7 @@
         <include refid="inventoryColumns">
             <property name="alias" value="t"/>
         </include>
-        from inventories t where item_id=${value} and or_master_inv = true
+        from inventories t where item_id=#{value} and or_master_inv = true
     </select>
 
     <update id="updInventoryThemeId" parameterType="entity.Inventory">
@@ -144,5 +144,76 @@
         set theme_id = #{themeId}
         where id = #{id}
     </update>
+
+
+
+
+
+
+
+
+
+
+
+    <!--视图skus的操作-->
+    <sql id="skusColumns">
+        ${alias}.sku_type,
+        ${alias}.sku_type_id,
+        ${alias}.sku_type_start_at,
+        ${alias}.sku_type_end_at,
+        ${alias}.sku_type_restrict_amount,
+        ${alias}.sku_type_floor_price,
+        ${alias}.sku_type_discount,
+        ${alias}.sku_type_img,
+        ${alias}.sku_type_status,
+        ${alias}.sku_type_price,
+        ${alias}.sku_type_theme_id,
+        ${alias}.sku_type_sold_amount,
+        ${alias}.sku_type_limit_amount,
+        ${alias}.sku_type_title,
+        ${alias}.id,
+        ${alias}.inv_id,
+        ${alias}.item_id,
+        ${alias}.item_color,
+        ${alias}.item_size,
+        ${alias}.amount,
+        ${alias}.item_price,
+        ${alias}.item_src_price,
+        ${alias}.item_cost_price,
+        ${alias}.item_discount,
+        ${alias}.sold_amount,
+        ${alias}.rest_amount,
+        ${alias}.inv_img,
+        ${alias}.item_preview_imgs::text,
+        ${alias}.or_destroy,
+        ${alias}.destroy_at,
+        ${alias}.update_at,
+        ${alias}.create_at,
+        ${alias}.or_master_inv,
+        ${alias}.state,
+        ${alias}.inv_area,
+        ${alias}.restrict_amount,
+        ${alias}.inv_title,
+        ${alias}.inv_customs,
+        ${alias}.postal_tax_code,
+        ${alias}.inv_weight,
+        ${alias}.postal_tax_rate,
+        ${alias}.carriage_model_code,
+        ${alias}.record_code::text,
+        ${alias}.start_at,
+        ${alias}.end_at,
+        ${alias}.or_vary_price,
+        ${alias}.share_url,
+        ${alias}.share_count,
+        ${alias}.collect_count,
+        ${alias}.browse_count,
+        ${alias}.theme_id,
+        ${alias}.inv_code
+    </sql>
+
+    <select id="getSkus" resultType="entity.Skus" parameterType="entity.Inventory">
+        select sku_type, sku_type_id
+        from skus t where inv_id=#{id}
+    </select>
 
 </mapper>

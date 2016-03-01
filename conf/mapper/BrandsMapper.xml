@@ -22,7 +22,7 @@
         <include refid="brandsColumns">
             <property name="alias" value="t"/>
         </include>
-        from brands t where brand_id=${value}
+        from brands t where brand_id=#{value}
     </select>
 
     <!-- 获取所有的品牌 -->

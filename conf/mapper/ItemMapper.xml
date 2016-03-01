@@ -42,7 +42,7 @@
     <select id="getItem" resultType="entity.Item" parameterType="java.lang.Long">
         select
         id,cate_id,brand_id,item_title,supply_merch,on_shelves_at,off_shelves_at,item_master_img,item_detail_imgs,item_features,theme_id,state,share_url,share_count,collect_count,browse_count,item_notice,or_destroy,destroy_at,update_at,create_at,master_inv_id,item_detail,publicity
-        from items t where id=${value}
+        from items t where id=#{value}
     </select>
 
     <!-- 分页获取商品信息 -->
