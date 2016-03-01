@@ -212,6 +212,13 @@ $(function () {
         changeText(e,this);
     })
     $(".tableok").click(function(){
+        var positive_float = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;       //金钱校验
+
+        if(!positive_float.test($(".tableBlock tbody tr").find("td").eq(8).text()) || !positive_float.test($(".tableBlock tbody tr").find("td").eq(10).text())){
+            alert("自定义价格或折扣须为数字!");
+            return false;
+        }
+
         if(trindex==0){
             $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo($(".tableBlock tbody tr"));
             if($(".tableBlock tbody tr").find("td").eq(8).text() != $(".tableBlock tbody tr").find("td").eq(9).text()){

@@ -8,7 +8,6 @@
 <script type="text/javascript">
     $(function(){
         var sharedObject = window.dialogArguments;
-        debugger;
         if(sharedObject.flag == null){
             var selected_items = sharedObject.selected_items;
             for(i=0;i<selected_items.length;i++){
@@ -20,7 +19,6 @@
                     }
                 })
             }
-
         }
 
         if (sharedObject.flag) {
@@ -31,6 +29,11 @@
         if(sharedObject.pinFlag){
             $("li").css("display","none");
             $("table").eq(1).css("display","none");
+            $(".table").find("tr").each(function(){
+                if($(this).find("td").eq(7).text() == "预售"){
+                    $(this).css("display","none");
+                }
+            })
         }
 
         $(".return").click(function(){
@@ -71,6 +74,27 @@
             window.close ();
         });
 
+        $("input[name='goods']").click(function(){
+            var checkedSkuId = $(this).parent().next().text();
+            var rowIndex = $(this).parent().parent().index();
+            if($(this).prop("checked")){
+                $(".table").find("tr").each(function(){
+                    var id = $(this).find("td:eq(1)").text();
+                    if($(this).index() != rowIndex && checkedSkuId == id){
+                        $(this).find("td:eq(0)").find("input").attr("disabled",'true');
+                        $(this).css("background","#f5f5f5");
+                    }
+                })
+            }else{
+                $(".table").find("tr").each(function(){
+                    var id = $(this).find("td:eq(1)").text();
+                    if($(this).index() != rowIndex && checkedSkuId == id){
+                        $(this).find("td:eq(0)").find("input").attr("disabled",false);
+                        $(this).css("background","");
+                    }
+                })
+            }
+        });
     })
 </script>
 <style>

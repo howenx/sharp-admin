@@ -15,6 +15,7 @@ class AkkaModule extends AbstractModule with AkkaGuiceSupport {
     bindActor[DelScheduleActor]("delScheduleActor")
     bindActor[ThemeDestroyActor]("themeDestroyActor")
     bindActor[PingouOffShelfActor]("pingouOffShelfActor")
+    bindActor[PingouOnShelfActor]("pingouOnShelfActor")
 
   }
 }

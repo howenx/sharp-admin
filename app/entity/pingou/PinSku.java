@@ -16,7 +16,6 @@ public class PinSku implements Serializable {
     @Constraints.Required
     private String pinImg;      //拼购图片
     private String shareUrl;    //分享短连接
-    @Constraints.Required
     private String status;      //状态
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp createAt; //创建时间
