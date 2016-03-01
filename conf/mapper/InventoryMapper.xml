@@ -145,4 +145,13 @@
         where id = #{id}
     </update>
 
+    <select id="getAvailableInventory" resultType="entity.Inventory">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where t.state = 'Y' or t.state = 'P'
+        ORDER BY id
+    </select>
+
 </mapper>

@@ -31,4 +31,10 @@ public interface VaryPriceService {
      */
     void updVaryThemeId(VaryPrice varyPrice);
 
+    /**
+     * 获取状态为"正常"和"预售"的多样化价格商品    Added by Tiffany Zhu 2016.03.01
+     * @return
+     */
+    List<VaryPrice> getAvailableVaryPrice();
+
 }

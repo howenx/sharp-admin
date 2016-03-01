@@ -69,4 +69,13 @@
         set theme_id = #{themeId}
         where id = #{id}
     </update>
+
+    <select id="getAvailableVaryPrice" resultType="entity.VaryPrice">
+        select
+        <include refid="varyPriceColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from vary_price t where t.status = 'Y' or t.status = 'P'
+        ORDER BY id
+    </select>
 </mapper>

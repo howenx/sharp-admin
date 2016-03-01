@@ -111,7 +111,7 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result thsearch(String lang){
-        //service.updDestroy();
+        service.updDestroy();
 
         Theme theme =new Theme();
 
@@ -251,7 +251,7 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result thaddPop(){
         //所有sku列表
-        List<Inventory> inventoryList = inventoryService.getAllInventories();
+        List<Inventory> inventoryList = inventoryService.getAvailableInventory();
         List<Object[]> inList = new ArrayList<>();
         for(Inventory inventory : inventoryList){
             Item item = itemService.getItem(inventory.getItemId());
@@ -292,7 +292,7 @@ public class ThemeCtrl extends Controller {
         }
 
         //拼购列表
-        List<PinSku> pinSkuList = pingouService.getPinSkuAll();
+        List<PinSku> pinSkuList = pingouService.getAvailablePingou();
         List<Object[]> pinList = new ArrayList<>();
         for(PinSku pinSku : pinSkuList){
             Object[] object = new Object[9];
@@ -339,7 +339,7 @@ public class ThemeCtrl extends Controller {
         }
 
         //多样化商品列表
-        List<VaryPrice> varyPriceList = varyPriceService.getAllVaryPrices();
+        List<VaryPrice> varyPriceList = varyPriceService.getAvailableVaryPrice();
         List<Object[]> varyList = new ArrayList<>();
         for(VaryPrice varyPrice : varyPriceList){
             Inventory inventory = inventoryService.getInventory(varyPrice.getInvId());

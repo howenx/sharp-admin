@@ -45,4 +45,10 @@ public interface InventoryMapper {
      */
     void updInventoryThemeId(Inventory inventory);
 
+    /**
+     * 获取状态为"正常"和"预售"的库存商品    Added by Tiffany Zhu 2016.03.01
+     * @return
+     */
+    List<Inventory> getAvailableInventory();
+
 }

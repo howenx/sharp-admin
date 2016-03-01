@@ -356,4 +356,13 @@ public class PingouServiceImpl implements PingouService {
     public void delTieredPrice(List list) {
         pinSkuMapper.delTieredPrice(list);
     }
+
+    /**
+     * 获取状态为"正常"和"预售"的拼购    Added by Tiffany Zhu 2016.03.01
+     * @return
+     */
+    @Override
+    public List<PinSku> getAvailablePingou() {
+        return pinSkuMapper.getAvailablePingou();
+    }
 }
