@@ -145,16 +145,6 @@
         where id = #{id}
     </update>
 
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
-
 
     <!--视图skus的操作-->
     <sql id="skusColumns">
@@ -215,7 +205,8 @@
     <select id="getSkus" resultType="entity.Skus" parameterType="entity.Inventory">
         select sku_type, sku_type_id
         from skus t where inv_id=#{id}
-=======
+    </select>
+
     <select id="getAvailableInventory" resultType="entity.Inventory">
         select
         <include refid="inventoryColumns">
@@ -223,7 +214,7 @@
         </include>
         from inventories t where t.state = 'Y' or t.state = 'P'
         ORDER BY id
->>>>>>> 141c379777fc53d17874696fbc2d6474a1821a1b
+
     </select>
 
 </mapper>

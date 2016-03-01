@@ -92,14 +92,6 @@ public class InventoryServiceImpl implements InventoryService {
         inventoryMapper.updInventoryThemeId(inventory);
     }
 
-<<<<<<< HEAD
-
-
-
-
-
-
-
     /**
      * 由库存id查询视图skus的信息     Added by Sunny Wu 2016.03.01
      * @param inventory
@@ -108,14 +100,16 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public List<Skus> getSkus(Inventory inventory) {
         return inventoryMapper.getSkus(inventory);
-=======
+    }
+
     /**
      * 获取状态为"正常"和"预售"的库存商品    Added by Tiffany Zhu 2016.03.01
+     *
      * @return
      */
     @Override
     public List<Inventory> getAvailableInventory() {
         return inventoryMapper.getAvailableInventory();
->>>>>>> 141c379777fc53d17874696fbc2d6474a1821a1b
     }
+
 }

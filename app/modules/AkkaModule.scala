@@ -1,10 +1,6 @@
 package modules
 
-<<<<<<< HEAD
-import actor.{InventoryAutoShelvesActor, DelScheduleActor, SchedulerCancelOrderActor, OSSActor}
-=======
 import actor._
->>>>>>> 141c379777fc53d17874696fbc2d6474a1821a1b
 import com.google.inject.AbstractModule
 import play.api.libs.concurrent.AkkaGuiceSupport
 
@@ -17,16 +13,8 @@ class AkkaModule extends AbstractModule with AkkaGuiceSupport {
     bindActor[OSSActor] ("oss")
     bindActor[SchedulerCancelOrderActor] ("schedulerCancelOrderActor")
     bindActor[DelScheduleActor]("delScheduleActor")
-<<<<<<< HEAD
-
-
-
-
     bindActor[InventoryAutoShelvesActor]("inventoryAutoShelvesActor")
-=======
     bindActor[ThemeDestroyActor]("themeDestroyActor")
     bindActor[PingouOffShelfActor]("pingouOffShelfActor")
-
->>>>>>> 141c379777fc53d17874696fbc2d6474a1821a1b
   }
 }
