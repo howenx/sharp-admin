@@ -147,9 +147,9 @@ public interface PingouService {
 
     /**
      * 更新拼购下架       Added by Tiffany Zhu 2016.02.29
-     * @param id
+     * @param pinSku
      */
-    void updStatusById(Long id);
+    void updStatusById(PinSku pinSku);
 
     /**
      * 添加阶梯价格       Added by Tiffany Zhu 2016.01.28

@@ -1,6 +1,7 @@
 package service;
 
 import entity.Inventory;
+import entity.Skus;
 import mapper.InventoryMapper;
 
 import javax.inject.Inject;
@@ -92,11 +93,23 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     /**
+     * 由库存id查询视图skus的信息     Added by Sunny Wu 2016.03.01
+     * @param inventory
+     * @return List of Skus
+     */
+    @Override
+    public List<Skus> getSkus(Inventory inventory) {
+        return inventoryMapper.getSkus(inventory);
+    }
+
+    /**
      * 获取状态为"正常"和"预售"的库存商品    Added by Tiffany Zhu 2016.03.01
+     *
      * @return
      */
     @Override
     public List<Inventory> getAvailableInventory() {
         return inventoryMapper.getAvailableInventory();
     }
+
 }

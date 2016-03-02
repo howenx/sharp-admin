@@ -19,11 +19,12 @@ public class SubjectPrice implements Serializable {
     private Timestamp createAt;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateAt;
+    private String state;
 
     public SubjectPrice() {
     }
 
-    public SubjectPrice(Long id, Long themeId, Long invId, BigDecimal price, BigDecimal discount, Timestamp createAt, Timestamp updateAt) {
+    public SubjectPrice(Long id, Long themeId, Long invId, BigDecimal price, BigDecimal discount, Timestamp createAt, Timestamp updateAt, String state) {
         this.id = id;
         this.themeId = themeId;
         this.invId = invId;
@@ -31,6 +32,7 @@ public class SubjectPrice implements Serializable {
         this.discount = discount;
         this.createAt = createAt;
         this.updateAt = updateAt;
+        this.state = state;
     }
 
     @Override
@@ -43,6 +45,7 @@ public class SubjectPrice implements Serializable {
                 ", discount=" + discount +
                 ", createAt=" + createAt +
                 ", updateAt=" + updateAt +
+                ", state=" + state +
                 '}';
     }
 
@@ -100,5 +103,13 @@ public class SubjectPrice implements Serializable {
 
     public void setUpdateAt(Timestamp updateAt) {
         this.updateAt = updateAt;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

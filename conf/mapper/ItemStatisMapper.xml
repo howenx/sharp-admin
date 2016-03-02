@@ -27,7 +27,7 @@
         <include refid="itemStatisColumns">
             <property name="alias" value="t"/>
         </include>
-        from item_statis t where id=${value}
+        from item_statis t where id=#{value}
     </select>
 
     <select id="getAllItemStatis" resultType="entity.ItemStatis">

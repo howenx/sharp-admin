@@ -13,8 +13,10 @@ class AkkaModule extends AbstractModule with AkkaGuiceSupport {
     bindActor[OSSActor] ("oss")
     bindActor[SchedulerCancelOrderActor] ("schedulerCancelOrderActor")
     bindActor[DelScheduleActor]("delScheduleActor")
+    bindActor[InventoryAutoShelvesActor]("inventoryAutoShelvesActor")
     bindActor[ThemeDestroyActor]("themeDestroyActor")
     bindActor[PingouOffShelfActor]("pingouOffShelfActor")
+    bindActor[PingouOnShelfActor]("pingouOnShelfActor")
 
   }
 }

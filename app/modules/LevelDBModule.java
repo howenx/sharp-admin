@@ -1,6 +1,7 @@
 package modules;
 
 import com.google.inject.AbstractModule;
+import middle.ItemMiddle;
 import play.Configuration;
 import play.Environment;
 
@@ -23,5 +24,6 @@ public class LevelDBModule extends AbstractModule {
     protected void configure() {
         bind(LevelFactory.class).asEagerSingleton();
         bind(NewScheduler.class);
+        bind(ItemMiddle.class);
     }
 }
