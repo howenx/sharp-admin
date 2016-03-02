@@ -142,8 +142,6 @@
 </div>
 <script>
 
-    var imageURL = window.imageURL;
-
     /** 数据改变的提示 **/
     $(document).on('change', '.form-data-area', function() {
 		$('.usercenter-option > .user-state').css('background-position', '20px -73px');
@@ -162,7 +160,7 @@
         var brandName = $("#brandName").val();
         var brandDesc = $("#brandDesc").val();
         var url = $(".img-logo").find("img").attr("src");
-        var logoUrl = url.split(imageURL)[1];
+        var logoUrl = url.split(window.imageURL)[1];
         console.log(logoUrl);
         var brand = new Object();
         brand.brandNm = brandName;

@@ -72,6 +72,8 @@ $(function() {
         change_flag = true;
     })
 
+    var imgUrl = window.url;
+
 	/**	保存 **/
 	$(document).on('click', '#js-usercenter-submit', function() {
 		if (change_flag) {
@@ -86,13 +88,15 @@ $(function() {
 //				slider.img = $(this).attr('src').replace(regex,'');
                 var img = {};
                 var imgSrc = $(this).attr('src');
-                img["url"] = imgSrc.substring(imgSrc.lastIndexOf('/')+1,imgSrc.length);
+                if (imgSrc!=null) img["url"] = imgSrc.split(window.url)[1];
                 img["width"] = $(this).attr('width');
                 img["height"] = $(this).attr('height');
                 var imgUrl = $(this).attr('src');
 				slider.img = JSON.stringify(img);
-				slider.itemTarget = $(this).attr('data-target');
-                slider.targetType = $(this).attr('data-type');
+				var itemTarget = $(this).attr('data-target');
+				var targetType = $(this).attr('data-type');
+				slider.itemTarget = itemTarget==""?null:itemTarget;
+				slider.targetType = targetType==""?null:targetType;
 				slider_array.push(slider);
 			})
 
@@ -170,7 +174,7 @@ $(function() {
 		reader.onload = function(e) {
             var image = new Image();
             image.src = e.target.result;
-            alert(["图片大小是: width:"+image.width+", height:"+image.height]);
+           // alert(["图片大小是: width:"+image.width+", height:"+image.height]);
             var width = image.width;
             var height = image.height;
 			$('.slider-li-upload').before('<li class="slider-single-li">' +
@@ -186,15 +190,20 @@ $(function() {
 		}
 	}
 
+     var date = new Date();
+     var dateStr = ''+date.getFullYear()+(date.getMonth()+1>=10?date.getMonth()+1:'0'+(date.getMonth()+1))+(date.getDate()>=10?date.getDate():'0'+date.getDate());
+
 	function upload($thumb, file) {
 		if (file != null) {
 			var formdata = new FormData();
+			var prefix = "slider/pic/"+dateStr+"/"
 			formdata.append("photo", file);
 			formdata.append("params", "minify");
+			formdata.append("prefix", prefix);
 
 			var http = new XMLHttpRequest();
 
-			var url = window.url + "/upload";
+			var url = window.uploadUrl + "/upload";
 
 			http.open("POST", url, true);
 

@@ -179,7 +179,6 @@ function Init () {
     }
 }
 
-    var imageUrl = window.imageUrl;
     var date = new Date();
     var dateStr = ''+date.getFullYear()+(date.getMonth()+1>=10?date.getMonth()+1:'0'+(date.getMonth()+1))+(date.getDate()>=10?date.getDate():'0'+date.getDate());
 
@@ -231,27 +230,29 @@ function saveCurr() {
     }
     //上下架时间验证
     var nowDate = new Date();
+     var ss = moment(nowDate).format("YYYYMMDD");
     var maxDate = nowDate.setMonth(nowDate.getMonth()+6);
-    var d1 = new Date(Date.parse(startAt.replace(/-/g,"/")));//下架时间比当前时间小
-    var d2 = new Date(Date.parse(endAt.replace(/-/g,"/")));//下架时间比当前时间小
+    var d1 = new Date(Date.parse(startAt.replace(/-/g,"/")));//上架时间
+    var d2 = new Date(Date.parse(endAt.replace(/-/g,"/")));//下架时间
+
     //修改(state为正常时,下架时间不能小于当前时间)
     if (invId!="" && invId!=null) {
-        if (startAt==null || endAt==null || startAt >= endAt || (d2<=nowDate&&state=="Y")) {
+        if (startAt==null || endAt==null || startAt >= endAt) {
                orSave = false;
-               $("#warn-date").html("日期不正确");
+               $("#warn-date").html("请检查时间设置");
         } else $("#warn-date").html("");
     }
     //新增(上架时间和下架时间均不能小于当前时间)
     else {
-        if (startAt==null || endAt==null || startAt >= endAt || d2<=nowDate || d1<=nowDate) {
+        if (startAt==null || endAt==null || startAt >= endAt) {
                orSave = false;
-               $("#warn-date").html("日期不正确");
+               $("#warn-date").html("时间设置不能小于当前时间");
         } else $("#warn-date").html("");
     }
     if (d1>=maxDate || d2>=maxDate) {
         orSave = false;
-        $("#warn-date").html("日期设置必须在六个月以内");
-    } else $("#warn-date").html("");
+        alert("上架时间和下架时间距离现在不能超过六个月");
+    }
     //行邮税率设置 F免税:税率为0,行邮税号不设置; S标准税率:税率不设置,输入行邮税号(数字); D自定义税率:设置税率,行邮税号不设置
     if (rateSet == "") {
         orSave = false;
@@ -281,7 +282,7 @@ function saveCurr() {
         $("#warn-m").text("");
         var imgM = $("#galleryM").find(".main-img");
         var imgSrc = imgM.attr("src");
-        if (imgSrc != null) invImg["url"] = imgSrc.split(imageUrl)[1];
+        if (imgSrc != null) invImg["url"] = imgSrc.split(window.imageUrl)[1];
         invImg["width"] = imgM.attr("width");
         invImg["height"] = imgM.attr("height");
     }
@@ -313,7 +314,7 @@ function saveCurr() {
         $("#galleryP").find(".main-img").each(function() {
             var imgsV = {};
             var preSrc = $(this).attr("src");
-            if (preSrc != null) imgsV["url"] = preSrc.split(imageUrl)[1];
+            if (preSrc != null) imgsV["url"] = preSrc.split(window.imageUrl)[1];
             imgsV["width"] = $(this).attr("width");
             imgsV["height"] = $(this).attr("height");
             itemPreviewImgs.push(imgsV);

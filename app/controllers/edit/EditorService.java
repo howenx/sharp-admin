@@ -8,11 +8,9 @@ import play.Play;
 import play.libs.Json;
 import play.mvc.Http;
 
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -70,28 +68,28 @@ public class EditorService {
 	
 	public HashMap<String,String> editorUploadFile(Http.MultipartFormData.FilePart picture, String typeName) throws Exception{
 
-		ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
-		   Reader scriptReader = new InputStreamReader(EditorService.class.getResourceAsStream("/public/js/edit_img_upload.js"));
-		if (engine != null) {
-			try {
-				// JS引擎解析文件
-				engine.eval(scriptReader);
-				if (engine instanceof Invocable) {
-					Invocable invocable = (Invocable) engine;
-					// JS引擎调用方法
-					Object result = invocable.invokeFunction("upload", scriptReader, "D");
-					System.out.println("The result is: " + result);
-				}
-			} catch (ScriptException e) {
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				e.printStackTrace();
-			} finally {
-				scriptReader.close();
-			}
-		} else {
-			System.out.println("ScriptEngine create error!");
-		}
+//		ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
+//		   Reader scriptReader = new InputStreamReader(EditorService.class.getResourceAsStream("/public/js/edit_img_upload.js"));
+//		if (engine != null) {
+//			try {
+//				// JS引擎解析文件
+//				engine.eval(scriptReader);
+//				if (engine instanceof Invocable) {
+//					Invocable invocable = (Invocable) engine;
+//					// JS引擎调用方法
+//					Object result = invocable.invokeFunction("upload", scriptReader, "D");
+//					System.out.println("The result is: " + result);
+//				}
+//			} catch (ScriptException e) {
+//				e.printStackTrace();
+//			} catch (NoSuchMethodException e) {
+//				e.printStackTrace();
+//			} finally {
+//				scriptReader.close();
+//			}
+//		} else {
+//			System.out.println("ScriptEngine create error!");
+//		}
 		HashMap<String,String> map = new HashMap<String,String>();
 		String url = "";
 		if(picture != null){

@@ -75,8 +75,15 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result slider(String lang) {
-//        flash("success", session("username"));
-        return ok(views.html.theme.slider.render(lang,service.sliderAll(),IMAGE_URL,(User) ctx().args.get("user")));
+        List<Slider> sliderList = service.sliderAll();
+        for (Slider slider : sliderList) {
+            JsonNode img = Json.parse(slider.getImg());
+            String imgUrl = img.get("url").asText();
+            String width = img.get("width").asText();
+            String height = img.get("height").asText();
+            slider.setImg(imgUrl+","+width+","+height);
+        }
+        return ok(views.html.theme.slider.render(lang,sliderList,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
     /**
