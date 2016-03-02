@@ -3,7 +3,6 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.edit.EditorService;
-import filters.UserAuth;
 import org.springframework.util.StringUtils;
 import play.Logger;
 import play.Play;
@@ -13,7 +12,6 @@ import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import play.mvc.Security;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -91,7 +89,7 @@ public class EditorApplication extends Controller{
 	
 	//获取配置信息
 	public static String getConfig(){
-		File file = Play.application().getFile("/public/editorphp/php/config.json");
+		File file = Play.application().getFile("/assets/editorphp/php/config.json");
         InputStream in = null;
 		String config = "";
 		if(Cache.get("editorConfig")!=null){

@@ -322,7 +322,7 @@ public class ItemCtrl extends Controller {
      */
     public Result delModel(String modelCode) {
         boolean bool = carriageService.delModelByCode(modelCode);
-        if(bool==true)  return ok("true");
+        if(bool)  return ok("true");
         else return ok("false");
     }
 
@@ -361,7 +361,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result brandAdd(String lang){
-        return ok(views.html.item.brandadd.render(lang,(User) ctx().args.get("user"),ThemeCtrl.IMG_UPLOAD_URL));
+        return ok(views.html.item.brandadd.render(lang,(User) ctx().args.get("user"),ThemeCtrl.IMG_UPLOAD_URL,ThemeCtrl.IMAGE_URL));
     }
 
     /**
