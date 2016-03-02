@@ -18,7 +18,7 @@ public class InventoryAutoShelvesActor extends AbstractActor {
     public InventoryAutoShelvesActor(ItemMiddle itemMiddle) {
         receive(ReceiveBuilder.match(Long.class, invId -> {
             itemMiddle.updateState(invId);
-            Logger.error(invId.toString()+"autoShelves actor");
+            Logger.debug(invId.toString()+"autoShelves actor");
         }).matchAny(s -> {
             Logger.error("InventoryAutoShelvesActor received messages not matched: {}", s.toString());
             unhandled(s);
