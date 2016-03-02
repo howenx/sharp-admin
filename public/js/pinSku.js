@@ -615,17 +615,25 @@ $(function(){
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
-
+        //当前系统时间
+        var dateTime = new Date();
+        var currentTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+        //限制时间 当前时间 + 6个月
+        dateTime.setMonth(dateTime.getMonth() + 6);
+        var validDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+        if($("#offShelvesAt").val() > validDate || $("#onShelvesAt").val() > 0){
+            isPost = false;
+            $('#js-userinfo-error').text('开始时间和结束时间均不能大于当前时间 + 6个月!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+        }
         if($("#onShelvesAt").val() > $("#offShelvesAt").val()){
             isPost = false;
             $('#js-userinfo-error').text('日期不正确!').css('color', '#c00');
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
-         //当前系统时间
-         var dateTime = new Date();
-         dateTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-         if($("#offShelvesAt").val() <= dateTime){
+         if($("#offShelvesAt").val() <= currentTime){
              isPost = false;
              $('#js-userinfo-error').text('结束时间须大于当前时间!').css('color', '#c00');
              setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
