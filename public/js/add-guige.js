@@ -195,6 +195,7 @@ function saveCurr() {
     var sharedObject = {};
     var trd = $("<tr>");
     var trdobj = {};
+    var invId = $("#invId").val();//sku id
     var itemColor = $("input[name=itemColor]:checked").val();//颜色
     var itemSize = $("input[name=itemSize]:checked").val();//尺寸
     var invCode = $("#invCode").val();//规格编号
@@ -367,7 +368,6 @@ function saveCurr() {
         trdobj.openVaryPrice = "false";
         trdobj.varyPrice = "";
     }
-    var invId = $("#invId").val();//sku id
     trdobj.invId = invId;
 
     console.log(trdobj);

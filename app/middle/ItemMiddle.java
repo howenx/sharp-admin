@@ -1,7 +1,6 @@
 package middle;
 
 import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.*;
@@ -51,9 +50,6 @@ public class ItemMiddle {
 
     @Inject
     private LevelFactory levelFactory;
-
-    @Inject
-    private ActorSystem system;
 
     @Inject
     private ItemMiddle itemMiddle;
@@ -149,6 +145,9 @@ public class ItemMiddle {
                     if (startTimes>nowTimes) {//上架时间比现在时间大为预售状态
                         inventory.setState("P");
                     }
+                    if (startTimes<nowTimes && nowTimes<endTimes) {//现在时间介于上架和下架时间之间为正常状态
+                        inventory.setState("Y");
+                    }
                     if (endTimes<nowTimes) {//下架时间比当前时间小为下架状态
                         inventory.setState("D");
                     }
@@ -204,12 +203,14 @@ public class ItemMiddle {
                     if ((null!=inventory.getId() && (originInv.getStartAt()!=startAt||originInv.getEndAt()!=endAt) && endTimes>nowTimes) || null==inventory.getId()) {
                         if (((null!=inventory.getId()&&originInv.getStartAt()!=startAt) || null==inventory.getId()) && startTimes>nowTimes ) {
                             //上架时间大于现在时间 启动上架schedule
-                            Logger.debug("auto on shelves start...");
+                            Logger.error("auto on shelves start...");
                             newScheduler.scheduleOnce(Duration.create(startTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
                         }
-                        //下架scheduler
-                        Logger.debug("auto off shelves start...");
-                        newScheduler.scheduleOnce(Duration.create(endTimes-startTimes,TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
+                        if (((null!=inventory.getId()&&originInv.getStartAt()!=startAt) || null==inventory.getId()) && startTimes<nowTimes && endTimes>nowTimes ) {
+                            //上架时间小于现在时间小于下架时间 启动下架scheduler
+                            Logger.error("auto off shelves start...");
+                            newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
+                        }
                     }
 
                     list.add(inventory.getId());
@@ -246,15 +247,28 @@ public class ItemMiddle {
      * @param invId 库存id
      */
     public void updateState(Long invId) {
-        Inventory originInv = inventoryService.getInventory(invId);
-        Inventory inventory = new Inventory();
-        String orginState = originInv.getState();
-        if (orginState.equals("P")) {
+        Inventory inventory = inventoryService.getInventory(invId);
+        String state = inventory.getState();
+        Date now = new Date();
+        Long nowTimes = now.getTime();
+        Long endTimes = inventory.getEndAt().getTime();
+        if (state.equals("P")) {
             inventory.setState("Y");
+            //启动下架schedule
+            Logger.error("auto off shelves start...");
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes,TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
         }
-        if (orginState.equals("Y")) {
+        if (state.equals("Y")) {
             inventory.setState("D");
+
         }
+        inventoryService.updateInventory(inventory);
         //修改pin_sku表中状态(获取PinSku,更新状态)
         List<PinSku> pinSkuList = pingouService.getPinSkuByInvId(inventory.getId());
         for(PinSku pinSku : pinSkuList) {

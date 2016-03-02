@@ -33,21 +33,11 @@ public class ItemCtrl extends Controller {
 
     private ItemService itemService;
 
-    private ThemeService themeService;
-
     private InventoryService inventoryService;
 
     private CarriageService carriageService;
 
     private VaryPriceService varyPriceService;
-
-    private DataLogService dataLogService;
-
-    private ItemStatisService itemStatisService;
-
-    private PingouService pingouService;
-
-    private SubjectPriceService subjectPriceService;
 
     @Inject
     private ItemMiddle itemMiddle;
@@ -56,14 +46,11 @@ public class ItemCtrl extends Controller {
     Configuration configuration;
 
     @Inject
-    public ItemCtrl(ItemService itemService, ThemeService themeService, InventoryService inventoryService, CarriageService carriageService, VaryPriceService varyPriceService, DataLogService dataLogService, ItemStatisService itemStatisService, PingouService pingouService, SubjectPriceService subjectPriceService) {
+    public ItemCtrl(ItemService itemService, InventoryService inventoryService, CarriageService carriageService, VaryPriceService varyPriceService) {
         this.itemService = itemService;
-        this.themeService = themeService;
         this.inventoryService = inventoryService;
         this.carriageService = carriageService;
         this.varyPriceService = varyPriceService;
-        this.dataLogService = dataLogService;
-        this.itemStatisService = itemStatisService;
     }
 
     /**
