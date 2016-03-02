@@ -2,10 +2,9 @@ package actor;
 
 import akka.actor.AbstractActor;
 import akka.japi.pf.ReceiveBuilder;
+import entity.pingou.PinSku;
 import play.Logger;
 import service.PingouService;
-import service.ThemeService;
-
 import javax.inject.Inject;
 
 /**
@@ -13,13 +12,18 @@ import javax.inject.Inject;
  */
 public class PingouOffShelfActor extends AbstractActor {
     @Inject
-    public PingouOffShelfActor(PingouService pingouService) {
+    PingouService pingouService;
 
+    public PingouOffShelfActor() {
         receive(ReceiveBuilder.match(Long.class, message -> {
-            pingouService.updStatusById(message);
+            PinSku pinSku = new PinSku();
+            pinSku.setPinId(message);
+            pinSku.setStatus("D");
+            pingouService.updStatusById(pinSku);
             Logger.error("" + message.toString());
         }).matchAny(s -> {
             unhandled(s);
+            Logger.error("" + s.toString());
         }).build());
     }
 }

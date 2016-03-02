@@ -93,9 +93,9 @@ public interface PinSkuMapper {
 
     /**
      * 更新拼购下架       Added by Tiffany Zhu 2016.02.29
-     * @param id
+     * @param pinSku
      */
-    void updStatusById(Long id);
+    void updStatusById(PinSku pinSku);
 
     /**
      * 获取状态为"正常"和"预售"的拼购    Added by Tiffany Zhu 2016.03.01

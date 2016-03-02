@@ -88,8 +88,8 @@
         update pin_sku set status = 'D' where end_at &lt;= CURRENT_TIMESTAMP(0)
     </update>
 
-    <update id="updStatusById" parameterType="java.lang.Long">
-        update pin_sku set status = 'D' where pin_id = #{value}
+    <update id="updStatusById" parameterType="entity.pingou.PinSku">
+        update pin_sku set status = #{status} where pin_id = #{pinId}
     </update>
     
     <select id="getAvailablePingou" resultType="entity.pingou.PinSku">

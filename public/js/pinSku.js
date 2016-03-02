@@ -100,8 +100,8 @@ $(function(){
         var memberMin = $("#memberMin").val();
 
         //进行验证
-        if(!positive_int.test(peopleNum)){
-            alert('"拼购人数"为整数数字!');
+        if(!positive_int.test(peopleNum) || peopleNum<=1){
+            alert('"拼购人数"须为大于1的整数数字!');
             return false;
         }
         if(!positive_float.test(price)){
@@ -123,34 +123,34 @@ $(function(){
                 alert('请选择团长优惠券类别!');
                 return false;
             }
+            var doCheck = true;
             $(".tz").find("input").each(function(){
                 if($(this).val() == ""){
                    alert('团长优惠券信息均不能为空!');
+                   doCheck = false;
                     return false;
                 }
             })
-            if(!positive_float.test($(".tz").find("input").eq(0).val())){
-                    alert('团长优惠券-限额为数字!');
-                     return false;
+            if(doCheck){
+                if(!positive_float.test($(".tz").find("input").eq(0).val())){
+                        alert('团长优惠券-限额为数字!');
+                         return false;
+                }
+                if(!positive_float.test($(".tz").find("input").eq(1).val())){
+                         alert('团长优惠券-面值为数字!');
+                         return false;
+                }
+                if($(".tz").find("input").eq(2).val() > $(".tz").find("input").eq(3).val()){
+                       alert('团长优惠券-使用期限不正确!');
+                        return false;
+                }
+                if($(".tz").find("input").eq(3).val() <= dateTime){
+                       alert('团长优惠券-结束时间须大于当前时间!');
+                        return false;
+                }
+            }else{
+                return false;
             }
-            if(!positive_float.test($(".tz").find("input").eq(1).val())){
-                     alert('团长优惠券-面值为数字!');
-                     return false;
-            }
-            if($(".tz").find("input").eq(2).val() > $(".tz").find("input").eq(3).val()){
-                   alert('团长优惠券-实用期限日期不正确!');
-                    return false;
-            }
-            if($(".tz").find("input").eq(3).val() <= dateTime){
-                   alert('团长优惠券-结束时间须大于当前时间!');
-                    return false;
-            }
-
-
-        }
-        //没有团长优惠券
-        if($(":radio[value='tz-no']").prop("checked")){
-
         }
         //团员优惠券
         if($(":radio[value='ty-yes']").prop("checked")){
@@ -158,27 +158,33 @@ $(function(){
                 alert('请选择团员优惠券类别!');
                 return false;
             }
+            var doCheck = true;
             $(".ty").find("input").each(function(){
                 if($(this).val() == ""){
                     alert('团员优惠券信息均不能为空!');
+                    doCheck = false;
                     return false;
                 }
             })
-            if(!positive_float.test($(".ty").find("input").eq(0).val())){
-                     alert('团员优惠券-限额为数字!');
-                     return false;
-            }
-            if(!positive_float.test($(".ty").find("input").eq(1).val())){
-                     alert('团员优惠券-面值为数字!');
-                     return false;
-            }
-            if($(".ty").find("input").eq(2).val() > $(".ty").find("input").eq(3).val()){
-                    alert('团员优惠券-使用期限日期不正确!');
-                    return false;
-            }
-            if($(".ty").find("input").eq(3).val() <= dateTime){
-                    alert('团员优惠券-结束时间须大于当前时间!');
-                    return false;
+            if(doCheck){
+                if(!positive_float.test($(".ty").find("input").eq(0).val())){
+                         alert('团员优惠券-限额为数字!');
+                         return false;
+                }
+                if(!positive_float.test($(".ty").find("input").eq(1).val())){
+                         alert('团员优惠券-面值为数字!');
+                         return false;
+                }
+                if($(".ty").find("input").eq(2).val() > $(".ty").find("input").eq(3).val()){
+                        alert('团员优惠券-使用期限不正确!');
+                        return false;
+                }
+                if($(".ty").find("input").eq(3).val() <= dateTime){
+                        alert('团员优惠券-结束时间须大于当前时间!');
+                        return false;
+                }
+            }else{
+                return false;
             }
         }
 
@@ -361,8 +367,8 @@ $(function(){
         var memberMin = $("#memberMin").val();
 
         //进行验证
-        if(!positive_int.test(peopleNum)){
-            alert('"拼购人数"为整数数字!');
+        if(!positive_int.test(peopleNum) || peopleNum<=1){
+            alert('"拼购人数"须为大于1的整数数字!');
             return false;
         }
         if(!positive_float.test(price)){
@@ -383,27 +389,33 @@ $(function(){
                 alert('请选择团长优惠券类别!');
                 return false;
             }
+            var doCheck = true;
             $(".tz").find("input").each(function(){
                 if($(this).val() == ""){
-                   alert('团长优惠券信息均不能为空!');
+                    alert('团长优惠券信息均不能为空!');
+                    doCheck = false;
                     return false;
                 }
             })
-            if(!positive_float.test($(".tz").find("input").eq(0).val())){
-                    alert('团长优惠券-限额为数字!');
-                     return false;
-            }
-            if(!positive_float.test($(".tz").find("input").eq(1).val())){
-                     alert('团长优惠券-面值为数字!');
-                     return false;
-            }
-            if($(".tz").find("input").eq(2).val() > $(".tz").find("input").eq(3).val()){
-                   alert('团长优惠券-实用期限日期不正确!');
-                    return false;
-            }
-            if($(".tz").find("input").eq(3).val() <= dateTime){
-                   alert('团长优惠券-结束时间须大于当前时间!');
-                    return false;
+            if(doCheck){
+                if(!positive_float.test($(".tz").find("input").eq(0).val())){
+                        alert('团长优惠券-限额为数字!');
+                         return false;
+                }
+                if(!positive_float.test($(".tz").find("input").eq(1).val())){
+                         alert('团长优惠券-面值为数字!');
+                         return false;
+                }
+                if($(".tz").find("input").eq(2).val() > $(".tz").find("input").eq(3).val()){
+                       alert('团长优惠券-使用期限不正确!');
+                        return false;
+                }
+                if($(".tz").find("input").eq(3).val() <= dateTime){
+                       alert('团长优惠券-结束时间须大于当前时间!');
+                        return false;
+                }
+            }else{
+                return false;
             }
         }
         //没有团长优惠券
@@ -416,27 +428,33 @@ $(function(){
                 alert('请选择团员优惠券类别!');
                 return false;
             }
+            var doCheck = true;
             $(".ty").find("input").each(function(){
                 if($(this).val() == ""){
                     alert('团员优惠券信息均不能为空!');
+                    doCheck = false;
                     return false;
                 }
             })
-            if(!positive_float.test($(".ty").find("input").eq(0).val())){
-                     alert('团员优惠券-限额为数字!');
-                     return false;
-            }
-            if(!positive_float.test($(".ty").find("input").eq(1).val())){
-                     alert('团员优惠券-面值为数字!');
-                     return false;
-            }
-            if($(".ty").find("input").eq(2).val() > $(".ty").find("input").eq(3).val()){
-                    alert('团员优惠券-实用期限日期不正确!');
-                    return false;
-            }
-            if($(".ty").find("input").eq(3).val() <= dateTime){
-                    alert('团员优惠券-结束时间须大于当前时间!');
-                    return false;
+            if(doCheck){
+                if(!positive_float.test($(".ty").find("input").eq(0).val())){
+                         alert('团员优惠券-限额为数字!');
+                         return false;
+                }
+                if(!positive_float.test($(".ty").find("input").eq(1).val())){
+                         alert('团员优惠券-面值为数字!');
+                         return false;
+                }
+                if($(".ty").find("input").eq(2).val() > $(".ty").find("input").eq(3).val()){
+                        alert('团员优惠券-使用期限不正确!');
+                        return false;
+                }
+                if($(".ty").find("input").eq(3).val() <= dateTime){
+                        alert('团员优惠券-结束时间须大于当前时间!');
+                        return false;
+                }
+            }else{
+                return false;
             }
         }
         var tds = $(".pingou").find("tr").eq($("#colIndex").val()).find("td");
@@ -554,7 +572,7 @@ $(function(){
 
          $("#onShelvesAt").attr("disabled",false);    //开始时间
          $("#offShelvesAt").attr("disabled",false);   //结束时间
-         $("#status").attr("disabled",false);         //状态
+         //$("#status").attr("disabled",false);         //状态
          $("#restrict").attr("disabled",false);       //每用户限购
          $("#pinTitle").attr("disabled",false);       //商品标题
          $(".btn-xm").eq(0).css("display","");        //选择商品'按钮'
@@ -584,7 +602,7 @@ $(function(){
     $(document).on("click","#pinSkuSubmit",function(){
         var isPost = true;
         //必填项验证
-        if($("#onShelvesAt").val() == "" || $("#offShelvesAt").val() == "" || $("#input_imgurl").val() == "" || $("#restrict").val() == "" || $("#status").val() == "" || $("#pinTitle").val() == ""){
+        if($("#onShelvesAt").val() == "" || $("#offShelvesAt").val() == "" || $("#input_imgurl").val() == "" || $("#restrict").val() == "" || $("#pinTitle").val() == ""){
             isPost = false;
             $('#js-userinfo-error').text('基本信息不能为空!').css('color', '#c00');
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
@@ -638,6 +656,12 @@ $(function(){
         if(!positive_float.test($("#pin_discount").val())){
            isPost = false;
            $('#js-userinfo-error').text('最低折扣率为数字!').css('color', '#c00');
+           setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+           return false;
+        }
+        if($("#pin_discount").val() <= 0){
+           isPost = false;
+           $('#js-userinfo-error').text('最低折扣率须大于零!').css('color', '#c00');
            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
            return false;
         }
@@ -709,7 +733,7 @@ $(function(){
         }
         pinSku.pinImg = JSON.stringify(imgUrl);
         pinSku.shareUrl = "";
-        pinSku.status = $("#status").val();
+        //pinSku.status = $("#status").val();
         pinSku.startAt = $("#onShelvesAt").val();
         pinSku.endAt = $("#offShelvesAt").val();
         pinSku.restrictAmount = $("#restrict").val();

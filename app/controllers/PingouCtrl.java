@@ -1,7 +1,7 @@
 package controllers;
 
 import actor.PingouOffShelfActor;
-import actor.ThemeDestroyActor;
+import actor.PingouOnShelfActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -28,6 +28,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by tiffany on 16/1/19.
@@ -39,6 +40,14 @@ public class PingouCtrl extends Controller {
 
     @Inject
     private NewScheduler newScheduler;
+
+    @Inject
+    @Named("pingouOffShelfActor")
+    private ActorRef pingouOffShelfActor;
+
+    @Inject
+    @Named("pingouOnShelfActor")
+    private ActorRef pingouOnShelfActor;
 
 
 
@@ -62,22 +71,20 @@ public class PingouCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result pingouSave(String lang){
         JsonNode json = request().body().asJson();
-        //数据验证-------------------------start
-        if(json.has("pinSku")){
-           JsonNode pinSkuJson = json.findValue("pinSku");
-           PinSku pinSku = Json.fromJson(pinSkuJson,PinSku.class);
-           Form<PinSku> pinSkuForm = Form.form(PinSku.class).bind(pinSkuJson);
-            SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date now = new Date();
-            String strNow = sdfDate.format(now);
-           if(pinSkuForm.hasErrors() || !(Regex.isJason(pinSku.getFloorPrice())) || !(Regex.isJason(pinSku.getPinImg())) ||
-                   pinSku.getRestrictAmount() <= 0 || pinSku.getStartAt().compareTo(pinSku.getEndAt()) >= 0 || pinSku.getEndAt().compareTo(strNow) <=0 ){
-               return badRequest();
-           }
-        }
+        //获取当前时间
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         String strNow = sdfDate.format(now);
+        //数据验证-------------------------start
+        if(json.has("pinSku")){
+           JsonNode pinSkuJson = json.findValue("pinSku");
+           PinSku pinSkuValidation = Json.fromJson(pinSkuJson,PinSku.class);
+           Form<PinSku> pinSkuForm = Form.form(PinSku.class).bind(pinSkuJson);
+           if(pinSkuForm.hasErrors() || !(Regex.isJason(pinSkuValidation.getFloorPrice())) || !(Regex.isJason(pinSkuValidation.getPinImg())) ||
+                   pinSkuValidation.getRestrictAmount() <= 0 || pinSkuValidation.getStartAt().compareTo(pinSkuValidation.getEndAt()) >= 0 || pinSkuValidation.getEndAt().compareTo(strNow) <=0 ){
+               return badRequest();
+           }
+        }
         if(json.has("tieredPrice")) {
             JsonNode tieredPriceJson = json.findValue("tieredPrice");
             if (tieredPriceJson.size() > 0) {
@@ -95,6 +102,11 @@ public class PingouCtrl extends Controller {
         PinSku pinSku = new PinSku();
         if(json.has("pinSku")){
             pinSku = Json.fromJson(json.findValue("pinSku"), PinSku.class);
+            if(pinSku.getStartAt().compareTo(strNow) > 0){
+                pinSku.setStatus("P");
+            }else{
+                pinSku.setStatus("Y");
+            }
         }
         //更新拼购
         if(pinSku.getPinId() != null){
@@ -190,17 +202,34 @@ public class PingouCtrl extends Controller {
         }
 
         //创建Scheduled Actor         ---start
-        ActorRef pingouOffShelf = Akka.system().actorOf(Props.create(PingouOffShelfActor.class,pingouService));
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date endAt = null;
-        try{
-            endAt = sdf.parse(pinSku.getEndAt());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        if(endAt != null){
-            FiniteDuration duration = Duration.create(endAt.getTime() - now.getTime(), TimeUnit.MILLISECONDS);
-            newScheduler.scheduleOnce(duration,pingouOffShelf,pinSku.getPinId());
+        //part1     预售-->正常
+        if("P".equals(pinSku.getStatus())){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date startAt = null;
+            try{
+                startAt = sdf.parse(pinSku.getStartAt());
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            if(startAt != null && (startAt.getTime() - now.getTime() > 0)){
+                FiniteDuration duration = Duration.create(startAt.getTime() - now.getTime() , TimeUnit.MILLISECONDS);
+                newScheduler.scheduleOnce(duration,pingouOnShelfActor,pinSku.getPinId());
+            }
+        }else{
+            //part2     正常-->下架
+            //ActorRef pingouOffShelf = Akka.system().actorOf(Props.create(PingouOffShelfActor.class,pingouService));
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date endAt = null;
+            try{
+                endAt = sdf.parse(pinSku.getEndAt());
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            if(endAt != null && (endAt.getTime() - now.getTime() > 0)){
+                FiniteDuration duration = Duration.create(endAt.getTime() - now.getTime(), TimeUnit.MILLISECONDS);
+                newScheduler.scheduleOnce(duration,pingouOffShelfActor,pinSku.getPinId());
+            }
+
         }
         //创建Scheduled Actor         ---end
 

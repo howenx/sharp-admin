@@ -335,11 +335,11 @@ public class PingouServiceImpl implements PingouService {
 
     /**
      * 更新拼购下架       Added by Tiffany Zhu 2016.02.29
-     * @param id
+     * @param pinSku
      */
     @Override
-    public void updStatusById(Long id) {
-        pinSkuMapper.updStatusById(id);
+    public void updStatusById(PinSku pinSku) {
+        pinSkuMapper.updStatusById(pinSku);
     }
 
     @Override
