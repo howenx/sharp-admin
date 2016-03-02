@@ -243,21 +243,9 @@ $(function() {
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
-        if($("#themeImg").find("img").attr("src") == ""){
-            isPost = false;
-            $('#js-userinfo-error').text('请选择主题图片!').css('color', '#c00');
-            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-            return false;
-        }
          if($("#onShelvesAt").val()>$("#offShelvesAt").val()){
             isPost = false;
             $('#js-userinfo-error').text('日期不正确!').css('color', '#c00');
-            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-            return false;
-         }
-         if(!httpRe.test($("#h5-link").val())){
-            isPost = false;
-            $('#js-userinfo-error').text('H5链接格式错误!').css('color', '#c00');
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
          }
@@ -267,6 +255,18 @@ $(function() {
          if($("#offShelvesAt").val() <= dateTime){
              isPost = false;
              $('#js-userinfo-error').text('结束时间须大于当前时间!').css('color', '#c00');
+             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+             return false;
+         }
+         if(!httpRe.test($("#h5-link").val())){
+            isPost = false;
+            $('#js-userinfo-error').text('H5链接格式错误!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+         }
+         if($("#themeImg").find("img").attr("src") == ""){
+             isPost = false;
+             $('#js-userinfo-error').text('请选择主题图片!').css('color', '#c00');
              setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
              return false;
          }
@@ -280,7 +280,7 @@ $(function() {
          theme.h5Link = $("#h5-link").val();
          //主题主图片
          var themeImgContent = {};
-         var url = $("#themeImg").find("input").attr("id");
+         var url = $("#themeImg").find("img").attr("src");
          themeImgContent.url = url.substring(url.indexOf('/',url.indexOf('/')+2) + 1);
          themeImgContent.width = $("#themeImg").find("input").width().toString();
          themeImgContent.height = $("#themeImg").find("input").height().toString();

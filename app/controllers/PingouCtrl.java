@@ -1,9 +1,6 @@
 package controllers;
 
-import actor.PingouOffShelfActor;
-import actor.PingouOnShelfActor;
 import akka.actor.ActorRef;
-import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.User;
 import entity.pingou.*;
@@ -13,7 +10,6 @@ import play.Logger;
 import play.data.Form;
 import play.i18n.Lang;
 import play.i18n.Messages;
-import play.libs.Akka;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -22,11 +18,9 @@ import scala.concurrent.duration.Duration;
 import scala.concurrent.duration.FiniteDuration;
 import service.PingouService;
 import util.Regex;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
