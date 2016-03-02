@@ -231,6 +231,7 @@ function saveCurr() {
     }
     //上下架时间验证
     var nowDate = new Date();
+    var maxDate = nowDate.setMonth(nowDate.getMonth()+6);
     var d1 = new Date(Date.parse(startAt.replace(/-/g,"/")));//下架时间比当前时间小
     var d2 = new Date(Date.parse(endAt.replace(/-/g,"/")));//下架时间比当前时间小
     //修改(state为正常时,下架时间不能小于当前时间)
@@ -247,7 +248,10 @@ function saveCurr() {
                $("#warn-date").html("日期不正确");
         } else $("#warn-date").html("");
     }
-
+    if (d1>=maxDate || d2>=maxDate) {
+        orSave = false;
+        $("#warn-date").html("日期设置必须在六个月以内");
+    } else $("#warn-date").html("");
     //行邮税率设置 F免税:税率为0,行邮税号不设置; S标准税率:税率不设置,输入行邮税号(数字); D自定义税率:设置税率,行邮税号不设置
     if (rateSet == "") {
         orSave = false;

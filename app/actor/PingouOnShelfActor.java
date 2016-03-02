@@ -2,12 +2,10 @@ package actor;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
-import akka.actor.Props;
 import akka.japi.pf.ReceiveBuilder;
 import entity.pingou.PinSku;
 import modules.NewScheduler;
 import play.Logger;
-import play.libs.Akka;
 import scala.concurrent.duration.Duration;
 import scala.concurrent.duration.FiniteDuration;
 import service.PingouService;
@@ -27,7 +25,6 @@ public class PingouOnShelfActor extends AbstractActor {
     private NewScheduler newScheduler;
     @Inject
     PingouService pingouService;
-
     @Inject
     @Named("pingouOffShelfActor")
     private ActorRef pingouOffShelfActor;
@@ -36,15 +33,16 @@ public class PingouOnShelfActor extends AbstractActor {
     public PingouOnShelfActor() {
 
         receive(ReceiveBuilder.match(Long.class, message -> {
+            //预售-->正常
             PinSku pinSku = pingouService.getPinSkuById(message);
             pinSku.setStatus("Y");
             pingouService.updStatusById(pinSku);
+
             Thread.sleep(10000);
+
             //创建 Scheduled Actor   正常-->下架         ----Start
             //获取当前时间
-            Logger.error("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
             Date now = new Date();
-//            ActorRef pingouOffShelf = Akka.system().actorOf(Props.create(PingouOffShelfActor.class,pingouService));
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date endAt = null;
             try{
@@ -54,12 +52,8 @@ public class PingouOnShelfActor extends AbstractActor {
             }
             if(endAt != null && (endAt.getTime() - now.getTime() > 0)){
                 FiniteDuration duration = Duration.create(endAt.getTime() - now.getTime(), TimeUnit.MILLISECONDS);
-                Logger.error(duration.toString());
-//                Logger.error(pingouOffShelf.toString());
-                Logger.error(message.toString());
                 newScheduler.scheduleOnce(duration,pingouOffShelfActor,pinSku.getPinId());
             }
-            Logger.error("*****************************************************************");
             //创建 Scheduled Actor   正常-->下架         ----end
             Logger.error("" + message.toString());
         }).matchAny(s -> {

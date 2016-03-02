@@ -1,13 +1,16 @@
 @import play.i18n._
-@(lang:String="cn",user:entity.User,uploadURL:String)
+@(lang:String="cn",user:entity.User,uploadURL:String,imageURL:String)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
 <script src="/assets/js/jquery.min.js"></script>
 <script>window.uploadURL = '@uploadURL'</script>
+<script>window.imageURL = '@imageURL'</script>
 <script>
     $(function(){
-
+        //当前系统时间
+        var date = new Date();
+        var dateStr = ''+date.getFullYear()+(date.getMonth()+1>=10?date.getMonth()+1:'0'+(date.getMonth()+1))+(date.getDate()>=10?date.getDate():'0'+date.getDate());
         /** 上传图片 **/
         $(document).on('change','.upload-logo',function() {
             var file = $(this);
@@ -51,8 +54,10 @@
         function upload(thumb, file, id) {
             document.getElementById("mask").style.display = 'block';
             var formdata = new FormData();
+            var prefix = "brand/logo/" + dateStr + "/";
             formdata.append("photo", file);
             formdata.append("params", "minify");
+            formdata.append("prefix", prefix);
             var http = new XMLHttpRequest();
             var url = window.uploadURL + "/upload";
             http.open("POST", url, true);
@@ -137,6 +142,8 @@
 </div>
 <script>
 
+    var imageURL = window.imageURL;
+
     /** 数据改变的提示 **/
     $(document).on('change', '.form-data-area', function() {
 		$('.usercenter-option > .user-state').css('background-position', '20px -73px');
@@ -155,7 +162,8 @@
         var brandName = $("#brandName").val();
         var brandDesc = $("#brandDesc").val();
         var url = $(".img-logo").find("img").attr("src");
-        var logoUrl = url.substring(url.lastIndexOf('/')+1,url.length);
+        var logoUrl = url.split(imageURL)[1];
+        console.log(logoUrl);
         var brand = new Object();
         brand.brandNm = brandName;
         brand.brandDesc = brandDesc;

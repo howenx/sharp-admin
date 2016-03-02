@@ -3,6 +3,7 @@ package shareLinksBuilder;
 import java.security.MessageDigest;
 
 /**
+ *
  * Created by tiffany on 16/1/23.
  */
 public class ShortUrlBuilder {

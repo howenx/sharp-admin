@@ -194,6 +194,7 @@ $(function () {
     });
 
     var trindex;
+    var editRow;
     $("table.grid tbody").on("dblclick","tr",function(e){
         if(pageEditStatus){
             var obj = e.target;
@@ -202,6 +203,7 @@ $(function () {
             }
             if($(this).find("td").eq(2).text() == "普通" || $(this).find("td").eq(2).text() == "自定义"){
                 trindex = $(".grid tbody tr").index($(this));
+                editRow = $(this).prop("outerHTML");
                 $(".tableBlock").show();
                 $(this).find("td").eq(11).remove();
                 $(this).appendTo(".tableBlock tbody");
@@ -215,7 +217,15 @@ $(function () {
         var positive_float = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;       //金钱校验
 
         if(!positive_float.test($(".tableBlock tbody tr").find("td").eq(8).text()) || !positive_float.test($(".tableBlock tbody tr").find("td").eq(10).text())){
-            alert("自定义价格或折扣须为数字!");
+            alert("自定义价格或折扣须为正数数字!");
+            return false;
+        }
+        if($(".tableBlock tbody tr").find("td").eq(8).text() < 0 || $(".tableBlock tbody tr").find("td").eq(8).text() > $(".tableBlock tbody tr").find("td").eq(9).text()){
+            alert("自定义价格须大于零小于原价!");
+            return false;
+        }
+        if($(".tableBlock tbody tr").find("td").eq(10).text() < 0 || $(".tableBlock tbody tr").find("td").eq(10).text() > 10){
+            alert("自定义折扣须大于0小于10!");
             return false;
         }
 
@@ -237,13 +247,21 @@ $(function () {
     })
 
     $(".tableok-cancel").click(function(){
+
         if(trindex==0){
-            $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo($(".tableBlock tbody tr"));
-            $(".tableBlock tbody tr").prependTo($(".grid tbody"));
+            //$("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo($(".tableBlock tbody tr"));
+            //$(".tableBlock tbody tr").prependTo($(".grid tbody"));
+            $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo($(editRow));
+            $(editRow).prependTo($(".grid tbody"));
+            $(".tableBlock tbody tr").remove();
         }else{
-            $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo($(".tableBlock tbody tr"));
-            $(".tableBlock tbody tr").insertAfter($(".grid>tbody>tr").eq(trindex-1));
+            //$("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo($(".tableBlock tbody tr"));
+            //$(".tableBlock tbody tr").insertAfter($(".grid>tbody>tr").eq(trindex-1));
+            $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo($(editRow));
+            $(editRow).insertAfter($(".grid>tbody>tr").eq(trindex-1));
+            $(".tableBlock tbody tr").remove();
         }
+
         $(".tableBlock").hide();
     })
 })
