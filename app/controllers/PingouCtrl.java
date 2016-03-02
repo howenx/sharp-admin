@@ -69,13 +69,19 @@ public class PingouCtrl extends Controller {
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         String strNow = sdfDate.format(now);
+        //当前时间 + 6个月
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        calendar.add(Calendar.MONTH,+6);
+        String validDate = sdfDate.format(calendar.getTime());
         //数据验证-------------------------start
         if(json.has("pinSku")){
            JsonNode pinSkuJson = json.findValue("pinSku");
            PinSku pinSkuValidation = Json.fromJson(pinSkuJson,PinSku.class);
            Form<PinSku> pinSkuForm = Form.form(PinSku.class).bind(pinSkuJson);
            if(pinSkuForm.hasErrors() || !(Regex.isJason(pinSkuValidation.getFloorPrice())) || !(Regex.isJason(pinSkuValidation.getPinImg())) ||
-                   pinSkuValidation.getRestrictAmount() <= 0 || pinSkuValidation.getStartAt().compareTo(pinSkuValidation.getEndAt()) >= 0 || pinSkuValidation.getEndAt().compareTo(strNow) <=0 ){
+                   pinSkuValidation.getRestrictAmount() <= 0 || pinSkuValidation.getStartAt().compareTo(pinSkuValidation.getEndAt()) >= 0 ||
+                   pinSkuValidation.getEndAt().compareTo(strNow) <=0 || pinSkuValidation.getStartAt().compareTo(validDate) > 0 || pinSkuValidation.getEndAt().compareTo(validDate) > 0){
                return badRequest();
            }
         }
