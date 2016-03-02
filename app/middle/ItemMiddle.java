@@ -221,12 +221,12 @@ public class ItemMiddle {
                         VaryPrice varyPrice = Json.fromJson(varyPriceNode, VaryPrice.class);
                         varyPrice.setInvId(inventory.getId());
 //                        varyPrice.setStatus("Y");
-                        //SKU状态修改,多样化价格和SKU状态保持一致
-                        if (!originInv.getState().equals(inventory.getState())) {
-                            varyPrice.setStatus(inventory.getState());
-                        }
                         //更新多样化价格信息
                         if (varyPriceNode.has("id")) {
+                            //SKU状态修改,多样化价格和SKU状态保持一致
+                            if (!originInv.getState().equals(inventory.getState())) {
+                                varyPrice.setStatus(inventory.getState());
+                            }
                             VaryPrice originVp = varyPriceService.getVaryPriceById(varyPrice.getId());
                             varyPrice.setSoldAmount(originVp.getSoldAmount());
                             varyPriceService.updateVaryPrice(varyPrice);
