@@ -393,11 +393,18 @@ public class ThemeCtrl extends Controller {
         //数据验证      ----start
         Form<Theme> themeForm = Form.form(Theme.class).bind(json);
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //当前时间
         Date now = new Date();
         String strNow = sdfDate.format(now);
+        //当前时间 + 6个月
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        calendar.add(Calendar.MONTH,+6);
+        String validDate = sdfDate.format(calendar.getTime());
         //基本样式不匹配;主图片,商品ID不是Json格式;首页主图不是Json格式;主图标签不是Json格式;开始日期大于结束日期;
         if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || !(Regex.isJason(theme.getThemeItem())) || !(Regex.isJason(theme.getThemeMasterImg()))
-                || (theme.getMasterItemTag() != null && !(Regex.isJason(theme.getMasterItemTag()))) || (theme.getStartAt().compareTo(theme.getEndAt())>= 0) || theme.getEndAt().compareTo(strNow) <= 0){
+                || (theme.getMasterItemTag() != null && !(Regex.isJason(theme.getMasterItemTag()))) || (theme.getStartAt().compareTo(theme.getEndAt())>= 0) ||
+                theme.getEndAt().compareTo(strNow) <= 0 || theme.getStartAt().compareTo(validDate) > 0 || theme.getEndAt().compareTo(validDate) > 0 ){
             return badRequest();
         }
         //数据验证      ----end
@@ -858,10 +865,17 @@ public class ThemeCtrl extends Controller {
         //数据验证      ----start
         Form<Theme> themeForm = Form.form(Theme.class).bind(json);
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //当前时间
         Date now = new Date();
         String strNow = sdfDate.format(now);
+        //当前时间 + 6个月
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        calendar.add(Calendar.MONTH,+6);
+        String validDate = sdfDate.format(calendar.getTime());
         //基本样式不匹配;主图片,商品ID,首页主图,主图标签     不是Json格式
-        if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || (theme.getStartAt().compareTo(theme.getEndAt())>=0) || theme.getEndAt().compareTo(strNow) <= 0 ){
+        if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || (theme.getStartAt().compareTo(theme.getEndAt())>=0) ||
+                theme.getEndAt().compareTo(strNow) <= 0 || theme.getStartAt().compareTo(validDate) > 0 || theme.getEndAt().compareTo(validDate) > 0  ){
             return badRequest();
         }
         //数据验证      ----end
