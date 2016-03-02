@@ -394,6 +394,7 @@ public class ThemeCtrl extends Controller {
         Form<Theme> themeForm = Form.form(Theme.class).bind(json);
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
+        Date validDate = now.a
         String strNow = sdfDate.format(now);
         //基本样式不匹配;主图片,商品ID不是Json格式;首页主图不是Json格式;主图标签不是Json格式;开始日期大于结束日期;
         if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || !(Regex.isJason(theme.getThemeItem())) || !(Regex.isJason(theme.getThemeMasterImg()))
