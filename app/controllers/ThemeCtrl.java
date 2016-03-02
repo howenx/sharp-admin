@@ -267,23 +267,18 @@ public class ThemeCtrl extends Controller {
 
             if("Y".equals(inventory.getState())){
                 object[4] = "正常";
-
             }
             if("D".equals(inventory.getState())){
                 object[4] = "下架";
-
             }
             if("N".equals(inventory.getState())){
                 object[4] = "删除";
-
             }
             if("K".equals(inventory.getState())){
                 object[4] = "售空";
-
             }
             if("P".equals(inventory.getState())){
                 object[4] = "预售";
-
             }
             object[5] = inventory.getItemCostPrice();
             object[6] = inventory.getItemSrcPrice();
@@ -306,23 +301,18 @@ public class ThemeCtrl extends Controller {
             object[3] = pinSku.getStartAt();
             if("Y".equals(pinSku.getStatus())){
                 object[4] = "正常";
-
             }
             if("D".equals(pinSku.getStatus())){
                 object[4] = "下架";
-
             }
             if("N".equals(pinSku.getStatus())){
                 object[4] = "删除";
-
             }
             if("K".equals(pinSku.getStatus())){
                 object[4] = "售空";
-
             }
             if("P".equals(pinSku.getStatus())){
                 object[4] = "预售";
-
             }
             if(Regex.isJason(pinSku.getFloorPrice())){
                 JsonNode floorPriceJson = Json.parse(pinSku.getFloorPrice());
@@ -355,11 +345,20 @@ public class ThemeCtrl extends Controller {
                 object[2] = url;
             }
             object[3] = inventory.getStartAt();
-            if("Y".equals(inventory.getState())){
+            if("Y".equals(varyPrice.getStatus())){
                 object[4] = "正常";
             }
-            if("N".equals(inventory.getState())){
+            if("D".equals(varyPrice.getStatus())){
                 object[4] = "下架";
+            }
+            if("N".equals(varyPrice.getStatus())){
+                object[4] = "删除";
+            }
+            if("K".equals(varyPrice.getStatus())){
+                object[4] = "售空";
+            }
+            if("P".equals(varyPrice.getStatus())){
+                object[4] = "预售";
             }
             object[6] = inventory.getItemSrcPrice();
             object[7] = varyPrice.getPrice().divide(inventory.getItemSrcPrice(),2);
@@ -367,7 +366,6 @@ public class ThemeCtrl extends Controller {
             object[8] = varyPrice.getInvId();
             varyList.add(object);
         }
-
         return ok(views.html.theme.thaddPop.render(inList,pinList,varyList,IMAGE_URL));
     }
 
@@ -869,6 +867,21 @@ public class ThemeCtrl extends Controller {
         //数据验证      ----end
         theme.setType("h5");
         service.h5ThemeSave(theme);
+        //创建Scheduled Actor         ---start
+        ActorRef themeOffShelf = Akka.system().actorOf(Props.create(ThemeDestroyActor.class,service));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date endAt = null;
+        try{
+            endAt = sdf.parse(theme.getEndAt());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        if(endAt != null){
+            FiniteDuration duration = Duration.create(endAt.getTime() - now.getTime(), TimeUnit.MILLISECONDS);
+            newScheduler.scheduleOnce(duration,themeOffShelf,theme.getId());
+        }
+        //创建Scheduled Actor         ---end
+
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 

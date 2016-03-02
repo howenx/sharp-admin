@@ -270,7 +270,7 @@ $(function() {
                         '<td>' + ($(this)[0].startAt != null && $(this)[0].startAt != '' ? $(this)[0].startAt.substr(0, 16) : '') + '</td>}' +
                         '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 16) : '') + '</td>}' +
                         '<td>' + status + '</td>' +
-                        '<td><a href="javascript:void(0)' + ' ">' + $(this)[0].activityCount + '</a></td>' +
+                        '<td><a href="/'+window.lang+'/pin/activity/list/'+$(this)[0].pinId + ' ">' + $(this)[0].activityCount + '</a></td>' +
                         '<td><a href="/'+window.lang+'/pin/activityAdd/'+$(this)[0].pinId + ' ">' + '手动开团' + '</a></td>' +
                         '</tr>'
                     );
@@ -303,7 +303,7 @@ $(function() {
                 $('#tb-topic').find('tbody').append('' +
                     '<tr class="tb-list-data">' +
                     '<td><a href="/'+window.lang+'/pin/activity/geActivityById/'+$(this)[0].pinActiveId + ' ">' + $(this)[0].pinActiveId + '</a></td>' +
-                    '<td>' + $(this)[0].pinId + '</td>' +
+                    '<td><a href="/'+window.lang+'/pin/getPinById/'+ $(this)[0].pinId + ' ">' + $(this)[0].pinId + '</a></td>' +
                     '<td>' + $(this)[0].pinTitle + '</td>' +
                     '<td>' + ($(this)[0].createAt != null && $(this)[0].createAt != '' ? $(this)[0].createAt.substr(0, 16) : '') + '</td>}' +
                     '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 16) : '') + '</td>}' +

@@ -611,7 +611,7 @@ $(function(){
 
         if(!positive_int.test($("#restrict").val())){
             isPost = false;
-            $('#js-userinfo-error').text('每用户限购为整数数字!').css('color', '#c00');
+            $('#js-userinfo-error').text('每用户限购为正整数数字!').css('color', '#c00');
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
@@ -638,14 +638,6 @@ $(function(){
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
-
-        if($("table").find("tr").length == 1){
-           isPost = false;
-           $('#js-userinfo-error').text('请添加价格阶梯!').css('color', '#c00');
-           setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-           return false;
-        }
-
         if($("#pin_discount").val() == ""){
            isPost = false;
            $('#js-userinfo-error').text('最低折扣率不能为空!').css('color', '#c00');
@@ -655,13 +647,19 @@ $(function(){
 
         if(!positive_float.test($("#pin_discount").val())){
            isPost = false;
-           $('#js-userinfo-error').text('最低折扣率为数字!').css('color', '#c00');
+           $('#js-userinfo-error').text('最低折扣率为正数数字!').css('color', '#c00');
            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
            return false;
         }
-        if($("#pin_discount").val() <= 0){
+        if($("#pin_discount").val() < 0 || $("#pin_discount").val() > 10){
            isPost = false;
-           $('#js-userinfo-error').text('最低折扣率须大于零!').css('color', '#c00');
+           $('#js-userinfo-error').text('最低折扣率须大于0小于10!').css('color', '#c00');
+           setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+           return false;
+        }
+        if($("table").find("tr").length == 1){
+           isPost = false;
+           $('#js-userinfo-error').text('请添加价格阶梯!').css('color', '#c00');
            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
            return false;
         }

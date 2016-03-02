@@ -75,24 +75,26 @@
         });
 
         $("input[name='goods']").click(function(){
-            var checkedSkuId = $(this).parent().next().text();
-            var rowIndex = $(this).parent().parent().index();
-            if($(this).prop("checked")){
-                $(".table").find("tr").each(function(){
-                    var id = $(this).find("td:eq(1)").text();
-                    if($(this).index() != rowIndex && checkedSkuId == id){
-                        $(this).find("td:eq(0)").find("input").attr("disabled",'true');
-                        $(this).css("background","#f5f5f5");
-                    }
-                })
-            }else{
-                $(".table").find("tr").each(function(){
-                    var id = $(this).find("td:eq(1)").text();
-                    if($(this).index() != rowIndex && checkedSkuId == id){
-                        $(this).find("td:eq(0)").find("input").attr("disabled",false);
-                        $(this).css("background","");
-                    }
-                })
+            if($("input[name=goods]").attr("type") == "checkbox"){
+                var checkedSkuId = $(this).parent().next().text();
+                var rowIndex = $(this).parent().parent().index();
+                if($(this).prop("checked")){
+                    $(".table").find("tr").each(function(){
+                        var id = $(this).find("td:eq(1)").text();
+                        if($(this).index() != rowIndex && checkedSkuId == id){
+                            $(this).find("td:eq(0)").find("input").attr("disabled",'true');
+                            $(this).css("background","#f5f5f5");
+                        }
+                    })
+                }else{
+                    $(".table").find("tr").each(function(){
+                        var id = $(this).find("td:eq(1)").text();
+                        if($(this).index() != rowIndex && checkedSkuId == id){
+                            $(this).find("td:eq(0)").find("input").attr("disabled",false);
+                            $(this).css("background","");
+                        }
+                    })
+                }
             }
         });
     })
