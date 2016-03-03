@@ -67,8 +67,9 @@
     <div class="page-title">
         <span class="title-name">订单详情</span>
     </div>
+    <div class="row">
     <form class="form-horizontal">
-        <h4 class="h4-custom-hmm order-info">用户信息</h4>
+        <h4 class="h4-custom-hmm">用户信息</h4>
         <div class="form-group">
             <div class="col-sm-6">
                 <span>用户ID:</span>
@@ -82,7 +83,7 @@
             </div>
         </div>
         <hr/>
-        <h4 class="h4-custom-hmm order-info">订单信息</h4>
+        <h4 class="h4-custom-hmm">订单信息</h4>
         <div class="form-group">
             <div class="col-sm-6">
                 <span>订单编号:</span>
@@ -158,12 +159,13 @@
             <div class="col-sm-6">
                 <span>支付状态:</span>
                 <input type="text" value="@orderDetail(6)" disabled>
+                <!--
                 @if(orderDetail(6) == "订单已超时"){
                 <button type="button" id="orderCancel" class="btn btn-primary btn-sm pull-right check-logistics">
                     取消订单
                 </button>
                 }
-
+                -->
             </div>
         </div>
 
@@ -263,6 +265,7 @@
         }
 }
     </form>
+    </div>
 </div>
 <!-- 点击图片预览-->
 <div class="goods-img-bg">
