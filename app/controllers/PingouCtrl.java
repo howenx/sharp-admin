@@ -536,8 +536,6 @@ public class PingouCtrl extends Controller {
         if(json.has("tieredPriceId")){
             pinTieredPrice = pingouService.getTieredPriceByTieredId(json.get("tieredPriceId").asLong());
         }
-        Logger.error(pinSku.toString());
-        Logger.error(pinTieredPrice.toString());
         if(pinSku != null && pinTieredPrice != null){
             Long userId = new Long(1111111);            //机器人用户ID
             //添加拼购活动
@@ -586,8 +584,6 @@ public class PingouCtrl extends Controller {
                 }
                 pingouService.activityManualAddCoupon(pinCoupon);
             }
-
-
             //拼购活动用户
             PinUser pinUser = new PinUser();
             pinUser.setUserId(userId);                              //用户ID
@@ -597,6 +593,8 @@ public class PingouCtrl extends Controller {
             pinUser.setOrRobot(true);                               //是否机器人
             pinUser.setUserImg("");                                 //用户头像
             pingouService.pinUserAdd(pinUser);
+        }else{
+            return badRequest();
         }
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
