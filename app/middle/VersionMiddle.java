@@ -53,7 +53,7 @@ public class VersionMiddle {
 
             versionVo.setFileName(fileName);
 
-            versionVo.setDownloadLink(configuration.getString("oss.url")+productType+"/"+fileName);
+            versionVo.setDownloadLink(configuration.getString("image.server.url")+productType+"/"+fileName);
 
 
             oss_client.get().putObject(configuration.getString("oss.bucket"), productType+"/"+fileName, is, objMetadata);
@@ -75,15 +75,15 @@ public class VersionMiddle {
             oss_client.get().putObject(configuration.getString("oss.bucket"), productType+"/"+xmlFileName, new ByteArrayInputStream(baos.toByteArray()), objMetadata);
 
 
-            versionVo.setUpdateReqXml(configuration.getString("oss.url")+productType+"/"+xmlFileName);
+            versionVo.setUpdateReqXml(configuration.getString("image.server.url")+productType+"/"+xmlFileName);
 
             itemService.updateVersioning(versionVo);
 
             itemService.insertVersioning(versionVo);
 
-            Logger.error("xml地址:\n"+configuration.getString("oss.url")+productType+"/"+xmlFileName);
+            Logger.error("xml地址:\n"+configuration.getString("image.server.url")+productType+"/"+xmlFileName);
 
-            Logger.error("上传的APP地址:\n"+configuration.getString("oss.url")+productType+"/"+fileName);
+            Logger.error("上传的APP地址:\n"+configuration.getString("image.server.url")+productType+"/"+fileName);
 
     }
 

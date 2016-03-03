@@ -216,6 +216,18 @@ $(function() {
                     if($(this)[0].orderStatus == "N"){
                         orderStatus = "已删除";
                     }
+                    if ($(this)[0].orderStatus == "T") {
+                        orderStatus =  "已退款";
+                    }
+                    if ($(this)[0].orderStatus == "PI") {
+                        orderStatus =  "拼购未支付";
+                    }
+                    if ($(this)[0].orderStatus == "PS") {
+                        orderStatus =  "拼购支付成功";
+                    }
+                    if ($(this)[0].orderStatus == "PF") {
+                        orderStatus =  "拼团失败未退款";
+                    }
                 }
                 $('#tb-topic').find('tbody').append('' +
                     '<tr class="tb-list-data">' +
@@ -225,7 +237,6 @@ $(function() {
                     '<td>' + $(this)[0].payTotal + '</td>' +
                     '<td>' + payMethod + '</td>' +
                     '<td>' + orderStatus + '</td>' +
-                    //'<td>' + (orderStatus == "订单已超时" ? '<a href="/' + window.lang +'/comm/order/detail/' + $(this)[0].orderId + '">取消订单</a>' : '') + '</td>}' +
                     '</tr>'
                 );
             })
