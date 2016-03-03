@@ -7,6 +7,7 @@ import entity.order.OrderLine;
 import entity.order.OrderShip;
 import entity.order.OrderSplit;
 import filters.UserAuth;
+import net.spy.memcached.MemcachedClient;
 import play.Logger;
 import play.i18n.Lang;
 import play.i18n.Messages;
@@ -39,6 +40,13 @@ public class OrderCtrl extends Controller {
 
     @Inject
     private OrderShipService orderShipService;
+
+    @Inject
+    private IDService idService;
+
+
+
+
     /**
      * 订单列表     Added by Tiffany Zhu
      * @param lang
@@ -107,6 +115,21 @@ public class OrderCtrl extends Controller {
                 }
                 if("J".equals(order.getOrderStatus())){
                     object[5] = "拒收";
+                }
+                if ("N".equals(order.getOrderStatus())) {
+                    object[5] =  "已删除";
+                }
+                if ("T".equals(order.getOrderStatus())) {
+                    object[5] =  "已退款";
+                }
+                if ("PI".equals(order.getOrderStatus())) {
+                    object[5] =  "拼购未支付";
+                }
+                if (("PS").equals(order.getOrderStatus())) {
+                    object[5] =  "拼购支付成功";
+                }
+                if (("PF").equals(order.getOrderStatus())) {
+                    object[5] =  "拼团失败未退款";
                 }
             }
 
@@ -212,7 +235,18 @@ public class OrderCtrl extends Controller {
             if ("N".equals(order.getOrderStatus())) {
                 orderArray[6] =  "已删除";
             }
-
+            if ("T".equals(order.getOrderStatus())) {
+                orderArray[6] =  "已退款";
+            }
+            if ("PI".equals(order.getOrderStatus())) {
+                orderArray[6] =  "拼购未支付";
+            }
+            if (("PS").equals(order.getOrderStatus())) {
+                orderArray[6] =  "拼购支付成功";
+            }
+            if (("PF").equals(order.getOrderStatus())) {
+                orderArray[6] =  "拼团失败未退款";
+            }
         }
         orderArray[7] = order.getShipFee();     //邮费
         orderArray[8] = order.getPostalFee();   //行邮税
@@ -288,7 +322,13 @@ public class OrderCtrl extends Controller {
             //全部的子订单信息
             subOrdersAll.add(subOrderList);
         }
-        return ok(views.html.order.orderdetail.render(lang,orderArray,orderShip,subOrdersAll,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
+
+        //用户信息
+        ID ClientUser = idService.getID(Integer.parseInt(order.getUserId().toString()));
+        Object[] userObject = new Object[2];
+        userObject[0] = order.getUserId();
+        userObject[1] = ClientUser.getPhoneNum();
+        return ok(views.html.order.orderdetail.render(lang,orderArray,orderShip,subOrdersAll,ThemeCtrl.IMAGE_URL,userObject,(User) ctx().args.get("user")));
     }
 
     /**
