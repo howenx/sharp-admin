@@ -229,26 +229,42 @@ public class ThemeCtrl extends Controller {
     public Result sliderPop(){
         //主题列表
         List<Theme> themeList = service.getThemesAll();
-        //SKU列表
-        List<Inventory> inventoryList = inventoryService.getAllInventories();
-        //拼购列表
-        List<PinSku> pinSkuList = pingouService.getPinSkuAll();
-        List<Object[]> pinList = new ArrayList<>();
-        for(PinSku pinSku : pinSkuList){
-            Object[] object = new Object[8];
-            object[0] = pinSku.getPinId();
-            object[1] = pinSku.getPinTitle();
-            JsonNode json = Json.parse(pinSku.getPinImg());
-            String url = json.get("url").toString();
-            object[2] = url.substring(1,url.length()-1);
-            object[3] = pinSku.getStartAt();
-            object[4] = pinSku.getStatus();
-            object[5] = pinSku.getFloorPrice();
-            object[6] = inventoryService.getInventory(pinSku.getInvId()).getItemSrcPrice();
-            object[7] = pinSku.getPinDiscount();
-            pinList.add(object);
+        for(Theme theme : themeList) {
+            theme.setThemeImg(Json.parse(theme.getThemeImg()).get("url").asText());
         }
-        return ok(views.html.theme.sliderPop.render(themeList,inventoryList,pinList,IMAGE_URL));
+        List<Skus> skusList = inventoryService.getAllSkus();
+        List<Skus> list = new ArrayList<>();
+        for(Skus skus : skusList) {//商品列表为(除自定义价格的预售和正常商品)
+            if (!skus.getSkuType().equals("customize")&&(skus.getSkuTypeStatus().equals("P")||skus.getSkuTypeStatus().equals("Y"))) {
+                skus.setSkuTypeImg(Json.parse(skus.getSkuTypeImg()).get("url").asText());
+                list.add(skus);
+            }
+        }
+
+        //SKU列表
+//        List<Inventory> inventoryList = inventoryService.getAllInventories();
+//        //拼购商品列表
+//        List<PinSku> pinSkuList = pingouService.getPinSkuAll();
+//        List<Object[]> pinList = new ArrayList<>();
+//        for(PinSku pinSku : pinSkuList){
+//            Object[] object = new Object[9];
+//            object[0] = pinSku.getPinId();
+//            object[1] = pinSku.getPinTitle();
+//            object[2] = Json.parse(pinSku.getPinImg()).get("url").asText();
+//            object[3] = pinSku.getStartAt();
+//            object[4] = pinSku.getEndAt();
+//            object[5] = pinSku.getStatus();
+//            object[6] = inventoryService.getInventory(pinSku.getInvId()).getItemSrcPrice();
+//            object[7] = Json.parse(pinSku.getFloorPrice()).get("price").asText();
+//            object[8] = pinSku.getPinDiscount();
+//            pinList.add(object);
+//        }
+//        Logger.error(pinList.get(0)[2].toString());
+        if (themeList.size()>0 && skusList.size()>0) {
+            return ok(views.html.theme.sliderPop.render(themeList,list,IMAGE_URL));
+        }
+        else
+            return ok("没有数据");
     }
 
     /**

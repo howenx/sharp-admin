@@ -69,10 +69,14 @@ $(function() {
 
 	/**	点击图片绑定主题或商品 **/
     $(document).on('click', '.slider-content-img', function() {
+        $('.usercenter-option > .user-state').css('background-position', '20px -73px');
+        if (window.lang === 'cn') {
+            $('.usercenter-option > .user-state').text('已更改');
+        } else {
+            $('.usercenter-option > .user-state').text('Changed');
+        }
         change_flag = true;
     })
-
-    var imgUrl = window.url;
 
 	/**	保存 **/
 	$(document).on('click', '#js-usercenter-submit', function() {

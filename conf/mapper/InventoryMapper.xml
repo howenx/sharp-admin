@@ -207,6 +207,15 @@
         from skus t where inv_id=#{id}
     </select>
 
+    <select id="getAllSkus" resultType="entity.Skus">
+        select
+        <include refid="skusColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from skus t where 1=1 ORDER BY inv_id
+    </select>
+
+
     <select id="getAvailableInventory" resultType="entity.Inventory">
         select
         <include refid="inventoryColumns">

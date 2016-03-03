@@ -8,16 +8,28 @@
     <script src="/assets/js/slider.js"></script>
     <script>
         function UpdateFields(obj) {
-            var itemId = obj.itemId;
-            var skuId = obj.skuId;
             var targetType = obj.targetType;
             var $obj = obj;
             var itemTarget = "";
-            if(targetType=="D") {
-                itemTarget = "/comm/detail/"+itemId+"/"+skuId;
-            }
-            if(targetType=="T") {
+            if(targetType=="T" || targetType=="U") {
+                var id = obj.id;
                 itemTarget = "/topic/list/"+id;
+            }
+            if (targetType=="D") {
+                var itemId = obj.itemId;
+                var invId = obj.invId;
+                var itemType = obj.itemType;
+                var skuTypeId = obj.skuTypeId;
+                if (itemType=="item") {
+                    itemTarget = "/comm/detail/" + itemId + "/" + invId;
+                }
+                if (itemType=="vary") {
+                    itemTarget = "/comm/detail/" + itemId + "/" + invId + "/" + skuTypeId;
+                }
+                if (itemType=="pin") {
+                    targetType = "P";
+                    itemTarget = "/comm/pin/detail/" + itemId + "/" + invId + "/" + skuTypeId;
+                }
             }
             $obj.attr('data-target', itemTarget);
             $obj.attr('data-type', targetType);
@@ -26,6 +38,11 @@
         function ShowModal($obj) {
             var sharedObject = {};
             sharedObject = $obj;
+            //var a = $obj.hasOwnProperty('data-type');
+            //var targetType =  $obj.attr('data-type');
+            //var itemTarget =  $obj.attr('data-target');
+            //sharedObject.targetType = targetType;
+            //sharedObject.itemTarget = itemTarget;
             if (window.showModalDialog) {
                 var retValue = showModalDialog("/topic/slider/popup", sharedObject, "dialogWidth:1300px; dialogHeight:800px; dialogLeft:300px;");
                 if (retValue) {
