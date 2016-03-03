@@ -9,6 +9,9 @@
 .content-1 .control-label {
 	text-align: center;
 }
+.content-1 .order-info{
+	margin-left: 25px;
+}
 .btn-s {
 	text-align: center;
 	margin-top: 30px;
