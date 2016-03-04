@@ -232,6 +232,8 @@ $(function() {
 					
 					//替换dataURL为返回的服务器保存的url
 					$thumb.find('.slider-content-img').attr('src', data.oss_prefix+data.oss_url);
+					$thumb.find('.slider-content-img').attr('data-target', '');
+					$thumb.find('.slider-content-img').attr('data-type', '');
 
 					if (window.lang = 'cn') {
 						$('#js-userinfo-error').text('图片上传成功').css('color', '#2fa900')

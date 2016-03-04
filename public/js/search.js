@@ -155,11 +155,14 @@ $(function() {
        //每个查询页面对应一个相应的组装函数  订单查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Tiffany Zhu
         funcList.orderlist_search = function orderlist_search(pageIndex) {
             var orderDto = new Object();
-            orderDto.orderId = $("#order-form-id").val();
-            orderDto.userId = $("#order-form-userid").val();
+            var order = new Object();
+            order.orderId = $("#order-form-id").val();
+            order.userId = $("#order-form-userid").val();
 
-            orderDto.orderCreateAt = $("#onShelvesAt").val();
-            orderDto.orderStatus = $("#order-form-status option:selected").val();
+            order.orderCreateAt = $("#onShelvesAt").val();
+            order.orderStatus = $("#order-form-status option:selected").val();
+            orderDto.order = order;
+            orderDto.userPhone = $("#user_phone_num").val();
             //创建时间如果为空
             if ($("#onShelvesAt").val() == '' || $("#onShelvesAt").val() == null) {
                 orderDto.orderCreateAt = "0000-01-01 00:00:00";
@@ -173,68 +176,66 @@ $(function() {
             //填充列表数据
             $(data).each(function(index, element) {
                 var payMethod = "";
-                if($(this)[0].payMethod == "JD"){
+                if($(this)[4] == "JD"){
                     payMethod = "京东";
                 }
-                if($(this)[0].payMethod == "APAY"){
+                if($(this)[4] == "APAY"){
                     payMethod = "支付宝";
                 }
-                if($(this)[0].payMethod == "WEIXIN"){
+                if($(this)[4] == "WEIXIN"){
                      payMethod = "微信";
                 }
                 var orderStatus = "";
                 //当前时间减去24小时
                 var time = new Date($.now() - 1*24*3600*1000);
                 var createdTime = new Date($(this)[0].orderCreateAt);
-                console.log(time);
-                console.log(createdTime);
-
                 if(createdTime < time && $(this)[0].orderStatus == "I"){
                     orderStatus = "订单已超时";
                 }else{
-                    if($(this)[0].orderStatus == "I"){
+                    if($(this)[5] == "I"){
                         orderStatus = "未支付";
                     }
-                    if($(this)[0].orderStatus == "S"){
+                    if($(this)[5] == "S"){
                         orderStatus = "支付成功";
                     }
-                    if($(this)[0].orderStatus == "C"){
+                    if($(this)[5] == "C"){
                         orderStatus = "订单取消";
                     }
-                    if($(this)[0].orderStatus == "F"){
+                    if($(this)[5] == "F"){
                         orderStatus = "支付失败";
                     }
-                    if($(this)[0].orderStatus == "R"){
+                    if($(this)[5] == "R"){
                         orderStatus = "已签收";
                     }
-                    if($(this)[0].orderStatus == "D"){
+                    if($(this)[5] == "D"){
                         orderStatus = "已发货";
                     }
-                    if($(this)[0].orderStatus == "J"){
+                    if($(this)[5] == "J"){
                         orderStatus = "拒收";
                     }
-                    if($(this)[0].orderStatus == "N"){
+                    if($(this)[5] == "N"){
                         orderStatus = "已删除";
                     }
-                    if ($(this)[0].orderStatus == "T") {
+                    if ($(this)[5] == "T") {
                         orderStatus =  "已退款";
                     }
-                    if ($(this)[0].orderStatus == "PI") {
+                    if ($(this)[5] == "PI") {
                         orderStatus =  "拼购未支付";
                     }
-                    if ($(this)[0].orderStatus == "PS") {
+                    if ($(this)[5] == "PS") {
                         orderStatus =  "拼购支付成功";
                     }
-                    if ($(this)[0].orderStatus == "PF") {
+                    if ($(this)[5] == "PF") {
                         orderStatus =  "拼团失败未退款";
                     }
                 }
                 $('#tb-topic').find('tbody').append('' +
                     '<tr class="tb-list-data">' +
-                    '<td><a href="/' + window.lang +'/comm/order/detail/' + $(this)[0].orderId + '">' + $(this)[0].orderId + '</a></td>' +
-                    '<td>' + $(this)[0].userId + '</td>' +
-                    '<td>' + ($(this)[0].orderCreateAt != null && $(this)[0].orderCreateAt != '' ? $(this)[0].orderCreateAt.substr(0, 16) : '') + '</td>}' +
-                    '<td>' + $(this)[0].payTotal + '</td>' +
+                    '<td><a href="/' + window.lang +'/comm/order/detail/' + $(this)[0] + '">' + $(this)[0] + '</a></td>' +
+                    '<td>' + $(this)[1] + '</td>' +
+                    '<td>' + $(this)[6] + '</td>' +
+                    '<td>' + ($(this)[2] != null && $(this)[2] != '' ? $(this)[2].substr(0, 16) : '') + '</td>}' +
+                    '<td>' + $(this)[3] + '</td>' +
                     '<td>' + payMethod + '</td>' +
                     '<td>' + orderStatus + '</td>' +
                     '</tr>'
@@ -402,6 +403,65 @@ $(function() {
                 );
             })
         }
+
+        //每个查询页面对应一个相应的组装函数  APP用户查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Sunny Wu 2016.03.04
+        funcList.appuserlist_search = function appuserlist_search(pageIndex) {
+            var IDDto = new Object();
+            IDDto.userId = $("#id-userId").val();
+            IDDto.nickname = $("#id-nickname").val();
+            IDDto.startAt = $("#id-form-starAt").val();
+            IDDto.endAt = $("#id-form-endAt").val();
+            //起止时间如果为空
+            if ($("#id-form-starAt").val() == '' || $("#id-form-starAt").val() == null) {
+                IDDto.startAt = "0000-01-01 00:00:00";
+            }
+            if ($("#id-form-endAt").val() == '' || $("#id-form-endAt").val() == null) {
+                IDDto.endAt = "99999-12-31 23:59:59";
+            }
+            //调用共用ajax,url从根目录开始不需要加上语言
+            search("/appUser/search/" + pageIndex, IDDto);
+        }
+
+        //每个查询页面对应一个相应的返回时填充函数 APP用户查询页面   Added By Sunny Wu  2016.03.04
+        funcList.appuserlist_data = function appuserlist_data(data) {
+            //填充列表数据
+            $(data).each(function(index, element) {
+                var activeYN = "";
+                var realYN = "";
+                var status = "";
+                var gender = "";
+                if($(this)[0].gender=="F"){gender="男"}
+                if($(this)[0].gender=="M"){gender="女"}
+                if($(this)[0].activeYN=="Y"){activeYN="已激活"}
+                if($(this)[0].activeYN=="N"){activeYN="未激活"}
+                if($(this)[0].realYN=="Y"){activeYN="已认证"}
+                if($(this)[0].realYN=="N"){activeYN="未认证"}
+                if($(this)[0].status=="Y"){status="正常"}
+                if($(this)[0].status=="N"){status="阻止"}
+                $('#tb-topic').find('tbody').append('' +
+                    '<tr class="tb-list-data">' +
+                    '<td><a href="javascript:void(0)">' + $(this)[0].userId + '</a></td>' +
+                    '<td>' + $(this)[0].nickname+ '</td>' +
+                    '<td><img class="main-img" src="' + window.url + $(this)[0].photoUrl + '" alt="" width="50"></td>' +
+                    '<td>' + gender+ '</td>' +
+                    '<td>' + $(this)[0].phoneNum + '</td>' +
+                    '<td>' + ($(this)[0].email!=null && $(this)[0].email!=''? $(this)[0].email : '') + '</td>' +
+                    '<td>' + $(this)[0].birthday.substr(0, 10) + '</td>' +
+                    '<td>' + ($(this)[0].cardType!=null && $(this)[0].cardType!=''? $(this)[0].cardType : '') + '</td>' +
+                    '<td>' + ($(this)[0].cardNum!=null && $(this)[0].cardNum!=''? $(this)[0].cardNum : '') + '</td>' +
+                    '<td>' + ($(this)[0].realName!=null && $(this)[0].realName!=''? $(this)[0].realName : '') + '</td>' +
+                    '<td>' + $(this)[0].regDt.substr(0, 16) + '</td>' +
+                    '<td>' + $(this)[0].regIp + '</td>' +
+                    '<td>' + activeYN + '</td>' +
+                    '<td>' + realYN + '</td>' +
+                    '<td>' + status + '</td>' +
+                    '<td>' + $(this)[0].lastloginDt.substr(0, 16) + '</td>' +
+                    '<td>' + $(this)[0].lastloginIp + '</td>' +
+                    '</tr>'
+                );
+            })
+        }
+
 
 
 	/*********************************公用模块，不需要变更改动，如需变更改动请找howen ****************************************/

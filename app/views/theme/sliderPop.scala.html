@@ -11,16 +11,50 @@
         <script>
         $(function(){
             var sharedObject = window.dialogArguments;
-            //console.log(sharedObject.targetType);
-            //console.log(sharedObject.itemTarget);
-            var targetType = "D";
+            var itemTarget = sharedObject.itemTarget;
+            var targetType = sharedObject.targetType;
+            var tableIndex = 0;
+            var selectIndex = 0;
+            if (itemTarget!="") {
+                var typeId = itemTarget.substring(itemTarget.lastIndexOf("/")+1,itemTarget.length);
+                if ((targetType=="D" || targetType=="P" || targetType=="")) {
+                    tableIndex = 0;
+                    selectIndex = 4;
+                    $(".goods-table").css("background","#ccc");
+                    $(".theme-table").css("background","#fff");
+                    $(".table").eq(0).css("display","table");
+                    $(".table").eq(1).css("display","none");
+                    targetType = "D";
+                }
+                if (targetType=="T" || targetType=="U") {
+                    tableIndex = 1;
+                    selectIndex = 1;
+                    $(".goods-table").css("background","#fff");
+                    $(".theme-table").css("background","#ccc");
+                    $(".table").eq(0).css("display","none");
+                    $(".table").eq(1).css("display","table");
+                    targetType = "T";
+                }
+                var trs = $(".table").eq(tableIndex).find("tr");
+                for(j=1;j<trs.length;j++) {
+                    if (typeId==trs[j].getElementsByTagName("td")[selectIndex].innerText) {
+                        $(trs[j].getElementsByTagName("td")[0].getElementsByTagName("input")[0]).attr("checked",true);
+                        $(trs[j]).css("background","#f5f5f5");
+                    }
+                }
+            }
+            if (itemTarget=="") {
+                targetType = "D"
+            }
+
             /**	变换选择显示主题列表或商品列表 **/
             $(".switch").click(function(){
-                $(".switch").css("background","#fff");
-                $(this).css("background","#ccc");
+                $(".switch").css("background","#fff");//白色
+                $(this).css("background","#ccc");     //灰色
                 $("table").css("display","none");
                 $(".table").eq($(this).index($(".switch"))).css("display","table");
                 if($(this).children().html()=="主题选择") targetType = "T";
+                if($(this).children().html()=="商品选择") targetType = "D";
             });
 
             /** 点击单选按钮选择主题或商品 **/

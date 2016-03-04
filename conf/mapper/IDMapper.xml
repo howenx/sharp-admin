@@ -57,12 +57,42 @@
             <property name="alias" value="t"/>
         </include>
         from "ID" t where 1=1
+        <if test="userId != null">
+            and t.user_id = #{userId}
+        </if>
+        <if test='nickname != null and nickname != "null" and nickname != "" '>
+            and t.nickname like '%${nickname}%'
+        </if>
+        <if test='startAt != null'>
+            and t.reg_dt &gt;= #{startAt} ::timestamp
+        </if>
+        <if test='endAt != null'>
+            and t.reg_dt &lt;= #{endAt} ::timestamp
+        </if>
+        <if test="sort == null or sort == '' ">
+            ORDER BY t.user_id DESC
+        </if>
+        <if test="sort != null">
+            ORDER BY t.${sort}
+            <if test="order != null">
+                ${order}
+            </if>
+        </if>
         <if test="pageSize == -1 and offset >= -1">
             LIMIT ALL OFFSET 0
         </if>
         <if test="pageSize >= 1 and offset >= 0">
             LIMIT #{pageSize} OFFSET #{offset}
         </if>
+
+    </select>
+    
+    <select id="getIDByPhoneNum" parameterType="java.lang.String" resultType="entity.ID">
+        select
+        <include refid="idColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from "ID" t where phone_num = #{value}
     </select>
 
 </mapper>

@@ -178,8 +178,10 @@ GET         /aduser/search                                                 contr
 GET         /$lang<(cn|en|kr)>/aduser/search                               controllers.AdminUserCtrl.adminUserSearch(lang)
 GET         /aduser/del/$id<[0-9]+>                                        controllers.AdminUserCtrl.adminUserDelUser(lang="cn",id:Long)
 GET         /$lang<(cn|en|kr)>/aduser/del/$id<[0-9]+>                      controllers.AdminUserCtrl.adminUserDelUser(lang,id:Long)
-
-
+GET         /appUser/search                                                controllers.AdminUserCtrl.appUserSearch(lang="cn")
+GET         /$lang<(cn|en|kr)>/appUser/search                              controllers.AdminUserCtrl.appUserSearch(lang)
+POST        /appUser/search/$pageNum<[0-9]+>                               controllers.AdminUserCtrl.appUserSearchAjax(lang ="cn", pageNum:Int)
+POST        /$lang<(cn|en|kr)>/appUser/search/$pageNum<[0-9]+>             controllers.AdminUserCtrl.appUserSearchAjax(lang, pageNum:Int)
 
 
 
