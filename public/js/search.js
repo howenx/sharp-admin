@@ -404,6 +404,65 @@ $(function() {
             })
         }
 
+        //每个查询页面对应一个相应的组装函数  APP用户查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Sunny Wu 2016.03.04
+        funcList.appuserlist_search = function appuserlist_search(pageIndex) {
+            var IDDto = new Object();
+            IDDto.userId = $("#id-userId").val();
+            IDDto.nickname = $("#id-nickname").val();
+            IDDto.startAt = $("#id-form-starAt").val();
+            IDDto.endAt = $("#id-form-endAt").val();
+            //起止时间如果为空
+            if ($("#id-form-starAt").val() == '' || $("#id-form-starAt").val() == null) {
+                IDDto.startAt = "0000-01-01 00:00:00";
+            }
+            if ($("#id-form-endAt").val() == '' || $("#id-form-endAt").val() == null) {
+                IDDto.endAt = "99999-12-31 23:59:59";
+            }
+            //调用共用ajax,url从根目录开始不需要加上语言
+            search("/appUser/search/" + pageIndex, IDDto);
+        }
+
+        //每个查询页面对应一个相应的返回时填充函数 APP用户查询页面   Added By Sunny Wu  2016.03.04
+        funcList.appuserlist_data = function appuserlist_data(data) {
+            //填充列表数据
+            $(data).each(function(index, element) {
+                var activeYN = "";
+                var realYN = "";
+                var status = "";
+                var gender = "";
+                if($(this)[0].gender=="F"){gender="男"}
+                if($(this)[0].gender=="M"){gender="女"}
+                if($(this)[0].activeYN=="Y"){activeYN="已激活"}
+                if($(this)[0].activeYN=="N"){activeYN="未激活"}
+                if($(this)[0].realYN=="Y"){activeYN="已认证"}
+                if($(this)[0].realYN=="N"){activeYN="未认证"}
+                if($(this)[0].status=="Y"){status="正常"}
+                if($(this)[0].status=="N"){status="阻止"}
+                $('#tb-topic').find('tbody').append('' +
+                    '<tr class="tb-list-data">' +
+                    '<td><a href="javascript:void(0)">' + $(this)[0].userId + '</a></td>' +
+                    '<td>' + $(this)[0].nickname+ '</td>' +
+                    '<td><img class="main-img" src="' + window.url + $(this)[0].photoUrl + '" alt="" width="50"></td>' +
+                    '<td>' + gender+ '</td>' +
+                    '<td>' + $(this)[0].phoneNum + '</td>' +
+                    '<td>' + ($(this)[0].email!=null && $(this)[0].email!=''? $(this)[0].email : '') + '</td>' +
+                    '<td>' + $(this)[0].birthday.substr(0, 10) + '</td>' +
+                    '<td>' + ($(this)[0].cardType!=null && $(this)[0].cardType!=''? $(this)[0].cardType : '') + '</td>' +
+                    '<td>' + ($(this)[0].cardNum!=null && $(this)[0].cardNum!=''? $(this)[0].cardNum : '') + '</td>' +
+                    '<td>' + ($(this)[0].realName!=null && $(this)[0].realName!=''? $(this)[0].realName : '') + '</td>' +
+                    '<td>' + $(this)[0].regDt.substr(0, 16) + '</td>' +
+                    '<td>' + $(this)[0].regIp + '</td>' +
+                    '<td>' + activeYN + '</td>' +
+                    '<td>' + realYN + '</td>' +
+                    '<td>' + status + '</td>' +
+                    '<td>' + $(this)[0].lastloginDt.substr(0, 16) + '</td>' +
+                    '<td>' + $(this)[0].lastloginIp + '</td>' +
+                    '</tr>'
+                );
+            })
+        }
+
+
 
 	/*********************************公用模块，不需要变更改动，如需变更改动请找howen ****************************************/
 	//点击页数

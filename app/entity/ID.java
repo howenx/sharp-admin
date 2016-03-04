@@ -15,6 +15,7 @@ public class ID {
     private String cardNum;     //证件号码
     private String cardImg;     //证件图片(A:正面 B:反面)
     private String regIp;       //注册IP
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp regDt;    //注册时间
     private String activeYN;    //是否激活(默认:N)
     private String realYN;      //是否实名认证(默认:N)
@@ -36,6 +37,21 @@ public class ID {
     private Date birthday;         //生日
     private String photoUrl;       //头像
     private String realName;       //真实姓名
+
+    //分页,每页多少条
+    private Integer pageSize;
+    //分页,从第几条开始
+    private Integer offset;
+    //按照哪个字段排序
+    private String sort;
+    //排序方式,降序,升序
+    private String order;
+    //查询开始时间
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Timestamp startAt;
+    //查询结束时间
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Timestamp endAt;
 
     public ID() {
     }
@@ -216,6 +232,54 @@ public class ID {
         this.realName = realName;
     }
 
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
+
+    public Timestamp getStartAt() {
+        return startAt;
+    }
+
+    public void setStartAt(Timestamp startAt) {
+        this.startAt = startAt;
+    }
+
+    public Timestamp getEndAt() {
+        return endAt;
+    }
+
+    public void setEndAt(Timestamp endAt) {
+        this.endAt = endAt;
+    }
+
     @Override
     public String toString() {
         return "ID{" +
@@ -241,10 +305,16 @@ public class ID {
                 ", birthday=" + birthday +
                 ", photoUrl='" + photoUrl + '\'' +
                 ", realName='" + realName + '\'' +
+                ", pageSize=" + pageSize +
+                ", offset=" + offset +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
+                ", startAt=" + startAt +
+                ", endAt=" + endAt +
                 '}';
     }
 
-    public ID(Integer userId, String cardType, String cardNum, String cardImg, String regIp, Timestamp regDt, String activeYN, String realYN, Timestamp alterDt, Timestamp lastloginDt, String lastloginIp, String nickname, Timestamp lastpwdchgDt, String desc, String status, String passwd, String email, String phoneNum, String gender, Date birthday, String photoUrl, String realName) {
+    public ID(Integer userId, String cardType, String cardNum, String cardImg, String regIp, Timestamp regDt, String activeYN, String realYN, Timestamp alterDt, Timestamp lastloginDt, String lastloginIp, String nickname, Timestamp lastpwdchgDt, String desc, String status, String passwd, String email, String phoneNum, String gender, Date birthday, String photoUrl, String realName, Integer pageSize, Integer offset, String sort, String order, Timestamp startAt, Timestamp endAt) {
         this.userId = userId;
         this.cardType = cardType;
         this.cardNum = cardNum;
@@ -267,5 +337,11 @@ public class ID {
         this.birthday = birthday;
         this.photoUrl = photoUrl;
         this.realName = realName;
+        this.pageSize = pageSize;
+        this.offset = offset;
+        this.sort = sort;
+        this.order = order;
+        this.startAt = startAt;
+        this.endAt = endAt;
     }
 }
