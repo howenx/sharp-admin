@@ -254,7 +254,9 @@ GET         /release/list                                                  contr
 
 
 
-
+#sales report 销售报表
+GET         /sales/import                                                  controllers.SaleCtrl.dataImport()
+GET         /sales/search                                                  controllers.SaleCtrl.salesSearch()
 
 
 

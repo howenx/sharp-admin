@@ -458,6 +458,32 @@
                     <!--供应管理的菜单项-->
                     }
 
+                    <!--其他类型用户的菜单项-->
+                    @if(user.userType.get=="OTHER"){
+                    <!--销售报表-->
+                    <!--首页-->
+                    <li class="header-navi-item fl">
+                        <a href="/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
+                        <i class="header-nav-border-relative"></i>
+                    </li>
+                    <li class="header-navi-item fl">
+                        <div class="user-info fl js-header-dropmenu">
+                            <span class="info-inner db">销售报表<i class="ml5 caret caret-down caret-b-9b"></i></span>
+                            <ul class="header-dropdown-list fs13 js-header-list">
+                                <li class="header-dropdown-item">
+                                    <a href="/sales/import" class="info-link">数据导入</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/sales/search" class="info-link">销售数据</a>
+                                </li>
+                            </ul>
+                            <i class="header-nav-border"></i>
+                        </div>
+                    </li>
+                    <!--其他类型用户的菜单项-->
+                    }
+
+
                     <!--个人中心-->
                     <li class="header-navi-item fl">
                         <div class="user-info fl js-header-dropmenu">
