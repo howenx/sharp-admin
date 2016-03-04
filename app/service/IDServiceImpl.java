@@ -43,4 +43,13 @@ public class IDServiceImpl implements IDService {
         return idMapper.getIDPage(id);
     }
 
+    /**
+     * 通过用户手机号码查找用户     Added by Tiffany Zhu 2016.03.04
+     * @param phoneNum
+     * @return
+     */
+    @Override
+    public ID getIDByPhoneNum(String phoneNum) {
+        return idMapper.getIDByPhoneNum(phoneNum);
+    }
 }

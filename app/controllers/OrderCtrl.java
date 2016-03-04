@@ -155,12 +155,21 @@ public class OrderCtrl extends Controller {
         if(json.has("order")){
             order = Json.fromJson(json.get("order"),Order.class);
         }
-        ID userTemp = new ID();
         if(json.has("userPhone")){
             String userPhone = json.get("userPhone").toString();
-
+            userPhone = userPhone.substring(1,userPhone.length()-1);
+            if(!userPhone.equals("")){
+                ID userTemp = idService.getIDByPhoneNum(userPhone);
+                //Logger.error(userTemp.toString());
+                if(userTemp != null && userTemp.getUserId() != null){
+                    if(order.getUserId() != null && !(order.getUserId().toString().equals(userTemp.getUserId().toString()))){
+                        order.setUserId(Long.valueOf(0));
+                    }else{
+                        order.setUserId(Long.valueOf(userTemp.getUserId()));
+                    }
+                }
+            }
         }
-
         if(pageNum>=1){
             //计算从第几条开始取数据
             int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;

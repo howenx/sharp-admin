@@ -65,7 +65,12 @@
         </if>
     </select>
     
-    <select id="getIDByPhoneNum" parameterType="java.lang.String">
+    <select id="getIDByPhoneNum" parameterType="java.lang.String" resultType="entity.ID">
+        select
+        <include refid="idColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from "ID" t where phone_num = #{value}
     </select>
 
 </mapper>
