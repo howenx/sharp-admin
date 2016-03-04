@@ -1,0 +1,45 @@
+@import play.i18n._
+@(lang:String, user:entity.User)
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/screenshot.css">
+<script src="/assets/js/jquery.min.js"></script>
+
+}
+
+@import java.lang.String; var title="数据导入"
+
+@layout(lang="cn",title=title,user=user)(scripts) {
+
+<div class="mbread" style="width:65%">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">销售报表</span>
+        <span class="icon-path">&gt;</span>
+        <span>数据导入</span>
+    </div>
+</div>
+
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">数据导入</span>
+    </div>
+    <div class="usercenter-option">
+        <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
+        <div id="submit" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
+        <div id="cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
+        <span id="js-userinfo-error" class="mt20 alt fr"></span>
+    </div>
+    <div class="row">
+        <form class="form-horizontal" method="post" enctype="multipart/form-data">
+            <div class="upinfo">
+
+            </div>
+        </form>
+    </div>
+</div>
+}
+

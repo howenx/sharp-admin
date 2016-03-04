@@ -73,10 +73,14 @@ public class AdminUserCtrl extends Controller {
         Map<String,String> userTypeList = new HashMap<>();
         Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
         Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
+        Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);
         for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
         for(Map.Entry<String, String> ut:userTypeList2.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        for(Map.Entry<String, String> ut:userTypeList3.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
 //        Map<String,String> menus = new ObjectMapper().convertValue(configuration.getObject("menu"),HashMap.class);
@@ -163,6 +167,7 @@ public class AdminUserCtrl extends Controller {
             Logger.debug("user login... "+user.enNm());
             Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
             Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
+            Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);
             for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
                 if (adminUser.getUserType().equals(ut.getKey())) {
                     data = "后台用户登录成功";
@@ -171,6 +176,11 @@ public class AdminUserCtrl extends Controller {
             for(Map.Entry<String, String> ut:userTypeList2.entrySet()) {
                 if (adminUser.getUserType().equals(ut.getKey())) {
                     data = "供应商登录成功";
+                }
+            }
+            for(Map.Entry<String, String> ut:userTypeList3.entrySet()) {
+                if (adminUser.getUserType().equals(ut.getKey())) {
+                    data = "其他用户登录";
                 }
             }
         }
@@ -307,8 +317,7 @@ public class AdminUserCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result addIDUserPop() {
         List<ID> idList = idService.getAllID();
-        String IMAGE_URL = "http://img.hanmimei.com";
-        return ok(views.html.coupon.coupaddPop.render(idList,IMAGE_URL));
+        return ok(views.html.coupon.coupaddPop.render(idList,ThemeCtrl.IMAGE_URL));
     }
 
 
