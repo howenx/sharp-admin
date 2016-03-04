@@ -66,6 +66,15 @@
         <if test="endAt != null">
             and t.operate_time &lt;= #{endAt} ::timestamp
         </if>
+        <if test="sort == null or sort == '' ">
+            ORDER BY t.id DESC
+        </if>
+        <if test="sort != null">
+            ORDER BY t.${sort}
+            <if test="order != null">
+                ${order}
+            </if>
+        </if>
         <if test="pageSize == -1 and offset >= -1">
             LIMIT ALL OFFSET 0
         </if>

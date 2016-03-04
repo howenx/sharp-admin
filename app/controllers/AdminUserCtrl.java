@@ -62,6 +62,8 @@ public class AdminUserCtrl extends Controller {
 
     public static final Timeout TIMEOUT = new Timeout(100, TimeUnit.MILLISECONDS);
 
+    private int pageSize = 3;
+
     /**
      * 添加管理员用户
      * @param lang 语言
@@ -320,6 +322,64 @@ public class AdminUserCtrl extends Controller {
         return ok(views.html.coupon.coupaddPop.render(idList,ThemeCtrl.IMAGE_URL));
     }
 
+    /**
+     * APP用户查询
+     * @param lang 语言
+     * @return views
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result appUserSearch(String lang) {
+        ID id = new ID();
+        id.setPageSize(-1);
+        id.setOffset(-1);
+        int countNum = idService.getAllID().size();//取总数
+        int pageCount = countNum/pageSize;//共分几页
+        if (countNum%pageSize!=0) {
+            pageCount = countNum/pageSize+1;
+        }
+        id.setPageSize(pageSize);
+        id.setOffset(0);
+        return ok(views.html.adminuser.appusersearch.render(lang, pageSize, countNum, pageCount, idService.getIDPage(id),ThemeCtrl.IMAGE_URL, (User) ctx().args.get("user")));
+    }
+
+    /**
+     * APP用户ajax分页查询
+     * @param lang 语言
+     * @return views
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result appUserSearchAjax(String lang, int pageNum) {
+        JsonNode json = request().body().asJson();
+        ID id = Json.fromJson(json,ID.class);
+        if(pageNum>=1){
+            //计算从第几条开始取数据
+            int offset = (pageNum-1)*pageSize;
+            id.setPageSize(-1);
+            id.setOffset(-1);
+            //取总数
+            int countNum = idService.getIDPage(id).size();
+            //共分几页
+            int pageCount = countNum/pageSize;
+
+            if(countNum%pageSize!=0){
+                pageCount = countNum/pageSize+1;
+            }
+            id.setPageSize(pageSize);
+            id.setOffset(offset);
+            //组装返回数据
+            Map<String,Object> returnMap=new HashMap<>();
+            returnMap.put("topic",idService.getIDPage(id));
+            returnMap.put("pageNum",pageNum);
+            returnMap.put("countNum",countNum);
+            returnMap.put("pageCount",pageCount);
+            returnMap.put("pageSize",pageSize);
+            Logger.error(returnMap.toString());
+            return ok(Json.toJson(returnMap));
+        }
+        else{
+            return badRequest();
+        }
+    }
 
     /**
      * 处理系统启动时候去做第一次请求,完成对定时任务的执行

@@ -23,7 +23,7 @@ public class DataLogCtrl extends Controller {
     @Inject
     private DataLogService dataLogService;
 
-    int pageSize = 10;
+    private int pageSize = 10;
 
     /**
      * 日志查询列表
