@@ -39,10 +39,10 @@
             var sharedObject = {};
             sharedObject = $obj;
             //var a = $obj.hasOwnProperty('data-type');
-            //var targetType =  $obj.attr('data-type');
-            //var itemTarget =  $obj.attr('data-target');
-            //sharedObject.targetType = targetType;
-            //sharedObject.itemTarget = itemTarget;
+            var targetType =  $obj.attr('data-type');
+            var itemTarget =  $obj.attr('data-target');
+            sharedObject.targetType = targetType;
+            sharedObject.itemTarget = itemTarget;
             if (window.showModalDialog) {
                 var retValue = showModalDialog("/topic/slider/popup", sharedObject, "dialogWidth:1300px; dialogHeight:800px; dialogLeft:300px;");
                 if (retValue) {

@@ -31,8 +31,8 @@
         </select>
 
         <insert id="insertSlider" parameterType="entity.Slider" useGeneratedKeys="true" keyProperty="id">
-                insert into slider (img,sort_nu,create_at)
-                values (#{img},#{sortNu},CURRENT_TIMESTAMP(0))
+                insert into slider (img,sort_nu,create_at,item_target,target_type)
+                values (#{img},#{sortNu},CURRENT_TIMESTAMP(0),#{itemTarget}, #{targetType})
         </insert>
 
         <update id="updateSlider" parameterType="entity.Slider">
