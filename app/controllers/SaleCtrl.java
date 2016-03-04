@@ -1,9 +1,13 @@
 package controllers;
 
 import com.google.inject.Inject;
+import entity.User;
 import entity.sale.SaleOrder;
 import entity.sale.SaleProduct;
+import filters.UserAuth;
 import play.mvc.Controller;
+import play.mvc.Result;
+import play.mvc.Security;
 import service.SaleService;
 
 import java.math.BigDecimal;
@@ -117,4 +121,23 @@ public class SaleCtrl extends Controller {
         }
         return null;
     }
+
+    /**
+     * 数据导入
+     * @return views
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result dataImport() {
+        return ok(views.html.sales.dataImport.render("cn", (User) ctx().args.get("user")));
+    }
+
+    /**
+     * 数据查询
+     * @return views
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result salesSearch() {
+        return ok(views.html.sales.dataSearch.render("cn", (User) ctx().args.get("user")));
+    }
+
 }

@@ -44,6 +44,7 @@
   	/*If the element is dynamic append.You should the following method.*/
   	$(document).on("click", "div.icon-circle-close", function() {
   		$(this).parent().parent().parent().remove();
+		$(".user-state").text("已更改");
   	});
   	$('#mark-bt').click(function() {
   		var radio_flag = false;
@@ -80,7 +81,7 @@
                         });
                         $('#dragon-container').append(ch_graph.parent());
                         $('div.dragon-contained').draggable({
-                            containment: "parent"
+                            containment: "parent",
                         });
                         var itemId =  $("#input_imgurl").val();
                         var itemType = $("#url-type").val();
