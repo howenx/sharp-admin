@@ -86,5 +86,8 @@
         </if>
 
     </select>
+    
+    <select id="getIDByPhoneNum" parameterType="java.lang.String">
+    </select>
 
 </mapper>
