@@ -32,14 +32,9 @@
     <form class="form-horizontal">
         <div class="form-group">
 
-            <label class="col-sm-1 control-label">订单Id</label>
+            <label class="col-sm-1 control-label">订单ID</label>
             <div class="col-sm-3">
                 <input id="order-form-id" type="number" min="10000" max="99999999" class="form-control"/>
-            </div>
-
-            <label class="col-sm-1 control-label">用户Id</label>
-            <div class="col-sm-3">
-                <input  id="order-form-userid" type="number" min="10000" max="99999999" class="form-control"/>
             </div>
             <label class="col-sm-1 control-label">订单状态</label>
             <div class="col-sm-3">
@@ -56,24 +51,17 @@
                     <option value="TO">订单已超时</option>
                 </select>
             </div>
-            <!--
-            <label class="col-sm-1 control-label">创建时间</label>
-            <div class="col-sm-3">
-                <div class="input-group date" id='datetimepicker1'>
-                    <input class="form-control col-sm-2" type="text" id="onShelvesAt" name="onShelvesAt">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                </div>
-            </div>
-            -->
-        </div>
 
+        </div>
         <div class="form-group">
-            <!--
-            <label class="col-sm-1 control-label">快递单号</label>
+            <label class="col-sm-1 control-label">用户ID</label>
             <div class="col-sm-3">
-                <input id="order-form-express" type="text" class="form-control">
+                <input  id="order-form-userid" type="number" min="10000" max="99999999" class="form-control"/>
             </div>
-            -->
+            <label class="col-sm-1 control-label">手机号码</label>
+            <div class="col-sm-3">
+                <input  id="user_phone_num" type="number" min="10000" max="99999999" class="form-control"/>
+            </div>
         </div>
 
         <div class="btn-s">
@@ -88,6 +76,7 @@
             <tr>
                 <th>订单ID</th>
                 <th>用户ID</th>
+                <th>手机号码</th>
                 <th>创建时间</th>
                 <th>订单总价(元)</th>
                 <th>支付渠道</th>
@@ -100,6 +89,7 @@
             <tr class = "tb-list-data">
                 <td><a href="/@lang/comm/order/detail/@order(0)">@order(0)</a></td>
                 <td>@order(1)</td>
+                <td>@order(6)</td>
                 @if(order(2)!=null){<td>@(order(2).toString().substring(0,16))</td>}
                 <td>@order(3)</td>
                 <td>@order(4)</td>
