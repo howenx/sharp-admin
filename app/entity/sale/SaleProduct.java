@@ -14,7 +14,7 @@ public class SaleProduct implements Serializable {
     private Long id;         // 销售商品id
     private String name;     //商品名称
     private Integer categoryId;//商品分类
-    private String sysCode;   //系统编码
+    private String skuCode;   //SKU编码
     private String productCode; //货品编码
     private String spec; //规格
     private Integer saleCount; //总销量
@@ -31,6 +31,17 @@ public class SaleProduct implements Serializable {
     private Timestamp createAt;     //创建时间
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateAt;     //更新时间
+    //分页,每页多少条
+    private Integer pageSize;
+
+    //分页,从第几条开始
+    private Integer offset;
+
+    //按照哪个字段排序
+    private String sort;
+    //排序方式,降序,升序
+    private String order;
+
 
     public Long getId() {
         return id;
@@ -56,12 +67,12 @@ public class SaleProduct implements Serializable {
         this.categoryId = categoryId;
     }
 
-    public String getSysCode() {
-        return sysCode;
+    public String getSkuCode() {
+        return skuCode;
     }
 
-    public void setSysCode(String sysCode) {
-        this.sysCode = sysCode;
+    public void setSkuCode(String skuCode) {
+        this.skuCode = skuCode;
     }
 
     public String getProductCode() {
@@ -174,5 +185,37 @@ public class SaleProduct implements Serializable {
 
     public void setUpdateAt(Timestamp updateAt) {
         this.updateAt = updateAt;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
     }
 }

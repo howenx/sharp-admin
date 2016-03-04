@@ -29,6 +29,12 @@ public interface SaleService {
      * @return
      */
     List<SaleProduct> getSalaProduct(SaleProduct saleProduct);
+    /**
+     * 分页查询销售产品
+     * @param saleProduct
+     * @return
+     */
+    List<SaleProduct> getSaleProductPage(SaleProduct saleProduct);
 
     /**
      * 插入销售订单

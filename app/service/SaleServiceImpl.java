@@ -30,6 +30,11 @@ public class SaleServiceImpl implements SaleService{
     }
 
     @Override
+    public List<SaleProduct> getSaleProductPage(SaleProduct saleProduct) {
+        return saleMapper.getSaleProductPage(saleProduct);
+    }
+
+    @Override
     public Boolean insertSaleOrder(SaleOrder saleOrder) {
         return saleMapper.insertSaleOrder(saleOrder)>0;
     }

@@ -30,7 +30,7 @@
     </div>
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
-        <div id="submitSaleProduct" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
+        <div id="submitSaleOrder" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
         <div id="cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
@@ -38,87 +38,102 @@
         <form class="form-horizontal" method="post" enctype="multipart/form-data">
             <div class="upinfo">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">分类</label>
+                    <label class="col-sm-2 control-label">日期</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="categoryId"/>
+                        <input type="text" class="form-control" id="saleAt"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">商品名称</label>
+                    <label class="col-sm-2 control-label">订单号</label>
+
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="orderId"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">销售商品id(品名联动)</label>
+
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="saleProductId"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">品名</label>
 
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="productName"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">SKU编码</label>
+                    <label class="col-sm-2 control-label">单价</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="skuCode"/>
+                        <input type="text" class="form-control" id="price"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">货品编码</label>
+                    <label class="col-sm-2 control-label">数量</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="productCode"/>
+                        <input type="text" class="form-control" id="count"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">优惠额</label>
+
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="discountAmount"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">规格</label>
+                    <label class="col-sm-2 control-label">京东费率</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="spec"/>
+                        <input type="text" class="form-control" id="jdRate"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">商品成本</label>
+                    <label class="col-sm-2 control-label">成本</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="productCost"/>
+                        <input type="text" class="form-control" id="cost"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">进货量</label>
+                    <label class="col-sm-2 control-label">国内快递费</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="purchaseCount"/>
+                        <input type="text" class="form-control" id="shipFee"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">无卡</label>
+                    <label class="col-sm-2 control-label">国际物流</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="noCard"/>
+                        <input type="text" class="form-control" id="inteLogistics"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">破损</label>
+                    <label class="col-sm-2 control-label">包装</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="damage"/>
+                        <input type="text" class="form-control" id="packFee"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">少配</label>
+                    <label class="col-sm-2 control-label">仓储服务费</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="lessDelivery"/>
+                        <input type="text" class="form-control" id="storageFee"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">少货</label>
+                    <label class="col-sm-2 control-label">行邮税税率，单位百分比，例如填入3，表示3%</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="lessProduct"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">空盒</label>
-
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="emptyBox"/>
+                        <input type="text" class="form-control" id="postalTaxRate"/>
                     </div>
                 </div>
 

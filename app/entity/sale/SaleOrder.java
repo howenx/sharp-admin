@@ -20,13 +20,14 @@ public class SaleOrder implements Serializable {
     private BigDecimal price;    //单价
     private Integer count;       //数量
     private BigDecimal discountAmount;    //优惠额
-    private Integer saleCount;    //销售
+    private BigDecimal saleTotal;    //销售额
     private BigDecimal jdRate;    //京东费率
     private BigDecimal jdFee;    //京东费用
     private BigDecimal cost;    //成本
     private BigDecimal shipFee;    //国内快递费
     private BigDecimal inteLogistics;    //国际物流
     private BigDecimal packFee;    //包装
+    private BigDecimal storageFee;//仓储服务费
     private BigDecimal postalFee;    //行邮税
     private String postalTaxRate;    //行邮税税率，单位百分比，例如填入3，表示3%
     private BigDecimal profit;    //净利
@@ -107,12 +108,12 @@ public class SaleOrder implements Serializable {
         this.discountAmount = discountAmount;
     }
 
-    public Integer getSaleCount() {
-        return saleCount;
+    public BigDecimal getSaleTotal() {
+        return saleTotal;
     }
 
-    public void setSaleCount(Integer saleCount) {
-        this.saleCount = saleCount;
+    public void setSaleTotal(BigDecimal saleTotal) {
+        this.saleTotal = saleTotal;
     }
 
     public BigDecimal getJdRate() {
@@ -165,6 +166,14 @@ public class SaleOrder implements Serializable {
 
     public BigDecimal getPostalFee() {
         return postalFee;
+    }
+
+    public BigDecimal getStorageFee() {
+        return storageFee;
+    }
+
+    public void setStorageFee(BigDecimal storageFee) {
+        this.storageFee = storageFee;
     }
 
     public void setPostalFee(BigDecimal postalFee) {
