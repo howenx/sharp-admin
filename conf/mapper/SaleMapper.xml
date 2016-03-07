@@ -65,7 +65,7 @@
         <include refid="saleProductColumns">
             <property name="alias" value="t"/>
         </include>
-        from sale_product where 1=1 and id=#{value}
+        from sale_product t where 1=1 and t.id=#{value}
     </select>
 
     <select id="getSalaProduct" parameterType="entity.sale.SaleProduct" resultType="entity.sale.SaleProduct">
@@ -74,7 +74,7 @@
             <property name="alias" value="t"/>
         </include>
         from sale_product t where 1=1
-        <if test="category_id!=null and category_id!=''">
+        <if test="categoryId!=null and categoryId!=''">
             and t.category_id = #{categoryId}
         </if>
 
@@ -159,9 +159,32 @@
             <property name="alias" value="t"/>
         </include>
         from sale_order t where 1=1
-        <if test="sale_at!=null and sale_at!=''">
+        <if test="saleAt!=null and saleAt!=''">
             and t.sale_at = #{saleAt}
         </if>
 
     </select>
+    <select id="getSaleStatistics" parameterType="entity.sale.SaleOrder" resultType="entity.sale.SaleStatistics">
+        SELECT sum(sale_total)as saleTotal,sum(jd_fee)as jdFeeTotal ,sum(ship_fee)as shipFeeTotal,sum(inte_logistics)as inteLogisticsTotal ,
+        sum(pack_fee)as packFeeTotal,sum(storage_fee)as storageFeeTotal ,sum(profit)as profitTotal  FROM sale_order
+        where 1=1
+        <if test="categoryId!=null and categoryId!=''">
+            and category_id = #{categoryId}
+        </if>
+        <if test="starttime!=null and starttime!=''">
+            and sale_at &gt;=#{starttime} ::timestamp
+        </if>
+        <if test="endtime!=null and endtime!=''">
+            and sale_at &lt;=#{endtime} ::timestamp
+        </if>
+        ;
+    </select>
+    <select id="getSaleInventory" parameterType="entity.sale.SaleOrder" resultType="entity.sale.SaleInventory">
+        SELECT sum(s.count)as saleCount,s.sale_at as saleDate from sale_order s
+        WHERE 1=1
+        <if test="saleProductId!=null and saleProductId!=''">
+            and sale_product_id =#{saleProductId}
+        </if>
+        and s.sale_at::TEXT LIKE '${saleMonth}%' GROUP BY s.sale_at;
+   </select>
 </mapper>
