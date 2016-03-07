@@ -8,7 +8,7 @@ import play.Logger;
 import javax.inject.Inject;
 
 /**
- * 定时上架/下架的Actor
+ * 商品定时上架/下架的Actor
  * Created by Sunny Wu on 16/2/29.
  * kakao china.
  */

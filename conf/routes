@@ -44,6 +44,8 @@ GET         /topic/h5Add                                                   contr
 GET         /$lang<(cn|en|kr)>/topic/h5Add                                 controllers.ThemeCtrl.addH5Theme(lang)
 POST        /topic/add/h5ThemeSave                                         controllers.ThemeCtrl.h5ThemeSave(lang = "cn")
 POST        /$lang<(cn|en|kr)>/topic/add/h5ThemeSave                       controllers.ThemeCtrl.h5ThemeSave(lang)
+GET         /topic/sort                                                    controllers.ThemeCtrl.themeSort(lang = "cn")
+GET         /$lang<(cn|en|kr)>/topic/sort                                  controllers.ThemeCtrl.themeSort(lang)
 
 
 
@@ -77,7 +79,7 @@ POST        /itemInfo/search/$pageNum<[0-9]+>                              contr
 POST        /$lang<(cn|en|kr)>/itemInfo/search/$pageNum<[0-9]+>            controllers.ShopItemCtrl.itemInfoSearchAjax(lang, pageNum:Int)
 POST        /shopItem/push                                                 controllers.ShopItemCtrl.shopItemPush
 POST        /comm/import                                                   controllers.ShopItemCtrl.itemImport
-GET         /shopOrder/push                                                controllers.ShopOrderCtrl.shopOrderPush
+GET         /shopOrder/push/:orderId                                       controllers.ShopOrderCtrl.shopOrderPush(orderId:Long)
 
 
 

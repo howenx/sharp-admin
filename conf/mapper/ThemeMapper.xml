@@ -133,7 +133,7 @@
 
         <update id="updateTheme" parameterType="entity.Theme">
                 update themes
-                set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},sort_nu=#{sortNu},
+                set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},
                     update_at=CURRENT_TIMESTAMP(0),theme_item=#{themeItem}::jsonb,master_item_tag=#{themeTags}::jsonb,theme_master_img=#{themeMasterImg},or_destroy=false
                 where id = #{id}
         </update>
@@ -150,7 +150,7 @@
         </insert>
         <update id="updH5Theme" parameterType="entity.Theme">
                 update themes
-                set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},sort_nu=#{sortNu},
+                set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},
                 update_at=CURRENT_TIMESTAMP(0),h5_link = #{h5Link},or_destroy=false
                 where id = #{id}
         </update>

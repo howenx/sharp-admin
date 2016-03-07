@@ -232,6 +232,8 @@ $(function() {
                 $('#tb-topic').find('tbody').append('' +
                     '<tr class="tb-list-data">' +
                     '<td><a href="/' + window.lang +'/comm/order/detail/' + $(this)[0] + '">' + $(this)[0] + '</a></td>' +
+                    '<td>' + $(this)[7] + '</td>' +
+                    '<td><a href="/' + window.lang +'/pin/activity/geActivityById/' + $(this)[8] + '">' + $(this)[8] + '</a></td>' +
                     '<td>' + $(this)[1] + '</td>' +
                     '<td>' + $(this)[6] + '</td>' +
                     '<td>' + ($(this)[2] != null && $(this)[2] != '' ? $(this)[2].substr(0, 16) : '') + '</td>}' +
