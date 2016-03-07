@@ -1,0 +1,67 @@
+@import play.i18n._
+@(lang:String="cn",url:String,uploadUrl:String,user:entity.User)
+@scripts = {
+<link rel="stylesheet" href="/assets/css/jquery-ui.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/screenshot.css">
+<link rel="stylesheet" href="/assets/css/upload.css">
+<link rel="stylesheet" href="/assets/css/button.css">
+<link rel="stylesheet" href="/assets/css/font-face.css">
+<link rel="stylesheet" href="/assets/css/search.css">
+<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
+
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/jquery-ui.min.js"></script>
+<script src="/assets/js/Math.uuid.js"></script>
+<script src="/assets/js/slider.js"></script>
+<script src="/assets/js/search.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/rili.js"></script>
+<script src="/assets/js/add-guige.js"></script>
+}
+
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"主题排序")
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+
+<div style="width: 50%;margin: 10px auto;display:none;" class="alert alert-success" role="alert">
+    <strong>Well done!</strong>
+    @if(flash.containsKey("success")) {
+    @flash.get("success")
+    }
+    <span class="close" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+</div>
+
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes")</span>
+        <span class="icon-path">&gt;</span>
+        <span>@Messages.get(new Lang(Lang.forCode(lang)),"主题排序")</span>
+    </div>
+</div>
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"主题排序")</span>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="form-horizontal">
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="goods-img-bg">
+    <div class="goods-bg"></div>
+    <div class="goods-img">
+        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>
+
+}
+

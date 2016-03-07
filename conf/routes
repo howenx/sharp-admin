@@ -44,6 +44,8 @@ GET         /topic/h5Add                                                   contr
 GET         /$lang<(cn|en|kr)>/topic/h5Add                                 controllers.ThemeCtrl.addH5Theme(lang)
 POST        /topic/add/h5ThemeSave                                         controllers.ThemeCtrl.h5ThemeSave(lang = "cn")
 POST        /$lang<(cn|en|kr)>/topic/add/h5ThemeSave                       controllers.ThemeCtrl.h5ThemeSave(lang)
+GET         /topic/sort                                                    controllers.ThemeCtrl.themeSort(lang = "cn")
+GET         /$lang<(cn|en|kr)>/topic/sort                                  controllers.ThemeCtrl.themeSort(lang)
 
 
 
