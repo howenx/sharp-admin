@@ -922,4 +922,14 @@ public class ThemeCtrl extends Controller {
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
+    /**
+     * 主题排序     Added by Tiffany Zhu 2016.03.07
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result themeSort(String lang){
+        return ok(views.html.theme.themeSort.render(lang,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+    }
+
 }
