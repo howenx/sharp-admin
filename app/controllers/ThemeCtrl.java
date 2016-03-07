@@ -68,6 +68,7 @@ public class ThemeCtrl extends Controller {
     @Inject
     private NewScheduler newScheduler;
 
+
     /**
      * 滚动条管理
      * @param lang 语言

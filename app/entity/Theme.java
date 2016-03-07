@@ -34,7 +34,6 @@ public class Theme implements Serializable{
     private String themeTags;
     private Integer itemCount;
     private Integer themeTagCount;
-    @Constraints.Required
     private Integer sortNu;
     private Boolean orDestroy;
     private Long destoryUid;
