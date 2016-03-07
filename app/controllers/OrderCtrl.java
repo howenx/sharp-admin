@@ -71,7 +71,7 @@ public class OrderCtrl extends Controller {
         List<Object[]> orList = new ArrayList<>();
         List<Order> orderList = orderService.getOrderPage(order_temp);
         for(Order order : orderList){
-            Object[] object = new Object[7];
+            Object[] object = new Object[9];
             object[0] = order.getOrderId();
             object[1] = order.getUserId();
             object[2] = order.getOrderCreateAt();
@@ -134,6 +134,16 @@ public class OrderCtrl extends Controller {
             //手机号码
             ID userInfo = idService.getID(Integer.parseInt(order.getUserId().toString()));
             object[6] = userInfo.getPhoneNum();
+            //订单类型
+            if(order.getOrderType() == 1){
+                object[7] = "普通";
+            }
+            if(order.getOrderType() == 2){
+                object[7] = "拼购";
+            }
+            //拼购团ID
+            object[8] = order.getPinActiveId();
+
             orList.add(object);
 
         }
@@ -187,17 +197,31 @@ public class OrderCtrl extends Controller {
             List<Order> orderList = orderService.getOrderPage(order);
             List<Object> resultList = new ArrayList<>();
             for(Order orderTemp: orderList){
-                Object[] object = new Object[7];
+                Object[] object = new Object[9];
                 object[0] = orderTemp.getOrderId();
                 object[1] = orderTemp.getUserId();
                 DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 String startDate = sdf.format(orderTemp.getOrderCreateAt());
                 object[2] = startDate;
-                object[3] = orderTemp.getPayTotal();
+                object[3] = orderTemp.getPayTotal().toString();
                 object[4] = orderTemp.getPayMethod();
                 object[5] = orderTemp.getOrderStatus();
                 ID userInfo = idService.getID(Integer.parseInt(orderTemp.getUserId().toString()));
                 object[6] = userInfo.getPhoneNum();
+                //订单类型
+                if(orderTemp.getOrderType() == 1){
+                    object[7] = "普通";
+                }
+                if(orderTemp.getOrderType() == 2){
+                    object[7] = "拼购";
+                }
+                //拼购团ID
+                if(orderTemp.getPinActiveId() != null){
+                    object[8] = orderTemp.getPinActiveId();
+                }else{
+                    object[8] = "";
+                }
+
                 resultList.add(object);
             }
             //组装返回数据

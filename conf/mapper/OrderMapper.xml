@@ -23,7 +23,9 @@
         ${alias}.confirm_receive_at,
         ${alias}.total_fee,
         ${alias}.ship_time,
-        ${alias}.client_type
+        ${alias}.client_type,
+        ${alias}.order_type,
+        ${alias}.pin_active_id
     </sql>
     <select id="getOrdersAll" resultType="entity.order.Order">
         select

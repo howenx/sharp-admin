@@ -33,6 +33,8 @@ public class Order implements Serializable {
     private BigDecimal totalFee;        //用户支付的总费用
     private Integer shipTime;           //配送时间
     private Integer clientType;         //支付订单客户端类型
+    private Integer orderType;          //订单类型
+    private Long pinActiveId;           //拼购活动ID
 
     //分页,每页多少条
     private Integer pageSize;
@@ -46,7 +48,7 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, BigDecimal shipFee, BigDecimal postalFee, Timestamp confirmReveiveAt, BigDecimal totalFee, Integer shipTime, Integer clientType, Integer pageSize, Integer offset, String sort, String order) {
+    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, BigDecimal shipFee, BigDecimal postalFee, Timestamp confirmReveiveAt, BigDecimal totalFee, Integer shipTime, Integer clientType, Integer orderType, Long pinActiveId, Integer pageSize, Integer offset, String sort, String order) {
         this.orderId = orderId;
         this.userId = userId;
         this.payTotal = payTotal;
@@ -65,6 +67,8 @@ public class Order implements Serializable {
         this.totalFee = totalFee;
         this.shipTime = shipTime;
         this.clientType = clientType;
+        this.orderType = orderType;
+        this.pinActiveId = pinActiveId;
         this.pageSize = pageSize;
         this.offset = offset;
         this.sort = sort;
@@ -92,6 +96,8 @@ public class Order implements Serializable {
                 ", totalFee=" + totalFee +
                 ", shipTime=" + shipTime +
                 ", clientType=" + clientType +
+                ", orderType=" + orderType +
+                ", pinActiveId=" + pinActiveId +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +
@@ -241,6 +247,22 @@ public class Order implements Serializable {
 
     public void setClientType(Integer clientType) {
         this.clientType = clientType;
+    }
+
+    public Integer getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(Integer orderType) {
+        this.orderType = orderType;
+    }
+
+    public Long getPinActiveId() {
+        return pinActiveId;
+    }
+
+    public void setPinActiveId(Long pinActiveId) {
+        this.pinActiveId = pinActiveId;
     }
 
     public Integer getPageSize() {

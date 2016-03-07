@@ -75,6 +75,8 @@
             <thead>
             <tr>
                 <th>订单ID</th>
+                <th>订单类型</th>
+                <th>拼购团ID</th>
                 <th>用户ID</th>
                 <th>手机号码</th>
                 <th>创建时间</th>
@@ -88,6 +90,8 @@
             @for(order <- orList){
             <tr class = "tb-list-data">
                 <td><a href="/@lang/comm/order/detail/@order(0)">@order(0)</a></td>
+                <td>@order(7)</td>
+                <td><a href="/@lang/pin/activity/geActivityById/@order(8)">@order(8)</a></td>
                 <td>@order(1)</td>
                 <td>@order(6)</td>
                 @if(order(2)!=null){<td>@(order(2).toString().substring(0,16))</td>}
