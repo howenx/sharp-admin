@@ -264,5 +264,7 @@ GET         /sales/search                                                  contr
 POST        /sales/product/save                                            controllers.SaleCtrl.productSave()
 GET         /sales/order/import                                            controllers.SaleCtrl.saleOrderImport()
 POST        /sales/order/save                                              controllers.SaleCtrl.saleOrderSave()
-
-
+GET         /sales/statistics/view                                         controllers.SaleCtrl.saleStatisticsView()
+POST        /sales/statistics                                              controllers.SaleCtrl.saleStatistics()
+GET         /sales/inventory/view                                         controllers.SaleCtrl.saleInventoryView()
+POST        /sales/inventory                                              controllers.SaleCtrl.saleInventory()

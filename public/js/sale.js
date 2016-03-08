@@ -141,4 +141,119 @@
                     });
                 }
         });
+
+        /** 数据提交 **/
+        $("#sale-statistics-bt").click(function(){
+
+
+        var isPost = true;
+        var categoryId=$("#categoryId").val();
+        var starttime=$("#starttime").val();
+        var endtime=$("#endtime").val();
+
+        var statistics=new Object();
+        statistics.categoryId=categoryId;
+        statistics.starttime=starttime;
+        statistics.endtime=endtime;
+        if (isPost) {
+            $.ajax({
+                type :  "POST",
+                url : "/sales/statistics",
+                contentType: "application/json; charset=utf-8",
+                data : JSON.stringify(statistics),
+                dataType: 'json',
+                error : function(request) {
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('查询失败');
+                    } else {
+                        $('#js-userinfo-error').text('Search error');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('')", 2000);
+                },
+                success: function(data) {
+
+                        if(null!=data&&data.length>0&&null!=data[0]){
+                            $('#tb-topic').find('tbody').html('' +
+                             '<tr class = "tb-list-data">'+
+                             '<td>'+data[0].saleTotal+'</td>'+
+                             '<td>'+data[0].jdFeeTotal+'</td>'+
+                             '<td>'+data[0].shipFeeTotal+'</td>'+
+                             '<td>'+data[0].inteLogisticsTotal+'</td>'+
+                             '<td>'+data[0].packFeeTotal+'</td>'+
+                             '<td>'+data[0].storageFeeTotal+'</td>'+
+                             '<td>'+data[0].profitTotal+'</td>'+
+                             '</tr>');
+                        }else{
+                            if (window.lang = 'cn') {
+                             $('#tb-topic').find('tbody').html('<tr class = "tb-list-data"><td>无数据</td></tr>');
+                            } else {
+                                $('#tb-topic').find('tbody').html('<tr class = "tb-list-data"><td>no data</td></tr>');
+                            }
+                        }
+                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+                }
+            });
+         }
+     });
+
+      /** 数据提交 **/
+         $("#sale-inventory-bt").click(function(){
+         var isPost = true;
+         var saleProductId=$("#saleProductId").val();
+         var saleMonth=$("#starttime").val();
+
+         var inventory=new Object();
+         inventory.saleProductId=saleProductId;
+         inventory.saleMonth=saleMonth;
+         if (isPost) {
+             $.ajax({
+                 type :  "POST",
+                 url : "/sales/inventory",
+                 contentType: "application/json; charset=utf-8",
+                 data : JSON.stringify(inventory),
+                 dataType: 'json',
+                 error : function(request) {
+                     if (window.lang = 'cn') {
+                         $('#js-userinfo-error').text('查询失败');
+                     } else {
+                         $('#js-userinfo-error').text('Search error');
+                     }
+                     setTimeout("$('#js-userinfo-error').text('')", 2000);
+                 },
+                 success: function(data) {
+                 console.log("data="+data);
+                 console.log("data.saleInventoryList="+data.saleInventoryList);
+                 $('#tb-topic').find('thead tr').html('');
+                 $('#tb-topic').find('tbody tr').html('');
+                         if(null!=data){
+                              $('#tb-topic').find('thead tr').append('<th>商品名称</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.name+'</td>');
+                              $('#tb-topic').find('thead tr').append('<th>SKU编码</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.skuCode+'</td>');
+                              $('#tb-topic').find('thead tr').append('<th>货品编码</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.productCode+'</td>');
+                              $('#tb-topic').find('thead tr').append('<th>规格</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.spec+'</td>');
+
+
+                               //日销量
+                               $(data.saleInventoryList).each(function(index, element) {
+                                    console.log("index="+index+",element="+element);
+                                     $('#tb-topic').find('thead tr').append('<th>'+element.saleDate+'</th>');
+                                     $('#tb-topic').find('tbody tr').append('<td>'+element.saleCount+'</td>');
+                              });
+                              $('#tb-topic').find('thead tr').append('<th>月销量</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleMonthTotal+'</td>');
+                         }else{
+                             if (window.lang = 'cn') {
+                              $('#tb-topic').find('tbody').html('<tr class = "tb-list-data"><td>无数据</td></tr>');
+                             } else {
+                                 $('#tb-topic').find('tbody').html('<tr class = "tb-list-data"><td>no data</td></tr>');
+                             }
+                         }
+                     setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+                 }
+             });
+          }
+      });
  })

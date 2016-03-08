@@ -1,6 +1,7 @@
 package entity.sale;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -29,17 +30,22 @@ public class SaleProduct implements Serializable {
     private Integer emptyBox; //空盒
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp createAt;     //创建时间
+    @JsonIgnore
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateAt;     //更新时间
+    //分页,从第几条开始
+    @JsonIgnore
+    private Integer offset;
+
+    @JsonIgnore
     //分页,每页多少条
     private Integer pageSize;
 
-    //分页,从第几条开始
-    private Integer offset;
-
     //按照哪个字段排序
+    @JsonIgnore
     private String sort;
     //排序方式,降序,升序
+    @JsonIgnore
     private String order;
 
 
