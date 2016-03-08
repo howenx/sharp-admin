@@ -38,22 +38,43 @@
         from sp_coupons t where coup_id=#{value}
     </select>
 
-    <!-- 获取所有的优惠券信息 -->
-    <select id="getAllCoupons" resultType="entity.Coupons">
+    <!-- 获取所有已使用的优惠券信息 -->
+    <select id="getAllUsedCoupons" resultType="entity.Coupons">
         select
         <include refid="couponsColumns">
             <property name="alias" value="t"/>
         </include>
-        from sp_coupons t where 1=1
+        from sp_coupons t where state='Y' and use_at NOTNULL
     </select>
 
-    <!-- 分页获取优惠券信息 -->
-    <select id="getCouponsPage" parameterType="entity.Coupons" resultType="entity.Coupons">
+    <!-- 分页获取所有已使用优惠券信息 -->
+    <select id="getUsedCouponsPage" parameterType="entity.Coupons" resultType="entity.Coupons">
         select
         <include refid="couponsColumns">
             <property name="alias" value="t"/>
         </include>
-        from sp_coupons t where 1=1
+        from sp_coupons t where state='Y' and use_at NOTNULL
+        <if test="coupId != null">
+            and t.coup_id = #{coupId}
+        </if>
+        <if test='cateNm != null and cateNm != "null" and cateNm != "" '>
+            and t.cateNm like '%${cateNm}%'
+        </if>
+        <if test='useStartAt != null'>
+            and t.use_at &gt;= #{useStartAt} ::timestamp
+        </if>
+        <if test='useEndAt != null'>
+            and t.use_at &lt;= #{useEndAt} ::timestamp
+        </if>
+        <if test="sort == null or sort == '' ">
+            ORDER BY t.coup_id DESC
+        </if>
+        <if test="sort != null">
+            ORDER BY t.${sort}
+            <if test="order != null">
+                ${order}
+            </if>
+        </if>
         <if test="pageSize == -1 and offset >= -1">
             LIMIT ALL OFFSET 0
         </if>

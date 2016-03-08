@@ -43,22 +43,22 @@ public class CouponsServiceImpl implements CouponsService {
     }
 
     /**
-     * 获取所有的优惠券信息
+     * 获取所有已使用的优惠券信息
      * @return list of CouponsService
      */
     @Override
-    public List<Coupons> getAllCoupons() {
-        return couponsMapper.getAllCoupons();
+    public List<Coupons> getAllUsedCoupons() {
+        return couponsMapper.getAllUsedCoupons();
     }
 
     /**
-     * 获得一页优惠券信息
+     * 分页获取所有已使用优惠券信息
      * @param coupons 优惠券
      * @return list of CouponsService
      */
     @Override
-    public List<Coupons> getCouponsPage(Coupons coupons) {
-        return couponsMapper.getCouponsPage(coupons);
+    public List<Coupons> getUsedCouponsPage(Coupons coupons) {
+        return couponsMapper.getUsedCouponsPage(coupons);
     }
 
 }

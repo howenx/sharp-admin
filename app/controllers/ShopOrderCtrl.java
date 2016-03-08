@@ -41,6 +41,6 @@ public class ShopOrderCtrl extends Controller {
      */
     public Result shopOrderPush(Long orderId) throws ApiException {
         String shopOrderNo = shopOrderPushMiddle.shopOrderPush(orderId);
-        return ok(shopOrderNo+"push to erp success");
+        return ok(shopOrderNo);
     }
 }
