@@ -77,4 +77,10 @@ public interface ThemeMapper {
      */
     void updThemeDestroy(Long id);
 
+    /**
+     * 获取全部已上架的商品   Added by Tiffany Zhu 2016.03.08
+     * @return
+     */
+    List<Theme> getOnShelfTheme();
+
 }

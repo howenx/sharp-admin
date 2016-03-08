@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",url:String,uploadUrl:String,user:entity.User)
+@(lang:String="cn",resultList:List[entity.Theme],url:String,uploadUrl:String,user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/jquery-ui.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -77,7 +77,7 @@
     </div>
     <div class="row">
         <form class="form-horizontal">
-            <div class="col-sm-6" style="height: 500px;overflow-y: scroll">
+            <div class="col-sm-6" style="height: 800px;overflow-y: scroll">
                 <table class="grid table table-bordered" id="sort">
                     <thead>
                     <tr>
@@ -88,26 +88,24 @@
                     </tr>
                     </thead>
                     <tbody class="ui-sortable">
-                    <tr>
-                        <td class="index">9</td>
-                        <td>123242</td>
-                        <td>erw</td>
-                        <td>dgad</td>
-                    </tr>
-                    <tr>
-                        <td class="index">8</td>
-                        <td>123456</td>
-                        <td>feaf</td>
-                        <td>gea</td>
-                    </tr>
-                    <tr>
-                        <td class="index">6</td>
-                        <td>543124</td>
-                        <td>wrwq</td>
-                        <td>rww</td>
-                    </tr>
+                    @for(theme <- resultList){
+                        <tr>
+                            <td class="index">@theme.getSortNu()</td>
+                            <td>@theme.getId()</td>
+                            <td>@theme.getType()</td>
+                            <td><img class="main-img" src="@url@theme.getThemeImg()" alt="" width="50"></td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">主题总数</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
@@ -136,7 +134,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-8">
-                        <button type="button" class="btn btn-primary btn-xs">确定修改</button>
+                        <button type="button" class="btn btn-primary btn-xs">确定交换</button>
                     </div>
                 </div>
             </div>

@@ -181,4 +181,12 @@ public class ThemeServiceImpl implements ThemeService {
         themeMapper.updThemeDestroy(id);
     }
 
+    /**
+     * 获取全部已上架的商品   Added by Tiffany Zhu 2016.03.08
+     * @return
+     */
+    @Override
+    public List<Theme> getOnShelfTheme() {
+        return themeMapper.getOnShelfTheme();
+    }
 }

@@ -930,7 +930,23 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result themeSort(String lang){
-        return ok(views.html.theme.themeSort.render(lang,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+        List<Theme> themeList = service.getOnShelfTheme();
+        List<Theme> resultList = new ArrayList<>();
+        for(Theme theme : themeList){
+            if("ordinary".equals(theme.getType())){
+                theme.setType("普通");
+            }
+            if("h5".equals(theme.getType())){
+                theme.setType("HTML5");
+            }
+            JsonNode imgJson = Json.parse(theme.getThemeImg());
+            String imgUrl = imgJson.get("url").toString();
+            imgUrl = imgUrl.substring(1,imgUrl.length()-1);
+            theme.setThemeImg(imgUrl);
+            resultList.add(theme);
+        }
+
+        return ok(views.html.theme.themeSort.render(lang,resultList,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
 }

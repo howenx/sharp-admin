@@ -166,6 +166,14 @@
                 where id = #{value}
         </update>
 
+        <select id="getOnShelfTheme" resultType="entity.Theme">
+              select
+                <include refid="themeColumns">
+                        <property name="alias" value="t"/>
+                </include>
+                from themes t where or_destroy = 'N' order by sort_nu DESC
+        </select>
+
         <!---  主题模板    -->
         <sql id="templateColumns">
                 ${alias}.id,
