@@ -200,6 +200,11 @@ GET         /coup/add                                                      contr
 GET         /$lang<(cn|en|kr)>/coup/add                                    controllers.CoupCtrl.coupCreate(lang)
 GET         /coup/add/popup                                                controllers.AdminUserCtrl.addIDUserPop()
 POST        /coup/coupSave                                                 controllers.CoupCtrl.coupSave
+GET         /coup/search                                                   controllers.CoupCtrl.coupSearch(lang ="cn")
+GET         /$lang<(cn|en|kr)>/coup/search                                 controllers.CoupCtrl.coupSearch(lang)
+POST        /coup/search/$pageNum<[0-9]+>                                  controllers.CoupCtrl.coupSearchAjax(lang = "cn", pageNum:Int)
+POST        /$lang<(cn|en|kr)>/coup/search/$pageNum<[0-9]+>                controllers.CoupCtrl.coupSearchAjax(lang, pageNum:Int)
+
 
 #edit 编辑器
 GET         /editorController                                              controllers.EditorApplication.editorController()

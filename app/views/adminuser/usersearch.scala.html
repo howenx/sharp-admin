@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn", adminUserList:List[entity.AdminUser], user:entity.User)
+@(lang:String="cn", adminUserList:List[entity.AdminUser], userTypeList:Map[String,String], user:entity.User)
 
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
@@ -44,15 +44,11 @@
                 <td><a href="/@lang/aduser/info">@au.getUserId()</a></td>
                 <td>@au.getEnNm()</td>
                 <td>
-                    @if(au.getUserType()=="OPERATE"){运营人员}
-                    @if(au.getUserType()=="FINANCE"){财务人员}
-                    @if(au.getUserType()=="SERVICE"){客服人员}
-                    @if(au.getUserType()=="ADMIN"){管理人员}
-                    @if(au.getUserType()=="SYSTEM"){系统管理员}
-                    @if(au.getUserType()=="SADMIN"){供应商子系统管理员}
-                    @if(au.getUserType()=="SUPPLIER"){供应商人员}
-                    @if(au.getUserType()=="TRANSLATION"){翻译人员}
-                    @if(au.getUserType()=="AUDIT"){审计人员}
+                    @for(utl <- userTypeList) {
+                    @if(au.getUserType()==utl.toString.substring(1,utl.toString.length-1).split(",")(0)) {
+                        @utl.toString.substring(1,utl.toString.length-1).split(",")(1)
+                    }
+                    }
                 </td>
                 <td>@au.getChNm()</a></td>
                 <td>@au.getEmail()</td>

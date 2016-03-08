@@ -1,5 +1,5 @@
 @import play.i18n._
-@(item:entity.Item,invList:List[Array[Object]],cates:entity.Cates,pCateNm:String, brands:entity.Brands,url:String, lang:String="cn", user:entity.User)
+@(item:entity.Item,invList:List[Array[Object]],cates:entity.Cates,pCateNm:String, brands:entity.Brands,url:String, lang:String="cn", user:entity.User, customs:Map[String,String], area:Map[String,String])
 
 @scripts = {
 
@@ -149,36 +149,32 @@
                                         @if(obj(13)!= "" && null != obj(13)  ) { @obj(13)}
                                     </td>
                                     <td>
-                                        @if(obj(14)== "H") {杭州保税仓备货}
-                                        @if(obj(14)== "HZ") {杭州保税仓直邮}
-                                        @if(obj(14)== "G") {广州保税仓备货}
-                                        @if(obj(14)== "GZ") {广州保税仓直邮}
-                                        @if(obj(14)== "S") {上海保税仓备货}
-                                        @if(obj(14)== "SZ") {上海保税仓直邮}
-                                        @if(obj(14)== "K") {海外直邮}
+                                        @for(a <- area) {
+                                        @if(obj(14)==a.toString.substring(1,a.toString.length-1).split(",")(0)) {
+                                            @a.toString.substring(1,a.toString.length-1).split(",")(1)
+                                        }
+                                        }
                                     </td>
                                     <td>
-                                        @if(obj(15)== "shanghai") {上海海关}
-                                        @if(obj(15)== "hangzhou") {杭州海关}
-                                        @if(obj(15)== "guangzhou") {广州海关}
+                                        @for(c <- customs) {
+                                        @if(obj(15)==c.toString.substring(1,c.toString.length-1).split(",")(0)) {
+                                            @c.toString.substring(1,c.toString.length-1).split(",")(1)
+                                        }
+                                        }
                                     </td>
                                     <td>
                                         @for(recordCode <- obj(19).toString().substring(1,obj(19).toString().length-1).split(", ")) {
-                                        @if(recordCode.substring(1,recordCode.indexOf(":")-1)=="hangzhou") {
-                                        <div class="record"><span>杭州 <input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordHZ" style="width:70%;border:0px;"></span></div>
-                                        }
-                                        @if(recordCode.substring(1,recordCode.indexOf(":")-1)=="guangzhou") {
-                                        <div class="record"><span>广州 <input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordGZ" style="width:70%;border:0px;"></span></div>
-                                        }
-                                        @if(recordCode.substring(1,recordCode.indexOf(":")-1)=="shanghai") {
-                                        <div class="record"><span>上海 <input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordSH" style="width:70%;border:0px;"></span></div>
-                                        }
+                                            @for(c <- customs) {
+                                                @if(recordCode.substring(1,recordCode.indexOf(":")-1)==c.toString.substring(1,c.toString.length-1).split(",")(0)) {
+                                                <div class="record"><span>@c.toString.substring(1,c.toString.length-1).split(",")(1) <input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordHZ" style="width:70%;border:0px;"></span></div>
+                                                }
+                                            }
                                         }
                                     </td>
                                     <td class="list-img">
                                         <div >
                                             <div>
-                                                <img class="main-img" src='@url@obj(16).toString.substring(1,obj(16).toString.length-1).split(",")(0).substring(7,obj(16).toString.substring(1,obj(16).toString.length-1).split(",")(0).length-1)' alt="">
+                                                <img class="main-img" src='@url@obj(16)'>
                                             </div>
                                         </div>
                                     </td>

@@ -120,7 +120,7 @@ public class AdminUserCtrl extends Controller {
                 email.setMsg(adminUser.getEnNm()+"请用密码登录:"+defPwd);//邮件内容
                 email.setFrom("sunny.wu@kakaocorp.com");//发送人
                 email.addTo("sunny.wu@kakaocorp.com");//收件人
-                email.send();
+//                email.send();
                 Logger.debug("邮件发送成功!");
             } catch (EmailException e) {
                 e.printStackTrace();
@@ -215,10 +215,14 @@ public class AdminUserCtrl extends Controller {
         Map<String,String> userTypeList = new HashMap<>();
         Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
         Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
+        Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);
         for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
         for(Map.Entry<String, String> ut:userTypeList2.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        for(Map.Entry<String, String> ut:userTypeList3.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
         return ok(views.html.adminuser.userinfo.render(lang, userTypeList, (User) ctx().args.get("user")));
@@ -296,7 +300,20 @@ public class AdminUserCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result adminUserSearch(String lang) {
         List<AdminUser> adminUserList = adminUserService.getAllUsers();
-        return ok(views.html.adminuser.usersearch.render(lang, adminUserList, (User) ctx().args.get("user")));
+        Map<String,String> userTypeList = new HashMap<>();
+        Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
+        Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
+        Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);
+        for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        for(Map.Entry<String, String> ut:userTypeList2.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        for(Map.Entry<String, String> ut:userTypeList3.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        return ok(views.html.adminuser.usersearch.render(lang, adminUserList, userTypeList, (User) ctx().args.get("user")));
     }
 
     /**
@@ -345,7 +362,8 @@ public class AdminUserCtrl extends Controller {
     /**
      * APP用户ajax分页查询
      * @param lang 语言
-     * @return views
+     * @param pageNum 请求页数
+     * @return json
      */
     @Security.Authenticated(UserAuth.class)
     public Result appUserSearchAjax(String lang, int pageNum) {
@@ -373,7 +391,6 @@ public class AdminUserCtrl extends Controller {
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
             returnMap.put("pageSize",pageSize);
-            Logger.error(returnMap.toString());
             return ok(Json.toJson(returnMap));
         }
         else{
