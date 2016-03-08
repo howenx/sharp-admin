@@ -1,7 +1,9 @@
 package mapper;
 
+import entity.sale.SaleInventory;
 import entity.sale.SaleOrder;
 import entity.sale.SaleProduct;
+import entity.sale.SaleStatistics;
 
 import java.util.List;
 
@@ -23,6 +25,12 @@ public interface SaleMapper {
      * @return
      */
     Integer updateSaleProduct(SaleProduct saleProduct);
+    /**
+     * 根据id获取销售产品
+     * @param id
+     * @return
+     */
+    SaleProduct getSaleProductById(Long id);
 
     /***
      * 查询销售产品
@@ -58,4 +66,17 @@ public interface SaleMapper {
      * @return
      */
     List<SaleOrder> getSalaOrder(SaleOrder saleOrder);
+
+    /***
+     * 获取销售汇总
+     * @param saleOrder
+     * @return
+     */
+    List<SaleStatistics> getSaleStatistics(SaleOrder saleOrder);
+    /**
+     * 月份日销量
+     * @param saleOrder
+     * @return
+     */
+    List<SaleInventory>  getSaleInventory(SaleOrder saleOrder);
 }

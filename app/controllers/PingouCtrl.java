@@ -2,6 +2,7 @@ package controllers;
 
 import akka.actor.ActorRef;
 import com.fasterxml.jackson.databind.JsonNode;
+import entity.ID;
 import entity.User;
 import entity.pingou.*;
 import filters.UserAuth;
@@ -16,6 +17,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import scala.concurrent.duration.Duration;
 import scala.concurrent.duration.FiniteDuration;
+import service.IDService;
 import service.PingouService;
 import util.Regex;
 import java.text.SimpleDateFormat;
@@ -42,6 +44,9 @@ public class PingouCtrl extends Controller {
     @Inject
     @Named("pingouOnShelfActor")
     private ActorRef pingouOnShelfActor;
+
+    @Inject
+    IDService idService;
 
 
 
@@ -775,18 +780,23 @@ public class PingouCtrl extends Controller {
             String  memberObject = "";
             for(PinUser pinUser : pinUserList){
                 if(pinUser.isOrMaster()){
-                    masterObject = pinUser.getUserId().toString();
+
                     if(pinUser.isOrRobot()){
+                        masterObject = pinUser.getUserId().toString();
                         masterObject = masterObject + "(机器人)";
                     }else{
+                        ID userInfo = idService.getID(Integer.parseInt(pinUser.getUserId().toString()));
+                        masterObject = userInfo.getPhoneNum();
                         masterObject = masterObject + "(用户)";
                     }
 
                 }else{
-                    memberObject = memberObject + pinUser.getUserId().toString();
                     if(pinUser.isOrRobot()){
+                        memberObject = memberObject + pinUser.getUserId().toString();
                         memberObject = memberObject + "(机器人)";
                     }else{
+                        ID userInfo = idService.getID(Integer.parseInt(pinUser.getUserId().toString()));
+                        memberObject = memberObject + userInfo.getPhoneNum();
                         memberObject = memberObject + "(用户)";
                     }
                 }

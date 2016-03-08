@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * 销售明细
@@ -12,7 +13,7 @@ import java.sql.Timestamp;
  */
 public class SaleOrder implements Serializable {
     private Long id;             //唯一id
-    private Timestamp saleAt;    //日期
+    private Date saleAt;    //日期
     private String orderId;      //订单号
     private Long saleProductId;  //销售商品id
     private String productName; //品名
@@ -36,6 +37,12 @@ public class SaleOrder implements Serializable {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateAt;     //更新时间
 
+    private String starttime;
+    private String endtime;
+    /**销售月份*/
+    private String saleMonth;
+
+
     public Long getId() {
         return id;
     }
@@ -44,11 +51,11 @@ public class SaleOrder implements Serializable {
         this.id = id;
     }
 
-    public Timestamp getSaleAt() {
+    public Date getSaleAt() {
         return saleAt;
     }
 
-    public void setSaleAt(Timestamp saleAt) {
+    public void setSaleAt(Date saleAt) {
         this.saleAt = saleAt;
     }
 
@@ -210,5 +217,29 @@ public class SaleOrder implements Serializable {
 
     public void setUpdateAt(Timestamp updateAt) {
         this.updateAt = updateAt;
+    }
+
+    public String getStarttime() {
+        return starttime;
+    }
+
+    public void setStarttime(String starttime) {
+        this.starttime = starttime;
+    }
+
+    public String getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(String endtime) {
+        this.endtime = endtime;
+    }
+
+    public String getSaleMonth() {
+        return saleMonth;
+    }
+
+    public void setSaleMonth(String saleMonth) {
+        this.saleMonth = saleMonth;
     }
 }

@@ -2,11 +2,24 @@
 @(lang:String, user:entity.User)
 
 @scripts = {
+<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
 <link rel="stylesheet" href="/assets/css/slider.css">
 <link rel="stylesheet" href="/assets/css/screenshot.css">
 <script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>>
 <script src="/assets/js/sale.js"></script>
-
+<script>
+    $(function(){
+        $(function () {
+            $('#datetimepicker-starttime').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+    })
+</script>
 }
 
 @import java.lang.String; var title="数据导入"
@@ -40,10 +53,14 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">日期</label>
 
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="saleAt"/>
+                    <div class="col-sm-4">
+                        <div id="datetimepicker-starttime" class="input-group date">
+                            <input id="saleAt" class="form-control col-sm-2"  type="text">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label class="col-sm-2 control-label">订单号</label>
 

@@ -1,0 +1,130 @@
+@import play.i18n._
+@(lang:String,saleStatistics:entity.sale.SaleStatistics,user:entity.User)
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/search.js"></script>
+<script src="/assets/js/sale.js"></script>
+<!-- 此为调用分页所提供的函数名前缀 -->
+<script>window.search_args = 'saleslist'</script>
+<script>
+    $(function(){
+        $(function () {
+            $('#datetimepicker-starttime').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD'
+            });
+            $('#datetimepicker-endtime').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD'
+            });
+        });
+    })
+</script>
+}
+@import java.lang.String; val title="销售数据"
+
+@layout(lang="cn",title=title,user=user)(scripts) {
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">销售报表</span>
+        <span class="icon-path">&gt;</span>
+        <span>销售汇总</span>
+    </div>
+</div>
+<div class="content-1">
+    <div class="page-title">
+        <span class="title-name">销售数据</span>
+    </div>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">商品分类</label>
+            <div class="col-sm-2">
+            <select class="form-control form-data-area" id="categoryId">
+                <option value="-1">全部</option>
+                <option value="1">配饰</option>
+                <option value="2">化妆品</option>
+                <option value="3">投影仪</option>
+            </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <!--开始时间-->
+            <label class="col-sm-2 control-label">开始时间</label>
+            <div class="col-sm-4">
+                <div id="datetimepicker-starttime" class="input-group date">
+                    <input id="starttime" class="form-control col-sm-2"  type="text">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+            <!--结束时间-->
+            <label class="col-sm-2 control-label">结束时间</label>
+            <div class="col-sm-4">
+                <div id="datetimepicker-endtime" class="input-group date">
+                    <input id="endtime" class="form-control col-sm-2"  type="text">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-s">
+            <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
+            <a id="sale-statistics-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
+        </div>
+    </form>
+    <div class="table-content">
+        <!--id必须为tb-topic 公用js需要使用-->
+        <table id="tb-topic" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+
+                <th>商品总销售额</th>
+                <th>京东费用总额</th>
+                <th>国内物流费总额</th>
+                <th>国际物流费总额</th>
+                <th>包装费总额</th>
+                <th>服务费总额</th>
+                <th>商品总净利润额</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                <tr class = "tb-list-data">
+                    @if(null!=saleStatistics){
+                    <td>@saleStatistics.getSaleTotal()</td>
+                    <td>@saleStatistics.getJdFeeTotal()</td>
+                    <td>@saleStatistics.getShipFeeTotal()</td>
+                    <td>@saleStatistics.getInteLogisticsTotal()</td>
+                    <td>@saleStatistics.getPackFeeTotal()</td>
+                    <td>@saleStatistics.getStorageFeeTotal()</td>
+                    <td>@saleStatistics.getProfitTotal()</td>
+                    }
+                </tr>
+
+            <tr id="nodata-td" style="display:none;"><td colspan="9">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            </tbody>
+        </table>
+
+        <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
+
+        <!-- 公用模块,直接拷贝-->
+    </div>
+</div>
+
+<!-- 点击图片预览-->
+<div class="goods-img-bg">
+    <div class="goods-bg"></div>
+    <div class="goods-img">
+        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>
+}
+

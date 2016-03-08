@@ -1,7 +1,9 @@
 package service;
 
+import entity.sale.SaleInventory;
 import entity.sale.SaleOrder;
 import entity.sale.SaleProduct;
+import entity.sale.SaleStatistics;
 import mapper.SaleMapper;
 
 import javax.inject.Inject;
@@ -22,6 +24,11 @@ public class SaleServiceImpl implements SaleService{
     @Override
     public Boolean updateSaleProduct(SaleProduct saleProduct) {
         return saleMapper.updateSaleProduct(saleProduct)>0;
+    }
+
+    @Override
+    public SaleProduct getSaleProductById(Long id) {
+        return saleMapper.getSaleProductById(id);
     }
 
     @Override
@@ -47,5 +54,15 @@ public class SaleServiceImpl implements SaleService{
     @Override
     public List<SaleOrder> getSalaOrder(SaleOrder saleOrder) {
         return saleMapper.getSalaOrder(saleOrder);
+    }
+
+    @Override
+    public List<SaleStatistics> getSaleStatistics(SaleOrder saleOrder) {
+        return saleMapper.getSaleStatistics(saleOrder);
+    }
+
+    @Override
+    public List<SaleInventory> getSaleInventory(SaleOrder saleOrder) {
+        return saleMapper.getSaleInventory(saleOrder);
     }
 }
