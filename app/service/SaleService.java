@@ -80,4 +80,17 @@ public interface SaleService {
      */
     List<SaleInventory>  getSaleInventory(SaleOrder saleOrder);
 
+    /**
+     * 获取商品销售的总数量
+     * @param id 商品id
+     * @return
+     */
+    Integer getProductSaleCountTotal(Long id);
+    /**
+     * 分页查询销售订单
+     * @param saleOrder
+     * @return
+     */
+    List<SaleOrder> getSaleOrderPage(SaleOrder saleOrder);
+
 }

@@ -1,12 +1,29 @@
 @import play.i18n._
-@(lang:String, user:entity.User)
+@(lang:String,area:Map[String,String],user:entity.User)
 
 @scripts = {
+<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
 <link rel="stylesheet" href="/assets/css/slider.css">
 <link rel="stylesheet" href="/assets/css/screenshot.css">
 <script src="/assets/js/jquery.min.js"></script>
 <script src="/assets/js/sale.js"></script>
-
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script>
+    $(function(){
+        $(function () {
+            $('#datetimepicker-starttime').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+            $('#datetimepicker-endtime').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+    })
+</script>
 }
 
 @import java.lang.String; var title="数据导入"
@@ -124,7 +141,27 @@
                         <input type="text" class="form-control" id="emptyBox"/>
                     </div>
                 </div>
-
+                <div class="form-group">
+                    <!-- 库存区域 -->
+                    <label class="col-sm-2 control-label thval">库存区域</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="invArea" name="invArea">
+                            @for(a <- area) {
+                            <option value='@a.toString.substring(1,a.toString.length-1).split(",")(0)'>@a.toString.substring(1,a.toString.length-1).split(",")(1)</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <!--开始时间-->
+                    <label class="col-sm-2 control-label">入库日期</label>
+                    <div class="col-sm-4">
+                        <div id="datetimepicker-starttime" class="input-group date">
+                            <input id="storageAt" class="form-control col-sm-2"  type="text">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
     </div>

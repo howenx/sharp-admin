@@ -17,6 +17,9 @@
     var lessDelivery=$("#lessDelivery").val();
     var lessProduct=$("#lessProduct").val();
     var emptyBox=$("#emptyBox").val();
+    var invArea=$("#invArea").val();
+    var storageAt=$("#storageAt").val();
+
 
     var product=new Object();
     product.categoryId=categoryId;
@@ -31,6 +34,9 @@
     product.lessDelivery=lessDelivery;
     product.lessProduct=lessProduct;
     product.emptyBox=emptyBox;
+    product.invArea=invArea;
+    product.storageAt=storageAt;
+
     if (isPost) {
                 $.ajax({
                     type :  "POST",
@@ -52,11 +58,11 @@
                             $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
                             //商品更新, 成功后返回到列表查询页面
                             if($("#itemId").val() != "") {
-                                setTimeout("location.href='/sales/import'", 3000);
+                                setTimeout("location.href='/sales/search'", 3000);
                             }
                             //商品录入, 成功后返回到商品录入页面
                             else {
-                                setTimeout("location.href='/sales/import'", 3000);
+                                setTimeout("location.href='/sales/search'", 3000);
                             }
                         }
                         else {
@@ -79,7 +85,7 @@
         var saleProductId=$("#saleProductId").val();
         var productName=$("#productName").val();
         var price=$("#price").val();
-        var count=$("#count").val();
+        var saleCount=$("#saleCount").val();
         var discountAmount=$("#discountAmount").val();
         var jdRate=$("#jdRate").val();
         var cost=$("#cost").val();
@@ -95,7 +101,7 @@
         order.saleProductId=saleProductId;
         order.productName=productName;
         order.price=price;
-        order.count=count;
+        order.saleCount=saleCount;
         order.discountAmount=discountAmount;
         order.jdRate=jdRate;
         order.cost=cost;
@@ -226,6 +232,8 @@
                  $('#tb-topic').find('thead tr').html('');
                  $('#tb-topic').find('tbody tr').html('');
                          if(null!=data){
+                              $('#tb-topic').find('thead tr').append('<th>序号</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.id+'</td>');
                               $('#tb-topic').find('thead tr').append('<th>商品名称</th>');
                               $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.name+'</td>');
                               $('#tb-topic').find('thead tr').append('<th>SKU编码</th>');
@@ -234,6 +242,28 @@
                               $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.productCode+'</td>');
                               $('#tb-topic').find('thead tr').append('<th>规格</th>');
                               $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.spec+'</td>');
+                              $('#tb-topic').find('thead tr').append('<th>保税区</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.invArea+'</td>');
+                              $('#tb-topic').find('thead tr').append('<th>总销量</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.saleCount+'</td>');
+                              $('#tb-topic').find('thead tr').append('<th>库存量</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.inventory+'</td>');
+                              $('#tb-topic').find('thead tr').append('<th>库存商品成本</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.productCost+'</td>');
+                              $('#tb-topic').find('thead tr').append('<th>库存商品价值</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.stockValue+'</td>');
+                              $('#tb-topic').find('thead tr').append('<th>进货量</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.purchaseCount+'</td>');
+                              $('#tb-topic').find('thead tr').append('<th>无卡</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.noCard+'</td>');
+                              $('#tb-topic').find('thead tr').append('<th>破损</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.damage+'</td>');
+                              $('#tb-topic').find('thead tr').append('<th>少配件</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.lessDelivery+'</td>');
+                              $('#tb-topic').find('thead tr').append('<th>少货</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.lessProduct+'</td>');
+                              $('#tb-topic').find('thead tr').append('<th>空盒</th>');
+                              $('#tb-topic').find('tbody tr').append('<td>'+data.saleProduct.emptyBox+'</td>');
 
 
                                //日销量

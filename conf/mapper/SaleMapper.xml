@@ -26,13 +26,15 @@
         ${alias}.less_product,
         ${alias}.empty_box,
         ${alias}.created_dt,
-        ${alias}.update_dt
+        ${alias}.update_dt,
+        ${alias}.inv_area,
+        ${alias}.storage_at
     </sql>
     <!-- 录入一条销售产品信息 -->
     <insert id="insertSaleProduct" parameterType="entity.sale.SaleProduct" useGeneratedKeys="true" keyProperty="id">
         insert into sale_product
         (name,category_id,sku_code,product_code,spec,sale_count,inventory,product_cost,stock_value,purchase_count,
-        no_card,damage,less_delivery,less_product,empty_box,created_dt,update_dt)
+        no_card,damage,less_delivery,less_product,empty_box,created_dt,update_dt,inv_area,storage_at)
         values(
         #{name},
         #{categoryId},
@@ -50,14 +52,18 @@
         #{lessProduct},
         #{emptyBox},
         CURRENT_TIMESTAMP(0),
-        CURRENT_TIMESTAMP(0))
+        CURRENT_TIMESTAMP(0),
+        #{invArea},
+        #{storageAt}
+        )
     </insert>
 
 
     <update id="updateSaleProduct" parameterType="entity.sale.SaleProduct" >
         update sale_product set name= #{name},category_id= #{categoryId},sku_code= #{skuCode},product_code= #{productCode},
-        spec= #{sysCode},sale_count=#{saleCount},inventory= #{inventory},product_cost= #{productCost},stock_value=#{stockValue},purchase_count= #{purchaseCount},
+        spec= #{spec},sale_count=#{saleCount},inventory= #{inventory},product_cost= #{productCost},stock_value=#{stockValue},purchase_count= #{purchaseCount},
         no_card= #{noCard},damage=#{damage},less_delivery= #{lessDelivery},less_product=#{lessProduct},empty_box=#{emptyBox},update_dt= CURRENT_TIMESTAMP(0)
+        ,inv_area=#{invArea},storage_at=#{storageAt}
         where id=#{id}
     </update>
     <select id="getSaleProductById" parameterType="java.lang.Long"  resultType="entity.sale.SaleProduct">
@@ -107,6 +113,10 @@
             LIMIT #{pageSize} OFFSET #{offset}
         </if>
     </select>
+    <!--获取商品销售的总数量-->
+    <select id="getProductSaleCountTotal" parameterType="java.lang.Long"  resultType="java.lang.Integer">
+        select sum(sale_count) from sale_order where sale_product_id=#{value};
+    </select>
 
 
     <sql id="saleOrderColumns">
@@ -115,7 +125,7 @@
         ${alias}.order_id,
         ${alias}.product_name,
         ${alias}.price,
-        ${alias}.count,
+        ${alias}.sale_count,
         ${alias}.discount_amount,
         ${alias}.sale_total,
         ${alias}.jd_rate,
@@ -136,17 +146,17 @@
     <!-- 录入一条销售订单信息 -->
     <insert id="insertSaleOrder" parameterType="entity.sale.SaleOrder" useGeneratedKeys="true" keyProperty="id">
         insert into sale_order
-        (sale_at,order_id,product_name,price,count,discount_amount,sale_total,
+        (sale_at,order_id,product_name,price,sale_count,discount_amount,sale_total,
         jd_rate,jd_fee,cost,ship_fee,pack_fee,storage_fee,postal_fee,postal_tax_rate,profit,inte_logistics,
         category_id,created_dt,update_dt,sale_product_id)
         values(
-        #{saleAt},#{orderId},#{productName},#{price},#{count},#{discountAmount},#{saleTotal},
+        #{saleAt},#{orderId},#{productName},#{price},#{saleCount},#{discountAmount},#{saleTotal},
         #{jdRate},#{jdFee},#{cost},#{shipFee},#{packFee},#{storageFee},#{postalFee},#{postalTaxRate},#{profit},#{inteLogistics},
        #{categoryId},CURRENT_TIMESTAMP(0),CURRENT_TIMESTAMP(0),#{saleProductId}
        )
     </insert>
     <update id="updateSaleOrder" parameterType="entity.sale.SaleOrder" >
-        update sale_order set sale_at=#{saleAt},order_id=#{orderId},product_name=#{productName},price=#{price},count=#{count},
+        update sale_order set sale_at=#{saleAt},order_id=#{orderId},product_name=#{productName},price=#{price},sale_count=#{saleCount},
         discount_amount=#{discountAmount},sale_total=#{saleTotal},jd_rate=#{jdRate},jd_fee=#{jdFee},cost=#{cost},ship_fee=#{shipFee},
         pack_fee=#{packFee},storage_fee=#{storageFee},postal_fee=#{postalFee},postal_tax_rate=#{postalTaxRate},profit=#{profit},inte_logistics=#{inteLogistics},
         category_id=#{categoryId},update_dt= CURRENT_TIMESTAMP(0),sale_product_id=#{saleProductId}
@@ -180,11 +190,39 @@
         ;
     </select>
     <select id="getSaleInventory" parameterType="entity.sale.SaleOrder" resultType="entity.sale.SaleInventory">
-        SELECT sum(s.count)as saleCount,s.sale_at as saleDate from sale_order s
+        SELECT sum(s.sale_count)as saleCount,s.sale_at as saleDate from sale_order s
         WHERE 1=1
         <if test="saleProductId!=null and saleProductId!=''">
             and sale_product_id =#{saleProductId}
         </if>
-        and s.sale_at::TEXT LIKE '${saleMonth}%' GROUP BY s.sale_at;
+        and s.sale_at::TEXT LIKE '${saleMonth}%' GROUP BY s.sale_at order by s.sale_at;
    </select>
+
+    <select id="getSaleOrderPage" parameterType="entity.sale.SaleOrder" resultType="entity.sale.SaleOrder">
+        select
+        <include refid="saleOrderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sale_order t where 1=1
+        <if test="id != null">
+            and t.id = #{id}
+        </if>
+        <if test="sort == null or sort == ''">
+            ORDER BY t.created_dt DESC
+        </if>
+
+        <if test="sort != null">
+            ORDER BY t.${sort}
+            <if test="order != null">
+                ${order}
+            </if>
+        </if>
+
+        <if test="pageSize == -1 and offset >= -1">
+            LIMIT ALL OFFSET 0
+        </if>
+        <if test="pageSize >= 1 and offset >= 0">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
 </mapper>

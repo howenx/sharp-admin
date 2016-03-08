@@ -41,7 +41,7 @@
 </div>
 <div class="content-1">
     <div class="page-title">
-        <span class="title-name">销售数据</span>
+        <span class="title-name">销售产品数据</span>
     </div>
     <form class="form-horizontal">
         <div class="form-group">
@@ -108,11 +108,11 @@
                     <td>@product.getSkuCode()</td>
                     <td>@product.getProductCode()</td>
                     <td>@product.getSpec()</td>
-                    <td>保税区</td>
-                    <td>总销量</td>
-                    <td>库存量</td>
+                    <td>@product.getInvArea()</td>
+                    <td>@product.getSaleCount()</td>
+                    <td>@product.getInventory()</td>
                     <td>@product.getProductCost()</td>
-                    <td>库存商品价值</td>
+                    <td>@product.getStockValue()</td>
                     <td>@product.getPurchaseCount()</td>
 
 

@@ -1,6 +1,7 @@
 package entity.sale;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -19,7 +20,7 @@ public class SaleOrder implements Serializable {
     private String productName; //品名
     private Integer categoryId;    //商品分类
     private BigDecimal price;    //单价
-    private Integer count;       //数量
+    private Integer saleCount;       //数量
     private BigDecimal discountAmount;    //优惠额
     private BigDecimal saleTotal;    //销售额
     private BigDecimal jdRate;    //京东费率
@@ -41,6 +42,21 @@ public class SaleOrder implements Serializable {
     private String endtime;
     /**销售月份*/
     private String saleMonth;
+
+    //分页,从第几条开始
+    @JsonIgnore
+    private Integer offset;
+
+    @JsonIgnore
+    //分页,每页多少条
+    private Integer pageSize;
+
+    //按照哪个字段排序
+    @JsonIgnore
+    private String sort;
+    //排序方式,降序,升序
+    @JsonIgnore
+    private String order;
 
 
     public Long getId() {
@@ -99,12 +115,12 @@ public class SaleOrder implements Serializable {
         this.price = price;
     }
 
-    public Integer getCount() {
-        return count;
+    public Integer getSaleCount() {
+        return saleCount;
     }
 
-    public void setCount(Integer count) {
-        this.count = count;
+    public void setSaleCount(Integer saleCount) {
+        this.saleCount = saleCount;
     }
 
     public BigDecimal getDiscountAmount() {
@@ -241,5 +257,37 @@ public class SaleOrder implements Serializable {
 
     public void setSaleMonth(String saleMonth) {
         this.saleMonth = saleMonth;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
     }
 }

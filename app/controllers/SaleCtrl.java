@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
 import entity.Theme;
@@ -10,6 +11,7 @@ import entity.sale.SaleOrder;
 import entity.sale.SaleProduct;
 import entity.sale.SaleStatistics;
 import filters.UserAuth;
+import play.Configuration;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -20,6 +22,7 @@ import service.SaleService;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -34,6 +37,8 @@ public class SaleCtrl extends Controller {
     public static final int PAGE_SIZE = 10;
     @Inject
     private SaleService saleService;
+    @javax.inject.Inject
+    Configuration configuration;
 
     /**
      *
@@ -56,10 +61,10 @@ public class SaleCtrl extends Controller {
      */
     private SaleProduct createSaleProduct(String name,Integer catagoryId,String skuCode,String productCode, String spec, Integer saleCount,
                                           Integer inventory, BigDecimal productCost,BigDecimal stockValue,Integer purchaseCount,Integer noCard,Integer damage,
-                                          Integer lessDelivery, Integer lessProduct, Integer emptyBox){
+                                          Integer lessDelivery, Integer lessProduct, Integer emptyBox,String invArea,Timestamp storageAt){
         SaleProduct saleProduct=new SaleProduct();
         setSaleProduct(saleProduct,name,catagoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
-                lessDelivery,lessProduct,emptyBox);
+                lessDelivery,lessProduct,emptyBox,invArea,storageAt);
         if(saleService.insertSaleProduct(saleProduct)){
             return saleProduct;
         }
@@ -68,7 +73,7 @@ public class SaleCtrl extends Controller {
     private void setSaleProduct(SaleProduct saleProduct,
                                 String name,Integer catagoryId,String skuCode,String productCode, String spec, Integer saleCount,
                                 Integer inventory, BigDecimal productCost,BigDecimal stockValue,Integer purchaseCount,Integer noCard,Integer damage,
-                                Integer lessDelivery, Integer lessProduct, Integer emptyBox){
+                                Integer lessDelivery, Integer lessProduct, Integer emptyBox,String invArea,Timestamp storageAt){
         saleProduct.setName(name);
         saleProduct.setCategoryId(catagoryId);
         saleProduct.setSkuCode(skuCode);
@@ -84,6 +89,8 @@ public class SaleCtrl extends Controller {
         saleProduct.setLessDelivery(lessDelivery);
         saleProduct.setLessProduct(lessProduct);
         saleProduct.setEmptyBox(emptyBox);
+        saleProduct.setInvArea(invArea);
+        saleProduct.setStorageAt(storageAt);
     }
 
     /**
@@ -94,7 +101,7 @@ public class SaleCtrl extends Controller {
      * @param productName 品名
      * @param categoryId 商品分类
      * @param price 单价
-     * @param count 数量
+     * @param saleCount 数量
      * @param discountAmount 优惠额
      * @param saleTotal 销售
      * @param jdRate 京东费率
@@ -108,7 +115,7 @@ public class SaleCtrl extends Controller {
      * @param profit 净利
      * @return
      */
-    private SaleOrder createSaleOrder(Date saleAt,String orderId,Long saleProductId,String productName, Integer categoryId,BigDecimal price,Integer count,
+    private SaleOrder createSaleOrder(Date saleAt,String orderId,Long saleProductId,String productName, Integer categoryId,BigDecimal price,Integer saleCount,
                                       BigDecimal discountAmount, BigDecimal saleTotal,BigDecimal jdRate,BigDecimal jdFee,BigDecimal cost,BigDecimal shipFee,
                                       BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, String postalTaxRate, BigDecimal profit){
         SaleOrder saleOrder=new SaleOrder();
@@ -118,7 +125,7 @@ public class SaleCtrl extends Controller {
         saleOrder.setProductName(productName);
         saleOrder.setCategoryId(categoryId);
         saleOrder.setPrice(price);
-        saleOrder.setCount(count);
+        saleOrder.setSaleCount(saleCount);
         saleOrder.setDiscountAmount(discountAmount);
         saleOrder.setSaleTotal(saleTotal);
         saleOrder.setJdRate(jdRate);
@@ -143,8 +150,8 @@ public class SaleCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result dataImport() {
-        JsonNode json = request().body().asJson();
-        return ok(views.html.sales.dataImport.render("cn", (User) ctx().args.get("user")));
+        Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
+        return ok(views.html.sales.dataImport.render("cn", area,(User) ctx().args.get("user")));
     }
 
 
@@ -156,15 +163,16 @@ public class SaleCtrl extends Controller {
     public Result productSave() {
         JsonNode json = request().body().asJson();
         Logger.info("=====productSave==="+json);
+        try {
         String name=json.findValue("name").asText();
         Integer categoryId=json.findValue("categoryId").asInt();
         String skuCode=json.findValue("skuCode").asText();
         String productCode=json.findValue("productCode").asText();
         String spec=json.findValue("spec").asText();
-        Integer saleCount=0;  //
-        Integer inventory=0;//库存量
+        Integer saleCount=0;  //总销量 TODO
+        Integer inventory=0;//库存量 TODO
         BigDecimal productCost=new BigDecimal(json.findValue("productCost").asDouble());
-        BigDecimal stockValue=new BigDecimal(0);  //
+        BigDecimal stockValue=new BigDecimal(0);  //库存商品价值 TODO
         Integer purchaseCount=json.findValue("purchaseCount").asInt();
         Integer noCard=0;
         if(json.has("noCard")){
@@ -189,11 +197,33 @@ public class SaleCtrl extends Controller {
         if(json.has("emptyBox")) {
             json.findValue("emptyBox").asInt();
         }
+        String invArea=json.findValue("invArea").asText();
+        String storageAt = json.findValue("storageAt").asText();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Timestamp timestamp = new Timestamp(format.parse(storageAt).getTime());
         createSaleProduct(name,categoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
-                lessDelivery,lessProduct,emptyBox);
-        return ok(views.html.sales.dataImport.render("cn", (User) ctx().args.get("user")));
+                lessDelivery,lessProduct,emptyBox,invArea,timestamp);
+        } catch (Exception e) {
+            Logger.error("product save exception "+e.getMessage());
+            e.printStackTrace();
+        }
+        Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
+        return ok(views.html.sales.dataImport.render("cn", area,(User) ctx().args.get("user")));
     }
 
+    /**
+     * 当订单更新时更新产品中的总销售,库存量,库存商品价值等
+     * @param saleProduct
+     */
+    private void updateProductAtUpdateOrder(SaleProduct saleProduct){
+        //销售总量
+        int saleCountTotal=saleService.getProductSaleCountTotal(saleProduct.getId());
+        saleProduct.setSaleCount(saleCountTotal);
+        Logger.info("总销售saleCountTotal="+saleCountTotal+",saleProduct="+saleProduct);
+       //TODO...库存量
+
+        saleService.updateSaleProduct(saleProduct);
+    }
 
     /**
      * 数据查询
@@ -246,7 +276,7 @@ public class SaleCtrl extends Controller {
             Long saleProductId = json.findValue("saleProductId").asLong();
             String productName = json.findValue("productName").asText();
             BigDecimal price = new BigDecimal(json.findValue("price").asDouble());
-            Integer count = json.findValue("count").asInt();
+            Integer saleCount = json.findValue("saleCount").asInt();
             BigDecimal discountAmount = new BigDecimal(json.findValue("discountAmount").asDouble());
             BigDecimal jdRate = new BigDecimal(json.findValue("jdRate").asDouble());
             BigDecimal cost = new BigDecimal(json.findValue("cost").asDouble());
@@ -255,11 +285,10 @@ public class SaleCtrl extends Controller {
             BigDecimal packFee = new BigDecimal(json.findValue("packFee").asDouble());
             BigDecimal storageFee = new BigDecimal(json.findValue("storageFee").asDouble());
             String postalTaxRate = json.findValue("postalTaxRate").asText();
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Timestamp timestamp = new Timestamp(format.parse(saleAt).getTime());
+
 
             //总销售额=单价*数量-优惠额
-            BigDecimal saleTotal = price.multiply(new BigDecimal(count)).subtract(discountAmount);
+            BigDecimal saleTotal = price.multiply(new BigDecimal(saleCount)).subtract(discountAmount);
             // 京东费用=总销售 额*京东费率
             BigDecimal jdFee = saleTotal.multiply(jdRate).divide(new BigDecimal(100));
             BigDecimal postalFee = new BigDecimal(0);
@@ -270,11 +299,17 @@ public class SaleCtrl extends Controller {
             }
             //净利润=总销售额-京东费用-成本*数量-国内快递费-国际物流费-包装费-仓储服务费-行邮税
             BigDecimal productCost = new BigDecimal(1);//成本 //TODO ..
-            BigDecimal profit = saleTotal.subtract(jdFee).subtract((productCost.multiply(new BigDecimal(count)))).
+            BigDecimal profit = saleTotal.subtract(jdFee).subtract((productCost.multiply(new BigDecimal(saleCount)))).
                     subtract(shipFee).subtract(inteLogistics).subtract(packFee).subtract(storageFee).subtract(postalFee);
 
-            createSaleOrder(new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, productName, catagoryId, price, count, discountAmount, saleTotal, jdRate, jdFee, cost,
+            createSaleOrder(new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, productName, catagoryId, price,saleCount, discountAmount, saleTotal, jdRate, jdFee, cost,
                     shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit);
+
+            SaleProduct saleProduct=saleService.getSaleProductById(saleProductId);
+            if(null!=saleProduct){
+                //订单更新后更新相关产品数据
+                updateProductAtUpdateOrder(saleProduct);
+            }
         }catch (Exception e){
             Logger.error("sale order save exception "+e.getMessage());
         }
@@ -388,6 +423,34 @@ public class SaleCtrl extends Controller {
         Logger.info("==saleInventory result====="+result);
 
         return ok(result);
+    }
+
+    /**
+     * 订单查询
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result saleOrderSearch(){
+        //TODO ....
+        SaleOrder saleOrder=new SaleOrder();
+        saleOrder.setPageSize(-1);
+        saleOrder.setOffset(-1);
+
+        //取总数
+        int countNum = saleService.getSaleOrderPage(saleOrder).size();
+        //共分几页
+        int pageCount = countNum/PAGE_SIZE;
+
+        if(countNum%PAGE_SIZE!=0){
+            pageCount = countNum/PAGE_SIZE+1;
+        }
+
+        saleOrder.setPageSize(PAGE_SIZE);
+        saleOrder.setOffset(0);
+
+        List<SaleOrder> orderList = saleService.getSaleOrderPage(saleOrder);
+
+        return ok(views.html.sales.saleOrderSearch.render("cn",PAGE_SIZE,countNum,pageCount,orderList,(User) ctx().args.get("user")));
     }
 
 }
