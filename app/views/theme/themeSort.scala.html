@@ -19,6 +19,34 @@
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
 <script src="/assets/js/add-guige.js"></script>
+<!--<script src="/assets/js/theme.js"></script>-->
+<script>
+    $(function(){
+        var ids = [];
+        $(".grid td.index").each(function(){
+            ids.push($(this).html());
+        });
+//        console.log(ids);
+        var fixHelperModified = function (e, tr) {
+            var $originals = tr.children();
+            var $helper = tr.clone();
+            $helper.children().each(function (index) {
+                $(this).width($originals.eq(index).width())
+            });
+            return $helper;
+        },
+        updateIndex = function (e, ui) {
+            $('td.index', ui.item.parent()).each(function (i) {
+                $(this).html(ids[i]);
+            });
+        };
+
+        $("#sort tbody").sortable({
+            helper: fixHelperModified,
+            stop: updateIndex
+        }).disableSelection();
+    })
+</script>
 }
 
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"主题排序")
@@ -48,11 +76,71 @@
         <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"主题排序")</span>
     </div>
     <div class="row">
-        <div class="col-sm-12">
-            <form class="form-horizontal">
-
-            </form>
-        </div>
+        <form class="form-horizontal">
+            <div class="col-sm-6" style="height: 500px;overflow-y: scroll">
+                <table class="grid table table-bordered" id="sort">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>主题ID</th>
+                        <th>主题类型</th>
+                        <th>主题图片</th>
+                    </tr>
+                    </thead>
+                    <tbody class="ui-sortable">
+                    <tr>
+                        <td class="index">9</td>
+                        <td>123242</td>
+                        <td>erw</td>
+                        <td>dgad</td>
+                    </tr>
+                    <tr>
+                        <td class="index">8</td>
+                        <td>123456</td>
+                        <td>feaf</td>
+                        <td>gea</td>
+                    </tr>
+                    <tr>
+                        <td class="index">6</td>
+                        <td>543124</td>
+                        <td>wrwq</td>
+                        <td>rww</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">序号</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">主题ID</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">主题类型</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">主题图片</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-8">
+                        <button type="button" class="btn btn-primary btn-xs">确定修改</button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
