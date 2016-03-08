@@ -32,9 +32,10 @@ public class NewScheduler {
 
     /**
      * 持久化只调用一次的schedule
-     * @param delay 多久后执行
+     *
+     * @param delay    多久后执行
      * @param receiver actor
-     * @param message 消息
+     * @param message  消息
      * @return CancelScheduler
      */
     public CancelScheduler scheduleOnce(FiniteDuration delay, ActorRef receiver, Object message) {
@@ -42,19 +43,21 @@ public class NewScheduler {
         Cancellable cancellable = system.scheduler().scheduleOnce(delay, receiver, message, system.dispatcher(), ActorRef.noSender());
 
         //调用delScheduleActor去在schedule执行完10s后删除已经持久化的schedule
-        Cancellable del = system.scheduler().scheduleOnce(Duration.create(delay.toSeconds() + 1, TimeUnit.SECONDS), delScheduleActor, message, system.dispatcher(), ActorRef.noSender());
+        Cancellable del = system.scheduler().scheduleOnce(Duration.create(delay.toSeconds() + 5, TimeUnit.SECONDS), delScheduleActor, message, system.dispatcher(), ActorRef.noSender());
 
         try {
             if (levelFactory.map.containsKey(message)) {
-                Persist persist = levelFactory.map.get(message);
+                Persist p = levelFactory.map.get(message);
+                p.getCancellable().cancel();
 //                Logger.error("取消以前的所有的同一个message的schedule "+persist.getCancellable().cancel());
                 levelFactory.map.remove(message);
             }
             if (levelFactory.get(message) != null) {
                 levelFactory.delete(message);
             }
-            if (levelFactory.delMap.containsKey(message)){
+            if (levelFactory.delMap.containsKey(message)) {
                 Cancellable delCancellable = levelFactory.delMap.get(message);
+                delCancellable.cancel();
 //                Logger.error("用于删除schedule所启动的schedule "+delCancellable.cancel());
                 levelFactory.delMap.remove(message);
             }
@@ -65,14 +68,15 @@ public class NewScheduler {
             persist.setCreateAt(new Date());
             persist.setDelay(delay.toMillis());
             persist.setMessage(message);
+            persist.setType("scheduleOnce");
 
             levelFactory.map.put(message, persist);//HashMap存储
 
             levelFactory.put(message, persist);//leveldb存储
 
-            levelFactory.delMap.put(message,del);
+            levelFactory.delMap.put(message, del);
 
-            Logger.info("创建schedule: "+message.toString()+", 于"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(new Date().getTime()+delay.toMillis()))+" 时执行");
+            Logger.info("创建scheduleOnce: " + message.toString() + ", 于" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(new Date().getTime() + delay.toMillis())) + " 时执行");
 
         } catch (Exception ex) {
             cancellable.cancel();
@@ -84,6 +88,52 @@ public class NewScheduler {
         return new CancelScheduler(cancellable, message, levelFactory);
 
     }
+
+
+    public CancelScheduler schedule(FiniteDuration initialDelay, FiniteDuration delay, ActorRef receiver, Object message) {
+
+        Cancellable cancellable = system.scheduler().schedule(initialDelay, delay, receiver, message, system.dispatcher(), ActorRef.noSender());
+
+        try {
+            if (levelFactory.map.containsKey(message)) {
+                Persist p = levelFactory.map.get(message);
+                p.getCancellable().cancel();
+                levelFactory.map.remove(message);
+            }
+            if (levelFactory.get(message) != null) {
+                levelFactory.delete(message);
+            }
+            if (levelFactory.delMap.containsKey(message)) {
+                Cancellable delCancellable = levelFactory.delMap.get(message);
+                delCancellable.cancel();
+                levelFactory.delMap.remove(message);
+            }
+
+            Persist persist = new Persist();
+            persist.setActorPath(receiver.path().toString());
+            persist.setCancellable(cancellable);
+            persist.setCreateAt(new Date());
+            persist.setDelay(delay.toMillis());
+            persist.setMessage(message);
+            persist.setType("schedule");
+            persist.setInitialDelay(initialDelay.toMillis());
+
+            levelFactory.map.put(message, persist);//HashMap存储
+
+            levelFactory.put(message, persist);//leveldb存储
+
+            Logger.info("创建schedule: " + message.toString() + ", 每隔 " + delay.toHours() + " 小时执行一次");
+
+        } catch (Exception ex) {
+            cancellable.cancel();
+            ex.printStackTrace();
+            return null;
+        }
+
+        return new CancelScheduler(cancellable, message, levelFactory);
+
+    }
+
 }
 
 class CancelScheduler {

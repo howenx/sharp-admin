@@ -325,16 +325,23 @@ public class AdminUserCtrl extends Controller {
                 if (persists != null && persists.size() > 0) {
                     Logger.info("遍历所有持久化schedule---->\n" + persists);
                     for (Persist p : persists) {
-                        Long time = p.getDelay() - (new Date().getTime() - p.getCreateAt().getTime());
-                        Logger.info("重启后schedule执行时间---> " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(new Date().getTime()+time)));
-                        if (time > 0) {
-                            ActorSelection sel = system.actorSelection(p.getActorPath());
-                            Future<ActorRef> fut = sel.resolveOne(TIMEOUT);
-                            ActorRef ref = Await.result(fut, TIMEOUT.duration());
-                            newScheduler.scheduleOnce(Duration.create(time, TimeUnit.MILLISECONDS), ref, p.getMessage());
-                        } else {
-                            levelFactory.delete(p.getMessage());
-                            system.actorSelection(p.getActorPath()).tell(p.getMessage(), ActorRef.noSender());
+
+                        ActorSelection sel = system.actorSelection(p.getActorPath());
+                        Future<ActorRef> fut = sel.resolveOne(TIMEOUT);
+                        ActorRef ref = Await.result(fut, TIMEOUT.duration());
+
+                        if (p.getType().equals("scheduleOnce")){
+                            Long time = p.getDelay() - (new Date().getTime() - p.getCreateAt().getTime());
+                            Logger.info("重启后scheduleOnce执行时间---> " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(new Date().getTime()+time)));
+                            if (time > 0) {
+                                newScheduler.scheduleOnce(Duration.create(time, TimeUnit.MILLISECONDS), ref, p.getMessage());
+                            } else {
+                                levelFactory.delete(p.getMessage());
+                                system.actorSelection(p.getActorPath()).tell(p.getMessage(), ActorRef.noSender());
+                            }
+                        }else if (p.getType().equals("schedule")){
+                            newScheduler.schedule(Duration.create(p.getInitialDelay(), TimeUnit.MILLISECONDS),Duration.create(p.getDelay(), TimeUnit.MILLISECONDS), ref, p.getMessage());
+                            Logger.info("重启后schedule执行---> 每隔 " + Duration.create(p.getDelay(), TimeUnit.MILLISECONDS).toHours()+" 小时执行一次");
                         }
                     }
                 }
