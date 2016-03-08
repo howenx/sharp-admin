@@ -1,0 +1,227 @@
+@import play.i18n._
+@(lang:String="cn",resultList:List[entity.Theme],url:String,uploadUrl:String,user:entity.User)
+@scripts = {
+<link rel="stylesheet" href="/assets/css/jquery-ui.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/screenshot.css">
+<link rel="stylesheet" href="/assets/css/upload.css">
+<link rel="stylesheet" href="/assets/css/button.css">
+<link rel="stylesheet" href="/assets/css/font-face.css">
+<link rel="stylesheet" href="/assets/css/search.css">
+<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
+
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/jquery-ui.min.js"></script>
+<script src="/assets/js/Math.uuid.js"></script>
+<script src="/assets/js/slider.js"></script>
+<script src="/assets/js/search.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/rili.js"></script>
+<script src="/assets/js/add-guige.js"></script>
+<!--<script src="/assets/js/theme.js"></script>-->
+<script>
+    $(function(){
+        var ids = [];
+        $(".grid td.index").each(function(){
+            ids.push($(this).html());
+        });
+//        console.log(ids);
+        var fixHelperModified = function (e, tr) {
+            var $originals = tr.children();
+            var $helper = tr.clone();
+            $helper.children().each(function (index) {
+                $(this).width($originals.eq(index).width())
+            });
+            return $helper;
+        },
+        updateIndex = function (e, ui) {
+            $('td.index', ui.item.parent()).each(function (i) {
+                $(this).html(ids[i]);
+            });
+        };
+
+        $("#sort tbody").sortable({
+            helper: fixHelperModified,
+            stop: updateIndex
+        }).disableSelection();
+        $(".grid").on("dblclick","tr",function(){
+            var themeinfo = {};
+            themeinfo.themeAll = $(".grid td.index").length;
+            themeinfo.index = $(this).find(".index").html();
+            themeinfo.themeId = $(this).find(".themeId").html();
+
+            $("#themeAll").html(themeinfo.themeAll);
+            $("#index").html(themeinfo.index);
+            $("#themeId").html(themeinfo.themeId);
+        })
+        $(".changeY").click(function(){
+            var idOld = $("#index").html();
+            var idNew = $(".newId").val();
+            for(var i=0;i<ids.length;i++){
+                if(ids.indexOf(idNew)==-1){
+                    return false;
+                }
+            }
+            var newhtml,oldhtml,newindex,oldindex;
+            $(".grid tbody tr").each(function(){
+                if($(this).children("td.index").html()===idOld){
+                    $(this).find("td.index").html(idNew);
+                    oldhtml = $(this).html();
+                    oldindex = $(".grid tbody tr").index($(this));
+                }else if($(this).children("td.index").html()===idNew){
+                    $(this).find("td.index").html(idOld);
+                    newhtml = $(this).html();
+                    newindex = $(".grid tbody tr").index($(this));
+                }
+            });
+            $(".grid tbody tr").each(function(i){
+                if(i===oldindex){
+                    $(this).html(newhtml);
+                }else if(i===newindex){
+                    $(this).html(oldhtml);
+                }
+            })
+        })
+    })
+</script>
+}
+
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"主题排序")
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+
+<div style="width: 50%;margin: 10px auto;display:none;" class="alert alert-success" role="alert">
+    <strong>Well done!</strong>
+    @if(flash.containsKey("success")) {
+    @flash.get("success")
+    }
+    <span class="close" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+</div>
+
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes")</span>
+        <span class="icon-path">&gt;</span>
+        <span>@Messages.get(new Lang(Lang.forCode(lang)),"主题排序")</span>
+    </div>
+</div>
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"主题排序")</span>
+    </div>
+    <div class="row">
+        <form class="form-horizontal">
+            <div class="col-sm-6" style="height: 800px;overflow-y: scroll">
+                <table class="grid table table-bordered" id="sort">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>主题ID</th>
+                        <th>主题类型</th>
+                        <th>主题图片</th>
+                    </tr>
+                    </thead>
+                    <tbody class="ui-sortable">
+                    <!--@for(theme <- resultList){-->
+                        <!--<tr>-->
+                            <!--<td class="index">@theme.getSortNu()</td>-->
+                            <!--<td class="themeId">@theme.getId()</td>-->
+                            <!--<td>@theme.getType()</td>-->
+                            <!--<td><img class="main-img" src="@url@theme.getThemeImg()" alt="" width="50"></td>-->
+                        <!--</tr>-->
+                    <!--}-->
+                    <tr>
+                        <td class="index">12</td>
+                        <td class="themeId">552352</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="index">23</td>
+                        <td class="themeId">53251</td>
+                        <td>213</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="index">34</td>
+                        <td class="themeId">231523</td>
+                        <td>241</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="index">56</td>
+                        <td class="themeId">532523</td>
+                        <td>421</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="index">85</td>
+                        <td class="themeId">2316443523</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">主题总数:</label>
+                    <div class="col-sm-8">
+                        <div style="padding: 6px 12px" id="themeAll"></div>
+                    </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">序号:</label>
+                    <div class="col-sm-8">
+                        <div style="padding: 6px 12px" id="index"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">主题ID:</label>
+                    <div class="col-sm-8">
+                        <div style="padding: 6px 12px" id="themeId"></div>
+                    </div>
+                </div>
+                <!--<div class="form-group">-->
+                    <!--<label class="col-sm-2 control-label">主题类型</label>-->
+                    <!--<div class="col-sm-8">-->
+                        <!--<div style="padding: 6px 12px">12345</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<label class="col-sm-2 control-label">主题图片</label>-->
+                    <!--<div class="col-sm-8">-->
+                        <!--<div style="padding: 6px 12px">12345</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <hr>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">交换序号:</label>
+                    <div class="col-sm-8">
+                        <input type="number" class="form-control newId">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-8">
+                        <button type="button" class="btn btn-primary btn-xs changeY">确定交换</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="goods-img-bg">
+    <div class="goods-bg"></div>
+    <div class="goods-img">
+        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>
+
+}
+

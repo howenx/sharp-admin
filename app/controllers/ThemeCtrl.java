@@ -68,6 +68,7 @@ public class ThemeCtrl extends Controller {
     @Inject
     private NewScheduler newScheduler;
 
+
     /**
      * 滚动条管理
      * @param lang 语言
@@ -229,26 +230,42 @@ public class ThemeCtrl extends Controller {
     public Result sliderPop(){
         //主题列表
         List<Theme> themeList = service.getThemesAll();
-        //SKU列表
-        List<Inventory> inventoryList = inventoryService.getAllInventories();
-        //拼购列表
-        List<PinSku> pinSkuList = pingouService.getPinSkuAll();
-        List<Object[]> pinList = new ArrayList<>();
-        for(PinSku pinSku : pinSkuList){
-            Object[] object = new Object[8];
-            object[0] = pinSku.getPinId();
-            object[1] = pinSku.getPinTitle();
-            JsonNode json = Json.parse(pinSku.getPinImg());
-            String url = json.get("url").toString();
-            object[2] = url.substring(1,url.length()-1);
-            object[3] = pinSku.getStartAt();
-            object[4] = pinSku.getStatus();
-            object[5] = pinSku.getFloorPrice();
-            object[6] = inventoryService.getInventory(pinSku.getInvId()).getItemSrcPrice();
-            object[7] = pinSku.getPinDiscount();
-            pinList.add(object);
+        for(Theme theme : themeList) {
+            theme.setThemeImg(Json.parse(theme.getThemeImg()).get("url").asText());
         }
-        return ok(views.html.theme.sliderPop.render(themeList,inventoryList,pinList,IMAGE_URL));
+        List<Skus> skusList = inventoryService.getAllSkus();
+        List<Skus> list = new ArrayList<>();
+        for(Skus skus : skusList) {//商品列表为(除自定义价格的预售和正常商品)
+            if (!skus.getSkuType().equals("customize")&&(skus.getSkuTypeStatus().equals("P")||skus.getSkuTypeStatus().equals("Y"))) {
+                skus.setSkuTypeImg(Json.parse(skus.getSkuTypeImg()).get("url").asText());
+                list.add(skus);
+            }
+        }
+
+        //SKU列表
+//        List<Inventory> inventoryList = inventoryService.getAllInventories();
+//        //拼购商品列表
+//        List<PinSku> pinSkuList = pingouService.getPinSkuAll();
+//        List<Object[]> pinList = new ArrayList<>();
+//        for(PinSku pinSku : pinSkuList){
+//            Object[] object = new Object[9];
+//            object[0] = pinSku.getPinId();
+//            object[1] = pinSku.getPinTitle();
+//            object[2] = Json.parse(pinSku.getPinImg()).get("url").asText();
+//            object[3] = pinSku.getStartAt();
+//            object[4] = pinSku.getEndAt();
+//            object[5] = pinSku.getStatus();
+//            object[6] = inventoryService.getInventory(pinSku.getInvId()).getItemSrcPrice();
+//            object[7] = Json.parse(pinSku.getFloorPrice()).get("price").asText();
+//            object[8] = pinSku.getPinDiscount();
+//            pinList.add(object);
+//        }
+//        Logger.error(pinList.get(0)[2].toString());
+        if (themeList.size()>0 && skusList.size()>0) {
+            return ok(views.html.theme.sliderPop.render(themeList,list,IMAGE_URL));
+        }
+        else
+            return ok("没有数据");
     }
 
     /**
@@ -904,6 +921,32 @@ public class ThemeCtrl extends Controller {
         //创建Scheduled Actor         ---end
 
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
+    }
+
+    /**
+     * 主题排序     Added by Tiffany Zhu 2016.03.07
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result themeSort(String lang){
+        List<Theme> themeList = service.getOnShelfTheme();
+        List<Theme> resultList = new ArrayList<>();
+        for(Theme theme : themeList){
+            if("ordinary".equals(theme.getType())){
+                theme.setType("普通");
+            }
+            if("h5".equals(theme.getType())){
+                theme.setType("HTML5");
+            }
+            JsonNode imgJson = Json.parse(theme.getThemeImg());
+            String imgUrl = imgJson.get("url").toString();
+            imgUrl = imgUrl.substring(1,imgUrl.length()-1);
+            theme.setThemeImg(imgUrl);
+            resultList.add(theme);
+        }
+
+        return ok(views.html.theme.themeSort.render(lang,resultList,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
 }

@@ -1,0 +1,170 @@
+@import play.i18n._
+@(lang:String="cn", pageSize:Integer, countNum:Integer, pageCount:Integer, idList:List[entity.ID], url:String,user:entity.User)
+@scripts = {
+<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/search.js"></script>
+<script>window.url = "@url"</script>
+<!-- 此为调用分页所提供的函数名前缀 -->
+<script>window.search_args = 'appuserlist'</script>
+<script>
+        $(function () {
+            $('#datetimepicker-startAt').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+            $('#datetimepicker-endAt').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+</script>
+}
+@import java.lang.String; val title="APP用户查询"
+
+@layout(lang=lang, title=title,user=user)(scripts) {
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">用户管理</span>
+        <span class="icon-path">&gt;</span>
+        <span>APP用户查询</span>
+    </div>
+</div>
+<div class="content-1">
+    <div class="page-title">
+        <span class="title-name">APP用户查询</span>
+    </div>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <!--id-->
+            <label class="col-sm-2 control-label">ID</label>
+            <div class="col-sm-3">
+                <input id = "id-userId" type="number" min="10000" max="99999999" class="form-control"/>
+            </div>
+            <!--操作人员-->
+            <label class="col-sm-2 control-label">用户名</label>
+            <div class="col-sm-3">
+                <input id = "id-nickname" type="text" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <!--开始-->
+            <label class="col-sm-2 control-label">注册时间开始</label>
+
+            <div class="col-sm-3">
+                <div id="datetimepicker-startAt" class="input-group date">
+                    <input id = "id-form-starAt" class="form-control col-sm-2"  type="text">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+            <!--结束-->
+            <label class="col-sm-2 control-label">注册时间结束</label>
+            <div class="col-sm-3">
+                <div id="datetimepicker-endAt" class="input-group date">
+                    <input id = "id-form-endAt" class="form-control col-sm-2"  type="text">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-s">
+            <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
+            <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
+        </div>
+    </form>
+    <div class="table-content">
+        <!--id必须为tb-topic 公用js需要使用-->
+        <table id="tb-topic" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                <th>用户名</th>
+                <th>头像</th>
+                <th>性别</th>
+                <th>电话号码</th>
+                <th>邮箱</th>
+                <th>生日</th>
+                <th>证件类型</th>
+                <th>证件号码</th>
+                <th>真实姓名</th>
+                <th>注册时间</th>
+                <th>注册IP</th>
+                <th>是否激活</th>
+                <th>是否实名认证</th>
+                <th>状态</th>
+                <th>最后登录时间</th>
+                <th>最后登录IP</th>
+            </tr>
+            </thead>
+            <tbody>
+            @for(id <- idList){
+            <!--必须使用tb-list-data类名，公用-->
+            <tr class = "tb-list-data">
+                <td><a href="javascript:void(0)">@id.getUserId()</a></td>
+                <td>@id.getNickname()</td>
+                <td>
+                    <img class="main-img" src='@url@id.getPhotoUrl()' alt="" width="50">
+                </td>
+                <td>
+                    @if(id.getGender()=="F"){女}
+                    @if(id.getGender()=="M"){男}
+                </td>
+                <td>@id.getPhoneNum()</td>
+                <td>
+                    @if(id.getEmail()!=null && id.getEmail()!=""){@id.getEmail()}
+                </td>
+                <td>@(id.getBirthday().toString().substring(0,10))</td>
+                <td>
+                    @if(id.getCardType()!=null && id.getCardType()!=""){@id.getCardType()}
+                </td>
+                <td>
+                    @if(id.getCardNum()!=null && id.getCardNum()!=""){@id.getCardNum()}
+                </td>
+                <td>
+                    @if(id.getRealName()!=null && id.getRealName()!=""){@id.getRealName()}
+                </td>
+                <td>@(id.getRegDt().toString().substring(0,16))</td>
+                <td>@id.getRegIp()</td>
+                <td>
+                    @if(id.getActiveYN()=="Y"){已激活}
+                    @if(id.getActiveYN()=="N"){未激活}
+                </td>
+                <td>
+                    @if(id.getRealYN()=="Y"){已认证}
+                    @if(id.getRealYN()=="N"){未认证}
+                </td>
+                <td>
+                    @if(id.getStatus()=="Y"){正常}
+                    @if(id.getStatus()=="N"){阻止}
+                </td>
+                <td>@(id.getLastloginDt().toString().substring(0,16))</td>
+                <td>@id.getLastloginIp()</td>
+            </tr>
+            }
+            <tr id="nodata-td" style="display:none;"><td colspan="17">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            </tbody>
+        </table>
+
+        <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
+        <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
+        <div class="paging">
+            <ul class="pagination">
+                <li class="prev"><a href="javascript:void(0)">&laquo;</a></li>
+                <li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>
+                @for(count <- 1 until pageCount){
+                <li class="page-num"><a href="javascript:void(0)">@(count+1)</a></li>
+                }
+                <li class="next"><a href="javascript:void(0)">&raquo;</a></li>
+            </ul>
+        </div>
+        <!-- 公用模块,直接拷贝-->
+    </div>
+</div>
+}

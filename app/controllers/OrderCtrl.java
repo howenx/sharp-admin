@@ -18,6 +18,8 @@ import service.*;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -39,6 +41,13 @@ public class OrderCtrl extends Controller {
 
     @Inject
     private OrderShipService orderShipService;
+
+    @Inject
+    private IDService idService;
+
+
+
+
     /**
      * 订单列表     Added by Tiffany Zhu
      * @param lang
@@ -62,9 +71,7 @@ public class OrderCtrl extends Controller {
         List<Object[]> orList = new ArrayList<>();
         List<Order> orderList = orderService.getOrderPage(order_temp);
         for(Order order : orderList){
-            Object[] object = new Object[6];
-            Logger.error(order.toString());
-            Logger.error(order.getOrderId().toString());
+            Object[] object = new Object[9];
             object[0] = order.getOrderId();
             object[1] = order.getUserId();
             object[2] = order.getOrderCreateAt();
@@ -108,7 +115,34 @@ public class OrderCtrl extends Controller {
                 if("J".equals(order.getOrderStatus())){
                     object[5] = "拒收";
                 }
+                if ("N".equals(order.getOrderStatus())) {
+                    object[5] =  "已删除";
+                }
+                if ("T".equals(order.getOrderStatus())) {
+                    object[5] =  "已退款";
+                }
+                if ("PI".equals(order.getOrderStatus())) {
+                    object[5] =  "拼购未支付";
+                }
+                if (("PS").equals(order.getOrderStatus())) {
+                    object[5] =  "拼购支付成功";
+                }
+                if (("PF").equals(order.getOrderStatus())) {
+                    object[5] =  "拼团失败未退款";
+                }
             }
+            //手机号码
+            ID userInfo = idService.getID(Integer.parseInt(order.getUserId().toString()));
+            object[6] = userInfo.getPhoneNum();
+            //订单类型
+            if(order.getOrderType() == 1){
+                object[7] = "普通";
+            }
+            if(order.getOrderType() == 2){
+                object[7] = "拼购";
+            }
+            //拼购团ID
+            object[8] = order.getPinActiveId();
 
             orList.add(object);
 
@@ -126,7 +160,25 @@ public class OrderCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result orderSearchAjax(String lang,int pageNum){
         JsonNode json = request().body().asJson();
-        Order order = Json.fromJson(json,Order.class);
+        Order order = new Order();
+        if(json.has("order")){
+            order = Json.fromJson(json.get("order"),Order.class);
+        }
+        if(json.has("userPhone")){
+            String userPhone = json.get("userPhone").toString();
+            userPhone = userPhone.substring(1,userPhone.length()-1);
+            if(!userPhone.equals("")){
+                ID userTemp = idService.getIDByPhoneNum(userPhone);
+                //Logger.error(userTemp.toString());
+                if(userTemp != null && userTemp.getUserId() != null){
+                    if(order.getUserId() != null && !(order.getUserId().toString().equals(userTemp.getUserId().toString()))){
+                        order.setUserId(Long.valueOf(0));
+                    }else{
+                        order.setUserId(Long.valueOf(userTemp.getUserId()));
+                    }
+                }
+            }
+        }
         if(pageNum>=1){
             //计算从第几条开始取数据
             int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
@@ -142,9 +194,39 @@ public class OrderCtrl extends Controller {
             }
             order.setPageSize(ThemeCtrl.PAGE_SIZE);
             order.setOffset(offset);
+            List<Order> orderList = orderService.getOrderPage(order);
+            List<Object> resultList = new ArrayList<>();
+            for(Order orderTemp: orderList){
+                Object[] object = new Object[9];
+                object[0] = orderTemp.getOrderId();
+                object[1] = orderTemp.getUserId();
+                DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                String startDate = sdf.format(orderTemp.getOrderCreateAt());
+                object[2] = startDate;
+                object[3] = orderTemp.getPayTotal().toString();
+                object[4] = orderTemp.getPayMethod();
+                object[5] = orderTemp.getOrderStatus();
+                ID userInfo = idService.getID(Integer.parseInt(orderTemp.getUserId().toString()));
+                object[6] = userInfo.getPhoneNum();
+                //订单类型
+                if(orderTemp.getOrderType() == 1){
+                    object[7] = "普通";
+                }
+                if(orderTemp.getOrderType() == 2){
+                    object[7] = "拼购";
+                }
+                //拼购团ID
+                if(orderTemp.getPinActiveId() != null){
+                    object[8] = orderTemp.getPinActiveId();
+                }else{
+                    object[8] = "";
+                }
+
+                resultList.add(object);
+            }
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
-            returnMap.put("topic",orderService.getOrderPage(order));
+            returnMap.put("topic",resultList);
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
@@ -212,7 +294,18 @@ public class OrderCtrl extends Controller {
             if ("N".equals(order.getOrderStatus())) {
                 orderArray[6] =  "已删除";
             }
-
+            if ("T".equals(order.getOrderStatus())) {
+                orderArray[6] =  "已退款";
+            }
+            if ("PI".equals(order.getOrderStatus())) {
+                orderArray[6] =  "拼购未支付";
+            }
+            if (("PS").equals(order.getOrderStatus())) {
+                orderArray[6] =  "拼购支付成功";
+            }
+            if (("PF").equals(order.getOrderStatus())) {
+                orderArray[6] =  "拼团失败未退款";
+            }
         }
         orderArray[7] = order.getShipFee();     //邮费
         orderArray[8] = order.getPostalFee();   //行邮税
@@ -288,7 +381,13 @@ public class OrderCtrl extends Controller {
             //全部的子订单信息
             subOrdersAll.add(subOrderList);
         }
-        return ok(views.html.order.orderdetail.render(lang,orderArray,orderShip,subOrdersAll,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
+
+        //用户信息
+        ID ClientUser = idService.getID(Integer.parseInt(order.getUserId().toString()));
+        Object[] userObject = new Object[2];
+        userObject[0] = order.getUserId();
+        userObject[1] = ClientUser.getPhoneNum();
+        return ok(views.html.order.orderdetail.render(lang,orderArray,orderShip,subOrdersAll,ThemeCtrl.IMAGE_URL,userObject,(User) ctx().args.get("user")));
     }
 
     /**

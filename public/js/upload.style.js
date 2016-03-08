@@ -30,20 +30,23 @@
 
   	$(document).on("click", "p.dragon-p", function() {
   		//if the icon-circle-close exists,then remove it
-  		if ($(this).parent().parent().next().has('div.icon-circle-close').length === 0) {
-  			$(this).parent().parent().next().empty();
-  			var left_close = $(this).parent().parent().parent().width();
-  			$(this).parent().parent().next().css({
-  				'left': left_close + 'px'
-  			});
-  			$(this).parent().parent().next().append('<div class="icon-circle-close"></div>');
-  		} else {
-  			$(this).parent().parent().next().empty();
+  		if(pageEditStatus){
+  		    if ($(this).parent().parent().next().has('div.icon-circle-close').length === 0) {
+            	$(this).parent().parent().next().empty();
+            	var left_close = $(this).parent().parent().parent().width();
+            	$(this).parent().parent().next().css({
+            		'left': left_close + 'px'
+            	});
+            	$(this).parent().parent().next().append('<div class="icon-circle-close"></div>');
+            } else {
+            	$(this).parent().parent().next().empty();
+            }
   		}
   	});
   	/*If the element is dynamic append.You should the following method.*/
   	$(document).on("click", "div.icon-circle-close", function() {
   		$(this).parent().parent().parent().remove();
+		$(".user-state").text("已更改");
   	});
   	$('#mark-bt').click(function() {
   		var radio_flag = false;
@@ -80,7 +83,7 @@
                         });
                         $('#dragon-container').append(ch_graph.parent());
                         $('div.dragon-contained').draggable({
-                            containment: "parent"
+                            containment: "parent",
                         });
                         var itemId =  $("#input_imgurl").val();
                         var itemType = $("#url-type").val();

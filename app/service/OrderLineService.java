@@ -14,4 +14,11 @@ public interface OrderLineService {
      * @return
      */
     List<OrderLine> getLineBySplitId(Long splitId);
+
+    /**
+     * 由订单id获取订单商品          Added By Sunny.Wu  2016.03.07
+     * @param orderId 订单id
+     * @return List of OrderLine
+     */
+    List<OrderLine> getLineByOrderId(Long orderId);
 }

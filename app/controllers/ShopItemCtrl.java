@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * Created by Sunny Wu 16/2/23.
  * <p>
- * 查询ERP中所有的商品信息
+ * ERP商品的操作
  */
 public class ShopItemCtrl extends Controller {
 

@@ -269,6 +269,14 @@ public class ItemMiddle {
 
         }
         inventoryService.updateInventory(inventory);
+        //修改多样化价格状态
+        VaryPrice varyPrice = new VaryPrice();
+        varyPrice.setInvId(invId);
+        List<VaryPrice> varyPriceList = varyPriceService.getVaryPriceBy(varyPrice);
+        for(VaryPrice vp : varyPriceList) {
+            vp.setStatus(inventory.getState());
+            varyPriceService.updateVaryPrice(vp);
+        }
         //修改pin_sku表中状态(获取PinSku,更新状态)
         List<PinSku> pinSkuList = pingouService.getPinSkuByInvId(inventory.getId());
         for(PinSku pinSku : pinSkuList) {

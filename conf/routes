@@ -44,6 +44,8 @@ GET         /topic/h5Add                                                   contr
 GET         /$lang<(cn|en|kr)>/topic/h5Add                                 controllers.ThemeCtrl.addH5Theme(lang)
 POST        /topic/add/h5ThemeSave                                         controllers.ThemeCtrl.h5ThemeSave(lang = "cn")
 POST        /$lang<(cn|en|kr)>/topic/add/h5ThemeSave                       controllers.ThemeCtrl.h5ThemeSave(lang)
+GET         /topic/sort                                                    controllers.ThemeCtrl.themeSort(lang = "cn")
+GET         /$lang<(cn|en|kr)>/topic/sort                                  controllers.ThemeCtrl.themeSort(lang)
 
 
 
@@ -77,7 +79,7 @@ POST        /itemInfo/search/$pageNum<[0-9]+>                              contr
 POST        /$lang<(cn|en|kr)>/itemInfo/search/$pageNum<[0-9]+>            controllers.ShopItemCtrl.itemInfoSearchAjax(lang, pageNum:Int)
 POST        /shopItem/push                                                 controllers.ShopItemCtrl.shopItemPush
 POST        /comm/import                                                   controllers.ShopItemCtrl.itemImport
-GET         /shopOrder/push                                                controllers.ShopOrderCtrl.shopOrderPush
+GET         /shopOrder/push/:orderId                                       controllers.ShopOrderCtrl.shopOrderPush(orderId:Long)
 
 
 
@@ -178,8 +180,10 @@ GET         /aduser/search                                                 contr
 GET         /$lang<(cn|en|kr)>/aduser/search                               controllers.AdminUserCtrl.adminUserSearch(lang)
 GET         /aduser/del/$id<[0-9]+>                                        controllers.AdminUserCtrl.adminUserDelUser(lang="cn",id:Long)
 GET         /$lang<(cn|en|kr)>/aduser/del/$id<[0-9]+>                      controllers.AdminUserCtrl.adminUserDelUser(lang,id:Long)
-
-
+GET         /appUser/search                                                controllers.AdminUserCtrl.appUserSearch(lang="cn")
+GET         /$lang<(cn|en|kr)>/appUser/search                              controllers.AdminUserCtrl.appUserSearch(lang)
+POST        /appUser/search/$pageNum<[0-9]+>                               controllers.AdminUserCtrl.appUserSearchAjax(lang ="cn", pageNum:Int)
+POST        /$lang<(cn|en|kr)>/appUser/search/$pageNum<[0-9]+>             controllers.AdminUserCtrl.appUserSearchAjax(lang, pageNum:Int)
 
 
 
@@ -196,6 +200,11 @@ GET         /coup/add                                                      contr
 GET         /$lang<(cn|en|kr)>/coup/add                                    controllers.CoupCtrl.coupCreate(lang)
 GET         /coup/add/popup                                                controllers.AdminUserCtrl.addIDUserPop()
 POST        /coup/coupSave                                                 controllers.CoupCtrl.coupSave
+GET         /coup/search                                                   controllers.CoupCtrl.coupSearch(lang ="cn")
+GET         /$lang<(cn|en|kr)>/coup/search                                 controllers.CoupCtrl.coupSearch(lang)
+POST        /coup/search/$pageNum<[0-9]+>                                  controllers.CoupCtrl.coupSearchAjax(lang = "cn", pageNum:Int)
+POST        /$lang<(cn|en|kr)>/coup/search/$pageNum<[0-9]+>                controllers.CoupCtrl.coupSearchAjax(lang, pageNum:Int)
+
 
 #edit 编辑器
 GET         /editorController                                              controllers.EditorApplication.editorController()
@@ -254,8 +263,13 @@ GET         /release/list                                                  contr
 
 
 
-
-
-
-
-
+#sales report 销售报表
+GET         /sales/import                                                  controllers.SaleCtrl.dataImport()
+GET         /sales/search                                                  controllers.SaleCtrl.salesSearch()
+POST        /sales/product/save                                            controllers.SaleCtrl.productSave()
+GET         /sales/order/import                                            controllers.SaleCtrl.saleOrderImport()
+POST        /sales/order/save                                              controllers.SaleCtrl.saleOrderSave()
+GET         /sales/statistics/view                                         controllers.SaleCtrl.saleStatisticsView()
+POST        /sales/statistics                                              controllers.SaleCtrl.saleStatistics()
+GET         /sales/inventory/view                                         controllers.SaleCtrl.saleInventoryView()
+POST        /sales/inventory                                              controllers.SaleCtrl.saleInventory()

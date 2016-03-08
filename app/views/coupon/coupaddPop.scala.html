@@ -82,15 +82,23 @@
         <td>@id.getGender()</td>
         <td>@id.getEmail()</td>
         <td>@id.getPhoneNum()</td>
-        @if(id.getBirthday!=null){<td>@( id.getBirthday().toString().substring(0,10))</td>}
+        <td>
+        @if(id.getBirthday!=null){@(id.getBirthday().toString().substring(0,10))}
+        </td>
         <td>@id.getRealName()</td>
         <td>@id.getCardType()</td>
         <td>@id.getCardNum()</td>
-        @if(id.getRegDt!=null){<td>@(id.getRegDt().toString().substring(0,19))</td>}
-        @if(id.getActiveYN()=="Y"){<td>是</td>}
-        @if(id.getActiveYN()=="N"){<td>否</td>}
-        @if(id.getRealYN()=="Y"){<td>是</td>}
-        @if(id.getRealYN()=="N"){<td>否</td>}
+        <td>
+        @if(id.getRegDt!=null){@(id.getRegDt().toString().substring(0,19))}
+        </td>
+        <td>
+        @if(id.getActiveYN()=="Y"){是}
+        @if(id.getActiveYN()=="N"){否}
+        </td>
+        <td>
+        @if(id.getRealYN()=="Y"){是}
+        @if(id.getRealYN()=="N"){否}
+    </td>
     </tr>
     }
 </table>

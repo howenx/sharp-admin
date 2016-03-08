@@ -28,4 +28,11 @@ public interface IDMapper {
      * @return list of ID
      */
     List<ID> getIDPage(ID id);
+
+    /**
+     * 通过用户手机号码查找用户     Added by Tiffany Zhu 2016.03.04
+     * @param phoneNum
+     * @return
+     */
+    ID getIDByPhoneNum(String phoneNum);
 }

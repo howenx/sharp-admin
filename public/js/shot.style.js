@@ -99,7 +99,7 @@ $(function() {
         var onShelvesAt = $("#onShelvesAt").val();
         //结束日期
         var offShelvesAt = $("#offShelvesAt").val();
-        var sortNu = 1;
+        //var sortNu = 1;
         //主题的配置信息
         var themeConfig = [];
         //自定义价格
@@ -196,7 +196,7 @@ $(function() {
         theme.startAt = onShelvesAt;
         theme.endAt = offShelvesAt;
         theme.themeImg = JSON.stringify(themeImgContent);
-        theme.sortNu = sortNu;
+        //theme.sortNu = sortNu;
         theme.themeSrcImg = "";
         theme.themeDesc = themeConfig;
         theme.themeItem = themeItems;

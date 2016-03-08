@@ -23,15 +23,16 @@ public interface CouponsMapper {
     Coupons getCoupons(String coupId);
 
     /**
-     * 获取所有的优惠券信息
+     * 获取所有已使用的优惠券信息
      * @return list of CouponsService
      */
-    List<Coupons> getAllCoupons();
+    List<Coupons> getAllUsedCoupons();
 
     /**
-     * 获得一页优惠券信息
+     * 分页获取所有已使用优惠券信息
      * @param coupons 优惠券
      * @return list of CouponsService
      */
-    List<Coupons> getCouponsPage(Coupons coupons);
+    List<Coupons> getUsedCouponsPage(Coupons coupons);
+
 }

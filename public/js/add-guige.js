@@ -410,6 +410,9 @@ function saveCurr() {
         sharedObject.index = "";
     }
     console.log(orSave);
+    if(orSave==false) {
+        alert("数据有误");
+    }
     if (orSave) {
         if (window.showModalDialog) {
             window.returnValue = sharedObject;

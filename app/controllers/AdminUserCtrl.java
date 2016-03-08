@@ -62,6 +62,8 @@ public class AdminUserCtrl extends Controller {
 
     public static final Timeout TIMEOUT = new Timeout(100, TimeUnit.MILLISECONDS);
 
+    private int pageSize = 3;
+
     /**
      * 添加管理员用户
      * @param lang 语言
@@ -73,10 +75,14 @@ public class AdminUserCtrl extends Controller {
         Map<String,String> userTypeList = new HashMap<>();
         Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
         Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
+        Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);
         for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
         for(Map.Entry<String, String> ut:userTypeList2.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        for(Map.Entry<String, String> ut:userTypeList3.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
 //        Map<String,String> menus = new ObjectMapper().convertValue(configuration.getObject("menu"),HashMap.class);
@@ -114,7 +120,7 @@ public class AdminUserCtrl extends Controller {
                 email.setMsg(adminUser.getEnNm()+"请用密码登录:"+defPwd);//邮件内容
                 email.setFrom("sunny.wu@kakaocorp.com");//发送人
                 email.addTo("sunny.wu@kakaocorp.com");//收件人
-                email.send();
+//                email.send();
                 Logger.debug("邮件发送成功!");
             } catch (EmailException e) {
                 e.printStackTrace();
@@ -163,6 +169,7 @@ public class AdminUserCtrl extends Controller {
             Logger.debug("user login... "+user.enNm());
             Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
             Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
+            Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);
             for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
                 if (adminUser.getUserType().equals(ut.getKey())) {
                     data = "后台用户登录成功";
@@ -171,6 +178,11 @@ public class AdminUserCtrl extends Controller {
             for(Map.Entry<String, String> ut:userTypeList2.entrySet()) {
                 if (adminUser.getUserType().equals(ut.getKey())) {
                     data = "供应商登录成功";
+                }
+            }
+            for(Map.Entry<String, String> ut:userTypeList3.entrySet()) {
+                if (adminUser.getUserType().equals(ut.getKey())) {
+                    data = "其他用户登录";
                 }
             }
         }
@@ -203,10 +215,14 @@ public class AdminUserCtrl extends Controller {
         Map<String,String> userTypeList = new HashMap<>();
         Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
         Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
+        Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);
         for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
         for(Map.Entry<String, String> ut:userTypeList2.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        for(Map.Entry<String, String> ut:userTypeList3.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
         return ok(views.html.adminuser.userinfo.render(lang, userTypeList, (User) ctx().args.get("user")));
@@ -284,7 +300,20 @@ public class AdminUserCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result adminUserSearch(String lang) {
         List<AdminUser> adminUserList = adminUserService.getAllUsers();
-        return ok(views.html.adminuser.usersearch.render(lang, adminUserList, (User) ctx().args.get("user")));
+        Map<String,String> userTypeList = new HashMap<>();
+        Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
+        Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
+        Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);
+        for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        for(Map.Entry<String, String> ut:userTypeList2.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        for(Map.Entry<String, String> ut:userTypeList3.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        return ok(views.html.adminuser.usersearch.render(lang, adminUserList, userTypeList, (User) ctx().args.get("user")));
     }
 
     /**
@@ -307,10 +336,67 @@ public class AdminUserCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result addIDUserPop() {
         List<ID> idList = idService.getAllID();
-        String IMAGE_URL = "http://img.hanmimei.com";
-        return ok(views.html.coupon.coupaddPop.render(idList,IMAGE_URL));
+        return ok(views.html.coupon.coupaddPop.render(idList,ThemeCtrl.IMAGE_URL));
     }
 
+    /**
+     * APP用户查询
+     * @param lang 语言
+     * @return views
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result appUserSearch(String lang) {
+        ID id = new ID();
+        id.setPageSize(-1);
+        id.setOffset(-1);
+        int countNum = idService.getAllID().size();//取总数
+        int pageCount = countNum/pageSize;//共分几页
+        if (countNum%pageSize!=0) {
+            pageCount = countNum/pageSize+1;
+        }
+        id.setPageSize(pageSize);
+        id.setOffset(0);
+        return ok(views.html.adminuser.appusersearch.render(lang, pageSize, countNum, pageCount, idService.getIDPage(id),ThemeCtrl.IMAGE_URL, (User) ctx().args.get("user")));
+    }
+
+    /**
+     * APP用户ajax分页查询
+     * @param lang 语言
+     * @param pageNum 请求页数
+     * @return json
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result appUserSearchAjax(String lang, int pageNum) {
+        JsonNode json = request().body().asJson();
+        ID id = Json.fromJson(json,ID.class);
+        if(pageNum>=1){
+            //计算从第几条开始取数据
+            int offset = (pageNum-1)*pageSize;
+            id.setPageSize(-1);
+            id.setOffset(-1);
+            //取总数
+            int countNum = idService.getIDPage(id).size();
+            //共分几页
+            int pageCount = countNum/pageSize;
+
+            if(countNum%pageSize!=0){
+                pageCount = countNum/pageSize+1;
+            }
+            id.setPageSize(pageSize);
+            id.setOffset(offset);
+            //组装返回数据
+            Map<String,Object> returnMap=new HashMap<>();
+            returnMap.put("topic",idService.getIDPage(id));
+            returnMap.put("pageNum",pageNum);
+            returnMap.put("countNum",countNum);
+            returnMap.put("pageCount",pageCount);
+            returnMap.put("pageSize",pageSize);
+            return ok(Json.toJson(returnMap));
+        }
+        else{
+            return badRequest();
+        }
+    }
 
     /**
      * 处理系统启动时候去做第一次请求,完成对定时任务的执行

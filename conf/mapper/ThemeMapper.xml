@@ -31,8 +31,8 @@
         </select>
 
         <insert id="insertSlider" parameterType="entity.Slider" useGeneratedKeys="true" keyProperty="id">
-                insert into slider (img,sort_nu,create_at)
-                values (#{img},#{sortNu},CURRENT_TIMESTAMP(0))
+                insert into slider (img,sort_nu,create_at,item_target,target_type)
+                values (#{img},#{sortNu},CURRENT_TIMESTAMP(0),#{itemTarget}, #{targetType})
         </insert>
 
         <update id="updateSlider" parameterType="entity.Slider">
@@ -133,7 +133,7 @@
 
         <update id="updateTheme" parameterType="entity.Theme">
                 update themes
-                set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},sort_nu=#{sortNu},
+                set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},
                     update_at=CURRENT_TIMESTAMP(0),theme_item=#{themeItem}::jsonb,master_item_tag=#{themeTags}::jsonb,theme_master_img=#{themeMasterImg},or_destroy=false
                 where id = #{id}
         </update>
@@ -150,7 +150,7 @@
         </insert>
         <update id="updH5Theme" parameterType="entity.Theme">
                 update themes
-                set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},sort_nu=#{sortNu},
+                set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},
                 update_at=CURRENT_TIMESTAMP(0),h5_link = #{h5Link},or_destroy=false
                 where id = #{id}
         </update>
@@ -165,6 +165,14 @@
                 set or_destroy = 'Y',update_at = CURRENT_TIMESTAMP(0),destroy_at = CURRENT_TIMESTAMP(0)
                 where id = #{value}
         </update>
+
+        <select id="getOnShelfTheme" resultType="entity.Theme">
+              select
+                <include refid="themeColumns">
+                        <property name="alias" value="t"/>
+                </include>
+                from themes t where or_destroy = 'N' order by sort_nu DESC
+        </select>
 
         <!---  主题模板    -->
         <sql id="templateColumns">

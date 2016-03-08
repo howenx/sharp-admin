@@ -48,4 +48,10 @@ public interface InventoryService {
      */
     List<Inventory> getAvailableInventory();
 
+    /**
+     * 查询视图skus的所有信息        Added by Sunny Wu 2016.03.03
+     * @return List of Skus
+     */
+    List<Skus> getAllSkus();
+
 }

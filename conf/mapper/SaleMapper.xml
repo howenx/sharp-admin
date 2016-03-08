@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.SaleMapper">
+
+    <!--enable mybatis default cache configure reference:
+        https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
+    -->
+    <sql id="saleProductColumns">
+        ${alias}.id,
+        ${alias}.name,
+        ${alias}.category_id,
+        ${alias}.sku_code,
+        ${alias}.product_code,
+        ${alias}.spec,
+        ${alias}.sale_count,
+        ${alias}.inventory,
+        ${alias}.product_cost,
+        ${alias}.stock_value,
+        ${alias}.purchase_count,
+        ${alias}.no_card,
+        ${alias}.damage,
+        ${alias}.less_delivery,
+        ${alias}.less_product,
+        ${alias}.empty_box,
+        ${alias}.created_dt,
+        ${alias}.update_dt
+    </sql>
+    <!-- 录入一条销售产品信息 -->
+    <insert id="insertSaleProduct" parameterType="entity.sale.SaleProduct" useGeneratedKeys="true" keyProperty="id">
+        insert into sale_product
+        (name,category_id,sku_code,product_code,spec,sale_count,inventory,product_cost,stock_value,purchase_count,
+        no_card,damage,less_delivery,less_product,empty_box,created_dt,update_dt)
+        values(
+        #{name},
+        #{categoryId},
+        #{skuCode},
+        #{productCode},
+        #{spec},
+        #{saleCount},
+        #{inventory},
+        #{productCost},
+        #{stockValue},
+        #{purchaseCount},
+        #{noCard},
+        #{damage},
+        #{lessDelivery},
+        #{lessProduct},
+        #{emptyBox},
+        CURRENT_TIMESTAMP(0),
+        CURRENT_TIMESTAMP(0))
+    </insert>
+
+
+    <update id="updateSaleProduct" parameterType="entity.sale.SaleProduct" >
+        update sale_product set name= #{name},category_id= #{categoryId},sku_code= #{skuCode},product_code= #{productCode},
+        spec= #{sysCode},sale_count=#{saleCount},inventory= #{inventory},product_cost= #{productCost},stock_value=#{stockValue},purchase_count= #{purchaseCount},
+        no_card= #{noCard},damage=#{damage},less_delivery= #{lessDelivery},less_product=#{lessProduct},empty_box=#{emptyBox},update_dt= CURRENT_TIMESTAMP(0)
+        where id=#{id}
+    </update>
+    <select id="getSaleProductById" parameterType="java.lang.Long"  resultType="entity.sale.SaleProduct">
+        select
+        <include refid="saleProductColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sale_product t where 1=1 and t.id=#{value}
+    </select>
+
+    <select id="getSalaProduct" parameterType="entity.sale.SaleProduct" resultType="entity.sale.SaleProduct">
+        select
+        <include refid="saleProductColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sale_product t where 1=1
+        <if test="categoryId!=null and categoryId!=''">
+            and t.category_id = #{categoryId}
+        </if>
+
+    </select>
+
+    <select id="getSaleProductPage" parameterType="entity.sale.SaleProduct" resultType="entity.sale.SaleProduct">
+        select
+        <include refid="saleProductColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sale_product t where 1=1
+        <if test="id != null">
+            and t.id = #{id}
+        </if>
+        <if test="sort == null or sort == ''">
+            ORDER BY t.created_dt DESC
+        </if>
+
+        <if test="sort != null">
+            ORDER BY t.${sort}
+            <if test="order != null">
+                ${order}
+            </if>
+        </if>
+
+        <if test="pageSize == -1 and offset >= -1">
+            LIMIT ALL OFFSET 0
+        </if>
+        <if test="pageSize >= 1 and offset >= 0">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+
+    <sql id="saleOrderColumns">
+        ${alias}.id,
+        ${alias}.sale_at,
+        ${alias}.order_id,
+        ${alias}.product_name,
+        ${alias}.price,
+        ${alias}.count,
+        ${alias}.discount_amount,
+        ${alias}.sale_total,
+        ${alias}.jd_rate,
+        ${alias}.jd_fee,
+        ${alias}.cost,
+        ${alias}.ship_fee,
+        ${alias}.pack_fee,
+        ${alias}.storage_fee,
+        ${alias}.postal_fee,
+        ${alias}.postal_tax_rate,
+        ${alias}.profit,
+        ${alias}.inte_logistics,
+        ${alias}.category_id,
+        ${alias}.created_dt,
+        ${alias}.update_dt,
+        ${alias}.sale_product_id
+    </sql>
+    <!-- 录入一条销售订单信息 -->
+    <insert id="insertSaleOrder" parameterType="entity.sale.SaleOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into sale_order
+        (sale_at,order_id,product_name,price,count,discount_amount,sale_total,
+        jd_rate,jd_fee,cost,ship_fee,pack_fee,storage_fee,postal_fee,postal_tax_rate,profit,inte_logistics,
+        category_id,created_dt,update_dt,sale_product_id)
+        values(
+        #{saleAt},#{orderId},#{productName},#{price},#{count},#{discountAmount},#{saleTotal},
+        #{jdRate},#{jdFee},#{cost},#{shipFee},#{packFee},#{storageFee},#{postalFee},#{postalTaxRate},#{profit},#{inteLogistics},
+       #{categoryId},CURRENT_TIMESTAMP(0),CURRENT_TIMESTAMP(0),#{saleProductId}
+       )
+    </insert>
+    <update id="updateSaleOrder" parameterType="entity.sale.SaleOrder" >
+        update sale_order set sale_at=#{saleAt},order_id=#{orderId},product_name=#{productName},price=#{price},count=#{count},
+        discount_amount=#{discountAmount},sale_total=#{saleTotal},jd_rate=#{jdRate},jd_fee=#{jdFee},cost=#{cost},ship_fee=#{shipFee},
+        pack_fee=#{packFee},storage_fee=#{storageFee},postal_fee=#{postalFee},postal_tax_rate=#{postalTaxRate},profit=#{profit},inte_logistics=#{inteLogistics},
+        category_id=#{categoryId},update_dt= CURRENT_TIMESTAMP(0),sale_product_id=#{saleProductId}
+        where id=#{id}
+    </update>
+
+    <select id="getSalaOrder" parameterType="entity.sale.SaleOrder" resultType="entity.sale.SaleOrder">
+        select
+        <include refid="saleOrderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sale_order t where 1=1
+        <if test="saleAt!=null and saleAt!=''">
+            and t.sale_at = #{saleAt}
+        </if>
+
+    </select>
+    <select id="getSaleStatistics" parameterType="entity.sale.SaleOrder" resultType="entity.sale.SaleStatistics">
+        SELECT sum(sale_total)as saleTotal,sum(jd_fee)as jdFeeTotal ,sum(ship_fee)as shipFeeTotal,sum(inte_logistics)as inteLogisticsTotal ,
+        sum(pack_fee)as packFeeTotal,sum(storage_fee)as storageFeeTotal ,sum(profit)as profitTotal  FROM sale_order
+        where 1=1
+        <if test="categoryId!=null and categoryId!=''">
+            and category_id = #{categoryId}
+        </if>
+        <if test="starttime!=null and starttime!=''">
+            and sale_at &gt;=#{starttime} ::timestamp
+        </if>
+        <if test="endtime!=null and endtime!=''">
+            and sale_at &lt;=#{endtime} ::timestamp
+        </if>
+        ;
+    </select>
+    <select id="getSaleInventory" parameterType="entity.sale.SaleOrder" resultType="entity.sale.SaleInventory">
+        SELECT sum(s.count)as saleCount,s.sale_at as saleDate from sale_order s
+        WHERE 1=1
+        <if test="saleProductId!=null and saleProductId!=''">
+            and sale_product_id =#{saleProductId}
+        </if>
+        and s.sale_at::TEXT LIKE '${saleMonth}%' GROUP BY s.sale_at;
+   </select>
+</mapper>

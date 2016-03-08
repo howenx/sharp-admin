@@ -36,6 +36,9 @@
                                     <a href="/@lang/topic/search" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu3")</a>
                                 </li>
                                 <li class="header-dropdown-item">
+                                    <a href="/@lang/topic/sort " class="info-link">主题排序</a>
+                                </li>
+                                <li class="header-dropdown-item">
                                     <a href="/@lang/topic/slider" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu1")</a>
                                 </li>
                             </ul>
@@ -76,6 +79,9 @@
                                 </li>
                                 <li class="header-dropdown-item">
                                     <a href="/coup/add" class="info-link">发放优惠券</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/@lang/coup/search" class="info-link">已使用优惠券</a>
                                 </li>
                                 <li class="header-dropdown-item">
                                     <a href="/@lang/carr/search" class="info-link">运费模板</a>
@@ -142,6 +148,9 @@
                                     <a href="/@lang/aduser/search" class="info-link">用户管理</a>
                                 </li>
                                 <li class="header-dropdown-item">
+                                    <a href="/@lang/appUser/search" class="info-link">APP用户</a>
+                                </li>
+                                <li class="header-dropdown-item">
                                     <a href="javascript:void(0)" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.myproducts.menu2")</a>
                                 </li>
                                 <li class="header-dropdown-item">
@@ -185,6 +194,9 @@
                                 </li>
                                 <li class="header-dropdown-item">
                                     <a href="/@lang/aduser/search" class="info-link">用户管理</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/@lang/appUser/search" class="info-link">APP用户</a>
                                 </li>
                             </ul>
                             <i class="header-nav-border"></i>
@@ -454,6 +466,41 @@
                     </li>
                     <!--供应管理的菜单项-->
                     }
+
+                    <!--其他类型用户的菜单项-->
+                    @if(user.userType.get=="OTHER"){
+                    <!--销售报表-->
+                    <!--首页-->
+                    <li class="header-navi-item fl">
+                        <a href="/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
+                        <i class="header-nav-border-relative"></i>
+                    </li>
+                    <li class="header-navi-item fl">
+                        <div class="user-info fl js-header-dropmenu">
+                            <span class="info-inner db">销售报表<i class="ml5 caret caret-down caret-b-9b"></i></span>
+                            <ul class="header-dropdown-list fs13 js-header-list">
+                                <li class="header-dropdown-item">
+                                    <a href="/sales/import" class="info-link">数据导入</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/sales/search" class="info-link">销售数据</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/sales/order/import" class="info-link">销售订单导入</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/sales/statistics/view" class="info-link">销售汇总</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/sales/inventory/view" class="info-link">库存盘点</a>
+                                </li>
+                            </ul>
+                            <i class="header-nav-border"></i>
+                        </div>
+                    </li>
+                    <!--其他类型用户的菜单项-->
+                    }
+
 
                     <!--个人中心-->
                     <li class="header-navi-item fl">

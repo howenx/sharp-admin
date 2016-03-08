@@ -69,10 +69,14 @@ $(function() {
 
 	/**	点击图片绑定主题或商品 **/
     $(document).on('click', '.slider-content-img', function() {
+        $('.usercenter-option > .user-state').css('background-position', '20px -73px');
+        if (window.lang === 'cn') {
+            $('.usercenter-option > .user-state').text('已更改');
+        } else {
+            $('.usercenter-option > .user-state').text('Changed');
+        }
         change_flag = true;
     })
-
-    var imgUrl = window.url;
 
 	/**	保存 **/
 	$(document).on('click', '#js-usercenter-submit', function() {
@@ -228,6 +232,8 @@ $(function() {
 					
 					//替换dataURL为返回的服务器保存的url
 					$thumb.find('.slider-content-img').attr('src', data.oss_prefix+data.oss_url);
+					$thumb.find('.slider-content-img').attr('data-target', '');
+					$thumb.find('.slider-content-img').attr('data-type', '');
 
 					if (window.lang = 'cn') {
 						$('#js-userinfo-error').text('图片上传成功').css('color', '#2fa900')

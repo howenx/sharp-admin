@@ -56,6 +56,7 @@ function UpdateFields(obj) {
     if(obj.itemType == "多样化"){
         $('#url-type').val("vary");
     }
+    $(".user-state").text("已更改");
 }
 function previewImage1(obj, file) {
 
@@ -121,25 +122,28 @@ function upload(thumb, file, id) {
     http.send(formdata);
 }
 $(function () {
+
     var fixHelperModified = function (e, tr) {
-            var $originals = tr.children();
-            var $helper = tr.clone();
-            $helper.children().each(function (index) {
-                $(this).width($originals.eq(index).width())
+        var $originals = tr.children();
+        var $helper = tr.clone();
+        $helper.children().each(function (index) {
+            $(this).width($originals.eq(index).width())
+        });
+        return $helper;
+    },
+    updateIndex = function (e, ui) {
+        $(".user-state").text("已更改");
+        if ($(".grid thead").find('tr').length == 2) {
+            $('td.index', ui.item.parent()).each(function (i) {
+                $(this).html(i + 2);
             });
-            return $helper;
-        },
-        updateIndex = function (e, ui) {
-            if ($("thead").find('tr').length == 2) {
-                $('td.index', ui.item.parent()).each(function (i) {
-                    $(this).html(i + 2);
-                });
-            } else {
-                $('td.index', ui.item.parent()).each(function (i) {
-                    $(this).html(i + 1);
-                });
-            }
-        };
+        } else {
+            $('td.index', ui.item.parent()).each(function (i) {
+                $(this).html(i + 1);
+            });
+        }
+    };
+
     $("#sort tbody").sortable({
         helper: fixHelperModified,
         stop: updateIndex
@@ -184,6 +188,7 @@ $(function () {
             }
         }
         $(this).parents("tr").remove();
+        $(".user-state").text("已更改");
 
     })
     $("#getTemplate").click(function(){
@@ -264,6 +269,10 @@ $(function () {
 
         $(".tableBlock").hide();
     })
+//    变成已更改状态
+    $(":input:not(:button)").focusout(function(){
+        $(".user-state").text("已更改");
+    })
 })
 
 //返回模板中选中的图片 Added by Tiffany Zhu
@@ -274,4 +283,5 @@ function updateThemeImg(obj){
     $(input).attr("id",obj.url);
     $(input).width(obj.width);
     $(input).height(obj.height);
+    $(".user-state").text("已更改");
 }

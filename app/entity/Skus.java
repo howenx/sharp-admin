@@ -20,7 +20,7 @@ public class Skus implements Serializable {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp skuTypeEndAt;
     private Integer skuTypeRestrictAmount;
-    private BigDecimal skuTypeFloorPrice;
+    private String skuTypeFloorPrice;
     private BigDecimal skuTypeDiscount;
     private String skuTypeImg;
     private String skuTypeStatus;
@@ -123,11 +123,11 @@ public class Skus implements Serializable {
         this.skuTypeRestrictAmount = skuTypeRestrictAmount;
     }
 
-    public BigDecimal getSkuTypeFloorPrice() {
+    public String getSkuTypeFloorPrice() {
         return skuTypeFloorPrice;
     }
 
-    public void setSkuTypeFloorPrice(BigDecimal skuTypeFloorPrice) {
+    public void setSkuTypeFloorPrice(String skuTypeFloorPrice) {
         this.skuTypeFloorPrice = skuTypeFloorPrice;
     }
 
@@ -549,7 +549,7 @@ public class Skus implements Serializable {
                 '}';
     }
 
-    public Skus(Long id, String skuType, Long skuTypeId, Timestamp skuTypeStartAt, Timestamp skuTypeEndAt, Integer skuTypeRestrictAmount, BigDecimal skuTypeFloorPrice, BigDecimal skuTypeDiscount, String skuTypeImg, String skuTypeStatus, String skuTypeThemeId, Integer skuTypeSoldAmount, Integer skuTypeLimitAmount, String skuTypeTitle, BigDecimal skuTypePrice, Long invId, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, String themeId, String shareUrl, Integer shareCount, Integer collectCount, Integer browseCount, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxRate, String postalTaxCode, Integer invWeight, String carriageModelCode, String recordCode, Timestamp startAt, Timestamp endAt, Boolean orVaryPrice, String invCode) {
+    public Skus(Long id, String skuType, Long skuTypeId, Timestamp skuTypeStartAt, Timestamp skuTypeEndAt, Integer skuTypeRestrictAmount, String skuTypeFloorPrice, BigDecimal skuTypeDiscount, String skuTypeImg, String skuTypeStatus, String skuTypeThemeId, Integer skuTypeSoldAmount, Integer skuTypeLimitAmount, String skuTypeTitle, BigDecimal skuTypePrice, Long invId, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, String themeId, String shareUrl, Integer shareCount, Integer collectCount, Integer browseCount, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxRate, String postalTaxCode, Integer invWeight, String carriageModelCode, String recordCode, Timestamp startAt, Timestamp endAt, Boolean orVaryPrice, String invCode) {
         this.id = id;
         this.skuType = skuType;
         this.skuTypeId = skuTypeId;
