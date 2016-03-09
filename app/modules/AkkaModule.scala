@@ -5,9 +5,9 @@ import com.google.inject.AbstractModule
 import play.api.libs.concurrent.AkkaGuiceSupport
 
 /**
-  * Created by handy on 15/11/17.
-  * kakao china
-  */
+ * Created by handy on 15/11/17.
+ * kakao china
+ */
 class AkkaModule extends AbstractModule with AkkaGuiceSupport {
   override def configure() ={
     bindActor[OSSActor] ("oss")
@@ -17,6 +17,6 @@ class AkkaModule extends AbstractModule with AkkaGuiceSupport {
     bindActor[ThemeDestroyActor]("themeDestroyActor")
     bindActor[PingouOffShelfActor]("pingouOffShelfActor")
     bindActor[PingouOnShelfActor]("pingouOnShelfActor")
-
+    bindActor[ShopOrderPushActor]("shopOrderPushActor")
   }
 }

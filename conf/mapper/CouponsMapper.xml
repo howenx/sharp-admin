@@ -58,7 +58,7 @@
             and t.coup_id = #{coupId}
         </if>
         <if test='cateNm != null and cateNm != "null" and cateNm != "" '>
-            and t.cateNm like '%${cateNm}%'
+            and t.cate_nm like '%${cateNm}%'
         </if>
         <if test='useStartAt != null'>
             and t.use_at &gt;= #{useStartAt} ::timestamp
@@ -67,7 +67,7 @@
             and t.use_at &lt;= #{useEndAt} ::timestamp
         </if>
         <if test="sort == null or sort == '' ">
-            ORDER BY t.coup_id DESC
+            ORDER BY t.user_id DESC
         </if>
         <if test="sort != null">
             ORDER BY t.${sort}
