@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * Created by tiffany on 15/12/17.
  */
 public class OrderSplit implements Serializable {
-    Integer splitId;
+    Long splitId;
     Long orderId;               //订单Id
     String state;               //报关状态
     String cbeCode;             //报关单位名称
@@ -28,7 +28,7 @@ public class OrderSplit implements Serializable {
     public OrderSplit() {
     }
 
-    public OrderSplit(Integer splitId, Long orderId, String state, String cbeCode, String inspReturnCode, String inspReturnMsg, String customsReturnCode, String customsReturnMsg, BigDecimal totalFee, BigDecimal totalPayFee, Integer totalAmount, BigDecimal shipFee, BigDecimal postalFee, String expressNum, String expressCode, String expressNm) {
+    public OrderSplit(Long splitId, Long orderId, String state, String cbeCode, String inspReturnCode, String inspReturnMsg, String customsReturnCode, String customsReturnMsg, BigDecimal totalFee, BigDecimal totalPayFee, Integer totalAmount, BigDecimal shipFee, BigDecimal postalFee, String expressNum, String expressCode, String expressNm) {
         this.splitId = splitId;
         this.orderId = orderId;
         this.state = state;
@@ -69,11 +69,11 @@ public class OrderSplit implements Serializable {
                 '}';
     }
 
-    public Integer getSplitId() {
+    public Long getSplitId() {
         return splitId;
     }
 
-    public void setSplitId(Integer splitId) {
+    public void setSplitId(Long splitId) {
         this.splitId = splitId;
     }
 

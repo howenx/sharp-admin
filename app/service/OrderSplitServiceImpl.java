@@ -22,4 +22,14 @@ public class OrderSplitServiceImpl implements OrderSplitService {
     public List<OrderSplit> getSplitByOrderId(Long orderId) {
         return orderSplitMapper.getSplitByOrderId(orderId);
     }
+
+    /**
+     * 由子订单id获取子订单信息        Added By Sunny.Wu   2016.03.09
+     * @param splitId 子订单号
+     * @return OrderSplit
+     */
+    @Override
+    public OrderSplit getSplitById(Long splitId) {
+        return orderSplitMapper.getSplitById(splitId);
+    }
 }

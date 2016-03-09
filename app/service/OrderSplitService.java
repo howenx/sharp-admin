@@ -15,4 +15,11 @@ public interface OrderSplitService {
      * @return
      */
     List<OrderSplit> getSplitByOrderId(Long orderId);
+
+    /**
+     * 由子订单id获取子订单信息        Added By Sunny.Wu   2016.03.09
+     * @param splitId 子订单号
+     * @return OrderSplit
+     */
+    OrderSplit getSplitById(Long splitId);
 }

@@ -189,4 +189,13 @@ public class ThemeServiceImpl implements ThemeService {
     public List<Theme> getOnShelfTheme() {
         return themeMapper.getOnShelfTheme();
     }
+
+    /**
+     * 更新主题排序       Added by Tiffany Zhu 2016.03.09
+     * @param list
+     */
+    @Override
+    public void updThemeSortNu(List<Theme> list) {
+        themeMapper.updThemeSortNu(list);
+    }
 }
