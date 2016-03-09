@@ -22,6 +22,5 @@ public class ShopOrderPushActor extends AbstractActor{
             Logger.error("push to ERP error!", s.toString());
             unhandled(s);
         }).build());
-
     }
 }
