@@ -48,7 +48,7 @@
 
         var idOld,idNew;
         $(".grid").on("dblclick","tr",function(){
-            if($(".val-1").html()==""){
+            if($(".sortC").find("#index").html()=="" && $(".sortC").find("#index-2").html()==""){
                 var themeinfo = {};
                 //themeinfo.themeAll = $(".grid td.index").length;
                 themeinfo.index = $(this).find(".index").html();
@@ -82,14 +82,14 @@
 
         });
         $(".exchange").click(function(){
-            if($(".val-1").html()==""){
+            if($(".sortC").find("#index").html()==""||$(".sortC").find("#index-2").html()==""){
                 return false;
             }
             var htmlOld = $(".oldH").html();
             var htmlNew = $(".newH").html();
             $(".oldH").html(htmlNew);
             $(".newH").html(htmlOld);
-            if($(".oldH").find("#index-2").length==1){
+            if($(".oldH").find("#index-2").length===1){
                 $(".oldH").find("#index-2").html(idOld);
                 $(".newH").find("#index").html(idNew);
             }else{
@@ -103,10 +103,12 @@
                     $(this).find("td.index").html(idNew);
                     oldhtml = $(this).html();
                     oldindex = $(".grid tbody tr").index($(this));
+                    console.log(oldindex);
                 }else if($(this).children("td.index").html()===idNew){
                     $(this).find("td.index").html(idOld);
                     newhtml = $(this).html();
                     newindex = $(".grid tbody tr").index($(this));
+                    console.log(newindex);
                 }else if(ids.indexOf(idNew)==-1){
                     return false;
                 }
@@ -227,30 +229,30 @@
                     </div>
                 </div>
                 <hr>
-                <div>
+                <div class="sortC">
                     <div class="col-sm-5 oldH" style="border: 1px solid #ccc">
                         <div class="form-group">
                             <label class="col-sm-6 control-label">序号:</label>
                             <div class="col-sm-6">
-                                <div style="padding: 6px 12px" id="index" class="val-1"></div>
+                                <div style="padding: 6px 12px" id="index"></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-6 control-label">主题ID:</label>
                             <div class="col-sm-6">
-                                <div style="padding: 6px 12px" id="themeId" class="val-1"></div>
+                                <div style="padding: 6px 12px" id="themeId"></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-6 control-label">主题类型:</label>
                             <div class="col-sm-6">
-                                <div style="padding: 6px 12px" id="themeType" class="val-1"></div>
+                                <div style="padding: 6px 12px" id="themeType"></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-6 control-label">主题图片:</label>
                             <div class="col-sm-6">
-                                <div style="padding: 6px 12px" id="themeImg" class="val-1"></div>
+                                <div style="padding: 6px 12px" id="themeImg"></div>
                             </div>
                         </div>
                     </div>
