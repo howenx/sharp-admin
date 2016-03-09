@@ -79,14 +79,18 @@ public class ItemCtrl extends Controller {
         Inventory inventory = new Inventory();
         inventory.setPageSize(-1);
         inventory.setOffset(-1);
-        int countNum = inventoryService.invSearch(inventory).size();//取总数
+        List<Inventory> inventoryList = inventoryService.invSearch(inventory);
+        for(Inventory inv : inventoryList) {
+            inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
+        }
+        int countNum = inventoryList.size();//取总数
         int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
         if (countNum%ThemeCtrl.PAGE_SIZE!=0) {
             pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
         }
         inventory.setPageSize(ThemeCtrl.PAGE_SIZE);
         inventory.setOffset(0);
-        return ok(views.html.item.itemsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,inventoryService.invSearch(inventory),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,inventoryList,(User) ctx().args.get("user")));
     }
 
     /**
@@ -105,7 +109,11 @@ public class ItemCtrl extends Controller {
             int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
             inventory.setPageSize(-1);
             inventory.setOffset(-1);
-            int countNum = inventoryService.invSearch(inventory).size();//取总数
+            List<Inventory> inventoryList = inventoryService.invSearch(inventory);
+            for(Inventory inv : inventoryList) {
+                inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
+            }
+            int countNum = inventoryList.size();//取总数
             int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
             if(countNum%ThemeCtrl.PAGE_SIZE!=0){
                 pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
@@ -114,7 +122,7 @@ public class ItemCtrl extends Controller {
             inventory.setOffset(offset);
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
-            returnMap.put("topic",inventoryService.invSearch(inventory));
+            returnMap.put("topic",inventoryList);
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
@@ -144,6 +152,8 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result findItemById(String lang,Long id) {
+        Map<String,String> customs = new ObjectMapper().convertValue(configuration.getObject("customs"),HashMap.class);
+        Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
         Item item = itemService.getItem(id);
         Cates cates = itemService.getCate(item.getCateId());
         String pCateNm = "";
@@ -173,14 +183,14 @@ public class ItemCtrl extends Controller {
             object[13] = inventory.getPostalTaxCode();
             object[14] = inventory.getInvArea();
             object[15] = inventory.getInvCustoms();
-            object[16] = inventory.getInvImg();
+            object[16] = Json.parse(inventory.getInvImg()).get("url").asText();
             object[17] = inventory.getItemPreviewImgs();
             object[18] = inventory.getState();
             object[19] = inventory.getRecordCode();
             object[20] = inventory.getRestAmount();
             invList.add(object);
         }
-        return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,(User) ctx().args.get("user")));
+        return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,(User) ctx().args.get("user"),customs,area));
     }
 
     /**

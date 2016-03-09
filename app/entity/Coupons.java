@@ -26,6 +26,21 @@ public class Coupons implements Serializable {
     private Long orderId;           //订单id
     private Timestamp useAt;        //使用时间
 
+    //分页,每页多少条
+    private Integer pageSize;
+    //分页,从第几条开始
+    private Integer offset;
+    //按照哪个字段排序
+    private String sort;
+    //排序方式,降序,升序
+    private String order;
+    //查询开始时间
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Timestamp useStartAt;
+    //查询结束时间
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Timestamp useEndAt;
+
     public Coupons() {
     }
 
@@ -51,6 +66,29 @@ public class Coupons implements Serializable {
             }
         }
         return code+pass;
+    }
+
+    @Override
+    public String toString() {
+        return "Coupons{" +
+                "coupId='" + coupId + '\'' +
+                ", limitQuota=" + limitQuota +
+                ", CateNm='" + CateNm + '\'' +
+                ", userId=" + userId +
+                ", cateId=" + cateId +
+                ", denomination=" + denomination +
+                ", startAt=" + startAt +
+                ", endAt=" + endAt +
+                ", state='" + state + '\'' +
+                ", orderId=" + orderId +
+                ", useAt=" + useAt +
+                ", pageSize=" + pageSize +
+                ", offset=" + offset +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
+                ", useStartAt=" + useStartAt +
+                ", useEndAt=" + useEndAt +
+                '}';
     }
 
     public String getCoupId() {
@@ -141,24 +179,64 @@ public class Coupons implements Serializable {
         this.useAt = useAt;
     }
 
-    @Override
-    public String toString() {
-        return "CouponsService{" +
-                "coupId='" + coupId + '\'' +
-                ", limitQuota=" + limitQuota +
-                ", CateNm='" + CateNm + '\'' +
-                ", userId=" + userId +
-                ", cateId=" + cateId +
-                ", denomination=" + denomination +
-                ", startAt=" + startAt +
-                ", endAt=" + endAt +
-                ", state='" + state + '\'' +
-                ", orderId=" + orderId +
-                ", useAt=" + useAt +
-                '}';
+    public Integer getPageSize() {
+        return pageSize;
     }
 
-    public Coupons(String coupId, BigDecimal limitQuota, String cateNm, Long userId, Long cateId, BigDecimal denomination, Timestamp startAt, Timestamp endAt, String state, Long orderId, Timestamp useAt) {
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
+
+    public Timestamp getUseStartAt() {
+        return useStartAt;
+    }
+
+    public void setUseStartAt(Timestamp useStartAt) {
+        this.useStartAt = useStartAt;
+    }
+
+    public Timestamp getUseEndAt() {
+        return useEndAt;
+    }
+
+    public void setUseEndAt(Timestamp useEndAt) {
+        this.useEndAt = useEndAt;
+    }
+
+    public static String getuCase() {
+        return uCase;
+    }
+
+    public static String getIntChar() {
+        return intChar;
+    }
+
+    public Coupons(String coupId, BigDecimal limitQuota, String cateNm, Long userId, Long cateId, BigDecimal denomination, Timestamp startAt, Timestamp endAt, String state, Long orderId, Timestamp useAt, Integer pageSize, Integer offset, String sort, String order, Timestamp useStartAt, Timestamp useEndAt) {
+
         this.coupId = coupId;
         this.limitQuota = limitQuota;
         CateNm = cateNm;
@@ -170,5 +248,11 @@ public class Coupons implements Serializable {
         this.state = state;
         this.orderId = orderId;
         this.useAt = useAt;
+        this.pageSize = pageSize;
+        this.offset = offset;
+        this.sort = sort;
+        this.order = order;
+        this.useStartAt = useStartAt;
+        this.useEndAt = useEndAt;
     }
 }
