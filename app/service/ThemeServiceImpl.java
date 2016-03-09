@@ -20,8 +20,6 @@ import java.util.List;
  */
 public class ThemeServiceImpl implements ThemeService {
 
-    private static Integer sortNum = 0;
-
     @Inject
     private ThemeMapper themeMapper;
     @Inject
@@ -87,8 +85,6 @@ public class ThemeServiceImpl implements ThemeService {
     public void themeSave(Theme theme)
     {
         if(theme.getId() == null){
-            sortNum = sortNum + 1;
-            theme.setSortNu(sortNum);
             themeMapper.insertTheme(theme);
         }else{
             themeMapper.updateTheme(theme);
@@ -146,8 +142,6 @@ public class ThemeServiceImpl implements ThemeService {
     @Override
     public void h5ThemeSave(Theme theme) {
         if(theme.getId() != null){
-            sortNum = sortNum + 1;
-            theme.setSortNu(sortNum);
             themeMapper.updH5Theme(theme);
         }
         else{

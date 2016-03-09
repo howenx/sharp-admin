@@ -19,138 +19,7 @@
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
 <script src="/assets/js/add-guige.js"></script>
-<!--<script src="/assets/js/theme.js"></script>-->
-<script>
-    $(function(){
-        var ids = [];
-        $(".grid td.index").each(function(){
-            ids.push($(this).html());
-        });
-//        console.log(ids);
-        var fixHelperModified = function (e, tr) {
-            var $originals = tr.children();
-            var $helper = tr.clone();
-            $helper.children().each(function (index) {
-                $(this).width($originals.eq(index).width())
-            });
-            return $helper;
-        },
-        updateIndex = function (e, ui) {
-            $('td.index', ui.item.parent()).each(function (i) {
-                $(this).html(ids[i]);
-            });
-        };
-
-        $("#sort tbody").sortable({
-            helper: fixHelperModified,
-            stop: updateIndex
-        }).disableSelection();
-
-        var idOld,idNew;
-        $(".grid").on("dblclick","tr",function(){
-            if($(".sortC").find("#index").html()=="" && $(".sortC").find("#index-2").html()==""){
-                var themeinfo = {};
-                //themeinfo.themeAll = $(".grid td.index").length;
-                themeinfo.index = $(this).find(".index").html();
-                themeinfo.themeId = $(this).find(".themeId").html();
-                themeinfo.themeType = $(this).find(".themeType").html();
-                themeinfo.themeImg = $(this).find(".themeImg").html();
-
-//                $("#themeAll").html(themeinfo.themeAll);
-                $("#index").html(themeinfo.index);
-                $("#themeId").html(themeinfo.themeId);
-                $("#themeType").html(themeinfo.themeType);
-                $("#themeImg").html(themeinfo.themeImg);
-
-                idOld = $("#index").html();
-            }else{
-                var themeinfo = {};
-                //themeinfo.themeAll = $(".grid td.index").length;
-                themeinfo.index = $(this).find(".index").html();
-                themeinfo.themeId = $(this).find(".themeId").html();
-                themeinfo.themeType = $(this).find(".themeType").html();
-                themeinfo.themeImg = $(this).find(".themeImg").html();
-
-//                $("#themeAll").html(themeinfo.themeAll);
-                $("#index-2").html(themeinfo.index);
-                $("#themeId-2").html(themeinfo.themeId);
-                $("#themeType-2").html(themeinfo.themeType);
-                $("#themeImg-2").html(themeinfo.themeImg);
-
-                idNew = $("#index-2").html();
-            }
-
-        });
-        $(".exchange").click(function(){
-            if($(".sortC").find("#index").html()==""||$(".sortC").find("#index-2").html()==""){
-                return false;
-            }
-            var htmlOld = $(".oldH").html();
-            var htmlNew = $(".newH").html();
-            $(".oldH").html(htmlNew);
-            $(".newH").html(htmlOld);
-            if($(".oldH").find("#index-2").length===1){
-                $(".oldH").find("#index-2").html(idOld);
-                $(".newH").find("#index").html(idNew);
-            }else{
-                $(".oldH").find("#index").html(idOld);
-                $(".newH").find("#index-2").html(idNew);
-            }
-
-            var newhtml,oldhtml,newindex,oldindex;
-            $(".grid tbody tr").each(function(){
-                if($(this).children("td.index").html()===idOld){
-                    $(this).find("td.index").html(idNew);
-                    oldhtml = $(this).html();
-                    oldindex = $(".grid tbody tr").index($(this));
-                    console.log(oldindex);
-                }else if($(this).children("td.index").html()===idNew){
-                    $(this).find("td.index").html(idOld);
-                    newhtml = $(this).html();
-                    newindex = $(".grid tbody tr").index($(this));
-                    console.log(newindex);
-                }else if(ids.indexOf(idNew)==-1){
-                    return false;
-                }
-            });
-            $(".grid tbody tr").each(function(i){
-                if(i===oldindex){
-                    $(this).html(newhtml);
-                }else if(i===newindex){
-                    $(this).html(oldhtml);
-                }
-            })
-        })
-//        $(".changeY").click(function(){
-//            var idOld = $("#index").html();
-//            var idNew = $(".newId").val();
-//            var newhtml,oldhtml,newindex,oldindex;
-//            $(".grid tbody tr").each(function(){
-//                if($(this).children("td.index").html()===idOld){
-//                    $(this).find("td.index").html(idNew);
-//                    oldhtml = $(this).html();
-//                    oldindex = $(".grid tbody tr").index($(this));
-//                }else if($(this).children("td.index").html()===idNew){
-//                    $(this).find("td.index").html(idOld);
-//                    newhtml = $(this).html();
-//                    newindex = $(".grid tbody tr").index($(this));
-//                }else if(ids.indexOf(idNew)==-1){
-//                    return false;
-//                }
-//            });
-//            $(".grid tbody tr").each(function(i){
-//                if(i===oldindex){
-//                    $(this).html(newhtml);
-//                }else if(i===newindex){
-//                    $(this).html(oldhtml);
-//                }
-//            })
-//        })
-
-        $("#themeAll").html($("table").find("tr").length -1);
-
-    })
-</script>
+<script src="/assets/js/themeSort.js"></script>
 }
 
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"主题排序")
@@ -179,6 +48,15 @@
     <div class="page-title">
         <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"主题排序")</span>
     </div>
+    <div class="usercenter-option">
+        <div id="js-sortNu-submit" class="btn-blue btn-form fr ml15">@Messages.get(new
+            Lang(Lang.forCode(lang)),"themes.slider.save")
+        </div>
+        <div id="js-sortNu-cancel" class="btn-white btn-form fr ml20">@Messages.get(new
+            Lang(Lang.forCode(lang)),"themes.slider.cancel")
+        </div>
+        <span id="js-userinfo-error" class="mt20 alt fr"></span>
+    </div>
     <div class="row">
         <form class="form-horizontal">
             <div class="col-sm-6" style="height: 800px;overflow-y: scroll">
@@ -192,32 +70,14 @@
                     </tr>
                     </thead>
                     <tbody class="ui-sortable">
-                    <!--@for(theme <- resultList){-->
-                        <!--<tr>-->
-                            <!--<td class="index">@theme.getSortNu()</td>-->
-                            <!--<td class="themeId">@theme.getId()</td>-->
-                            <!--<td class="themeType">@theme.getType()</td>-->
-                            <!--<td class="themeImg"><img class="main-img" src="@url@theme.getThemeImg()" alt="" width="50"></td>-->
-                        <!--</tr>-->
-                    <!--}-->
-                    <tr>
-                        <td class="index">1</td>
-                        <td class="themeId">235135</td>
-                        <td class="themeType">safs</td>
-                        <td class="themeImg"></td>
-                    </tr>
-                    <tr>
-                        <td class="index">2</td>
-                        <td class="themeId">15435</td>
-                        <td class="themeType">dsgadg</td>
-                        <td class="themeImg"></td>
-                    </tr>
-                    <tr>
-                        <td class="index">3</td>
-                        <td class="themeId">eag</td>
-                        <td class="themeType">safs</td>
-                        <td class="themeImg"></td>
-                    </tr>
+                    @for(theme <- resultList){
+                        <tr>
+                            <td class="index">@theme.getSortNu()</td>
+                            <td class="themeId">@theme.getId()</td>
+                            <td class="themeType">@theme.getType()</td>
+                            <td class="themeImg"><img class="main-img" src="@url@theme.getThemeImg()" alt="" width="50"></td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>
