@@ -949,4 +949,8 @@ public class ThemeCtrl extends Controller {
         return ok(views.html.theme.themeSort.render(lang,resultList,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
+    public Result sortNuSave(String lang){
+        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
+    }
+
 }

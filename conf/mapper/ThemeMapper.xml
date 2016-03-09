@@ -173,6 +173,16 @@
                 </include>
                 from themes t where or_destroy = 'N' order by sort_nu DESC
         </select>
+        <update id="updThemeSortNu" parameterType="java.util.List">
+                <foreach collection="list" item="item" index="index" close="" open="" separator=";">
+                        update themes
+                        <set>
+                                sort_nu = #{item.sortNu}
+                        </set>
+                        where id = #{item.id}
+                </foreach>
+        </update>
+
 
         <!---  主题模板    -->
         <sql id="templateColumns">

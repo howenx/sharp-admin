@@ -47,22 +47,21 @@
         }).disableSelection();
         $(".grid").on("dblclick","tr",function(){
             var themeinfo = {};
-            themeinfo.themeAll = $(".grid td.index").length;
+            //themeinfo.themeAll = $(".grid td.index").length;
             themeinfo.index = $(this).find(".index").html();
             themeinfo.themeId = $(this).find(".themeId").html();
+            themeinfo.themeType = $(this).find(".themeType").html();
+            themeinfo.themeImg = $(this).find(".themeImg").html();
 
             $("#themeAll").html(themeinfo.themeAll);
             $("#index").html(themeinfo.index);
             $("#themeId").html(themeinfo.themeId);
+            $("#themeType").html(themeinfo.themeType);
+            $("#themeImg").html(themeinfo.themeImg);
         })
         $(".changeY").click(function(){
             var idOld = $("#index").html();
             var idNew = $(".newId").val();
-            for(var i=0;i<ids.length;i++){
-                if(ids.indexOf(idNew)==-1){
-                    return false;
-                }
-            }
             var newhtml,oldhtml,newindex,oldindex;
             $(".grid tbody tr").each(function(){
                 if($(this).children("td.index").html()===idOld){
@@ -73,6 +72,8 @@
                     $(this).find("td.index").html(idOld);
                     newhtml = $(this).html();
                     newindex = $(".grid tbody tr").index($(this));
+                }else if(ids.indexOf(idNew)==-1){
+                    return false;
                 }
             });
             $(".grid tbody tr").each(function(i){
@@ -83,6 +84,9 @@
                 }
             })
         })
+
+        $("#themeAll").html($("table").find("tr").length -1);
+
     })
 </script>
 }
@@ -126,44 +130,14 @@
                     </tr>
                     </thead>
                     <tbody class="ui-sortable">
-                    <!--@for(theme <- resultList){-->
-                        <!--<tr>-->
-                            <!--<td class="index">@theme.getSortNu()</td>-->
-                            <!--<td class="themeId">@theme.getId()</td>-->
-                            <!--<td>@theme.getType()</td>-->
-                            <!--<td><img class="main-img" src="@url@theme.getThemeImg()" alt="" width="50"></td>-->
-                        <!--</tr>-->
-                    <!--}-->
-                    <tr>
-                        <td class="index">12</td>
-                        <td class="themeId">552352</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td class="index">23</td>
-                        <td class="themeId">53251</td>
-                        <td>213</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td class="index">34</td>
-                        <td class="themeId">231523</td>
-                        <td>241</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td class="index">56</td>
-                        <td class="themeId">532523</td>
-                        <td>421</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td class="index">85</td>
-                        <td class="themeId">2316443523</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    @for(theme <- resultList){
+                        <tr>
+                            <td class="index">@theme.getSortNu()</td>
+                            <td class="themeId">@theme.getId()</td>
+                            <td class="themeType">@theme.getType()</td>
+                            <td class="themeImg"><img class="main-img" src="@url@theme.getThemeImg()" alt="" width="50"></td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>
@@ -187,19 +161,19 @@
                         <div style="padding: 6px 12px" id="themeId"></div>
                     </div>
                 </div>
-                <!--<div class="form-group">-->
-                    <!--<label class="col-sm-2 control-label">主题类型</label>-->
-                    <!--<div class="col-sm-8">-->
-                        <!--<div style="padding: 6px 12px">12345</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                    <!--<label class="col-sm-2 control-label">主题图片</label>-->
-                    <!--<div class="col-sm-8">-->
-                        <!--<div style="padding: 6px 12px">12345</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <hr>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">主题类型:</label>
+                    <div class="col-sm-8">
+                        <div style="padding: 6px 12px" id="themeType"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">主题图片:</label>
+                    <div class="col-sm-8">
+                        <div style="padding: 6px 12px" id="themeImg"></div>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="col-sm-3 control-label">交换序号:</label>
                     <div class="col-sm-8">

@@ -66,5 +66,11 @@ public interface ThemeService {
      */
     List<Theme> getOnShelfTheme();
 
+    /**
+     * 更新主题排序       Added by Tiffany Zhu 2016.03.09
+     * @param list
+     */
+    void updThemeSortNu(List<Theme> list);
+
 
 }
