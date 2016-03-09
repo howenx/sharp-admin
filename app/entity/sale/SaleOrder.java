@@ -37,8 +37,13 @@ public class SaleOrder implements Serializable {
     private Timestamp createAt;     //创建时间
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateAt;     //更新时间
+    private String invArea;//库存区域区分：'S' 上海保税仓备货，'G'广州保税仓备货，'H'杭州保税仓备货，'SZ'上海保税区直邮，'GZ'广州保税仓直邮，'HZ'杭州保税仓直邮，'K' 海外直邮，'SELF' 自营商品
+    private Integer remarkStatus;//标记
+    private String remark;//备注
 
+    @JsonIgnore
     private String starttime;
+    @JsonIgnore
     private String endtime;
     /**销售月份*/
     private String saleMonth;
@@ -289,5 +294,29 @@ public class SaleOrder implements Serializable {
 
     public void setOrder(String order) {
         this.order = order;
+    }
+
+    public String getInvArea() {
+        return invArea;
+    }
+
+    public void setInvArea(String invArea) {
+        this.invArea = invArea;
+    }
+
+    public Integer getRemarkStatus() {
+        return remarkStatus;
+    }
+
+    public void setRemarkStatus(Integer remarkStatus) {
+        this.remarkStatus = remarkStatus;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

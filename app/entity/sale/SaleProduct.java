@@ -36,6 +36,10 @@ public class SaleProduct implements Serializable {
     private Timestamp updateAt;     //更新时间
     private String invArea;//库存区域区分：'S' 上海保税仓备货，'G'广州保税仓备货，'H'杭州保税仓备货，'SZ'上海保税区直邮，'GZ'广州保税仓直邮，'HZ'杭州保税仓直邮，'K' 海外直邮，'SELF' 自营商品
     private Timestamp storageAt;//入库日期
+    private Long customSkuId; //自定义商品id
+    private Integer damageOther;//其他破损
+    private String remark;//备注
+
     //分页,从第几条开始
     @JsonIgnore
     private Integer offset;
@@ -50,6 +54,10 @@ public class SaleProduct implements Serializable {
     //排序方式,降序,升序
     @JsonIgnore
     private String order;
+    @JsonIgnore
+    private String starttime;
+    @JsonIgnore
+    private String endtime;
 
 
     public Long getId() {
@@ -242,5 +250,45 @@ public class SaleProduct implements Serializable {
 
     public void setStorageAt(Timestamp storageAt) {
         this.storageAt = storageAt;
+    }
+
+    public Long getCustomSkuId() {
+        return customSkuId;
+    }
+
+    public void setCustomSkuId(Long customSkuId) {
+        this.customSkuId = customSkuId;
+    }
+
+    public Integer getDamageOther() {
+        return damageOther;
+    }
+
+    public void setDamageOther(Integer damageOther) {
+        this.damageOther = damageOther;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getStarttime() {
+        return starttime;
+    }
+
+    public void setStarttime(String starttime) {
+        this.starttime = starttime;
+    }
+
+    public String getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(String endtime) {
+        this.endtime = endtime;
     }
 }

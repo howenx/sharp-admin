@@ -93,4 +93,18 @@ public interface SaleService {
      */
     List<SaleOrder> getSaleOrderPage(SaleOrder saleOrder);
 
+    /**
+     * 根据id获取销售订单
+     * @param id
+     * @return
+     */
+    SaleOrder getSaleOrderById(Long id);
+
+    /**
+     * 删除销售订单
+     * @param id
+     * @return
+     */
+    Boolean delSaleOrderById(Long id);
+
 }

@@ -501,6 +501,91 @@ $(function() {
         }
 
 
+        //每个查询页面对应一个相应的组装函数  销售产品查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Sibyl 2016.03.09
+        funcList.saleProductlist_search = function saleProductlist_search(pageIndex) {
+            var saleDto = new Object();
+            saleDto.name=$("#productName").val();
+            //起止时间如果为空
+            if ($("#starttime").val() != '' && $("#starttime").val() != null) {
+                saleDto.startTime=$("#starttime").val();
+            }
+            if ($("#endtime").val()!= '' && $("#endtime").val() != null) {
+                saleDto.endTime=$("#endtime").val();
+            }
+            //调用共用ajax,url从根目录开始不需要加上语言
+            search("/sales/search/" + pageIndex, saleDto);
+        }
+
+        //每个查询页面对应一个相应的返回时填充函数 销售产品查询页面   Added By Sibyl  2016.03.09
+        funcList.saleProductlist_data = function saleProductlist_data(data) {
+            //填充列表数据
+            $(data).each(function(index, element) {
+                $('#tb-topic').find('tbody').append('' +
+                    '<tr class="tb-list-data">' +
+                     '<td><a href="/sales/product/find/'+$(this)[0].id+'">'+$(this)[0].id+'</a></td>'+
+                     '<td>'+ $(this)[0].name+ '</td>' +
+                     '<td>'+ $(this)[0].skuCode+ '</td>' +
+                     '<td>'+ $(this)[0].productCode+ '</td>' +
+                     '<td>'+ $(this)[0].spec+ '</td>' +
+                     '<td>'+ $(this)[0].invArea+ '</td>' +
+                     '<td>'+ $(this)[0].saleCount+ '</td>' +
+                     '<td>'+ $(this)[0].inventory+ '</td>' +
+                     '<td>'+ $(this)[0].productCost+ '</td>' +
+                     '<td>'+ $(this)[0].stockValue+ '</td>' +
+                     '<td>'+ $(this)[0].purchaseCount+ '</td>' +
+                     '<td><a href="/sales/order/import/'+$(this)[0].id+'">导入订单</a></td>'+
+                    '</tr>'
+                );
+            })
+        }
+
+        //每个查询页面对应一个相应的组装函数  销售订单查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Sibyl 2016.03.09
+        funcList.saleOrderlist_search = function saleOrderlist_search(pageIndex) {
+            var saleDto = new Object();
+            saleDto.orderId=$("#orderId").val();
+            saleDto.name=$("#productName").val();
+            //起止时间如果为空
+            if ($("#starttime").val() != '' && $("#starttime").val() != null) {
+                saleDto.startTime=$("#starttime").val();
+            }
+            if ($("#endtime").val()!= '' && $("#endtime").val() != null) {
+                saleDto.endTime=$("#endtime").val();
+            }
+            //调用共用ajax,url从根目录开始不需要加上语言
+            search("/sales/order/search/" + pageIndex, saleDto);
+        }
+
+        //每个查询页面对应一个相应的返回时填充函数 销售订单查询页面   Added By Sibyl  2016.03.09
+        funcList.saleOrderlist_data = function saleOrderlist_data(data) {
+            //填充列表数据
+            $(data).each(function(index, element) {
+                $('#tb-topic').find('tbody').append('' +
+                    '<tr class="tb-list-data">' +
+                     '<td><a href="/sales/order/find/'+$(this)[0].id+'">'+$(this)[0].id+'</a></td>'+
+                     '<td>'+ $(this)[0].saleAt+ '</td>' +
+                     '<td>'+ $(this)[0].orderId+ '</td>' +
+                     '<td>'+ $(this)[0].productName+ '</td>' +
+                     '<td>'+ $(this)[0].price+ '</td>' +
+                     '<td>'+ $(this)[0].saleCount+ '</td>' +
+                     '<td>'+ $(this)[0].discountAmount+ '</td>' +
+                     '<td>'+ $(this)[0].saleTotal+ '</td>' +
+                     '<td>'+ $(this)[0].jdRate+ '</td>' +
+                     '<td>'+ $(this)[0].jdFee+ '</td>' +
+                     '<td>'+ $(this)[0].cost+ '</td>' +
+                     '<td>'+ $(this)[0].shipFee+ '</td>' +
+                     '<td>'+ $(this)[0].inteLogistics+ '</td>' +
+                     '<td>'+ $(this)[0].packFee+ '</td>' +
+                     '<td>'+ $(this)[0].storageFee+ '</td>' +
+                     '<td>'+ $(this)[0].postalFee+ '</td>' +
+                     '<td>'+ $(this)[0].postalTaxRate+ '</td>' +
+                     '<td>'+ $(this)[0].profit+ '</td>' +
+                     '<td>'+ $(this)[0].invArea+'</td>' +
+                     '<td><a onclick="delOrder('+$(this)[0].id+'")>删除</a></td>'+
+                    '</tr>'
+                );
+            })
+        }
+
 
 	/*********************************公用模块，不需要变更改动，如需变更改动请找howen ****************************************/
 	//点击页数

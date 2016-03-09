@@ -9,8 +9,9 @@
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/search.js"></script>
+<script src="/assets/js/sale.js"></script>
 <!-- 此为调用分页所提供的函数名前缀 -->
-<script>window.search_args = 'saleslist'</script>
+<script>window.search_args = 'saleOrderlist'</script>
 <script>
     $(function(){
         $(function () {
@@ -48,12 +49,12 @@
             <!--订单号-->
             <label class="col-sm-2 control-label">订单号</label>
             <div class="col-sm-4">
-                <input id = "sku-id" type="number" min="10000" max="99999999" class="form-control"/>
+                <input id = "orderId" type="number" min="10000" max="99999999" class="form-control"/>
             </div>
             <!--品名-->
             <label class="col-sm-2 control-label">品名</label>
             <div class="col-sm-4">
-                <input id = "sku-title" type="text" class="form-control"/>
+                <input id = "productName" type="text" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
@@ -61,7 +62,7 @@
             <label class="col-sm-2 control-label">开始时间</label>
             <div class="col-sm-4">
                 <div id="datetimepicker-starttime" class="input-group date">
-                    <input id="item-form-starttime" class="form-control col-sm-2"  type="text">
+                    <input id="starttime" class="form-control col-sm-2"  type="text">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
             </div>
@@ -69,7 +70,7 @@
             <label class="col-sm-2 control-label">结束时间</label>
             <div class="col-sm-4">
                 <div id="datetimepicker-endtime" class="input-group date">
-                    <input id="item-form-endtime" class="form-control col-sm-2"  type="text">
+                    <input id="endtime" class="form-control col-sm-2"  type="text">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
             </div>
@@ -104,12 +105,13 @@
                 <th>行邮税率</th>
                 <th>利润</th>
                 <th>保税区</th>
+                <th>操作</th>
             </tr>
             </thead>
             <tbody>
                 @for(order <- orderList){
-                <tr class = "tb-list-data">
-                    <td><a href="#">@order.getId()</a></td>
+                <tr class = "tb-list-data" >
+                    <td><a href="/sales/order/find/@order.getId()">@order.getId()</a></td>
                     <td>@order.getSaleAt()</td>
                     <td>@order.getOrderId()</td>
                     <td>@order.getProductName()</td>
@@ -127,11 +129,8 @@
                     <td>@order.getPostalFee()</td>
                     <td>@order.getPostalTaxRate()</td>
                     <td>@order.getProfit()</td>
-                    <td>保税区</td>
-
-
-
-
+                    <td>@order.getInvArea()</td>
+                    <td><a onclick="delOrder(@order.getId())">删除</a></td>
                 </tr>
                 }
             <tr id="nodata-td" style="display:none;"><td colspan="9">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
@@ -139,7 +138,17 @@
         </table>
 
         <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
-
+        <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
+        <div class="paging">
+            <ul class="pagination">
+                <li class="prev"><a href="javascript:void(0)">&laquo;</a></li>
+                <li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>
+                @for(count <- 1 until pageCount){
+                <li class="page-num"><a href="javascript:void(0)">@(count+1)</a></li>
+                }
+                <li class="next"><a href="javascript:void(0)">&raquo;</a></li>
+            </ul>
+        </div>
         <!-- 公用模块,直接拷贝-->
     </div>
 </div>
