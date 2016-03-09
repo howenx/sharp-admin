@@ -1,8 +1,11 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
+import entity.Coupons;
+import entity.Inventory;
 import entity.Theme;
 import entity.User;
 import entity.sale.SaleInventory;
@@ -10,6 +13,7 @@ import entity.sale.SaleOrder;
 import entity.sale.SaleProduct;
 import entity.sale.SaleStatistics;
 import filters.UserAuth;
+import play.Configuration;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -20,6 +24,7 @@ import service.SaleService;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -34,6 +39,8 @@ public class SaleCtrl extends Controller {
     public static final int PAGE_SIZE = 10;
     @Inject
     private SaleService saleService;
+    @javax.inject.Inject
+    Configuration configuration;
 
     /**
      *
@@ -56,10 +63,10 @@ public class SaleCtrl extends Controller {
      */
     private SaleProduct createSaleProduct(String name,Integer catagoryId,String skuCode,String productCode, String spec, Integer saleCount,
                                           Integer inventory, BigDecimal productCost,BigDecimal stockValue,Integer purchaseCount,Integer noCard,Integer damage,
-                                          Integer lessDelivery, Integer lessProduct, Integer emptyBox){
+                                          Integer lessDelivery, Integer lessProduct, Integer emptyBox,String invArea,Timestamp storageAt,Long customSkuId,Integer damageOther,String remark){
         SaleProduct saleProduct=new SaleProduct();
         setSaleProduct(saleProduct,name,catagoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
-                lessDelivery,lessProduct,emptyBox);
+                lessDelivery,lessProduct,emptyBox,invArea,storageAt,customSkuId,damageOther,remark);
         if(saleService.insertSaleProduct(saleProduct)){
             return saleProduct;
         }
@@ -68,7 +75,7 @@ public class SaleCtrl extends Controller {
     private void setSaleProduct(SaleProduct saleProduct,
                                 String name,Integer catagoryId,String skuCode,String productCode, String spec, Integer saleCount,
                                 Integer inventory, BigDecimal productCost,BigDecimal stockValue,Integer purchaseCount,Integer noCard,Integer damage,
-                                Integer lessDelivery, Integer lessProduct, Integer emptyBox){
+                                Integer lessDelivery, Integer lessProduct, Integer emptyBox,String invArea,Timestamp storageAt,Long customSkuId,Integer damageOther,String remark){
         saleProduct.setName(name);
         saleProduct.setCategoryId(catagoryId);
         saleProduct.setSkuCode(skuCode);
@@ -84,6 +91,11 @@ public class SaleCtrl extends Controller {
         saleProduct.setLessDelivery(lessDelivery);
         saleProduct.setLessProduct(lessProduct);
         saleProduct.setEmptyBox(emptyBox);
+        saleProduct.setInvArea(invArea);
+        saleProduct.setStorageAt(storageAt);
+        saleProduct.setCustomSkuId(customSkuId);
+        saleProduct.setDamageOther(damageOther);
+        saleProduct.setRemark(remark);
     }
 
     /**
@@ -94,7 +106,7 @@ public class SaleCtrl extends Controller {
      * @param productName 品名
      * @param categoryId 商品分类
      * @param price 单价
-     * @param count 数量
+     * @param saleCount 数量
      * @param discountAmount 优惠额
      * @param saleTotal 销售
      * @param jdRate 京东费率
@@ -108,17 +120,31 @@ public class SaleCtrl extends Controller {
      * @param profit 净利
      * @return
      */
-    private SaleOrder createSaleOrder(Date saleAt,String orderId,Long saleProductId,String productName, Integer categoryId,BigDecimal price,Integer count,
+    private SaleOrder createSaleOrder(Date saleAt,String orderId,Long saleProductId,String productName, Integer categoryId,BigDecimal price,Integer saleCount,
                                       BigDecimal discountAmount, BigDecimal saleTotal,BigDecimal jdRate,BigDecimal jdFee,BigDecimal cost,BigDecimal shipFee,
-                                      BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, String postalTaxRate, BigDecimal profit){
+                                      BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, String postalTaxRate, BigDecimal profit,
+                                      String invArea,Integer remarkStatus,String remark){
         SaleOrder saleOrder=new SaleOrder();
+        setSaleOrder(saleOrder,saleAt,orderId, saleProductId, productName, categoryId, price, saleCount,
+                discountAmount, saleTotal, jdRate, jdFee, cost,
+                shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,invArea,remarkStatus,remark);
+        if(saleService.insertSaleOrder(saleOrder)){
+            return saleOrder;
+        }
+        return null;
+    }
+
+    private void setSaleOrder(SaleOrder saleOrder,Date saleAt,String orderId,Long saleProductId,String productName, Integer categoryId,BigDecimal price,Integer saleCount,
+                              BigDecimal discountAmount, BigDecimal saleTotal,BigDecimal jdRate,BigDecimal jdFee,BigDecimal cost,BigDecimal shipFee,
+                              BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, String postalTaxRate, BigDecimal profit,
+                              String invArea,Integer remarkStatus,String remark){
         saleOrder.setSaleAt(saleAt);
         saleOrder.setOrderId(orderId);
         saleOrder.setSaleProductId(saleProductId);
         saleOrder.setProductName(productName);
         saleOrder.setCategoryId(categoryId);
         saleOrder.setPrice(price);
-        saleOrder.setCount(count);
+        saleOrder.setSaleCount(saleCount);
         saleOrder.setDiscountAmount(discountAmount);
         saleOrder.setSaleTotal(saleTotal);
         saleOrder.setJdRate(jdRate);
@@ -131,10 +157,9 @@ public class SaleCtrl extends Controller {
         saleOrder.setPostalFee(postalFee);
         saleOrder.setPostalTaxRate(postalTaxRate);
         saleOrder.setProfit(profit);
-        if(saleService.insertSaleOrder(saleOrder)){
-            return saleOrder;
-        }
-        return null;
+        saleOrder.setInvArea(invArea);
+        saleOrder.setRemarkStatus(remarkStatus);
+        saleOrder.setRemark(remark);
     }
 
     /**
@@ -143,8 +168,18 @@ public class SaleCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result dataImport() {
-        JsonNode json = request().body().asJson();
-        return ok(views.html.sales.dataImport.render("cn", (User) ctx().args.get("user")));
+        Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
+        return ok(views.html.sales.dataImport.render("cn",area,(User) ctx().args.get("user")));
+    }
+    /**
+     * 数据导入
+     * @return views
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result saleProductFind(Long id) {
+        Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
+        SaleProduct saleProduct=saleService.getSaleProductById(id);
+        return ok(views.html.sales.dataUpdate.render("cn",saleProduct,area,(User) ctx().args.get("user")));
     }
 
 
@@ -156,44 +191,89 @@ public class SaleCtrl extends Controller {
     public Result productSave() {
         JsonNode json = request().body().asJson();
         Logger.info("=====productSave==="+json);
-        String name=json.findValue("name").asText();
-        Integer categoryId=json.findValue("categoryId").asInt();
-        String skuCode=json.findValue("skuCode").asText();
-        String productCode=json.findValue("productCode").asText();
-        String spec=json.findValue("spec").asText();
-        Integer saleCount=0;  //
-        Integer inventory=0;//库存量
-        BigDecimal productCost=new BigDecimal(json.findValue("productCost").asDouble());
-        BigDecimal stockValue=new BigDecimal(0);  //
-        Integer purchaseCount=json.findValue("purchaseCount").asInt();
-        Integer noCard=0;
-        if(json.has("noCard")){
-            noCard=json.findValue("noCard").asInt();
-        }
-        Integer damage=0;
-        if(json.has("damage")){
-            damage=json.findValue("damage").asInt();
-        }
+        SaleProduct saleProduct=null;
+        try {
 
-        Integer lessDelivery=0;
-        if(json.has("lessDelivery")){
-            damage=json.findValue("lessDelivery").asInt();
-        }
+            String name=json.findValue("name").asText();
+            Integer categoryId=json.findValue("categoryId").asInt();
+            String skuCode=json.findValue("skuCode").asText();
+            String productCode=json.findValue("productCode").asText();
+            Long customSkuId=json.findValue("customSkuId").asLong();
+            String spec=json.findValue("spec").asText();
+            Integer saleCount=0;  //总销量 TODO
+            Integer inventory=0;//库存量 TODO
+            BigDecimal productCost=new BigDecimal(json.findValue("productCost").asDouble());
+            BigDecimal stockValue=new BigDecimal(0);  //库存商品价值 TODO
+            Integer purchaseCount=json.findValue("purchaseCount").asInt();
+            Integer noCard=0;
+            if(json.has("noCard")){
+                noCard=json.findValue("noCard").asInt();
+            }
+            Integer damage=0;
+            if(json.has("damage")){
+                damage=json.findValue("damage").asInt();
+            }
 
-        Integer lessProduct=0;
-        if(json.has("lessProduct")){
-            lessProduct=json.findValue("lessProduct").asInt();
-        }
+            Integer lessDelivery=0;
+            if(json.has("lessDelivery")){
+                damage=json.findValue("lessDelivery").asInt();
+            }
 
-        Integer emptyBox=0;
-        if(json.has("emptyBox")) {
-            json.findValue("emptyBox").asInt();
+            Integer lessProduct=0;
+            if(json.has("lessProduct")){
+                lessProduct=json.findValue("lessProduct").asInt();
+            }
+
+            Integer emptyBox=0;
+            if(json.has("emptyBox")) {
+                emptyBox=json.findValue("emptyBox").asInt();
+            }
+
+            Integer damageOther=0;
+            if(json.has("damageOther")) {
+                damageOther=json.findValue("damageOther").asInt();
+            }
+            String remark=json.findValue("damageOther").asText();
+            String invArea=json.findValue("invArea").asText();
+            String storageAt = json.findValue("storageAt").asText();
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Timestamp timestamp = new Timestamp(format.parse(storageAt).getTime());
+            String id=json.findValue("id").asText();
+            if(null==id||"".equals(id)){
+                saleProduct=createSaleProduct(name,categoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
+                        lessDelivery,lessProduct,emptyBox,invArea,timestamp,customSkuId,damageOther,remark);
+            }else{
+                saleProduct=saleService.getSaleProductById(Long.valueOf(id));
+                setSaleProduct(saleProduct,name,categoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
+                        lessDelivery,lessProduct,emptyBox,invArea,timestamp,customSkuId,damageOther,remark);
+                saleService.updateSaleProduct(saleProduct);
+            }
+
+
+        } catch (Exception e) {
+            Logger.error("product save exception "+e.getMessage());
+            e.printStackTrace();
         }
-        createSaleProduct(name,categoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
-                lessDelivery,lessProduct,emptyBox);
-        return ok(views.html.sales.dataImport.render("cn", (User) ctx().args.get("user")));
+        return ok(Json.toJson(saleProduct));
     }
 
+    /**
+     * 当订单更新时更新产品中的总销售,库存量,库存商品价值等
+     * @param saleProduct
+     */
+    private void updateProductAtUpdateOrder(SaleProduct saleProduct){
+        //销售总量
+        int saleCountTotal=saleService.getProductSaleCountTotal(saleProduct.getId());
+        saleProduct.setSaleCount(saleCountTotal);
+        //更新库存
+        saleProduct.setInventory(saleProduct.getPurchaseCount()-saleCountTotal);
+        //库存商品价值
+        saleProduct.setStockValue(saleProduct.getProductCost().multiply(new BigDecimal(saleProduct.getInventory())));
+
+        Logger.info("总销售saleCountTotal="+saleCountTotal+",saleProduct="+saleProduct);
+
+        saleService.updateSaleProduct(saleProduct);
+    }
 
     /**
      * 数据查询
@@ -221,14 +301,64 @@ public class SaleCtrl extends Controller {
 
         return ok(views.html.sales.dataSearch.render("cn",PAGE_SIZE,countNum,pageCount,productList,(User) ctx().args.get("user")));
     }
+    /**
+     * 数据查询
+     * @return views
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result salesSearchAjax(String lang,int pageNum) {
+        JsonNode json = request().body().asJson();
+        Logger.info("==salesSearchAjax===="+json);
+        SaleProduct saleProduct=new SaleProduct();
+        if(pageNum>=1){
+            //计算从第几条开始取数据
+            int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
+            String name=json.findValue("name").asText();
+            if(null!=name&&!"".equals(name)){
+                saleProduct.setName(name);
+            }
+            if (json.has("startTime")) {
+                saleProduct.setStarttime(json.findValue("startTime").asText());
+            }
+            if (json.has("endTime")) {
+                saleProduct.setEndtime(json.findValue("endTime").asText());
+            }
+
+            saleProduct.setPageSize(-1);
+            saleProduct.setOffset(-1);
+            List<SaleProduct> productList = saleService.getSaleProductPage(saleProduct);
+
+            int countNum = productList.size();//取总数
+            int pageCount = countNum/PAGE_SIZE;//共分几页
+            if(countNum%PAGE_SIZE!=0){
+                pageCount = countNum/PAGE_SIZE+1;
+            }
+            saleProduct.setPageSize(ThemeCtrl.PAGE_SIZE);
+            saleProduct.setOffset(offset);
+            productList = saleService.getSaleProductPage(saleProduct);
+            //组装返回数据
+            Map<String,Object> returnMap=new HashMap<>();
+            returnMap.put("topic",productList);
+            returnMap.put("pageNum",pageNum);
+            returnMap.put("countNum",countNum);
+            returnMap.put("pageCount",pageCount);
+            returnMap.put("pageSize",ThemeCtrl.PAGE_SIZE);
+            Logger.info("=salesSearchAjax=returnMap="+returnMap);
+            return ok(Json.toJson(returnMap));
+        }
+        else{
+            return badRequest();
+        }
+    }
 
     /**
      * 销售订单导入
      * @return views
      */
     @Security.Authenticated(UserAuth.class)
-    public Result saleOrderImport() {
-        return ok(views.html.sales.saleOrderImport.render("cn", (User) ctx().args.get("user")));
+    public Result saleOrderImport(Long id) {
+        SaleProduct saleProduct=saleService.getSaleProductById(id);
+        return ok(views.html.sales.saleOrderImport.render("cn", saleProduct,(User) ctx().args.get("user")));
     }
 
     /**
@@ -238,28 +368,30 @@ public class SaleCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result saleOrderSave() {
         JsonNode json = request().body().asJson();
+        ObjectNode result = newObject();
+        SaleOrder saleOrder=null;
         try {
             Logger.info("=====saleOrderSave===" + json);
+
             String saleAt = json.findValue("saleAt").asText();
             String orderId = json.findValue("orderId").asText();
-            Integer catagoryId = 1;
             Long saleProductId = json.findValue("saleProductId").asLong();
-            String productName = json.findValue("productName").asText();
+            SaleProduct saleProduct=saleService.getSaleProductById(saleProductId);
             BigDecimal price = new BigDecimal(json.findValue("price").asDouble());
-            Integer count = json.findValue("count").asInt();
+            Integer saleCount = json.findValue("saleCount").asInt();
             BigDecimal discountAmount = new BigDecimal(json.findValue("discountAmount").asDouble());
             BigDecimal jdRate = new BigDecimal(json.findValue("jdRate").asDouble());
-            BigDecimal cost = new BigDecimal(json.findValue("cost").asDouble());
             BigDecimal shipFee = new BigDecimal(json.findValue("shipFee").asDouble());
             BigDecimal inteLogistics = new BigDecimal(json.findValue("inteLogistics").asDouble());
             BigDecimal packFee = new BigDecimal(json.findValue("packFee").asDouble());
             BigDecimal storageFee = new BigDecimal(json.findValue("storageFee").asDouble());
             String postalTaxRate = json.findValue("postalTaxRate").asText();
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Timestamp timestamp = new Timestamp(format.parse(saleAt).getTime());
+            Integer remarkStatus=json.findValue("remarkStatus").asInt();
+            String remark=json.findValue("remark").asText();
+
 
             //总销售额=单价*数量-优惠额
-            BigDecimal saleTotal = price.multiply(new BigDecimal(count)).subtract(discountAmount);
+            BigDecimal saleTotal = price.multiply(new BigDecimal(saleCount)).subtract(discountAmount);
             // 京东费用=总销售 额*京东费率
             BigDecimal jdFee = saleTotal.multiply(jdRate).divide(new BigDecimal(100));
             BigDecimal postalFee = new BigDecimal(0);
@@ -270,16 +402,44 @@ public class SaleCtrl extends Controller {
             }
             //净利润=总销售额-京东费用-成本*数量-国内快递费-国际物流费-包装费-仓储服务费-行邮税
             BigDecimal productCost = new BigDecimal(1);//成本 //TODO ..
-            BigDecimal profit = saleTotal.subtract(jdFee).subtract((productCost.multiply(new BigDecimal(count)))).
+            BigDecimal profit = saleTotal.subtract(jdFee).subtract((productCost.multiply(new BigDecimal(saleCount)))).
                     subtract(shipFee).subtract(inteLogistics).subtract(packFee).subtract(storageFee).subtract(postalFee);
+            String id=json.findValue("id").asText();
+            if(null==id||"".equals(id)) {
+                saleOrder = createSaleOrder(new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, saleProduct.getName(), saleProduct.getCategoryId(), price, saleCount,
+                        discountAmount, saleTotal, jdRate, jdFee, saleProduct.getProductCost(),
+                        shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark);
+            }else{
+                saleOrder=saleService.getSaleOrderById(Long.valueOf(id));
+                setSaleOrder(saleOrder,new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, saleProduct.getName(), saleProduct.getCategoryId(), price, saleCount,
+                        discountAmount, saleTotal, jdRate, jdFee, saleProduct.getProductCost(),
+                        shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark);
+                saleService.updateSaleOrder(saleOrder);
+            }
 
-            createSaleOrder(new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, productName, catagoryId, price, count, discountAmount, saleTotal, jdRate, jdFee, cost,
-                    shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit);
+            if(null!=saleProduct){
+                //订单更新后更新相关产品数据
+                updateProductAtUpdateOrder(saleProduct);
+            }
+            result.putPOJO("order",saleOrder);
+            result.putPOJO("product",saleProduct);
         }catch (Exception e){
             Logger.error("sale order save exception "+e.getMessage());
         }
-        return ok(views.html.sales.saleOrderImport.render("cn", (User) ctx().args.get("user")));
+        return ok(Json.toJson(result));
     }
+
+    /**
+     * 销售订单
+     * @return views
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result saleOrderFind(Long id) {
+        SaleOrder saleOrder=saleService.getSaleOrderById(id);
+        SaleProduct saleProduct=saleService.getSaleProductById(saleOrder.getSaleProductId());
+        return ok(views.html.sales.saleOrderUpdate.render("cn", saleProduct,saleOrder,(User) ctx().args.get("user")));
+    }
+
 
     /**
      * 销售订单导入
@@ -390,4 +550,108 @@ public class SaleCtrl extends Controller {
         return ok(result);
     }
 
+    /**
+     * 订单查询
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result saleOrderSearch(){
+        //TODO ....
+        SaleOrder saleOrder=new SaleOrder();
+        saleOrder.setPageSize(-1);
+        saleOrder.setOffset(-1);
+
+        //取总数
+        int countNum = saleService.getSaleOrderPage(saleOrder).size();
+        //共分几页
+        int pageCount = countNum/PAGE_SIZE;
+
+        if(countNum%PAGE_SIZE!=0){
+            pageCount = countNum/PAGE_SIZE+1;
+        }
+
+        saleOrder.setPageSize(PAGE_SIZE);
+        saleOrder.setOffset(0);
+
+        List<SaleOrder> orderList = saleService.getSaleOrderPage(saleOrder);
+
+        return ok(views.html.sales.saleOrderSearch.render("cn",PAGE_SIZE,countNum,pageCount,orderList,(User) ctx().args.get("user")));
+    }
+
+    /**
+     * 订单查询
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result saleOrderSearchAjax(String lang,int pageNum){
+        Logger.info("==saleOrderSearchAjax========================");
+        JsonNode json = request().body().asJson();
+        Logger.info("==saleOrderSearchAjax===="+json);
+        SaleOrder saleOrder=new SaleOrder();
+        if(pageNum>=1){
+            //计算从第几条开始取数据
+            int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
+            String orderId=json.findValue("orderId").asText();
+            if(null!=orderId&&!"".equals(orderId)){
+                saleOrder.setOrderId(orderId);
+            }
+            String name=json.findValue("name").asText();
+            if(null!=name&&!"".equals(name)){
+                saleOrder.setProductName(name);
+            }
+            if (json.has("startTime")) {
+                saleOrder.setStarttime(json.findValue("startTime").asText());
+            }
+            if (json.has("endTime")) {
+                saleOrder.setEndtime(json.findValue("endTime").asText());
+            }
+
+            saleOrder.setPageSize(-1);
+            saleOrder.setOffset(-1);
+            List<SaleOrder> orderList = saleService.getSaleOrderPage(saleOrder);
+
+            int countNum = orderList.size();//取总数
+            int pageCount = countNum/PAGE_SIZE;//共分几页
+            if(countNum%PAGE_SIZE!=0){
+                pageCount = countNum/PAGE_SIZE+1;
+            }
+            saleOrder.setPageSize(ThemeCtrl.PAGE_SIZE);
+            saleOrder.setOffset(offset);
+            orderList = saleService.getSaleOrderPage(saleOrder);
+            //组装返回数据
+            Map<String,Object> returnMap=new HashMap<>();
+            returnMap.put("topic",orderList);
+            returnMap.put("pageNum",pageNum);
+            returnMap.put("countNum",countNum);
+            returnMap.put("pageCount",pageCount);
+            returnMap.put("pageSize",ThemeCtrl.PAGE_SIZE);
+            Logger.info("=salesSearchAjax=returnMap="+returnMap);
+            return ok(Json.toJson(returnMap));
+        }
+        else{
+            return badRequest();
+        }
+    }
+
+    /**
+     * 销售订单
+     * @return views
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result saleOrderDel(Long id) {
+        SaleOrder saleOrder=saleService.getSaleOrderById(id);
+        if(null!=saleOrder){
+            SaleProduct saleProduct=saleService.getSaleProductById(saleOrder.getSaleProductId());
+            if(saleService.delSaleOrderById(id)){
+                if(null!=saleProduct){
+                    //订单更新后更新相关产品数据
+                    updateProductAtUpdateOrder(saleProduct);
+                }
+                return ok("success");
+            }
+        }
+
+        return badRequest();
+
+    }
 }

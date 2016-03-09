@@ -19,76 +19,7 @@
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
 <script src="/assets/js/add-guige.js"></script>
-<!--<script src="/assets/js/theme.js"></script>-->
-<script>
-    $(function(){
-        var ids = [];
-        $(".grid td.index").each(function(){
-            ids.push($(this).html());
-        });
-//        console.log(ids);
-        var fixHelperModified = function (e, tr) {
-            var $originals = tr.children();
-            var $helper = tr.clone();
-            $helper.children().each(function (index) {
-                $(this).width($originals.eq(index).width())
-            });
-            return $helper;
-        },
-        updateIndex = function (e, ui) {
-            $('td.index', ui.item.parent()).each(function (i) {
-                $(this).html(ids[i]);
-            });
-        };
-
-        $("#sort tbody").sortable({
-            helper: fixHelperModified,
-            stop: updateIndex
-        }).disableSelection();
-        $(".grid").on("dblclick","tr",function(){
-            var themeinfo = {};
-            //themeinfo.themeAll = $(".grid td.index").length;
-            themeinfo.index = $(this).find(".index").html();
-            themeinfo.themeId = $(this).find(".themeId").html();
-            themeinfo.themeType = $(this).find(".themeType").html();
-            themeinfo.themeImg = $(this).find(".themeImg").html();
-
-            $("#themeAll").html(themeinfo.themeAll);
-            $("#index").html(themeinfo.index);
-            $("#themeId").html(themeinfo.themeId);
-            $("#themeType").html(themeinfo.themeType);
-            $("#themeImg").html(themeinfo.themeImg);
-        })
-        $(".changeY").click(function(){
-            var idOld = $("#index").html();
-            var idNew = $(".newId").val();
-            var newhtml,oldhtml,newindex,oldindex;
-            $(".grid tbody tr").each(function(){
-                if($(this).children("td.index").html()===idOld){
-                    $(this).find("td.index").html(idNew);
-                    oldhtml = $(this).html();
-                    oldindex = $(".grid tbody tr").index($(this));
-                }else if($(this).children("td.index").html()===idNew){
-                    $(this).find("td.index").html(idOld);
-                    newhtml = $(this).html();
-                    newindex = $(".grid tbody tr").index($(this));
-                }else if(ids.indexOf(idNew)==-1){
-                    return false;
-                }
-            });
-            $(".grid tbody tr").each(function(i){
-                if(i===oldindex){
-                    $(this).html(newhtml);
-                }else if(i===newindex){
-                    $(this).html(oldhtml);
-                }
-            })
-        })
-
-        $("#themeAll").html($("table").find("tr").length -1);
-
-    })
-</script>
+<script src="/assets/js/themeSort.js"></script>
 }
 
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"主题排序")
@@ -116,6 +47,15 @@
 <div class="wrap-slider">
     <div class="page-title">
         <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"主题排序")</span>
+    </div>
+    <div class="usercenter-option">
+        <div id="js-sortNu-submit" class="btn-blue btn-form fr ml15">@Messages.get(new
+            Lang(Lang.forCode(lang)),"themes.slider.save")
+        </div>
+        <div id="js-sortNu-cancel" class="btn-white btn-form fr ml20">@Messages.get(new
+            Lang(Lang.forCode(lang)),"themes.slider.cancel")
+        </div>
+        <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
     <div class="row">
         <form class="form-horizontal">
@@ -149,42 +89,76 @@
                     </div>
                 </div>
                 <hr>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">序号:</label>
-                    <div class="col-sm-8">
-                        <div style="padding: 6px 12px" id="index"></div>
+                <div class="sortC">
+                    <div class="col-sm-5 oldH" style="border: 1px solid #ccc">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">序号:</label>
+                            <div class="col-sm-6">
+                                <div style="padding: 6px 12px" id="index"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">主题ID:</label>
+                            <div class="col-sm-6">
+                                <div style="padding: 6px 12px" id="themeId"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">主题类型:</label>
+                            <div class="col-sm-6">
+                                <div style="padding: 6px 12px" id="themeType"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">主题图片:</label>
+                            <div class="col-sm-6">
+                                <div style="padding: 6px 12px" id="themeImg"></div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">主题ID:</label>
-                    <div class="col-sm-8">
-                        <div style="padding: 6px 12px" id="themeId"></div>
+                    <div class="col-sm-2">
+                        <span class="glyphicon glyphicon-resize-horizontal exchange" style="top: 75px;left: 30%;font-size: 16px"></span>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">主题类型:</label>
-                    <div class="col-sm-8">
-                        <div style="padding: 6px 12px" id="themeType"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">主题图片:</label>
-                    <div class="col-sm-8">
-                        <div style="padding: 6px 12px" id="themeImg"></div>
+                    <div class="col-sm-5 newH" style="border: 1px solid #ccc">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">序号:</label>
+                            <div class="col-sm-6">
+                                <div style="padding: 6px 12px" id="index-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">主题ID:</label>
+                            <div class="col-sm-6">
+                                <div style="padding: 6px 12px" id="themeId-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">主题类型:</label>
+                            <div class="col-sm-6">
+                                <div style="padding: 6px 12px" id="themeType-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">主题图片:</label>
+                            <div class="col-sm-6">
+                                <div style="padding: 6px 12px" id="themeImg-2"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">交换序号:</label>
-                    <div class="col-sm-8">
-                        <input type="number" class="form-control newId">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-8">
-                        <button type="button" class="btn btn-primary btn-xs changeY">确定交换</button>
-                    </div>
-                </div>
+
+                <!--<div class="form-group">-->
+                    <!--<label class="col-sm-3 control-label">交换序号:</label>-->
+                    <!--<div class="col-sm-8">-->
+                        <!--<input type="number" class="form-control newId">-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<div class="col-sm-offset-3 col-sm-8">-->
+                        <!--<button type="button" class="btn btn-primary btn-xs changeY">确定交换</button>-->
+                    <!--</div>-->
+                <!--</div>-->
             </div>
         </form>
     </div>

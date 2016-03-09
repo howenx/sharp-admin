@@ -949,7 +949,29 @@ public class ThemeCtrl extends Controller {
         return ok(views.html.theme.themeSort.render(lang,resultList,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
+    /**
+     * 保存主题排序       Added by Tiffany Zhu 2016.03.09
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
     public Result sortNuSave(String lang){
+        JsonNode json = request().body().asJson();
+        List<Theme> list = new ArrayList<>();
+        for(JsonNode object : json){
+            Theme theme = new Theme();
+            String id = object.get("newId").toString();
+            id = id.substring(1,id.length()-1);
+            String sortNu = object.get("sortNu").toString();
+            sortNu = sortNu.substring(1,sortNu.length()-1);
+            theme.setId(Long.parseLong(id));
+            theme.setSortNu(Integer.parseInt(sortNu));
+            list.add(theme);
+        }
+        Logger.error("******************************");
+        Logger.error(list.toString());
+        Logger.error("******************************");
+        service.updThemeSortNu(list);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 

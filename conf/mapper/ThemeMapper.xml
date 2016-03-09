@@ -126,9 +126,9 @@
 
         <insert id="insertTheme" parameterType="entity.Theme" useGeneratedKeys="true" keyProperty="id">
                 insert into themes
-                (master_item_id,title,start_at,end_at,theme_img,sort_nu,create_at,theme_item,master_item_tag,theme_master_img)
+                (master_item_id,title,start_at,end_at,theme_img,create_at,theme_item,master_item_tag,theme_master_img)
                 values
-                (#{masterItemId},#{title},#{startAt}::timestamp,#{endAt}::timestamp,#{themeImg},#{sortNu},CURRENT_TIMESTAMP(0),#{themeItem}::jsonb,#{themeTags}::jsonb,#{themeMasterImg})
+                (#{masterItemId},#{title},#{startAt}::timestamp,#{endAt}::timestamp,#{themeImg},CURRENT_TIMESTAMP(0),#{themeItem}::jsonb,#{themeTags}::jsonb,#{themeMasterImg})
         </insert>
 
         <update id="updateTheme" parameterType="entity.Theme">
@@ -145,8 +145,8 @@
         </update>
 
         <insert id="addH5Theme" parameterType="entity.Theme">
-                insert into themes (title,create_at,start_at,end_at,type,h5_link,theme_img,sort_nu)
-                values(#{title},CURRENT_TIMESTAMP(0),#{startAt}::timestamp,#{endAt}::timestamp,#{type},#{h5Link},#{themeImg},#{sortNu})
+                insert into themes (title,create_at,start_at,end_at,type,h5_link,theme_img)
+                values(#{title},CURRENT_TIMESTAMP(0),#{startAt}::timestamp,#{endAt}::timestamp,#{type},#{h5Link},#{themeImg})
         </insert>
         <update id="updH5Theme" parameterType="entity.Theme">
                 update themes

@@ -65,4 +65,24 @@ public class SaleServiceImpl implements SaleService{
     public List<SaleInventory> getSaleInventory(SaleOrder saleOrder) {
         return saleMapper.getSaleInventory(saleOrder);
     }
+
+    @Override
+    public Integer getProductSaleCountTotal(Long id) {
+        return saleMapper.getProductSaleCountTotal(id);
+    }
+
+    @Override
+    public List<SaleOrder> getSaleOrderPage(SaleOrder saleOrder) {
+        return saleMapper.getSaleOrderPage(saleOrder);
+    }
+
+    @Override
+    public SaleOrder getSaleOrderById(Long id) {
+        return saleMapper.getSaleOrderById(id);
+    }
+
+    @Override
+    public Boolean delSaleOrderById(Long id) {
+        return saleMapper.delSaleOrderById(id)>0;
+    }
 }
