@@ -45,23 +45,58 @@
             helper: fixHelperModified,
             stop: updateIndex
         }).disableSelection();
-        $(".grid").on("dblclick","tr",function(){
-            var themeinfo = {};
-            //themeinfo.themeAll = $(".grid td.index").length;
-            themeinfo.index = $(this).find(".index").html();
-            themeinfo.themeId = $(this).find(".themeId").html();
-            themeinfo.themeType = $(this).find(".themeType").html();
-            themeinfo.themeImg = $(this).find(".themeImg").html();
 
-            $("#themeAll").html(themeinfo.themeAll);
-            $("#index").html(themeinfo.index);
-            $("#themeId").html(themeinfo.themeId);
-            $("#themeType").html(themeinfo.themeType);
-            $("#themeImg").html(themeinfo.themeImg);
-        })
-        $(".changeY").click(function(){
-            var idOld = $("#index").html();
-            var idNew = $(".newId").val();
+        var idOld,idNew;
+        $(".grid").on("dblclick","tr",function(){
+            if($(".val-1").html()==""){
+                var themeinfo = {};
+                //themeinfo.themeAll = $(".grid td.index").length;
+                themeinfo.index = $(this).find(".index").html();
+                themeinfo.themeId = $(this).find(".themeId").html();
+                themeinfo.themeType = $(this).find(".themeType").html();
+                themeinfo.themeImg = $(this).find(".themeImg").html();
+
+//                $("#themeAll").html(themeinfo.themeAll);
+                $("#index").html(themeinfo.index);
+                $("#themeId").html(themeinfo.themeId);
+                $("#themeType").html(themeinfo.themeType);
+                $("#themeImg").html(themeinfo.themeImg);
+
+                idOld = $("#index").html();
+            }else{
+                var themeinfo = {};
+                //themeinfo.themeAll = $(".grid td.index").length;
+                themeinfo.index = $(this).find(".index").html();
+                themeinfo.themeId = $(this).find(".themeId").html();
+                themeinfo.themeType = $(this).find(".themeType").html();
+                themeinfo.themeImg = $(this).find(".themeImg").html();
+
+//                $("#themeAll").html(themeinfo.themeAll);
+                $("#index-2").html(themeinfo.index);
+                $("#themeId-2").html(themeinfo.themeId);
+                $("#themeType-2").html(themeinfo.themeType);
+                $("#themeImg-2").html(themeinfo.themeImg);
+
+                idNew = $("#index-2").html();
+            }
+
+        });
+        $(".exchange").click(function(){
+            if($(".val-1").html()==""){
+                return false;
+            }
+            var htmlOld = $(".oldH").html();
+            var htmlNew = $(".newH").html();
+            $(".oldH").html(htmlNew);
+            $(".newH").html(htmlOld);
+            if($(".oldH").find("#index-2").length==1){
+                $(".oldH").find("#index-2").html(idOld);
+                $(".newH").find("#index").html(idNew);
+            }else{
+                $(".oldH").find("#index").html(idOld);
+                $(".newH").find("#index-2").html(idNew);
+            }
+
             var newhtml,oldhtml,newindex,oldindex;
             $(".grid tbody tr").each(function(){
                 if($(this).children("td.index").html()===idOld){
@@ -84,6 +119,31 @@
                 }
             })
         })
+//        $(".changeY").click(function(){
+//            var idOld = $("#index").html();
+//            var idNew = $(".newId").val();
+//            var newhtml,oldhtml,newindex,oldindex;
+//            $(".grid tbody tr").each(function(){
+//                if($(this).children("td.index").html()===idOld){
+//                    $(this).find("td.index").html(idNew);
+//                    oldhtml = $(this).html();
+//                    oldindex = $(".grid tbody tr").index($(this));
+//                }else if($(this).children("td.index").html()===idNew){
+//                    $(this).find("td.index").html(idOld);
+//                    newhtml = $(this).html();
+//                    newindex = $(".grid tbody tr").index($(this));
+//                }else if(ids.indexOf(idNew)==-1){
+//                    return false;
+//                }
+//            });
+//            $(".grid tbody tr").each(function(i){
+//                if(i===oldindex){
+//                    $(this).html(newhtml);
+//                }else if(i===newindex){
+//                    $(this).html(oldhtml);
+//                }
+//            })
+//        })
 
         $("#themeAll").html($("table").find("tr").length -1);
 
@@ -130,14 +190,32 @@
                     </tr>
                     </thead>
                     <tbody class="ui-sortable">
-                    @for(theme <- resultList){
-                        <tr>
-                            <td class="index">@theme.getSortNu()</td>
-                            <td class="themeId">@theme.getId()</td>
-                            <td class="themeType">@theme.getType()</td>
-                            <td class="themeImg"><img class="main-img" src="@url@theme.getThemeImg()" alt="" width="50"></td>
-                        </tr>
-                    }
+                    <!--@for(theme <- resultList){-->
+                        <!--<tr>-->
+                            <!--<td class="index">@theme.getSortNu()</td>-->
+                            <!--<td class="themeId">@theme.getId()</td>-->
+                            <!--<td class="themeType">@theme.getType()</td>-->
+                            <!--<td class="themeImg"><img class="main-img" src="@url@theme.getThemeImg()" alt="" width="50"></td>-->
+                        <!--</tr>-->
+                    <!--}-->
+                    <tr>
+                        <td class="index">1</td>
+                        <td class="themeId">235135</td>
+                        <td class="themeType">safs</td>
+                        <td class="themeImg"></td>
+                    </tr>
+                    <tr>
+                        <td class="index">2</td>
+                        <td class="themeId">15435</td>
+                        <td class="themeType">dsgadg</td>
+                        <td class="themeImg"></td>
+                    </tr>
+                    <tr>
+                        <td class="index">3</td>
+                        <td class="themeId">eag</td>
+                        <td class="themeType">safs</td>
+                        <td class="themeImg"></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -149,42 +227,76 @@
                     </div>
                 </div>
                 <hr>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">序号:</label>
-                    <div class="col-sm-8">
-                        <div style="padding: 6px 12px" id="index"></div>
+                <div>
+                    <div class="col-sm-5 oldH" style="border: 1px solid #ccc">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">序号:</label>
+                            <div class="col-sm-6">
+                                <div style="padding: 6px 12px" id="index" class="val-1"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">主题ID:</label>
+                            <div class="col-sm-6">
+                                <div style="padding: 6px 12px" id="themeId" class="val-1"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">主题类型:</label>
+                            <div class="col-sm-6">
+                                <div style="padding: 6px 12px" id="themeType" class="val-1"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">主题图片:</label>
+                            <div class="col-sm-6">
+                                <div style="padding: 6px 12px" id="themeImg" class="val-1"></div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">主题ID:</label>
-                    <div class="col-sm-8">
-                        <div style="padding: 6px 12px" id="themeId"></div>
+                    <div class="col-sm-2">
+                        <span class="glyphicon glyphicon-resize-horizontal exchange" style="top: 75px;left: 30%;font-size: 16px"></span>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">主题类型:</label>
-                    <div class="col-sm-8">
-                        <div style="padding: 6px 12px" id="themeType"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">主题图片:</label>
-                    <div class="col-sm-8">
-                        <div style="padding: 6px 12px" id="themeImg"></div>
+                    <div class="col-sm-5 newH" style="border: 1px solid #ccc">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">序号:</label>
+                            <div class="col-sm-6">
+                                <div style="padding: 6px 12px" id="index-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">主题ID:</label>
+                            <div class="col-sm-6">
+                                <div style="padding: 6px 12px" id="themeId-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">主题类型:</label>
+                            <div class="col-sm-6">
+                                <div style="padding: 6px 12px" id="themeType-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label">主题图片:</label>
+                            <div class="col-sm-6">
+                                <div style="padding: 6px 12px" id="themeImg-2"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">交换序号:</label>
-                    <div class="col-sm-8">
-                        <input type="number" class="form-control newId">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-8">
-                        <button type="button" class="btn btn-primary btn-xs changeY">确定交换</button>
-                    </div>
-                </div>
+
+                <!--<div class="form-group">-->
+                    <!--<label class="col-sm-3 control-label">交换序号:</label>-->
+                    <!--<div class="col-sm-8">-->
+                        <!--<input type="number" class="form-control newId">-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<div class="col-sm-offset-3 col-sm-8">-->
+                        <!--<button type="button" class="btn btn-primary btn-xs changeY">确定交换</button>-->
+                    <!--</div>-->
+                <!--</div>-->
             </div>
         </form>
     </div>
