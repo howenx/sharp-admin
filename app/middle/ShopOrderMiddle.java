@@ -1,12 +1,11 @@
 package middle;
 
 import com.iwilley.b1ec2.api.ApiException;
-import com.iwilley.b1ec2.api.B1EC2Client;
 import com.iwilley.b1ec2.api.domain.ShopOrderCreateLine;
 import com.iwilley.b1ec2.api.request.ShopOrderCreateRequest;
-import com.iwilley.b1ec2.api.response.ShopOrderCreateResponse;
 import entity.ID;
-import entity.erp.Constants;
+import entity.Inventory;
+import entity.erp.ShopOrderOperate;
 import entity.order.Order;
 import entity.order.OrderLine;
 import entity.order.OrderShip;
@@ -14,6 +13,7 @@ import entity.order.OrderSplit;
 import service.*;
 
 import javax.inject.Inject;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Sunny Wu on 16/3/7.
  * kakao china.
  */
-public class ShopOrderPushMiddle {
+public class ShopOrderMiddle {
 
     @Inject
     private OrderService orderService;
@@ -38,9 +38,17 @@ public class ShopOrderPushMiddle {
     @Inject
     private IDService idService;
 
-    public String shopOrderPush(Long splitId) throws ApiException {
+    @Inject
+    private InventoryService inventoryService;
 
-        B1EC2Client client = new B1EC2Client(Constants.URL, Constants.COMPANY, Constants.LOGIN_NAME, Constants.PASSWORD, Constants.SECRET);
+    /**
+     * ERP 推送订单(子订单)
+     * @param splitId 子订单id
+     * @return 平台订单编号
+     * @throws ApiException
+     */
+    public String shopOrderPush(Long splitId) throws ApiException {
+        ShopOrderOperate shopOrderOperate = new ShopOrderOperate();
         ShopOrderCreateRequest request = new ShopOrderCreateRequest();
         OrderSplit orderSplit = orderSplitService.getSplitById(splitId);
         Long orderId = orderSplit.getOrderId();
@@ -75,21 +83,36 @@ public class ShopOrderPushMiddle {
         for(OrderLine orderLine : orderLineList) {
             ShopOrderCreateLine shopOrderCreateLine = new ShopOrderCreateLine();
             shopOrderCreateLine.shopLineNo = orderLine.getLineId().toString();    //平台订单行号
-//            shopOrderCreateLine.outerId();                          //外部编码
+            Long skuId = orderLine.getSkuId();
+            Inventory inventory = inventoryService.getInventory(skuId);
+            shopOrderCreateLine.outerId = inventory.getInvCode();                //外部编码
             shopOrderCreateLine.quantity = orderLine.getAmount();   //数量
             shopOrderCreateLine.price = orderLine.getPrice().doubleValue();//价格
-            shopOrderCreateLine.itemName = orderLine.getSkuTitle();
-            shopOrderCreateLine.skuName = orderLine.getSkuColor()+orderLine.getSkuSize();
+            shopOrderCreateLine.itemName = orderLine.getSkuTitle();        //商品名称
+            shopOrderCreateLine.skuName = orderLine.getSkuColor()+orderLine.getSkuSize();//规格名称
             lines.add(shopOrderCreateLine);
         }
-//        Logger.error("lines"+lines.get(0).getPrice());
-//        Logger.error("lines"+lines.get(1).getPrice());
+//        Logger.error("lines"+lines.get(0).getPrice()+lines.get(0).getSkuName()+lines.get(0).getItemName());
+//        Logger.error("lines"+lines.get(1).getPrice()+lines.get(1).getSkuName()+lines.get(1).getItemName());
         //付款方式
 //        List<ShopOrderCreatePayment> paymentList = new ArrayList<>();
 //        request.setPaymentLines(paymentList);
         request.setItemLines(lines);
-        ShopOrderCreateResponse response = client.execute(request);
-        return response.getBody();     //返回平台订单编号
+//        ShopOrderCreateResponse response = client.execute(request);
+        return shopOrderOperate.ShopOrderPush(request);     //返回平台订单编号
+    }
+
+
+    /**
+     * 由平台订单编号查询ERP订单信息
+     * @param shopOrderNo 平台订单编号
+     * @return salesOrder 订单信息
+     * @throws ParseException
+     * @throws ApiException
+     */
+    public List<Object> salesOrderQuery(String shopOrderNo) throws ParseException, ApiException {
+        ShopOrderOperate shopOrderOperate = new ShopOrderOperate();
+        return shopOrderOperate.SalesOrderQuery(shopOrderNo);
     }
 
 

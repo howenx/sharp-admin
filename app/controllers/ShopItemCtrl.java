@@ -206,7 +206,7 @@ public class ShopItemCtrl extends Controller {
                 shopSkuPushLine.shopSkuCode = inventory.getId().toString();//网店skuCode
                 shopSkuPushLine.outerId = inventory.getInvCode();          //商家代码
                 shopSkuPushLine.property1 = inventory.getItemColor();      //平台属性1(颜色)
-                shopSkuPushLine.property2 = inventory.getItemSize();       //平台属性2(尺寸)
+                shopSkuPushLine.property2 = inventory.getItemSize();       //h(尺寸)
                 shopSkuPushLine.price = inventory.getItemPrice().doubleValue();//价格
                 shopSkuPushLine.weight = inventory.getInvWeight()/1000.0;      //重量(千克)
                 shopSkuPushLine.quantity = inventory.getAmount();              //数量

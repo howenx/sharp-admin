@@ -2,7 +2,8 @@ package controllers;
 
 import com.google.inject.Inject;
 import com.iwilley.b1ec2.api.ApiException;
-import middle.ShopOrderPushMiddle;
+import middle.ShopOrderMiddle;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import service.IDService;
@@ -10,8 +11,10 @@ import service.OrderLineService;
 import service.OrderService;
 import service.OrderShipService;
 
+import java.text.ParseException;
+
 /**
- * Created by Sunny Wu 15/12/26.
+ * Created by Sunny Wu 16/3/9.
  * ERP订单的操作
  */
 public class ShopOrderCtrl extends Controller {
@@ -25,7 +28,7 @@ public class ShopOrderCtrl extends Controller {
     private IDService idService;
 
     @Inject
-    private ShopOrderPushMiddle shopOrderPushMiddle;
+    private ShopOrderMiddle shopOrderMiddle;
 
     @Inject
     public ShopOrderCtrl(OrderService orderService, IDService idService, OrderShipService orderShipService, OrderLineService orderLineService) {
@@ -36,11 +39,29 @@ public class ShopOrderCtrl extends Controller {
     }
 
     /**
-     * 订单推送
-     * @return
+     * ERP推送订单
+     * @param orderId 订单id
+     * @return shopOrderNo 订单编号
+     * @throws ApiException
      */
     public Result shopOrderPush(Long orderId) throws ApiException {
-        String shopOrderNo = shopOrderPushMiddle.shopOrderPush(orderId);
+        String shopOrderNo = shopOrderMiddle.shopOrderPush(orderId);
         return ok(shopOrderNo);
+    }
+
+    /**
+     * 根据订单编号查询ERP订单信息
+     * @param shopOrderNo 平台订单编号
+     * @return salesOrder
+     * @throws ParseException
+     * @throws ApiException
+     */
+    public Result salesOrderQuery(Long shopOrderNo) throws ParseException, ApiException {
+
+//        String orderStatus  = Json.parse(Json.toJson(shopOrderMiddle.salesOrderQuery(shopOrderNo.toString())).asText()).get("orderStatus").asText();
+//        String orderStatus  = Json.parse(Json.toJson(shopOrderMiddle.salesOrderQuery(shopOrderNo.toString())).asText()).get("orderStatus").asText();
+//        Logger.error(orderStatus);
+
+        return ok(Json.toJson(shopOrderMiddle.salesOrderQuery(shopOrderNo.toString())));
     }
 }
