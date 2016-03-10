@@ -220,7 +220,7 @@ public class SaleCtrl extends Controller {
 
             Integer lessDelivery=0;
             if(json.has("lessDelivery")){
-                damage=json.findValue("lessDelivery").asInt();
+                lessDelivery=json.findValue("lessDelivery").asInt();
             }
 
             Integer lessProduct=0;
@@ -263,6 +263,7 @@ public class SaleCtrl extends Controller {
                     saleOrder.setSaleProductId(Long.valueOf(id));
                     saleOrderList=saleService.getSaleOrder(saleOrder);
                 }
+                Logger.info("===noCard=="+noCard+",damage="+damage+",lessDelivery="+lessDelivery);
                 setSaleProduct(saleProduct,name,categoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
                         lessDelivery,lessProduct,emptyBox,invArea,timestamp,customSkuId,damageOther,remark,saleProduct.getCreateUserId(),userId);
                 saleService.updateSaleProduct(saleProduct);
@@ -625,7 +626,6 @@ public class SaleCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result saleOrderSearch(){
-        //TODO ....
         SaleOrder saleOrder=new SaleOrder();
         saleOrder.setPageSize(-1);
         saleOrder.setOffset(-1);
