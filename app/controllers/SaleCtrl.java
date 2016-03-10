@@ -45,7 +45,7 @@ public class SaleCtrl extends Controller {
     /**
      *
      * @param name 商品名称
-     * @param catagoryId 商品分类
+     * @param categoryId 商品分类
      * @param skuCode 系统编码
      * @param productCode 货品编码
      * @param spec 规格
@@ -61,23 +61,25 @@ public class SaleCtrl extends Controller {
      * @param emptyBox 空盒
      * @return
      */
-    private SaleProduct createSaleProduct(String name,Integer catagoryId,String skuCode,String productCode, String spec, Integer saleCount,
+    private SaleProduct createSaleProduct(String name,Integer categoryId,String skuCode,String productCode, String spec, Integer saleCount,
                                           Integer inventory, BigDecimal productCost,BigDecimal stockValue,Integer purchaseCount,Integer noCard,Integer damage,
-                                          Integer lessDelivery, Integer lessProduct, Integer emptyBox,String invArea,Timestamp storageAt,Long customSkuId,Integer damageOther,String remark){
+                                          Integer lessDelivery, Integer lessProduct, Integer emptyBox,String invArea,Timestamp storageAt,Long customSkuId,Integer damageOther,
+                                          String remark,Long createUserId,Long updateUserId){
         SaleProduct saleProduct=new SaleProduct();
-        setSaleProduct(saleProduct,name,catagoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
-                lessDelivery,lessProduct,emptyBox,invArea,storageAt,customSkuId,damageOther,remark);
+        setSaleProduct(saleProduct,name,categoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
+                lessDelivery,lessProduct,emptyBox,invArea,storageAt,customSkuId,damageOther,remark,createUserId,updateUserId);
         if(saleService.insertSaleProduct(saleProduct)){
             return saleProduct;
         }
         return null;
     }
     private void setSaleProduct(SaleProduct saleProduct,
-                                String name,Integer catagoryId,String skuCode,String productCode, String spec, Integer saleCount,
+                                String name,Integer categoryId,String skuCode,String productCode, String spec, Integer saleCount,
                                 Integer inventory, BigDecimal productCost,BigDecimal stockValue,Integer purchaseCount,Integer noCard,Integer damage,
-                                Integer lessDelivery, Integer lessProduct, Integer emptyBox,String invArea,Timestamp storageAt,Long customSkuId,Integer damageOther,String remark){
+                                Integer lessDelivery, Integer lessProduct, Integer emptyBox,String invArea,Timestamp storageAt,Long customSkuId,Integer damageOther,String remark,
+                                Long createUserId,Long updateUserId){
         saleProduct.setName(name);
-        saleProduct.setCategoryId(catagoryId);
+        saleProduct.setCategoryId(categoryId);
         saleProduct.setSkuCode(skuCode);
         saleProduct.setProductCode(productCode);
         saleProduct.setSpec(spec);
@@ -96,6 +98,8 @@ public class SaleCtrl extends Controller {
         saleProduct.setCustomSkuId(customSkuId);
         saleProduct.setDamageOther(damageOther);
         saleProduct.setRemark(remark);
+        saleProduct.setCreateUserId(createUserId);
+        saleProduct.setUpdateUserId(updateUserId);
     }
 
     /**
@@ -123,11 +127,11 @@ public class SaleCtrl extends Controller {
     private SaleOrder createSaleOrder(Date saleAt,String orderId,Long saleProductId,String productName, Integer categoryId,BigDecimal price,Integer saleCount,
                                       BigDecimal discountAmount, BigDecimal saleTotal,BigDecimal jdRate,BigDecimal jdFee,BigDecimal cost,BigDecimal shipFee,
                                       BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, BigDecimal postalTaxRate, BigDecimal profit,
-                                      String invArea,Integer remarkStatus,String remark){
+                                      String invArea,Integer remarkStatus,String remark,Long createUserId,Long updateUserId){
         SaleOrder saleOrder=new SaleOrder();
         setSaleOrder(saleOrder,saleAt,orderId, saleProductId, productName, categoryId, price, saleCount,
                 discountAmount, saleTotal, jdRate, jdFee, cost,
-                shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,invArea,remarkStatus,remark);
+                shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,invArea,remarkStatus,remark,createUserId,updateUserId);
         if(saleService.insertSaleOrder(saleOrder)){
             return saleOrder;
         }
@@ -137,7 +141,7 @@ public class SaleCtrl extends Controller {
     private void setSaleOrder(SaleOrder saleOrder,Date saleAt,String orderId,Long saleProductId,String productName, Integer categoryId,BigDecimal price,Integer saleCount,
                               BigDecimal discountAmount, BigDecimal saleTotal,BigDecimal jdRate,BigDecimal jdFee,BigDecimal cost,BigDecimal shipFee,
                               BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, BigDecimal postalTaxRate, BigDecimal profit,
-                              String invArea,Integer remarkStatus,String remark){
+                              String invArea,Integer remarkStatus,String remark,Long createUserId,Long updateUserId){
         saleOrder.setSaleAt(saleAt);
         saleOrder.setOrderId(orderId);
         saleOrder.setSaleProductId(saleProductId);
@@ -160,6 +164,8 @@ public class SaleCtrl extends Controller {
         saleOrder.setInvArea(invArea);
         saleOrder.setRemarkStatus(remarkStatus);
         saleOrder.setRemark(remark);
+        saleOrder.setCreateUserId(createUserId);
+        saleOrder.setUpdateUserId(updateUserId);
     }
 
     /**
@@ -193,7 +199,8 @@ public class SaleCtrl extends Controller {
         Logger.info("=====productSave==="+json);
         SaleProduct saleProduct=null;
         try {
-
+            User user = (User) ctx().args.get("user");
+            Long userId=Long.valueOf(user.userId().get().toString());
             String name=json.findValue("name").asText();
             Integer categoryId=json.findValue("categoryId").asInt();
             String skuCode=json.findValue("skuCode").asText();
@@ -247,11 +254,11 @@ public class SaleCtrl extends Controller {
             BigDecimal stockValue=productCost.multiply(new BigDecimal(inventory));
             if(null==saleProduct){
                 saleProduct=createSaleProduct(name,categoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
-                        lessDelivery,lessProduct,emptyBox,invArea,timestamp,customSkuId,damageOther,remark);
+                        lessDelivery,lessProduct,emptyBox,invArea,timestamp,customSkuId,damageOther,remark,userId,userId);
             }
             else{
                 setSaleProduct(saleProduct,name,categoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
-                        lessDelivery,lessProduct,emptyBox,invArea,timestamp,customSkuId,damageOther,remark);
+                        lessDelivery,lessProduct,emptyBox,invArea,timestamp,customSkuId,damageOther,remark,saleProduct.getCreateUserId(),userId);
                 saleService.updateSaleProduct(saleProduct);
             }
 
@@ -389,7 +396,8 @@ public class SaleCtrl extends Controller {
         SaleOrder saleOrder=null;
         try {
             Logger.info("=====saleOrderSave===" + json);
-
+            User user = (User) ctx().args.get("user");
+            Long userId=Long.valueOf(user.userId().get().toString());
             String saleAt = json.findValue("saleAt").asText();
             String orderId = json.findValue("orderId").asText();
             Long saleProductId = json.findValue("saleProductId").asLong();
@@ -426,12 +434,12 @@ public class SaleCtrl extends Controller {
             if(null==id||"".equals(id)) {
                 saleOrder = createSaleOrder(new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, saleProduct.getName(), cate, price, saleCount,
                         discountAmount, saleTotal, jdRate, jdFee, saleProduct.getProductCost(),
-                        shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark);
+                        shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark,userId,userId);
             }else{
                 saleOrder=saleService.getSaleOrderById(Long.valueOf(id));
                 setSaleOrder(saleOrder,new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, saleProduct.getName(), cate, price, saleCount,
                         discountAmount, saleTotal, jdRate, jdFee, saleProduct.getProductCost(),
-                        shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark);
+                        shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark,saleOrder.getCreateUserId(),userId);
                 saleService.updateSaleOrder(saleOrder);
             }
 

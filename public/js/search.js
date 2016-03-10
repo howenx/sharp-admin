@@ -572,7 +572,7 @@ $(function() {
                      '<td>'+ $(this)[0].saleCount+ '</td>' +
                      '<td>'+ $(this)[0].discountAmount+ '</td>' +
                      '<td>'+ $(this)[0].saleTotal+ '</td>' +
-                     '<td>'+ $(this)[0].jdRate+ '</td>' +
+                     '<td>'+ $(this)[0].jdRate+ '%</td>' +
                      '<td>'+ $(this)[0].jdFee+ '</td>' +
                      '<td>'+ $(this)[0].cost+ '</td>' +
                      '<td>'+ $(this)[0].shipFee+ '</td>' +
@@ -580,7 +580,7 @@ $(function() {
                      '<td>'+ $(this)[0].packFee+ '</td>' +
                      '<td>'+ $(this)[0].storageFee+ '</td>' +
                      '<td>'+ $(this)[0].postalFee+ '</td>' +
-                     '<td>'+ $(this)[0].postalTaxRate+ '</td>' +
+                     '<td>'+ $(this)[0].postalTaxRate+ '%</td>' +
                      '<td>'+ $(this)[0].profit+ '</td>' +
                      '<td>'+ $(this)[0].invArea+'</td>' +
                      '<td>'+ $(this)[0].remarkStatus+'</td>' +

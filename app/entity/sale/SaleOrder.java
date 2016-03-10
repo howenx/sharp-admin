@@ -40,6 +40,10 @@ public class SaleOrder implements Serializable {
     private String invArea;//库存区域区分：'S' 上海保税仓备货，'G'广州保税仓备货，'H'杭州保税仓备货，'SZ'上海保税区直邮，'GZ'广州保税仓直邮，'HZ'杭州保税仓直邮，'K' 海外直邮，'SELF' 自营商品
     private Integer remarkStatus;//标记
     private String remark;//备注
+    @JsonIgnore
+    private Long createUserId; //创建订单的人
+    @JsonIgnore
+    private Long updateUserId; //创建订单的人
 
     @JsonIgnore
     private String starttime;
@@ -318,5 +322,21 @@ public class SaleOrder implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Long getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Long createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public Long getUpdateUserId() {
+        return updateUserId;
+    }
+
+    public void setUpdateUserId(Long updateUserId) {
+        this.updateUserId = updateUserId;
     }
 }
