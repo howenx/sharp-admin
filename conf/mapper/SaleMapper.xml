@@ -86,7 +86,7 @@
         from sale_product t where 1=1 and t.id=#{value}
     </select>
 
-    <select id="getSalaProduct" parameterType="entity.sale.SaleProduct" resultType="entity.sale.SaleProduct">
+    <select id="getSaleProduct" parameterType="entity.sale.SaleProduct" resultType="entity.sale.SaleProduct">
         select
         <include refid="saleProductColumns">
             <property name="alias" value="t"/>
@@ -200,7 +200,7 @@
         from sale_order t where 1=1  and t.id=#{value}
     </select>
 
-    <select id="getSalaOrder" parameterType="entity.sale.SaleOrder" resultType="entity.sale.SaleOrder">
+    <select id="getSaleOrder" parameterType="entity.sale.SaleOrder" resultType="entity.sale.SaleOrder">
         select
         <include refid="saleOrderColumns">
             <property name="alias" value="t"/>
@@ -208,6 +208,9 @@
         from sale_order t where 1=1
         <if test="saleAt!=null and saleAt!=''">
             and t.sale_at = #{saleAt}
+        </if>
+        <if test="saleProductId!=null and saleProductId!=''">
+            and t.sale_product_id = #{saleProductId}
         </if>
 
     </select>

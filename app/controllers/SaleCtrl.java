@@ -257,9 +257,28 @@ public class SaleCtrl extends Controller {
                         lessDelivery,lessProduct,emptyBox,invArea,timestamp,customSkuId,damageOther,remark,userId,userId);
             }
             else{
+                List<SaleOrder> saleOrderList=null;
+                if(saleProduct.getProductCost()!=productCost){//成本改变了
+                    SaleOrder saleOrder=new SaleOrder();
+                    saleOrder.setSaleProductId(Long.valueOf(id));
+                    saleOrderList=saleService.getSaleOrder(saleOrder);
+                }
                 setSaleProduct(saleProduct,name,categoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
                         lessDelivery,lessProduct,emptyBox,invArea,timestamp,customSkuId,damageOther,remark,saleProduct.getCreateUserId(),userId);
                 saleService.updateSaleProduct(saleProduct);
+
+                //成本改变了更新订单中的成本,已经因为成本改变需要修改的数值,比如利润
+                if(null!=saleOrderList&&!saleOrderList.isEmpty()){
+                    for(SaleOrder saleOrder:saleOrderList){
+                        saleOrder.setCost(productCost);
+                        saleOrder.setProfit(getOrderProfit(saleOrder.getSaleTotal(),saleOrder.getJdFee(),saleOrder.getCost(),
+                                saleOrder.getShipFee(),saleOrder.getInteLogistics(),saleOrder.getPackFee(),saleOrder.getStorageFee(),saleOrder.getPostalFee(),saleOrder.getSaleCount()));
+                        Logger.info("profit="+saleOrder);
+                        saleService.updateSaleOrder(saleOrder);
+
+                    }
+                }
+
             }
 
 
@@ -428,8 +447,7 @@ public class SaleCtrl extends Controller {
             }
             //净利润=总销售额-京东费用-成本*数量-国内快递费-国际物流费-包装费-仓储服务费-行邮税
             BigDecimal productCost = saleProduct.getProductCost();//成本
-            BigDecimal profit = saleTotal.subtract(jdFee).subtract((productCost.multiply(new BigDecimal(saleCount)))).
-                    subtract(shipFee).subtract(inteLogistics).subtract(packFee).subtract(storageFee).subtract(postalFee);
+            BigDecimal profit = getOrderProfit(saleTotal,jdFee,productCost,shipFee,inteLogistics,packFee,storageFee,postalFee,saleCount);
             String id=json.findValue("id").asText();
             if(null==id||"".equals(id)) {
                 saleOrder = createSaleOrder(new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, saleProduct.getName(), cate, price, saleCount,
@@ -453,6 +471,25 @@ public class SaleCtrl extends Controller {
             Logger.error("sale order save exception "+e.getMessage());
         }
         return ok(Json.toJson(result));
+    }
+
+    /**
+     * 获取订单利润
+     * @param saleTotal
+     * @param jdFee
+     * @param productCost
+     * @param shipFee
+     * @param inteLogistics
+     * @param packFee
+     * @param storageFee
+     * @param postalFee
+     * @param saleCount
+     * @return
+     */
+    private BigDecimal getOrderProfit(BigDecimal saleTotal,BigDecimal jdFee,BigDecimal productCost,BigDecimal shipFee,
+                                 BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, Integer saleCount){
+        return saleTotal.subtract(jdFee).subtract((productCost.multiply(new BigDecimal(saleCount)))).
+                subtract(shipFee).subtract(inteLogistics).subtract(packFee).subtract(storageFee).subtract(postalFee);
     }
 
     /**

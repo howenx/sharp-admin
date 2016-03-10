@@ -37,7 +37,7 @@ public interface SaleService {
      * @param saleProduct
      * @return
      */
-    List<SaleProduct> getSalaProduct(SaleProduct saleProduct);
+    List<SaleProduct> getSaleProduct(SaleProduct saleProduct);
     /**
      * 分页查询销售产品
      * @param saleProduct
@@ -64,7 +64,7 @@ public interface SaleService {
      * @param saleOrder
      * @return
      */
-    List<SaleOrder> getSalaOrder(SaleOrder saleOrder);
+    List<SaleOrder> getSaleOrder(SaleOrder saleOrder);
 
     /***
      * 获取销售汇总
