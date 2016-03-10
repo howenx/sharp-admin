@@ -23,7 +23,11 @@
     var customSkuId=$("#customSkuId").val();
     var damageOther=$("#damageOther").val();
     var remark=$("#remark").val();
-
+    //必填项不能有空值
+    if ( productName=="" || skuCode=="" || productCode=="" || productCost=="" ||storageAt=="") {
+        isPost=false;
+        alert("必填项不能为空");
+    }
 
     var product=new Object();
     product.id=id;
@@ -103,6 +107,12 @@
         var postalTaxRate=$("#postalTaxRate").val();
         var remarkStatus=$('input:radio[name=remarkStatus]:checked').val();
         var remark=$("#remark").val();
+
+        //必填项不能有空值
+        if ( saleAt=="" || orderId=="" || price=="" || saleCount=="") {
+            isPost=false;
+            alert("必填项不能为空");
+        }
 
         var order=new Object();
         order.id=id;
@@ -234,44 +244,28 @@
                  success: function(data) {
                  console.log("data="+data);
                  console.log("data.saleInventoryList="+data.saleInventoryList);
-                 $('#product-topic').find('thead tr').html('');
+
                  $('#product-topic').find('tbody tr').html('');
                  $('#tb-topic').find('thead tr').html('');
                  $('#tb-topic').find('tbody tr').html('');
                          if(null!=data){
-                              $('#product-topic').find('thead tr').append('<th>序号</th>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.id+'</td>');
-                              $('#product-topic').find('thead tr').append('<th>商品名称</th>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.name+'</td>');
-                              $('#product-topic').find('thead tr').append('<th>SKU编码</th>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.skuCode+'</td>');
-                              $('#product-topic').find('thead tr').append('<th>货品编码</th>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.productCode+'</td>');
-                              $('#product-topic').find('thead tr').append('<th>规格</th>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.spec+'</td>');
-                              $('#product-topic').find('thead tr').append('<th>保税区</th>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.invArea+'</td>');
-                              $('#product-topic').find('thead tr').append('<th>总销量</th>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.saleCount+'</td>');
-                              $('#product-topic').find('thead tr').append('<th>库存量</th>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.inventory+'</td>');
-                              $('#product-topic').find('thead tr').append('<th>库存商品成本</th>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.productCost+'</td>');
-                              $('#product-topic').find('thead tr').append('<th>库存商品价值</th>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.stockValue+'</td>');
-                              $('#product-topic').find('thead tr').append('<th>进货量</th>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.purchaseCount+'</td>');
-                              $('#product-topic').find('thead tr').append('<th>无卡</th>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.noCard+'</td>');
-                              $('#product-topic').find('thead tr').append('<th>破损</th>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.damage+'</td>');
-                              $('#product-topic').find('thead tr').append('<th>少配件</th>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.lessDelivery+'</td>');
-                              $('#product-topic').find('thead tr').append('<th>少货</th>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.lessProduct+'</td>');
-                              $('#product-topic').find('thead tr').append('<th>空盒</th>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.emptyBox+'</td>');
-
+                              $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.damageOther+'</td>');
 
                                //日销量
                                $(data.saleInventoryList).each(function(index, element) {

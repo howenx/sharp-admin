@@ -92,6 +92,7 @@
                 <th>库存商品价值</th>
                 <th>进货量</th>
                 <th>操作</th>
+                <th>操作</th>
             </tr>
             </thead>
             <tbody>
@@ -108,7 +109,8 @@
                     <td>@product.getProductCost()</td>
                     <td>@product.getStockValue()</td>
                     <td>@product.getPurchaseCount()</td>
-                    <td><a href="/sales/order/import/@product.getId()">导入订单</a></td>
+                    <td><a href="/sales/order/import/@product.getId()" target="_blank">订单</a></td>
+                    <td><a href="/sales/inventory/view/@product.getId()" target="_blank">库存</a></td>
                 </tr>
                 }
             <tr id="nodata-td" style="display:none;"><td colspan="9">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>

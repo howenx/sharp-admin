@@ -15,7 +15,7 @@
         $(function () {
             $('#datetimepicker-starttime').datetimepicker({
                 locale: 'zh-cn',
-                format:'YYYY-MM-DD HH:mm:ss'
+                format:'YYYY-MM-DD '
             });
         });
     })
@@ -54,18 +54,18 @@
                 <input type="hidden" class="form-control" id="saleProductId" value="@product.getId()"/>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">日期</label>
+                    <label class="col-sm-2 control-label">日期*</label>
 
                     <div class="col-sm-4">
                         <div id="datetimepicker-starttime" class="input-group date">
-                            <input id="saleAt" class="form-control col-sm-2"  type="text" value="@order.getSaleAt()">
+                            <input id="saleAt" class="form-control col-sm-2"  type="text" value='@order.getSaleAt().format("yyyy-MM-dd")'>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">订单号</label>
+                    <label class="col-sm-2 control-label">订单号*</label>
 
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="orderId" value="@order.getOrderId()"/>
@@ -73,14 +73,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">单价</label>
+                    <label class="col-sm-2 control-label">单价*</label>
 
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="price" value="@order.getPrice()"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">数量</label>
+                    <label class="col-sm-2 control-label">数量*</label>
 
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="saleCount" value="@order.getSaleCount()"/>
@@ -141,9 +141,22 @@
                     <label class="col-sm-2 control-label">标记</label>
 
                     <div class="col-sm-8">
+                        @if(order.getRemarkStatus()==1){
                         <input type="radio" name="remarkStatus" value="1" checked />1
                         <input type="radio" name="remarkStatus" value="2"/>2
                         <input type="radio" name="remarkStatus" value="3"/>3
+                        }
+                        @if(order.getRemarkStatus()==2){
+                        <input type="radio" name="remarkStatus" value="1"  />1
+                        <input type="radio" name="remarkStatus" value="2" checked />2
+                        <input type="radio" name="remarkStatus" value="3"/>3
+                        }
+                        @if(order.getRemarkStatus()==3){
+                        <input type="radio" name="remarkStatus" value="1" />1
+                        <input type="radio" name="remarkStatus" value="2"/>2
+                        <input type="radio" name="remarkStatus" value="3" checked/>3
+                        }
+
                     </div>
                 </div>
                 <div class="form-group">

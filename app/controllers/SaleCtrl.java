@@ -122,7 +122,7 @@ public class SaleCtrl extends Controller {
      */
     private SaleOrder createSaleOrder(Date saleAt,String orderId,Long saleProductId,String productName, Integer categoryId,BigDecimal price,Integer saleCount,
                                       BigDecimal discountAmount, BigDecimal saleTotal,BigDecimal jdRate,BigDecimal jdFee,BigDecimal cost,BigDecimal shipFee,
-                                      BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, String postalTaxRate, BigDecimal profit,
+                                      BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, BigDecimal postalTaxRate, BigDecimal profit,
                                       String invArea,Integer remarkStatus,String remark){
         SaleOrder saleOrder=new SaleOrder();
         setSaleOrder(saleOrder,saleAt,orderId, saleProductId, productName, categoryId, price, saleCount,
@@ -136,7 +136,7 @@ public class SaleCtrl extends Controller {
 
     private void setSaleOrder(SaleOrder saleOrder,Date saleAt,String orderId,Long saleProductId,String productName, Integer categoryId,BigDecimal price,Integer saleCount,
                               BigDecimal discountAmount, BigDecimal saleTotal,BigDecimal jdRate,BigDecimal jdFee,BigDecimal cost,BigDecimal shipFee,
-                              BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, String postalTaxRate, BigDecimal profit,
+                              BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, BigDecimal postalTaxRate, BigDecimal profit,
                               String invArea,Integer remarkStatus,String remark){
         saleOrder.setSaleAt(saleAt);
         saleOrder.setOrderId(orderId);
@@ -200,10 +200,7 @@ public class SaleCtrl extends Controller {
             String productCode=json.findValue("productCode").asText();
             Long customSkuId=json.findValue("customSkuId").asLong();
             String spec=json.findValue("spec").asText();
-            Integer saleCount=0;  //总销量 TODO
-            Integer inventory=0;//库存量 TODO
             BigDecimal productCost=new BigDecimal(json.findValue("productCost").asDouble());
-            BigDecimal stockValue=new BigDecimal(0);  //库存商品价值 TODO
             Integer purchaseCount=json.findValue("purchaseCount").asInt();
             Integer noCard=0;
             if(json.has("noCard")){
@@ -233,17 +230,26 @@ public class SaleCtrl extends Controller {
             if(json.has("damageOther")) {
                 damageOther=json.findValue("damageOther").asInt();
             }
-            String remark=json.findValue("damageOther").asText();
+            String remark=json.findValue("remark").asText();
             String invArea=json.findValue("invArea").asText();
             String storageAt = json.findValue("storageAt").asText();
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Timestamp timestamp = new Timestamp(format.parse(storageAt).getTime());
             String id=json.findValue("id").asText();
-            if(null==id||"".equals(id)){
+            Integer saleCount=0;  //总销量
+            if(null!=id&&!"".equals(id)){
+                saleProduct=saleService.getSaleProductById(Long.valueOf(id));
+                saleCount=saleProduct.getSaleCount();//总销量
+            }
+            //库存量
+            Integer inventory=purchaseCount-saleCount-noCard-damage-lessDelivery-lessProduct-emptyBox-damageOther;
+            //库存商品价值
+            BigDecimal stockValue=productCost.multiply(new BigDecimal(inventory));
+            if(null==saleProduct){
                 saleProduct=createSaleProduct(name,categoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
                         lessDelivery,lessProduct,emptyBox,invArea,timestamp,customSkuId,damageOther,remark);
-            }else{
-                saleProduct=saleService.getSaleProductById(Long.valueOf(id));
+            }
+            else{
                 setSaleProduct(saleProduct,name,categoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
                         lessDelivery,lessProduct,emptyBox,invArea,timestamp,customSkuId,damageOther,remark);
                 saleService.updateSaleProduct(saleProduct);
@@ -266,13 +272,24 @@ public class SaleCtrl extends Controller {
         int saleCountTotal=saleService.getProductSaleCountTotal(saleProduct.getId());
         saleProduct.setSaleCount(saleCountTotal);
         //更新库存
-        saleProduct.setInventory(saleProduct.getPurchaseCount()-saleCountTotal);
+        int inventory=getProductInventory(saleProduct);
+        saleProduct.setInventory(inventory);
         //库存商品价值
         saleProduct.setStockValue(saleProduct.getProductCost().multiply(new BigDecimal(saleProduct.getInventory())));
 
         Logger.info("总销售saleCountTotal="+saleCountTotal+",saleProduct="+saleProduct);
 
         saleService.updateSaleProduct(saleProduct);
+    }
+
+    /**
+     * 获取库存量
+     * @param saleProduct
+     * @return
+     */
+    private int getProductInventory(SaleProduct saleProduct){
+        return saleProduct.getPurchaseCount()-saleProduct.getSaleCount()-saleProduct.getNoCard()-saleProduct.getDamage()-saleProduct.getLessDelivery()
+                -saleProduct.getLessProduct()-saleProduct.getEmptyBox()-saleProduct.getDamageOther();
     }
 
     /**
@@ -385,7 +402,7 @@ public class SaleCtrl extends Controller {
             BigDecimal inteLogistics = new BigDecimal(json.findValue("inteLogistics").asDouble());
             BigDecimal packFee = new BigDecimal(json.findValue("packFee").asDouble());
             BigDecimal storageFee = new BigDecimal(json.findValue("storageFee").asDouble());
-            String postalTaxRate = json.findValue("postalTaxRate").asText();
+            BigDecimal postalTaxRate = new BigDecimal(json.findValue("postalTaxRate").asDouble());
             Integer remarkStatus=json.findValue("remarkStatus").asInt();
             String remark=json.findValue("remark").asText();
 
@@ -395,23 +412,24 @@ public class SaleCtrl extends Controller {
             // 京东费用=总销售 额*京东费率
             BigDecimal jdFee = saleTotal.multiply(jdRate).divide(new BigDecimal(100));
             BigDecimal postalFee = new BigDecimal(0);
-            //行邮税=如果总销售额>500元，=总销售额*行邮税率
-            if (saleTotal.doubleValue() > 500) {   //分类别
-                //TODO ...
-                //   postalFee=saleTotal.multiply()
+            int cate=saleProduct.getCategoryId();
+            // 配饰 行邮税=如果总销售额>500元，=总销售额*行邮税率
+            //化妆品 行邮税=如果总销售额>100元，=总销售额*行邮税率
+            if((cate==1&&saleTotal.doubleValue() > 500)||(cate==2&&saleTotal.doubleValue() > 100)){
+                postalFee=saleTotal.multiply(postalTaxRate).divide(new BigDecimal(100));
             }
             //净利润=总销售额-京东费用-成本*数量-国内快递费-国际物流费-包装费-仓储服务费-行邮税
-            BigDecimal productCost = new BigDecimal(1);//成本 //TODO ..
+            BigDecimal productCost = saleProduct.getProductCost();//成本
             BigDecimal profit = saleTotal.subtract(jdFee).subtract((productCost.multiply(new BigDecimal(saleCount)))).
                     subtract(shipFee).subtract(inteLogistics).subtract(packFee).subtract(storageFee).subtract(postalFee);
             String id=json.findValue("id").asText();
             if(null==id||"".equals(id)) {
-                saleOrder = createSaleOrder(new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, saleProduct.getName(), saleProduct.getCategoryId(), price, saleCount,
+                saleOrder = createSaleOrder(new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, saleProduct.getName(), cate, price, saleCount,
                         discountAmount, saleTotal, jdRate, jdFee, saleProduct.getProductCost(),
                         shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark);
             }else{
                 saleOrder=saleService.getSaleOrderById(Long.valueOf(id));
-                setSaleOrder(saleOrder,new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, saleProduct.getName(), saleProduct.getCategoryId(), price, saleCount,
+                setSaleOrder(saleOrder,new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, saleProduct.getName(), cate, price, saleCount,
                         discountAmount, saleTotal, jdRate, jdFee, saleProduct.getProductCost(),
                         shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark);
                 saleService.updateSaleOrder(saleOrder);
@@ -447,7 +465,6 @@ public class SaleCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result saleStatisticsView() {
-        //saleStatistics:entity.Sale.SaleStatistics,
         SaleStatistics saleStatistics=null;
         try {
             //默认查询本月的销售
@@ -455,6 +472,10 @@ public class SaleCtrl extends Controller {
             Calendar c = Calendar.getInstance();
             c.add(Calendar.MONTH, 0);
             c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天
+            c.set(Calendar.HOUR_OF_DAY, 0); //将小时至0
+            c.set(Calendar.MINUTE, 0);//将分钟至0
+            c.set(Calendar.SECOND,0);//将秒至0
+            c.set(Calendar.MILLISECOND, 0);//将毫秒至0
             DateFormat format = new SimpleDateFormat(com.iwilley.b1ec2.api.Constants.DATE_TIME_FORMAT);
             saleOrder.setStarttime(format.format(c.getTime()));
             saleOrder.setEndtime(format.format(new Date()));
@@ -462,7 +483,6 @@ public class SaleCtrl extends Controller {
             List<SaleStatistics> saleStatisticsList = saleService.getSaleStatistics(saleOrder);
             if (null!=saleStatisticsList&&!saleStatisticsList.isEmpty()){
                 saleStatistics=saleStatisticsList.get(0);
-                Logger.info("===saleStatisticsView=="+saleStatistics);
             }
         }catch(Exception e){
             Logger.error("sale statistics exception"+e.getMessage());
@@ -515,8 +535,9 @@ public class SaleCtrl extends Controller {
      * @return
      */
     @Security.Authenticated(UserAuth.class)
-    public Result saleInventoryView() {
-        return ok(views.html.sales.saleInventoryView.render("cn",(User) ctx().args.get("user")));
+    public Result saleInventoryView(Long id) {
+        SaleProduct saleProduct=saleService.getSaleProductById(id);
+        return ok(views.html.sales.saleInventoryView.render("cn",saleProduct,(User) ctx().args.get("user")));
     }
     @Security.Authenticated(UserAuth.class)
     public Result saleInventory() {

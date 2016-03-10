@@ -105,6 +105,7 @@
                 <th>行邮税率</th>
                 <th>利润</th>
                 <th>保税区</th>
+                <th>标记</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -112,7 +113,7 @@
                 @for(order <- orderList){
                 <tr class = "tb-list-data" >
                     <td><a href="/sales/order/find/@order.getId()">@order.getId()</a></td>
-                    <td>@order.getSaleAt()</td>
+                    <td>@order.getSaleAt().format("yyyy-MM-dd")</td>
                     <td>@order.getOrderId()</td>
                     <td>@order.getProductName()</td>
                     <td>@order.getPrice()</td>
@@ -130,6 +131,7 @@
                     <td>@order.getPostalTaxRate()</td>
                     <td>@order.getProfit()</td>
                     <td>@order.getInvArea()</td>
+                    <td>@order.getRemarkStatus()</td>
                     <td><a onclick="delOrder(@order.getId())">删除</a></td>
                 </tr>
                 }
