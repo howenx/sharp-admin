@@ -277,7 +277,7 @@ POST        /sales/order/save                                              contr
 GET         /sales/order/find/:id                                          controllers.SaleCtrl.saleOrderFind(id:Long)
 GET         /sales/statistics/view                                         controllers.SaleCtrl.saleStatisticsView()
 POST        /sales/statistics                                              controllers.SaleCtrl.saleStatistics()
-GET         /sales/inventory/view                                          controllers.SaleCtrl.saleInventoryView()
+GET         /sales/inventory/view/:id                                      controllers.SaleCtrl.saleInventoryView(id:Long)
 POST        /sales/inventory                                               controllers.SaleCtrl.saleInventory()
 GET         /sales/order/search                                            controllers.SaleCtrl.saleOrderSearch()
 POST        /$lang<(cn|en|kr)>/sales/order/search/$pageNum<[0-9]+>         controllers.SaleCtrl.saleOrderSearchAjax(lang,pageNum:Int)

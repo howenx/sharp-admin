@@ -931,19 +931,25 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result themeSort(String lang){
         List<Theme> themeList = service.getOnShelfTheme();
-        List<Theme> resultList = new ArrayList<>();
+        List<Object[]> resultList = new ArrayList<>();
+        int i = 0;
         for(Theme theme : themeList){
+            i = i + 1;
+            Object[] object = new Object[5];
+            object[0] = i;
+            object[1] = theme.getSortNu();
+            object[2] = theme.getId();
             if("ordinary".equals(theme.getType())){
-                theme.setType("普通");
+                object[3] = "普通";
             }
             if("h5".equals(theme.getType())){
-                theme.setType("HTML5");
+                object[3] = "HTML5";
             }
             JsonNode imgJson = Json.parse(theme.getThemeImg());
             String imgUrl = imgJson.get("url").toString();
             imgUrl = imgUrl.substring(1,imgUrl.length()-1);
-            theme.setThemeImg(imgUrl);
-            resultList.add(theme);
+            object[4] = imgUrl;
+            resultList.add(object);
         }
 
         return ok(views.html.theme.themeSort.render(lang,resultList,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
@@ -968,9 +974,6 @@ public class ThemeCtrl extends Controller {
             theme.setSortNu(Integer.parseInt(sortNu));
             list.add(theme);
         }
-        Logger.error("******************************");
-        Logger.error(list.toString());
-        Logger.error("******************************");
         service.updThemeSortNu(list);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }

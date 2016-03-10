@@ -31,7 +31,7 @@ public class SaleOrder implements Serializable {
     private BigDecimal packFee;    //包装
     private BigDecimal storageFee;//仓储服务费
     private BigDecimal postalFee;    //行邮税
-    private String postalTaxRate;    //行邮税税率，单位百分比，例如填入3，表示3%
+    private BigDecimal postalTaxRate;    //行邮税税率，单位百分比，例如填入3，表示3%
     private BigDecimal profit;    //净利
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp createAt;     //创建时间
@@ -40,6 +40,10 @@ public class SaleOrder implements Serializable {
     private String invArea;//库存区域区分：'S' 上海保税仓备货，'G'广州保税仓备货，'H'杭州保税仓备货，'SZ'上海保税区直邮，'GZ'广州保税仓直邮，'HZ'杭州保税仓直邮，'K' 海外直邮，'SELF' 自营商品
     private Integer remarkStatus;//标记
     private String remark;//备注
+    @JsonIgnore
+    private Long createUserId; //创建订单的人
+    @JsonIgnore
+    private Long updateUserId; //创建订单的人
 
     @JsonIgnore
     private String starttime;
@@ -208,11 +212,11 @@ public class SaleOrder implements Serializable {
         this.postalFee = postalFee;
     }
 
-    public String getPostalTaxRate() {
+    public BigDecimal getPostalTaxRate() {
         return postalTaxRate;
     }
 
-    public void setPostalTaxRate(String postalTaxRate) {
+    public void setPostalTaxRate(BigDecimal postalTaxRate) {
         this.postalTaxRate = postalTaxRate;
     }
 
@@ -318,5 +322,21 @@ public class SaleOrder implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Long getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Long createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public Long getUpdateUserId() {
+        return updateUserId;
+    }
+
+    public void setUpdateUserId(Long updateUserId) {
+        this.updateUserId = updateUserId;
     }
 }

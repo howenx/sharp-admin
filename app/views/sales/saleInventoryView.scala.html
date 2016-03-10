@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String,user:entity.User)
+@(lang:String,product:entity.sale.SaleProduct,user:entity.User)
 
 @scripts = {
 <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
@@ -38,14 +38,14 @@
 </div>
 <div class="content-1">
     <div class="page-title">
-        <span class="title-name">库存盘点</span>
+        <span class="title-name">库存盘点   @product.getName()</span>
     </div>
     <form class="form-horizontal">
         <div class="form-group">
             <!--品名-->
             <label class="col-sm-2 control-label">商品Id</label>
             <div class="col-sm-4">
-                <input id = "saleProductId" type="text" class="form-control"/>
+                <input id = "saleProductId" type="text" class="form-control" value="@product.getId()"/>
             </div>
         </div>
         <div class="form-group">
@@ -68,14 +68,47 @@
         <table id="product-topic" class="table table-bordered table-hover">
             <thead>
             <tr>
-
-
+                <th>序号</th>
+                <th>商品名称</th>
+                <th>SKU编码</th>
+                <th>货品编码</th>
+                <th>规格</th>
+                <th>保税区</th>
+                <th>总销量</th>
+                <th>库存量</th>
+                <th>库存商品成本</th>
+                <th>库存商品价值</th>
+                <th>进货量</th>
+                <th>无卡</th>
+                <th>破损</th>
+                <th>少配件</th>
+                <th>少货</th>
+                <th>空盒</th>
+                <th>其他</th>
             </tr>
             </thead>
             <tbody>
 
-            <tr class = "tb-list-data">
-            </tr>
+                <tr class = "tb-list-data">
+                    <td>@product.getId()</td>
+                   <td>@product.getName()</td>
+                   <td>@product.getSkuCode()</td>
+                   <td>@product.getProductCode()</td>
+                   <td>@product.getSpec()</td>
+                   <td>@product.getInvArea()</td>
+                   <td>@product.getSaleCount()</td>
+                   <td>@product.getInventory()</td>
+                   <td>@product.getProductCost()</td>
+                   <td>@product.getStockValue()</td>
+                   <td>@product.getPurchaseCount()</td>
+                   <td>@product.getNoCard()</td>
+                   <td>@product.getDamage()</td>
+                   <td>@product.getLessDelivery()</td>
+                   <td>@product.getLessProduct()</td>
+                   <td>@product.getEmptyBox()</td>
+                   <td>@product.getDamageOther()</td>
+                </tr>
+            </tbody>
         </table>
 
         <!--id必须为tb-topic 公用js需要使用-->

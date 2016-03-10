@@ -533,7 +533,9 @@ $(function() {
                      '<td>'+ $(this)[0].productCost+ '</td>' +
                      '<td>'+ $(this)[0].stockValue+ '</td>' +
                      '<td>'+ $(this)[0].purchaseCount+ '</td>' +
-                     '<td><a href="/sales/order/import/'+$(this)[0].id+'">导入订单</a></td>'+
+                     '<td>'+ $(this)[0].updateAt+ '</td>' +
+                     '<td><a href="/sales/order/import/'+$(this)[0].id+'" target="_blank" >订单</a></td>'+
+                     '<td><a href="/sales/inventory/view/'+$(this)[0].id+'" target="_blank">库存</a></td>'+
                     '</tr>'
                 );
             })
@@ -559,17 +561,19 @@ $(function() {
         funcList.saleOrderlist_data = function saleOrderlist_data(data) {
             //填充列表数据
             $(data).each(function(index, element) {
+            var saleAt=new Date($(this)[0].saleAt);
+            saleAt = saleAt.getFullYear() + '-' + (saleAt.getMonth() + 1) + '-' + saleAt.getDate()
                 $('#tb-topic').find('tbody').append('' +
                     '<tr class="tb-list-data">' +
                      '<td><a href="/sales/order/find/'+$(this)[0].id+'">'+$(this)[0].id+'</a></td>'+
-                     '<td>'+ $(this)[0].saleAt+ '</td>' +
+                     '<td>'+ saleAt + '</td>' +
                      '<td>'+ $(this)[0].orderId+ '</td>' +
                      '<td>'+ $(this)[0].productName+ '</td>' +
                      '<td>'+ $(this)[0].price+ '</td>' +
                      '<td>'+ $(this)[0].saleCount+ '</td>' +
                      '<td>'+ $(this)[0].discountAmount+ '</td>' +
                      '<td>'+ $(this)[0].saleTotal+ '</td>' +
-                     '<td>'+ $(this)[0].jdRate+ '</td>' +
+                     '<td>'+ $(this)[0].jdRate+ '%</td>' +
                      '<td>'+ $(this)[0].jdFee+ '</td>' +
                      '<td>'+ $(this)[0].cost+ '</td>' +
                      '<td>'+ $(this)[0].shipFee+ '</td>' +
@@ -577,9 +581,11 @@ $(function() {
                      '<td>'+ $(this)[0].packFee+ '</td>' +
                      '<td>'+ $(this)[0].storageFee+ '</td>' +
                      '<td>'+ $(this)[0].postalFee+ '</td>' +
-                     '<td>'+ $(this)[0].postalTaxRate+ '</td>' +
+                     '<td>'+ $(this)[0].postalTaxRate+ '%</td>' +
                      '<td>'+ $(this)[0].profit+ '</td>' +
                      '<td>'+ $(this)[0].invArea+'</td>' +
+                     '<td>'+ $(this)[0].remarkStatus+'</td>' +
+                     '<td>'+ $(this)[0].updateAt+ '</td>' +
                      '<td><a onclick="delOrder('+$(this)[0].id+'")>删除</a></td>'+
                     '</tr>'
                 );

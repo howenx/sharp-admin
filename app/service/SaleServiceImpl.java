@@ -32,8 +32,8 @@ public class SaleServiceImpl implements SaleService{
     }
 
     @Override
-    public List<SaleProduct> getSalaProduct(SaleProduct saleProduct) {
-        return saleMapper.getSalaProduct(saleProduct);
+    public List<SaleProduct> getSaleProduct(SaleProduct saleProduct) {
+        return saleMapper.getSaleProduct(saleProduct);
     }
 
     @Override
@@ -52,8 +52,8 @@ public class SaleServiceImpl implements SaleService{
     }
 
     @Override
-    public List<SaleOrder> getSalaOrder(SaleOrder saleOrder) {
-        return saleMapper.getSalaOrder(saleOrder);
+    public List<SaleOrder> getSaleOrder(SaleOrder saleOrder) {
+        return saleMapper.getSaleOrder(saleOrder);
     }
 
     @Override

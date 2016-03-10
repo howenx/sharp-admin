@@ -15,7 +15,7 @@
         $(function () {
             $('#datetimepicker-starttime').datetimepicker({
                 locale: 'zh-cn',
-                format:'YYYY-MM-DD HH:mm:ss'
+                format:'YYYY-MM-DD '
             });
         });
     })
@@ -39,7 +39,10 @@
 
 <div class="wrap-slider">
     <div class="page-title">
-        <span class="title-name">更新订单  @product.getId()  @product.getName()  成本:@product.getProductCost()</span>
+        <span class="title-name">更新订单</span>
+    </div>
+    <div>
+        <h4 class="h4-custom-hmm">@product.getId()  @product.getName()  成本:@product.getProductCost()</h4>
     </div>
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
@@ -54,18 +57,18 @@
                 <input type="hidden" class="form-control" id="saleProductId" value="@product.getId()"/>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">日期</label>
+                    <label class="col-sm-2 control-label">日期*</label>
 
                     <div class="col-sm-4">
                         <div id="datetimepicker-starttime" class="input-group date">
-                            <input id="saleAt" class="form-control col-sm-2"  type="text" value="@order.getSaleAt()">
+                            <input id="saleAt" class="form-control col-sm-2"  type="text" value='@order.getSaleAt().format("yyyy-MM-dd")'>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">订单号</label>
+                    <label class="col-sm-2 control-label">订单号*</label>
 
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="orderId" value="@order.getOrderId()"/>
@@ -73,14 +76,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">单价</label>
+                    <label class="col-sm-2 control-label">单价*</label>
 
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="price" value="@order.getPrice()"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">数量</label>
+                    <label class="col-sm-2 control-label">数量*</label>
 
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="saleCount" value="@order.getSaleCount()"/>
@@ -95,7 +98,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">京东费率</label>
+                    <label class="col-sm-2 control-label">京东费率,单位百分比</label>
 
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="jdRate" value="@order.getJdRate()"/>
@@ -141,9 +144,32 @@
                     <label class="col-sm-2 control-label">标记</label>
 
                     <div class="col-sm-8">
-                        <input type="radio" name="remarkStatus" value="1" checked />1
-                        <input type="radio" name="remarkStatus" value="2"/>2
-                        <input type="radio" name="remarkStatus" value="3"/>3
+                        @if(order.getRemarkStatus()==1){
+                        <input type="radio" name="remarkStatus" value="1" checked />&nbsp;邮费已经结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="2"/>&nbsp;京东已结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="3"/>&nbsp;均已结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="4"/>&nbsp;其他
+                        }
+                        @if(order.getRemarkStatus()==2){
+                        <input type="radio" name="remarkStatus" value="1"  />&nbsp;邮费已经结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="2" checked/>&nbsp;京东已结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="3"/>&nbsp;均已结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="4"/>&nbsp;其他
+                        }
+                        @if(order.getRemarkStatus()==3){
+                        <input type="radio" name="remarkStatus" value="1" />&nbsp;邮费已经结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="2"/>&nbsp;京东已结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="3" checked/>&nbsp;均已结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="4"/>&nbsp;其他
+                        }
+                        @if(order.getRemarkStatus()==4){
+                        <input type="radio" name="remarkStatus" value="1" />&nbsp;邮费已经结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="2"/>&nbsp;京东已结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="3" />&nbsp;均已结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="4" checked/>&nbsp;其他
+                        }
+
+
                     </div>
                 </div>
                 <div class="form-group">

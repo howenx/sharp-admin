@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",resultList:List[entity.Theme],url:String,uploadUrl:String,user:entity.User)
+@(lang:String="cn",resultList:List[Array[Object]],url:String,uploadUrl:String,user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/jquery-ui.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -71,11 +71,11 @@
                     </thead>
                     <tbody class="ui-sortable">
                     @for(theme <- resultList){
-                        <tr>
-                            <td class="index">@theme.getSortNu()</td>
-                            <td class="themeId">@theme.getId()</td>
-                            <td class="themeType">@theme.getType()</td>
-                            <td class="themeImg"><img class="main-img" src="@url@theme.getThemeImg()" alt="" width="50"></td>
+                        <tr><td class="index">@theme(0)</td>
+                            <td class="index-none" style="display:none">@theme(1)</td>
+                            <td class="themeId">@theme(2)</td>
+                            <td class="themeType">@theme(3)</td>
+                            <td class="themeImg"><img class="main-img" src="@url@theme(4)" alt="" width="50"></td>
                         </tr>
                     }
                     </tbody>
@@ -94,25 +94,25 @@
                         <div class="form-group">
                             <label class="col-sm-6 control-label">序号:</label>
                             <div class="col-sm-6">
-                                <div style="padding: 6px 12px" id="index"></div>
+                                <div style="padding: 6px 12px" class="index"></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-6 control-label">主题ID:</label>
                             <div class="col-sm-6">
-                                <div style="padding: 6px 12px" id="themeId"></div>
+                                <div style="padding: 6px 12px" class="themeId"></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-6 control-label">主题类型:</label>
                             <div class="col-sm-6">
-                                <div style="padding: 6px 12px" id="themeType"></div>
+                                <div style="padding: 6px 12px" class="themeType"></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-6 control-label">主题图片:</label>
                             <div class="col-sm-6">
-                                <div style="padding: 6px 12px" id="themeImg"></div>
+                                <div style="padding: 6px 12px" class="themeImg"></div>
                             </div>
                         </div>
                     </div>
@@ -123,42 +123,29 @@
                         <div class="form-group">
                             <label class="col-sm-6 control-label">序号:</label>
                             <div class="col-sm-6">
-                                <div style="padding: 6px 12px" id="index-2"></div>
+                                <div style="padding: 6px 12px" class="index"></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-6 control-label">主题ID:</label>
                             <div class="col-sm-6">
-                                <div style="padding: 6px 12px" id="themeId-2"></div>
+                                <div style="padding: 6px 12px" class="themeId"></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-6 control-label">主题类型:</label>
                             <div class="col-sm-6">
-                                <div style="padding: 6px 12px" id="themeType-2"></div>
+                                <div style="padding: 6px 12px" class="themeType"></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-6 control-label">主题图片:</label>
                             <div class="col-sm-6">
-                                <div style="padding: 6px 12px" id="themeImg-2"></div>
+                                <div style="padding: 6px 12px" class="themeImg"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-                <!--<div class="form-group">-->
-                    <!--<label class="col-sm-3 control-label">交换序号:</label>-->
-                    <!--<div class="col-sm-8">-->
-                        <!--<input type="number" class="form-control newId">-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                    <!--<div class="col-sm-offset-3 col-sm-8">-->
-                        <!--<button type="button" class="btn btn-primary btn-xs changeY">确定交换</button>-->
-                    <!--</div>-->
-                <!--</div>-->
             </div>
         </form>
     </div>

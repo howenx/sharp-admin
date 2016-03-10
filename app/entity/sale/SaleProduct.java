@@ -39,6 +39,10 @@ public class SaleProduct implements Serializable {
     private Long customSkuId; //自定义商品id
     private Integer damageOther;//其他破损
     private String remark;//备注
+    @JsonIgnore
+    private Long createUserId; //创建订单的人
+    @JsonIgnore
+    private Long updateUserId; //创建订单的人
 
     //分页,从第几条开始
     @JsonIgnore
@@ -290,5 +294,21 @@ public class SaleProduct implements Serializable {
 
     public void setEndtime(String endtime) {
         this.endtime = endtime;
+    }
+
+    public Long getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Long createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public Long getUpdateUserId() {
+        return updateUserId;
+    }
+
+    public void setUpdateUserId(Long updateUserId) {
+        this.updateUserId = updateUserId;
     }
 }
