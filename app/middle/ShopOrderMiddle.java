@@ -13,8 +13,10 @@ import entity.order.OrderSplit;
 import service.*;
 
 import javax.inject.Inject;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,13 +65,15 @@ public class ShopOrderMiddle {
         request.memberNick = nickname;         //客户名称
         request.orderStatus = 10;              //订单状态(0:草稿 10：未发货 20：已发货 30：已完结 40：已关闭 50：已取消)
         request.shopCreatedTime = order.getOrderCreateAt();//下单时间
+        request.orderStatusName = "未发货";//平台订单状态
+//        request.isDistribution = true;  //是否分销
         request.isMobile = true;                           //是否手机订单
 //        request.discountFee = order.getDiscount().doubleValue();//折扣金额
         request.postFee = orderSplit.getShipFee().doubleValue();//邮费
         request.goodsTotal = orderSplit.getTotalFee().doubleValue();//商品总额
         request.orderTotal = orderSplit.getTotalPayFee().doubleValue();//应付金额
 //        request.receivedTotal();                                 //实际收款
-//        request.setShopPayTime();                                  //平台付款时间
+        request.setShopPayTime(new Timestamp(new Date().getTime()));//平台付款时间
         //订单明细
         request.setReceiverName(orderShip.getDeliveryName());    //收货人姓名
         request.setReceiverState(orderShip.getDeliveryCity().split(" ")[0]);//收货人省份

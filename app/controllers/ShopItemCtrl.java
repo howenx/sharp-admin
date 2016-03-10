@@ -186,32 +186,43 @@ public class ShopItemCtrl extends Controller {
     public Result shopItemPush() throws ApiException, ParseException {
         ShopItemOperate shopItemOperate = new ShopItemOperate();
         JsonNode json = request().body().asJson();
-        Long itemIds[] = new Long[json.size()];
+        Long skuIds[] = new Long[json.size()];
         List<String> shopItemCodeList = new ArrayList<>();
         for(int i=0;i<json.size();i++){
-            itemIds[i] = (json.get(i)).asLong();
-            Item item = itemService.getItem(itemIds[i]);
-            List<Inventory> invList = inventoryService.getInventoriesByItemId(itemIds[i]);
+            skuIds[i] = (json.get(i)).asLong();
+            Inventory inventory = inventoryService.getInventory(skuIds[i]);
+//            Item item = itemService.getItem(skuIds[i]);
+//            List<Inventory> invList = inventoryService.getInventoriesByItemId(skuIds[i]);
             ShopItemPushRequest request = new ShopItemPushRequest();
-            request.setShopItemCode(item.getId().toString());//宝贝编码
-            request.setShopId(1);                           //店铺Id
-            request.setStatus("在售中");                     //上架状态
-            request.setCreatedTime(item.getCreateAt());     //创建时间
-            request.setUpdateTime(null==item.getUpdateAt()?item.getCreateAt():item.getUpdateAt());//修改时间
-            request.setShopItemName(item.getItemTitle());   //宝贝名称
-            request.setOuterId(invList.get(0).getInvCode());//商家编码
+            request.shopItemCode = inventory.getId().toString();//宝贝编码
+            request.shopId = 1;                           //店铺Id
+            String state = inventory.getState();
+            if ("Y".equals(state)) {
+                request.status = "在售中";
+            }
+            if ("P".equals(state)) {
+                request.status = "在库中";
+            }
+            request.createdTime = inventory.getCreateAt();//创建时间
+            request.updateTime = (null==inventory.getUpdateAt()?inventory.getCreateAt():inventory.getUpdateAt());//修改时间
+            request.shopItemName = inventory.getInvTitle();   //宝贝名称
+            request.pictureUrl = ThemeCtrl.IMAGE_URL+Json.parse(inventory.getInvImg()).get("url").asText();
+            request.outerId = inventory.getInvCode();//商家编码
+            request.quantity = inventory.getAmount();
+            request.price = inventory.getItemSrcPrice().doubleValue();
+            request.weight = inventory.getInvWeight().doubleValue();
             List<ShopSkuPushLine> lineList = new ArrayList<ShopSkuPushLine>();//sku信息
-            for(Inventory inventory : invList) {
+//            for(Inventory inventory : invList) {
                 ShopSkuPushLine shopSkuPushLine = new ShopSkuPushLine();
                 shopSkuPushLine.shopSkuCode = inventory.getId().toString();//网店skuCode
                 shopSkuPushLine.outerId = inventory.getInvCode();          //商家代码
                 shopSkuPushLine.property1 = inventory.getItemColor();      //平台属性1(颜色)
-                shopSkuPushLine.property2 = inventory.getItemSize();       //h(尺寸)
+                shopSkuPushLine.property2 = inventory.getItemSize();       //平台属性2(尺寸)
                 shopSkuPushLine.price = inventory.getItemPrice().doubleValue();//价格
                 shopSkuPushLine.weight = inventory.getInvWeight()/1000.0;      //重量(千克)
                 shopSkuPushLine.quantity = inventory.getAmount();              //数量
                 lineList.add(shopSkuPushLine);
-            }
+//            }
             request.setSkusInfo(lineList);
             String shopItemCode = shopItemOperate.ShopItemPush(request);
             shopItemCodeList.add(shopItemCode);
