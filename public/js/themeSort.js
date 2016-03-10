@@ -92,8 +92,6 @@
                 newhtml = $(this).html();
                 newindex = $(".grid tbody tr").index($(this));
                 console.log(newindex);
-            }else if(ids.indexOf(idNew)==-1){
-                return false;
             }
         });
         $(".grid tbody tr").each(function(i){
@@ -150,7 +148,7 @@
             var object = editThemes[i];
             confirmContent = confirmContent + object.newId + "-->" + object.num + "\n";
         }
-        confirmContent + "\n" + "确定修改吗?";
+        confirmContent = confirmContent + "\n" + "确定修改吗?";
         var a = confirm(confirmContent);
         if(!a){
             isPost = false;
