@@ -102,10 +102,10 @@
     var beforeHtml = $("#sort").html().toString();
     var beforeSortThemes = [];
     $("#sort").find("tr").each(function(){
-        if($(this).find("td").eq(0).text() != "" && $(this).find("td").eq(1).text() != null){
+        if($(this).find("td").eq(1).text() != "" && $(this).find("td").eq(2).text() != null){
             var themeObject = new Object();
-            themeObject.sortNu = $(this).find("td").eq(0).text();
-            themeObject.id = $(this).find("td").eq(1).text();
+            themeObject.sortNu = $(this).find("td").eq(1).text();
+            themeObject.id = $(this).find("td").eq(2).text();
             beforeSortThemes.push(themeObject);
         }
     })
@@ -123,17 +123,31 @@
         var editThemes = [];
         $("#sort").find("tr").each(function(){
             var editObject = new Object();
-            if($(this).find("td").eq(0).text() != "" && $(this).find("td").eq(1).text() != null){
+            if($(this).find("td").eq(1).text() != "" && $(this).find("td").eq(2).text() != null){
                 var index = $(this).index();
                 var object = beforeSortThemes[index];
-                if(object.id != $(this).find("td").eq(1).text()){
-                    editObject.sortNu = $(this).find("td").eq(0).text();
-                    editObject.newId = $(this).find("td").eq(1).text();
+                if(object.id != $(this).find("td").eq(2).text()){
+                    editObject.sortNu = $(this).find("td").eq(1).text();
+                    editObject.newId = $(this).find("td").eq(2).text();
                     editObject.oldId = object.id;
+                    editObject.num = $(this).find("td").eq(0).text();
                     editThemes.push(editObject);
                 }
             }
         })
+
+        var confirmContent = "";
+        for(i=0;i<editThemes.length;i++){
+            var object = editThemes[i];
+            confirmContent = confirmContent + object.newId + "-->" + object.num + "\n";
+        }
+        confirmContent + "\n" + "确定修改吗?";
+        var a = confirm(confirmContent);
+        if(!a){
+            isPost = false;
+            return false;
+        }
+
         if(isPost){
             $.ajax({
                 type :  "POST",
