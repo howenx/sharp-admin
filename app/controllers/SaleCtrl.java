@@ -537,6 +537,9 @@ public class SaleCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result saleInventoryView(Long id) {
         SaleProduct saleProduct=saleService.getSaleProductById(id);
+        if(null==saleProduct){
+            return badRequest();
+        }
         return ok(views.html.sales.saleInventoryView.render("cn",saleProduct,(User) ctx().args.get("user")));
     }
     @Security.Authenticated(UserAuth.class)

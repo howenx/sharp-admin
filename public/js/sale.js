@@ -248,7 +248,7 @@
                  $('#product-topic').find('tbody tr').html('');
                  $('#tb-topic').find('thead tr').html('');
                  $('#tb-topic').find('tbody tr').html('');
-                         if(null!=data){
+                         if(null!=data&&null!=data.saleProduct){
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.id+'</td>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.name+'</td>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.skuCode+'</td>');
@@ -266,7 +266,6 @@
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.lessProduct+'</td>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.emptyBox+'</td>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.damageOther+'</td>');
-
                                //日销量
                                $(data.saleInventoryList).each(function(index, element) {
                                     console.log("index="+index+",element="+element);
