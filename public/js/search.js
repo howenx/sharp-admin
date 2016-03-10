@@ -533,6 +533,7 @@ $(function() {
                      '<td>'+ $(this)[0].productCost+ '</td>' +
                      '<td>'+ $(this)[0].stockValue+ '</td>' +
                      '<td>'+ $(this)[0].purchaseCount+ '</td>' +
+                     '<td>'+ $(this)[0].updateAt+ '</td>' +
                      '<td><a href="/sales/order/import/'+$(this)[0].id+'" target="_blank" >订单</a></td>'+
                      '<td><a href="/sales/inventory/view/'+$(this)[0].id+'" target="_blank">库存</a></td>'+
                     '</tr>'
@@ -584,6 +585,7 @@ $(function() {
                      '<td>'+ $(this)[0].profit+ '</td>' +
                      '<td>'+ $(this)[0].invArea+'</td>' +
                      '<td>'+ $(this)[0].remarkStatus+'</td>' +
+                     '<td>'+ $(this)[0].updateAt+ '</td>' +
                      '<td><a onclick="delOrder('+$(this)[0].id+'")>删除</a></td>'+
                     '</tr>'
                 );

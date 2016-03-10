@@ -25,8 +25,8 @@
         ${alias}.less_delivery,
         ${alias}.less_product,
         ${alias}.empty_box,
-        ${alias}.created_dt,
-        ${alias}.update_dt,
+        ${alias}.create_at,
+        ${alias}.update_at,
         ${alias}.inv_area,
         ${alias}.storage_at,
         ${alias}.custom_sku_id,
@@ -40,7 +40,7 @@
     <insert id="insertSaleProduct" parameterType="entity.sale.SaleProduct" useGeneratedKeys="true" keyProperty="id">
         insert into sale_product
         (name,category_id,sku_code,product_code,spec,sale_count,inventory,product_cost,stock_value,purchase_count,
-        no_card,damage,less_delivery,less_product,empty_box,created_dt,update_dt,inv_area,storage_at,custom_sku_id,damage_other,remark,create_user_id,update_user_id)
+        no_card,damage,less_delivery,less_product,empty_box,create_at,update_at,inv_area,storage_at,custom_sku_id,damage_other,remark,create_user_id,update_user_id)
         values(
         #{name},
         #{categoryId},
@@ -73,7 +73,7 @@
     <update id="updateSaleProduct" parameterType="entity.sale.SaleProduct" >
         update sale_product set name= #{name},category_id= #{categoryId},sku_code= #{skuCode},product_code= #{productCode},
         spec= #{spec},sale_count=#{saleCount},inventory= #{inventory},product_cost= #{productCost},stock_value=#{stockValue},purchase_count= #{purchaseCount},
-        no_card= #{noCard},damage=#{damage},less_delivery= #{lessDelivery},less_product=#{lessProduct},empty_box=#{emptyBox},update_dt= CURRENT_TIMESTAMP(0),
+        no_card= #{noCard},damage=#{damage},less_delivery= #{lessDelivery},less_product=#{lessProduct},empty_box=#{emptyBox},update_at= CURRENT_TIMESTAMP(0),
         inv_area=#{invArea},storage_at=#{storageAt},custom_sku_id=#{customSkuId},damage_other=#{damageOther},remark=#{remark},
         update_user_id=#{updateUserId}
         where id=#{id}
@@ -118,7 +118,7 @@
         </if>
 
         <if test="sort == null or sort == ''">
-            ORDER BY t.created_dt DESC
+            ORDER BY t.create_at DESC
         </if>
 
         <if test="sort != null">
@@ -161,8 +161,8 @@
         ${alias}.profit,
         ${alias}.inte_logistics,
         ${alias}.category_id,
-        ${alias}.created_dt,
-        ${alias}.update_dt,
+        ${alias}.create_at,
+        ${alias}.update_at,
         ${alias}.sale_product_id,
         ${alias}.inv_area,
         ${alias}.remark_status,
@@ -175,7 +175,7 @@
         insert into sale_order
         (sale_at,order_id,product_name,price,sale_count,discount_amount,sale_total,
         jd_rate,jd_fee,cost,ship_fee,pack_fee,storage_fee,postal_fee,postal_tax_rate,profit,inte_logistics,
-        category_id,created_dt,update_dt,sale_product_id,inv_area,remark_status,remark,create_user_id,update_user_id)
+        category_id,create_at,update_at,sale_product_id,inv_area,remark_status,remark,create_user_id,update_user_id)
         values(
         #{saleAt},#{orderId},#{productName},#{price},#{saleCount},#{discountAmount},#{saleTotal},
         #{jdRate},#{jdFee},#{cost},#{shipFee},#{packFee},#{storageFee},#{postalFee},#{postalTaxRate},#{profit},#{inteLogistics},
@@ -187,7 +187,7 @@
         update sale_order set sale_at=#{saleAt},order_id=#{orderId},product_name=#{productName},price=#{price},sale_count=#{saleCount},
         discount_amount=#{discountAmount},sale_total=#{saleTotal},jd_rate=#{jdRate},jd_fee=#{jdFee},cost=#{cost},ship_fee=#{shipFee},
         pack_fee=#{packFee},storage_fee=#{storageFee},postal_fee=#{postalFee},postal_tax_rate=#{postalTaxRate},profit=#{profit},inte_logistics=#{inteLogistics},
-        category_id=#{categoryId},update_dt= CURRENT_TIMESTAMP(0),inv_area=#{invArea},sale_product_id=#{saleProductId},remark_status=#{remarkStatus},remark=#{remark},
+        category_id=#{categoryId},update_at= CURRENT_TIMESTAMP(0),inv_area=#{invArea},sale_product_id=#{saleProductId},remark_status=#{remarkStatus},remark=#{remark},
         update_user_id=#{updateUserId}
         where id=#{id}
     </update>
@@ -261,7 +261,7 @@
         </if>
 
         <if test="sort == null or sort == ''">
-            ORDER BY t.created_dt DESC
+            ORDER BY t.create_at DESC
         </if>
 
         <if test="sort != null">

@@ -16,11 +16,11 @@
         $(function () {
             $('#datetimepicker-starttime').datetimepicker({
                 locale: 'zh-cn',
-                format:'YYYY-MM-DD'
+                format:'YYYY-MM-DD HH:mm:ss'
             });
             $('#datetimepicker-endtime').datetimepicker({
                 locale: 'zh-cn',
-                format:'YYYY-MM-DD'
+                format:'YYYY-MM-DD HH:mm:ss'
             });
         });
     })
@@ -91,6 +91,7 @@
                 <th>库存商品成本</th>
                 <th>库存商品价值</th>
                 <th>进货量</th>
+                <th>最后更新</th>
                 <th>操作</th>
                 <th>操作</th>
             </tr>
@@ -109,6 +110,7 @@
                     <td>@product.getProductCost()</td>
                     <td>@product.getStockValue()</td>
                     <td>@product.getPurchaseCount()</td>
+                    <td>@product.getUpdateAt().toString().substring(0,16)</td>
                     <td><a href="/sales/order/import/@product.getId()" target="_blank">订单</a></td>
                     <td><a href="/sales/inventory/view/@product.getId()" target="_blank">库存</a></td>
                 </tr>

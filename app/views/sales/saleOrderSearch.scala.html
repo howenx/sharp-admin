@@ -106,6 +106,7 @@
                 <th>利润</th>
                 <th>保税区</th>
                 <th>标记</th>
+                <th>最后更新</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -132,6 +133,7 @@
                     <td>@order.getProfit()</td>
                     <td>@order.getInvArea()</td>
                     <td>@order.getRemarkStatus()</td>
+                    <td>@order.getUpdateAt().toString().substring(0,16)</td>
                     <td><a onclick="delOrder(@order.getId())">删除</a></td>
                 </tr>
                 }
