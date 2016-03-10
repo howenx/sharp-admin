@@ -147,17 +147,26 @@
                         @if(order.getRemarkStatus()==1){
                         <input type="radio" name="remarkStatus" value="1" checked />&nbsp;邮费已经结&nbsp;&nbsp;
                         <input type="radio" name="remarkStatus" value="2"/>&nbsp;京东已结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="3"/>&nbsp;其他
+                        <input type="radio" name="remarkStatus" value="3"/>&nbsp;均已结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="4"/>&nbsp;其他
                         }
                         @if(order.getRemarkStatus()==2){
                         <input type="radio" name="remarkStatus" value="1"  />&nbsp;邮费已经结&nbsp;&nbsp;
                         <input type="radio" name="remarkStatus" value="2" checked/>&nbsp;京东已结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="3"/>&nbsp;其他
+                        <input type="radio" name="remarkStatus" value="3"/>&nbsp;均已结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="4"/>&nbsp;其他
                         }
                         @if(order.getRemarkStatus()==3){
                         <input type="radio" name="remarkStatus" value="1" />&nbsp;邮费已经结&nbsp;&nbsp;
                         <input type="radio" name="remarkStatus" value="2"/>&nbsp;京东已结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="3" checked/>&nbsp;其他
+                        <input type="radio" name="remarkStatus" value="3" checked/>&nbsp;均已结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="4"/>&nbsp;其他
+                        }
+                        @if(order.getRemarkStatus()==4){
+                        <input type="radio" name="remarkStatus" value="1" />&nbsp;邮费已经结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="2"/>&nbsp;京东已结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="3" />&nbsp;均已结&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="4" checked/>&nbsp;其他
                         }
 
 
