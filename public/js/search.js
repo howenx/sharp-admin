@@ -586,7 +586,7 @@ $(function() {
                      '<td>'+ $(this)[0].invArea+'</td>' +
                      '<td>'+ $(this)[0].remarkStatus+'</td>' +
                      '<td>'+ $(this)[0].updateAt+ '</td>' +
-                     '<td><a onclick="delOrder('+$(this)[0].id+'")>删除</a></td>'+
+                     '<td><a onclick="delOrder('+$(this)[0].id+')">删除</a></td>'+
                     '</tr>'
                 );
             })
