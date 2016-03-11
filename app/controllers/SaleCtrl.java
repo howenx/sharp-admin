@@ -201,12 +201,12 @@ public class SaleCtrl extends Controller {
         try {
             User user = (User) ctx().args.get("user");
             Long userId=Long.valueOf(user.userId().get().toString());
-            String name=json.findValue("name").asText();
+            String name=json.findValue("name").asText().trim();
             Integer categoryId=json.findValue("categoryId").asInt();
-            String skuCode=json.findValue("skuCode").asText();
-            String productCode=json.findValue("productCode").asText();
+            String skuCode=json.findValue("skuCode").asText().trim().trim();
+            String productCode=json.findValue("productCode").asText().trim();
             Long customSkuId=json.findValue("customSkuId").asLong();
-            String spec=json.findValue("spec").asText();
+            String spec=json.findValue("spec").asText().trim();
             BigDecimal productCost=new BigDecimal(json.findValue("productCost").asDouble());
             Integer purchaseCount=json.findValue("purchaseCount").asInt();
             Integer noCard=0;
@@ -237,12 +237,12 @@ public class SaleCtrl extends Controller {
             if(json.has("damageOther")) {
                 damageOther=json.findValue("damageOther").asInt();
             }
-            String remark=json.findValue("remark").asText();
-            String invArea=json.findValue("invArea").asText();
-            String storageAt = json.findValue("storageAt").asText();
+            String remark=json.findValue("remark").asText().trim();
+            String invArea=json.findValue("invArea").asText().trim();
+            String storageAt = json.findValue("storageAt").asText().trim();
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Timestamp timestamp = new Timestamp(format.parse(storageAt).getTime());
-            String id=json.findValue("id").asText();
+            String id=json.findValue("id").asText().trim();
             Integer saleCount=0;  //总销量
             if(null!=id&&!"".equals(id)){
                 saleProduct=saleService.getSaleProductById(Long.valueOf(id));
@@ -357,15 +357,15 @@ public class SaleCtrl extends Controller {
         if(pageNum>=1){
             //计算从第几条开始取数据
             int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
-            String name=json.findValue("name").asText();
+            String name=json.findValue("name").asText().trim();
             if(null!=name&&!"".equals(name)){
                 saleProduct.setName(name);
             }
             if (json.has("startTime")) {
-                saleProduct.setStarttime(json.findValue("startTime").asText());
+                saleProduct.setStarttime(json.findValue("startTime").asText().trim());
             }
             if (json.has("endTime")) {
-                saleProduct.setEndtime(json.findValue("endTime").asText());
+                saleProduct.setEndtime(json.findValue("endTime").asText().trim());
             }
 
             saleProduct.setPageSize(-1);
@@ -418,8 +418,8 @@ public class SaleCtrl extends Controller {
             Logger.info("=====saleOrderSave===" + json);
             User user = (User) ctx().args.get("user");
             Long userId=Long.valueOf(user.userId().get().toString());
-            String saleAt = json.findValue("saleAt").asText();
-            String orderId = json.findValue("orderId").asText();
+            String saleAt = json.findValue("saleAt").asText().trim();
+            String orderId = json.findValue("orderId").asText().trim();
             Long saleProductId = json.findValue("saleProductId").asLong();
             SaleProduct saleProduct=saleService.getSaleProductById(saleProductId);
             BigDecimal price = new BigDecimal(json.findValue("price").asDouble());
@@ -432,7 +432,7 @@ public class SaleCtrl extends Controller {
             BigDecimal storageFee = new BigDecimal(json.findValue("storageFee").asDouble());
             BigDecimal postalTaxRate = new BigDecimal(json.findValue("postalTaxRate").asDouble());
             Integer remarkStatus=json.findValue("remarkStatus").asInt();
-            String remark=json.findValue("remark").asText();
+            String remark=json.findValue("remark").asText().trim();
 
 
             //总销售额=单价*数量-优惠额
@@ -449,7 +449,7 @@ public class SaleCtrl extends Controller {
             //净利润=总销售额-京东费用-成本*数量-国内快递费-国际物流费-包装费-仓储服务费-行邮税
             BigDecimal productCost = saleProduct.getProductCost();//成本
             BigDecimal profit = getOrderProfit(saleTotal,jdFee,productCost,shipFee,inteLogistics,packFee,storageFee,postalFee,saleCount);
-            String id=json.findValue("id").asText();
+            String id=json.findValue("id").asText().trim();
             if(null==id||"".equals(id)) {
                 saleOrder = createSaleOrder(new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, saleProduct.getName(), cate, price, saleCount,
                         discountAmount, saleTotal, jdRate, jdFee, saleProduct.getProductCost(),
@@ -555,12 +555,12 @@ public class SaleCtrl extends Controller {
             }
             String starttime = "";
             if (json.has("starttime")) {
-                starttime = json.findValue("starttime").asText();
+                starttime = json.findValue("starttime").asText().trim();
                 saleOrder.setStarttime(starttime);
             }
             String endtime = "";
             if (json.has("endtime")) {
-                endtime = json.findValue("endtime").asText();
+                endtime = json.findValue("endtime").asText().trim();
                 saleOrder.setEndtime(endtime);
             }
            saleStatisticsList = saleService.getSaleStatistics(saleOrder);
@@ -601,7 +601,7 @@ public class SaleCtrl extends Controller {
         }
         String saleMonth = "";
         if (json.has("saleMonth")) {
-            saleMonth = json.findValue("saleMonth").asText();
+            saleMonth = json.findValue("saleMonth").asText().trim();
             saleOrder.setSaleMonth(saleMonth);
         }
         List<SaleInventory> saleInventoryList=saleService.getSaleInventory(saleOrder);
@@ -660,19 +660,19 @@ public class SaleCtrl extends Controller {
         if(pageNum>=1){
             //计算从第几条开始取数据
             int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
-            String orderId=json.findValue("orderId").asText();
+            String orderId=json.findValue("orderId").asText().trim();
             if(null!=orderId&&!"".equals(orderId)){
                 saleOrder.setOrderId(orderId);
             }
-            String name=json.findValue("name").asText();
+            String name=json.findValue("name").asText().trim();
             if(null!=name&&!"".equals(name)){
                 saleOrder.setProductName(name);
             }
             if (json.has("startTime")) {
-                saleOrder.setStarttime(json.findValue("startTime").asText());
+                saleOrder.setStarttime(json.findValue("startTime").asText().trim());
             }
             if (json.has("endTime")) {
-                saleOrder.setEndtime(json.findValue("endTime").asText());
+                saleOrder.setEndtime(json.findValue("endTime").asText().trim());
             }
 
             saleOrder.setPageSize(-1);
