@@ -15,6 +15,8 @@ public class SaleStatistics implements Serializable {
     private BigDecimal packFeeTotal;
     private BigDecimal storageFeeTotal ;
     private BigDecimal profitTotal;
+    //销售数量
+    private Integer saleCountTotal;
 
     public BigDecimal getSaleTotal() {
         return saleTotal;
@@ -71,10 +73,19 @@ public class SaleStatistics implements Serializable {
     public void setProfitTotal(BigDecimal profitTotal) {
         this.profitTotal = profitTotal;
     }
+
+    public Integer getSaleCountTotal() {
+        return saleCountTotal;
+    }
+
+    public void setSaleCountTotal(Integer saleCountTotal) {
+        this.saleCountTotal = saleCountTotal;
+    }
+
     @Override
     public String toString(){
         return "[SaleStatistics: saleTotal="+saleTotal+",jdFeeTotal="+jdFeeTotal+",shipFeeTotal="+shipFeeTotal+
                 ",inteLogisticsTotal="+inteLogisticsTotal+",packFeeTotal="+packFeeTotal+",storageFeeTotal="+storageFeeTotal+
-                ",profitTotal="+profitTotal;
+                ",profitTotal="+profitTotal+",saleCountTotal="+saleCountTotal;
     }
 }

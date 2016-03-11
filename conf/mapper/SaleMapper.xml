@@ -216,7 +216,7 @@
     </select>
     <select id="getSaleStatistics" parameterType="entity.sale.SaleOrder" resultType="entity.sale.SaleStatistics">
         SELECT sum(sale_total)as saleTotal,sum(jd_fee)as jdFeeTotal ,sum(ship_fee)as shipFeeTotal,sum(inte_logistics)as inteLogisticsTotal ,
-        sum(pack_fee)as packFeeTotal,sum(storage_fee)as storageFeeTotal ,sum(profit)as profitTotal  FROM sale_order
+        sum(pack_fee)as packFeeTotal,sum(storage_fee)as storageFeeTotal ,sum(profit)as profitTotal, sum(sale_count) as saleCountTotal FROM sale_order
         where 1=1
         <if test="categoryId!=null and categoryId!=''">
             and category_id = #{categoryId}

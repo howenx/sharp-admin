@@ -203,6 +203,7 @@
                              '<td>'+data[0].packFeeTotal+'</td>'+
                              '<td>'+data[0].storageFeeTotal+'</td>'+
                              '<td>'+data[0].profitTotal+'</td>'+
+                             '<td>'+data[0].saleCountTotal+'</td>'+
                              '</tr>');
                         }else{
                             if (window.lang = 'cn') {
