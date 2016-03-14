@@ -564,7 +564,7 @@ $(function() {
             var saleAt=new Date($(this)[0].saleAt);
             saleAt = saleAt.getFullYear() + '-' + (saleAt.getMonth() + 1) + '-' + saleAt.getDate()
                 $('#tb-topic').find('tbody').append('' +
-                    '<tr class="tb-list-data">' +
+                    '<tr class="tb-list-data" id="orderTr'+ $(this)[0].id+ '">' +
                      '<td><a href="/sales/order/find/'+$(this)[0].id+'">'+$(this)[0].id+'</a></td>'+
                      '<td>'+ saleAt + '</td>' +
                      '<td>'+ $(this)[0].orderId+ '</td>' +

@@ -308,7 +308,7 @@
                   },
                   success: function(data) {
                        if(data=="success"){
-                           setTimeout("location.href='/sales/order/search'", 3000);
+                           $("#orderTr"+id).remove();
                        } else alert("删除失败!");
 
                   }

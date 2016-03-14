@@ -111,8 +111,9 @@
             </tr>
             </thead>
             <tbody>
+            <tr id="nodata-td" style="display:none;"><td colspan="9">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
                 @for(order <- orderList){
-                <tr class = "tb-list-data" >
+                <tr class = "tb-list-data" id="orderTr@order.getId()">
                     <td><a href="/sales/order/find/@order.getId()">@order.getId()</a></td>
                     <td>@order.getSaleAt().format("yyyy-MM-dd")</td>
                     <td>@order.getOrderId()</td>
@@ -137,7 +138,7 @@
                     <td><a onclick="delOrder(@order.getId())">删除</a></td>
                 </tr>
                 }
-            <tr id="nodata-td" style="display:none;"><td colspan="9">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+
             </tbody>
         </table>
 
