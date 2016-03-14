@@ -4,9 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
-import entity.Coupons;
-import entity.Inventory;
-import entity.Theme;
 import entity.User;
 import entity.sale.SaleInventory;
 import entity.sale.SaleOrder;
@@ -24,7 +21,6 @@ import service.SaleService;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -34,6 +30,7 @@ import static play.libs.Json.newObject;
  * 销售报表
  * Created by sibyl.sun on 16/3/3.
  */
+@SuppressWarnings("unchecked")
 public class SaleCtrl extends Controller {
     //每页固定的取数
     public static final int PAGE_SIZE = 10;
