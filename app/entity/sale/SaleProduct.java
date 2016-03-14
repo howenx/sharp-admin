@@ -31,7 +31,6 @@ public class SaleProduct implements Serializable {
     private Integer emptyBox; //空盒
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp createAt;     //创建时间
-    @JsonIgnore
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateAt;     //更新时间
     private String invArea;//库存区域区分：'S' 上海保税仓备货，'G'广州保税仓备货，'H'杭州保税仓备货，'SZ'上海保税区直邮，'GZ'广州保税仓直邮，'HZ'杭州保税仓直邮，'K' 海外直邮，'SELF' 自营商品
