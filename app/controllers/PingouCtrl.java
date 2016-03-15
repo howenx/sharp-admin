@@ -264,7 +264,7 @@ public class PingouCtrl extends Controller {
         List<Object[]> rtnPinSkuList = new ArrayList<>();
         List<PinSku> pinSkuList = pingouService.getPinSkuPage(pinSku_temp);
         for(PinSku pinSku : pinSkuList){
-            Object[] object = new Object[7];
+            Object[] object = new Object[8];
             object[0] = pinSku.getPinId();      //活动ID
             object[1] = pinSku.getPinTitle();   //商品标题
             object[2] = pinSku.getStartAt();    //开始时间
@@ -285,10 +285,15 @@ public class PingouCtrl extends Controller {
                 object[4] = "预售";              //状态
             }
             object[5] = pinSku.getActivityCount(); //已开团数
-
+            //图片
             JsonNode imgJson = Json.parse(pinSku.getPinImg());
             String imgUrl =  imgJson.get("url").toString();
             object[6] = imgUrl.substring(1,imgUrl.length()-1);
+            //最低价格
+            JsonNode floorPrice = Json.parse(pinSku.getFloorPrice());
+            object[7] = floorPrice.get("price");
+
+
             rtnPinSkuList.add(object);
         }
         return ok(views.html.pingou.pingouSearch.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,rtnPinSkuList,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
@@ -327,6 +332,9 @@ public class PingouCtrl extends Controller {
                 JsonNode imgJson = Json.parse(pinSkuTemp.getPinImg());
                 String imgUrl =  imgJson.get("url").toString();
                 pinSkuTemp.setPinImg(imgUrl.substring(1,imgUrl.length()-1));
+                JsonNode floorPrice = Json.parse(pinSkuTemp.getFloorPrice());
+                String fPrice = floorPrice.get("price").toString();
+                pinSkuTemp.setFloorPrice(fPrice);
                 rtnPinSkuList.add(pinSkuTemp);
             }
             //组装返回数据

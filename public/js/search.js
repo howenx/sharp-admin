@@ -281,6 +281,7 @@ $(function() {
                         '<td>' +
                         '<img class="main-img" src="' + window.url + $(this)[0].pinImg + '" alt="" width="50">' +
                         '</td>' +
+                        '<td>' + $(this)[0].floorPrice + '</td>' +
                         '<td>' + ($(this)[0].startAt != null && $(this)[0].startAt != '' ? $(this)[0].startAt.substr(0, 16) : '') + '</td>}' +
                         '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 16) : '') + '</td>}' +
                         '<td>' + status + '</td>' +
