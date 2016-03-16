@@ -560,6 +560,10 @@ public class SaleCtrl extends Controller {
                 endtime = json.findValue("endtime").asText().trim();
                 saleOrder.setEndtime(endtime);
             }
+            if (json.has("productName")) {
+                saleOrder.setProductName(json.findValue("productName").asText().trim());
+            }
+
            saleStatisticsList = saleService.getSaleStatistics(saleOrder);
             if (null!=saleStatisticsList&&!saleStatisticsList.isEmpty()){
                 Logger.info("===saleStatistics==========="+saleStatisticsList.get(0));

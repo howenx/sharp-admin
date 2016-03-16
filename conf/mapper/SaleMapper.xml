@@ -227,6 +227,9 @@
         <if test="endtime!=null and endtime!=''">
             and sale_at &lt;=#{endtime} ::timestamp
         </if>
+        <if test="productName != null and productName!='' ">
+            and product_name like '%${productName}%'
+        </if>
         ;
     </select>
     <select id="getSaleInventory" parameterType="entity.sale.SaleOrder" resultType="entity.sale.SaleInventory">

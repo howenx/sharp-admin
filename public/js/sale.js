@@ -171,9 +171,11 @@
         var categoryId=$("#categoryId").val();
         var starttime=$("#starttime").val();
         var endtime=$("#endtime").val();
+        var productName=$("#productName").val();
 
         var statistics=new Object();
         statistics.categoryId=categoryId;
+        statistics.productName=productName;
         statistics.starttime=starttime;
         statistics.endtime=endtime;
         if (isPost) {
