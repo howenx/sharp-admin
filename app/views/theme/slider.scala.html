@@ -21,14 +21,11 @@
                 var itemType = obj.itemType;
                 var skuTypeId = obj.skuTypeId;
                 if (itemType=="item") {
-                    itemTarget = "/comm/detail/" + itemId + "/" + invId;
-                }
-                if (itemType=="vary") {
-                    itemTarget = "/comm/detail/" + itemId + "/" + invId + "/" + skuTypeId;
+                    itemTarget = "/comm/detail/item/" + itemId + "/" + skuTypeId;
                 }
                 if (itemType=="pin") {
                     targetType = "P";
-                    itemTarget = "/comm/pin/detail/" + itemId + "/" + invId + "/" + skuTypeId;
+                    itemTarget = "/comm/detail/pin/" + itemId + "/" + skuTypeId;
                 }
             }
             $obj.attr('data-target', itemTarget);

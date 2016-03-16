@@ -165,7 +165,6 @@
                 <td>@sku.getInvId()</td>
                 <td>
                     @if(sku.getSkuType()=="item"){普通商品}
-                    @if(sku.getSkuType()=="vary"){多样化价格商品}
                     @if(sku.getSkuType()=="pin"){拼购商品}
                     <input class="item-type" type="hidden" value="@sku.getSkuType()">
                 </td>

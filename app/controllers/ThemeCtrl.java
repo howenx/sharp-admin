@@ -235,8 +235,8 @@ public class ThemeCtrl extends Controller {
         }
         List<Skus> skusList = inventoryService.getAllSkus();
         List<Skus> list = new ArrayList<>();
-        for(Skus skus : skusList) {//商品列表为(除自定义价格的预售和正常商品)
-            if (!skus.getSkuType().equals("customize")&&(skus.getSkuTypeStatus().equals("P")||skus.getSkuTypeStatus().equals("Y"))) {
+        for(Skus skus : skusList) {//商品列表为(除自定义价格和多样化价格的预售和正常商品)
+            if (!skus.getSkuType().equals("customize")&&!skus.getSkuType().equals("vary")&&(skus.getSkuTypeStatus().equals("P")||skus.getSkuTypeStatus().equals("Y"))) {
                 skus.setSkuTypeImg(Json.parse(skus.getSkuTypeImg()).get("url").asText());
                 list.add(skus);
             }
