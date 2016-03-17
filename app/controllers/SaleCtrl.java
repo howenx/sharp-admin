@@ -435,11 +435,7 @@ public class SaleCtrl extends Controller {
 
 
             //总销售额=单价*数量-优惠额
-            BigDecimal saleTotal = new BigDecimal(0);
-            if(remarkStatus!=5){ //不是退货
-                saleTotal=price.multiply(new BigDecimal(saleCount)).subtract(discountAmount);
-            }
-
+            BigDecimal saleTotal = saleTotal=price.multiply(new BigDecimal(saleCount)).subtract(discountAmount);
             // 京东费用=总销售 额*京东费率
             BigDecimal jdFee = saleTotal.multiply(jdRate).divide(new BigDecimal(100));
             BigDecimal postalFee = new BigDecimal(0);
@@ -448,6 +444,11 @@ public class SaleCtrl extends Controller {
             //化妆品 行邮税=如果总销售额>100元，=总销售额*行邮税率
             if((cate==1&&saleTotal.doubleValue() > 500)||(cate==2&&saleTotal.doubleValue() > 100)){
                 postalFee=saleTotal.multiply(postalTaxRate).divide(new BigDecimal(100));
+            }
+            if(remarkStatus==5){ //退货时总销售额为0,京东费用为0
+                saleTotal=new BigDecimal(0);
+                jdFee=new BigDecimal(0);
+
             }
             //净利润=总销售额-京东费用-成本*数量-国内快递费-国际物流费*数量-包装费-仓储服务费-行邮税
             BigDecimal productCost = saleProduct.getProductCost();//成本
