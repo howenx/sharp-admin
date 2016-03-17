@@ -33,14 +33,15 @@
         ${alias}.damage_other,
         ${alias}.remark,
         ${alias}.create_user_id,
-        ${alias}.update_user_id
+        ${alias}.update_user_id,
+        ${alias}.back_count
 
     </sql>
     <!-- 录入一条销售产品信息 -->
     <insert id="insertSaleProduct" parameterType="entity.sale.SaleProduct" useGeneratedKeys="true" keyProperty="id">
         insert into sale_product
         (name,category_id,sku_code,product_code,spec,sale_count,inventory,product_cost,stock_value,purchase_count,
-        no_card,damage,less_delivery,less_product,empty_box,create_at,update_at,inv_area,storage_at,custom_sku_id,damage_other,remark,create_user_id,update_user_id)
+        no_card,damage,less_delivery,less_product,empty_box,create_at,update_at,inv_area,storage_at,custom_sku_id,damage_other,remark,create_user_id,update_user_id,back_count)
         values(
         #{name},
         #{categoryId},
@@ -65,7 +66,8 @@
         #{damageOther},
         #{remark},
         #{createUserId},
-        #{updateUserId}
+        #{updateUserId},
+        #{backount}
         )
     </insert>
 
@@ -75,7 +77,7 @@
         spec= #{spec},sale_count=#{saleCount},inventory= #{inventory},product_cost= #{productCost},stock_value=#{stockValue},purchase_count= #{purchaseCount},
         no_card= #{noCard},damage=#{damage},less_delivery= #{lessDelivery},less_product=#{lessProduct},empty_box=#{emptyBox},update_at= CURRENT_TIMESTAMP(0),
         inv_area=#{invArea},storage_at=#{storageAt},custom_sku_id=#{customSkuId},damage_other=#{damageOther},remark=#{remark},
-        update_user_id=#{updateUserId}
+        update_user_id=#{updateUserId},back_count=#{backCount}
         where id=#{id}
     </update>
     <select id="getSaleProductById" parameterType="java.lang.Long"  resultType="entity.sale.SaleProduct">
@@ -138,6 +140,10 @@
     <!--获取商品销售的总数量-->
     <select id="getProductSaleCountTotal" parameterType="java.lang.Long"  resultType="java.lang.Integer">
         select sum(sale_count) from sale_order where sale_product_id=#{value};
+    </select>
+    <!--获取商品退货的总数量-->
+    <select id="getProductBackCountTotal" parameterType="java.lang.Long"  resultType="java.lang.Integer">
+        select sum(sale_count) from sale_order where sale_product_id=#{value} and remark_status=5;
     </select>
 
 

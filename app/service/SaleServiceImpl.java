@@ -85,4 +85,9 @@ public class SaleServiceImpl implements SaleService{
     public Boolean delSaleOrderById(Long id) {
         return saleMapper.delSaleOrderById(id)>0;
     }
+
+    @Override
+    public Integer getProductBackCountTotal(Long id) {
+        return saleMapper.getProductBackCountTotal(id);
+    }
 }

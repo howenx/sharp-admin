@@ -270,7 +270,7 @@ public class SaleCtrl extends Controller {
                     for(SaleOrder saleOrder:saleOrderList){
                         saleOrder.setCost(productCost);
                         saleOrder.setProfit(getOrderProfit(saleOrder.getSaleTotal(),saleOrder.getJdFee(),saleOrder.getCost(),
-                                saleOrder.getShipFee(),saleOrder.getInteLogistics(),saleOrder.getPackFee(),saleOrder.getStorageFee(),saleOrder.getPostalFee(),saleOrder.getSaleCount()));
+                                saleOrder.getShipFee(),saleOrder.getInteLogistics(),saleOrder.getPackFee(),saleOrder.getStorageFee(),saleOrder.getPostalFee(),saleOrder.getSaleCount(),saleOrder.getRemarkStatus()));
                         Logger.info("profit="+saleOrder);
                         saleService.updateSaleOrder(saleOrder);
 
@@ -300,6 +300,8 @@ public class SaleCtrl extends Controller {
         saleProduct.setInventory(inventory);
         //库存商品价值
         saleProduct.setStockValue(saleProduct.getProductCost().multiply(new BigDecimal(saleProduct.getInventory())));
+        //退货数
+        saleProduct.setBackCount(saleService.getProductBackCountTotal(saleProduct.getId()));
 
         Logger.info("总销售saleCountTotal="+saleCountTotal+",saleProduct="+saleProduct);
 
@@ -433,7 +435,11 @@ public class SaleCtrl extends Controller {
 
 
             //总销售额=单价*数量-优惠额
-            BigDecimal saleTotal = price.multiply(new BigDecimal(saleCount)).subtract(discountAmount);
+            BigDecimal saleTotal = new BigDecimal(0);
+            if(remarkStatus!=5){ //不是退货
+                saleTotal=price.multiply(new BigDecimal(saleCount)).subtract(discountAmount);
+            }
+
             // 京东费用=总销售 额*京东费率
             BigDecimal jdFee = saleTotal.multiply(jdRate).divide(new BigDecimal(100));
             BigDecimal postalFee = new BigDecimal(0);
@@ -443,9 +449,9 @@ public class SaleCtrl extends Controller {
             if((cate==1&&saleTotal.doubleValue() > 500)||(cate==2&&saleTotal.doubleValue() > 100)){
                 postalFee=saleTotal.multiply(postalTaxRate).divide(new BigDecimal(100));
             }
-            //净利润=总销售额-京东费用-成本*数量-国内快递费-国际物流费-包装费-仓储服务费-行邮税
+            //净利润=总销售额-京东费用-成本*数量-国内快递费-国际物流费*数量-包装费-仓储服务费-行邮税
             BigDecimal productCost = saleProduct.getProductCost();//成本
-            BigDecimal profit = getOrderProfit(saleTotal,jdFee,productCost,shipFee,inteLogistics,packFee,storageFee,postalFee,saleCount);
+            BigDecimal profit = getOrderProfit(saleTotal,jdFee,productCost,shipFee,inteLogistics,packFee,storageFee,postalFee,saleCount,remarkStatus);
             String id=json.findValue("id").asText().trim();
             if(null==id||"".equals(id)) {
                 saleOrder = createSaleOrder(new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, saleProduct.getName(), cate, price, saleCount,
@@ -485,9 +491,16 @@ public class SaleCtrl extends Controller {
      * @return
      */
     private BigDecimal getOrderProfit(BigDecimal saleTotal,BigDecimal jdFee,BigDecimal productCost,BigDecimal shipFee,
-                                 BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, Integer saleCount){
-        return saleTotal.subtract(jdFee).subtract((productCost.multiply(new BigDecimal(saleCount)))).
-                subtract(shipFee).subtract(inteLogistics).subtract(packFee).subtract(storageFee).subtract(postalFee);
+                                 BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, Integer saleCount,Integer remarkStatus){
+        BigDecimal count=new BigDecimal(saleCount);//数量
+        if(remarkStatus==5){ //退单
+            //净利润=-成本*数量-国内快递费-国际物流费*数量-包装费-仓储服务费-行邮税
+            return new BigDecimal(0).subtract((productCost.multiply(count))).
+                    subtract(shipFee).subtract((inteLogistics.multiply(count))).subtract(packFee).subtract(storageFee).subtract(postalFee);
+        }
+        // 净利润=总销售额-京东费用-成本*数量-国内快递费-国际物流费*数量-包装费-仓储服务费-行邮税
+        return saleTotal.subtract(jdFee).subtract((productCost.multiply(count))).
+                subtract(shipFee).subtract((inteLogistics.multiply(count))).subtract(packFee).subtract(storageFee).subtract(postalFee);
     }
 
     /**

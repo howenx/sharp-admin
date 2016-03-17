@@ -103,4 +103,10 @@ public interface SaleMapper {
      * @return
      */
     Integer delSaleOrderById(Long id);
+    /**
+     * 获取商品退货的总数量
+     * @param id 商品id
+     * @return
+     */
+    Integer getProductBackCountTotal(Long id);
 }

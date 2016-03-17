@@ -43,6 +43,8 @@ public class SaleProduct implements Serializable {
     @JsonIgnore
     private Long updateUserId; //创建订单的人
 
+    private Integer backCount;//退单数
+
     //分页,从第几条开始
     @JsonIgnore
     private Integer offset;
@@ -309,5 +311,13 @@ public class SaleProduct implements Serializable {
 
     public void setUpdateUserId(Long updateUserId) {
         this.updateUserId = updateUserId;
+    }
+
+    public Integer getBackCount() {
+        return backCount;
+    }
+
+    public void setBackCount(Integer backCount) {
+        this.backCount = backCount;
     }
 }
