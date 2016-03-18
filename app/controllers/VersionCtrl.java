@@ -56,6 +56,10 @@ public class VersionCtrl extends Controller {
     private ActorRef schedulerCancelOrderActor;
 
     @Inject
+    @Named("shopOrderPushActor")
+    private ActorRef shopOrderPushActor;
+
+    @Inject
     public VersionCtrl(ItemService itemService,AdminUserService idService, Configuration configuration, OSSClientProvider oss_client ){
         this.itemService = itemService;
         this.configuration = configuration;
@@ -127,4 +131,10 @@ public class VersionCtrl extends Controller {
             return badRequest("error");
         }
     }
+    public Result test() {
+
+        return ok();
+
+    }
+
 }
