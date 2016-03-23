@@ -93,6 +93,7 @@
 
         var isPost = true;
         var id=$("#id").val();
+        var shop=$("#shop").val();
         var saleAt=$("#saleAt").val();
         var orderId=$("#orderId").val();
         var saleProductId=$("#saleProductId").val();
@@ -116,6 +117,7 @@
 
         var order=new Object();
         order.id=id;
+        order.shop=shop;
         order.saleAt=saleAt;
         order.orderId=orderId;
         order.saleProductId=saleProductId;
@@ -172,12 +174,14 @@
         var starttime=$("#starttime").val();
         var endtime=$("#endtime").val();
         var productName=$("#productName").val();
+        var shop=$("#shop").val();
 
         var statistics=new Object();
         statistics.categoryId=categoryId;
         statistics.productName=productName;
         statistics.starttime=starttime;
         statistics.endtime=endtime;
+        statistics.shop=shop;
         if (isPost) {
             $.ajax({
                 type :  "POST",

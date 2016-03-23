@@ -174,19 +174,20 @@
         ${alias}.remark_status,
         ${alias}.remark,
         ${alias}.create_user_id,
-        ${alias}.update_user_id
+        ${alias}.update_user_id,
+        ${alias}.shop
     </sql>
     <!-- 录入一条销售订单信息 -->
     <insert id="insertSaleOrder" parameterType="entity.sale.SaleOrder" useGeneratedKeys="true" keyProperty="id">
         insert into sale_order
         (sale_at,order_id,product_name,price,sale_count,discount_amount,sale_total,
         jd_rate,jd_fee,cost,ship_fee,pack_fee,storage_fee,postal_fee,postal_tax_rate,profit,inte_logistics,
-        category_id,create_at,update_at,sale_product_id,inv_area,remark_status,remark,create_user_id,update_user_id)
+        category_id,create_at,update_at,sale_product_id,inv_area,remark_status,remark,create_user_id,update_user_id,shop)
         values(
         #{saleAt},#{orderId},#{productName},#{price},#{saleCount},#{discountAmount},#{saleTotal},
         #{jdRate},#{jdFee},#{cost},#{shipFee},#{packFee},#{storageFee},#{postalFee},#{postalTaxRate},#{profit},#{inteLogistics},
        #{categoryId},CURRENT_TIMESTAMP(0),CURRENT_TIMESTAMP(0),#{saleProductId},#{invArea},#{remarkStatus},#{remark},#{createUserId},
-        #{updateUserId}
+        #{updateUserId},#{shop}
        )
     </insert>
     <update id="updateSaleOrder" parameterType="entity.sale.SaleOrder" >
@@ -194,7 +195,7 @@
         discount_amount=#{discountAmount},sale_total=#{saleTotal},jd_rate=#{jdRate},jd_fee=#{jdFee},cost=#{cost},ship_fee=#{shipFee},
         pack_fee=#{packFee},storage_fee=#{storageFee},postal_fee=#{postalFee},postal_tax_rate=#{postalTaxRate},profit=#{profit},inte_logistics=#{inteLogistics},
         category_id=#{categoryId},update_at= CURRENT_TIMESTAMP(0),inv_area=#{invArea},sale_product_id=#{saleProductId},remark_status=#{remarkStatus},remark=#{remark},
-        update_user_id=#{updateUserId}
+        update_user_id=#{updateUserId},shop=#{shop}
         where id=#{id}
     </update>
 
@@ -215,6 +216,9 @@
         <if test="saleAt!=null and saleAt!=''">
             and t.sale_at = #{saleAt}
         </if>
+        <if test="shop!=null and shop!=''">
+            and t.shop = #{shop}
+        </if>
         <if test="saleProductId!=null and saleProductId!=''">
             and t.sale_product_id = #{saleProductId}
         </if>
@@ -227,12 +231,16 @@
         <if test="categoryId!=null and categoryId!=''">
             and category_id = #{categoryId}
         </if>
+        <if test="shop!=null and shop!=''">
+            and shop = #{shop}
+        </if>
         <if test="starttime!=null and starttime!=''">
             and sale_at &gt;=#{starttime} ::timestamp
         </if>
         <if test="endtime!=null and endtime!=''">
             and sale_at &lt;=#{endtime} ::timestamp
         </if>
+
         <if test="productName != null and productName!='' ">
             and product_name like '%${productName}%'
         </if>
@@ -243,6 +251,9 @@
         WHERE 1=1
         <if test="saleProductId!=null and saleProductId!=''">
             and sale_product_id =#{saleProductId}
+        </if>
+        <if test="shop!=null and shop!=''">
+            and shop = #{shop}
         </if>
         and s.sale_at::TEXT LIKE '${saleMonth}%' GROUP BY s.sale_at order by s.sale_at;
    </select>
@@ -258,6 +269,9 @@
         </if>
         <if test="orderId != null and orderId!='' ">
             and t.order_id =#{orderId}
+        </if>
+        <if test="shop!=null and shop!=''">
+            and t.shop = #{shop}
         </if>
         <if test="productName != null and productName!='' ">
             and t.product_name like '%${productName}%'

@@ -76,6 +76,17 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label class="col-sm-2 control-label">商店</label>
+            <div class="col-sm-4">
+                <select class="form-control form-data-area" id="shop">
+                    <option value="-1">全部</option>
+                    <option value="1">韩密美专营店</option>
+                    <option value="2">韩密美化妆品店</option>
+                </select>
+            </div>
+        </div>
+
         <div class="btn-s">
             <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
             <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
@@ -106,6 +117,7 @@
                 <th>利润</th>
                 <th>保税区</th>
                 <th>标记</th>
+                <th>商店</th>
                 <th>最后更新</th>
                 <th>操作</th>
             </tr>
@@ -134,6 +146,7 @@
                     <td>@order.getProfit()</td>
                     <td>@order.getInvArea()</td>
                     <td>@order.getRemarkStatus()</td>
+                    <td>@order.getShop()</td>
                     <td>@order.getUpdateAt().toString().substring(0,16)</td>
                     <td><a onclick="delOrder(@order.getId())">删除</a></td>
                 </tr>

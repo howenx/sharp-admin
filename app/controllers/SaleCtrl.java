@@ -124,11 +124,11 @@ public class SaleCtrl extends Controller {
     private SaleOrder createSaleOrder(Date saleAt,String orderId,Long saleProductId,String productName, Integer categoryId,BigDecimal price,Integer saleCount,
                                       BigDecimal discountAmount, BigDecimal saleTotal,BigDecimal jdRate,BigDecimal jdFee,BigDecimal cost,BigDecimal shipFee,
                                       BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, BigDecimal postalTaxRate, BigDecimal profit,
-                                      String invArea,Integer remarkStatus,String remark,Long createUserId,Long updateUserId){
+                                      String invArea,Integer remarkStatus,String remark,Long createUserId,Long updateUserId,Integer shop){
         SaleOrder saleOrder=new SaleOrder();
         setSaleOrder(saleOrder,saleAt,orderId, saleProductId, productName, categoryId, price, saleCount,
                 discountAmount, saleTotal, jdRate, jdFee, cost,
-                shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,invArea,remarkStatus,remark,createUserId,updateUserId);
+                shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,invArea,remarkStatus,remark,createUserId,updateUserId,shop);
         if(saleService.insertSaleOrder(saleOrder)){
             return saleOrder;
         }
@@ -138,7 +138,7 @@ public class SaleCtrl extends Controller {
     private void setSaleOrder(SaleOrder saleOrder,Date saleAt,String orderId,Long saleProductId,String productName, Integer categoryId,BigDecimal price,Integer saleCount,
                               BigDecimal discountAmount, BigDecimal saleTotal,BigDecimal jdRate,BigDecimal jdFee,BigDecimal cost,BigDecimal shipFee,
                               BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, BigDecimal postalTaxRate, BigDecimal profit,
-                              String invArea,Integer remarkStatus,String remark,Long createUserId,Long updateUserId){
+                              String invArea,Integer remarkStatus,String remark,Long createUserId,Long updateUserId,Integer shop){
         saleOrder.setSaleAt(saleAt);
         saleOrder.setOrderId(orderId);
         saleOrder.setSaleProductId(saleProductId);
@@ -163,6 +163,7 @@ public class SaleCtrl extends Controller {
         saleOrder.setRemark(remark);
         saleOrder.setCreateUserId(createUserId);
         saleOrder.setUpdateUserId(updateUserId);
+        saleOrder.setShop(shop);
     }
 
     /**
@@ -432,6 +433,7 @@ public class SaleCtrl extends Controller {
             BigDecimal postalTaxRate = new BigDecimal(json.findValue("postalTaxRate").asDouble());
             Integer remarkStatus=json.findValue("remarkStatus").asInt();
             String remark=json.findValue("remark").asText().trim();
+            Integer shop=json.findValue("shop").asInt();
 
 
             //总销售额=单价*数量-优惠额
@@ -457,12 +459,12 @@ public class SaleCtrl extends Controller {
             if(null==id||"".equals(id)) {
                 saleOrder = createSaleOrder(new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, saleProduct.getName(), cate, price, saleCount,
                         discountAmount, saleTotal, jdRate, jdFee, saleProduct.getProductCost(),
-                        shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark,userId,userId);
+                        shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark,userId,userId,shop);
             }else{
                 saleOrder=saleService.getSaleOrderById(Long.valueOf(id));
                 setSaleOrder(saleOrder,new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, saleProduct.getName(), cate, price, saleCount,
                         discountAmount, saleTotal, jdRate, jdFee, saleProduct.getProductCost(),
-                        shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark,saleOrder.getCreateUserId(),userId);
+                        shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark,saleOrder.getCreateUserId(),userId,shop);
                 saleService.updateSaleOrder(saleOrder);
             }
 
@@ -577,6 +579,10 @@ public class SaleCtrl extends Controller {
             if (json.has("productName")) {
                 saleOrder.setProductName(json.findValue("productName").asText().trim());
             }
+            Integer shop=json.findValue("shop").asInt();
+            if (shop>0) {
+                saleOrder.setShop(shop);
+            }
 
            saleStatisticsList = saleService.getSaleStatistics(saleOrder);
             if (null!=saleStatisticsList&&!saleStatisticsList.isEmpty()){
@@ -688,6 +694,10 @@ public class SaleCtrl extends Controller {
             }
             if (json.has("endTime")) {
                 saleOrder.setEndtime(json.findValue("endTime").asText().trim());
+            }
+            Integer shop=json.findValue("shop").asInt();
+            if (shop>0) {
+                saleOrder.setShop(shop);
             }
 
             saleOrder.setPageSize(-1);

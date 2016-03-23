@@ -547,6 +547,7 @@ $(function() {
             var saleDto = new Object();
             saleDto.orderId=$("#orderId").val();
             saleDto.name=$("#productName").val();
+            saleDto.shop=$("#shop").val();
             //起止时间如果为空
             if ($("#starttime").val() != '' && $("#starttime").val() != null) {
                 saleDto.startTime=$("#starttime").val();
@@ -586,6 +587,7 @@ $(function() {
                      '<td>'+ $(this)[0].profit+ '</td>' +
                      '<td>'+ $(this)[0].invArea+'</td>' +
                      '<td>'+ $(this)[0].remarkStatus+'</td>' +
+                     '<td>'+ $(this)[0].shop+'</td>' +
                      '<td>'+ $(this)[0].updateAt+ '</td>' +
                      '<td><a onclick="delOrder('+$(this)[0].id+')">删除</a></td>'+
                     '</tr>'

@@ -51,6 +51,7 @@ public class SaleOrder implements Serializable {
     private String endtime;
     /**销售月份*/
     private String saleMonth;
+    private Integer shop; //商店  1-韩密美专营店  2-韩密美化妆品店
 
     //分页,从第几条开始
     @JsonIgnore
@@ -338,5 +339,13 @@ public class SaleOrder implements Serializable {
 
     public void setUpdateUserId(Long updateUserId) {
         this.updateUserId = updateUserId;
+    }
+
+    public Integer getShop() {
+        return shop;
+    }
+
+    public void setShop(Integer shop) {
+        this.shop = shop;
     }
 }
