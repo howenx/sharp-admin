@@ -116,7 +116,7 @@ class Auth @Inject() (val messagesApi: MessagesApi) extends Controller with Secu
 //      Results.Redirect(routes.Auth.login).withSession(request.session - ("username"))
 
       //Modified By Sunny.Wu 2016/01/29
-      Results.Redirect(routes.AdminUserCtrl.adminUserLogin).withSession(request.session - ("username"))
+      Results.Redirect(routes.AdminUserCtrl.adminUserLogin()).withSession(request.session - "username")
 
     }
   }
