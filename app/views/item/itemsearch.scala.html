@@ -179,7 +179,7 @@
         //被取消商品的ID
         var exportItems = [];
         $("input[name='selectItem']:checked").each(function(){
-            var itemId = $(this).parents("tr").find("td:eq(1)").find("input:eq(1)").val();
+            var itemId = $(this).parents("tr").find("td:eq(1)").find("input:eq(0)").val();
             exportItems.push(itemId);
         });
         console.log(JSON.stringify(exportItems));

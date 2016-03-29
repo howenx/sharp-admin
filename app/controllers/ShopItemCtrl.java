@@ -186,6 +186,7 @@ public class ShopItemCtrl extends Controller {
     public Result shopItemPush() throws ApiException, ParseException {
         ShopItemOperate shopItemOperate = new ShopItemOperate();
         JsonNode json = request().body().asJson();
+        Logger.error(json.toString());
         Long skuIds[] = new Long[json.size()];
         List<String> shopItemCodeList = new ArrayList<>();
         for(int i=0;i<json.size();i++){
@@ -194,6 +195,7 @@ public class ShopItemCtrl extends Controller {
 //            Item item = itemService.getItem(skuIds[i]);
 //            List<Inventory> invList = inventoryService.getInventoriesByItemId(skuIds[i]);
             ShopItemPushRequest request = new ShopItemPushRequest();
+            Logger.error(inventory.toString());
             request.shopItemCode = inventory.getId().toString();//宝贝编码
             request.shopId = 1;                           //店铺Id
             String state = inventory.getState();
