@@ -34,14 +34,15 @@
         ${alias}.remark,
         ${alias}.create_user_id,
         ${alias}.update_user_id,
-        ${alias}.back_count
+        ${alias}.back_count,
+        ${alias}.jd_sku_id
 
     </sql>
     <!-- 录入一条销售产品信息 -->
     <insert id="insertSaleProduct" parameterType="entity.sale.SaleProduct" useGeneratedKeys="true" keyProperty="id">
         insert into sale_product
         (name,category_id,sku_code,product_code,spec,sale_count,inventory,product_cost,stock_value,purchase_count,
-        no_card,damage,less_delivery,less_product,empty_box,create_at,update_at,inv_area,storage_at,custom_sku_id,damage_other,remark,create_user_id,update_user_id,back_count)
+        no_card,damage,less_delivery,less_product,empty_box,create_at,update_at,inv_area,storage_at,custom_sku_id,damage_other,remark,create_user_id,update_user_id,back_count,jd_sku_id)
         values(
         #{name},
         #{categoryId},
@@ -67,7 +68,8 @@
         #{remark},
         #{createUserId},
         #{updateUserId},
-        #{backount}
+        #{backCount},
+        #{jdSkuId}
         )
     </insert>
 
@@ -77,7 +79,7 @@
         spec= #{spec},sale_count=#{saleCount},inventory= #{inventory},product_cost= #{productCost},stock_value=#{stockValue},purchase_count= #{purchaseCount},
         no_card= #{noCard},damage=#{damage},less_delivery= #{lessDelivery},less_product=#{lessProduct},empty_box=#{emptyBox},update_at= CURRENT_TIMESTAMP(0),
         inv_area=#{invArea},storage_at=#{storageAt},custom_sku_id=#{customSkuId},damage_other=#{damageOther},remark=#{remark},
-        update_user_id=#{updateUserId},back_count=#{backCount}
+        update_user_id=#{updateUserId},back_count=#{backCount},jd_sku_id=#{jdSkuId}
         where id=#{id}
     </update>
     <select id="getSaleProductById" parameterType="java.lang.Long"  resultType="entity.sale.SaleProduct">
@@ -96,6 +98,9 @@
         from sale_product t where 1=1
         <if test="categoryId!=null and categoryId!=''">
             and t.category_id = #{categoryId}
+        </if>
+        <if test="jdSkuId!=null and jdSkuId!=''">
+            and t.jd_sku_id = #{jdSkuId}
         </if>
 
     </select>
@@ -175,19 +180,20 @@
         ${alias}.remark,
         ${alias}.create_user_id,
         ${alias}.update_user_id,
-        ${alias}.shop
+        ${alias}.shop,
+        ${alias}.input_type
     </sql>
     <!-- 录入一条销售订单信息 -->
     <insert id="insertSaleOrder" parameterType="entity.sale.SaleOrder" useGeneratedKeys="true" keyProperty="id">
         insert into sale_order
         (sale_at,order_id,product_name,price,sale_count,discount_amount,sale_total,
         jd_rate,jd_fee,cost,ship_fee,pack_fee,storage_fee,postal_fee,postal_tax_rate,profit,inte_logistics,
-        category_id,create_at,update_at,sale_product_id,inv_area,remark_status,remark,create_user_id,update_user_id,shop)
+        category_id,create_at,update_at,sale_product_id,inv_area,remark_status,remark,create_user_id,update_user_id,shop,input_type)
         values(
         #{saleAt},#{orderId},#{productName},#{price},#{saleCount},#{discountAmount},#{saleTotal},
         #{jdRate},#{jdFee},#{cost},#{shipFee},#{packFee},#{storageFee},#{postalFee},#{postalTaxRate},#{profit},#{inteLogistics},
        #{categoryId},CURRENT_TIMESTAMP(0),CURRENT_TIMESTAMP(0),#{saleProductId},#{invArea},#{remarkStatus},#{remark},#{createUserId},
-        #{updateUserId},#{shop}
+        #{updateUserId},#{shop},#{inputType}
        )
     </insert>
     <update id="updateSaleOrder" parameterType="entity.sale.SaleOrder" >
@@ -195,7 +201,7 @@
         discount_amount=#{discountAmount},sale_total=#{saleTotal},jd_rate=#{jdRate},jd_fee=#{jdFee},cost=#{cost},ship_fee=#{shipFee},
         pack_fee=#{packFee},storage_fee=#{storageFee},postal_fee=#{postalFee},postal_tax_rate=#{postalTaxRate},profit=#{profit},inte_logistics=#{inteLogistics},
         category_id=#{categoryId},update_at= CURRENT_TIMESTAMP(0),inv_area=#{invArea},sale_product_id=#{saleProductId},remark_status=#{remarkStatus},remark=#{remark},
-        update_user_id=#{updateUserId},shop=#{shop}
+        update_user_id=#{updateUserId},shop=#{shop},input_type=#{inputType}
         where id=#{id}
     </update>
 
@@ -222,7 +228,9 @@
         <if test="saleProductId!=null and saleProductId!=''">
             and t.sale_product_id = #{saleProductId}
         </if>
-
+        <if test="inputType!=null and inputType!=''">
+            and t.input_type = #{inputType}
+        </if>
     </select>
     <select id="getSaleStatistics" parameterType="entity.sale.SaleOrder" resultType="entity.sale.SaleStatistics">
         SELECT sum(sale_total)as saleTotal,sum(jd_fee)as jdFeeTotal ,sum(ship_fee)as shipFeeTotal,sum(inte_logistics)as inteLogisticsTotal ,
