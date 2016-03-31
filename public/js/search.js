@@ -433,14 +433,18 @@ $(function() {
                 var realYN = "";
                 var status = "";
                 var gender = "";
+                var idType = "";
                 if($(this)[0].gender=="F"){gender="男"}
                 if($(this)[0].gender=="M"){gender="女"}
-                if($(this)[0].activeYN=="Y"){activeYN="已激活"}
-                if($(this)[0].activeYN=="N"){activeYN="未激活"}
-                if($(this)[0].realYN=="Y"){activeYN="已认证"}
-                if($(this)[0].realYN=="N"){activeYN="未认证"}
+//                if($(this)[0].orActive=="Y"){orActive="已激活"}
+//                if($(this)[0].orActive=="N"){orActive="未激活"}
+                if($(this)[0].orReal=="Y"){orReal="已认证"}
+                if($(this)[0].orReal=="N"){orReal="未认证"}
                 if($(this)[0].status=="Y"){status="正常"}
                 if($(this)[0].status=="N"){status="阻止"}
+                if($(this)[0].idType=="N"){idType="普通手机用户"}
+                if($(this)[0].idType=="W"){idType="微信注册用户"}
+                if($(this)[0].idType=="Q"){idType="腾讯QQ用户"}
                 $('#tb-topic').find('tbody').append('' +
                     '<tr class="tb-list-data">' +
                     '<td><a href="javascript:void(0)">' + $(this)[0].userId + '</a></td>' +
@@ -448,15 +452,16 @@ $(function() {
                     '<td><img class="main-img" src="' + window.url + $(this)[0].photoUrl + '" alt="" width="50"></td>' +
                     '<td>' + gender+ '</td>' +
                     '<td>' + $(this)[0].phoneNum + '</td>' +
-                    '<td>' + ($(this)[0].email!=null && $(this)[0].email!=''? $(this)[0].email : '') + '</td>' +
+//                    '<td>' + ($(this)[0].email!=null && $(this)[0].email!=''? $(this)[0].email : '') + '</td>' +
                     '<td>' + $(this)[0].birthday.substr(0, 10) + '</td>' +
-                    '<td>' + ($(this)[0].cardType!=null && $(this)[0].cardType!=''? $(this)[0].cardType : '') + '</td>' +
-                    '<td>' + ($(this)[0].cardNum!=null && $(this)[0].cardNum!=''? $(this)[0].cardNum : '') + '</td>' +
-                    '<td>' + ($(this)[0].realName!=null && $(this)[0].realName!=''? $(this)[0].realName : '') + '</td>' +
+//                    '<td>' + ($(this)[0].cardType!=null && $(this)[0].cardType!=''? $(this)[0].cardType : '') + '</td>' +
+//                    '<td>' + ($(this)[0].cardNum!=null && $(this)[0].cardNum!=''? $(this)[0].cardNum : '') + '</td>' +
+//                    '<td>' + ($(this)[0].realName!=null && $(this)[0].realName!=''? $(this)[0].realName : '') + '</td>' +
                     '<td>' + $(this)[0].regDt.substr(0, 16) + '</td>' +
                     '<td>' + $(this)[0].regIp + '</td>' +
-                    '<td>' + activeYN + '</td>' +
-                    '<td>' + realYN + '</td>' +
+                    '<td>' + idType + '</td>' +
+//                    '<td>' + orActive + '</td>' +
+                    '<td>' + orReal + '</td>' +
                     '<td>' + status + '</td>' +
                     '<td>' + $(this)[0].lastloginDt.substr(0, 16) + '</td>' +
                     '<td>' + $(this)[0].lastloginIp + '</td>' +

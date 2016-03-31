@@ -11,7 +11,6 @@
         ${alias}.user_id,
         ${alias}.nickname,
         ${alias}.passwd,
-        ${alias}.email,
         ${alias}.phone_num,
         ${alias}.gender,
         ${alias}.birthday,
@@ -22,15 +21,21 @@
         ${alias}.card_img ::text,
         ${alias}.reg_ip ::text,
         ${alias}.reg_dt,
-        ${alias}."active_YN",
-        ${alias}."real_YN",
-        ${alias}.alter_dt,
+        ${alias}.or_real,
         ${alias}.lastlogin_dt,
         ${alias}.lastlogin_ip ::text,
-        ${alias}.lastpwdchg_dt,
-        ${alias}.desc,
-        ${alias}.status
+        ${alias}.status,
+        ${alias}.id_type,
+        ${alias}.open_id,
+        ${alias}.id_area,
+        ${alias}.login_times,
+        ${alias}.email,
+        ${alias}.alter_dt,
+        ${alias}.or_active
+        <!--${alias}.lastpwdchg_dt,-->
+        <!--${alias}.desc,-->
     </sql>
+
 
     <!-- 获取一条用户信息 -->
     <select id="getID" resultType="entity.ID" parameterType="java.lang.Integer">
@@ -86,7 +91,7 @@
         </if>
 
     </select>
-    
+
     <select id="getIDByPhoneNum" parameterType="java.lang.String" resultType="entity.ID">
         select
         <include refid="idColumns">

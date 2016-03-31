@@ -89,14 +89,15 @@
                 <th>头像</th>
                 <th>性别</th>
                 <th>电话号码</th>
-                <th>邮箱</th>
+                <!--<th>邮箱</th>-->
                 <th>生日</th>
-                <th>证件类型</th>
-                <th>证件号码</th>
-                <th>真实姓名</th>
+                <!--<th>证件类型</th>-->
+                <!--<th>证件号码</th>-->
+                <!--<th>真实姓名</th>-->
                 <th>注册时间</th>
                 <th>注册IP</th>
-                <th>是否激活</th>
+                <th>用户类型</th>
+                <!--<th>是否激活</th>-->
                 <th>是否实名认证</th>
                 <th>状态</th>
                 <th>最后登录时间</th>
@@ -117,28 +118,33 @@
                     @if(id.getGender()=="M"){男}
                 </td>
                 <td>@id.getPhoneNum()</td>
-                <td>
-                    @if(id.getEmail()!=null && id.getEmail()!=""){@id.getEmail()}
-                </td>
+                <!--<td>-->
+                    <!--@if(id.getEmail()!=null && id.getEmail()!=""){@id.getEmail()}-->
+                <!--</td>-->
                 <td>@(id.getBirthday().toString().substring(0,10))</td>
-                <td>
-                    @if(id.getCardType()!=null && id.getCardType()!=""){@id.getCardType()}
-                </td>
-                <td>
-                    @if(id.getCardNum()!=null && id.getCardNum()!=""){@id.getCardNum()}
-                </td>
-                <td>
-                    @if(id.getRealName()!=null && id.getRealName()!=""){@id.getRealName()}
-                </td>
+                <!--<td>-->
+                    <!--@if(id.getCardType()!=null && id.getCardType()!=""){@id.getCardType()}-->
+                <!--</td>-->
+                <!--<td>-->
+                    <!--@if(id.getCardNum()!=null && id.getCardNum()!=""){@id.getCardNum()}-->
+                <!--</td>-->
+                <!--<td>-->
+                    <!--@if(id.getRealName()!=null && id.getRealName()!=""){@id.getRealName()}-->
+                <!--</td>-->
                 <td>@(id.getRegDt().toString().substring(0,16))</td>
                 <td>@id.getRegIp()</td>
                 <td>
-                    @if(id.getActiveYN()=="Y"){已激活}
-                    @if(id.getActiveYN()=="N"){未激活}
+                    @if(id.getIdType()=="N"){普通手机用户}
+                    @if(id.getIdType()=="W"){微信注册用户}
+                    @if(id.getIdType()=="Q"){腾讯QQ用户}
                 </td>
+                <!--<td>-->
+                    <!--@if(id.getOrActive()=="Y"){已激活}-->
+                    <!--@if(id.getOrActive()=="N"){未激活}-->
+                <!--</td>-->
                 <td>
-                    @if(id.getRealYN()=="Y"){已认证}
-                    @if(id.getRealYN()=="N"){未认证}
+                    @if(id.getOrReal()=="Y"){已认证}
+                    @if(id.getOrReal()=="N"){未认证}
                 </td>
                 <td>
                     @if(id.getStatus()=="Y"){正常}
