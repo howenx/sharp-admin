@@ -7,6 +7,8 @@
     var isPost = true;
     var id=$("#id").val();
     var categoryId=$("#categoryId").val();
+    var jdSkuId=$("#jdSkuId").val();
+    var customSkuId=$("#customSkuId").val();
     var productName=$("#productName").val();
     var skuCode=$("#skuCode").val();
     var productCode=$("#productCode").val();
@@ -24,7 +26,7 @@
     var damageOther=$("#damageOther").val();
     var remark=$("#remark").val();
     //必填项不能有空值
-    if ( productName=="" || skuCode=="" || productCode=="" || productCost=="" ||storageAt=="") {
+    if (jdSkuId==""|| productName=="" || skuCode=="" || productCode=="" || productCost=="" ||storageAt=="") {
         isPost=false;
         alert("必填项不能为空");
     }
@@ -32,6 +34,8 @@
     var product=new Object();
     product.id=id;
     product.categoryId=categoryId;
+    product.jdSkuId=jdSkuId;
+    product.customSkuId=customSkuId;
     product.name=productName;
     product.skuCode=skuCode;
     product.productCode=productCode;
@@ -108,6 +112,7 @@
         var postalTaxRate=$("#postalTaxRate").val();
         var remarkStatus=$('input:radio[name=remarkStatus]:checked').val();
         var remark=$("#remark").val();
+        var inputType=$("#inputType").val();
 
         //必填项不能有空值
         if ( saleAt=="" || orderId=="" || price=="" || saleCount=="") {
@@ -132,6 +137,7 @@
         order.postalTaxRate=postalTaxRate;
         order.remarkStatus=remarkStatus;
         order.remark=remark;
+        order.inputType=inputType;
 
         if (isPost) {
                     $.ajax({
@@ -297,27 +303,56 @@
 
  })
 
-
-    function delOrder(id){
-        if (window.confirm("确定删除?")) {
-            $.ajax({
-                  type :"GET",
-                  url : "/sales/order/del/"+id,
-                  contentType: "application/json; charset=utf-8",
-                  error : function(request) {
-                      if (window.lang = 'cn') {
-                          $('#js-userinfo-error').text('删除失败');
-                      } else {
-                          $('#js-userinfo-error').text('delete error');
-                      }
-                      setTimeout("$('#js-userinfo-error').text('')", 2000);
-                  },
-                  success: function(data) {
-                       if(data=="success"){
-                           $("#orderTr"+id).remove();
-                       } else alert("删除失败!");
-
+//删除订单
+function delOrder(id){
+    if (window.confirm("确定删除?")) {
+        $.ajax({
+              type :"GET",
+              url : "/sales/order/del/"+id,
+              contentType: "application/json; charset=utf-8",
+              error : function(request) {
+                  if (window.lang = 'cn') {
+                      $('#js-userinfo-error').text('删除失败');
+                  } else {
+                      $('#js-userinfo-error').text('delete error');
                   }
-              });
-          }
+                  setTimeout("$('#js-userinfo-error').text('')", 2000);
+              },
+              success: function(data) {
+                   if(data=="success"){
+                       $("#orderTr"+id).remove();
+                   } else alert("删除失败!");
+
+              }
+          });
       }
+  }
+
+  //导入订单
+  $(document).on("click",".orderExcelBtn",function(){
+
+       var orderPath=$("#orderPath").val();
+
+       if(null==orderPath||""==orderPath){
+          alert("请导入订单excel");
+          return;
+       }
+      //提交表单
+      $("#orderForm").submit();
+
+  });
+
+
+  //导入订单费用
+    $(document).on("click",".feeExcelBtn",function(){
+
+         var orderPath=$("#feePath").val();
+
+         if(null==orderPath||""==orderPath){
+            alert("请导入订单费用excel");
+            return;
+         }
+        //提交表单
+        $("#feeForm").submit();
+
+    });

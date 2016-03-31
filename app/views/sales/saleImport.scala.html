@@ -1,0 +1,101 @@
+@import play.i18n._
+@(lang:String,user:entity.User)
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/screenshot.css">
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/sale.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script>
+    $(function(){
+        $(function () {
+            $('#datetimepicker-starttime').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+            $('#datetimepicker-endtime').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+    })
+</script>
+}
+
+@import java.lang.String; var title="数据导入"
+
+@layout(lang="cn",title=title,user=user)(scripts) {
+
+<div class="mbread" style="width:65%">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">销售报表</span>
+        <span class="icon-path">&gt;</span>
+        <span>数据导入</span>
+    </div>
+</div>
+
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">Excel数据导入</span>
+    </div>
+
+    <div class="row">
+        <form id="orderForm" action="/sales/upload/order" method="post" enctype="multipart/form-data">
+            <div class="upinfo">
+                <input type="hidden" class="form-control" id="id" />
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">商店</label>
+                    <div class="col-sm-2">
+                        <select class="form-control form-data-area" id="shop" name="shop">
+                            <option value="1">韩密美专营店</option>
+                            <option value="2">韩密美化妆品店</option>
+                        </select>
+                    </div>
+                </div>
+                <br/><br/><br/>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">导入订单</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="orderPath" name="orderPath"/>
+                        <input type="file" name="orderFile" onchange="document.getElementById('orderPath').value=this.value" >
+                    </div>
+                </div>
+                <br/><br/><br/>
+                <div class="form-group col-sm-4">
+                    <a id="orderExcelBtn" class="orderExcelBtn">提交</a>
+                </div>
+            </div>
+        </form>
+
+        <br/><br/><br/><br/><br/><br/>
+
+        <form id="feeForm" action="/sales/upload/order/fee" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class=" control-label">目前只支持csv格式,格式是:<br/>
+                    货主	出库单号（货主）	收货省	收货市	收货区	发运时间	物流单号	装箱单号	包材编码	包材名称	货品名称	货品数量	重量	操作费	包材费	快递费</label>
+            </div>
+            </br>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">导入运费</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="feePath" name="feePath"/>
+                    <input type="file" name="feeFile" onchange="document.getElementById('feePath').value=this.value" >
+                </div>
+            </div>
+            <br/><br/><br/>
+            <div class="form-group col-sm-4">
+                <a class="feeExcelBtn">提交</a>
+            </div>
+        </form>
+    </div>
+</div>
+}
+

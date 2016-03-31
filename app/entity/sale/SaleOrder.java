@@ -52,6 +52,7 @@ public class SaleOrder implements Serializable {
     /**销售月份*/
     private String saleMonth;
     private Integer shop; //商店  1-韩密美专营店  2-韩密美化妆品店
+    private Integer inputType;//1-手动录入  2-excel导入
 
     //分页,从第几条开始
     @JsonIgnore
@@ -347,5 +348,13 @@ public class SaleOrder implements Serializable {
 
     public void setShop(Integer shop) {
         this.shop = shop;
+    }
+
+    public Integer getInputType() {
+        return inputType;
+    }
+
+    public void setInputType(Integer inputType) {
+        this.inputType = inputType;
     }
 }
