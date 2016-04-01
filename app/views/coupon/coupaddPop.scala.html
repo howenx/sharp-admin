@@ -61,14 +61,15 @@
         <th>用户名称</th>
         <th>头像</th>
         <th>性别</th>
-        <th>邮箱</th>
+        <!--<th>邮箱</th>-->
         <th>电话号码</th>
         <th>生日</th>
-        <th>真实姓名</th>
-        <th>证件类型</th>
-        <th>证件号码</th>
+        <!--<th>真实姓名</th>-->
+        <!--<th>证件类型</th>-->
+        <!--<th>证件号码</th>-->
         <th>注册时间</th>
-        <th>是否激活</th>
+        <th>用户类型</th>
+        <!--<th>是否激活</th>-->
         <th>是否实名认证</th>
     </tr>
     @for(id <- idList){
@@ -79,26 +80,34 @@
         <td>@id.getUserId()</td>
         <td>@id.getNickname()</td>
         <td> <img class="main-img" src="@url@id.getPhotoUrl()" alt="" width="50"></td>
-        <td>@id.getGender()</td>
-        <td>@id.getEmail()</td>
+        <td>
+            @if(id.getGender()=="F"){女}
+            @if(id.getGender()=="M"){男}
+        </td>
+        <!--<td>@id.getEmail()</td>-->
         <td>@id.getPhoneNum()</td>
         <td>
         @if(id.getBirthday!=null){@(id.getBirthday().toString().substring(0,10))}
         </td>
-        <td>@id.getRealName()</td>
-        <td>@id.getCardType()</td>
-        <td>@id.getCardNum()</td>
+        <!--<td>@id.getRealName()</td>-->
+        <!--<td>@id.getCardType()</td>-->
+        <!--<td>@id.getCardNum()</td>-->
         <td>
         @if(id.getRegDt!=null){@(id.getRegDt().toString().substring(0,19))}
         </td>
         <td>
-        @if(id.getActiveYN()=="Y"){是}
-        @if(id.getActiveYN()=="N"){否}
+            @if(id.getIdType()=="N"){普通手机用户}
+            @if(id.getIdType()=="W"){微信注册用户}
+            @if(id.getIdType()=="Q"){腾讯QQ用户}
         </td>
+        <!--<td>-->
+        <!--@if(id.getOrActive()=="Y"){是}-->
+        <!--@if(id.getOrActive()=="N"){否}-->
+        <!--</td>-->
         <td>
-        @if(id.getRealYN()=="Y"){是}
-        @if(id.getRealYN()=="N"){否}
-    </td>
+        @if(id.getOrReal()=="Y"){是}
+        @if(id.getOrReal()=="N"){否}
+        </td>
     </tr>
     }
 </table>

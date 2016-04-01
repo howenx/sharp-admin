@@ -45,6 +45,10 @@ public class SaleProduct implements Serializable {
 
     private Integer backCount;//退单数
 
+    private Long jdSkuId;   //京东商品id,用于导入表格时关联数据
+
+    private Integer saleFinishStatus; //1-未卖完   2-卖完了,导入订单时选择未卖完的商品
+
     //分页,从第几条开始
     @JsonIgnore
     private Integer offset;
@@ -319,5 +323,21 @@ public class SaleProduct implements Serializable {
 
     public void setBackCount(Integer backCount) {
         this.backCount = backCount;
+    }
+
+    public Long getJdSkuId() {
+        return jdSkuId;
+    }
+
+    public void setJdSkuId(Long jdSkuId) {
+        this.jdSkuId = jdSkuId;
+    }
+
+    public Integer getSaleFinishStatus() {
+        return saleFinishStatus;
+    }
+
+    public void setSaleFinishStatus(Integer saleFinishStatus) {
+        this.saleFinishStatus = saleFinishStatus;
     }
 }

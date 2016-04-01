@@ -284,3 +284,6 @@ POST        /sales/inventory                                               contr
 GET         /sales/order/search                                            controllers.SaleCtrl.saleOrderSearch()
 POST        /$lang<(cn|en|kr)>/sales/order/search/$pageNum<[0-9]+>         controllers.SaleCtrl.saleOrderSearchAjax(lang,pageNum:Int)
 GET         /sales/order/del/:id                                           controllers.SaleCtrl.saleOrderDel(id:Long)
+GET         /sales/import/excel                                            controllers.SaleCtrl.saleImport()
+POST        /sales/upload/order                                            controllers.SaleCtrl.uploadOrder()
+POST        /sales/upload/order/fee                                        controllers.SaleCtrl.uploadOrderFee()
