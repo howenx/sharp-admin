@@ -511,6 +511,7 @@ $(function() {
         funcList.saleProductlist_search = function saleProductlist_search(pageIndex) {
             var saleDto = new Object();
             saleDto.name=$("#productName").val();
+            saleDto.jdSkuId=$("#jdSkuId").val();
             //起止时间如果为空
             if ($("#starttime").val() != '' && $("#starttime").val() != null) {
                 saleDto.startTime=$("#starttime").val();

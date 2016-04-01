@@ -25,6 +25,7 @@
     var customSkuId=$("#customSkuId").val();
     var damageOther=$("#damageOther").val();
     var remark=$("#remark").val();
+    var saleFinishStatus=$('input:radio[name=saleFinishStatus]:checked').val();
     //必填项不能有空值
     if (jdSkuId==""|| productName=="" || skuCode=="" || productCode=="" || productCost=="" ||storageAt=="") {
         isPost=false;
@@ -52,6 +53,7 @@
     product.customSkuId=customSkuId;
     product.damageOther=damageOther;
     product.remark=remark;
+    product.saleFinishStatus=saleFinishStatus;
 
     if (isPost) {
                 $.ajax({
@@ -356,3 +358,9 @@ function delOrder(id){
         $("#feeForm").submit();
 
     });
+//修改商品Id
+ $(document).on("click","#editProIdBtn",function(){
+    if (window.confirm("您确定要修改订单关联的商品ID吗?")) {
+        $("#saleProductId").attr("readonly",false)//去除input元素的readonly属性
+    }
+ });

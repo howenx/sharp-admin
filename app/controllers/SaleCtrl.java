@@ -67,10 +67,10 @@ public class SaleCtrl extends Controller {
     private SaleProduct createSaleProduct(String name,Integer categoryId,String skuCode,String productCode, String spec, Integer saleCount,
                                           Integer inventory, BigDecimal productCost,BigDecimal stockValue,Integer purchaseCount,Integer noCard,Integer damage,
                                           Integer lessDelivery, Integer lessProduct, Integer emptyBox,String invArea,Timestamp storageAt,Long customSkuId,Integer damageOther,
-                                          String remark,Long createUserId,Long updateUserId,Long jdSkuId){
+                                          String remark,Long createUserId,Long updateUserId,Long jdSkuId,Integer saleFinishStatus){
         SaleProduct saleProduct=new SaleProduct();
         setSaleProduct(saleProduct,name,categoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
-                lessDelivery,lessProduct,emptyBox,invArea,storageAt,customSkuId,damageOther,remark,createUserId,updateUserId,jdSkuId);
+                lessDelivery,lessProduct,emptyBox,invArea,storageAt,customSkuId,damageOther,remark,createUserId,updateUserId,jdSkuId,saleFinishStatus);
         if(saleService.insertSaleProduct(saleProduct)){
             return saleProduct;
         }
@@ -80,7 +80,7 @@ public class SaleCtrl extends Controller {
                                 String name,Integer categoryId,String skuCode,String productCode, String spec, Integer saleCount,
                                 Integer inventory, BigDecimal productCost,BigDecimal stockValue,Integer purchaseCount,Integer noCard,Integer damage,
                                 Integer lessDelivery, Integer lessProduct, Integer emptyBox,String invArea,Timestamp storageAt,Long customSkuId,Integer damageOther,String remark,
-                                Long createUserId,Long updateUserId,Long jdSkuId){
+                                Long createUserId,Long updateUserId,Long jdSkuId,Integer saleFinishStatus){
         saleProduct.setName(name);
         saleProduct.setCategoryId(categoryId);
         saleProduct.setSkuCode(skuCode);
@@ -104,6 +104,7 @@ public class SaleCtrl extends Controller {
         saleProduct.setCreateUserId(createUserId);
         saleProduct.setUpdateUserId(updateUserId);
         saleProduct.setJdSkuId(jdSkuId);
+        saleProduct.setSaleFinishStatus(saleFinishStatus);
     }
 
     /**
@@ -202,7 +203,7 @@ public class SaleCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result productSave() {
         JsonNode json = request().body().asJson();
-        Logger.info("=====productSave==="+json);
+//        Logger.info("=====productSave==="+json);
         SaleProduct saleProduct=null;
         try {
             User user = (User) ctx().args.get("user");
@@ -247,6 +248,7 @@ public class SaleCtrl extends Controller {
             String remark=json.findValue("remark").asText().trim();
             String invArea=json.findValue("invArea").asText().trim();
             String storageAt = json.findValue("storageAt").asText().trim();
+            Integer saleFinishStatus=json.findValue("saleFinishStatus").asInt();
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Timestamp timestamp = new Timestamp(format.parse(storageAt).getTime());
             String id=json.findValue("id").asText().trim();
@@ -261,7 +263,7 @@ public class SaleCtrl extends Controller {
             BigDecimal stockValue=productCost.multiply(new BigDecimal(inventory));
             if(null==saleProduct){
                 saleProduct=createSaleProduct(name,categoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
-                        lessDelivery,lessProduct,emptyBox,invArea,timestamp,customSkuId,damageOther,remark,userId,userId,jdSkuId);
+                        lessDelivery,lessProduct,emptyBox,invArea,timestamp,customSkuId,damageOther,remark,userId,userId,jdSkuId,saleFinishStatus);
             }
             else{
                 List<SaleOrder> saleOrderList=null;
@@ -270,9 +272,9 @@ public class SaleCtrl extends Controller {
                     saleOrder.setSaleProductId(Long.valueOf(id));
                     saleOrderList=saleService.getSaleOrder(saleOrder);
                 }
-                Logger.info("===noCard=="+noCard+",damage="+damage+",lessDelivery="+lessDelivery);
+//                Logger.info("===noCard=="+noCard+",damage="+damage+",lessDelivery="+lessDelivery);
                 setSaleProduct(saleProduct,name,categoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
-                        lessDelivery,lessProduct,emptyBox,invArea,timestamp,customSkuId,damageOther,remark,saleProduct.getCreateUserId(),userId,jdSkuId);
+                        lessDelivery,lessProduct,emptyBox,invArea,timestamp,customSkuId,damageOther,remark,saleProduct.getCreateUserId(),userId,jdSkuId,saleFinishStatus);
                 saleService.updateSaleProduct(saleProduct);
 
                 //成本改变了更新订单中的成本,已经因为成本改变需要修改的数值,比如利润
@@ -361,7 +363,6 @@ public class SaleCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result salesSearchAjax(String lang,int pageNum) {
         JsonNode json = request().body().asJson();
-        Logger.info("==salesSearchAjax===="+json);
         SaleProduct saleProduct=new SaleProduct();
         if(pageNum>=1){
             //计算从第几条开始取数据
@@ -369,6 +370,10 @@ public class SaleCtrl extends Controller {
             String name=json.findValue("name").asText().trim();
             if(null!=name&&!"".equals(name)){
                 saleProduct.setName(name);
+            }
+            String jdSkuId=json.findValue("jdSkuId").asText().trim();
+            if(null!=jdSkuId&&!"".equals(jdSkuId)){
+                saleProduct.setJdSkuId(Long.valueOf(jdSkuId));
             }
             if (json.has("startTime")) {
                 saleProduct.setStarttime(json.findValue("startTime").asText().trim());
@@ -424,7 +429,6 @@ public class SaleCtrl extends Controller {
         ObjectNode result = newObject();
         SaleOrder saleOrder=null;
         try {
-            Logger.info("=====saleOrderSave===" + json);
             User user = (User) ctx().args.get("user");
             Long userId=Long.valueOf(user.userId().get().toString());
             String saleAt = json.findValue("saleAt").asText().trim();
@@ -567,7 +571,6 @@ public class SaleCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result saleStatistics() {
         JsonNode json = request().body().asJson();
-        Logger.info("=====saleStatistics==============="+json);
         Integer categoryId=json.findValue("categoryId").asInt();
          List<SaleStatistics> saleStatisticsList=new ArrayList<SaleStatistics>() ;
 
@@ -622,7 +625,6 @@ public class SaleCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result saleInventory() {
         JsonNode json = request().body().asJson();
-        Logger.info("=====saleInventory==============="+json);
         ObjectNode result = newObject();
         Long saleProductId=json.findValue("saleProductId").asLong();
         SaleOrder saleOrder = new SaleOrder();
@@ -646,7 +648,6 @@ public class SaleCtrl extends Controller {
         result.putPOJO("saleProduct",Json.toJson(saleProduct));
         result.putPOJO("saleMonthTotal",saleMonthTotal);
 
-        Logger.info("==saleInventory result====="+result);
 
         return ok(result);
     }
@@ -684,9 +685,7 @@ public class SaleCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result saleOrderSearchAjax(String lang,int pageNum){
-        Logger.info("==saleOrderSearchAjax========================");
         JsonNode json = request().body().asJson();
-        Logger.info("==saleOrderSearchAjax===="+json);
         SaleOrder saleOrder=new SaleOrder();
         if(pageNum>=1){
             //计算从第几条开始取数据
@@ -781,11 +780,11 @@ public class SaleCtrl extends Controller {
 
         stringMap.forEach((k, v) -> map.put(k, v[0]));
 
-        Logger.info("==body="+body);
+//        Logger.info("==body="+body);
         Http.MultipartFormData.FilePart filePart = body.getFile("orderFile");
         File file=filePart.getFile();
       //  Logger.info(path+"==file="+file+"==="+extensionName);
-        Logger.info("==file="+file+"===");
+//        Logger.info("==file="+file+"===");
         List<String> list = null;
         try {
             list = ExcelHelper.exportListFromCsv(file);
@@ -843,6 +842,7 @@ public class SaleCtrl extends Controller {
             StringBuffer skuErr=new StringBuffer();
             StringBuffer orderErr=new StringBuffer();
             StringBuffer suc=new StringBuffer();
+            StringBuffer existErr=new StringBuffer();
             String[] str=null;
             for(int i=1;i<list.size();i++) {
                 str= list.get(i).split(",");
@@ -857,7 +857,24 @@ public class SaleCtrl extends Controller {
                     Logger.error("\n"+"第"+(i)+"行京东商品不存在jdSkuId="+jdSkuId+",orderId="+orderId);
                     skuErr.append("\n"+"第"+(i)+"行京东商品不存在jdSkuId="+jdSkuId+",orderId="+orderId);
                     continue;
+                }else {
+                    int productNum=0;
+                    for(SaleProduct temp:productList){
+                        if(temp.getSaleFinishStatus()==1){ //未卖完
+                            productNum++;
+                            saleProduct=temp;
+                        }
+                        if(productNum>=2){
+                            break;
+                        }
+                    }
+                    if(productNum!=1){
+                        Logger.error("\n"+"第"+(i)+"行京东商品存在至少"+productNum+"个jdSkuId="+jdSkuId+",orderId="+orderId);
+                        existErr.append("\n"+"第"+(i)+"行京东商品存在至少"+productNum+"个jdSkuId="+jdSkuId+",orderId="+orderId);
+                        continue;
+                    }
                 }
+
                 SaleOrder saleOrder=new SaleOrder();
                 saleOrder.setOrderId(orderId);
                 saleOrder.setInputType(2);
@@ -868,7 +885,7 @@ public class SaleCtrl extends Controller {
                     continue;
                 }
 
-                saleProduct=productList.get(0);
+
                 BigDecimal price=new BigDecimal(str[6]); //TODO ..单价
                 BigDecimal discountAmount=new BigDecimal(str[7]).subtract(new BigDecimal(str[10])); //优惠额
                 BigDecimal jdRate=new BigDecimal(10);  //京东费率
@@ -916,11 +933,15 @@ public class SaleCtrl extends Controller {
                 }
             }
             if(skuErr.length()>0){
-                sb.append("\n京东商品不存在:\n");
+                sb.append("\n\n京东商品不存在:\n");
                 sb.append(skuErr);
             }
+            if(existErr.length()>0){
+                sb.append("\n\n京东商品存在多个:\n");
+                sb.append(existErr);
+            }
             if(orderErr.length()>0){
-                sb.append("\n订单已经存在:\n");
+                sb.append("\n\n订单已经存在:\n");
                 sb.append(orderErr);
             }
             if(suc.length()>0){
@@ -945,9 +966,9 @@ public class SaleCtrl extends Controller {
         Long userId=Long.valueOf(user.userId().get().toString());
         Http.MultipartFormData body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart filePart = body.getFile("feeFile");
-        Logger.info("==body="+body);
+//        Logger.info("==body="+body);
         File file=filePart.getFile();
-        Logger.info("==file="+file);
+//        Logger.info("==file="+file);
         List<String> list = null;
         try {
             list = ExcelHelper.exportListFromCsv(file);

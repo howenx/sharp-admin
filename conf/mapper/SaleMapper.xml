@@ -35,14 +35,15 @@
         ${alias}.create_user_id,
         ${alias}.update_user_id,
         ${alias}.back_count,
-        ${alias}.jd_sku_id
+        ${alias}.jd_sku_id,
+        ${alias}.sale_finish_status
 
     </sql>
     <!-- 录入一条销售产品信息 -->
     <insert id="insertSaleProduct" parameterType="entity.sale.SaleProduct" useGeneratedKeys="true" keyProperty="id">
         insert into sale_product
         (name,category_id,sku_code,product_code,spec,sale_count,inventory,product_cost,stock_value,purchase_count,
-        no_card,damage,less_delivery,less_product,empty_box,create_at,update_at,inv_area,storage_at,custom_sku_id,damage_other,remark,create_user_id,update_user_id,back_count,jd_sku_id)
+        no_card,damage,less_delivery,less_product,empty_box,create_at,update_at,inv_area,storage_at,custom_sku_id,damage_other,remark,create_user_id,update_user_id,back_count,jd_sku_id,sale_finish_status)
         values(
         #{name},
         #{categoryId},
@@ -69,7 +70,8 @@
         #{createUserId},
         #{updateUserId},
         #{backCount},
-        #{jdSkuId}
+        #{jdSkuId},
+        #{saleFinishStatus}
         )
     </insert>
 
@@ -79,7 +81,7 @@
         spec= #{spec},sale_count=#{saleCount},inventory= #{inventory},product_cost= #{productCost},stock_value=#{stockValue},purchase_count= #{purchaseCount},
         no_card= #{noCard},damage=#{damage},less_delivery= #{lessDelivery},less_product=#{lessProduct},empty_box=#{emptyBox},update_at= CURRENT_TIMESTAMP(0),
         inv_area=#{invArea},storage_at=#{storageAt},custom_sku_id=#{customSkuId},damage_other=#{damageOther},remark=#{remark},
-        update_user_id=#{updateUserId},back_count=#{backCount},jd_sku_id=#{jdSkuId}
+        update_user_id=#{updateUserId},back_count=#{backCount},jd_sku_id=#{jdSkuId},sale_finish_status=#{saleFinishStatus}
         where id=#{id}
     </update>
     <select id="getSaleProductById" parameterType="java.lang.Long"  resultType="entity.sale.SaleProduct">
@@ -116,6 +118,9 @@
         </if>
         <if test="name != null and name!='' ">
             and t.name like '%${name}%'
+        </if>
+        <if test="jdSkuId!=null and jdSkuId!=''">
+            and t.jd_sku_id = #{jdSkuId}
         </if>
         <if test="starttime!=null and starttime!=''">
             and t.storage_at &gt;=#{starttime} ::timestamp
@@ -221,6 +226,9 @@
         from sale_order t where 1=1
         <if test="saleAt!=null and saleAt!=''">
             and t.sale_at = #{saleAt}
+        </if>
+        <if test="orderId != null and orderId!='' ">
+            and t.order_id =#{orderId}
         </if>
         <if test="shop!=null and shop!=''">
             and t.shop = #{shop}
