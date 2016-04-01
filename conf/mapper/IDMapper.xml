@@ -24,11 +24,8 @@
         ${alias}.reg_dt,
         ${alias}."active_YN",
         ${alias}."real_YN",
-        ${alias}.alter_dt,
         ${alias}.lastlogin_dt,
         ${alias}.lastlogin_ip ::text,
-        ${alias}.lastpwdchg_dt,
-        ${alias}.desc,
         ${alias}.status
     </sql>
 

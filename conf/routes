@@ -112,6 +112,8 @@ POST        /comm/order/cancel                                             contr
 POST        /$lang<(cn|en|kr)>/comm/order/cancel                           controllers.OrderCtrl.orderCancel(lang)
 GET         /comm/order/unpaidOrders                                       controllers.OrderCtrl.unpaidOrders(lang ="cn")
 GET         /$lang<(cn|en|kr)>/comm/order/unpaidOrders                     controllers.OrderCtrl.unpaidOrders(lang)
+POST        /comm/order/getLogistics                                       controllers.OrderCtrl.getLogistics(lang ="cn")
+POST        /$lang<(cn|en|kr)>/comm/order/getLogistics                     controllers.OrderCtrl.getLogistics(lang)
 
 
 

@@ -7,6 +7,7 @@ import entity.order.OrderLine;
 import entity.order.OrderShip;
 import entity.order.OrderSplit;
 import filters.UserAuth;
+import order.GetLogistics;
 import play.Logger;
 import play.i18n.Lang;
 import play.i18n.Messages;
@@ -443,6 +444,20 @@ public class OrderCtrl extends Controller {
 
         }
         return ok(views.html.order.outTimeUnpaidOrders.render(lang,orList,(User) ctx().args.get("user")));
+    }
+
+    /**
+     * 获取物流信息   Added by Tiffany Zhu 2016.03.29
+     * @param lang
+     * @return
+     */
+    //@Security.Authenticated(UserAuth.class)
+    public Result getLogistics(String lang){
+        JsonNode json = request().body().asJson();
+        Logger.error(json.asText());
+        String expCompany = "wanxiangwuliu";
+        JsonNode logisticsJson = GetLogistics.sendGet(expCompany,json.asText());
+        return ok(Json.toJson(logisticsJson.toString()));
     }
 
 }
