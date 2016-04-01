@@ -120,14 +120,19 @@ public class VersionCtrl extends Controller {
 
             User user = (User) ctx().args.get("user");
 
-            VersionVo versionVo = Json.fromJson(json.get(),VersionVo.class);
+            if (json.isPresent()){
+                VersionVo versionVo = Json.fromJson(json.get(),VersionVo.class);
 
-            versionVo.setAdminUserId(Long.valueOf(user.userId().get().toString()));
+                versionVo.setAdminUserId(Long.valueOf(user.userId().get().toString()));
 
-            versionMiddle.publicRelease(versionVo,fileParts.get(0).getFile());
-            return ok("success");
+                versionMiddle.publicRelease(versionVo,fileParts.get(0).getFile());
+
+                return ok("success");
+            }else return badRequest("error");
+
         }catch (Exception ex){
             Logger.error("发布版本出错:"+ex.getMessage());
+            ex.printStackTrace();
             return badRequest("error");
         }
     }

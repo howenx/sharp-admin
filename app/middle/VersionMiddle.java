@@ -1,5 +1,8 @@
 package middle;
 
+import com.aliyun.oss.OSSErrorCode;
+import com.aliyun.oss.OSSException;
+import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.ObjectMetadata;
 import entity.VersionVo;
 import modules.OSSClientProvider;
@@ -19,71 +22,91 @@ import java.util.regex.Pattern;
  */
 public class VersionMiddle {
 
-    private  ItemService itemService;
+    private ItemService itemService;
 
     private Configuration configuration;
 
     private OSSClientProvider oss_client;
 
-    public VersionMiddle(ItemService itemService,Configuration configuration,OSSClientProvider oss_client) {
+    public VersionMiddle(ItemService itemService, Configuration configuration, OSSClientProvider oss_client) {
         this.itemService = itemService;
         this.configuration = configuration;
         this.oss_client = oss_client;
     }
 
-    public void publicRelease(VersionVo versionVo,File file) throws FileNotFoundException {
+    public void publicRelease(VersionVo versionVo, File file) throws FileNotFoundException {
 
-        FileInputStream is =  new FileInputStream(file);
 
-            ObjectMetadata objMetadata = new ObjectMetadata();
-            objMetadata.setContentLength(file.length());
+        FileInputStream is = new FileInputStream(file);
 
-            String fileName = "HMM-"+versionVo.getReleaseNumber().toUpperCase()+".";
+        ObjectMetadata objMetadata = new ObjectMetadata();
+        objMetadata.setContentLength(file.length());
 
-            String productType="android";
+        String fileName = "HMM-" + versionVo.getReleaseNumber().toUpperCase() + ".";
 
-            if (versionVo.getProductType().equals("I")){
-                objMetadata.setContentType("application/ipa");
-                fileName = fileName+"ipa";
-                productType="ios";
-            }else{
-                objMetadata.setContentType("application/apk");
-                fileName = fileName+"apk";
+        String productType = "android";
+
+        if (versionVo.getProductType().equals("I")) {
+            objMetadata.setContentType("application/ipa");
+            fileName = fileName + "ipa";
+            productType = "ios";
+        } else {
+            objMetadata.setContentType("application/apk");
+            fileName = fileName + "apk";
+        }
+
+        versionVo.setFileName(fileName);
+
+        versionVo.setDownloadLink(configuration.getString("image.server.url") + productType + "/" + fileName);
+
+        try {
+            String key = oss_client.get().getObject(configuration.getString("oss.bucket"), productType + "/" + fileName).getKey();
+            if (key.equals(fileName)) {
+                oss_client.get().deleteObject(configuration.getString("oss.bucket"), productType + "/" + fileName);
+                oss_client.get().putObject(configuration.getString("oss.bucket"), productType + "/" + fileName, is, objMetadata);
             }
 
-            versionVo.setFileName(fileName);
+        } catch (OSSException ex) {
+            if (ex.getErrorCode().equals(OSSErrorCode.NO_SUCH_KEY)) {
+                oss_client.get().putObject(configuration.getString("oss.bucket"), productType + "/" + fileName, is, objMetadata);
+            }
+        }
 
-            versionVo.setDownloadLink(configuration.getString("image.server.url")+productType+"/"+fileName);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
+        XMLEncoder encoder = new XMLEncoder(baos);
 
-            oss_client.get().putObject(configuration.getString("oss.bucket"), productType+"/"+fileName, is, objMetadata);
+        encoder.writeObject(versionVo);
+        encoder.flush();
+        encoder.close();
 
-            ByteArrayOutputStream baos=new ByteArrayOutputStream();
+        String xmlFileName = "hmm.xml";
+        objMetadata.setContentLength(baos.toByteArray().length);
+        objMetadata.setContentType("application/xml");
 
-            XMLEncoder encoder = new XMLEncoder(baos);
+        Logger.error("版本信息:\n" + versionVo);
 
-            encoder.writeObject(versionVo);
-            encoder.flush();
-            encoder.close();
+        try {
+            String key = oss_client.get().getObject(configuration.getString("oss.bucket"), productType + "/" + xmlFileName).getKey();
+            if (key.equals(xmlFileName)) {
+                oss_client.get().deleteObject(configuration.getString("oss.bucket"), productType + "/" + xmlFileName);
+                oss_client.get().putObject(configuration.getString("oss.bucket"), productType + "/" + xmlFileName, new ByteArrayInputStream(baos.toByteArray()), objMetadata);
+            }
+        } catch (OSSException ex) {
+            if (ex.getErrorCode().equals(OSSErrorCode.NO_SUCH_KEY)) {
+                oss_client.get().putObject(configuration.getString("oss.bucket"), productType + "/" + xmlFileName, new ByteArrayInputStream(baos.toByteArray()), objMetadata);
+            }
+        }
 
-            String xmlFileName = "hmm.xml";
-            objMetadata.setContentLength(baos.toByteArray().length);
-            objMetadata.setContentType("application/xml");
+        versionVo.setUpdateReqXml(configuration.getString("image.server.url") + productType + "/" + xmlFileName);
 
-            Logger.error("版本信息:\n"+versionVo);
+        itemService.updateVersioning(versionVo);
 
-            oss_client.get().putObject(configuration.getString("oss.bucket"), productType+"/"+xmlFileName, new ByteArrayInputStream(baos.toByteArray()), objMetadata);
+        itemService.insertVersioning(versionVo);
 
+        Logger.error("xml地址:\n" + configuration.getString("image.server.url") + productType + "/" + xmlFileName);
 
-            versionVo.setUpdateReqXml(configuration.getString("image.server.url")+productType+"/"+xmlFileName);
-
-            itemService.updateVersioning(versionVo);
-
-            itemService.insertVersioning(versionVo);
-
-            Logger.error("xml地址:\n"+configuration.getString("image.server.url")+productType+"/"+xmlFileName);
-
-            Logger.error("上传的APP地址:\n"+configuration.getString("image.server.url")+productType+"/"+fileName);
+        Logger.error("上传的APP地址:\n" + configuration.getString("image.server.url") + productType + "/" + fileName);
 
     }
 
