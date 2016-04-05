@@ -229,14 +229,14 @@ function saveCurr() {
         alert("输入数据不合法!");
     }
     //上下架时间验证
-    var nowDate = new Date();
-     var ss = moment(nowDate).format("YYYYMMDD");
-    var maxDate = nowDate.setMonth(nowDate.getMonth()+6);
+    var now = new Date();
+    var nowTime = now.getFullYear()+"-"+(now.getMonth()+1>=10?now.getMonth()+1:'0'+(now.getMonth()+1))+"-"+(now.getDate()>=10?now.getDate():'0'+now.getDate())+" "+(now.getHours()>=10?now.getHours():'0'+now.getHours())+":"+(now.getMinutes()>=10?now.getMinutes():'0'+now.getMinutes())+":"+(now.getSeconds()>=10?now.getSeconds():'0'+now.getSeconds());
+    var ss = moment(now).format("YYYYMMDD");
+    var maxDate = now.setMonth(now.getMonth()+6);
     var d1 = new Date(Date.parse(startAt.replace(/-/g,"/")));//上架时间
     var d2 = new Date(Date.parse(endAt.replace(/-/g,"/")));//下架时间
-
-    //修改(state为正常时,下架时间不能小于当前时间)
-    if (invId!="" && invId!=null) {
+    //修改
+    if (invId!="" && invId!=null && state=="Y") {
         if (startAt==null || endAt==null || startAt >= endAt) {
                orSave = false;
                $("#warn-date").html("请检查时间设置");
@@ -244,9 +244,12 @@ function saveCurr() {
     }
     //新增(上架时间和下架时间均不能小于当前时间)
     else {
-        if (startAt==null || endAt==null || startAt >= endAt) {
+        if (startAt=="" || endAt=="" || startAt >= endAt ) {
                orSave = false;
-               $("#warn-date").html("时间设置不能小于当前时间");
+               $("#warn-date").html("请检查时间设置");
+        } else if (startAt<nowTime || endAt<nowTime) {
+               orSave = false;
+               $("#warn-date").html("上下架时间均不能小于当前时间");
         } else $("#warn-date").html("");
     }
     if (d1>=maxDate || d2>=maxDate) {
@@ -518,7 +521,7 @@ $(function(){
          }
 
          //商品预览图最多为6张
-         if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==2) {
+         if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==6) {
             $("#"+id).parent().css("display","none");
          }
 

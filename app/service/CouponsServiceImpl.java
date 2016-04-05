@@ -1,12 +1,20 @@
 package service;
 
+import akka.actor.ActorRef;
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.Coupons;
 import mapper.CouponsMapper;
+import modules.NewScheduler;
+import play.Logger;
 import play.libs.Json;
+import scala.concurrent.duration.Duration;
 
 import javax.inject.Inject;
+import javax.inject.Named;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Sunny Wu on 15/12/30.
@@ -15,6 +23,13 @@ public class CouponsServiceImpl implements CouponsService {
 
     @Inject
     private CouponsMapper couponsMapper;
+
+    @Inject
+    private NewScheduler newScheduler;
+
+    @Inject
+    @Named("couponInvalidActor")
+    private ActorRef couponInvalidActor;
 
     /**
      * 优惠券保存
@@ -25,11 +40,31 @@ public class CouponsServiceImpl implements CouponsService {
         for(JsonNode jsonNode : json) {
             Coupons coupons = Json.fromJson(jsonNode, Coupons.class);
             Long cateId = coupons.getCateId();
-            String coupId = coupons.GetCode(cateId, 8);
+            String coupId = Coupons.GetCode(cateId, 8);
             coupons.setCoupId(coupId);
             coupons.setState("N");
+            Date now = new Date();
+            Long nowTimes = now.getTime();
+            Timestamp endAt = coupons.getEndAt();
+            Long endTimes = endAt.getTime();
+            //-- 创建Actor --//
+            //修改时,修改时间且下架时间大于现在时间 或 新增sku时 启动Actor
+            if (endTimes>nowTimes) {
+                //截止时间大于现在时间 启动自动失效scheduler
+                Logger.debug("coupon "+coupId+" auto invalid start...");
+                newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), couponInvalidActor, coupId);
+            }
             couponsMapper.insertCoupons(coupons);
         }
+    }
+
+    /**
+     * 更新优惠券
+     * @param coupons 优惠券  Added by Sunny Wu 2016.04.05
+     */
+    @Override
+    public void updateCoupons(Coupons coupons) {
+        couponsMapper.updateCoupons(coupons);
     }
 
     /**

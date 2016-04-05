@@ -2,7 +2,6 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.Coupons;
-import entity.ID;
 import entity.User;
 import filters.UserAuth;
 import play.Logger;
@@ -29,7 +28,7 @@ public class CoupCtrl extends Controller {
     @Inject
     private IDService idService;
 
-    private int pageSize = 1;
+    private int pageSize = 5;
 
     /**
      * 发放优惠券
