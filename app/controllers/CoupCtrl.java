@@ -75,6 +75,7 @@ public class CoupCtrl extends Controller {
             coup.setUserId(Long.parseLong(phoneNum));//用户id字段保存用户的手机号
         }
         Logger.error(countNum+","+pageCount+","+(User) ctx().args.get("user")+couponsList.toString());
+//        Lo
         return ok(views.html.coupon.coupsearch.render(lang, pageSize, countNum, pageCount, couponsList, (User) ctx().args.get("user")));
     }
 

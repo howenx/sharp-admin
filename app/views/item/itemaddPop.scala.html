@@ -130,6 +130,9 @@
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="itemDiscount" name="itemDiscount">
                 </div>
+                <div style="margin-top:5px;font-weight:500;">
+                    折
+                </div>
             </div>
             <div class="form-group">
                 <!-- 重量 -->
@@ -176,8 +179,8 @@
                     </select>
                 </div>
                 <!-- 报关单位 -->
-                <label class="col-sm-1 control-label thval">报关单位</label>
-                <div class="col-sm-2">
+                <label class="col-sm-1 control-label thval K">报关单位</label>
+                <div class="col-sm-2 K">
                     <select class="form-control" id="invCustoms" name="invCustoms">
                         @for(cus <- customs) {
                         <option value='@cus.toString.substring(1,cus.toString.length-1).split(",")(0)'>@cus.toString.substring(1,cus.toString.length-1).split(",")(1)</option>
@@ -185,7 +188,7 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group K">
                 <!-- 税率设置 -->
                 <label class="col-sm-2 control-label thval">税率设置</label>
                 <div class="col-sm-2">
@@ -208,7 +211,7 @@
                 </div>
                 <div id="warn-rate" style="color:red; margin-top:5px;"></div>
             </div>
-            <div class="form-group">
+            <div class="form-group K">
                 <!-- 海关商品备案号 -->
                 <label class="col-sm-2 control-label thval">海关商品备案号</label>
                 <div id="recordCode">
