@@ -83,6 +83,7 @@ public class VersionCtrl extends Controller {
         androidVersion =androidVersion.stream().map(av->{
             adminUser.setUserId(av.getAdminUserId());
             AdminUser d = idService.getUserBy(adminUser);
+            Logger.error("发布人:"+d.toString());
             if (d.getChNm().isEmpty())
             av.setAdminUserNm(d.getEnNm());
             else av.setAdminUserNm(d.getChNm());

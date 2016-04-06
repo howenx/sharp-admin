@@ -10,14 +10,13 @@ import entity.*;
 import filters.UserAuth;
 import modules.LevelFactory;
 import modules.NewScheduler;
-import org.apache.commons.mail.DefaultAuthenticator;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.MultiPartEmail;
 import play.Configuration;
 import play.Logger;
 import play.api.libs.Codecs;
 import play.cache.Cache;
 import play.libs.Json;
+import play.libs.mailer.Email;
+import play.libs.mailer.MailerClient;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -31,7 +30,10 @@ import service.IDService;
 import javax.inject.Inject;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
@@ -59,6 +61,9 @@ public class AdminUserCtrl extends Controller {
 
     @Inject
     private ActorSystem system;
+
+    @Inject
+    MailerClient mailerClient;
 
     public static final Timeout TIMEOUT = new Timeout(100, TimeUnit.MILLISECONDS);
 
@@ -97,35 +102,49 @@ public class AdminUserCtrl extends Controller {
     public Result adminUserSave(){
         JsonNode json = request().body().asJson();
         AdminUser adminUser  = Json.fromJson(json, AdminUser.class);
+        Logger.error("注册用户:"+adminUser.toString());
         adminUser.setEmail(adminUser.getEmail()+"@kakaocorp.com");
+        Logger.error("注册用户:"+adminUser.toString());
         //先验证是否已注册
         AdminUser adu  = adminUserService.getUserBy(adminUser);
-        if (null!=adu && !"".equals(adu)) {
+        if (null!=adu && !"".equals(adu.toString())) {
             return ok("该用户已注册!");
         } else {
-            String defPwd = adminUser.CreateCode(8);//给邮箱发送的8位随机默认密码
+            String defPwd = AdminUser.CreateCode(8);//给邮箱发送的8位随机默认密码
             String regIp = request().remoteAddress();
-            adminUser.setPasswd("11111111");
+            adminUser.setPasswd(defPwd);
             adminUser.setRegIp(regIp);
             adminUser.setActiveYN("N");
             adminUser.setStatus("N");
             adminUser.setLastLoginIp(regIp);
-            MultiPartEmail email = new MultiPartEmail();
-            email.setHostName("smtp.kakaocorp.com");//设置邮件服务器
-            email.setSmtpPort(465);//设置SMTP协议端口
-            email.setAuthenticator(new DefaultAuthenticator("aaa.aa@kakaocorp.com", "12345678"));//登陆邮件服务器的用户名和密码
-            email.setSSLOnConnect(true);
-            try {
-                email.setSubject("激活码查收...");//邮件标题
-                email.setMsg(adminUser.getEnNm()+"请用密码登录:"+defPwd);//邮件内容
-                email.setFrom("sunny.wu@kakaocorp.com");//发送人
-                email.addTo("sunny.wu@kakaocorp.com");//收件人
+
+            Email email = new Email()
+                    .setSubject(adminUser.getEnNm()+"请用密码登录:"+defPwd)
+                    .setFrom("developer@hanmimei.com")
+                    .addTo(adminUser.getEmail());
+//                    .addTo("1277615314@qq.com");
+            mailerClient.send(email);
+
+            Logger.error("邮件发送成功!");
+
+
+
+//            MultiPartEmail email = new MultiPartEmail();
+//            email.setHostName("smtp.mxhichina.com");//设置邮件服务器smtp.aliyun.com
+//            email.setSmtpPort(25);//设置SMTP协议端口
+//            email.setAuthenticator(new DefaultAuthenticator("developer@hanmimei.com", "DAumkakao123"));//登陆邮件服务器的用户名和密码
+//            email.setSSLOnConnect(true);
+//            try {
+//                email.setSubject("激活码查收...");//邮件标题
+//                email.setMsg(adminUser.getEnNm()+"请用密码登录:"+defPwd);//邮件内容
+//                email.setFrom("sunny.wu@kakaocorp.com");//发送人
+//                email.addTo("sunny.wu@kakaocorp.com");//收件人
 //                email.send();
-                Logger.debug("邮件发送成功!");
-            } catch (EmailException e) {
-                e.printStackTrace();
-                Logger.error("发送邮件错误"+e);
-            }
+//                Logger.debug("邮件发送成功!");
+//            } catch (EmailException e) {
+//                e.printStackTrace();
+//                Logger.error("发送邮件错误"+e);
+//            }
             adminUserService.insertUser(adminUser);
             return ok("保存成功");
         }
@@ -153,7 +172,7 @@ public class AdminUserCtrl extends Controller {
         Logger.debug("login user:"+adu.toString());
         //登录后返回信息
         String data = "";
-        if (null!=adminUser && !"".equals(adminUser)) {
+        if (null!=adminUser && !"".equals(adminUser.toString())) {
             adminUser.setActiveYN("Y");
             adminUser.setLastLoginIp(loginIp);
             adminUser.setLastLoginDt(new Timestamp(new Date().getTime()));

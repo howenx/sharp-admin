@@ -77,6 +77,10 @@ function Init () {
         $("#invArea").val(skuObj.invArea);
         $("#invCustoms").val(skuObj.invCustoms);
         $("#rateSet").val(skuObj.rateSet);
+        //海外直邮
+        if ($("#invArea").val()=="K") {
+            $(".K").css('display','none');
+        }
         if (skuObj.rateSet == "F") {
             $("#postalTaxRate").val(0);
             $("#postalTaxCode").val("");
@@ -247,34 +251,43 @@ function saveCurr() {
         if (startAt=="" || endAt=="" || startAt >= endAt ) {
                orSave = false;
                $("#warn-date").html("请检查时间设置");
-        } else if (startAt<nowTime || endAt<nowTime) {
+        } else if (endAt<nowTime) {
                orSave = false;
-               $("#warn-date").html("上下架时间均不能小于当前时间");
+               $("#warn-date").html("下架时间不能小于当前时间");
         } else $("#warn-date").html("");
     }
     if (d1>=maxDate || d2>=maxDate) {
         orSave = false;
         alert("上架时间和下架时间距离现在不能超过六个月");
     }
-    //行邮税率设置 F免税:税率为0,行邮税号不设置; S标准税率:税率不设置,输入行邮税号(数字); D自定义税率:设置税率,行邮税号不设置
-    if (rateSet == "") {
-        orSave = false;
-        $("#warn-rate").text("请设置税率");
+    //海外直邮
+    if ($("#invArea").val()=="K") {
+        invCustoms = "0";
+        postalTaxRate = "0";
+        postalTaxCode = "0";
+        recordCode = 0;
     }
-    else if (rateSet == "S") {
-        if (!numberReg1.test(postalTaxCode)) {
+    if ($("#invArea").val()!="K") {
+        //行邮税率设置 F免税:税率为0,行邮税号不设置; S标准税率:税率不设置,输入行邮税号(数字); D自定义税率:设置税率,行邮税号不设置
+        if (rateSet == "") {
             orSave = false;
-            $("#warn-rate").text("请输入正确的行邮税号");
-        } else $("#warn-rate").text("");
+            $("#warn-rate").text("请设置税率");
+        }
+        else if (rateSet == "S") {
+            if (!numberReg1.test(postalTaxCode)) {
+                orSave = false;
+                $("#warn-rate").text("请输入正确的行邮税号");
+            } else $("#warn-rate").text("");
+        }
+        else if (rateSet == "D") {
+            if (!numberReg1.test(postalTaxRate)) {
+                orSave = false;
+                $("#warn-rate").text("税率为整数");
+            } else $("#warn-rate").text("");
+        }
+        else if (rateSet = "F") {$("#warn-rate").html("");}
+        else  $("#warn-rate").html("");
     }
-    else if (rateSet == "D") {
-        if (!numberReg1.test(postalTaxRate)) {
-            orSave = false;
-            $("#warn-rate").text("税率为整数");
-        } else $("#warn-rate").text("");
-    }
-    else if (rateSet = "F") {$("#warn-rate").html("");}
-    else  $("#warn-rate").html("");
     //sku主图
     var invImg = {};
     var mDiv = document.getElementById("galleryM").getElementsByTagName("div");
@@ -413,6 +426,7 @@ function saveCurr() {
         sharedObject.index = "";
     }
     console.log(orSave);
+    console.log(orSave);
     if(orSave==false) {
         alert("数据有误");
     }
@@ -475,7 +489,7 @@ $(function(){
     /** 预览图 点击移除的操作 **/
     $(document).on('click','.preview-img .close',function(){
         //商品预览图小于6张时恢复上传功能
-        if (document.getElementById("galleryP").getElementsByTagName("div").length==2) {
+        if (document.getElementById("galleryP").getElementsByTagName("div").length==6) {
             $("#P").parent().css("display","inline-block");
         }
         $(this).parent().remove();
@@ -594,6 +608,16 @@ $(function(){
             $("#postalTaxCode").val("");
             $("#postalTaxRate").attr("readonly", false);
             $("#postalTaxCode").attr("readonly", true);
+        }
+    });
+
+    //海外直邮模式
+    $(document).on('change','#invArea',function() {
+        if ($("#invArea").val()=="K") {
+            $(".K").css('display','none');
+        }
+        if ($("#invArea").val()!="K") {
+            $(".K").css('display','block');
         }
     });
 
