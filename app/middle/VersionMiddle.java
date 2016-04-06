@@ -6,12 +6,8 @@ import modules.OSSClientProvider;
 import play.Configuration;
 import play.Logger;
 import service.ItemService;
-
-import javax.inject.Inject;
 import java.beans.XMLEncoder;
 import java.io.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 版本管理
@@ -85,6 +81,42 @@ public class VersionMiddle {
 
             Logger.error("上传的APP地址:\n"+configuration.getString("image.server.url")+productType+"/"+fileName);
 
+    }
+
+    public void apiPublicRelease(VersionVo versionVo,File file) throws FileNotFoundException {
+
+        String fileName = "style-" +versionVo.getProductType() + "-"+ versionVo.getReleaseNumber().toUpperCase()+".zip";
+
+        String productType="style-id";
+        if (versionVo.getProductType().equals("imgProcess")){
+            productType="style-imgProcess";
+        } else if(versionVo.getProductType().equals("promotion")){
+            productType="style-promotion";
+        } else if(versionVo.getProductType().equals("service")){
+            productType="style-service";
+        } else if(versionVo.getProductType().equals("shopping")){
+            productType="style-shopping";
+        } else if(versionVo.getProductType().equals("web")){
+            productType="style-web";
+        }
+
+        versionVo.setFileName(fileName);
+        versionVo.setDownloadLink(configuration.getString("deploy.upload.path") + productType+"/"+fileName);
+        File targetFolder = new File(configuration.getString("deploy.upload.path"),productType);
+
+        if(!targetFolder.exists()){
+            targetFolder.mkdirs();
+        }
+        file.renameTo(new File(targetFolder.getAbsoluteFile() +"/"+ fileName));
+        try {
+            file.createNewFile();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        versionVo.setUpdateReqXml("101010");
+        itemService.updateVersioning(versionVo);
+        itemService.insertVersioning(versionVo);
     }
 
 }
