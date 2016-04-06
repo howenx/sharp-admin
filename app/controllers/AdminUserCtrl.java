@@ -121,7 +121,8 @@ public class AdminUserCtrl extends Controller {
             Email email = new Email()
                     .setSubject(adminUser.getEnNm()+"请用密码登录:"+defPwd)
                     .setFrom("developer@hanmimei.com")
-                    .addTo("1277615314@qq.com");
+                    .addTo(adminUser.getEmail());
+//                    .addTo("1277615314@qq.com");
             mailerClient.send(email);
 
             Logger.error("邮件发送成功!");
