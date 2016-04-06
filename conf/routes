@@ -264,6 +264,9 @@ GET         /$lang<(cn|en|kr)>/pin/activity/list/:id                       contr
 GET         /release/view                                                  controllers.VersionCtrl.release()
 POST        /release/public                                                controllers.VersionCtrl.publicRelease()
 GET         /release/list                                                  controllers.VersionCtrl.releaseList()
+GET         /release/apiView                                               controllers.VersionCtrl.apiReleasePage()
+POST        /release/api/public                                            controllers.VersionCtrl.apiReleasePublic()
+
 
 
 

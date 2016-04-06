@@ -21,6 +21,7 @@ import service.ItemService;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,10 +133,49 @@ public class VersionCtrl extends Controller {
             return badRequest("error");
         }
     }
+
+    @Security.Authenticated(UserAuth.class)
+    public Result apiReleasePage(){
+        return ok(views.html.versioning.apiRelease.render("cn",(User) ctx().args.get("user")));
+
+    }
+
+    @Security.Authenticated(UserAuth.class)
+    @BodyParser.Of(value = BodyParser.MultipartFormData.class, maxLength = 200 * 1024 * 1024)
+    public Result apiReleasePublic(){
+        try {
+            Http.MultipartFormData body = request().body().asMultipartFormData();
+
+            List<Http.MultipartFormData.FilePart> fileParts = body.getFiles();
+
+            Map<String,String[]> stringMap = body.asFormUrlEncoded();
+            Map<String,String> map = new HashMap<>();
+            stringMap.forEach((k, v) -> map.put(k,v[0]));
+
+            Optional<JsonNode> json = Optional.ofNullable(Json.toJson(map));
+
+            User user = (User) ctx().args.get("user");
+
+            VersionVo versionVo = Json.fromJson(json.get(),VersionVo.class);
+
+            versionVo.setAdminUserId(Long.valueOf(user.userId().get().toString()));
+
+            versionMiddle.apiPublicRelease(versionVo,fileParts.get(0).getFile());
+            return ok("success");
+        }catch (Exception ex){
+            Logger.error("发布版本出错:"+ex.getMessage());
+            return badRequest("error");
+        }
+    }
+
+
     public Result test() {
 
         return ok();
 
     }
+
+
+
 
 }
