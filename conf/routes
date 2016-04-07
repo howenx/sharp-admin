@@ -261,9 +261,10 @@ GET         /$lang<(cn|en|kr)>/pin/activity/list/:id                       contr
 
 
 #versiong
-GET         /release/view                                                  controllers.VersionCtrl.release()
-POST        /release/public                                                controllers.VersionCtrl.publicRelease()
-GET         /release/list                                                  controllers.VersionCtrl.releaseList()
+GET         /release/view                                                  controllers.VersionCtrl.release
+POST        /release/public                                                controllers.VersionCtrl.publicRelease
+GET         /release/list                                                  controllers.VersionCtrl.releaseList
+GET         /release/cdn                                                   controllers.VersionCtrl.refreshCdn
 
 
 
