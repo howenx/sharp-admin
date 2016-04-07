@@ -120,8 +120,8 @@
                                 <th>折扣</th>
                                 <th>限购数量</th>
                                 <th>运费设置</th>
-                                <th>税率/税号</th>
                                 <th>库存区域</th>
+                                <th>税率/税号</th>
                                 <th>报关单位</th>
                                 <th>海关商品备案号</th>
                                 <th>主图(一张)</th>
@@ -145,32 +145,39 @@
                                     <td>@obj(9)</td>
                                     <td>@obj(11)</td>
                                     <td>
-                                        @if(obj(12)!= "" && null != obj(12)  ) { @obj(12)}
-                                        @if(obj(13)!= "" && null != obj(13)  ) { @obj(13)}
-                                    </td>
-                                    <td>
                                         @for(a <- area) {
                                         @if(obj(14)==a.toString.substring(1,a.toString.length-1).split(",")(0)) {
                                             @a.toString.substring(1,a.toString.length-1).split(",")(1)
                                         }
                                         }
                                     </td>
-                                    <td>
-                                        @for(c <- customs) {
-                                        @if(obj(15)==c.toString.substring(1,c.toString.length-1).split(",")(0)) {
-                                            @c.toString.substring(1,c.toString.length-1).split(",")(1)
-                                        }
-                                        }
-                                    </td>
-                                    <td>
-                                        @for(recordCode <- obj(19).toString().substring(1,obj(19).toString().length-1).split(", ")) {
+                                    @if(obj(14)!="K") {
+                                        <td>
+                                            @if(obj(12)!= "" && null != obj(12)  ) { @obj(12)}
+                                            @if(obj(13)!= "" && null != obj(13)  ) { @obj(13)}
+                                        </td>
+                                        <td>
                                             @for(c <- customs) {
-                                                @if(recordCode.substring(1,recordCode.indexOf(":")-1)==c.toString.substring(1,c.toString.length-1).split(",")(0)) {
-                                                <div class="record"><span>@c.toString.substring(1,c.toString.length-1).split(",")(1) <input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordHZ" style="width:70%;border:0px;"></span></div>
-                                                }
+                                            @if(obj(15)==c.toString.substring(1,c.toString.length-1).split(",")(0)) {
+                                            @c.toString.substring(1,c.toString.length-1).split(",")(1)
                                             }
-                                        }
-                                    </td>
+                                            }
+                                        </td>
+                                        <td>
+                                            @for(recordCode <- obj(19).toString().substring(1,obj(19).toString().length-1).split(", ")) {
+                                            @for(c <- customs) {
+                                            @if(recordCode.substring(1,recordCode.indexOf(":")-1)==c.toString.substring(1,c.toString.length-1).split(",")(0)) {
+                                            <div class="record"><span>@c.toString.substring(1,c.toString.length-1).split(",")(1) <input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordHZ" style="width:70%;border:0px;"></span></div>
+                                            }
+                                            }
+                                            }
+                                        </td>
+                                    }
+                                    @if(obj(14)=="K") {
+                                        <td>无</td>
+                                        <td>无</td>
+                                        <td>无</td>
+                                    }
                                     <td class="list-img">
                                         <div >
                                             <div>

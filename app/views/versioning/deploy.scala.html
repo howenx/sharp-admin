@@ -16,12 +16,12 @@ $(function() {
 		var files = $(this)[0].files;
 		var fileName = files[0].name;
         var fileExt = files[0].name.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase();;
-		var allowedFileTypes = ["zip"];
-
+		var allowedFileTypes = ["ipa", "apk"];
+		
 		if (allowedFileTypes.indexOf(fileExt) > -1) {
             $('#js-userinfo-error').text('文件类型匹配').css('color', '#2fa900');
 			setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
-
+			
 			$('#file_area').find('span').remove();
 			$('#file_area').append('<span style="margin-left: 20px;line-height: 31px;">'+fileName+'</span>');
 		}else {
@@ -30,20 +30,32 @@ $(function() {
 			file.remove();
             $('#js-userinfo-error').text('文件类型不匹配');
 			setTimeout("$('#js-userinfo-error').text('')", 2000);
-
+			
 			$('#file_area').find('span').remove();
 			$('#file_area').append('<span style="margin-left: 20px;line-height: 31px;">'+fileName+'</span>');
 			setTimeout("$('#file_area').find('span').remove()", 2000);
 		}
 	})
-
+	
 	$(document).on('change', '.form-data-area', function() {
 		$('.usercenter-option > .user-state').css('background-position', '20px -73px');
 		$('.usercenter-option > .user-state').text('已更改');
 	})
-
+	
+	$(document).on('click', 'input[name=productType]', function() {
+		if($('input[name=productType]').is(':checked')){
+            if($(this).val()==='I'){
+				$('input[name=appStoreDownloadLink]').val(null);
+            	$('#appstoredown').show();
+            }else {
+				$('input[name=appStoreDownloadLink]').val(null);
+            	$('#appstoredown').hide();
+            }
+		}
+	})
+	
 	$(document).on('click', '#js-usercenter-submit', function() {
-
+		
 		var formdata = new FormData();
 
 		if(!$('input[name=productType]').is(':checked')){
@@ -61,44 +73,41 @@ $(function() {
 		}else{
 			$("#release").serializeArray().map(function(x){
 				if(x.value!=='' && x.value!==null){
-					console.log(x.name+ ' '+x.value)
+					// console.log(x.name+ ' '+x.value)
 					formdata.append(x.name, x.value);
 				}
 			});
 			formdata.append('file', $('#fileinput')[0].files[0]);
 			$.ajax({
-				url: "/release/api/public",
+				url: "/release/public",
 				data: formdata,
 				cache: false,
 				contentType: false,
 				processData: false,
 				type: 'POST',
 				success: function(data) {
-					//console.log(data);
+					console.log(data);
 					if(data==='success'){
-					alert("success");
 						$('.usercenter-option > .user-state').css('background-position', '20px -174px');
 						$('.usercenter-option > .user-state').text('未更改');
 						$('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
 						setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 1000);
-						<!--setTimeout(function(){-->
-							<!--window.location.href='/release/view';-->
-						<!--}, 2000);-->
+						setTimeout(function(){
+							window.location.href='/release/view';
+						}, 2000);
 					}else{
 						alert('Server Error.')
 					}
 				}
-			});
+			});			
 			// $('#release').submit();
 		}
-	})
+	})	
 })
 </script>
-
-
 }
 
-@import java.lang.String; val title="API发布版本"
+@import java.lang.String; val title="发布版本"
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 
@@ -109,12 +118,12 @@ $(function() {
         <span class="icon-path">&gt;</span>
         <span class="current">应用管理</span>
         <span class="icon-path">&gt;</span>
-        <span class="current">API发布版本</span>
+        <span class="current">发布版本</span>
     </div>
 </div>
 <div class="wrap-slider">
     <div class="page-title">
-        <span class="title-name">API发布版本</span>
+        <span class="title-name">发布版本</span>
     </div>
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
@@ -129,34 +138,12 @@ $(function() {
                 <h4 class="h4-custom-hmm">版本信息</h4>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">类型</label>
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <label class="radio-inline">
-                            <input type="radio" value='id' class="form-data-area" name="productType"> style-id
+                            <input type="radio" value='A' class="form-data-area" name="productType" checked> android
                         </label>
-                    </div>
-                    <div class="col-sm-2">
                         <label class="radio-inline">
-                            <input type="radio" value='imgProcess' class="form-data-area" name="productType"> style-imgProcess
-                        </label>
-                    </div>
-                    <div class="col-sm-4">
-                        <label class="radio-inline">
-                            <input type="radio" value='promotion' class="form-data-area" name="productType"> style-promotion
-                        </label>
-                    </div>
-                    <div class="col-sm-offset-2 col-sm-2">
-                        <label class="radio-inline">
-                            <input type="radio" value='service' class="form-data-area" name="productType"> style-service
-                        </label>
-                    </div>
-                    <div class="col-sm-2">
-                        <label class="radio-inline">
-                            <input type="radio" value='shopping' class="form-data-area" name="productType"> style-shopping
-                        </label>
-                    </div>
-                    <div class="col-sm-2">
-                        <label class="radio-inline">
-                            <input type="radio" value='web' class="form-data-area" name="productType"> style-web
+                            <input type="radio" value='I' class="form-data-area" name="productType"> ios
                         </label>
                     </div>
                 </div>
@@ -166,6 +153,14 @@ $(function() {
                         <input type="text" name="releaseNumber"  class="form-control form-data-area">
                     </div>
                 </div>
+				
+                <div id="appstoredown" class="form-group" style="display:none;">
+                    <label class="col-sm-2 control-label">Appstore下载链接</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="appStoreDownloadLink"  class="form-control form-data-area">
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="col-sm-2 control-label">版本描述</label>
                     <div class="col-sm-8">
@@ -175,7 +170,7 @@ $(function() {
                 <div class="form-group">
                     <label class="col-sm-2 control-label">文件</label>
                     <div id="file_area" class="col-sm-8">
-                        <input style="display:none;" class='form-data-area' type="file" id="fileinput" name="file" accept="application/zip" />
+                        <input style="display:none;" class='form-data-area' type="file" id="fileinput" name="file" accept="application/apk, application/ipa" />
                         <button type="button" id="upbn" class="btn btn-primary btn-sm">上传</button>
                     </div>
                 </div>
