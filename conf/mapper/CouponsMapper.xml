@@ -29,6 +29,14 @@
         (#{coupId},#{userId},#{cateId},#{denomination},#{startAt},#{endAt},#{state},#{orderId},#{useAt},#{limitQuota},#{cateNm})
     </insert>
 
+    <!-- 更新一条优惠券信息  Added by Sunny Wu 2016.04.05 -->
+    <update id="updateCoupons" parameterType="entity.Coupons">
+        update sp_coupons
+        set
+        user_id=#{userId},cate_id=#{cateId},denomination=#{denomination},start_at=#{startAt},end_at=#{endAt},state=#{state},order_id=#{orderId},use_at=#{useAt},limit_quota=#{limitQuota},cate_nm=#{cateNm}
+        where coup_id = #{coupId}
+    </update>
+
     <!-- 由coupId获取一条优惠券信息 -->
     <select id="getCoupons" resultType="entity.Coupons" parameterType="java.lang.String">
         select

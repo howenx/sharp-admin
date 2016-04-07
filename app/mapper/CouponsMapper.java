@@ -16,6 +16,12 @@ public interface CouponsMapper {
     void insertCoupons(Coupons coupons);
 
     /**
+     * 更新优惠券
+     * @param coupons 优惠券  Added by Sunny Wu 2016.04.05
+     */
+    void updateCoupons(Coupons coupons);
+
+    /**
      * 由id 获得一条优惠券信息
      * @param coupId 优惠券id
      * @return

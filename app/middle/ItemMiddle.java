@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entity.*;
 import entity.pingou.PinSku;
-import modules.LevelFactory;
 import modules.NewScheduler;
 import play.Logger;
 import play.libs.Json;
@@ -47,9 +46,6 @@ public class ItemMiddle {
 
     @Inject
     private NewScheduler newScheduler;
-
-    @Inject
-    private LevelFactory levelFactory;
 
     @Inject
     private ItemMiddle itemMiddle;
@@ -203,12 +199,12 @@ public class ItemMiddle {
                     if ((null!=inventory.getId() && (originInv.getStartAt()!=startAt||originInv.getEndAt()!=endAt) && endTimes>nowTimes) || null==inventory.getId()) {
                         if (((null!=inventory.getId()&&originInv.getStartAt()!=startAt) || null==inventory.getId()) && startTimes>nowTimes ) {
                             //上架时间大于现在时间 启动上架schedule
-                            Logger.debug("auto on shelves start...");
+                            Logger.debug(inventory.getId()+" auto on shelves start...");
                             newScheduler.scheduleOnce(Duration.create(startTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
                         }
                         if (((null!=inventory.getId()&&originInv.getStartAt()!=startAt) || null==inventory.getId()) && startTimes<nowTimes && endTimes>nowTimes ) {
                             //上架时间小于现在时间小于下架时间 启动下架scheduler
-                            Logger.debug("auto off shelves start...");
+                            Logger.debug(inventory.getId()+" auto off shelves start...");
                             newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
                         }
                     }
@@ -255,7 +251,7 @@ public class ItemMiddle {
         if (state.equals("P")) {
             inventory.setState("Y");
             //启动下架schedule
-            Logger.debug("auto off shelves start...");
+            Logger.debug("sku "+inventory.getId()+"auto off shelves start...");
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {

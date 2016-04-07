@@ -472,24 +472,25 @@ $(function() {
 
         //每个查询页面对应一个相应的组装函数  已使用优惠券查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Sunny Wu 2016.03.08
         funcList.couponlist_search = function couponlist_search(pageIndex) {
-            var CouPDto = new Object();
-            CouPDto.coupId = $("#coupon-id").val();
-            CouPDto.cateNm = $("#coupon-catenm").val();
-            CouPDto.useStartAt = $("#coup-form-useStarAt").val();
-            CouPDto.useEndAt = $("#coup-form-useEndAt").val();
+            var CoupDto = new Object();
+            CoupDto.coupId = $("#coupon-id").val();
+            CoupDto.cateNm = $("#coupon-catenm").val();
+            CoupDto.useStartAt = $("#coup-form-useStarAt").val();
+            CoupDto.useEndAt = $("#coup-form-useEndAt").val();
             //起止时间如果为空
             if ($("#coup-form-useStarAt").val() == '' || $("#coup-form-useStarAt").val() == null) {
-                CouPDto.useStartAt = "0000-01-01 00:00:00";
+                CoupDto.useStartAt = "0000-01-01 00:00:00";
             }
             if ($("#coup-form-useEndAt").val() == '' || $("#coup-form-useEndAt").val() == null) {
-                CouPDto.useEndAt = "99999-12-31 23:59:59";
+                CoupDto.useEndAt = "99999-12-31 23:59:59";
             }
             //调用共用ajax,url从根目录开始不需要加上语言
-            search("/coup/search/" + pageIndex, CouPDto);
+            search("/coup/search/" + pageIndex, CoupDto);
         }
 
         //每个查询页面对应一个相应的返回时填充函数 已使用优惠券查询页面   Added By Sunny Wu  2016.03.08
         funcList.couponlist_data = function couponlist_data(data) {
+        console.log(data);
             //填充列表数据
             $(data).each(function(index, element) {
                 $('#tb-topic').find('tbody').append('' +
@@ -498,7 +499,7 @@ $(function() {
                     '<td>' + ($(this)[0].cateNm!=null && $(this)[0].cateNm!=''? $(this)[0].cateNm : '') + '</td>' +
                     '<td>' + $(this)[0].userId+ '</td>' +
                     '<td>' + $(this)[0].orderId+ '</td>' +
-                    '<td>' + $(this)[0].userAt.substr(0, 16)+ '</td>' +
+                    '<td>' + $(this)[0].useAt.substr(0, 16)+ '</td>' +
                     '<td>' + $(this)[0].limitQuota+ '</td>' +
                     '<td>' + $(this)[0].denomination+ '</td>' +
                     '</tr>'

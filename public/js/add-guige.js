@@ -77,52 +77,59 @@ function Init () {
         $("#invArea").val(skuObj.invArea);
         $("#invCustoms").val(skuObj.invCustoms);
         $("#rateSet").val(skuObj.rateSet);
-        if (skuObj.rateSet == "F") {
-            $("#postalTaxRate").val(0);
-            $("#postalTaxCode").val("");
-            $("#postalTaxRate").attr("readonly", true);
-            $("#postalTaxCode").attr("readonly", true);
+        //海外直邮
+        if ($("#invArea").val()=="K") {
+            $(".K").css('display','none');
         }
-        if (skuObj.rateSet == "S") {
-            $("#postalTaxRate").val("");
-            $("#postalTaxCode").val("");
-            $("#postalTaxRate").attr("readonly", true);
-            $("#postalTaxCode").attr("readonly", false);
-        }
-        if (skuObj.rateSet == "D") {
-            $("#postalTaxRate").val("");
-            $("#postalTaxCode").val("");
-            $("#postalTaxRate").attr("readonly", false);
-            $("#postalTaxCode").attr("readonly", true);
-        }
-        $("#postalTaxRate").val(skuObj.postalTaxRate);
-        $("#postalTaxCode").val(skuObj.postalTaxCode);
-//        var recordCode = {};
-         var recordCode = skuObj.recordCode;
-//         console.log(recordCode);
-//        for(var key in recordCode) {
-//            $("#"+key).val(recordCode[key]);
-//            console.log(key);
-//           console.log(recordCode[key]);
-//        }
-//        $.each(recordCode, function(r) {
-//            console.log(r);
-//            console.log(recordCode[r]);
-//        });
+        if ($("#invArea").val()!="K") {
+            if (skuObj.rateSet == "F") {
+                $("#postalTaxRate").val(0);
+                $("#postalTaxCode").val("");
+                $("#postalTaxRate").attr("readonly", true);
+                $("#postalTaxCode").attr("readonly", true);
+            }
+            if (skuObj.rateSet == "S") {
+                $("#postalTaxRate").val("");
+                $("#postalTaxCode").val("");
+                $("#postalTaxRate").attr("readonly", true);
+                $("#postalTaxCode").attr("readonly", false);
+            }
+            if (skuObj.rateSet == "D") {
+                $("#postalTaxRate").val("");
+                $("#postalTaxCode").val("");
+                $("#postalTaxRate").attr("readonly", false);
+                $("#postalTaxCode").attr("readonly", true);
+            }
+            $("#postalTaxRate").val(skuObj.postalTaxRate);
+            $("#postalTaxCode").val(skuObj.postalTaxCode);
+//            var recordCode = {};
+            var recordCode = skuObj.recordCode;
+//            console.log(recordCode);
+//            for(var key in recordCode) {
+//                $("#"+key).val(recordCode[key]);
+//                console.log(key);
+//               console.log(recordCode[key]);
+//            }
+//            $.each(recordCode, function(r) {
+//                console.log(r);
+//                console.log(recordCode[r]);
+//            });
 
-        var inputArr = document.getElementById("recordCode").getElementsByTagName("input");
-        var recordArr = skuObj.recordCode.substring(1,skuObj.recordCode.length-1).split(",");
-        for(var r=0;r<recordArr.length;r++) {
-            var kv = [];
-            if (recordArr[r].indexOf(": ")>0) {
-                kv = recordArr[r].split(": ");
-            }else kv = recordArr[r].split(":");
-            for(var i=0;i<inputArr.length;i++) {
-                if (kv[0].indexOf(inputArr[i].id)>0) {
-                    inputArr[i].value = kv[1].substring(1,kv[1].length-1);
+            var inputArr = document.getElementById("recordCode").getElementsByTagName("input");
+            var recordArr = skuObj.recordCode.substring(1,skuObj.recordCode.length-1).split(",");
+            for(var r=0;r<recordArr.length;r++) {
+                var kv = [];
+                if (recordArr[r].indexOf(": ")>0) {
+                    kv = recordArr[r].split(": ");
+                }else kv = recordArr[r].split(":");
+                for(var i=0;i<inputArr.length;i++) {
+                    if (kv[0].indexOf(inputArr[i].id)>0) {
+                        inputArr[i].value = kv[1].substring(1,kv[1].length-1);
+                    }
                 }
             }
         }
+
         if (skuObj.invId!="") {
             //sku 状态
 //            $("#skuState").css('display','block');
@@ -229,14 +236,14 @@ function saveCurr() {
         alert("输入数据不合法!");
     }
     //上下架时间验证
-    var nowDate = new Date();
-     var ss = moment(nowDate).format("YYYYMMDD");
-    var maxDate = nowDate.setMonth(nowDate.getMonth()+6);
+    var now = new Date();
+    var nowTime = now.getFullYear()+"-"+(now.getMonth()+1>=10?now.getMonth()+1:'0'+(now.getMonth()+1))+"-"+(now.getDate()>=10?now.getDate():'0'+now.getDate())+" "+(now.getHours()>=10?now.getHours():'0'+now.getHours())+":"+(now.getMinutes()>=10?now.getMinutes():'0'+now.getMinutes())+":"+(now.getSeconds()>=10?now.getSeconds():'0'+now.getSeconds());
+    var ss = moment(now).format("YYYYMMDD");
+    var maxDate = now.setMonth(now.getMonth()+6);
     var d1 = new Date(Date.parse(startAt.replace(/-/g,"/")));//上架时间
     var d2 = new Date(Date.parse(endAt.replace(/-/g,"/")));//下架时间
-
-    //修改(state为正常时,下架时间不能小于当前时间)
-    if (invId!="" && invId!=null) {
+    //修改
+    if (invId!="" && invId!=null && state=="Y") {
         if (startAt==null || endAt==null || startAt >= endAt) {
                orSave = false;
                $("#warn-date").html("请检查时间设置");
@@ -244,34 +251,56 @@ function saveCurr() {
     }
     //新增(上架时间和下架时间均不能小于当前时间)
     else {
-        if (startAt==null || endAt==null || startAt >= endAt) {
+        if (startAt=="" || endAt=="" || startAt >= endAt ) {
                orSave = false;
-               $("#warn-date").html("时间设置不能小于当前时间");
+               $("#warn-date").html("请检查时间设置");
+        } else if (endAt<nowTime) {
+               orSave = false;
+               $("#warn-date").html("下架时间不能小于当前时间");
         } else $("#warn-date").html("");
     }
     if (d1>=maxDate || d2>=maxDate) {
         orSave = false;
         alert("上架时间和下架时间距离现在不能超过六个月");
     }
-    //行邮税率设置 F免税:税率为0,行邮税号不设置; S标准税率:税率不设置,输入行邮税号(数字); D自定义税率:设置税率,行邮税号不设置
-    if (rateSet == "") {
+    //库存
+    if (Number(restAmount) > Number(amount)) {
         orSave = false;
-        $("#warn-rate").text("请设置税率");
+        $("#warn-amount").text("剩余库存不能大于库存总量");
+    } else $("#warn-amount").text("");
+
+    //海外直邮模式
+    if ($("#invArea").val()=="K") {
+        invCustoms = "0";
+        postalTaxRate = "0";
+        recordCode = 0;
     }
-    else if (rateSet == "S") {
-        if (!numberReg1.test(postalTaxCode)) {
+    //跨境模式
+    if ($("#invArea").val()!="K") {
+        if (invCustoms=="" || invCustoms==null) {
             orSave = false;
-            $("#warn-rate").text("请输入正确的行邮税号");
-        } else $("#warn-rate").text("");
-    }
-    else if (rateSet == "D") {
-        if (!numberReg1.test(postalTaxRate)) {
+            $("#warn-cus").text("请选择报关单位");
+        } else $("#warn-cus").text("");
+        //行邮税率设置 F免税:税率为0,行邮税号不设置; S标准税率:税率不设置,输入行邮税号(数字); D自定义税率:设置税率,行邮税号不设置
+        if (rateSet == "" && !numberReg1.test(postalTaxCode) && !numberReg1.test(postalTaxRate)) {
             orSave = false;
-            $("#warn-rate").text("税率为整数");
-        } else $("#warn-rate").text("");
+            $("#warn-rate").text("请设置税率");
+        }
+        else if (rateSet == "S") {
+            if (!numberReg1.test(postalTaxCode)) {
+                orSave = false;
+                $("#warn-rate").text("请输入正确的行邮税号");
+            } else $("#warn-rate").text("");
+        }
+        else if (rateSet == "D") {
+            if (!numberReg1.test(postalTaxRate)) {
+                orSave = false;
+                $("#warn-rate").text("税率为整数");
+            } else $("#warn-rate").text("");
+        }
+        else if (rateSet = "F") {$("#warn-rate").html("");}
+        else  $("#warn-rate").html("");
     }
-    else if (rateSet = "F") {$("#warn-rate").html("");}
-    else  $("#warn-rate").html("");
     //sku主图
     var invImg = {};
     var mDiv = document.getElementById("galleryM").getElementsByTagName("div");
@@ -365,8 +394,9 @@ function saveCurr() {
         }
         if (amountSum>restAmount) {
             orSave = false;
-            alert("限制销售量之和大于剩余库存");
-        }
+            $("#warn-vary-amount").text("限制销售量之和不能大于剩余库存");
+//            alert("限制销售量之和不能大于剩余库存");
+        } else $("#warn-vary-amount").text("");
         trdobj.varyPrice = varyPrice.toString();
     }
     else {
@@ -410,10 +440,12 @@ function saveCurr() {
         sharedObject.index = "";
     }
     console.log(orSave);
+    console.log(orSave);
     if(orSave==false) {
-        alert("数据有误");
+        $("#warn").text("请检查数据");
     }
     if (orSave) {
+        $("#warn").text("");
         if (window.showModalDialog) {
             window.returnValue = sharedObject;
         }
@@ -472,7 +504,7 @@ $(function(){
     /** 预览图 点击移除的操作 **/
     $(document).on('click','.preview-img .close',function(){
         //商品预览图小于6张时恢复上传功能
-        if (document.getElementById("galleryP").getElementsByTagName("div").length==2) {
+        if (document.getElementById("galleryP").getElementsByTagName("div").length==6) {
             $("#P").parent().css("display","inline-block");
         }
         $(this).parent().remove();
@@ -518,7 +550,7 @@ $(function(){
          }
 
          //商品预览图最多为6张
-         if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==2) {
+         if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==6) {
             $("#"+id).parent().css("display","none");
          }
 
@@ -591,6 +623,16 @@ $(function(){
             $("#postalTaxCode").val("");
             $("#postalTaxRate").attr("readonly", false);
             $("#postalTaxCode").attr("readonly", true);
+        }
+    });
+
+    //海外直邮模式
+    $(document).on('change','#invArea',function() {
+        if ($("#invArea").val()=="K") {
+            $(".K").css('display','none');
+        }
+        if ($("#invArea").val()!="K") {
+            $(".K").css('display','block');
         }
     });
 
