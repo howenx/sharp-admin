@@ -2,8 +2,7 @@ package modules;
 
 import com.google.inject.AbstractModule;
 import middle.ItemMiddle;
-import play.Configuration;
-import play.Environment;
+import middle.VersionMiddle;
 
 /**
  * 启动leveldb
@@ -11,19 +10,10 @@ import play.Environment;
  */
 public class LevelDBModule extends AbstractModule {
 
-    private final Environment environment;
-    private final Configuration configuration;
-
-    public LevelDBModule(
-            Environment environment,
-            Configuration configuration) {
-        this.environment = environment;
-        this.configuration = configuration;
-    }
-
     protected void configure() {
         bind(LevelFactory.class).asEagerSingleton();
         bind(NewScheduler.class);
         bind(ItemMiddle.class);
+        bind(VersionMiddle.class);
     }
 }

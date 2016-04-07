@@ -267,6 +267,7 @@ GET         /release/list                                                  contr
 GET         /release/apiView                                               controllers.VersionCtrl.apiReleasePage()
 POST        /release/api/public                                            controllers.VersionCtrl.apiReleasePublic()
 
+GET         /release/cdn                                                   controllers.VersionCtrl.refreshCdn
 
 
 

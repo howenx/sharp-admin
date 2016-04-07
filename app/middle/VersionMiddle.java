@@ -1,14 +1,13 @@
 package middle;
 
-import com.aliyun.oss.OSSErrorCode;
-import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.ObjectMetadata;
 import entity.VersionVo;
 import modules.OSSClientProvider;
 import play.Configuration;
 import play.Logger;
 import service.ItemService;
+
+import javax.inject.Inject;
 import java.beans.XMLEncoder;
 import java.io.*;
 
@@ -18,18 +17,22 @@ import java.io.*;
  */
 public class VersionMiddle {
 
+    @Inject
     private ItemService itemService;
 
+    @Inject
     private Configuration configuration;
 
+    @Inject
     private OSSClientProvider oss_client;
 
-    public VersionMiddle(ItemService itemService, Configuration configuration, OSSClientProvider oss_client) {
-        this.itemService = itemService;
-        this.configuration = configuration;
-        this.oss_client = oss_client;
-    }
-
+    /**
+     * 发布版本
+     *
+     * @param versionVo versionVo
+     * @param file      file
+     * @throws FileNotFoundException
+     */
     public void publicRelease(VersionVo versionVo, File file) throws FileNotFoundException {
 
 
@@ -55,18 +58,8 @@ public class VersionMiddle {
 
         versionVo.setDownloadLink(configuration.getString("image.server.url") + productType + "/" + fileName);
 
-        try {
-            String key = oss_client.get().getObject(configuration.getString("oss.bucket"), productType + "/" + fileName).getKey();
-            if (key.equals(fileName)) {
-                oss_client.get().deleteObject(configuration.getString("oss.bucket"), productType + "/" + fileName);
-                oss_client.get().putObject(configuration.getString("oss.bucket"), productType + "/" + fileName, is, objMetadata);
-            }
 
-        } catch (OSSException ex) {
-            if (ex.getErrorCode().equals(OSSErrorCode.NO_SUCH_KEY)) {
-                oss_client.get().putObject(configuration.getString("oss.bucket"), productType + "/" + fileName, is, objMetadata);
-            }
-        }
+        oss_client.get().putObject(configuration.getString("oss.bucket"), productType + "/" + fileName, is, objMetadata);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -82,17 +75,9 @@ public class VersionMiddle {
 
         Logger.error("版本信息:\n" + versionVo);
 
-        try {
-            String key = oss_client.get().getObject(configuration.getString("oss.bucket"), productType + "/" + xmlFileName).getKey();
-            if (key.equals(xmlFileName)) {
-                oss_client.get().deleteObject(configuration.getString("oss.bucket"), productType + "/" + xmlFileName);
-                oss_client.get().putObject(configuration.getString("oss.bucket"), productType + "/" + xmlFileName, new ByteArrayInputStream(baos.toByteArray()), objMetadata);
-            }
-        } catch (OSSException ex) {
-            if (ex.getErrorCode().equals(OSSErrorCode.NO_SUCH_KEY)) {
-                oss_client.get().putObject(configuration.getString("oss.bucket"), productType + "/" + xmlFileName, new ByteArrayInputStream(baos.toByteArray()), objMetadata);
-            }
-        }
+
+        oss_client.get().putObject(configuration.getString("oss.bucket"), productType + "/" + xmlFileName, new ByteArrayInputStream(baos.toByteArray()), objMetadata);
+
 
         versionVo.setUpdateReqXml(configuration.getString("image.server.url") + productType + "/" + xmlFileName);
 
