@@ -190,7 +190,11 @@ function Init () {
     var dateStr = ''+date.getFullYear()+(date.getMonth()+1>=10?date.getMonth()+1:'0'+(date.getMonth()+1))+(date.getDate()>=10?date.getDate():'0'+date.getDate());
 
 /***** 保存当前按钮功能 ******/
-function saveCurr() {
+function saveCurr(saveFlag) {
+    //存为新规格,invId为空
+    if (saveFlag==1) {
+        $("#invId").val("");
+    }
     var btn = window.event.srcElement;
     var orSave = true;
     var numberReg1 =    /^-?\d+$/;   //正整数
@@ -457,13 +461,13 @@ function saveCurr() {
 
 /**** 存为新规格 ****/
 function saveNew() {
-    saveCurr();
+    saveCurr(1);
     window.close();
 }
 
 /**** 保存并关闭按钮功能 ****/
 function saveClose() {
-    saveCurr();
+    saveCurr(0);
     window.close();
 }
 

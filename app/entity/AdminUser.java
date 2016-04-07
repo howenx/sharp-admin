@@ -1,6 +1,7 @@
 package entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import play.data.validation.Constraints;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -14,9 +15,12 @@ import java.util.Random;
 public class AdminUser implements Serializable {
 
     private Long userId;            //用户id
+    @Constraints.Required
     private String enNm;            //英文名
     private String chNm;            //中文名
+    @Constraints.Required
     private String email;           //邮箱
+    @Constraints.Required
     private String userType;        //用户角色(OPERATE 运营人员   FINANCE 财务人员	SERVICE 客服人员 	ADMIN 管理人员  SYSTEM 系统管理员)
     private String passwd;          //密码
     private String regIp;           //注册ip
