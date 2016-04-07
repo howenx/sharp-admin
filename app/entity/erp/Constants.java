@@ -15,6 +15,6 @@ package entity.erp;
 	  
 	public static final String PASSWORD = "iwilley";
 	
-	public static final String SECRET = "OOJpB1b4pSVNlTnoREZ6OdYC5g7st0EY";
+	public static final String SECRET = "FqRf9ttdG4m94OZSF6QbMSGQCA3eQSHF";
 
 }

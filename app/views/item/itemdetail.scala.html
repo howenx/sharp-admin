@@ -164,12 +164,14 @@
                                             }
                                         </td>
                                         <td>
-                                            @for(recordCode <- obj(19).toString().substring(1,obj(19).toString().length-1).split(", ")) {
-                                            @for(c <- customs) {
-                                            @if(recordCode.substring(1,recordCode.indexOf(":")-1)==c.toString.substring(1,c.toString.length-1).split(",")(0)) {
-                                            <div class="record"><span>@c.toString.substring(1,c.toString.length-1).split(",")(1) <input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordHZ" style="width:70%;border:0px;"></span></div>
-                                            }
-                                            }
+                                            @if(obj(19)!="{}") {
+                                                @for(recordCode <- obj(19).toString().substring(1,obj(19).toString().length-1).split(", ")) {
+                                                @for(c <- customs) {
+                                                @if(recordCode.substring(1,recordCode.indexOf(":")-1)==c.toString.substring(1,c.toString.length-1).split(",")(0)) {
+                                                <div class="record"><span>@c.toString.substring(1,c.toString.length-1).split(",")(1) <input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordHZ" style="width:70%;border:0px;"></span></div>
+                                                }
+                                                }
+                                                }
                                             }
                                         </td>
                                     }
