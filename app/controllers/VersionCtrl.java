@@ -171,7 +171,6 @@ public class VersionCtrl extends Controller {
      * 刷新CDN
      * @return result
      */
-    @Security.Authenticated(UserAuth.class)
     public Result refreshCdn() {
         try {
             String endpoint = configuration.getString("cdn.endpoint");

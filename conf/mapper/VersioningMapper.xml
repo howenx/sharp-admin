@@ -17,7 +17,7 @@
         ${alias}.current_version   ,
         ${alias}.update_req_xml     ,
         ${alias}.app_store_download_link,
-        ${alias}.release_number
+        ${alias}.release_name
     </sql>
 
     <!-- 录入一条 -->
