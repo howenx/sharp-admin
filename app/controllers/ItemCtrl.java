@@ -176,18 +176,19 @@ public class ItemCtrl extends Controller {
             object[7] = inventory.getItemCostPrice();
             object[8] = inventory.getItemDiscount();
             object[9] = inventory.getRestrictAmount();
-            object[10] = inventory.getCarriageModelCode();
+//            object[10] = inventory.getCarriageModelCode();
             //由库存表的carriageModelCode 得到 modelName
-            object[11] = carriageService.getModelName(inventory.getCarriageModelCode());
-            object[12] = inventory.getPostalTaxRate();
-            object[13] = inventory.getPostalTaxCode();
-            object[14] = inventory.getInvArea();
-            object[15] = inventory.getInvCustoms();
-            object[16] = Json.parse(inventory.getInvImg()).get("url").asText();
-            object[17] = inventory.getItemPreviewImgs();
-            object[18] = inventory.getState();
-            object[19] = inventory.getRecordCode();
-            object[20] = inventory.getRestAmount();
+//            object[11] = carriageService.getModelName(inventory.getCarriageModelCode());
+            object[10] = inventory.getPostalTaxRate();
+            object[11] = inventory.getPostalTaxCode();
+            object[12] = inventory.getInvArea();
+            object[13] = inventory.getInvCustoms();
+            object[14] = Json.parse(inventory.getInvImg()).get("url").asText();
+            object[15] = inventory.getItemPreviewImgs();
+            object[16] = inventory.getState();
+            object[17] = inventory.getRecordCode();
+            object[18] = inventory.getRestAmount();
+//            Logger.error("剩余库存:"+object[9].toString());
             invList.add(object);
         }
         return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,(User) ctx().args.get("user"),customs,area));
@@ -233,34 +234,34 @@ public class ItemCtrl extends Controller {
             object[13] = inventory.getAmount();
             object[14] = inventory.getRestAmount();
             //由库存表的carriageModelCode 得到 modelName
-            object[15] = inventory.getCarriageModelCode();
+//            object[15] = inventory.getCarriageModelCode();
 //            object[23] = carriageService.getModelName(inventory.getCarriageModelCode());
-            object[16] = inventory.getInvArea();
-            object[17] = inventory.getInvCustoms();
-            object[18] = inventory.getPostalTaxRate();
-            object[19] = inventory.getPostalTaxCode();
-            object[20] = inventory.getRecordCode();
-            object[21] = inventory.getInvImg();
-            object[22] = inventory.getItemPreviewImgs();
-            object[23] = inventory.getOrVaryPrice();
-            object[24] = "";
+            object[15] = inventory.getInvArea();
+            object[16] = inventory.getInvCustoms();
+            object[17] = inventory.getPostalTaxRate();
+            object[18] = inventory.getPostalTaxCode();
+            object[19] = inventory.getRecordCode();
+            object[20] = inventory.getInvImg();
+            object[21] = inventory.getItemPreviewImgs();
+            object[22] = inventory.getOrVaryPrice();
+            object[23] = "";
             VaryPrice varyPrice = new VaryPrice();
             varyPrice.setInvId(inventory.getId());
             List<VaryPrice> vpList = varyPriceService.getVaryPriceBy(varyPrice);
             if (vpList.size()>0) {
                 for(VaryPrice vp : vpList) {
-                    object[24]=object[24] + vp.getId().toString()+",";
-                    object[24]=object[24] + vp.getStatus()+",";
-                    object[24]=object[24] + vp.getPrice().toString()+",";
-                    object[24]=object[24] + vp.getLimitAmount().toString()+",";
+                    object[23]=object[23] + vp.getId().toString()+",";
+                    object[23]=object[23] + vp.getStatus()+",";
+                    object[23]=object[23] + vp.getPrice().toString()+",";
+                    object[23]=object[23] + vp.getLimitAmount().toString()+",";
                 }
-                object[24] = object[24].toString().substring(0,object[24].toString().length()-1);
+                object[23] = object[23].toString().substring(0,object[23].toString().length()-1);
             }
-            object[25] = inventory.getInvCode();
-            object[26] = inventory.getState();
+            object[24] = inventory.getInvCode();
+            object[25] = inventory.getState();
             invList.add(object);
         }
-        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,ThemeCtrl.IMG_UPLOAD_URL,lang,itemService.getAllBrands(),itemService.getParentCates(),carriageService.getModels(),(User) ctx().args.get("user")));
+        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,ThemeCtrl.IMG_UPLOAD_URL,lang,itemService.getAllBrands(),itemService.getParentCates(),(User) ctx().args.get("user")));
     }
 
     /**
