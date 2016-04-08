@@ -200,6 +200,8 @@ $(function () {
 
     var trindex;
     var editRow;
+    var beforePrice;
+    var beforeDiscount;
     $("table.grid tbody").on("dblclick","tr",function(e){
         if(pageEditStatus){
             var obj = e.target;
@@ -207,6 +209,8 @@ $(function () {
                 return;
             }
             if($(this).find("td").eq(2).text() == "普通" || $(this).find("td").eq(2).text() == "自定义"){
+                beforePrice = parseFloat($(this).find("td").eq(8).text());
+                beforeDiscount = parseFloat($(this).find("td").eq(10).text());
                 trindex = $(".grid tbody tr").index($(this));
                 editRow = $(this).prop("outerHTML");
                 $(".tableBlock").show();
@@ -225,25 +229,28 @@ $(function () {
             alert("自定义价格或折扣须为正数数字!");
             return false;
         }
-        if($(".tableBlock tbody tr").find("td").eq(8).text() < 0 || $(".tableBlock tbody tr").find("td").eq(8).text() > $(".tableBlock tbody tr").find("td").eq(9).text()){
+        console.log(parseFloat($(".tableBlock tbody tr").find("td").eq(8).text()));
+        console.log(parseFloat($(".tableBlock tbody tr").find("td").eq(9).text()));
+
+        if(parseFloat($(".tableBlock tbody tr").find("td").eq(8).text()) < 0 || parseFloat($(".tableBlock tbody tr").find("td").eq(8).text()) > parseFloat($(".tableBlock tbody tr").find("td").eq(9).text())){
             alert("自定义价格须大于零小于原价!");
             return false;
         }
-        if($(".tableBlock tbody tr").find("td").eq(10).text() < 0 || $(".tableBlock tbody tr").find("td").eq(10).text() > 10){
+        if(parseFloat($(".tableBlock tbody tr").find("td").eq(10).text()) < 0 || parseFloat($(".tableBlock tbody tr").find("td").eq(10).text()) > 10){
             alert("自定义折扣须大于0小于10!");
             return false;
         }
 
         if(trindex==0){
             $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo($(".tableBlock tbody tr"));
-            if($(".tableBlock tbody tr").find("td").eq(8).text() != $(".tableBlock tbody tr").find("td").eq(9).text()){
+            if(parseFloat($(".tableBlock tbody tr").find("td").eq(8).text()) != beforePrice || parseFloat($(".tableBlock tbody tr").find("td").eq(10).text()) != beforeDiscount){
                 $(".tableBlock tbody tr").find("td").eq(2).text("自定义");
             }
             $(".tableBlock tbody tr").prependTo($(".grid tbody"));
 
         }else{
             $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo($(".tableBlock tbody tr"));
-            if($(".tableBlock tbody tr").find("td").eq(8).text() != $(".tableBlock tbody tr").find("td").eq(9).text()){
+            if(parseFloat($(".tableBlock tbody tr").find("td").eq(8).text()) != beforePrice || parseFloat($(".tableBlock tbody tr").find("td").eq(10).text()) != beforeDiscount){
                 $(".tableBlock tbody tr").find("td").eq(2).text("自定义");
             }
             $(".tableBlock tbody tr").insertAfter($(".grid>tbody>tr").eq(trindex-1));
