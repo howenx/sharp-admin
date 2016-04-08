@@ -869,6 +869,9 @@ public class PingouCtrl extends Controller {
         hashMap.put("pinActiveId",pinActiveId);
         hashMap.put("isComplete",isComplete);
         pingouService.updJoinPersonById(hashMap);
+        //更新订单
+
+
 
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }

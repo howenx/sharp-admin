@@ -188,24 +188,24 @@ $(function() {
                 var orderStatus = "";
                 //当前时间减去24小时
                 var time = new Date($.now() - 1*24*3600*1000);
-                var createdTime = new Date($(this)[0].orderCreateAt);
-                if(createdTime < time && $(this)[0].orderStatus == "I"){
+                var createdTime = new Date($(this)[2]);
+                if(createdTime < time && $(this)[5] == "I"){
                     orderStatus = "订单已超时";
                 }else{
                     if($(this)[5] == "I"){
                         orderStatus = "未支付";
                     }
                     if($(this)[5] == "S"){
-                        orderStatus = "支付成功";
+                        orderStatus = "成功";
                     }
                     if($(this)[5] == "C"){
-                        orderStatus = "订单取消";
+                        orderStatus = "取消";
                     }
                     if($(this)[5] == "F"){
-                        orderStatus = "支付失败";
+                        orderStatus = "失败";
                     }
                     if($(this)[5] == "R"){
-                        orderStatus = "已签收";
+                        orderStatus = "已收货";
                     }
                     if($(this)[5] == "D"){
                         orderStatus = "已发货";
@@ -223,7 +223,7 @@ $(function() {
                         orderStatus =  "拼购未支付";
                     }
                     if ($(this)[5] == "PS") {
-                        orderStatus =  "拼购支付成功";
+                        orderStatus =  "拼购成功";
                     }
                     if ($(this)[5] == "PF") {
                         orderStatus =  "拼团失败未退款";
