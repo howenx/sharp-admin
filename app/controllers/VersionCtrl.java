@@ -183,8 +183,6 @@ public class VersionCtrl extends Controller {
             IAcsClient client = new DefaultAcsClient(profile);
 
 
-
-
             RefreshObjectCachesRequest describeCdnServiceRequest = new RefreshObjectCachesRequest();
 
             describeCdnServiceRequest.setAcceptFormat(FormatType.JSON); //指定api返回格式

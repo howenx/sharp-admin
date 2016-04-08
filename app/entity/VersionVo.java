@@ -7,7 +7,7 @@ package entity;
 public class VersionVo {
 
     private Long    id;
-    private String  releaseNumber;
+    private String  releaseName;
     private String  productType;
     private String  downloadLink;
     private Long    adminUserId;
@@ -18,13 +18,14 @@ public class VersionVo {
     private Boolean currentVersion;
     private String  appStoreDownloadLink;
     private String  adminUserNm;
+    private Integer releaseNumber;
 
     public VersionVo() {
     }
 
-    public VersionVo(Long id, String releaseNumber, String productType, String downloadLink, Long adminUserId, String releaseDesc, String releaseAt, String fileName, String updateReqXml, Boolean currentVersion, String appStoreDownloadLink, String adminUserNm) {
+    public VersionVo(Long id, String releaseName, String productType, String downloadLink, Long adminUserId, String releaseDesc, String releaseAt, String fileName, String updateReqXml, Boolean currentVersion, String appStoreDownloadLink, String adminUserNm, Integer releaseNumber) {
         this.id = id;
-        this.releaseNumber = releaseNumber;
+        this.releaseName = releaseName;
         this.productType = productType;
         this.downloadLink = downloadLink;
         this.adminUserId = adminUserId;
@@ -35,6 +36,7 @@ public class VersionVo {
         this.currentVersion = currentVersion;
         this.appStoreDownloadLink = appStoreDownloadLink;
         this.adminUserNm = adminUserNm;
+        this.releaseNumber = releaseNumber;
     }
 
     public Long getId() {
@@ -45,12 +47,12 @@ public class VersionVo {
         this.id = id;
     }
 
-    public String getReleaseNumber() {
-        return releaseNumber;
+    public String getReleaseName() {
+        return releaseName;
     }
 
-    public void setReleaseNumber(String releaseNumber) {
-        this.releaseNumber = releaseNumber;
+    public void setReleaseName(String releaseName) {
+        this.releaseName = releaseName;
     }
 
     public String getProductType() {
@@ -133,11 +135,19 @@ public class VersionVo {
         this.adminUserNm = adminUserNm;
     }
 
+    public Integer getReleaseNumber() {
+        return releaseNumber;
+    }
+
+    public void setReleaseNumber(Integer releaseNumber) {
+        this.releaseNumber = releaseNumber;
+    }
+
     @Override
     public String toString() {
         return "VersionVo{" +
                 "id=" + id +
-                ", releaseNumber='" + releaseNumber + '\'' +
+                ", releaseName='" + releaseName + '\'' +
                 ", productType='" + productType + '\'' +
                 ", downloadLink='" + downloadLink + '\'' +
                 ", adminUserId=" + adminUserId +
@@ -148,6 +158,7 @@ public class VersionVo {
                 ", currentVersion=" + currentVersion +
                 ", appStoreDownloadLink='" + appStoreDownloadLink + '\'' +
                 ", adminUserNm='" + adminUserNm + '\'' +
+                ", releaseNumber=" + releaseNumber +
                 '}';
     }
 }
