@@ -198,7 +198,6 @@ public class VersionCtrl extends Controller {
             ex.printStackTrace();
             return badRequest("error");
         }
-
     }
     @Security.Authenticated(UserAuth.class)
     public Result deploy(){
