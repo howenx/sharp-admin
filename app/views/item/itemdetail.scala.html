@@ -119,7 +119,7 @@
                                 <th>成本价(￥)</th>
                                 <th>折扣</th>
                                 <th>限购数量</th>
-                                <th>运费设置</th>
+                                <!--<th>运费设置</th>-->
                                 <th>库存区域</th>
                                 <th>税率/税号</th>
                                 <th>报关单位</th>
@@ -137,35 +137,35 @@
                                     <td>@obj(2)</td>
                                     <td>@obj(3)</td>
                                     <td>@obj(4)</td>
-                                    <td>@obj(20)</td>
+                                    <td>@obj(18)</td>
                                     <td>@obj(5)</td>
                                     <td>@obj(6)</td>
                                     <td>@obj(7)</td>
                                     <td>@obj(8)</td>
                                     <td>@obj(9)</td>
-                                    <td>@obj(11)</td>
+                                    <!--<td>@obj(11)</td>-->
                                     <td>
                                         @for(a <- area) {
-                                        @if(obj(14)==a.toString.substring(1,a.toString.length-1).split(",")(0)) {
+                                        @if(obj(12)==a.toString.substring(1,a.toString.length-1).split(",")(0)) {
                                             @a.toString.substring(1,a.toString.length-1).split(",")(1)
                                         }
                                         }
                                     </td>
-                                    @if(obj(14)!="K") {
+                                    @if(obj(12)!="K") {
                                         <td>
-                                            @if(obj(12)!= "" && null != obj(12)  ) { @obj(12)}
-                                            @if(obj(13)!= "" && null != obj(13)  ) { @obj(13)}
+                                            @if(obj(10)!= "" && null != obj(10)  ) { @obj(10)}
+                                            @if(obj(11)!= "" && null != obj(11)  ) { @obj(11)}
                                         </td>
                                         <td>
                                             @for(c <- customs) {
-                                            @if(obj(15)==c.toString.substring(1,c.toString.length-1).split(",")(0)) {
+                                            @if(obj(13)==c.toString.substring(1,c.toString.length-1).split(",")(0)) {
                                             @c.toString.substring(1,c.toString.length-1).split(",")(1)
                                             }
                                             }
                                         </td>
                                         <td>
-                                            @if(obj(19)!="{}") {
-                                                @for(recordCode <- obj(19).toString().substring(1,obj(19).toString().length-1).split(", ")) {
+                                            @if(obj(17)!="{}") {
+                                                @for(recordCode <- obj(17).toString().substring(1,obj(17).toString().length-1).split(", ")) {
                                                 @for(c <- customs) {
                                                 @if(recordCode.substring(1,recordCode.indexOf(":")-1)==c.toString.substring(1,c.toString.length-1).split(",")(0)) {
                                                 <div class="record"><span>@c.toString.substring(1,c.toString.length-1).split(",")(1) <input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordHZ" style="width:70%;border:0px;"></span></div>
@@ -175,7 +175,7 @@
                                             }
                                         </td>
                                     }
-                                    @if(obj(14)=="K") {
+                                    @if(obj(12)=="K") {
                                         <td>无</td>
                                         <td>无</td>
                                         <td>无</td>
@@ -183,13 +183,13 @@
                                     <td class="list-img">
                                         <div >
                                             <div>
-                                                <img class="main-img" src='@url@obj(16)'>
+                                                <img class="main-img" src='@url@obj(14)'>
                                             </div>
                                         </div>
                                     </td>
                                     <td width="146" class="preview-img">
                                         <div >
-                                            @for(pre <- obj(17).toString().substring(1,obj(17).toString().length()-2).split("}, ")) {
+                                            @for(pre <- obj(15).toString().substring(1,obj(15).toString().length()-2).split("}, ")) {
                                                 <div>
                                                     <img class="main-img" src='@url@pre.substring(1,pre.length).split(", ")(0).substring(8,pre.substring(1,pre.length).split(", ")(0).length-1)' alt="">
                                                 </div>
@@ -197,9 +197,9 @@
                                         </div>
                                     </td>
                                     <td>
-                                        @if(obj(18)== "Y") {正常}
-                                        @if(obj(18)== "D") {下架}
-                                        @if(obj(18)== "K") {售空}
+                                        @if(obj(16)== "Y") {正常}
+                                        @if(obj(16)== "D") {下架}
+                                        @if(obj(16)== "K") {售空}
                                     </td>
                                 </tr>
                             }

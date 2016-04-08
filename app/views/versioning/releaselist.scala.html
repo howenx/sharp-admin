@@ -64,7 +64,8 @@ $(function() {
         <table class="table table-bordered table-hover">
             <thead>
                 <th style="width: 5%;text-align: center;vertical-align: middle;">主键</th>
-                <th style="width: 6%;text-align: center;vertical-align: middle;">版本号</th>
+                <th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>
+                <th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>
                 <th style="text-align: center;vertical-align: middle;">类型</th>
                 <th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>
                 <th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>
@@ -79,6 +80,7 @@ $(function() {
                     <tr class = "tb-list-data">
                         <td style="text-align: center;vertical-align: middle;">@android.getId()</td>
                         <td style="text-align: center;vertical-align: middle;">@android.getReleaseNumber()</td>
+                        <td style="text-align: center;vertical-align: middle;">@android.getReleaseName()</td>
                         @if(android.getProductType().equals("A")){<td style="text-align: center;vertical-align: middle;">Android</td>}
                         @if(android.getProductType().equals("I")){<td style="text-align: center;vertical-align: middle;">IOS</td>}
                         <td style="width: 11%;text-align: center;vertical-align: middle;"><a href="@android.getDownloadLink()" target="_blank">@android.getFileName()</a></td>
@@ -100,7 +102,8 @@ $(function() {
         <table class="table table-bordered table-hover">
             <thead>
             <th style="width: 5%;text-align: center;vertical-align: middle;">主键</th>
-            <th style="width: 6%;text-align: center;vertical-align: middle;">版本号</th>
+            <th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>
+            <th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>
             <th style="text-align: center;vertical-align: middle;">类型</th>
             <th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>
             <th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>
@@ -116,6 +119,7 @@ $(function() {
             <tr class = "tb-list-data">
                 <td style="text-align: center;vertical-align: middle;">@android.getId()</td>
                 <td style="text-align: center;vertical-align: middle;">@android.getReleaseNumber()</td>
+                <td style="text-align: center;vertical-align: middle;">@android.getReleaseName()</td>
                 @if(android.getProductType().equals("A")){<td style="text-align: center;vertical-align: middle;">Android</td>}
                 @if(android.getProductType().equals("I")){<td style="text-align: center;vertical-align: middle;">IOS</td>}
                 <td style="width: 11%;text-align: center;vertical-align: middle;"><a href="@android.getDownloadLink()" target="_blank">@android.getFileName()</a></td>

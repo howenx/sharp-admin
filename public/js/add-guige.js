@@ -73,7 +73,7 @@ function Init () {
         $("#restrictAmount").val(skuObj.restrictAmount);
         $("#amount").val(skuObj.amount);
         $("#restAmount").val(skuObj.restAmount);
-        $("#carriageModelCode").val(skuObj.carriageModelCode);
+//        $("#carriageModelCode").val(skuObj.carriageModelCode);
         $("#invArea").val(skuObj.invArea);
         $("#invCustoms").val(skuObj.invCustoms);
         $("#rateSet").val(skuObj.rateSet);
@@ -220,7 +220,7 @@ function saveCurr(saveFlag) {
     var restrictAmount = $("#restrictAmount").val();//限购数量
     var amount = $("#amount").val();//库存总量
     var restAmount = $("#restAmount").val();//剩余库存
-    var carriageModelCode = $("#carriageModelCode").val();//运费设置
+//    var carriageModelCode = $("#carriageModelCode").val();//运费设置
     var invArea = $("#invArea").val();//库存区域
     var invCustoms = $("#invCustoms").val();//报关单位
     var rateSet = $("#rateSet").val();//税率设置
@@ -237,7 +237,7 @@ function saveCurr(saveFlag) {
     if (!numberReg2.test(itemPrice) || !numberReg2.test(itemSrcPrice) || !numberReg2.test(itemCostPrice)|| !numberReg2.test(itemDiscount) || !numberReg1.test(invWeight)
         || !numberReg1.test(restrictAmount) || !numberReg1.test(amount) || !numberReg1.test(restAmount)) {
         orSave = false;
-        alert("输入数据不合法!");
+//        alert("输入数据不合法!");
     }
     //上下架时间验证
     var now = new Date();
@@ -367,7 +367,7 @@ function saveCurr(saveFlag) {
     trdobj.restrictAmount = restrictAmount;
     trdobj.amount = amount;
     trdobj.restAmount = restAmount;
-    trdobj.carriageModelCode = carriageModelCode;
+//    trdobj.carriageModelCode = carriageModelCode;
     trdobj.invArea = invArea;
     trdobj.invCustoms = invCustoms;
     trdobj.rateSet = rateSet;

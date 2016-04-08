@@ -41,7 +41,7 @@ public class VersionMiddle {
         ObjectMetadata objMetadata = new ObjectMetadata();
         objMetadata.setContentLength(file.length());
 
-        String fileName = "HMM-" + versionVo.getReleaseNumber().toUpperCase() + ".";
+        String fileName = "HMM-" + versionVo.getReleaseName().toUpperCase() + ".";
 
         String productType = "android";
 
@@ -93,7 +93,7 @@ public class VersionMiddle {
 
     public void apiPublicRelease(VersionVo versionVo,File file) throws FileNotFoundException {
 
-        String fileName = "style-" +versionVo.getProductType() + "-"+ versionVo.getReleaseNumber().toUpperCase()+".zip";
+        String fileName = "style-" +versionVo.getProductType() + "-"+ versionVo.getReleaseName().toUpperCase()+".zip";
 
         String productType="style-id";
         if (versionVo.getProductType().equals("imgProcess")){

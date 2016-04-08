@@ -1,5 +1,5 @@
 @import play.i18n._
-@(item:entity.Item,invList:List[Array[Object]],cates:entity.Cates,pCateNm:String, brands:entity.Brands,url:String,uploadURL:String, lang:String="cn", brandsList:List[entity.Brands], catesParentList:List[entity.Cates],modelList:List[entity.Carriage],user:entity.User)
+@(item:entity.Item,invList:List[Array[Object]],cates:entity.Cates,pCateNm:String, brands:entity.Brands,url:String,uploadURL:String, lang:String="cn", brandsList:List[entity.Brands], catesParentList:List[entity.Cates],user:entity.User)
 
 @scripts = {
 
@@ -46,20 +46,20 @@
                 if (count==12) skuObj.restrictAmount = $(this).text();
                 if (count==13) skuObj.amount = $(this).text();
                 if (count==14) skuObj.restAmount = $(this).text();
-                if (count==15) skuObj.carriageModelCode = $(this).text();
-                if (count==16) skuObj.invArea = $(this).text();
+                //if (count==15) skuObj.carriageModelCode = $(this).text();
+                if (count==15) skuObj.invArea = $(this).text();
                 if (skuObj.invArea!="K") {
-                    if (count==17) skuObj.invCustoms = $(this).text();
-                    if (count==18) skuObj.rateSet = $(this).text();
-                    if (count==19) skuObj.postalTaxRate = $(this).text();
-                    if (count==20) skuObj.postalTaxCode = $(this).text();
-                    if (count==21) skuObj.recordCode = $(this).text();
+                    if (count==16) skuObj.invCustoms = $(this).text();
+                    if (count==17) skuObj.rateSet = $(this).text();
+                    if (count==18) skuObj.postalTaxRate = $(this).text();
+                    if (count==19) skuObj.postalTaxCode = $(this).text();
+                    if (count==20) skuObj.recordCode = $(this).text();
                 }
-                if (count==22) skuObj.invImg = $(this).text();
-                if (count==23) skuObj.itemPreviewImgs = $(this).text();
-                if (count==24) skuObj.orVaryPrice = $(this).text();
-                if (count==25) skuObj.varyPrice = $(this).text();
-                if (count==26) skuObj.invId = $(this).text();
+                if (count==21) skuObj.invImg = $(this).text();
+                if (count==22) skuObj.itemPreviewImgs = $(this).text();
+                if (count==23) skuObj.orVaryPrice = $(this).text();
+                if (count==24) skuObj.varyPrice = $(this).text();
+                if (count==25) skuObj.invId = $(this).text();
                 count++;
             });
             sharedObject.skuObj = skuObj;
@@ -219,15 +219,13 @@
                                     <th style='display:none;'>限购数量</th>
                                     <th style='display:none;'>库存总量</th>
                                     <th style='display:none;'>剩余库存</th>
-                                    <th style='display:none;'>运费设置</th>
+                                    <!--<th style='display:none;'>运费设置</th>-->
                                     <th style='display:none;'>库存区域</th>
                                     <th style='display:none;'>报关单位</th>
                                     <th style='display:none;'>税率设置</th>
                                     <th style='display:none;'>税率(整数)</th>
                                     <th style='display:none;'>行邮税号</th>
-                                    <th style='display:none;'>杭州</th>
-                                    <th style='display:none;'>广州</th>
-                                    <th style='display:none;'>上海</th>
+                                    <th style='display:none;'>海关商品备案号</th>
                                     <th style='display:none;'>主图</th>
                                     <th style='display:none;'>预览图</th>
                                     <th style='display:none;'>开启多样化价格</th>
@@ -240,8 +238,8 @@
                                     <td><input type="radio" name="orMasterInv" class="master-radio" checked="checked" value="@obj(2)"/></td>
                                     <td>@obj(3)</td>
                                     <td>@obj(4)</td>
+                                    <td style='display:none;'>@obj(24)</td>
                                     <td style='display:none;'>@obj(25)</td>
-                                    <td style='display:none;'>@obj(26)</td>
                                     <td style='display:none;'>@obj(5)</td>
                                     <td style='display:none;'>@obj(6)</td>
                                     <td>@obj(7)</td>
@@ -252,19 +250,19 @@
                                     <td style='display:none;'>@obj(12)</td>
                                     <td style='display:none;'>@obj(13)</td>
                                     <td style='display:none;'>@obj(14)</td>
+                                    <!--<td style='display:none;'>@obj(15)</td>-->
                                     <td style='display:none;'>@obj(15)</td>
-                                    <td style='display:none;'>@obj(16)</td>
-                                    <td  style='display:none;'>@obj(17)</td>
-                                    @if(obj(18)==0) {<td style='display:none;'>F</td>}
-                                    @if(obj(19)!=null) {<td style='display:none;'>S</td>}
-                                    @if(obj(19)==null && obj(18)!=0) {<td style='display:none;'>D</td>}
+                                    <td  style='display:none;'>@obj(16)</td>
+                                    @if(obj(17)==0) {<td style='display:none;'>F</td>}
+                                    @if(obj(18)!=null) {<td style='display:none;'>S</td>}
+                                    @if(obj(18)==null && obj(17)!=0) {<td style='display:none;'>D</td>}
+                                    <td style='display:none;'>@obj(17)</td>
                                     <td style='display:none;'>@obj(18)</td>
                                     <td style='display:none;'>@obj(19)</td>
                                     <td style='display:none;'>@obj(20)</td>
                                     <td style='display:none;'>@obj(21)</td>
                                     <td style='display:none;'>@obj(22)</td>
                                     <td style='display:none;'>@obj(23)</td>
-                                    <td style='display:none;'>@obj(24)</td>
                                     <td style='display:none;'>@obj(0)</td>
                                     <td class="trEdit">
                                         <span onclick="ShowModal(this)">编辑</span>
