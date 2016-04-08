@@ -19,7 +19,7 @@ function ShowModal1() {
 //返回选中的商品ID
 function UpdateFields(obj) {
     $('#input_imgurl').val(obj.lable_id);
-    $('#itemTitle').val(obj.itemTitle);
+    $('#skuOffTime').val(obj.skuOffTime);
 }
 
 //返回模板中选中的图片 Added by Tiffany Zhu
@@ -627,6 +627,13 @@ $(function(){
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
+        if($("#skuOffTime").val() < $("#offShelvesAt").val()){
+            isPost = false;
+            $('#js-userinfo-error').text('结束时间须小于Sku下架时间!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+        }
+
         if($("#onShelvesAt").val() > $("#offShelvesAt").val()){
             isPost = false;
             $('#js-userinfo-error').text('日期不正确!').css('color', '#c00');

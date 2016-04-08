@@ -287,7 +287,7 @@ public class ThemeCtrl extends Controller {
                 String url = json.get("url").toString();
                 object[2] = url.substring(1,url.length()-1);
             }
-            object[3] = inventory.getStartAt();
+            object[3] = inventory.getEndAt();
 
             if("Y".equals(inventory.getState())){
                 object[4] = "正常";
@@ -322,7 +322,7 @@ public class ThemeCtrl extends Controller {
                 String url = json.get("url").toString();
                 object[2] = url.substring(1,url.length()-1);
             }
-            object[3] = pinSku.getStartAt();
+            object[3] = pinSku.getEndAt();
             if("Y".equals(pinSku.getStatus())){
                 object[4] = "正常";
             }
@@ -368,7 +368,7 @@ public class ThemeCtrl extends Controller {
                 url = url.substring(1,url.length()-1);
                 object[2] = url;
             }
-            object[3] = inventory.getStartAt();
+            object[3] = inventory.getEndAt();
             if("Y".equals(varyPrice.getStatus())){
                 object[4] = "正常";
             }
@@ -666,7 +666,7 @@ public class ThemeCtrl extends Controller {
                             String  url = Json.parse(inventory.getInvImg()).get("url").toString();
                             url = url.substring(1,url.length()-1);
                             object[2] = url;
-                            object[3] = inventory.getStartAt().toString().substring(0,19);
+                            object[3] = inventory.getEndAt().toString().substring(0,19);
                             if("Y".equals(inventory.getState())){
                                 object[4] = "正常";
 

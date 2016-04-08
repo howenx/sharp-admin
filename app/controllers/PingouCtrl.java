@@ -3,6 +3,7 @@ package controllers;
 import akka.actor.ActorRef;
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.ID;
+import entity.Inventory;
 import entity.User;
 import entity.pingou.*;
 import filters.UserAuth;
@@ -18,6 +19,7 @@ import play.mvc.Security;
 import scala.concurrent.duration.Duration;
 import scala.concurrent.duration.FiniteDuration;
 import service.IDService;
+import service.InventoryService;
 import service.PingouService;
 import util.Regex;
 import java.text.SimpleDateFormat;
@@ -47,6 +49,9 @@ public class PingouCtrl extends Controller {
 
     @Inject
     IDService idService;
+
+    @Inject
+    private InventoryService inventoryService;
 
 
 
@@ -83,10 +88,13 @@ public class PingouCtrl extends Controller {
         if(json.has("pinSku")){
            JsonNode pinSkuJson = json.findValue("pinSku");
            PinSku pinSkuValidation = Json.fromJson(pinSkuJson,PinSku.class);
+            Inventory inventory = inventoryService.getInventory(pinSkuValidation.getInvId());
+
            Form<PinSku> pinSkuForm = Form.form(PinSku.class).bind(pinSkuJson);
            if(pinSkuForm.hasErrors() || !(Regex.isJason(pinSkuValidation.getFloorPrice())) || !(Regex.isJason(pinSkuValidation.getPinImg())) ||
                    pinSkuValidation.getRestrictAmount() <= 0 || pinSkuValidation.getStartAt().compareTo(pinSkuValidation.getEndAt()) >= 0 ||
-                   pinSkuValidation.getEndAt().compareTo(strNow) <=0 || pinSkuValidation.getStartAt().compareTo(validDate) > 0 || pinSkuValidation.getEndAt().compareTo(validDate) > 0){
+                   pinSkuValidation.getEndAt().compareTo(strNow) <=0 || pinSkuValidation.getStartAt().compareTo(validDate) > 0 ||
+                   pinSkuValidation.getEndAt().compareTo(validDate) > 0 || inventory.getEndAt().toString().compareTo(pinSkuValidation.getEndAt().toString()) < 0){
                return badRequest();
            }
         }
@@ -361,6 +369,11 @@ public class PingouCtrl extends Controller {
     public Result getPinSkuById(String lang,Long pinId){
 
         PinSku pinSku = pingouService.getPinSkuById(pinId);
+        Inventory inventory = inventoryService.getInventory(pinSku.getInvId());
+        String SkuEndDate = "";
+        if(inventory != null){
+            SkuEndDate = inventory.getEndAt().toString().substring(0,19);
+        }
         if(pinSku != null){
             JsonNode imgJson = Json.parse(pinSku.getPinImg());
             Object[] img = new Object[3];
@@ -442,7 +455,7 @@ public class PingouCtrl extends Controller {
                 }
                 tieredList.add(object);
             }
-            return ok(views.html.pingou.pingouUpdate.render(lang,pinSku,img,tieredList,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
+            return ok(views.html.pingou.pingouUpdate.render(lang,pinSku,img,tieredList,SkuEndDate,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
         }
         return null;
     }
