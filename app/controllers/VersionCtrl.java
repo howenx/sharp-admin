@@ -199,10 +199,5 @@ public class VersionCtrl extends Controller {
             ex.printStackTrace();
             return badRequest("error");
         }
-
-    }
-    @Security.Authenticated(UserAuth.class)
-    public Result deploy(){
-        return ok(views.html.versioning.deploy.render("cn", (User) ctx().args.get("user")));
     }
 }
