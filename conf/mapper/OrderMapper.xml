@@ -81,10 +81,25 @@
         from sp_order t where t.order_status = 'I' and t.order_create_at &lt;= CURRENT_TIMESTAMP - interval '1 day'
     </select>
 
+    <select id="getOrderByPinAtvId" resultType="entity.order.Order" parameterType="java.lang.Long">
+        select
+        <include refid="orderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_order t where t.pin_active_id = #{value}
+    </select>
+
     <update id="orderCancel" parameterType="java.util.Arrays">
         update sp_order set order_status = 'C' where order_id in
         <foreach collection= "array" index="index" item="item" open="(" separator="," close=")">
             #{item}
+        </foreach>
+    </update>
+
+    <update id="updPinOrderToSuccess" parameterType="java.util.List">
+        <foreach collection="list" item="order" separator=";">
+            update sp_order set order_status = 'S'
+            where order_id = #{order.orderId} and  pin_active_id = #{order.pinActiveId} and order_status = 'PS'
         </foreach>
     </update>
 

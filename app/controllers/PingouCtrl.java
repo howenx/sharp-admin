@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import entity.ID;
 import entity.Inventory;
 import entity.User;
+import entity.order.Order;
 import entity.pingou.*;
 import filters.UserAuth;
 import modules.NewScheduler;
@@ -20,6 +21,7 @@ import scala.concurrent.duration.Duration;
 import scala.concurrent.duration.FiniteDuration;
 import service.IDService;
 import service.InventoryService;
+import service.OrderService;
 import service.PingouService;
 import util.Regex;
 import java.text.SimpleDateFormat;
@@ -52,6 +54,9 @@ public class PingouCtrl extends Controller {
 
     @Inject
     private InventoryService inventoryService;
+
+    @Inject
+    private OrderService orderService;
 
 
 
@@ -869,10 +874,11 @@ public class PingouCtrl extends Controller {
         hashMap.put("pinActiveId",pinActiveId);
         hashMap.put("isComplete",isComplete);
         pingouService.updJoinPersonById(hashMap);
-        //更新订单
-
-
-
+        if(isComplete){
+            //更新订单
+            List<Order> orderList = orderService.getOrderByPinAtvId(pinActiveId);
+            orderService.updPinOrderToSuccess(orderList);
+        }
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
