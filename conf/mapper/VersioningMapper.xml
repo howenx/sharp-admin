@@ -16,15 +16,16 @@
         ${alias}.file_name         ,
         ${alias}.current_version   ,
         ${alias}.update_req_xml     ,
-        ${alias}.app_store_download_link
+        ${alias}.app_store_download_link,
+        ${alias}.release_name
     </sql>
 
     <!-- 录入一条 -->
     <insert id="insertVersioning" parameterType="entity.VersionVo" useGeneratedKeys="true" keyProperty="id">
         insert into versioning
-        (release_number,product_type,download_link,admin_user_id,release_desc,release_at,file_name,update_req_xml,app_store_download_link)
+        (release_number,product_type,download_link,admin_user_id,release_desc,release_at,file_name,update_req_xml,app_store_download_link,release_name)
         values
-        (#{releaseNumber},#{productType},#{downloadLink},#{adminUserId},#{releaseDesc},CURRENT_TIMESTAMP(0),#{fileName},#{updateReqXml},#{appStoreDownloadLink})
+        (#{releaseNumber},#{productType},#{downloadLink},#{adminUserId},#{releaseDesc},CURRENT_TIMESTAMP(0),#{fileName},#{updateReqXml},#{appStoreDownloadLink},#{releaseName})
     </insert>
 
     <!-- -->

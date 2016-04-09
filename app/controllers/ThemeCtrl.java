@@ -304,7 +304,7 @@ public class ThemeCtrl extends Controller {
             if("P".equals(inventory.getState())){
                 object[4] = "预售";
             }
-            object[5] = inventory.getItemCostPrice();
+            object[5] = inventory.getItemPrice();
             object[6] = inventory.getItemSrcPrice();
             object[7] = inventory.getItemDiscount();
             inList.add(object);

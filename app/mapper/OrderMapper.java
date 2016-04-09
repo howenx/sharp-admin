@@ -40,4 +40,17 @@ public interface OrderMapper {
      */
     List<Order> getOutTimeOrders();
 
+    /**
+     * 通过拼购活动ID获取订单     Added by Tiffany Zhu 2016.04.09
+     * @param pinActivityId
+     * @return
+     */
+    List<Order> getOrderByPinAtvId(Long pinActivityId);
+
+    /**
+     * 已支付成功的订单 更新至 成功状态    Added by Tiffany Zhu 2016.04.09
+     * @param orderList
+     */
+    void updPinOrderToSuccess(List<Order> orderList);
+
 }

@@ -183,8 +183,6 @@ public class VersionCtrl extends Controller {
             IAcsClient client = new DefaultAcsClient(profile);
 
 
-
-
             RefreshObjectCachesRequest describeCdnServiceRequest = new RefreshObjectCachesRequest();
 
             describeCdnServiceRequest.setAcceptFormat(FormatType.JSON); //指定api返回格式
@@ -201,10 +199,5 @@ public class VersionCtrl extends Controller {
             ex.printStackTrace();
             return badRequest("error");
         }
-
-    }
-    @Security.Authenticated(UserAuth.class)
-    public Result deploy(){
-        return ok(views.html.versioning.deploy.render("cn", (User) ctx().args.get("user")));
     }
 }
