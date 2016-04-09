@@ -42,7 +42,7 @@ public class NewScheduler {
 
         Cancellable cancellable = system.scheduler().scheduleOnce(delay, receiver, message, system.dispatcher(), ActorRef.noSender());
 
-        //调用delScheduleActor去在schedule执行完10s后删除已经持久化的schedule
+        //调用delScheduleActor去在schedule执行完5s后删除已经持久化的schedule
         Cancellable del = system.scheduler().scheduleOnce(Duration.create(delay.toSeconds() + 5, TimeUnit.SECONDS), delScheduleActor, message, system.dispatcher(), ActorRef.noSender());
 
         try {
