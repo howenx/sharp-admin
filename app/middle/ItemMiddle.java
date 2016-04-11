@@ -143,11 +143,6 @@ public class ItemMiddle {
                     Timestamp endAt = inventory.getEndAt();//现下架时间
                     Long startTimes = startAt.getTime();//现上架时间毫秒数
                     Long endTimes = endAt.getTime();//现下架时间毫秒数
-                    Timestamp originStartAt = originInv.getStartAt();//原上架时间
-                    Timestamp originEndAt = originInv.getEndAt();//原下架时间
-                    Long originStartTimes = originStartAt.getTime();//原上架时间毫秒数
-                    Long originEndTimes = originEndAt.getTime();//原下架时间毫秒数
-                    String originState = originInv.getState();  //原sku状态
                     String state = inventory.getState();        //现sku状态
                     if (startTimes>nowTimes) {//上架时间比现在时间大为预售状态
                         inventory.setState("P");
@@ -163,6 +158,11 @@ public class ItemMiddle {
                     if (jsonInv.has("id")) {
                         Integer orUpdate = 0;   //orUpdate状态为标识是否执行更新语句
                         originInv = inventoryService.getInventory(inventory.getId());
+                        Timestamp originStartAt = originInv.getStartAt();//原上架时间
+                        Timestamp originEndAt = originInv.getEndAt();//原下架时间
+                        Long originStartTimes = originStartAt.getTime();//原上架时间毫秒数
+                        Long originEndTimes = originEndAt.getTime();//原下架时间毫秒数
+                        String originState = originInv.getState();  //原sku状态
                         inventory.setSoldAmount(originInv.getSoldAmount());
                         inventory.setOrDestroy(originInv.getOrDestroy());
                         inventory.setInvTitle(originInv.getInvTitle());
