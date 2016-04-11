@@ -80,9 +80,6 @@ public class ItemCtrl extends Controller {
         inventory.setPageSize(-1);
         inventory.setOffset(-1);
         List<Inventory> inventoryList = inventoryService.invSearch(inventory);
-        for(Inventory inv : inventoryList) {
-            inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
-        }
         int countNum = inventoryList.size();//取总数
         int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
         if (countNum%ThemeCtrl.PAGE_SIZE!=0) {
@@ -90,6 +87,10 @@ public class ItemCtrl extends Controller {
         }
         inventory.setPageSize(ThemeCtrl.PAGE_SIZE);
         inventory.setOffset(0);
+        inventoryList = inventoryService.invSearch(inventory);
+        for(Inventory inv : inventoryList) {
+            inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
+        }
         return ok(views.html.item.itemsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,inventoryList,(User) ctx().args.get("user")));
     }
 
@@ -110,9 +111,6 @@ public class ItemCtrl extends Controller {
             inventory.setPageSize(-1);
             inventory.setOffset(-1);
             List<Inventory> inventoryList = inventoryService.invSearch(inventory);
-            for(Inventory inv : inventoryList) {
-                inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
-            }
             int countNum = inventoryList.size();//取总数
             int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
             if(countNum%ThemeCtrl.PAGE_SIZE!=0){
@@ -120,6 +118,10 @@ public class ItemCtrl extends Controller {
             }
             inventory.setPageSize(ThemeCtrl.PAGE_SIZE);
             inventory.setOffset(offset);
+            inventoryList = inventoryService.invSearch(inventory);
+            for(Inventory inv : inventoryList) {
+                inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
+            }
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
             returnMap.put("topic",inventoryList);

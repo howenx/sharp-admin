@@ -14,7 +14,7 @@ public class Coupons implements Serializable {
 
     private String coupId;      //主键优惠券id
     private BigDecimal limitQuota;//限制满多少才能使用
-    private String CateNm;        //类别名称
+    private String cateNm;        //类别名称
     private Long userId;          //用户id
     private Long cateId;          //类别id (153 化妆品类商品适用券，172 配饰类商品适用券, 165 服饰类商品适用券, 555 全场通用券, 777 新人优惠券, 211 指定商品适用券, 999 免邮券)
     private BigDecimal denomination;//面值
@@ -73,7 +73,7 @@ public class Coupons implements Serializable {
         return "Coupons{" +
                 "coupId='" + coupId + '\'' +
                 ", limitQuota=" + limitQuota +
-                ", CateNm='" + CateNm + '\'' +
+                ", cateNm='" + cateNm + '\'' +
                 ", userId=" + userId +
                 ", cateId=" + cateId +
                 ", denomination=" + denomination +
@@ -108,11 +108,11 @@ public class Coupons implements Serializable {
     }
 
     public String getCateNm() {
-        return CateNm;
+        return cateNm;
     }
 
     public void setCateNm(String cateNm) {
-        CateNm = cateNm;
+        this.cateNm = cateNm;
     }
 
     public Long getUserId() {
@@ -239,7 +239,7 @@ public class Coupons implements Serializable {
 
         this.coupId = coupId;
         this.limitQuota = limitQuota;
-        CateNm = cateNm;
+        cateNm = cateNm;
         this.userId = userId;
         this.cateId = cateId;
         this.denomination = denomination;
