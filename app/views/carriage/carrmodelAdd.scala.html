@@ -124,13 +124,13 @@
             </div>
             <!--始发地-->
             <div class="input-item">
-                <span>发货地:</span>
+                <span>发货仓:</span>
                 <select class="form-control" id="storeArea" name="storeArea" style="width:150px;">
                     @for(s <- storeArea) {
                     <option value='@s.toString.substring(1,s.toString.length-1).split(",")(0)'>@s.toString.substring(1,s.toString.length-1).split(",")(1)</option>
                     }
                 </select>
-                <div style="color:#8C8E8F;margin-left:353px;margin-top:-26px;">一个模板对应一个发货地对应一个快递公司,请不要重复选择</div>
+                <div style="color:#8C8E8F;margin-left:353px;margin-top:-26px;">一个模板对应一个发货仓库对应一个快递公司,请不要重复选择</div>
             </div>
             <!--快递公司-->
             <div class="input-item">
@@ -233,8 +233,11 @@
         var nameReg = new RegExp(/^[a-zA-Z0-9\u4e00-\u9fa5\-]+$/);//汉字、 -、 字母或者数字
         var carrModels = [];
         var isPost = true;
-        var numberReg =    /^-?\d+\.?\d{0,2}$/;   //整数或小数
-        var modelName = $("#modelName").val();
+        var numberReg = /^-?\d+\.?\d{0,2}$/;   //整数或小数
+        var modelName = $("#modelName").val();    //模板名称
+        var storeArea = $("#storeArea").val();    //发货地
+        var deliveryCode = $("#delivery").val();  //快递公司编码
+        var deliveryName = $("#delivery").find("option:selected").text();//快递公司名称
         if (!nameReg.test(modelName)) {
             isPost = false;
             $("#modelName-warn").text("请输入正确的模板名称");
@@ -249,12 +252,14 @@
                 } else $("#data-warn").text("");
             }
         } else $("#data-warn").text("");
-
         var dataTab = document.getElementById("dataTab");
         var modelLines = dataTab.getElementsByTagName("tr");
         var defModel = new Object();
         var defLine = modelLines[0];
         defModel.modelName = modelName;
+        defModel.storeArea = storeArea;
+        defModel.deliveryCode = deliveryCode;
+        defModel.deliveryName = deliveryName;
         defModel.firstNum = defLine.getElementsByTagName("input")[0].value;
         defModel.firstFee = defLine.getElementsByTagName("input")[1].value;
         defModel.addNum = defLine.getElementsByTagName("input")[2].value;
@@ -282,7 +287,7 @@
                 }
             }
         }
-        <!--console.log(JSON.stringify(carrModels));-->
+        console.log(JSON.stringify(carrModels));
         if (isPost) {
             $.ajax({
                 type :  "POST",
