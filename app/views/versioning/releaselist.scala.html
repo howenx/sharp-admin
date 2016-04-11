@@ -25,7 +25,29 @@ $(function() {
 	    if (allowedFileTypes.indexOf(files[0].type) > -1) {
 	    	alert("文件类型不匹配");
 	    }
-	})
+	});
+
+    /***刷新CDN***/
+    $(document).on('click','#js-usercenter-submit', function() {
+        $.ajax({
+            url: "/release/cdn",
+            type: 'GET',
+            success: function(data) {
+                console.log(data);
+                if(data==='success'){
+                    $('.usercenter-option > .user-state').css('background-position', '20px -174px');
+                    $('.usercenter-option > .user-state').text('未更改');
+                    $('#js-userinfo-error').text('刷新CDN成功').css('color', '#2fa900');
+                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 3000);
+                    setTimeout(function(){
+                        window.location.href='/release/list';
+                    }, 4000);
+                }else{
+                    alert('Server Error.');
+                }
+            }
+        });
+    });
 
 	$('#release').submit(function(eventObj) {
     $(this).append('<input type="hidden" name="field_name" value="value" /> ');
@@ -55,7 +77,7 @@ $(function() {
         <span class="title-name">版本历史</span>
     </div>
     <div class="usercenter-option">
-        <div class="user-state fl">未刷新</div>
+        <div class="user-state fl">未更改</div>
         <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15"> 刷新CDN</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
@@ -64,7 +86,8 @@ $(function() {
         <table class="table table-bordered table-hover">
             <thead>
                 <th style="width: 5%;text-align: center;vertical-align: middle;">主键</th>
-                <th style="width: 6%;text-align: center;vertical-align: middle;">版本号</th>
+                <th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>
+                <th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>
                 <th style="text-align: center;vertical-align: middle;">类型</th>
                 <th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>
                 <th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>
@@ -79,6 +102,7 @@ $(function() {
                     <tr class = "tb-list-data">
                         <td style="text-align: center;vertical-align: middle;">@android.getId()</td>
                         <td style="text-align: center;vertical-align: middle;">@android.getReleaseNumber()</td>
+                        <td style="text-align: center;vertical-align: middle;">@android.getReleaseName()</td>
                         @if(android.getProductType().equals("A")){<td style="text-align: center;vertical-align: middle;">Android</td>}
                         @if(android.getProductType().equals("I")){<td style="text-align: center;vertical-align: middle;">IOS</td>}
                         <td style="width: 11%;text-align: center;vertical-align: middle;"><a href="@android.getDownloadLink()" target="_blank">@android.getFileName()</a></td>
@@ -100,7 +124,8 @@ $(function() {
         <table class="table table-bordered table-hover">
             <thead>
             <th style="width: 5%;text-align: center;vertical-align: middle;">主键</th>
-            <th style="width: 6%;text-align: center;vertical-align: middle;">版本号</th>
+            <th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>
+            <th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>
             <th style="text-align: center;vertical-align: middle;">类型</th>
             <th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>
             <th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>
@@ -116,6 +141,7 @@ $(function() {
             <tr class = "tb-list-data">
                 <td style="text-align: center;vertical-align: middle;">@android.getId()</td>
                 <td style="text-align: center;vertical-align: middle;">@android.getReleaseNumber()</td>
+                <td style="text-align: center;vertical-align: middle;">@android.getReleaseName()</td>
                 @if(android.getProductType().equals("A")){<td style="text-align: center;vertical-align: middle;">Android</td>}
                 @if(android.getProductType().equals("I")){<td style="text-align: center;vertical-align: middle;">IOS</td>}
                 <td style="width: 11%;text-align: center;vertical-align: middle;"><a href="@android.getDownloadLink()" target="_blank">@android.getFileName()</a></td>

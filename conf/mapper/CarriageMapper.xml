@@ -13,15 +13,18 @@
         ${alias}.first_fee,
         ${alias}.add_num,
         ${alias}.add_fee,
-        ${alias}.city_code
+        ${alias}.city_code,
+        ${alias}.delivery_code,
+        ${alias}.delivery_name,
+        ${alias}.store_area
     </sql>
 
     <!-- 录入一条运费信息 -->
     <insert id="insertCarriage" parameterType="entity.Carriage" useGeneratedKeys="true" keyProperty="id">
         insert into carriage
-        (model_code,model_name,first_num,first_fee,add_num,add_fee,city_code)
+        (model_code,model_name,first_num,first_fee,add_num,add_fee,city_code,delivery_code,delivery_name,store_area)
         values
-        (#{modelCode},#{modelName},#{firstNum},#{firstFee},#{addNum},#{addFee},#{cityCode})
+        (#{modelCode},#{modelName},#{firstNum},#{firstFee},#{addNum},#{addFee},#{cityCode},#{deliveryCode},#{deliveryName},#{storeArea})
     </insert>
 
     <!-- 由id删除一条运费信息 -->
@@ -33,7 +36,7 @@
     <update id="updateCarriage" parameterType="entity.Carriage">
         update carriage
         set
-        (model_code=#{modelCode},model_name=#{modelName},first_num=#{firstNum},first_fee=#{firstFee},add_num=#{addNum},add_fee=#{addFee},city_code=#{cityCode})
+        (model_code=#{modelCode},model_name=#{modelName},first_num=#{firstNum},first_fee=#{firstFee},add_num=#{addNum},add_fee=#{addFee},city_code=#{cityCode},delivery_code=#{deliveryCode},delivery_name=#{deliveryName},store_area=#{storeArea})
         where id = #{id}
     </update>
 

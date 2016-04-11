@@ -275,16 +275,16 @@ public class OrderCtrl extends Controller {
                 orderArray[6] =  "未支付";
             }
             if ("S".equals(order.getOrderStatus())) {
-                orderArray[6] =  "支付成功";
+                orderArray[6] =  "成功";
             }
             if ("C".equals(order.getOrderStatus())) {
-                orderArray[6] =  "订单取消";
+                orderArray[6] =  "取消";
             }
             if ("F".equals(order.getOrderStatus())) {
-                orderArray[6] =  "支付失败";
+                orderArray[6] =  "失败";
             }
             if ("R".equals(order.getOrderStatus())) {
-                orderArray[6] =  "已签收";
+                orderArray[6] =  "已收货";
             }
             if ("D".equals(order.getOrderStatus())) {
                 orderArray[6] = "已发货";
@@ -302,7 +302,7 @@ public class OrderCtrl extends Controller {
                 orderArray[6] =  "拼购未支付";
             }
             if (("PS").equals(order.getOrderStatus())) {
-                orderArray[6] =  "拼购支付成功";
+                orderArray[6] =  "拼购成功";
             }
             if (("PF").equals(order.getOrderStatus())) {
                 orderArray[6] =  "拼团失败未退款";

@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",user:entity.User)
+@(lang:String="cn",user:entity.User, storeArea:Map[String,String], delivery:Map[String,String])
 
 @scripts = {
 
@@ -122,6 +122,25 @@
                 <span>运费模版名称:</span>
                 <input type="text" id="modelName" name="modelName" class="form-data-area" style="color:black;">  请输入汉字、 -、 字母或者数字<font id="modelName-warn" style="color:red;margin-left:10px;"></font>
             </div>
+            <!--始发地-->
+            <div class="input-item">
+                <span>发货地:</span>
+                <select class="form-control" id="storeArea" name="storeArea" style="width:150px;">
+                    @for(s <- storeArea) {
+                    <option value='@s.toString.substring(1,s.toString.length-1).split(",")(0)'>@s.toString.substring(1,s.toString.length-1).split(",")(1)</option>
+                    }
+                </select>
+                <div style="color:#8C8E8F;margin-left:353px;margin-top:-26px;">一个模板对应一个发货地对应一个快递公司,请不要重复选择</div>
+            </div>
+            <!--快递公司-->
+            <div class="input-item">
+                <span>快递公司:</span>
+                <select class="form-control" id="delivery" name="delivery" style="width:150px;">
+                    @for(d <- delivery) {
+                    <option value='@d.toString.substring(1,d.toString.length-1).split(",")(0)'>@d.toString.substring(1,d.toString.length-1).split(",")(1)</option>
+                    }
+                </select>
+            </div>
             <!--是否包邮-->
             <div class="input-item">
                 <span>是否包邮:</span>
@@ -131,8 +150,8 @@
             <!--计费规则-->
             <div class="input-item">
                 <span>计费规则:</span>
-                <input type="radio" name="cost-role" checked>  按件数
-                <!--<input type="radio" name="cost-role">  按重量-->
+                <!--<input type="radio" name="cost-role">  按件数-->
+                <input type="radio" name="cost-role" checked>  按重量
                 <!--<input type="radio" name="cost-role">  按体积-->
             </div>
             <!--运送方式-->
@@ -144,14 +163,14 @@
                     <table cellspacing="0" id="dataTab">
                         <tr style="background: rgb(224,238,255)">
                             <td colspan="6">
-                                默认运费: <input type="text" name="firstNum" class="form-data-area">件内, <input type="text" name="firstFee" class="form-data-area">元,每增加<input type="text" name="addNum" class="form-data-area">件,增加运费 <input type="text" name="addFee" class="form-data-area">元
+                                默认运费: <input type="text" name="firstNum" class="form-data-area">克内, <input type="text" name="firstFee" class="form-data-area">元,每增加<input type="text" name="addNum" class="form-data-area">克,增加运费 <input type="text" name="addFee" class="form-data-area">元
                             </td>
                         </tr>
                         <tr>
                             <td>运送到</td>
-                            <td>首件(件)</td>
+                            <td>首重(单位:克)</td>
                             <td>首费(元)</td>
-                            <td>续件(件)</td>
+                            <td>续重(单位:克)</td>
                             <td>续费(元)</td>
                             <td>操作</td>
                         </tr>
@@ -211,13 +230,14 @@
 
     /** 数据提交 **/
     $("#modelSubmit").click(function() {
+        var nameReg = new RegExp(/^[a-zA-Z0-9\u4e00-\u9fa5\-]+$/);//汉字、 -、 字母或者数字
         var carrModels = [];
         var isPost = true;
         var numberReg =    /^-?\d+\.?\d{0,2}$/;   //整数或小数
         var modelName = $("#modelName").val();
-        if (modelName=="") {
+        if (!nameReg.test(modelName)) {
             isPost = false;
-            $("#modelName-warn").text("请输入模板名称");
+            $("#modelName-warn").text("请输入正确的模板名称");
         } else $("#modelName-warn").text("");
         if ($("#sel-exp").is(":checked")) {
             var inputs = document.getElementById("dataTab").getElementsByTagName("input");

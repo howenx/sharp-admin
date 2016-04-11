@@ -43,11 +43,11 @@ public class CarriageServiceImpl implements CarriageService{
         for(final JsonNode jsonNode : json) {
             Carriage carriage = Json.fromJson(jsonNode, Carriage.class);
             //更新模板
-            if (orUpdate==true) {
+            if (orUpdate) {
                 carriageMapper.insertCarriage(carriage);
             }
             //录入新的模板
-            if (orUpdate==false) {
+            if (!orUpdate) {
                 carriage.setModelCode(uuid);
                 carriageMapper.insertCarriage(carriage);
             }
@@ -84,7 +84,7 @@ public class CarriageServiceImpl implements CarriageService{
     }
 
     /**
-     * 有modelCode删除运费模板的所有数据
+     * 由modelCode删除运费模板的所有数据
      * @param modelCode
      */
     public boolean delModelByCode(String modelCode) {

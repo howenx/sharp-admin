@@ -46,10 +46,7 @@ public class OrderServiceImpl implements OrderService {
     public void orderCancel(Long[] orderIds) {
 
         orderMapper.orderCancel(orderIds);
-        //int length = orderIds.length;
-        //for(int i=0;i<length;i++){
-            //orderMapper.orderCancel(orderIds[i]);
-        //}
+
     }
 
     /**
@@ -59,5 +56,24 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getOutTimeOrders() {
         return orderMapper.getOutTimeOrders();
+    }
+
+    /**
+     * 通过拼购活动ID获取订单     Added by Tiffany Zhu 2016.04.09
+     * @param pinActivityId
+     * @return
+     */
+    @Override
+    public List<Order> getOrderByPinAtvId(Long pinActivityId) {
+        return orderMapper.getOrderByPinAtvId(pinActivityId);
+    }
+
+    /**
+     * 已支付成功的订单 更新至 成功状态    Added by Tiffany Zhu 2016.04.09
+     * @param orderList
+     */
+    @Override
+    public void updPinOrderToSuccess(List<Order> orderList) {
+        orderMapper.updPinOrderToSuccess(orderList);
     }
 }

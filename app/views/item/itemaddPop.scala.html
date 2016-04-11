@@ -81,8 +81,8 @@
                         <option value="Y">正常</option>
                         <option value="D">下架</option>
                         <option value="P">预售</option>
-                        <option value="K">售空</option>
-                        <option value="N">删除</option>
+                        <!--<option value="K">售空</option>-->
+                        <!--<option value="N">删除</option>-->
                     </select>
                 </div>
                 </div>
@@ -162,17 +162,17 @@
             </div>
             <div class="form-group">
                 <!-- 运费设置 -->
-                <label class="col-sm-2 control-label thval">运费设置</label>
-                <div class="col-sm-2">
-                    <select class="form-control" id="carriageModelCode" name="carriageModelCode">
-                        @for(m <- modelList) {
-                        <option value="@m.getModelCode()">@m.getModelName()
-                        </option>
-                        }
-                    </select>
-                </div>
+                <!--<label class="col-sm-2 control-label thval">运费设置</label>-->
+                <!--<div class="col-sm-2">-->
+                    <!--<select class="form-control" id="carriageModelCode" name="carriageModelCode">-->
+                        <!--@for(m <- modelList) {-->
+                        <!--<option value="@m.getModelCode()">@m.getModelName()-->
+                        <!--</option>-->
+                        <!--}-->
+                    <!--</select>-->
+                <!--</div>-->
                 <!-- 库存区域 -->
-                <label class="col-sm-1 control-label thval">库存区域</label>
+                <label class="col-sm-2 control-label thval">库存区域</label>
                 <div class="col-sm-2">
                     <select class="form-control" id="invArea" name="invArea">
                         @for(a <- area) {
@@ -276,8 +276,8 @@
                                     <option value="Y">正常</option>
                                     <option value="D">下架</option>
                                     <option value="P">预售</option>
-                                    <option value="K">售空</option>
-                                    <option value="N">删除</option>
+                                    <!--<option value="K">售空</option>-->
+                                    <!--<option value="N">删除</option>-->
                                 </select>
                             </td>
                             <td><input type="text" name="price"></td>

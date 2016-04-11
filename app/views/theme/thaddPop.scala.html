@@ -41,7 +41,7 @@
             $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("th-del").appendTo(id);
             $(id).find("input[type=checkbox]:checked").parent().remove();
             var lable_id=$("input[type=radio]:checked").parent().next().next().next().html();
-            var itemTitle = $("input[type=radio]:checked").parent().next().next().next().next().html();
+            var skuOffTime = $("input[type=radio]:checked").parent().next().next().next().next().next().next().html();
             var itemType = $("input[type=radio]:checked").parent().next().next().html();
             if (window.showModalDialog) {
                 var sharedObject = {};
@@ -50,7 +50,7 @@
 
                 if(lable_id != null && lable_id.value!=""){
                     sharedObject.lable_id = lable_id;
-                    sharedObject.itemTitle = itemTitle;
+                    sharedObject.skuOffTime = skuOffTime;
                     sharedObject.itemType = itemType;
                 }
 
@@ -62,7 +62,7 @@
                 var sharedObject = {};
                 sharedObject.id = id;
                 sharedObject.lable_id = lable_id;
-                sharedObject.itemTitle = itemTitle;
+                sharedObject.skuOffTime = skuOffTime;
                 sharedObject.itemType = itemType;
                 console.log(lable_id);
                 window.opener.UpdateFields (sharedObject);
@@ -134,7 +134,7 @@
             商品图片
         </th>
         <th>
-            上架时间
+            下架时间
         </th>
         <th>
             商品状态
@@ -163,7 +163,7 @@
         <td>@item(0)</td>
         <td>@item(1)</td>
         <td> <img class="main-img" src="@url@item(2)" alt="" width="50"></td>
-        @if(item(3)!=null){<td>@(item(3).toString().substring(0,16))</td>}
+        @if(item(3)!=null){<td>@(item(3).toString().substring(0,19))</td>}
         <td>@item(4)</td>
         <td>@item(5)</td>
         <td>@item(6)</td>
@@ -195,7 +195,7 @@
             拼购图片
         </th>
         <th>
-            开始时间
+            结束时间
         </th>
         <th>
             拼购状态
@@ -224,7 +224,7 @@
         <td>@pin(0)</td>
         <td>@pin(1)</td>
         <td> <img class="main-img" src="@url@pin(2)" alt="" width="50"></td>
-        @if(pin(3)!=null){<td>@(pin(3).toString().substring(0,16))</td>}
+        @if(pin(3)!=null){<td>@(pin(3).toString().substring(0,19))</td>}
         <td>@pin(4)</td>
         <td>@pin(5)</td>
         <td>@pin(6)</td>
@@ -256,7 +256,7 @@
             商品图片
         </th>
         <th>
-            上架时间
+            下架时间
         </th>
         <th>
             商品状态
@@ -285,7 +285,7 @@
         <td>@varyPrice(0)</td>
         <td>@varyPrice(1)</td>
         <td> <img class="main-img" src="@url@varyPrice(2)" alt="" width="50"></td>
-        @if(varyPrice(3)!=null){<td>@(varyPrice(3).toString().substring(0,16))</td>}
+        @if(varyPrice(3)!=null){<td>@(varyPrice(3).toString().substring(0,19))</td>}
         <td>@varyPrice(4)</td>
         <td>@varyPrice(5)</td>
         <td>@varyPrice(6)</td>
