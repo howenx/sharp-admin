@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",carrList:List[entity.Carriage],user:entity.User)
+@(lang:String="cn", carrList:List[entity.Carriage], user:entity.User, storeArea:Map[String,String], delivery:Map[String,String])
 
 @scripts = {
 
@@ -120,6 +120,48 @@
                 <input type="hidden" id="modelCode" name="modelCode" value="@carrList(0).getModelCode()">
                 <span>运费模版名称:</span>
                 <input type="text" id="modelName" name="modelName" value="@carrList(0).getModelName()" class="form-data-area" style="color:black; disabled:false">  请输入汉字、 -、 字母或者数字<font id="modelName-warn" style="color:red;margin-left:10px;"></font>
+            </div>
+            <!--始发地-->
+            <div class="input-item">
+                <span>发货地:</span>
+                <select class="form-control" id="storeArea" name="storeArea" style="width:150px;">
+                    @for(s <- storeArea) {
+                        @if(s.toString.substring(1,s.toString.length-1).split(",")(0)==carrList(0).getStoreArea()) {
+                        <option value='@s.toString.substring(1,s.toString.length-1).split(",")(0)' selected>@s.toString.substring(1,s.toString.length-1).split(",")(1)</option>
+                        }
+                        @if(s.toString.substring(1,s.toString.length-1).split(",")(0)!=carrList(0).getStoreArea()) {
+                        <option value='@s.toString.substring(1,s.toString.length-1).split(",")(0)'>@s.toString.substring(1,s.toString.length-1).split(",")(1)</option>
+                        }
+                    }
+                </select>
+                <div style="color:#8C8E8F;margin-left:353px;margin-top:-26px;">一个模板对应一个发货地对应一个快递公司,请不要重复选择</div>
+            </div>
+            <!--快递公司-->
+            <div class="input-item">
+                <span>快递公司:</span>
+                <select class="form-control" id="delivery" name="delivery" style="width:150px;">
+                    @for(d <- delivery) {
+                        @if(d.toString.substring(1,d.toString.length-1).split(",")(0)==carrList(0).getDeliveryCode()) {
+                        <option value='@d.toString.substring(1,d.toString.length-1).split(",")(0)' selected>@d.toString.substring(1,d.toString.length-1).split(",")(1)</option>
+                        }
+                        @if(d.toString.substring(1,d.toString.length-1).split(",")(0)!=carrList(0).getDeliveryCode()) {
+                        <option value='@d.toString.substring(1,d.toString.length-1).split(",")(0)'>@d.toString.substring(1,d.toString.length-1).split(",")(1)</option>
+                        }
+                    }
+                </select>
+            </div>
+            <!--是否包邮-->
+            <div class="input-item">
+                <span>是否包邮:</span>
+                <input type="radio" name="free-shipping" checked>  买家承担运费
+                <!--<input type="radio" name="free-shipping">  卖家承担运费-->
+            </div>
+            <!--计费规则-->
+            <div class="input-item">
+                <span>计费规则:</span>
+                <!--<input type="radio" name="cost-role">  按件数-->
+                <input type="radio" name="cost-role" checked>  按重量
+                <!--<input type="radio" name="cost-role">  按体积-->
             </div>
             <div class="input-item">
                 <span>运送方式:</span>

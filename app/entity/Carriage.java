@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 
 /**
  * Created by Sunny Wu 15/12/9.
+ *
+ * Modified By Sunny Wu 16/4/9 增加字段,不需绑定商品
  */
 public class Carriage implements Serializable{
 
@@ -44,11 +46,48 @@ public class Carriage implements Serializable{
     private BigDecimal addFee;
 
     /**
-     * 指定城市编号
+     * 指定省份代码
      */
     private String cityCode;
 
+    private String deliveryCode;    //快递公司编码
+
+    private String deliveryName;    //快递公司名称
+
+    private String storeArea;       //始发地(库存地)
+
     public Carriage() {}
+
+    public Carriage(Long id, String modelCode, String modelName, Integer firstNum, BigDecimal firstFee, Integer addNum, BigDecimal addFee, String cityCode, String deliveryCode, String deliveryName, String storeArea) {
+        this.id = id;
+        this.modelCode = modelCode;
+        this.modelName = modelName;
+        this.firstNum = firstNum;
+        this.firstFee = firstFee;
+        this.addNum = addNum;
+        this.addFee = addFee;
+        this.cityCode = cityCode;
+        this.deliveryCode = deliveryCode;
+        this.deliveryName = deliveryName;
+        this.storeArea = storeArea;
+    }
+
+    @Override
+    public String toString() {
+        return "Carriage{" +
+                "id=" + id +
+                ", modelCode='" + modelCode + '\'' +
+                ", modelName='" + modelName + '\'' +
+                ", firstNum=" + firstNum +
+                ", firstFee=" + firstFee +
+                ", addNum=" + addNum +
+                ", addFee=" + addFee +
+                ", cityCode='" + cityCode + '\'' +
+                ", deliveryCode='" + deliveryCode + '\'' +
+                ", deliveryName='" + deliveryName + '\'' +
+                ", storeArea='" + storeArea + '\'' +
+                '}';
+    }
 
     public Long getId() {
         return id;
@@ -114,29 +153,28 @@ public class Carriage implements Serializable{
         this.cityCode = cityCode;
     }
 
-    @Override
-    public String toString() {
-        return "Carriage{" +
-                "id=" + id +
-                ", modelCode='" + modelCode + '\'' +
-                ", modelName='" + modelName + '\'' +
-                ", firstNum=" + firstNum +
-                ", fistFee=" + firstFee +
-                ", addNum=" + addNum +
-                ", addFee=" + addFee +
-                ", cityCode='" + cityCode + '\'' +
-                '}';
+    public String getDeliveryCode() {
+        return deliveryCode;
     }
 
-    public Carriage(Long id, String modelCode, String modelName, Integer firstNum, BigDecimal firstFee, Integer addNum, BigDecimal addFee, String cityCode) {
-        this.id = id;
-        this.modelCode = modelCode;
-        this.modelName = modelName;
-        this.firstNum = firstNum;
-        this.firstFee = firstFee;
-        this.addNum = addNum;
-        this.addFee = addFee;
-        this.cityCode = cityCode;
+    public void setDeliveryCode(String deliveryCode) {
+        this.deliveryCode = deliveryCode;
+    }
+
+    public String getDeliveryName() {
+        return deliveryName;
+    }
+
+    public void setDeliveryName(String deliveryName) {
+        this.deliveryName = deliveryName;
+    }
+
+    public String getStoreArea() {
+        return storeArea;
+    }
+
+    public void setStoreArea(String storeArea) {
+        this.storeArea = storeArea;
     }
 }
 

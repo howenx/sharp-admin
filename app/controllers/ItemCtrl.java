@@ -299,7 +299,9 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result carrCreate(String lang) {
-        return ok(views.html.carriage.carrmodelAdd.render(lang, (User) ctx().args.get("user")));
+        Map<String,String> storeArea = new ObjectMapper().convertValue(configuration.getObject("storeArea"),HashMap.class);
+        Map<String,String> delivery = new ObjectMapper().convertValue(configuration.getObject("delivery"),HashMap.class);
+        return ok(views.html.carriage.carrmodelAdd.render(lang, (User) ctx().args.get("user"), storeArea, delivery));
     }
 
     /**
@@ -322,8 +324,10 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result findModel(String lang,String modelCode) {
+        Map<String,String> storeArea = new ObjectMapper().convertValue(configuration.getObject("storeArea"),HashMap.class);
+        Map<String,String> delivery = new ObjectMapper().convertValue(configuration.getObject("delivery"),HashMap.class);
         List<Carriage> carrList = carriageService.getCarrsByModel(modelCode);
-        return ok(views.html.carriage.carrmodelUpdate.render(lang,carrList,(User) ctx().args.get("user")));
+        return ok(views.html.carriage.carrmodelUpdate.render(lang,carrList,(User) ctx().args.get("user"), storeArea, delivery));
     }
 
     /**
