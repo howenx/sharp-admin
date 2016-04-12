@@ -67,7 +67,7 @@ public class SaleCtrl extends Controller {
     private SaleProduct createSaleProduct(String name,Integer categoryId,String skuCode,String productCode, String spec, Integer saleCount,
                                           Integer inventory, BigDecimal productCost,BigDecimal stockValue,Integer purchaseCount,Integer noCard,Integer damage,
                                           Integer lessDelivery, Integer lessProduct, Integer emptyBox,String invArea,Timestamp storageAt,Long customSkuId,Integer damageOther,
-                                          String remark,Long createUserId,Long updateUserId,Long jdSkuId,Integer saleFinishStatus){
+                                          String remark,Long createUserId,Long updateUserId,String jdSkuId,Integer saleFinishStatus){
         SaleProduct saleProduct=new SaleProduct();
         setSaleProduct(saleProduct,name,categoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
                 lessDelivery,lessProduct,emptyBox,invArea,storageAt,customSkuId,damageOther,remark,createUserId,updateUserId,jdSkuId,saleFinishStatus);
@@ -80,7 +80,7 @@ public class SaleCtrl extends Controller {
                                 String name,Integer categoryId,String skuCode,String productCode, String spec, Integer saleCount,
                                 Integer inventory, BigDecimal productCost,BigDecimal stockValue,Integer purchaseCount,Integer noCard,Integer damage,
                                 Integer lessDelivery, Integer lessProduct, Integer emptyBox,String invArea,Timestamp storageAt,Long customSkuId,Integer damageOther,String remark,
-                                Long createUserId,Long updateUserId,Long jdSkuId,Integer saleFinishStatus){
+                                Long createUserId,Long updateUserId,String jdSkuId,Integer saleFinishStatus){
         saleProduct.setName(name);
         saleProduct.setCategoryId(categoryId);
         saleProduct.setSkuCode(skuCode);
@@ -213,7 +213,7 @@ public class SaleCtrl extends Controller {
             String skuCode=json.findValue("skuCode").asText().trim().trim();
             String productCode=json.findValue("productCode").asText().trim();
             Long customSkuId=json.findValue("customSkuId").asLong();
-            Long jdSkuId=json.findValue("jdSkuId").asLong();
+            String jdSkuId=json.findValue("jdSkuId").asText().trim();
             String spec=json.findValue("spec").asText().trim();
             BigDecimal productCost=new BigDecimal(json.findValue("productCost").asDouble());
             Integer purchaseCount=json.findValue("purchaseCount").asInt();
@@ -373,7 +373,7 @@ public class SaleCtrl extends Controller {
             }
             String jdSkuId=json.findValue("jdSkuId").asText().trim();
             if(null!=jdSkuId&&!"".equals(jdSkuId)){
-                saleProduct.setJdSkuId(Long.valueOf(jdSkuId));
+                saleProduct.setJdSkuId(jdSkuId);
             }
             if (json.has("startTime")) {
                 saleProduct.setStarttime(json.findValue("startTime").asText().trim());
@@ -780,11 +780,8 @@ public class SaleCtrl extends Controller {
 
         stringMap.forEach((k, v) -> map.put(k, v[0]));
 
-//        Logger.info("==body="+body);
         Http.MultipartFormData.FilePart filePart = body.getFile("orderFile");
         File file=filePart.getFile();
-      //  Logger.info(path+"==file="+file+"==="+extensionName);
-//        Logger.info("==file="+file+"===");
         List<String> list = null;
         try {
             list = ExcelHelper.exportListFromCsv(file);
@@ -797,7 +794,11 @@ public class SaleCtrl extends Controller {
         if(null!=list&&list.size()>0){
 
 //            Logger.info(list.get(1));
-//            String[] str1=list.get(0).split(",");
+            String[] str1=list.get(0).split(",");
+            if(str1.length<30){
+                Logger.error("导入表格长度不对"+str1.length);
+                return badRequest();
+            }
 //            String[] str=list.get(1).split(",");
 //            String[] str2=list.get(2).split(",");
 //            for(int i=0;i<str.length;i++){
@@ -846,11 +847,10 @@ public class SaleCtrl extends Controller {
             String[] str=null;
             for(int i=1;i<list.size();i++) {
                 str= list.get(i).split(",");
-                Logger.error("=xls=="+str);
                 String orderId=str[0];
                 Integer saleCount=Integer.valueOf(str[3]);
                 SaleProduct saleProduct=new SaleProduct();
-                Long jdSkuId=Long.valueOf(str[1]);
+                String jdSkuId=str[1];
                 saleProduct.setJdSkuId(jdSkuId);
                 List<SaleProduct> productList=saleService.getSaleProduct(saleProduct);
                 if(null==productList||productList.isEmpty()){
@@ -858,26 +858,33 @@ public class SaleCtrl extends Controller {
                     skuErr.append("\n"+"第"+(i)+"行京东商品不存在jdSkuId="+jdSkuId+",orderId="+orderId);
                     continue;
                 }else {
-                    int productNum=0;
-                    for(SaleProduct temp:productList){
-                        if(temp.getSaleFinishStatus()==1){ //未卖完
-                            productNum++;
-                            saleProduct=temp;
+                    if(productList.size()>1){
+                        int productNum=0;
+                        for(SaleProduct temp:productList){
+                            if(temp.getSaleFinishStatus()==1){ //未卖完
+                                productNum++;
+                                saleProduct=temp;
+                            }
+                            if(productNum>=2){
+                                break;
+                            }
                         }
-                        if(productNum>=2){
-                            break;
+                        if(productNum!=1){
+                            Logger.error("\n"+"第"+(i)+"行京东商品存在至少"+productNum+"个jdSkuId="+jdSkuId+",orderId="+orderId);
+                            existErr.append("\n"+"第"+(i)+"行京东商品存在至少"+productNum+"个jdSkuId="+jdSkuId+",orderId="+orderId);
+                            continue;
                         }
+                    }else{
+                        saleProduct=productList.get(0);
                     }
-                    if(productNum!=1){
-                        Logger.error("\n"+"第"+(i)+"行京东商品存在至少"+productNum+"个jdSkuId="+jdSkuId+",orderId="+orderId);
-                        existErr.append("\n"+"第"+(i)+"行京东商品存在至少"+productNum+"个jdSkuId="+jdSkuId+",orderId="+orderId);
-                        continue;
-                    }
+
                 }
 
                 SaleOrder saleOrder=new SaleOrder();
                 saleOrder.setOrderId(orderId);
+                saleOrder.setSaleProductId(saleProduct.getId()); //订单和商品id联合
                 saleOrder.setInputType(2);
+
                 List<SaleOrder> saleOrderList=saleService.getSaleOrder(saleOrder);
                 if(null!=saleOrderList&&!saleOrderList.isEmpty()){
                     Logger.error("\n"+"第"+(i)+"行订单已经存在orderId="+orderId);
@@ -953,7 +960,7 @@ public class SaleCtrl extends Controller {
         //释放
         list.clear();
         list=null;
-        return ok("success\n"+sb);
+        return ok("订单费用导入成功\n"+sb);
     }
 
     /**
@@ -966,17 +973,10 @@ public class SaleCtrl extends Controller {
         Long userId=Long.valueOf(user.userId().get().toString());
         Http.MultipartFormData body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart filePart = body.getFile("feeFile");
-//        Logger.info("==body="+body);
         File file=filePart.getFile();
-//        Logger.info("==file="+file);
         List<String> list = null;
         try {
             list = ExcelHelper.exportListFromCsv(file);
-            if(null!=list){
-                for(String str:list){
-                    Logger.error("=xls=="+str);
-                }
-            }
         } catch (Exception e) {
             Logger.error("exception="+e);
 
@@ -985,7 +985,11 @@ public class SaleCtrl extends Controller {
         StringBuffer sb=new StringBuffer();
         if(null!=list&&list.size()>0){
 
-//            String[] str1=list.get(0).split(";");
+            String[] str1=list.get(0).split(";");
+            if(str1.length<16){
+                Logger.error("导入表格长度不对"+str1.length);
+                return badRequest();
+            }
 //            String[] str=list.get(1).split(";");
 //            String[] str2=list.get(2).split(";");
 //            for(int i=0;i<str.length;i++){
@@ -1051,8 +1055,100 @@ public class SaleCtrl extends Controller {
             }
         }
         //释放
-        list.clear();;
+        list.clear();
         list=null;
-        return ok("success\n"+sb);
+        return ok("订单费用导入操作成功\n"+sb);
+    }
+
+    /**
+     * 妥投销货清单明细.csv
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result uploadOrderSaleDetail() {
+        User user = (User) ctx().args.get("user");
+        Long userId=Long.valueOf(user.userId().get().toString());
+        Http.MultipartFormData body = request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart filePart = body.getFile("saleDetailFile");
+        File file=filePart.getFile();
+        List<String> list = null;
+        try {
+            list = ExcelHelper.exportListFromCsv(file);
+        } catch (Exception e) {
+            Logger.error("exception="+e);
+
+        }
+
+        StringBuffer sb=new StringBuffer();
+        if(null!=list&&list.size()>0){
+
+            String[] str1=list.get(0).split(",");
+            if(str1.length<12){
+                Logger.error("导入表格长度不对"+str1.length);
+                return badRequest();
+            }
+            /***
+             *
+             0-->订单编号-->12278430604
+             1-->结算金额-->23.86
+             2-->商品应结金额-->25.93
+             3-->商品佣金-->-2.07
+             4-->一级类目-->珠宝首饰
+             5-->二级类目-->银饰
+             6-->三级类目-->银吊坠/项链
+             7-->SKU编号-->1955765369
+             8-->货号-->E_0014 N_0059
+             9-->商品名称-->Crystalshop 施华洛世奇水晶珀蒂小皇冠珍珠8mm银饰套装(项链+耳钉)
+             10-->SKU单价-->25.93
+             11-->数量-->1
+             */
+            String[] str = null;
+            SaleOrder saleOrder=null;
+            StringBuffer orderErr=new StringBuffer();
+            StringBuffer suc=new StringBuffer();
+            SaleOrder temp=null;
+            for(int i=1;i<list.size();i++){
+                str=list.get(i).split(",");
+                temp=new SaleOrder();
+                String orderId=str[0];
+                if("".equals(orderId)||null==orderId){
+                    Logger.error("\n"+i+"行订单不存在,orderId="+orderId);
+                    orderErr.append("\n"+i+"行订单不存在,orderId="+orderId);
+                    continue;
+                }
+                temp.setOrderId(orderId);
+                List<SaleOrder> saleOrderList=saleService.getSaleOrder(temp);
+
+                if(null==saleOrderList||saleOrderList.isEmpty()){
+                    Logger.error("\n"+i+"行订单不存在,orderId="+orderId);
+                    orderErr.append("\n"+i+"行订单不存在,orderId="+orderId);
+                    continue;
+                }
+                //商品应结金额*京东费率=商品佣金，用这个公式商品佣金/商品应结金额=京东费率
+                saleOrder=saleOrderList.get(0);
+                BigDecimal jdFee=new BigDecimal(str[3]);
+                saleOrder.setJdFee(jdFee);
+                BigDecimal jdRate=jdFee.multiply(new BigDecimal(100)).divide(new BigDecimal(str[2]),2); //jd rate 扩大了100倍
+                saleOrder.setJdRate(jdRate);
+
+                saleOrder.setProfit(getOrderProfit(saleOrder.getSaleTotal(),saleOrder.getJdFee(),saleOrder.getCost(),
+                        saleOrder.getShipFee(),saleOrder.getInteLogistics(),saleOrder.getPackFee(),saleOrder.getStorageFee(),saleOrder.getPostalFee(),saleOrder.getSaleCount(),saleOrder.getRemarkStatus()));
+                saleService.updateSaleOrder(saleOrder);
+                suc.append("\n"+i+"行订单费用导入成功,orderId="+orderId);
+            }
+
+            if(orderErr.length()>0){
+                sb.append("\n订单不存在:\n");
+                sb.append(orderErr);
+            }
+            if(suc.length()>0){
+                sb.append("\n导入成功:\n");
+                sb.append(suc);
+            }
+        }
+        //释放
+        list.clear();
+        list=null;
+        return ok("妥投销货清单明细导入操作成功\n"+sb);
     }
 }

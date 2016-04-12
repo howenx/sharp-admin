@@ -364,3 +364,18 @@ function delOrder(id){
         $("#saleProductId").attr("readonly",false)//去除input元素的readonly属性
     }
  });
+
+
+//导入订单费用
+ $(document).on("click",".saleDetailExcelBtn",function(){
+
+      var saleDetailPath=$("#saleDetailPath").val();
+
+      if(null==saleDetailPath||""==saleDetailPath){
+         alert("请导入妥投销货清单明细.csv");
+         return;
+      }
+     //提交表单
+     $("#saleDetailForm").submit();
+
+ });

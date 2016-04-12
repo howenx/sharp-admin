@@ -95,6 +95,21 @@
                 <a class="feeExcelBtn">提交</a>
             </div>
         </form>
+        <br/><br/><br/><br/>
+        <form id="saleDetailForm" action="/sales/upload/order/sale/detail" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">妥投销货清单明细.csv</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="saleDetailPath" name="saleDetailPath"/>
+                    <input type="file" name="saleDetailFile" onchange="document.getElementById('saleDetailPath').value=this.value" >
+                </div>
+            </div>
+            <br/><br/><br/>
+            <div class="form-group col-sm-4">
+                <a class="saleDetailExcelBtn">提交</a>
+            </div>
+        </form>
+
     </div>
 </div>
 }
