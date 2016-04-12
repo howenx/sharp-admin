@@ -493,13 +493,15 @@ $(function() {
         console.log(data);
             //填充列表数据
             $(data).each(function(index, element) {
+                var useAt = new Date($(this)[0].useAt);
+                useAt = useAt.getFullYear() + '-' + (useAt.getMonth() + 1) + '-' + useAt.getDate() + ' ' + useAt.getHours() + ':' + useAt.getMinutes() + ':' + useAt.getSeconds();
                 $('#tb-topic').find('tbody').append('' +
                     '<tr class="tb-list-data">' +
                     '<td><a href="javascript:void(0)">' + $(this)[0].coupId + '</a></td>' +
                     '<td>' + ($(this)[0].cateNm!=null && $(this)[0].cateNm!=''? $(this)[0].cateNm : '') + '</td>' +
                     '<td>' + $(this)[0].userId+ '</td>' +
                     '<td>' + $(this)[0].orderId+ '</td>' +
-                    '<td>' + $(this)[0].useAt.substr(0, 16)+ '</td>' +
+                    '<td>' + useAt + '</td>' +
                     '<td>' + $(this)[0].limitQuota+ '</td>' +
                     '<td>' + $(this)[0].denomination+ '</td>' +
                     '</tr>'

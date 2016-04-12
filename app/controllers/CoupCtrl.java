@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import entity.Coupons;
 import entity.User;
 import filters.UserAuth;
-import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -61,8 +60,7 @@ public class CoupCtrl extends Controller {
         Coupons coupons = new Coupons();
         coupons.setPageSize(-1);
         coupons.setOffset(-1);
-        int countNum = couponsService.getAllUsedCoupons().size();//取总数
-        Logger.error(couponsService.getAllUsedCoupons().toString());
+        int countNum = couponsService.getUsedCouponsPage(coupons).size();//取总数
         int pageCount = countNum/pageSize;//共分几页
         if (countNum%pageSize!=0) {
             pageCount = countNum/pageSize+1;
@@ -74,8 +72,6 @@ public class CoupCtrl extends Controller {
             String phoneNum = idService.getID(coup.getUserId().intValue()).getPhoneNum();
             coup.setUserId(Long.parseLong(phoneNum));//用户id字段保存用户的手机号
         }
-        Logger.error(countNum+","+pageCount+","+(User) ctx().args.get("user")+couponsList.toString());
-//        Lo
         return ok(views.html.coupon.coupsearch.render(lang, pageSize, countNum, pageCount, couponsList, (User) ctx().args.get("user")));
     }
 
@@ -101,21 +97,18 @@ public class CoupCtrl extends Controller {
             }
             coupons.setPageSize(pageSize);
             coupons.setOffset(offset);
-            Logger.error(coupons+"");
-            //组装返回数据
-            Map<String,Object> returnMap=new HashMap<>();
             List<Coupons> couponsList = couponsService.getUsedCouponsPage(coupons);
-            Logger.error(couponsList+"");
             for(Coupons coup : couponsList) {
                 String phoneNum = idService.getID(coup.getUserId().intValue()).getPhoneNum();
                 coup.setUserId(Long.parseLong(phoneNum));//用户id字段保存用户的手机号
             }
+            //组装返回数据
+            Map<String,Object> returnMap=new HashMap<>();
             returnMap.put("topic",couponsList);
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
             returnMap.put("pageSize",pageSize);
-            Logger.error(returnMap.toString());
             return ok(Json.toJson(returnMap));
         }
         else{

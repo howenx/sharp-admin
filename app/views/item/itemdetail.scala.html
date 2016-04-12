@@ -111,6 +111,9 @@
                                 <th>是否主商品</th>
                                 <th>颜色分类</th>
                                 <th>尺寸分类</th>
+                                <th>规格编号</th>
+                                <th>上架时间</th>
+                                <th>下架时间</th>
                                 <th>重量(整数:克)</th>
                                 <th>库存总量</th>
                                 <th>剩余库存</th>
@@ -135,6 +138,9 @@
                                     </td>
                                     <td>@obj(1)</td>
                                     <td>@obj(2)</td>
+                                    <td>@obj(19)</td>
+                                    <td>@(obj(20).toString().substring(0,19))</td>
+                                    <td>@(obj(21).toString().substring(0,19))</td>
                                     <td>@obj(3)</td>
                                     <td>@obj(4)</td>
                                     <td>@obj(18)</td>

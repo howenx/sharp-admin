@@ -80,9 +80,6 @@ public class ItemCtrl extends Controller {
         inventory.setPageSize(-1);
         inventory.setOffset(-1);
         List<Inventory> inventoryList = inventoryService.invSearch(inventory);
-        for(Inventory inv : inventoryList) {
-            inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
-        }
         int countNum = inventoryList.size();//取总数
         int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
         if (countNum%ThemeCtrl.PAGE_SIZE!=0) {
@@ -90,6 +87,10 @@ public class ItemCtrl extends Controller {
         }
         inventory.setPageSize(ThemeCtrl.PAGE_SIZE);
         inventory.setOffset(0);
+        inventoryList = inventoryService.invSearch(inventory);
+        for(Inventory inv : inventoryList) {
+            inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
+        }
         return ok(views.html.item.itemsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,inventoryList,(User) ctx().args.get("user")));
     }
 
@@ -110,9 +111,6 @@ public class ItemCtrl extends Controller {
             inventory.setPageSize(-1);
             inventory.setOffset(-1);
             List<Inventory> inventoryList = inventoryService.invSearch(inventory);
-            for(Inventory inv : inventoryList) {
-                inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
-            }
             int countNum = inventoryList.size();//取总数
             int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
             if(countNum%ThemeCtrl.PAGE_SIZE!=0){
@@ -120,6 +118,10 @@ public class ItemCtrl extends Controller {
             }
             inventory.setPageSize(ThemeCtrl.PAGE_SIZE);
             inventory.setOffset(offset);
+            inventoryList = inventoryService.invSearch(inventory);
+            for(Inventory inv : inventoryList) {
+                inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
+            }
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
             returnMap.put("topic",inventoryList);
@@ -165,7 +167,7 @@ public class ItemCtrl extends Controller {
         //包含modelName的库存列表
         List<Object[]> invList = new ArrayList<>();
         for(Inventory inventory : inventories) {
-            Object[] object = new Object[21];
+            Object[] object = new Object[22];
             object[0] = inventory.getOrMasterInv();
             object[1] = inventory.getItemColor();
             object[2] = inventory.getItemSize();
@@ -188,6 +190,9 @@ public class ItemCtrl extends Controller {
             object[16] = inventory.getState();
             object[17] = inventory.getRecordCode();
             object[18] = inventory.getRestAmount();
+            object[19] = inventory.getInvCode();
+            object[20] = inventory.getStartAt();
+            object[21] = inventory.getEndAt();
 //            Logger.error("剩余库存:"+object[9].toString());
             invList.add(object);
         }
@@ -217,7 +222,7 @@ public class ItemCtrl extends Controller {
         //包含modelName的库存列表
         List<Object[]> invList = new ArrayList<>();
         for(Inventory inventory : inventories) {
-            Object[] object = new Object[27];
+            Object[] object = new Object[26];
             object[0] = inventory.getId();
             object[1] = inventory.getItemId();
             object[2] = inventory.getOrMasterInv();
