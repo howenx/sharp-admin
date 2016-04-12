@@ -102,7 +102,7 @@
             and t.category_id = #{categoryId}
         </if>
         <if test="jdSkuId!=null and jdSkuId!=''">
-            and t.jd_sku_id = #{jdSkuId}
+            and t.jd_sku_id like '%${jdSkuId}%'
         </if>
 
     </select>
@@ -120,7 +120,7 @@
             and t.name like '%${name}%'
         </if>
         <if test="jdSkuId!=null and jdSkuId!=''">
-            and t.jd_sku_id = #{jdSkuId}
+            and t.jd_sku_id like '%${jdSkuId}%'
         </if>
         <if test="starttime!=null and starttime!=''">
             and t.storage_at &gt;=#{starttime} ::timestamp

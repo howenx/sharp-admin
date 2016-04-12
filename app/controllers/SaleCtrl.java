@@ -67,7 +67,7 @@ public class SaleCtrl extends Controller {
     private SaleProduct createSaleProduct(String name,Integer categoryId,String skuCode,String productCode, String spec, Integer saleCount,
                                           Integer inventory, BigDecimal productCost,BigDecimal stockValue,Integer purchaseCount,Integer noCard,Integer damage,
                                           Integer lessDelivery, Integer lessProduct, Integer emptyBox,String invArea,Timestamp storageAt,Long customSkuId,Integer damageOther,
-                                          String remark,Long createUserId,Long updateUserId,Long jdSkuId,Integer saleFinishStatus){
+                                          String remark,Long createUserId,Long updateUserId,String jdSkuId,Integer saleFinishStatus){
         SaleProduct saleProduct=new SaleProduct();
         setSaleProduct(saleProduct,name,categoryId,skuCode,productCode,spec,saleCount,inventory,productCost,stockValue,purchaseCount,noCard,damage,
                 lessDelivery,lessProduct,emptyBox,invArea,storageAt,customSkuId,damageOther,remark,createUserId,updateUserId,jdSkuId,saleFinishStatus);
@@ -80,7 +80,7 @@ public class SaleCtrl extends Controller {
                                 String name,Integer categoryId,String skuCode,String productCode, String spec, Integer saleCount,
                                 Integer inventory, BigDecimal productCost,BigDecimal stockValue,Integer purchaseCount,Integer noCard,Integer damage,
                                 Integer lessDelivery, Integer lessProduct, Integer emptyBox,String invArea,Timestamp storageAt,Long customSkuId,Integer damageOther,String remark,
-                                Long createUserId,Long updateUserId,Long jdSkuId,Integer saleFinishStatus){
+                                Long createUserId,Long updateUserId,String jdSkuId,Integer saleFinishStatus){
         saleProduct.setName(name);
         saleProduct.setCategoryId(categoryId);
         saleProduct.setSkuCode(skuCode);
@@ -213,7 +213,7 @@ public class SaleCtrl extends Controller {
             String skuCode=json.findValue("skuCode").asText().trim().trim();
             String productCode=json.findValue("productCode").asText().trim();
             Long customSkuId=json.findValue("customSkuId").asLong();
-            Long jdSkuId=json.findValue("jdSkuId").asLong();
+            String jdSkuId=json.findValue("jdSkuId").asText().trim();
             String spec=json.findValue("spec").asText().trim();
             BigDecimal productCost=new BigDecimal(json.findValue("productCost").asDouble());
             Integer purchaseCount=json.findValue("purchaseCount").asInt();
@@ -373,7 +373,7 @@ public class SaleCtrl extends Controller {
             }
             String jdSkuId=json.findValue("jdSkuId").asText().trim();
             if(null!=jdSkuId&&!"".equals(jdSkuId)){
-                saleProduct.setJdSkuId(Long.valueOf(jdSkuId));
+                saleProduct.setJdSkuId(jdSkuId);
             }
             if (json.has("startTime")) {
                 saleProduct.setStarttime(json.findValue("startTime").asText().trim());
@@ -850,7 +850,7 @@ public class SaleCtrl extends Controller {
                 String orderId=str[0];
                 Integer saleCount=Integer.valueOf(str[3]);
                 SaleProduct saleProduct=new SaleProduct();
-                Long jdSkuId=Long.valueOf(str[1]);
+                String jdSkuId=str[1];
                 saleProduct.setJdSkuId(jdSkuId);
                 List<SaleProduct> productList=saleService.getSaleProduct(saleProduct);
                 if(null==productList||productList.isEmpty()){
