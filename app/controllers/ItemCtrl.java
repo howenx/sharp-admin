@@ -167,7 +167,7 @@ public class ItemCtrl extends Controller {
         //包含modelName的库存列表
         List<Object[]> invList = new ArrayList<>();
         for(Inventory inventory : inventories) {
-            Object[] object = new Object[22];
+            Object[] object = new Object[24];
             object[0] = inventory.getOrMasterInv();
             object[1] = inventory.getItemColor();
             object[2] = inventory.getItemSize();
@@ -193,6 +193,8 @@ public class ItemCtrl extends Controller {
             object[19] = inventory.getInvCode();
             object[20] = inventory.getStartAt();
             object[21] = inventory.getEndAt();
+            object[22] = inventory.getSoldAmount();
+            object[23] = inventory.getOrVaryPrice();
 //            Logger.error("剩余库存:"+object[9].toString());
             invList.add(object);
         }

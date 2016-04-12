@@ -168,13 +168,11 @@ function Init () {
                     if (varyPriceArr[1]=="N")  status[0].options[4].selected = true;
                 }
                 if (v>3 && v%4==0) {
-                    $("<tr>").html('<td style="display:none;"><input type="text" name="vpId" value="'+varyPriceArr[v]+'"></td><td><select class="status"><option value="Y">正常</option><option value="D">下架</option><option value="P">预售</option><option value="K">售空</option><option value="N">删除</option></select></td><td><input type="text" name="price" value="'+varyPriceArr[v+2]+'"></td><td><input type="text" name="limitAmount" value="'+varyPriceArr[v+3]+'"></td><td class="delTr del">删除</td>').appendTo($(".guige"));
+                    $("<tr>").html('<td style="display:none;"><input type="text" name="vpId" value="'+varyPriceArr[v]+'"></td><td><select class="status"><option value="Y">正常</option><option value="D">下架</option><option value="P">预售</option></select></td><td><input type="text" name="price" value="'+varyPriceArr[v+2]+'"></td><td><input type="text" name="limitAmount" value="'+varyPriceArr[v+3]+'"></td><td class="delTr del">删除</td>').appendTo($(".guige"));
                     var status1 = document.getElementById("varyPriceTab").getElementsByTagName("select");
                     if (varyPriceArr[v+1]=="Y")  status1[v/4].options[0].selected = true;
                     if (varyPriceArr[v+1]=="D")  status1[v/4].options[1].selected = true;
                     if (varyPriceArr[v+1]=="P")  status1[v/4].options[2].selected = true;
-                    if (varyPriceArr[v+1]=="K")  status1[v/4].options[3].selected = true;
-                    if (varyPriceArr[v+1]=="N")  status1[v/4].options[4].selected = true;
                 }
                 if (v%4==0 && varyPriceArr[v]!="") {
                     $(".del").text("");
@@ -679,7 +677,7 @@ $(function(){
         var price = document.getElementsByName("price");
         var len = price.length;
         if (varyPriceTab.getElementsByTagName("tr").length>1 && limitAmount[len-1].value!="" && price[len-1].value!="" ) {
-            var trHtml = '<td style="display:none;"><input type="text" name="vpId"></td><td><select class="status"><option value="Y">正常</option><option value="D">下架</option><option value="P">预售</option><option value="K">售空</option><option value="N">删除</option></select></td><td><input type="text" name="price"></td><td><input type="text" name="limitAmount"></td><td class="del delTr">删除</td>';
+            var trHtml = '<td style="display:none;"><input type="text" name="vpId"></td><td><select class="status"><option value="Y">正常</option><option value="D">下架</option><option value="P">预售</option><option value="N">删除</option></select></td><td><input type="text" name="price"></td><td><input type="text" name="limitAmount"></td><td class="del delTr">删除</td>';
             $("<tr>").html(trHtml).appendTo($(".guige"));
         }
     });

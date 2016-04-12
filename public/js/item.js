@@ -414,7 +414,7 @@ $(function(){
             }
             invData.inventory = inventory;
             if (orVaryPrice=="true") {
-                var vp_arr = tds[25].innerHTML.split(",");
+                var vp_arr = tds[24].innerHTML.split(",");
                 for(v=0;v<vp_arr.length;v++) {
                     if (v%4==0) {
                         var varyPrice = new Object();
@@ -480,7 +480,7 @@ $(function(){
                         $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
                         //商品更新, 成功后返回到列表查询页面
                         if($("#itemId").val() != "") {
-                            setTimeout("location.href='/"+window.lang+"/comm/search'", 3000);
+                            setTimeout("location.href='/"+window.lang+"/comm/findById/"+$("#itemId").val()+"'", 3000);
                         }
                         //商品录入, 成功后返回到商品录入页面
                         else {

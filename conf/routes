@@ -84,6 +84,7 @@ POST        /shopItem/push                                                 contr
 POST        /comm/import                                                   controllers.ShopItemCtrl.itemImport
 GET         /shopOrder/push/:orderId                                       controllers.ShopOrderCtrl.shopOrderPush(orderId:Long)
 GET         /salesOrder/query/:orderNo                                     controllers.ShopOrderCtrl.salesOrderQuery(orderNo:Long)
+GET         /shop/query                                                    controllers.ShopItemCtrl.shopQuery()
 
 
 #Carriage --> carr 运费模板设置
