@@ -15,22 +15,6 @@ public class StyleVersionDeployActor extends AbstractActor {
             String userName;
             String password;
             final int DEFAULT_SSH_PORT = 22;
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             Logger.error("发布到服务器:" + deployServer);
 
