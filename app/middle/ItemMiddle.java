@@ -143,7 +143,6 @@ public class ItemMiddle {
                     Timestamp endAt = inventory.getEndAt();//现下架时间
                     Long startTimes = startAt.getTime();//现上架时间毫秒数
                     Long endTimes = endAt.getTime();//现下架时间毫秒数
-                    String state = inventory.getState();        //现sku状态
                     if (startTimes>nowTimes) {//上架时间比现在时间大为预售状态
                         inventory.setState("P");
                     }
@@ -153,9 +152,11 @@ public class ItemMiddle {
                     if (endTimes<nowTimes) {//下架时间比当前时间小为下架状态
                         inventory.setState("D");
                     }
+
 //                Logger.error(inventory.toString());
                     //更新库存信息
                     if (jsonInv.has("id")) {
+                        String state = inventory.getState();        //现sku状态
                         Integer orUpdate = 0;   //orUpdate状态为标识是否执行更新语句
                         originInv = inventoryService.getInventory(inventory.getId());
                         Timestamp originStartAt = originInv.getStartAt();//原上架时间
@@ -204,7 +205,7 @@ public class ItemMiddle {
                         if ("D".equals(originState) && "Y".equals(state) && !originEndTimes.equals(endTimes)) {
                             orUpdate = 1;
                             inventoryService.updateInventory(inventory);
-                            Logger.debug(inventory.getId()+" auto off shelves start...");
+                            Logger.error(inventory.getId()+" auto off shelves start...");
                             newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
                         }
 
@@ -242,11 +243,13 @@ public class ItemMiddle {
                                     //pin_sku原为预售,只修改pin_sku下架时间
                                     if ("P".equals(pinSku.getStatus())) {
                                         pinSku.setEndAt(sdf.format(endAt));
+                                        pingouService.updatePinSku(pinSku);
                                     }
                                     //pin_sku原为正常,修改下架时间,修改pin_sku下架schedule
                                     if ("Y".equals(pinSku.getStatus())) {
                                         pinSku.setEndAt(sdf.format(endAt));
                                         newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS),pingouOffShelfActor,pinSku.getPinId());
+                                        pingouService.updatePinSku(pinSku);
                                     }
                                 }
                             }
@@ -295,11 +298,10 @@ public class ItemMiddle {
                     for(final JsonNode varyPriceNode : jsonNode.findValue("varyPrices")) {
                         VaryPrice varyPrice = Json.fromJson(varyPriceNode, VaryPrice.class);
                         varyPrice.setInvId(inventory.getId());
-//                        varyPrice.setStatus("Y");
                         //更新多样化价格信息
                         if (varyPriceNode.has("id")) {
-                            //SKU状态修改,多样化价格和SKU状态保持一致
-                            if (!originInv.getState().equals(inventory.getState())) {
+                            //SKU状态下架,多样化价格和状态为下架
+                            if ((originInv.getState().equals("P") || originInv.getState().equals("Y")) && inventory.getState().equals("D"))  {
                                 varyPrice.setStatus(inventory.getState());
                             }
                             VaryPrice originVp = varyPriceService.getVaryPriceById(varyPrice.getId());

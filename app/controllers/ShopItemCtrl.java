@@ -2,13 +2,18 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.iwilley.b1ec2.api.ApiException;
+import com.iwilley.b1ec2.api.B1EC2Client;
 import com.iwilley.b1ec2.api.domain.ItemInfo;
+import com.iwilley.b1ec2.api.domain.Shop;
 import com.iwilley.b1ec2.api.domain.ShopSkuPushLine;
 import com.iwilley.b1ec2.api.domain.SkuInfo;
 import com.iwilley.b1ec2.api.request.ShopItemPushRequest;
+import com.iwilley.b1ec2.api.request.ShopQueryRequest;
+import com.iwilley.b1ec2.api.response.ShopQueryResponse;
 import entity.Inventory;
 import entity.Item;
 import entity.User;
+import entity.erp.Constants;
 import entity.erp.ShopItemOperate;
 import filters.UserAuth;
 import play.Logger;
@@ -186,18 +191,16 @@ public class ShopItemCtrl extends Controller {
     public Result shopItemPush() throws ApiException, ParseException {
         ShopItemOperate shopItemOperate = new ShopItemOperate();
         JsonNode json = request().body().asJson();
-        Logger.error(json.toString());
+//        Logger.error(json.toString());
         Long skuIds[] = new Long[json.size()];
         List<String> shopItemCodeList = new ArrayList<>();
         for(int i=0;i<json.size();i++){
             skuIds[i] = (json.get(i)).asLong();
             Inventory inventory = inventoryService.getInventory(skuIds[i]);
-//            Item item = itemService.getItem(skuIds[i]);
-//            List<Inventory> invList = inventoryService.getInventoriesByItemId(skuIds[i]);
+            Logger.error("商品:"+inventory.toString());
             ShopItemPushRequest request = new ShopItemPushRequest();
-            Logger.error(inventory.toString());
             request.shopItemCode = inventory.getId().toString();//宝贝编码
-            request.shopId = 1;                           //店铺Id
+            request.shopId = 4;                           //店铺Id
             String state = inventory.getState();
             if ("Y".equals(state)) {
                 request.status = "在售中";
@@ -214,22 +217,36 @@ public class ShopItemCtrl extends Controller {
             request.price = inventory.getItemSrcPrice().doubleValue();
             request.weight = inventory.getInvWeight().doubleValue();
             List<ShopSkuPushLine> lineList = new ArrayList<ShopSkuPushLine>();//sku信息
-//            for(Inventory inventory : invList) {
-                ShopSkuPushLine shopSkuPushLine = new ShopSkuPushLine();
-                shopSkuPushLine.shopSkuCode = inventory.getId().toString();//网店skuCode
-                shopSkuPushLine.outerId = inventory.getInvCode();          //商家代码
-                shopSkuPushLine.property1 = inventory.getItemColor();      //平台属性1(颜色)
-                shopSkuPushLine.property2 = inventory.getItemSize();       //平台属性2(尺寸)
-                shopSkuPushLine.price = inventory.getItemPrice().doubleValue();//价格
-                shopSkuPushLine.weight = inventory.getInvWeight()/1000.0;      //重量(千克)
-                shopSkuPushLine.quantity = inventory.getAmount();              //数量
-                lineList.add(shopSkuPushLine);
-//            }
+            ShopSkuPushLine shopSkuPushLine = new ShopSkuPushLine();
+            shopSkuPushLine.shopSkuCode = inventory.getId().toString();//网店skuCode
+            shopSkuPushLine.outerId = inventory.getInvCode();          //商家代码
+            shopSkuPushLine.property1 = inventory.getItemColor();      //平台属性1(颜色)
+            shopSkuPushLine.property2 = inventory.getItemSize();       //平台属性2(尺寸)
+            shopSkuPushLine.price = inventory.getItemPrice().doubleValue();//价格
+            shopSkuPushLine.weight = inventory.getInvWeight()/1000.0;      //重量(千克)
+            shopSkuPushLine.quantity = inventory.getAmount();              //数量
+            lineList.add(shopSkuPushLine);
             request.setSkusInfo(lineList);
             String shopItemCode = shopItemOperate.ShopItemPush(request);
             shopItemCodeList.add(shopItemCode);
         }
+        Logger.error("结果:"+shopItemCodeList.toString());
         return ok(shopItemCodeList.toString());
+    }
+
+
+    @Security.Authenticated(UserAuth.class)
+    public Result shopQuery() throws ApiException {
+        B1EC2Client client = new B1EC2Client(Constants.URL, Constants.COMPANY,Constants.LOGIN_NAME, Constants.PASSWORD, Constants.SECRET);
+        ShopQueryRequest request = new ShopQueryRequest();
+        ShopQueryResponse response = client.execute(request);
+        List<String> shopList = new ArrayList<>();
+        if (response.getErrorCode() == 0) {
+            for (Shop shop : response.getShops()) {
+                shopList.add("Shop:" + shop.getShopId() + "," + shop.getShopName());
+            }
+        }
+        return ok(shopList.toString());
     }
 
 }

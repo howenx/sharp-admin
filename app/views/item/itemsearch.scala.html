@@ -111,14 +111,15 @@
                         </td>
                         <td>@inv.getItemColor()</td>
                         <td>@inv.getItemSize()</td>
-                        <td>@if(inv.getStartAt()!=null){@(inv.getStartAt().toString().substring(0,16))}</td>
-                        <td>@if(inv.getEndAt()!=null){@(inv.getEndAt().toString().substring(0,16))}</td>
+                        <td>@if(inv.getStartAt()!=null){@(inv.getStartAt().toString().substring(0,19))}</td>
+                        <td>@if(inv.getEndAt()!=null){@(inv.getEndAt().toString().substring(0,19))}</td>
                         <td>@inv.getRestAmount()</td>
                         <td>
                             @if(inv.getOrMasterInv()==true){是}
                             @if(inv.getOrMasterInv()==false){否}
                         </td>
                         <td>
+                            <input type="hidden" value="@inv.getState()">
                             @if(inv.getState()=="Y"){正常}
                             @if(inv.getState()=="D"){下架}
                             @if(inv.getState()=="N"){删除}
@@ -165,6 +166,7 @@
 
     /** 导出商品 **/
     $("#item-export").click(function(){
+        var reg = new RegExp(/^[0-9]\d+$/); //数字验证
         var isPost = true;
         if($("input[name='selectItem']:checked").length <= 0){
             isPost = false;
@@ -176,14 +178,20 @@
             isPost = false;
             return false;
         }
-        //被取消商品的ID
+        //被选择sku的ID
         var exportItems = [];
         $("input[name='selectItem']:checked").each(function(){
-            var itemId = $(this).parents("tr").find("td:eq(1)").find("input:eq(0)").val();
-            exportItems.push(itemId);
+            var invId = $(this).parents("tr").find("td:eq(1)").find("input:eq(0)").val();
+            var state = $(this).parents("tr").find("td:eq(10)").find("input:eq(0)").val();
+            if (state!="Y" && state!="P") {
+                isPost = false;
+                alert("请检查商品:"+invId+"的状态");
+            } else exportItems.push(invId);
+
         });
         console.log(JSON.stringify(exportItems));
         if(isPost){
+            var orResult = true;
             $.ajax({
                 type :  "POST",
                 url : "/shopItem/push",
@@ -193,7 +201,15 @@
                     alert("导出失败");
                 },
                 success: function(data) {
-                   if (data!=null && data!="") {
+                    console.log(data);
+                    for(var i=0;i<$.parseJSON(data).length;i++) {
+                        var ShopItemCode = $.parseJSON(data)[i].ShopItemCode;
+                        var ErrorCode = $(this).ErrorCode;
+                        if (!reg.test(ShopItemCode)) {
+                            orResult = false;
+                        }
+                    }
+                   if (orResult) {
                         alert("导出成功");
                     }
                     else {
