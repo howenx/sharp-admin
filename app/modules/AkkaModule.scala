@@ -20,5 +20,6 @@ class AkkaModule extends AbstractModule with AkkaGuiceSupport {
     bindActor[ShopOrderPushActor]("shopOrderPushActor")
     bindActor[SalesOrderQueryActor]("salesOrderQueryActor")
     bindActor[CouponInvalidActor]("couponInvalidActor")
+    bindActor[StyleVersionDeployActor]("StyleVersionDeployActor")
   }
 }

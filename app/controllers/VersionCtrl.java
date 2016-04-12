@@ -1,5 +1,10 @@
 package controllers;
 
+import actor.StyleVersionDeployActor;
+import actor.ThemeDestroyActor;
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+import akka.actor.Props;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.cdn.model.v20141111.RefreshObjectCachesRequest;
@@ -16,8 +21,10 @@ import filters.UserAuth;
 import middle.VersionMiddle;
 import play.Configuration;
 import play.Logger;
+import play.libs.Akka;
 import play.libs.Json;
 import play.mvc.*;
+import scala.concurrent.duration.Duration;
 import service.AdminUserService;
 import service.ItemService;
 
@@ -26,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -45,6 +53,9 @@ public class VersionCtrl extends Controller {
 
     @Inject
     private Configuration configuration;
+
+    @Inject
+    private ActorSystem system;
 
 
     @Security.Authenticated(UserAuth.class)
@@ -157,7 +168,14 @@ public class VersionCtrl extends Controller {
 
             versionVo.setAdminUserId(Long.valueOf(user.userId().get().toString()));
 
-            versionMiddle.apiPublicRelease(versionVo,fileParts.get(0).getFile());
+//            versionMiddle.apiPublicRelease(versionVo,fileParts.get(0).getFile());
+            //创建Actor -------->start
+            ActorRef versiondeploy = Akka.system().actorOf(Props.create(StyleVersionDeployActor.class));
+            system.scheduler().scheduleOnce(Duration.create(2, TimeUnit.SECONDS),versiondeploy,versionVo.getProductType(), system.dispatcher(), ActorRef.noSender());
+
+            //创建Actor -------->end
+
+
             return ok("success");
         }catch (Exception ex){
             Logger.error("发布版本出错:"+ex.getMessage());
