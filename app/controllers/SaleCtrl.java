@@ -476,10 +476,21 @@ public class SaleCtrl extends Controller {
                         shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark,userId,userId,shop,inputType);
             }else{
                 saleOrder=saleService.getSaleOrderById(Long.valueOf(id));
+                SaleProduct oldSaleProduct=null;
+                if(saleOrder.getSaleProductId().intValue()!=saleProductId){
+                    //关联的商品变了
+                    oldSaleProduct=saleService.getSaleProductById(saleProductId);
+
+                }
                 setSaleOrder(saleOrder,new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, saleProduct.getName(), cate, price, saleCount,
                         discountAmount, saleTotal, jdRate, jdFee, saleProduct.getProductCost(),
                         shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark,saleOrder.getCreateUserId(),userId,shop,inputType);
                 saleService.updateSaleOrder(saleOrder);
+
+                if(null!=oldSaleProduct){
+                    //订单更新后更新相关产品数据
+                    updateProductAtUpdateOrder(oldSaleProduct);
+                }
             }
 
             if(null!=saleProduct){
@@ -844,40 +855,61 @@ public class SaleCtrl extends Controller {
             StringBuffer orderErr=new StringBuffer();
             StringBuffer suc=new StringBuffer();
             StringBuffer existErr=new StringBuffer();
+            StringBuffer delErr=new StringBuffer();
             String[] str=null;
             for(int i=1;i<list.size();i++) {
                 str= list.get(i).split(",");
                 String orderId=str[0];
-                Integer saleCount=Integer.valueOf(str[3]);
-                SaleProduct saleProduct=new SaleProduct();
                 String jdSkuId=str[1];
-                saleProduct.setJdSkuId(jdSkuId);
-                List<SaleProduct> productList=saleService.getSaleProduct(saleProduct);
+                if(str[11].indexOf("删除")>0){
+                    Logger.error("<br/>"+"第"+(i)+"行订单删除jdSkuId="+jdSkuId+",orderId="+orderId);
+                    delErr.append("<br/>"+"第"+(i)+"行订单删除jdSkuId="+jdSkuId+",orderId="+orderId);
+                    continue;
+                }
+
+                Integer saleCount=Integer.valueOf(str[3]);
+                SaleProduct selSaleProduct=new SaleProduct();
+
+                selSaleProduct.setJdSkuId(jdSkuId);
+                selSaleProduct.setSort("custom_sku_id");
+                selSaleProduct.setOrder("asc");
+                List<SaleProduct> productList=saleService.getSaleProduct(selSaleProduct);
+                SaleProduct saleProduct=null;
                 if(null==productList||productList.isEmpty()){
                     Logger.error("<br/>"+"第"+(i)+"行京东商品不存在jdSkuId="+jdSkuId+",orderId="+orderId);
                     skuErr.append("<br/>"+"第"+(i)+"行京东商品不存在jdSkuId="+jdSkuId+",orderId="+orderId);
                     continue;
                 }else {
                     if(productList.size()>1){
-                        int productNum=0;
+                      //  int productNum=0;
                         for(SaleProduct temp:productList){
-                            if(temp.getSaleFinishStatus()==1){ //未卖完
-                                productNum++;
-                                saleProduct=temp;
-                            }
-                            if(productNum>=2){
+                            if(temp.getInventory()>0&&temp.getInventory()>=saleCount){
+                                saleProduct=temp; //有库存
+                                Logger.info(saleProduct.getId()+"=="+saleProduct.getCustomSkuId()+"=saleCount=="+saleProduct.getInventory()+"===="+saleCount);
                                 break;
                             }
+//                            if(temp.getSaleFinishStatus()==1){ //未卖完
+//                                productNum++;
+//                                saleProduct=temp;
+//                            }
+//                            if(productNum>=2){
+//                                break;
+//                            }
                         }
-                        if(productNum!=1){
-                            Logger.error("<br/>"+"第"+(i)+"行京东商品存在至少"+productNum+"个jdSkuId="+jdSkuId+",orderId="+orderId);
-                            existErr.append("<br/>"+"第"+(i)+"行京东商品存在至少"+productNum+"个jdSkuId="+jdSkuId+",orderId="+orderId);
-                            continue;
-                        }
+//                        if(productNum!=1){
+//                            Logger.error("<br/>"+"第"+(i)+"行京东商品存在至少"+productNum+"个jdSkuId="+jdSkuId+",orderId="+orderId);
+//                            existErr.append("<br/>"+"第"+(i)+"行京东商品存在至少"+productNum+"个jdSkuId="+jdSkuId+",orderId="+orderId);
+//                            continue;
+//                        }
                     }else{
                         saleProduct=productList.get(0);
                     }
 
+                }
+                if(null==saleProduct){
+                    Logger.error("<br/>"+"第"+(i)+"行京东商品不存在或者库存没有了jdSkuId="+jdSkuId+",orderId="+orderId);
+                    skuErr.append("<br/>"+"第"+(i)+"行京东商品不存在或者库存没有了jdSkuId="+jdSkuId+",orderId="+orderId);
+                    continue;
                 }
 
                 SaleOrder saleOrder=new SaleOrder();
@@ -955,6 +987,10 @@ public class SaleCtrl extends Controller {
             if(orderErr.length()>0){
                 sb.append("<br/><br/>订单已经存在:<br/>");
                 sb.append(orderErr);
+            }
+            if(delErr.length()>0){
+                sb.append("<br/>订单删除:<br/>");
+                sb.append(delErr);
             }
             if(suc.length()>0){
                 sb.append("<br/>导入成功:<br/>");
