@@ -938,6 +938,11 @@ public class SaleCtrl extends Controller {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+
+                if(null!=saleProduct){
+                    //订单更新后更新相关产品数据
+                    updateProductAtUpdateOrder(saleProduct);
+                }
             }
             if(skuErr.length()>0){
                 sb.append("<br/><br/>京东商品不存在:<br/>");
