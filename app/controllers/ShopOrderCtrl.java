@@ -1,5 +1,6 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import com.iwilley.b1ec2.api.ApiException;
 import middle.ShopOrderMiddle;
@@ -12,6 +13,8 @@ import service.OrderService;
 import service.OrderShipService;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sunny Wu 16/3/9.
@@ -40,13 +43,24 @@ public class ShopOrderCtrl extends Controller {
 
     /**
      * ERP推送订单
-     * @param orderId 订单id
      * @return shopOrderNo 订单编号
      * @throws ApiException
      */
-    public Result shopOrderPush(Long orderId) throws ApiException {
-        String shopOrderNo = shopOrderMiddle.shopOrderPush(orderId);
-        return ok(shopOrderNo);
+    public Result shopOrderPush() throws ApiException {
+        JsonNode json = request().body().asJson();
+        Long orderIds[] = new Long[json.size()];
+        List<String> shopOrderCodeList = new ArrayList<>();
+        for(int i=0;i<json.size();i++) {
+            orderIds[i] = (json.get(i)).asLong();
+            //推送之前先查询,若已存在则不推送
+//            if () {
+//
+//            }
+
+            String shopOrderNo = shopOrderMiddle.shopOrderPush(orderIds[i]);
+            shopOrderCodeList.add(shopOrderNo);
+        }
+        return ok(shopOrderCodeList.toString());
     }
 
     /**

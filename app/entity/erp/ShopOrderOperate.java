@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Sunny Wu on 16/3/9.
@@ -55,10 +56,8 @@ public class ShopOrderOperate {
                 request.setPageNum(i);
                 //每页的数据
                 response = client.execute(request);
-                for(Object obj : response.getSalesOrders()) {
-                    //所有数据压入一个集合中
-                    salesOrderList.add(obj);
-                }
+                //所有数据压入一个集合中
+                salesOrderList.addAll(response.getSalesOrders().stream().collect(Collectors.toList()));
             }
         }
         return salesOrderList;

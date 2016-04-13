@@ -7,7 +7,7 @@ package entity.erp;
 
 	public abstract class Constants {
 		
-	public static final String URL = "http://121.43.187.125";
+	public static final String URL = "http://121.43.187.125/rest";
 	  
 	public static final String COMPANY = "北京可靠";
 	 

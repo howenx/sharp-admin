@@ -71,6 +71,7 @@
         <div class="btn-s">
             <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
             <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
+            <a id="order-export" href="javascript:void(0)" class="btn btn-primary btn-s-2">推送ERP</a>
         </div>
     </form>
     <div class="table-content">
@@ -78,6 +79,7 @@
         <table id="tb-topic" class="table table-bordered table-hover">
             <thead>
             <tr>
+                <th><input type="checkbox" name="selAll">全选</th>
                 <th>订单ID</th>
                 <th>订单类型</th>
                 <th>拼购团ID</th>
@@ -93,12 +95,13 @@
             <tbody>
             @for(order <- orList){
             <tr class = "tb-list-data">
+                <td><input type="checkbox" name="selectOrder"></td>
                 <td><a href="/@lang/comm/order/detail/@order(0)">@order(0)</a></td>
                 <td>@order(7)</td>
                 <td><a href="/@lang/pin/activity/geActivityById/@order(8)">@order(8)</a></td>
                 <td>@order(1)</td>
                 <td>@order(6)</td>
-                @if(order(2)!=null){<td>@(order(2).toString().substring(0,16))</td>}
+                <td>@if(order(2)!=null){@(order(2).toString().substring(0,16))}</td>
                 <td>@order(3)</td>
                 <td>@order(4)</td>
                 <td>@order(5)</td>
@@ -106,7 +109,7 @@
             </tr>
             }
             <!---公用模块,id不能改变,只需要改变合并行数-->
-            <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            <tr id="nodata-td" style="display:none;"><td colspan="9">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
         <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
@@ -132,3 +135,75 @@
     </div>
 </div>
 }
+
+
+<script>
+
+    /** 全选/取消全选 **/
+    $("input[name='selAll']").click(function(){
+        $("input[name='selectOrder']").prop('checked',$(this).prop("checked"));
+    });
+
+    /** 导出订单 **/
+    $("#order-export").click(function(){
+        var reg = new RegExp(/^[0-9]\d+$/); //数字验证
+        var isPost = true;
+        if($("input[name='selectOrder']:checked").length <= 0){
+            isPost = false;
+            alert("请选择订单");
+            return false;
+        }
+        if(window.confirm("确定推送到ERP吗?")){
+        } else{
+            isPost = false;
+            return false;
+        }
+        //被选择订单的ID
+        var exportOrders = [];
+        var errOrders = "";
+        $("input[name='selectOrder']:checked").each(function(){
+            var orderId = $(this).parents("tr").find("td:eq(1)").find("a:eq(0)").text();
+            var state = $(this).parents("tr").find("td:eq(9)").text();
+            if (state!="成功" && state!="拼购成功") {
+                isPost = false;
+                errOrders = errOrders + orderId + ",";
+            } else exportOrders.push(orderId);
+        });
+        console.log(errOrders);
+        if (!isPost) {
+            errOrders = errOrders.substring(1, errOrders.length-1);
+            alert("请检查订单: "+errOrders+" 的状态");
+        }
+        console.log(JSON.stringify(exportOrders));
+        if(false){
+            var orResult = true;
+            $.ajax({
+                type :  "POST",
+                url : "/shopOrder/push",
+                contentType: "application/json; charset=utf-8",
+                data : JSON.stringify(exportItems),
+                error : function(request) {
+                    alert("推送失败");
+                },
+                success: function(data) {
+                    console.log(data);
+                    for(var i=0;i<$.parseJSON(data).length;i++) {
+                        var ShopOrderNo = $.parseJSON(data)[i].ShopOrderNo;
+                        var ErrorCode = $(this).ErrorCode;
+                        if (!reg.test(ShopOrderNo)) {
+                            orResult = false;
+                        }
+                    }
+                   if (orResult) {
+                        alert("推送成功");
+                    }
+                    else {
+                        alert("推送异常");
+                    }
+                    window.location.href = "/"+window.lang+"/comm/order/search ";
+                }
+            });
+        }
+    });
+
+</script>
