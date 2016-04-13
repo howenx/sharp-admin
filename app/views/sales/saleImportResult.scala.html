@@ -1,0 +1,55 @@
+@import play.i18n._
+@(lang:String,user:entity.User,importResult:String)
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/screenshot.css">
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/sale.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script>
+    $(function(){
+        $(function () {
+            $('#datetimepicker-starttime').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+            $('#datetimepicker-endtime').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+    })
+</script>
+}
+
+@import java.lang.String; var title="数据导入"
+
+@layout(lang="cn",title=title,user=user)(scripts) {
+
+<div class="mbread" style="width:65%">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">销售报表</span>
+        <span class="icon-path">&gt;</span>
+        <span>数据导入</span>
+    </div>
+</div>
+
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">Excel数据导入</span>
+    </div>
+
+    <div class="row">
+        @Html(importResult)
+
+    </div>
+</div>
+}
+

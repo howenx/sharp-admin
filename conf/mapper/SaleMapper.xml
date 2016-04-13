@@ -104,6 +104,16 @@
         <if test="jdSkuId!=null and jdSkuId!=''">
             and t.jd_sku_id like '%${jdSkuId}%'
         </if>
+        <if test="sort == null or sort == ''">
+            ORDER BY t.create_at DESC
+        </if>
+
+        <if test="sort != null">
+            ORDER BY t.${sort}
+            <if test="order != null">
+                ${order}
+            </if>
+        </if>
 
     </select>
 
