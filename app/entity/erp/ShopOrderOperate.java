@@ -5,7 +5,6 @@ import com.iwilley.b1ec2.api.B1EC2Client;
 import com.iwilley.b1ec2.api.request.ShopOrderCreateRequest;
 import com.iwilley.b1ec2.api.response.SalesOrderQueryResponse;
 import com.iwilley.b1ec2.api.response.ShopOrderCreateResponse;
-import play.libs.Json;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -29,7 +28,8 @@ public class ShopOrderOperate {
     public String ShopOrderPush(ShopOrderCreateRequest request) throws ApiException {
         B1EC2Client client = new B1EC2Client(Constants.URL, Constants.COMPANY, Constants.LOGIN_NAME, Constants.PASSWORD, Constants.SECRET);
         ShopOrderCreateResponse response = client.execute(request);
-        return Json.parse(response.getBody()).get("ShopOrderNo").asText();
+//        return Json.parse(response.getBody()).get("ShopOrderNo").asText();
+        return response.getBody();
     }
     /**
      * ERP 订单查询
