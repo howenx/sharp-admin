@@ -147,7 +147,7 @@ $(function() {
                 '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 19) : '') + '</td>}' +
                 '<td>' + $(this)[0].restAmount + '</td>' +
                 '<td>' + orMasterInv + '</td>' +
-                '<td>' + state + '</td>' +
+                '<td><input type="hidden" value="'+$(this)[0].state+'">' + state + '</td>' +
                 '</tr>'
             );
 		})
@@ -231,6 +231,7 @@ $(function() {
                 }
                 $('#tb-topic').find('tbody').append('' +
                     '<tr class="tb-list-data">' +
+                    '<td><input type="checkbox" name="selectOrder"></td>'+
                     '<td><a href="/' + window.lang +'/comm/order/detail/' + $(this)[0] + '">' + $(this)[0] + '</a></td>' +
                     '<td>' + $(this)[7] + '</td>' +
                     '<td><a href="/' + window.lang +'/pin/activity/geActivityById/' + $(this)[8] + '">' + $(this)[8] + '</a></td>' +

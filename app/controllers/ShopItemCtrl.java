@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.iwilley.b1ec2.api.ApiException;
 import com.iwilley.b1ec2.api.B1EC2Client;
 import com.iwilley.b1ec2.api.domain.ItemInfo;
-import com.iwilley.b1ec2.api.domain.Shop;
 import com.iwilley.b1ec2.api.domain.ShopSkuPushLine;
 import com.iwilley.b1ec2.api.domain.SkuInfo;
 import com.iwilley.b1ec2.api.request.ShopItemPushRequest;
@@ -16,7 +15,6 @@ import entity.User;
 import entity.erp.Constants;
 import entity.erp.ShopItemOperate;
 import filters.UserAuth;
-import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -33,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by Sunny Wu 16/2/23.
@@ -116,11 +115,11 @@ public class ShopItemCtrl extends Controller {
         JsonNode json = request().body().asJson();
         String startTime = "";
         String endTime = "";
-        if (null==json||"".equals(json)) {
+        if (null==json||"".equals(json.toString())) {
             startTime = "2016-01-28 00:00:00";
             endTime = "2016-01-28 10:22:45";
         } else {
-            Logger.error("导入时间"+json.asText());
+//            Logger.error("导入时间"+json.asText());
             startTime = json.get(0).asText();
             endTime = json.get(1).asText();
         }
@@ -191,13 +190,11 @@ public class ShopItemCtrl extends Controller {
     public Result shopItemPush() throws ApiException, ParseException {
         ShopItemOperate shopItemOperate = new ShopItemOperate();
         JsonNode json = request().body().asJson();
-//        Logger.error(json.toString());
         Long skuIds[] = new Long[json.size()];
         List<String> shopItemCodeList = new ArrayList<>();
         for(int i=0;i<json.size();i++){
             skuIds[i] = (json.get(i)).asLong();
             Inventory inventory = inventoryService.getInventory(skuIds[i]);
-            Logger.error("商品:"+inventory.toString());
             ShopItemPushRequest request = new ShopItemPushRequest();
             request.shopItemCode = inventory.getId().toString();//宝贝编码
             request.shopId = 4;                           //店铺Id
@@ -211,11 +208,11 @@ public class ShopItemCtrl extends Controller {
             request.createdTime = inventory.getCreateAt();//创建时间
             request.updateTime = (null==inventory.getUpdateAt()?inventory.getCreateAt():inventory.getUpdateAt());//修改时间
             request.shopItemName = inventory.getInvTitle();   //宝贝名称
-            request.pictureUrl = ThemeCtrl.IMAGE_URL+Json.parse(inventory.getInvImg()).get("url").asText();
+            request.pictureUrl = ThemeCtrl.IMAGE_URL+Json.parse(inventory.getInvImg()).get("url").asText();//主图url
             request.outerId = inventory.getInvCode();//商家编码
-            request.quantity = inventory.getAmount();
-            request.price = inventory.getItemSrcPrice().doubleValue();
-            request.weight = inventory.getInvWeight().doubleValue();
+            request.quantity = inventory.getAmount();//数量
+            request.price = inventory.getItemSrcPrice().doubleValue();//价格
+            request.weight = inventory.getInvWeight()/1000.0;//重量
             List<ShopSkuPushLine> lineList = new ArrayList<ShopSkuPushLine>();//sku信息
             ShopSkuPushLine shopSkuPushLine = new ShopSkuPushLine();
             shopSkuPushLine.shopSkuCode = inventory.getId().toString();//网店skuCode
@@ -230,7 +227,6 @@ public class ShopItemCtrl extends Controller {
             String shopItemCode = shopItemOperate.ShopItemPush(request);
             shopItemCodeList.add(shopItemCode);
         }
-        Logger.error("结果:"+shopItemCodeList.toString());
         return ok(shopItemCodeList.toString());
     }
 
@@ -242,9 +238,7 @@ public class ShopItemCtrl extends Controller {
         ShopQueryResponse response = client.execute(request);
         List<String> shopList = new ArrayList<>();
         if (response.getErrorCode() == 0) {
-            for (Shop shop : response.getShops()) {
-                shopList.add("Shop:" + shop.getShopId() + "," + shop.getShopName());
-            }
+            shopList.addAll(response.getShops().stream().map(shop -> "Shop:" + shop.getShopId() + "," + shop.getShopName()).collect(Collectors.toList()));
         }
         return ok(shopList.toString());
     }

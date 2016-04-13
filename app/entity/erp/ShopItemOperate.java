@@ -63,8 +63,7 @@ public class ShopItemOperate {
     public String ShopItemPush(ShopItemPushRequest request) throws ApiException {
         B1EC2Client client = new B1EC2Client(Constants.URL, Constants.COMPANY, Constants.LOGIN_NAME, Constants.PASSWORD, Constants.SECRET);
         ShopItemPushResponse response = client.execute(request);
-        String shopItemCode = response.getBody();
-        return shopItemCode;
+        return response.getBody();
     }
 
 }

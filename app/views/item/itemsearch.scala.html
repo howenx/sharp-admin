@@ -173,22 +173,27 @@
             alert("请选择商品");
             return false;
         }
-        if(window.confirm("确定导出吗?")){
+        if(window.confirm("确定推送到ERP吗?")){
         } else{
             isPost = false;
             return false;
         }
         //被选择sku的ID
         var exportItems = [];
+        var errItems = "";
         $("input[name='selectItem']:checked").each(function(){
             var invId = $(this).parents("tr").find("td:eq(1)").find("input:eq(0)").val();
             var state = $(this).parents("tr").find("td:eq(10)").find("input:eq(0)").val();
             if (state!="Y" && state!="P") {
                 isPost = false;
-                alert("请检查商品:"+invId+"的状态");
+                errItems = errItems + invId + ",";
             } else exportItems.push(invId);
 
         });
+        if (!isPost) {
+            errItems = errItems.substring(1, errItems.length-1);
+            alert("请检查商品: "+errItems+" 的状态");
+        }
         console.log(JSON.stringify(exportItems));
         if(isPost){
             var orResult = true;
@@ -198,7 +203,7 @@
                 contentType: "application/json; charset=utf-8",
                 data : JSON.stringify(exportItems),
                 error : function(request) {
-                    alert("导出失败");
+                    alert("推送失败");
                 },
                 success: function(data) {
                     console.log(data);
@@ -210,10 +215,10 @@
                         }
                     }
                    if (orResult) {
-                        alert("导出成功");
+                        alert("推送成功");
                     }
                     else {
-                        alert("导出异常");
+                        alert("推送异常");
                     }
                     window.location.href = "/"+window.lang+"/comm/search";
                 }
