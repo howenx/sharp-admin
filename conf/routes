@@ -115,6 +115,7 @@ GET         /comm/order/unpaidOrders                                       contr
 GET         /$lang<(cn|en|kr)>/comm/order/unpaidOrders                     controllers.OrderCtrl.unpaidOrders(lang)
 POST        /comm/order/getLogistics                                       controllers.OrderCtrl.getLogistics(lang ="cn")
 POST        /$lang<(cn|en|kr)>/comm/order/getLogistics                     controllers.OrderCtrl.getLogistics(lang)
+GET         /get/logistics/:nu/:show/:order                                controllers.APICtrl.getLogisticsAPI(nu:String,show:String,order:String)
 
 
 

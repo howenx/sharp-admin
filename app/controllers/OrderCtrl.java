@@ -451,13 +451,14 @@ public class OrderCtrl extends Controller {
      * @param lang
      * @return
      */
-    //@Security.Authenticated(UserAuth.class)
+    @Security.Authenticated(UserAuth.class)
     public Result getLogistics(String lang){
         JsonNode json = request().body().asJson();
-        Logger.error(json.asText());
-        String expCompany = "wanxiangwuliu";
-        JsonNode logisticsJson = GetLogistics.sendGet(expCompany,json.asText());
-        return ok(Json.toJson(logisticsJson.toString()));
+        String nu = json.asText();
+        String show = "0";
+        String order = "";
+        String logisticsJson = GetLogistics.sendGet(nu,show,order);
+        return ok(Json.toJson(logisticsJson));
     }
 
 }
