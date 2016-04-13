@@ -104,7 +104,10 @@
                 <td>@if(order(2)!=null){@(order(2).toString().substring(0,16))}</td>
                 <td>@order(3)</td>
                 <td>@order(4)</td>
-                <td>@order(5)</td>
+                <td>
+                    <input type="hidden" value="@order(9)">
+                    @order(5)
+                </td>
                 <!--<td>@if(order(5) == "订单已超时"){<a href="/@lang/comm/order/detail/@order(0)">取消订单</a>}</td>-->
             </tr>
             }

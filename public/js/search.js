@@ -240,7 +240,7 @@ $(function() {
                     '<td>' + ($(this)[2] != null && $(this)[2] != '' ? $(this)[2].substr(0, 16) : '') + '</td>}' +
                     '<td>' + $(this)[3] + '</td>' +
                     '<td>' + payMethod + '</td>' +
-                    '<td>' + orderStatus + '</td>' +
+                    '<td><input type="hidden" value="'+$(this)[5]+'">' + orderStatus + '</td>' +
                     '</tr>'
                 );
             })
