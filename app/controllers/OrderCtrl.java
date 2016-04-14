@@ -617,7 +617,16 @@ public class OrderCtrl extends Controller {
         else{
             return badRequest();
         }
+    }
 
+    /**
+     * 退货详情     Added by Tiffany Zhu 2016.04.14
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result refundDetail(String lang,Long id){
+        return ok(views.html.order.refundDetail.render(lang,(User) ctx().args.get("user")));
     }
 
 

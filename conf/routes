@@ -120,6 +120,8 @@ GET         /comm/order/refundList                                         contr
 GET         /$lang<(cn|en|kr)>/comm/order/refundList                       controllers.OrderCtrl.refundList(lang)
 POST        /comm/order/refund/search/$pageNum<[0-9]+>                     controllers.OrderCtrl.refundSearchAjax(lang ="cn",pageNum:Int)
 POST        /$lang<(cn|en|kr)>/comm/order/refund/search/$pageNum<[0-9]+>   controllers.OrderCtrl.refundSearchAjax(lang,pageNum:Int)
+GET         /comm/order/refund/detail/$id<[0-9]+>                          controllers.OrderCtrl.refundDetail(lang ="cn",id:Long)
+GET         /$lang<(cn|en|kr)>/comm/order/refund/detail/$id<[0-9]+>        controllers.OrderCtrl.refundDetail(lang,id:Long)
 
 
 

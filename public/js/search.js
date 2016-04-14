@@ -625,7 +625,7 @@ $(function() {
 
                  $('#tb-topic').find('tbody').append('' +
                      '<tr class="tb-list-data">' +
-                     '<td>' + $(this)[0] + '</td>' +
+                     '<td><a href="/comm/order/refund/detail/'+ $(this)[0] +'">' + $(this)[0] + '</a></td>' +
                      '<td>' + $(this)[1] + '</td>' +
                      '<td>' + $(this)[2] + '</td>' +
                      '<td>' + $(this)[3] + '</td>' +
