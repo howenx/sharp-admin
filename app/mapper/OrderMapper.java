@@ -53,4 +53,10 @@ public interface OrderMapper {
      */
     void updPinOrderToSuccess(List<Order> orderList);
 
+    /**
+     * 更新订单信息(状态)              Add By Sunny.Wu 2016.04.14
+     * @param order 订单
+     */
+    void updateOrder(Order order);
+
 }

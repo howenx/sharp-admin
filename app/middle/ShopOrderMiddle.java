@@ -52,7 +52,6 @@ public class ShopOrderMiddle {
         ShopOrderOperate shopOrderOperate = new ShopOrderOperate();
         ShopOrderCreateRequest request = new ShopOrderCreateRequest();
         OrderSplit orderSplit = orderSplitService.getSplitByOrderId(orderId).get(0);
-//        Long orderId = orderSplit.getOrderId();
         Order order = orderService.getOrderById(orderId);
         OrderShip orderShip = orderShipService.getShipByOrderId(orderId);
         List<OrderLine> orderLineList = orderLineService.getLineByOrderId(orderId);
@@ -82,7 +81,6 @@ public class ShopOrderMiddle {
         request.receiverDistrict = orderShip.getDeliveryCity().split(" ")[2];//收货人地区
         request.receiverAddress = orderShip.getDeliveryAddress();             //收货人地址
         request.receiverMobile = orderShip.getDeliveryTel();                  //收货人手机
-//        if (null!=orderSplit.getExpressNm()) request.expressName = orderSplit.getExpressNm();//快递公司名称
         //订单商品信息
         List<ShopOrderCreateLine> itemLineInfo = new ArrayList<>();
         for(OrderLine orderLine : orderLineList) {

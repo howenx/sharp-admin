@@ -28,7 +28,6 @@ public class ShopOrderOperate {
     public String ShopOrderPush(ShopOrderCreateRequest request) throws ApiException {
         B1EC2Client client = new B1EC2Client(Constants.URL, Constants.COMPANY, Constants.LOGIN_NAME, Constants.PASSWORD, Constants.SECRET);
         ShopOrderCreateResponse response = client.execute(request);
-//        return Json.parse(response.getBody()).get("ShopOrderNo").asText();
         return response.getBody();
     }
     /**
@@ -44,10 +43,10 @@ public class ShopOrderOperate {
         DateFormat format = new SimpleDateFormat(com.iwilley.b1ec2.api.Constants.DATE_TIME_FORMAT);
         int pageSize = 30;
         SalesOrderQueryRequestVo request = new SalesOrderQueryRequestVo();
-        request.setShopOrderNo(shopOrderNo);
-        request.setStartTime(format.parse("2000-01-01 00:00:00"));
-        request.setEndTime(format.parse("2100-01-01 00:00:00"));
-        request.setPageSize(pageSize);
+        request.shopOrderNo = shopOrderNo;
+        request.startTime = format.parse("2000-01-01 00:00:00");//订单修改开始时间
+        request.endTime = format.parse("2100-01-01 00:00:00");//订单修改结束时间
+        request.pageSize = pageSize;
         SalesOrderQueryResponse response = client.execute(request);
         if (response.getErrorCode()==0 && response.getTotalResults()>0) {
             //由总条数和每页条数得出总页数

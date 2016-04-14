@@ -32,4 +32,12 @@ public class OrderSplitServiceImpl implements OrderSplitService {
     public OrderSplit getSplitById(Long splitId) {
         return orderSplitMapper.getSplitById(splitId);
     }
+
+    /**
+     * 修改子订单信息(状态,物流信息)  Add By Sunny.Wu 2016.04.14
+     * @param orderSplit 子订单
+     */
+    public void updateSplitOrder(OrderSplit orderSplit) {
+        orderSplitMapper.updateSplitOrder(orderSplit);
+    }
 }
