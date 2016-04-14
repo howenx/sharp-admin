@@ -8,22 +8,22 @@ import java.math.BigDecimal;
  * Created by tiffany on 15/12/17.
  */
 public class OrderSplit implements Serializable {
-    Long splitId;
-    Long orderId;               //订单Id
-    String state;               //报关状态
-    String cbeCode;             //报关单位名称
-    String inspReturnCode;      //国检部门返回Code
-    String inspReturnMsg;       //国检部门返回消息内容
-    String customsReturnCode;   //海关返回码
-    String customsReturnMsg;    //海关返回消息内容
-    BigDecimal totalFee;        //商品总计费用
-    BigDecimal totalPayFee;     //是付费用总计
-    Integer totalAmount;        //购买数量
-    BigDecimal shipFee;         //邮费
-    BigDecimal postalFee;       //行邮税
-    String expressNum;          //快递编号
-    String expressCode;         //快递名称编码
-    String expressNm;           //快递名称
+    private Long splitId;
+    private Long orderId;               //订单Id
+    private String state;               //报关状态
+    private String cbeCode;             //报关单位名称
+    private String inspReturnCode;      //国检部门返回Code
+    private String inspReturnMsg;       //国检部门返回消息内容
+    private String customsReturnCode;   //海关返回码
+    private String customsReturnMsg;    //海关返回消息内容
+    private BigDecimal totalFee;        //商品总计费用
+    private BigDecimal totalPayFee;     //是付费用总计
+    private Integer totalAmount;        //购买数量
+    private BigDecimal shipFee;         //邮费
+    private BigDecimal postalFee;       //行邮税
+    private String expressNum;          //快递编号
+    private String expressCode;         //快递名称编码
+    private String expressNm;           //快递名称
 
     public OrderSplit() {
     }

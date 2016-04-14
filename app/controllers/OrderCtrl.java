@@ -2,10 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.*;
-import entity.order.Order;
-import entity.order.OrderLine;
-import entity.order.OrderShip;
-import entity.order.OrderSplit;
+import entity.order.*;
 import filters.UserAuth;
 import order.GetLogistics;
 import play.Logger;
@@ -45,6 +42,9 @@ public class OrderCtrl extends Controller {
 
     @Inject
     private IDService idService;
+
+    @Inject
+    private RefundService refundService;
 
 
 
@@ -464,5 +464,171 @@ public class OrderCtrl extends Controller {
         String logisticsJson = GetLogistics.sendGet(nu,show,order);
         return ok(Json.toJson(logisticsJson));
     }
+
+    /**
+     * 退款申请列表       Added by Tiffany Zhu 2016.04.14
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result refundList(String lang){
+        Refund refund_condition = new Refund();
+        refund_condition.setPageSize(-1);
+        refund_condition.setOffset(-1);
+        int countNum = refundService.getRefundOrders().size();
+        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
+        if(countNum%ThemeCtrl.PAGE_SIZE != 0){
+            pageCount =  countNum/ThemeCtrl.PAGE_SIZE + 1;
+        }
+        refund_condition.setPageSize(ThemeCtrl.PAGE_SIZE);
+        refund_condition.setOffset(0);
+
+        //订单列表
+        List<Refund> refundList = refundService.getRefundOrderPage(refund_condition);
+        List<Object[]> resultList = new ArrayList<>();
+        for(Refund refund : refundList){
+            Object[] object = new Object[7];
+            object[0] = refund.getId();
+            object[1] = refund.getOrderId();
+            object[2] = refund.getUserId();
+            //手机号码
+            if(refund.getUserId() != null){
+                ID userInfo = idService.getID(Integer.parseInt(refund.getUserId().toString()));
+                object[3] = userInfo.getPhoneNum();
+            }else{
+                object[3] = "";
+            }
+            object[4] = refund.getCreateAt();
+            switch (refund.getState()){
+                case "I":
+                    object[5] = "申请中";
+                case "A":
+                    object[5] = "同意退货";
+                case "R":
+                    object[5] = "拒绝退货";
+                case "Y":
+                    object[5] = "退款成功";
+                case "N":
+                    object[5] = "退款失败";
+//                default:
+//                    object[5] = "";
+            }
+            object[6] = refund.getReason();
+            resultList.add(object);
+        }
+
+        return ok(views.html.order.refund.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,resultList,(User) ctx().args.get("user")));
+
+    }
+
+    /**
+     * 退款申请Ajax查询       Added by Tiffany Zhu 2016.04.14
+     * @param lang
+     * @param pageNum
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result refundSearchAjax(String lang,int pageNum){
+        JsonNode json = request().body().asJson();
+        Refund refund = new Refund();
+        if(json.has("refund")){
+            refund = Json.fromJson(json.get("refund"),Refund.class);
+        }
+        Logger.error(refund.toString());
+        if(json.has("userPhone")){
+            String userPhone = json.get("userPhone").asText();
+            if(!userPhone.equals("")){
+                ID userTemp = idService.getIDByPhoneNum(userPhone);
+                if(userTemp != null && userTemp.getUserId() != null){
+                    if(refund.getUserId() != null && !(refund.getUserId().toString().equals(userTemp.getUserId().toString()))){
+                        refund.setUserId(Long.valueOf(0));
+                    }else{
+                        refund.setUserId(Long.valueOf(userTemp.getUserId()));
+                    }
+                }
+            }
+        }
+        if(pageNum>=1){
+            //计算从第几条开始取数据
+            int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
+            refund.setPageSize(-1);
+            refund.setOffset(-1);
+            //取总数
+            int countNum = refundService.getRefundOrders().size();
+            //共分几页
+            int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
+
+            if(countNum%ThemeCtrl.PAGE_SIZE!=0){
+                pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
+            }
+            refund.setPageSize(ThemeCtrl.PAGE_SIZE);
+            refund.setOffset(offset);
+            List<Refund> refundList = refundService.getRefundOrderPage(refund);
+            List<Object[]> resultList = new ArrayList<>();
+            for(Refund refundTemp : refundList){
+                Object[] object = new Object[7];
+                object[0] = refundTemp.getId();
+                object[1] = refundTemp.getOrderId();
+                if(refundTemp.getUserId() != null){
+                    object[2] = refundTemp.getUserId();
+                }else {
+                    object[2] ="";
+                }
+
+                //手机号码
+                if(refundTemp.getUserId() != null){
+                    ID userInfo = idService.getID(Integer.parseInt(refundTemp.getUserId().toString()));
+                    object[3] = userInfo.getPhoneNum();
+                }else{
+                    object[3] = "";
+                }
+                if(refundTemp.getCreateAt() != null){
+                    object[4] = refundTemp.getCreateAt();
+                }else {
+                    object[4] = "";
+                }
+
+                switch (refundTemp.getState()){
+                    case "I":
+                        object[5] = "申请中";
+                    case "A":
+                        object[5] = "同意退货";
+                    case "R":
+                        object[5] = "拒绝退货";
+                    case "Y":
+                        object[5] = "退款成功";
+                    case "N":
+                        object[5] = "退款失败";
+//                default:
+//                    object[5] = "";
+                }
+                object[6] = refundTemp.getReason();
+                resultList.add(object);
+            }
+            //组装返回数据
+            Map<String,Object> returnMap=new HashMap<>();
+            returnMap.put("topic",resultList);
+            returnMap.put("pageNum",pageNum);
+            returnMap.put("countNum",countNum);
+            returnMap.put("pageCount",pageCount);
+            returnMap.put("pageSize",ThemeCtrl.PAGE_SIZE);
+            return ok(Json.toJson(returnMap));
+        }
+        else{
+            return badRequest();
+        }
+    }
+
+    /**
+     * 退货详情     Added by Tiffany Zhu 2016.04.14
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result refundDetail(String lang,Long id){
+        return ok(views.html.order.refundDetail.render(lang,(User) ctx().args.get("user")));
+    }
+
+
 
 }

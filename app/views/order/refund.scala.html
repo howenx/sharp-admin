@@ -1,0 +1,121 @@
+@import play.i18n._
+@(lang:String="cn",pageSize:Integer,countNum:Integer,pageCount:Integer,refundList:List[Array[Object]],user:entity.User)
+@scripts = {
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
+<script src="/assets/js/search.js"></script>
+
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/rili.js"></script>
+<!-- 此为调用分页所提供的函数名前缀 -->
+<script>window.search_args = 'refundlist'</script>
+}
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"退货申请")
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">订单管理</span>
+        <span class="icon-path">&gt;</span>
+        <span>退货申请</span>
+    </div>
+</div>
+<div class="content-1">
+    <div class="page-title">
+        <span class="title-name">退货申请</span>
+    </div>
+    <form class="form-horizontal">
+        <div class="form-group">
+
+            <label class="col-sm-offset-2 col-sm-1 control-label">申请ID</label>
+            <div class="col-sm-3">
+                <input id="order-form-id" type="number" min="10000" max="99999999" class="form-control"/>
+            </div>
+            <label class="col-sm-1 control-label">申请状态</label>
+            <div class="col-sm-3">
+                <select id="order-form-status" class="form-control">
+                    <option value=""></option>
+                    <option value="I">申请中</option>
+                    <option value="A">同意退货</option>
+                    <option value="R">拒绝退货</option>
+                    <option value="Y">退款成功</option>
+                    <option value="N">退款失败</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class=" col-sm-offset-2 col-sm-1 control-label">用户ID</label>
+            <div class="col-sm-3">
+                <input  id="order-form-userid" type="number" min="10000" max="99999999" class="form-control"/>
+            </div>
+            <label class="col-sm-1 control-label">手机号码</label>
+            <div class="col-sm-3">
+                <input  id="user_phone_num" type="number" min="10000" max="99999999" class="form-control"/>
+            </div>
+        </div>
+
+        <div class="btn-s">
+            <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
+            <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
+        </div>
+    </form>
+    <div class="table-content">
+
+        <table id="tb-topic" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>退货ID</th>
+                <th>订单ID</th>
+                <th>用户ID</th>
+                <th>手机号码</th>
+                <th>申请时间</th>
+                <th>申请状态</th>
+                <th>退货理由</th>
+            </tr>
+            </thead>
+            <tbody>
+            @for(refund <- refundList){
+            <tr class = "tb-list-data">
+                <td><a href="/@lang/comm/order/refund/detail/@refund(0)">@refund(0)</a></td>
+                <td>@refund(1)</td>
+                <td>@refund(2)</td>
+                <td>@refund(3)</td>
+                <td>@refund(4)</td>
+                <td>@refund(5)</td>
+                <td>@refund(6)</td>
+            </tr>
+            }
+
+            <!---公用模块,id不能改变,只需要改变合并行数-->
+            <tr id="nodata-td" style="display:none;"><td colspan="9">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            </tbody>
+        </table>
+        <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
+        <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
+        <div class="paging">
+            <ul class="pagination">
+                <li class="prev disabled"><a href="javascript:void(0)">&laquo;</a></li>
+                <li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>
+                @for(count <- 1 until pageCount){
+                <li class="page-num"><a href="javascript:void(0)">@(count+1)</a></li>
+                }
+                <li class="next"><a href="javascript:void(0)">&raquo;</a></li>
+            </ul>
+        </div>
+        <!-- 公用模块,直接拷贝-->
+    </div>
+</div>
+<!-- 点击图片预览-->
+<div class="goods-img-bg">
+    <div class="goods-bg"></div>
+    <div class="goods-img">
+        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>
+}

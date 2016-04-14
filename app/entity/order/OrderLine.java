@@ -9,17 +9,17 @@ import java.math.BigDecimal;
  */
 public class OrderLine implements Serializable {
 
-    Long lineId;
-    Long orderId;       //订单Id
-    Long skuId;         //sku ID
-    Long itemId;        //商品Id
-    Integer amount;     //购买数量
-    BigDecimal price;   //购买价格
-    String skuTitle;    //sku标题
-    String skuImg;      //sku图片url
-    Long splitId;       //子订单编号
-    String skuSize;     //商品尺寸
-    String skuColor;    //商品颜色
+    private Long lineId;
+    private Long orderId;       //订单Id
+    private Long skuId;         //sku ID
+    private Long itemId;        //商品Id
+    private Integer amount;     //购买数量
+    private BigDecimal price;   //购买价格
+    private String skuTitle;    //sku标题
+    private String skuImg;      //sku图片url
+    private Long splitId;       //子订单编号
+    private String skuSize;     //商品尺寸
+    private String skuColor;    //商品颜色
 
     public OrderLine() {
     }

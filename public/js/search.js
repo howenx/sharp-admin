@@ -605,6 +605,39 @@ $(function() {
             })
         }
 
+         //每个查询页面对应一个相应的组装函数  订单查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Tiffany Zhu 2016.04.14
+         funcList.refundlist_search = function refundlist_search(pageIndex) {
+             var refundDto = new Object();
+             var refund = new Object();
+             refund.id = $("#order-form-id").val();
+             refund.userId = $("#order-form-userid").val();
+             refund.state = $("#order-form-status option:selected").val();
+             refundDto.refund = refund;
+             refundDto.userPhone = $("#user_phone_num").val();
+             //调用共用ajax,url从根目录开始不需要加上语言
+             search("/comm/order/refund/search/" + pageIndex, refundDto);
+         }
+
+         //每个查询页面对应一个相应的返回时填充函数 订单查询页面       Added by Tiffany Zhu 2016.04.14
+         funcList.refundlist_data = function refundlist_data(data) {
+             //填充列表数据
+             $(data).each(function(index, element) {
+
+                 $('#tb-topic').find('tbody').append('' +
+                     '<tr class="tb-list-data">' +
+                     '<td><a href="/comm/order/refund/detail/'+ $(this)[0] +'">' + $(this)[0] + '</a></td>' +
+                     '<td>' + $(this)[1] + '</td>' +
+                     '<td>' + $(this)[2] + '</td>' +
+                     '<td>' + $(this)[3] + '</td>' +
+                     '<td>' + $(this)[4] + '</td>' +
+                     '<td>' + $(this)[5] + '</td>' +
+                     '<td>' + $(this)[6] + '</td>' +
+                     '</tr>'
+                 );
+             })
+         }
+
+
 
 	/*********************************公用模块，不需要变更改动，如需变更改动请找howen ****************************************/
 	//点击页数
