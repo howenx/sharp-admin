@@ -1,10 +1,13 @@
 package controllers;
 
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import entity.*;
 import entity.order.*;
 import filters.UserAuth;
 import order.GetLogistics;
+import play.Configuration;
 import play.Logger;
 import play.i18n.Lang;
 import play.i18n.Messages;
@@ -46,8 +49,11 @@ public class OrderCtrl extends Controller {
     @Inject
     private RefundService refundService;
 
+    @Inject
+    private ActorSystem system;
 
-
+    @Inject
+    private Configuration configuration;
 
     /**
      * 订单列表     Added by Tiffany Zhu
@@ -363,12 +369,10 @@ public class OrderCtrl extends Controller {
             List<Object[]> subOrderPart2 = new ArrayList<>();
             for(OrderLine orderLine : orderLineList){
                 Object[] object2 = new Object[8];
-                Item item = service.getItem(orderLine.getItemId());
-                object2[0] = item.getItemTitle();    //名称
+                //Item item = service.getItem(orderLine.getItemId());
+                object2[0] = orderLine.getSkuTitle();    //名称
                 JsonNode urlJson = Json.parse(orderLine.getSkuImg());
-                String url = urlJson.get("url").toString();
-                url = url.substring(1,url.length()-1);
-                object2[1] = url;  //图片url
+                object2[1] = urlJson.get("url").asText();  //图片url
                 object2[2] = orderLine.getSkuSize(); //尺码
                 object2[3] = orderLine.getSkuColor();//颜色
                 object2[4] = orderLine.getPrice();   //价格
@@ -626,7 +630,109 @@ public class OrderCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result refundDetail(String lang,Long id){
-        return ok(views.html.order.refundDetail.render(lang,(User) ctx().args.get("user")));
+        Refund refund = refundService.getRefundById(id);
+        Order order = orderService.getOrderById(refund.getOrderId());
+        if ("JD".equals(order.getPayMethod())) {
+            order.setPayMethod("京东");
+        }
+        if ("APAY".equals(order.getPayMethod())) {
+            order.setPayMethod("支付宝");
+        }
+        if ("WEIXIN".equals(order.getPayMethod())) {
+            order.setPayMethod("微信");
+        }
+
+        //订单状态
+        //当前时间减去24小时
+        Timestamp time = new Timestamp(System.currentTimeMillis() - 1*24*3600*1000L);
+        if(order.getOrderCreateAt().before(time) && "I".equals(order.getOrderStatus())){
+            order.setOrderStatus("订单已超时");
+        }
+        else{
+            if("I".equals(order.getOrderStatus())){
+                order.setOrderStatus("未支付");
+            }
+            if("S".equals(order.getOrderStatus())){
+                order.setOrderStatus("支付成功");
+            }
+            if("C".equals(order.getOrderStatus())){
+                order.setOrderStatus("订单取消");
+            }
+            if("F".equals(order.getOrderStatus())){
+                order.setOrderStatus("支付失败");
+            }
+            if("R".equals(order.getOrderStatus())){
+                order.setOrderStatus("已签收");
+            }
+            if("D".equals(order.getOrderStatus())){
+                order.setOrderStatus("已发货");
+            }
+            if("J".equals(order.getOrderStatus())){
+                order.setOrderStatus("拒收");
+            }
+            if ("N".equals(order.getOrderStatus())) {
+                order.setOrderStatus("已删除");
+            }
+            if ("T".equals(order.getOrderStatus())) {
+                order.setOrderStatus("已退款");
+            }
+            if ("PI".equals(order.getOrderStatus())) {
+                order.setOrderStatus("拼购未支付");
+            }
+            if (("PS").equals(order.getOrderStatus())) {
+                order.setOrderStatus("拼购支付成功");
+            }
+            if (("PF").equals(order.getOrderStatus())) {
+                order.setOrderStatus("拼团失败未退款");
+            }
+        }
+        List<OrderLine> orderLineList = orderLineService.getLineByOrderId(order.getOrderId());
+        List<Object[]> resultOrderLineList = new ArrayList<>();
+        for(OrderLine orderLine : orderLineList){
+            String imgUrl = Json.parse(orderLine.getSkuImg()).get("url").asText();
+            Object[] object = new Object[8];
+            object[0] = orderLine.getSkuTitle();    //名称
+            object[1] = imgUrl;  //图片url
+            object[2] = orderLine.getSkuSize(); //尺码
+            object[3] = orderLine.getSkuColor();//颜色
+            object[4] = orderLine.getPrice();   //价格
+            object[5] = orderLine.getAmount();  //数量
+            object[6] = 0;                      //优惠
+            BigDecimal amount = new BigDecimal(orderLine.getAmount());
+            object[7] = orderLine.getPrice().multiply(amount);//总价
+
+            resultOrderLineList.add(object);
+
+        }
+        OrderShip orderShip = orderShipService.getShipByOrderId(refund.getOrderId());
+        ID userInfo = new ID();
+        if(refund.getUserId() != null){
+            userInfo = idService.getID(Integer.parseInt(refund.getUserId().toString()));
+        }
+        return ok(views.html.order.refundDetail.render(lang,refund,order,resultOrderLineList,userInfo,orderShip,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
+    }
+
+
+    /**
+     * 处理退货申请       Added by Tiffany Zhu 2016.04.14
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result refundDeal(String lang){
+        JsonNode json = request().body().asJson();
+        Logger.error(json.toString());
+        Long id = json.get("refundId").asLong();
+        String refuseReason = json.get("reasonContent").asText();
+        String refundState = json.get("response").asText();
+        Refund refund = refundService.getRefundById(id);
+        refund.setState(refundState);
+        if(refundState.equals("R")){
+            refund.setRejectReason(refuseReason);
+        }
+        system.actorSelection(configuration.getString("shopping.cancelOrderActor")).tell(refund.getOrder(), ActorRef.noSender());
+        system.actorSelection(configuration.getString("shopping.refundActor")).tell(refund, ActorRef.noSender());
+
+        return ok("success");
     }
 
 

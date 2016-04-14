@@ -16,9 +16,16 @@ public interface RefundMapper {
     List<Refund> getRefundOrders();
 
     /**
-     * 分页查询     Added by Tiffany Zhu 2016.04.14
+     * 分页查询退款申请     Added by Tiffany Zhu 2016.04.14
      * @param refund
      * @return
      */
     List<Refund> getRefundOrderPage(Refund refund);
+
+    /**
+     * 通过Id获取退款申请详情     Added by Tiffany Zhu 2016.04.14
+     * @param id
+     * @return
+     */
+    Refund getRefundById(Long id);
 }
