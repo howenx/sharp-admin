@@ -22,4 +22,10 @@ public interface OrderSplitService {
      * @return OrderSplit
      */
     OrderSplit getSplitById(Long splitId);
+
+    /**
+     * 修改子订单信息(状态,物流信息)  Add By Sunny.Wu 2016.04.14
+     * @param orderSplit 子订单
+     */
+    void updateSplitOrder(OrderSplit orderSplit);
 }

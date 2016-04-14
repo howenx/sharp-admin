@@ -76,4 +76,13 @@ public class OrderServiceImpl implements OrderService {
     public void updPinOrderToSuccess(List<Order> orderList) {
         orderMapper.updPinOrderToSuccess(orderList);
     }
+
+    /**
+     * 更新订单信息(状态)               Add By Sunny.Wu 2016.04.14
+     * @param order 订单
+     */
+    public void updateOrder(Order order) {
+        orderMapper.updateOrder(order);
+    }
+
 }

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import com.iwilley.b1ec2.api.ApiException;
 import middle.ShopOrderMiddle;
-import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -31,6 +30,9 @@ public class ShopOrderCtrl extends Controller {
 
     private IDService idService;
 
+    public static final Integer ORDER_QUERY_INTERVAL = Integer.parseInt(play.Play.application().configuration().getString("shop.order.query.interval"));
+    public static final Integer ORDER_QUERY_DELAY = Integer.parseInt(play.Play.application().configuration().getString("shop.order.query.delay"));
+
     @Inject
     private ShopOrderMiddle shopOrderMiddle;
 
@@ -47,20 +49,19 @@ public class ShopOrderCtrl extends Controller {
      * @return shopOrderNo 订单编号
      * @throws ApiException
      */
-    public Result shopOrderPush() throws ApiException {
+    public Result shopOrderPush() throws ApiException, ParseException {
         JsonNode json = request().body().asJson();
         Long orderIds[] = new Long[json.size()];
         List<String> shopOrderCodeList = new ArrayList<>();
         for(int i=0;i<json.size();i++) {
             orderIds[i] = (json.get(i)).asLong();
-            //推送之前先查询,若已存在则不推送
-//            if () {
-//
-//            }
-
-            String shopOrderNo = shopOrderMiddle.shopOrderPush(orderIds[i]);
-            Logger.error("ERP返回的订单号是::::::::"+shopOrderNo);
-            shopOrderCodeList.add(shopOrderNo);
+            //推送之前先查询,先从ERP查询该订单若已存在则不推送
+            String shopOrderNo = "";
+            List<Object> salesOrderList = shopOrderMiddle.salesOrderQuery(orderIds[i].toString());
+            if ((null == salesOrderList) ||  salesOrderList.size()==0) {
+                shopOrderNo = shopOrderMiddle.shopOrderPush(orderIds[i]);
+                shopOrderCodeList.add(shopOrderNo);
+            }
         }
         return ok(shopOrderCodeList.toString());
     }
@@ -73,10 +74,6 @@ public class ShopOrderCtrl extends Controller {
      * @throws ApiException
      */
     public Result salesOrderQuery(Long shopOrderNo) throws ParseException, ApiException {
-
-//        String orderStatus  = Json.parse(Json.toJson(shopOrderMiddle.salesOrderQuery(shopOrderNo.toString())).asText()).get("orderStatus").asText();
-//        String orderStatus  = Json.parse(Json.toJson(shopOrderMiddle.salesOrderQuery(shopOrderNo.toString())).asText()).get("orderStatus").asText();
-//        Logger.error(orderStatus);
 
         return ok(Json.toJson(shopOrderMiddle.salesOrderQuery(shopOrderNo.toString())));
     }
