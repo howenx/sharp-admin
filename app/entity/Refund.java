@@ -45,10 +45,20 @@ public class Refund implements Serializable{
     private String      refundType;//退款类型，pin：拼购自动退款，receive：收货后申请退款，deliver：发货前退款
 
 
+    //分页,每页多少条
+    private Integer pageSize;
+    //分页,从第几条开始
+    private Integer offset;
+    //按照哪个字段排序
+    private String sort;
+    //排序方式,降序,升序
+    private String order;
+
+
     public Refund() {
     }
 
-    public Refund(Long id, Long orderId, Long splitOrderId, Long skuId, String skuType, Long skuTypeId, BigDecimal payBackFee, String reason, String state, String pgTradeNo, String pgCode, String pgMessage, Timestamp createAt, Timestamp updateAt, Integer amount, String refundImg, String contactName, String contactTel, String expressCompany, String expressCompCode, String expressNum, String rejectReason, Long userId, String refundType) {
+    public Refund(Long id, Long orderId, Long splitOrderId, Long skuId, String skuType, Long skuTypeId, BigDecimal payBackFee, String reason, String state, String pgTradeNo, String pgCode, String pgMessage, Timestamp createAt, Timestamp updateAt, Integer amount, String refundImg, String contactName, String contactTel, String expressCompany, String expressCompCode, String expressNum, String rejectReason, Long userId, String refundType, Integer pageSize, Integer offset, String sort, String order) {
         this.id = id;
         this.orderId = orderId;
         this.splitOrderId = splitOrderId;
@@ -73,6 +83,44 @@ public class Refund implements Serializable{
         this.rejectReason = rejectReason;
         this.userId = userId;
         this.refundType = refundType;
+        this.pageSize = pageSize;
+        this.offset = offset;
+        this.sort = sort;
+        this.order = order;
+    }
+
+    @Override
+    public String toString() {
+        return "Refund{" +
+                "id=" + id +
+                ", orderId=" + orderId +
+                ", splitOrderId=" + splitOrderId +
+                ", skuId=" + skuId +
+                ", skuType='" + skuType + '\'' +
+                ", skuTypeId=" + skuTypeId +
+                ", payBackFee=" + payBackFee +
+                ", reason='" + reason + '\'' +
+                ", state='" + state + '\'' +
+                ", pgTradeNo='" + pgTradeNo + '\'' +
+                ", pgCode='" + pgCode + '\'' +
+                ", pgMessage='" + pgMessage + '\'' +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                ", amount=" + amount +
+                ", refundImg='" + refundImg + '\'' +
+                ", contactName='" + contactName + '\'' +
+                ", contactTel='" + contactTel + '\'' +
+                ", expressCompany='" + expressCompany + '\'' +
+                ", expressCompCode='" + expressCompCode + '\'' +
+                ", expressNum='" + expressNum + '\'' +
+                ", rejectReason='" + rejectReason + '\'' +
+                ", userId=" + userId +
+                ", refundType='" + refundType + '\'' +
+                ", pageSize=" + pageSize +
+                ", offset=" + offset +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
+                '}';
     }
 
     public Long getId() {
@@ -267,33 +315,35 @@ public class Refund implements Serializable{
         this.refundType = refundType;
     }
 
-    @Override
-    public String toString() {
-        return "Refund{" +
-                "id=" + id +
-                ", orderId=" + orderId +
-                ", splitOrderId=" + splitOrderId +
-                ", skuId=" + skuId +
-                ", skuType='" + skuType + '\'' +
-                ", skuTypeId=" + skuTypeId +
-                ", payBackFee=" + payBackFee +
-                ", reason='" + reason + '\'' +
-                ", state='" + state + '\'' +
-                ", pgTradeNo='" + pgTradeNo + '\'' +
-                ", pgCode='" + pgCode + '\'' +
-                ", pgMessage='" + pgMessage + '\'' +
-                ", createAt=" + createAt +
-                ", updateAt=" + updateAt +
-                ", amount=" + amount +
-                ", refundImg='" + refundImg + '\'' +
-                ", contactName='" + contactName + '\'' +
-                ", contactTel='" + contactTel + '\'' +
-                ", expressCompany='" + expressCompany + '\'' +
-                ", expressCompCode='" + expressCompCode + '\'' +
-                ", expressNum='" + expressNum + '\'' +
-                ", rejectReason='" + rejectReason + '\'' +
-                ", userId=" + userId +
-                ", refundType='" + refundType + '\'' +
-                '}';
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
     }
 }

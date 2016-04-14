@@ -1,6 +1,6 @@
 package mapper;
 
-import entity.order.Refund;
+import entity.Refund;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package service;
 
-import entity.order.Refund;
+import entity.Refund;
 import mapper.RefundMapper;
 
 import javax.inject.Inject;

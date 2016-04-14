@@ -564,7 +564,6 @@ public class OrderCtrl extends Controller {
             refund.setPageSize(ThemeCtrl.PAGE_SIZE);
             refund.setOffset(offset);
             List<Refund> refundList = refundService.getRefundOrderPage(refund);
-            Logger.error(refundList.toString());
             List<Object[]> resultList = new ArrayList<>();
             for(Refund refundTemp : refundList){
                 Object[] object = new Object[7];
@@ -583,7 +582,12 @@ public class OrderCtrl extends Controller {
                 }else{
                     object[3] = "";
                 }
-                object[4] = refundTemp.getCreateAt();
+                if(refundTemp.getCreateAt() != null){
+                    object[4] = refundTemp.getCreateAt();
+                }else {
+                    object[4] = "";
+                }
+
                 switch (refundTemp.getState()){
                     case "I":
                         object[5] = "申请中";
