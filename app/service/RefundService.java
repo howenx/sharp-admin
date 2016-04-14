@@ -21,6 +21,13 @@ public interface RefundService {
      */
     List<Refund> getRefundOrderPage(Refund refund);
 
+    /**
+     * 通过Id获取退款申请详情     Added by Tiffany Zhu 2016.04.14
+     * @param id
+     * @return
+     */
+    Refund getRefundById(Long id);
+
 
 
 }

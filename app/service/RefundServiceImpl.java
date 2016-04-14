@@ -33,4 +33,14 @@ public class RefundServiceImpl implements RefundService{
     public List<Refund> getRefundOrderPage(Refund refund) {
         return refundMapper.getRefundOrderPage(refund);
     }
+
+    /**
+     * 通过Id获取退款申请详情     Added by Tiffany Zhu 2016.04.14
+     * @param id
+     * @return
+     */
+    @Override
+    public Refund getRefundById(Long id) {
+        return refundMapper.getRefundById(id);
+    }
 }
