@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import com.iwilley.b1ec2.api.ApiException;
 import middle.ShopOrderMiddle;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -58,6 +59,7 @@ public class ShopOrderCtrl extends Controller {
 //            }
 
             String shopOrderNo = shopOrderMiddle.shopOrderPush(orderIds[i]);
+            Logger.error("ERP返回的订单号是::::::::"+shopOrderNo);
             shopOrderCodeList.add(shopOrderNo);
         }
         return ok(shopOrderCodeList.toString());

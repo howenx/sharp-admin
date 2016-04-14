@@ -11,7 +11,6 @@ import entity.order.Order;
 import entity.order.OrderLine;
 import entity.order.OrderShip;
 import entity.order.OrderSplit;
-import play.Logger;
 import service.*;
 
 import javax.inject.Inject;
@@ -83,6 +82,7 @@ public class ShopOrderMiddle {
         request.receiverDistrict = orderShip.getDeliveryCity().split(" ")[2];//收货人地区
         request.receiverAddress = orderShip.getDeliveryAddress();             //收货人地址
         request.receiverMobile = orderShip.getDeliveryTel();                  //收货人手机
+//        if (null!=orderSplit.getExpressNm()) request.expressName = orderSplit.getExpressNm();//快递公司名称
         //订单商品信息
         List<ShopOrderCreateLine> itemLineInfo = new ArrayList<>();
         for(OrderLine orderLine : orderLineList) {
@@ -95,6 +95,8 @@ public class ShopOrderMiddle {
             shopOrderCreateLine.price = orderLine.getPrice().doubleValue();//价格
             shopOrderCreateLine.itemName = orderLine.getSkuTitle();        //商品名称
             shopOrderCreateLine.skuName = orderLine.getSkuColor()+orderLine.getSkuSize();//规格名称
+//            shopOrderCreateLine.lineUdf1 = orderLine.getItemId().toString();
+//            shopOrderCreateLine.lineUdf2 = orderLine.getSkuId().toString();
             itemLineInfo.add(shopOrderCreateLine);
         }
         //付款信息
@@ -107,8 +109,6 @@ public class ShopOrderMiddle {
         if (null!=orderSplit.getTotalPayFee()) shopOrderCreatePayment.paymentTotal = orderSplit.getTotalPayFee().doubleValue();//付款金额
         shopOrderCreatePayment.paymentNo = order.getPgTradeNo();//付款单号
         paymentLineInfo.add(shopOrderCreatePayment);
-        Logger.error("lines"+itemLineInfo.get(0).getPrice()+itemLineInfo.get(0).getSkuName()+itemLineInfo.get(0).getItemName());
-//        Logger.error("lines"+itemLineInfo.get(1).getPrice()+itemLineInfo.get(1).getSkuName()+itemLineInfo.get(1).getItemName());
         request.setItemLines(itemLineInfo);
         request.setPaymentLines(paymentLineInfo);
         return shopOrderOperate.ShopOrderPush(request);     //返回平台订单编号

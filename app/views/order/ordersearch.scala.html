@@ -112,7 +112,7 @@
             </tr>
             }
             <!---公用模块,id不能改变,只需要改变合并行数-->
-            <tr id="nodata-td" style="display:none;"><td colspan="9">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            <tr id="nodata-td" style="display:none;"><td colspan="10">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
         <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
@@ -166,25 +166,24 @@
         var errOrders = "";
         $("input[name='selectOrder']:checked").each(function(){
             var orderId = $(this).parents("tr").find("td:eq(1)").find("a:eq(0)").text();
-            var state = $(this).parents("tr").find("td:eq(9)").text();
-            if (state!="成功" && state!="拼购成功") {
+            var state = $(this).parents("tr").find("td:eq(9)").find("input:eq(0)").val();
+            if (state!="S" && state!="PS") {
                 isPost = false;
                 errOrders = errOrders + orderId + ",";
             } else exportOrders.push(orderId);
         });
-        console.log(errOrders);
         if (!isPost) {
             errOrders = errOrders.substring(1, errOrders.length-1);
             alert("请检查订单: "+errOrders+" 的状态");
         }
         console.log(JSON.stringify(exportOrders));
-        if(false){
+        if(isPost){
             var orResult = true;
             $.ajax({
                 type :  "POST",
                 url : "/shopOrder/push",
                 contentType: "application/json; charset=utf-8",
-                data : JSON.stringify(exportItems),
+                data : JSON.stringify(exportOrders),
                 error : function(request) {
                     alert("推送失败");
                 },

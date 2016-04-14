@@ -209,7 +209,8 @@ public class OrderCtrl extends Controller {
                 object[4] = orderTemp.getPayMethod();
                 object[5] = orderTemp.getOrderStatus();
                 ID userInfo = idService.getID(Integer.parseInt(orderTemp.getUserId().toString()));
-                object[6] = userInfo.getPhoneNum();
+                object[6] = null!=userInfo?userInfo.getPhoneNum():"";
+                //object[6] = userInfo.getPhoneNum();
                 //订单类型
                 if(orderTemp.getOrderType() == 1){
                     object[7] = "普通";

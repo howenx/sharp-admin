@@ -1073,8 +1073,8 @@ public class SaleCtrl extends Controller {
                 List<SaleOrder> saleOrderList=saleService.getSaleOrder(temp);
 
                 if(null==saleOrderList||saleOrderList.isEmpty()){
-                    Logger.error("<br/>"+i+"行订单不存在,orderId="+str[1]);
-                    orderErr.append("<br/>"+i+"行订单不存在,orderId="+str[1]);
+                    Logger.error("<br/>"+(i+1)+"行订单不存在,orderId="+str[1]);
+                    orderErr.append("<br/>"+(i+1)+"行订单不存在,orderId="+str[1]);
                     continue;
                 }
                 saleOrder=saleOrderList.get(0);
@@ -1086,7 +1086,7 @@ public class SaleCtrl extends Controller {
                         saleOrder.getShipFee(),saleOrder.getInteLogistics(),saleOrder.getPackFee(),saleOrder.getStorageFee(),saleOrder.getPostalFee(),saleOrder.getSaleCount(),saleOrder.getRemarkStatus()));
                 saleService.updateSaleOrder(saleOrder);
                 Logger.info("profit="+saleOrder);
-                suc.append("<br/>"+i+"行订单费用导入成功,orderId="+str[1]);
+                suc.append("<br/>"+(i+1)+"行订单费用导入成功,orderId="+str[1]);
             }
 
             if(orderErr.length()>0){
@@ -1157,16 +1157,16 @@ public class SaleCtrl extends Controller {
                 temp=new SaleOrder();
                 String orderId=str[0];
                 if("".equals(orderId)||null==orderId){
-                    Logger.error("<br/>"+i+"行订单不存在,orderId="+orderId);
-                    orderErr.append("<br/>"+i+"行订单不存在,orderId="+orderId);
+                    Logger.error("<br/>"+(i+1)+"行订单不存在,orderId="+orderId);
+                    orderErr.append("<br/>"+(i+1)+"行订单不存在,orderId="+orderId);
                     continue;
                 }
                 temp.setOrderId(orderId);
                 List<SaleOrder> saleOrderList=saleService.getSaleOrder(temp);
 
                 if(null==saleOrderList||saleOrderList.isEmpty()){
-                    Logger.error("<br/>"+i+"行订单不存在,orderId="+orderId);
-                    orderErr.append("<br/>"+i+"行订单不存在,orderId="+orderId);
+                    Logger.error("<br/>"+(i+1)+"行订单不存在,orderId="+orderId);
+                    orderErr.append("<br/>"+(i+1)+"行订单不存在,orderId="+orderId);
                     continue;
                 }
                 //商品应结金额*京东费率=商品佣金，用这个公式商品佣金/商品应结金额=京东费率
@@ -1179,7 +1179,7 @@ public class SaleCtrl extends Controller {
                 saleOrder.setProfit(getOrderProfit(saleOrder.getSaleTotal(),saleOrder.getJdFee(),saleOrder.getCost(),
                         saleOrder.getShipFee(),saleOrder.getInteLogistics(),saleOrder.getPackFee(),saleOrder.getStorageFee(),saleOrder.getPostalFee(),saleOrder.getSaleCount(),saleOrder.getRemarkStatus()));
                 saleService.updateSaleOrder(saleOrder);
-                suc.append("<br/>"+i+"行订单费用导入成功,orderId="+orderId);
+                suc.append("<br/>"+(i+1)+"行订单费用导入成功,orderId="+orderId);
             }
 
             if(orderErr.length()>0){
