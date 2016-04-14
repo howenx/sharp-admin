@@ -51,9 +51,9 @@ public class ShopOrderPushActor extends AbstractActor{
 //                for(OrderSplit orderSplit : orderSplitList) {
 //                    Long splitId = orderSplit.getSplitId();
                     String shopOrderNo = shopOrderMiddle.shopOrderPush(orderId);
-                    Logger.debug("order"+shopOrderNo+":push to ERP");
+                    Logger.error("order"+shopOrderNo+":push to ERP");
                     //启动scheduler从erp查询订单,海关审核通过,更新物流信息
-                    scheduler.schedule(Duration.create(ShopOrderCtrl.ORDER_QUERY_DELAY, TimeUnit.MILLISECONDS),Duration.create(ShopOrderCtrl.ORDER_QUERY_INTERVAL, TimeUnit.MILLISECONDS),salesOrderQueryActor,shopOrderNo);
+                    scheduler.schedule(Duration.create(ShopOrderCtrl.ORDER_QUERY_DELAY, TimeUnit.MILLISECONDS),Duration.create(ShopOrderCtrl.ORDER_QUERY_INTERVAL, TimeUnit.MILLISECONDS),salesOrderQueryActor,orderId);
 //                }
             }
         }).matchAny(s-> {

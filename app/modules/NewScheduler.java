@@ -122,7 +122,7 @@ public class NewScheduler {
 
             levelFactory.put(message, persist);//leveldb存储
 
-            Logger.info("创建schedule: " + message.toString() + ", 每隔 " + delay.toHours() + " 小时执行一次");
+            Logger.info("创建schedule: " + message.toString() + ", 每隔 " + delay.toMinutes() + " 分钟执行一次");
 
         } catch (Exception ex) {
             cancellable.cancel();
