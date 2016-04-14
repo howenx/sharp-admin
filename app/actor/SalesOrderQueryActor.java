@@ -1,11 +1,14 @@
 package actor;
 
 import akka.actor.AbstractActor;
+import akka.actor.Cancellable;
 import akka.japi.pf.ReceiveBuilder;
 import com.fasterxml.jackson.databind.JsonNode;
+import entity.Persist;
 import entity.order.Order;
 import entity.order.OrderSplit;
 import middle.ShopOrderMiddle;
+import modules.LevelFactory;
 import play.Logger;
 import play.libs.Json;
 import service.OrderService;
@@ -20,6 +23,9 @@ import java.util.List;
  * kakao china.
  */
 public class SalesOrderQueryActor extends AbstractActor {
+
+    @Inject
+    private LevelFactory levelFactory;
 
     @Inject
     private OrderService orderService;
@@ -55,6 +61,20 @@ public class SalesOrderQueryActor extends AbstractActor {
                     Order order = orderService.getOrderById(orderId);
                     order.setOrderStatus("D");
                     orderService.updateOrder(order);
+                    //取消schedule
+                    if (levelFactory.map.containsKey(orderId)) {
+                        Persist p = levelFactory.map.get(orderId);
+                        p.getCancellable().cancel();
+                        levelFactory.map.remove(orderId);
+                    }
+                    if (levelFactory.get(orderId) != null) {
+                        levelFactory.delete(orderId);
+                    }
+                    if (levelFactory.delMap.containsKey(orderId)) {
+                        Cancellable delCancellable = levelFactory.delMap.get(orderId);
+                        delCancellable.cancel();
+                        levelFactory.delMap.remove(orderId);
+                    }
                 }
             }
             Logger.debug(orderId+":sales order query....");
