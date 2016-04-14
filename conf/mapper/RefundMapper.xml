@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.RefundMapper">
+   <sql id="refundColumns">
+       ${alias}.id,
+       ${alias}.pg_message,
+       ${alias}.amount,
+       ${alias}.refund_img,
+       ${alias}.contact_name,
+       ${alias}.contact_tel,
+       ${alias}.express_company,
+       ${alias}.express_comp_code,
+       ${alias}.express_num,
+       ${alias}.reject_reason,
+       ${alias}.user_id,
+       ${alias}.order_id,
+       ${alias}.split_order_id,
+       ${alias}.sku_id,
+       ${alias}.refund_type,
+       ${alias}.pay_back_fee,
+       ${alias}.reason,
+       ${alias}.state,
+       ${alias}.create_at,
+       ${alias}.pg_trade_no,
+       ${alias}.update_at,
+       ${alias}.pg_code
+   </sql>
+
+    <select id="getRefundOrders" resultType="entity.order.Refund">
+        select
+        <include refid="refundColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_refund t where 1=1
+    </select>
+
+    <select id="getRefundOrderPage" parameterType="entity.order.Refund" resultType="entity.order.Refund">
+        select
+        <include refid="refundColumns">
+            <property name="alias" value="t"></property>
+        </include>
+        from sp_refund t where 1=1
+        <if test="id != null">
+            and t.id = #{id}
+        </if>
+        <if test="userId != null">
+            and t.user_id = #{userId}
+        </if>
+        <if test="state != null and state != ''">
+            and t.state = #{state}
+
+        </if>
+        order by t.create_at DESC
+        <if test="pageSize == -1 and offset >= -1">
+            LIMIT ALL OFFSET 0
+        </if>
+        <if test="pageSize >= 1 and offset >= 0">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+
+    </select>
+
+</mapper>

@@ -116,6 +116,11 @@ GET         /$lang<(cn|en|kr)>/comm/order/unpaidOrders                     contr
 POST        /comm/order/getLogistics                                       controllers.OrderCtrl.getLogistics(lang ="cn")
 POST        /$lang<(cn|en|kr)>/comm/order/getLogistics                     controllers.OrderCtrl.getLogistics(lang)
 GET         /get/logistics/:nu/:show/:order                                controllers.APICtrl.getLogisticsAPI(nu:String,show:String,order:String)
+GET         /comm/order/refundList                                         controllers.OrderCtrl.refundList(lang ="cn")
+GET         /$lang<(cn|en|kr)>/comm/order/refundList                       controllers.OrderCtrl.refundList(lang)
+POST        /comm/order/refund/search/$pageNum<[0-9]+>                     controllers.OrderCtrl.refundSearchAjax(lang ="cn",pageNum:Int)
+POST        /$lang<(cn|en|kr)>/comm/order/refund/search/$pageNum<[0-9]+>   controllers.OrderCtrl.refundSearchAjax(lang,pageNum:Int)
+
 
 
 

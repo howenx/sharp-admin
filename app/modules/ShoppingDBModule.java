@@ -39,6 +39,7 @@ public class ShoppingDBModule extends PrivateModule {
                 addMapperClass(OrderLineMapper.class);
                 addMapperClass(OrderSplitMapper.class);
                 addMapperClass(CouponsMapper.class);
+                addMapperClass(RefundMapper.class);
 
             }
         });
@@ -61,6 +62,7 @@ public class ShoppingDBModule extends PrivateModule {
         bind(OrderLineService.class).to(OrderLineServiceImpl.class);
         bind(OrderSplitService.class).to(OrderSplitServiceImpl.class);
         bind(CouponsService.class).to(CouponsServiceImpl.class);
+        bind(RefundService.class).to(RefundServiceImpl.class);
 
         //必须expose
         expose(OrderService.class);
@@ -68,6 +70,7 @@ public class ShoppingDBModule extends PrivateModule {
         expose(OrderLineService.class);
         expose(OrderSplitService.class);
         expose(CouponsService.class);
+        expose(RefundService.class);
     }
 
     @Singleton

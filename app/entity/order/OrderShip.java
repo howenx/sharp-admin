@@ -7,13 +7,13 @@ import java.io.Serializable;
  * Created by tiffany on 15/12/14.
  */
 public class OrderShip implements Serializable {
-    Long shipId;
-    Long orderId;               //订单Id
-    String deliveryName;        //收货人姓名
-    String deliveryTel;         //收货人电话
-    String deliveryCity;        //配送城市
-    String deliveryAddress;     //配送地址
-    String deliveryCardNum;     //用户身份证号
+    private Long shipId;
+    private Long orderId;               //订单Id
+    private String deliveryName;        //收货人姓名
+    private String deliveryTel;         //收货人电话
+    private String deliveryCity;        //配送城市
+    private String deliveryAddress;     //配送地址
+    private String deliveryCardNum;     //用户身份证号
 
     public OrderShip() {
     }
