@@ -124,6 +124,10 @@ GET         /comm/order/refund/detail/$id<[0-9]+>                          contr
 GET         /$lang<(cn|en|kr)>/comm/order/refund/detail/$id<[0-9]+>        controllers.OrderCtrl.refundDetail(lang,id:Long)
 POST        /comm/order/refund/deal                                        controllers.OrderCtrl.refundDeal(lang ="cn")
 POST        /$lang<(cn|en|kr)>/comm/order/refund/deal                      controllers.OrderCtrl.refundDeal(lang)
+GET         /comm/order/signedOrders                                       controllers.OrderCtrl.signedOrderList(lang ="cn")
+GET         /$lang<(cn|en|kr)>/comm/order/signedOrders                     controllers.OrderCtrl.signedOrderList(lang)
+POST        /comm/order/confirmReceive                                     controllers.OrderCtrl.orderConfirmReceive(lang ="cn")
+POST        /$lang<(cn|en|kr)>/comm/order/confirmReceive                   controllers.OrderCtrl.orderConfirmReceive(lang)
 
 
 

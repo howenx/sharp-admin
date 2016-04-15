@@ -3,6 +3,9 @@ package controllers;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import entity.*;
 import entity.order.*;
 import filters.UserAuth;
@@ -13,6 +16,7 @@ import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
 import service.*;
@@ -22,6 +26,9 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Created by tiffany on 16/1/8.
@@ -386,6 +393,21 @@ public class OrderCtrl extends Controller {
 
             //子订单物流
             //subOrderList.add(GetLogistics.sendGet(""));
+            String url = "http://172.28.3.51:9003/client/order/express/11122018895";
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                User userInfo = (User) ctx().args.get("user");
+                Request request = builder.url(url).build();
+                Response response = client.newCall(request).execute();
+                if(response.isSuccessful()){
+                    Logger.error(new String(response.body().bytes(), UTF_8));
+                }
+
+            }catch (Exception e){
+                Logger.error("订单物流获取失败!");
+                e.printStackTrace();
+            }
 
             //全部的子订单信息
             subOrdersAll.add(subOrderList);
@@ -395,7 +417,12 @@ public class OrderCtrl extends Controller {
         ID ClientUser = idService.getID(Integer.parseInt(order.getUserId().toString()));
         Object[] userObject = new Object[2];
         userObject[0] = order.getUserId();
-        userObject[1] = ClientUser.getPhoneNum();
+        if(ClientUser != null && ClientUser.getPhoneNum() != null){
+            userObject[1] = ClientUser.getPhoneNum();
+        }else{
+            userObject[1] = "";
+        }
+
         return ok(views.html.order.orderdetail.render(lang,orderArray,orderShip,subOrdersAll,ThemeCtrl.IMAGE_URL,userObject,(User) ctx().args.get("user")));
     }
 
@@ -566,7 +593,7 @@ public class OrderCtrl extends Controller {
             refund.setPageSize(-1);
             refund.setOffset(-1);
             //取总数
-            int countNum = refundService.getRefundOrders().size();
+            int countNum = refundService.getRefundOrderPage(refund).size();
             //共分几页
             int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
 
@@ -599,7 +626,6 @@ public class OrderCtrl extends Controller {
                 }else {
                     object[4] = "";
                 }
-                Logger.error(refundTemp.getState());
                 switch (refundTemp.getState()){
                     case "":
                         object[5] = "";
@@ -750,6 +776,95 @@ public class OrderCtrl extends Controller {
         return ok("success");
     }
 
+    /**
+     * 已签收订单列表      Added by Tiffany Zhu 2016.04.15
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result signedOrderList(String lang){
+        List<Order> orderList = orderService.getSignedOrders();
+        List<Order> resultList = new ArrayList<>();
+        for(Order order : orderList){
+            switch(order.getPayMethod()){
+                case "JD":
+                    order.setPayMethod("京东");
+                    break;
+                case "APAY":
+                    order.setPayMethod("支付宝");
+                    break;
+                case "WEIXIN":
+                    order.setPayMethod("微信");
+                    break;
+                default:
+                    order.setPayMethod("");
+            }
+            //订单状态
+            //当前时间减去24小时
+            Timestamp time = new Timestamp(System.currentTimeMillis() - 1*24*3600*1000L);
+            if(order.getOrderCreateAt().before(time) && "I".equals(order.getOrderStatus())){
+                order.setOrderStatus("订单已超时");
+            }
+            else{
+                switch (order.getOrderStatus()){
+                    case "I":
+                        order.setOrderStatus("未支付");
+                        break;
+                    case "S":
+                        order.setOrderStatus("支付成功");
+                        break;
+                    case "C":
+                        order.setOrderStatus("订单取消");
+                        break;
+                    case "F":
+                        order.setOrderStatus("支付失败");
+                        break;
+                    case "R":
+                        order.setOrderStatus("已签收");
+                        break;
+                    case "D":
+                        order.setOrderStatus("已发货");
+                        break;
+                    case "J":
+                        order.setOrderStatus("拒收");
+                        break;
+                    case "N":
+                        order.setOrderStatus("已删除");
+                        break;
+                    case "T":
+                        order.setOrderStatus("已退款");
+                        break;
+                    case "PI":
+                        order.setOrderStatus("拼购未支付");
+                        break;
+                    case "PS":
+                        order.setOrderStatus("拼购支付成功");
+                        break;
+                    case "PF":
+                        order.setOrderStatus("拼团失败未退款");
+                        break;
+                    default:
+                        order.setOrderStatus("");
+                }
+            }
+            resultList.add(order);
+        }
+        return ok(views.html.order.signedOrders.render(lang,resultList,(User) ctx().args.get("user")));
+    }
 
-
+    /**
+     * 确认收货     Added by Tiffany Zhu 2016.04.15
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result orderConfirmReceive(String lang){
+        JsonNode json = request().body().asJson();
+        Long ids[] = new Long[json.size()];
+        for(int i=0;i<json.size();i++){
+            ids[i] = (json.get(i)).asLong();
+        }
+        orderService.orderConfirmReceive(ids);
+        return ok("success");
+    }
 }

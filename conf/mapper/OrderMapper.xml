@@ -110,4 +110,20 @@
         order_status=#{orderStatus},updated_at=CURRENT_TIMESTAMP(0)
         where order_id = #{orderId}
     </update>
+
+    <select id="getSignedOrders" resultType="entity.order.Order">
+        select
+        <include refid="orderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_order t where 1=1 and t.order_status = 'R'
+    </select>
+
+    <update id="orderConfirmReceive" parameterType="java.util.Arrays">
+        update sp_order set order_status = 'S' where order_id in
+        <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
 </mapper>
