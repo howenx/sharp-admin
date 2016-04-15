@@ -85,4 +85,21 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.updateOrder(order);
     }
 
+    /**
+     * 获取已签收订单      Added by Tiffany Zhu 2016.04.15
+     * @return
+     */
+    @Override
+    public List<Order> getSignedOrders() {
+        return orderMapper.getSignedOrders();
+    }
+
+    /**
+     * 确认收货     Added by Tiffany Zhu 2016.04.15
+     * @param orderIds
+     */
+    @Override
+    public void orderConfirmReceive(Long[] orderIds) {
+        orderMapper.orderConfirmReceive(orderIds);
+    }
 }

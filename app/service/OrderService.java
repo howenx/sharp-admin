@@ -54,4 +54,16 @@ public interface OrderService {
      * @param order 订单
      */
     void updateOrder(Order order);
+
+    /**
+     * 获取已签收订单      Added by Tiffany Zhu 2016.04.15
+     * @return
+     */
+    List<Order> getSignedOrders();
+
+    /**
+     * 确认收货     Added by Tiffany Zhu 2016.04.15
+     * @param orderIds
+     */
+    void orderConfirmReceive(Long[] orderIds);
 }

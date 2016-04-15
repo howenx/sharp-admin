@@ -93,6 +93,56 @@ $(function(){
          }
      })
 
+     //确认收货     Added by Tiffany Zhu 2016.04.15
+     $("#confirm-receive").click(function(){
+        var isPost = true;
+                if($("input[name='outTimeOrder']:checked").length <= 0){
+                    isPost = false;
+                    alert("请选择订单!");
+                    return false;
+                }
+                if(confirm("确定确认收货?")){
+
+                }else{
+                    isPost = false;
+                    return false;
+                }
+                //被确认收货的订单ID
+                var cancelOrders = [];
+                $("input[name='outTimeOrder']:checked").each(function(){
+                    var clOrderNum = $(this).parents("tr").find("td:eq(1)").text();
+                    cancelOrders.push(clOrderNum);
+                    console.log(clOrderNum);
+                })
+
+                if(isPost){
+                    $.ajax({
+                        type :  "POST",
+                        url : "/"+window.lang+"/comm/order/confirmReceive",
+                        contentType: "application/json; charset=utf-8",
+                        data : JSON.stringify(cancelOrders),
+                        error : function(request) {
+                            if (window.lang = 'cn') {
+                                alert("确认收货失败!");
+                            } else {
+                                alert("Order confirmed failed!");
+                            }
+                        },
+                        success: function(data) {
+                            if (window.lang = 'cn') {
+                                alert("确认收货成功!");
+                            } else {
+                                alert("Order confirmed success!");
+                            }
+                        setTimeout("location.reload()", 1000);
+                        }
+                    });
+                }
+     })
+
+
+
+
 //     $(document).on("click",".check-logistics",function(){
 //        var expId = $("#exp-id").val();
 //        if(expId != 0){

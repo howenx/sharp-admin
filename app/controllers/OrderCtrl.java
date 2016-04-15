@@ -397,9 +397,8 @@ public class OrderCtrl extends Controller {
             try {
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                // builder.addHeader("id-token", (User) ctx().args.get("user"))); 
+                User userInfo = (User) ctx().args.get("user");
                 Request request = builder.url(url).build();
-                client.setConnectTimeout(10, TimeUnit.SECONDS);
                 Response response = client.newCall(request).execute();
                 if(response.isSuccessful()){
                     Logger.error(new String(response.body().bytes(), UTF_8));
@@ -777,6 +776,95 @@ public class OrderCtrl extends Controller {
         return ok("success");
     }
 
+    /**
+     * 已签收订单列表      Added by Tiffany Zhu 2016.04.15
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result signedOrderList(String lang){
+        List<Order> orderList = orderService.getSignedOrders();
+        List<Order> resultList = new ArrayList<>();
+        for(Order order : orderList){
+            switch(order.getPayMethod()){
+                case "JD":
+                    order.setPayMethod("京东");
+                    break;
+                case "APAY":
+                    order.setPayMethod("支付宝");
+                    break;
+                case "WEIXIN":
+                    order.setPayMethod("微信");
+                    break;
+                default:
+                    order.setPayMethod("");
+            }
+            //订单状态
+            //当前时间减去24小时
+            Timestamp time = new Timestamp(System.currentTimeMillis() - 1*24*3600*1000L);
+            if(order.getOrderCreateAt().before(time) && "I".equals(order.getOrderStatus())){
+                order.setOrderStatus("订单已超时");
+            }
+            else{
+                switch (order.getOrderStatus()){
+                    case "I":
+                        order.setOrderStatus("未支付");
+                        break;
+                    case "S":
+                        order.setOrderStatus("支付成功");
+                        break;
+                    case "C":
+                        order.setOrderStatus("订单取消");
+                        break;
+                    case "F":
+                        order.setOrderStatus("支付失败");
+                        break;
+                    case "R":
+                        order.setOrderStatus("已签收");
+                        break;
+                    case "D":
+                        order.setOrderStatus("已发货");
+                        break;
+                    case "J":
+                        order.setOrderStatus("拒收");
+                        break;
+                    case "N":
+                        order.setOrderStatus("已删除");
+                        break;
+                    case "T":
+                        order.setOrderStatus("已退款");
+                        break;
+                    case "PI":
+                        order.setOrderStatus("拼购未支付");
+                        break;
+                    case "PS":
+                        order.setOrderStatus("拼购支付成功");
+                        break;
+                    case "PF":
+                        order.setOrderStatus("拼团失败未退款");
+                        break;
+                    default:
+                        order.setOrderStatus("");
+                }
+            }
+            resultList.add(order);
+        }
+        return ok(views.html.order.signedOrders.render(lang,resultList,(User) ctx().args.get("user")));
+    }
 
-
+    /**
+     * 确认收货     Added by Tiffany Zhu 2016.04.15
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result orderConfirmReceive(String lang){
+        JsonNode json = request().body().asJson();
+        Long ids[] = new Long[json.size()];
+        for(int i=0;i<json.size();i++){
+            ids[i] = (json.get(i)).asLong();
+        }
+        orderService.orderConfirmReceive(ids);
+        return ok("success");
+    }
 }
