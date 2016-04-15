@@ -93,24 +93,24 @@ $(function(){
          }
      })
 
-     $(document).on("click",".check-logistics",function(){
-        var expId = $("#exp-id").val();
-        if(expId != 0){
-            $.ajax({
-                  type :  "POST",
-                  url : "/"+window.lang+"/comm/order/getLogistics",
-                  contentType: "application/json; charset=utf-8",
-                  data : JSON.stringify(expId),
-                  error : function(request) {
-
-                  },
-                  success: function(data) {
-                     console.log(data);
-
-                  }
-            });
-        }
-     })
+//     $(document).on("click",".check-logistics",function(){
+//        var expId = $("#exp-id").val();
+//        if(expId != 0){
+//            $.ajax({
+//                  type :  "POST",
+//                  url : "/"+window.lang+"/comm/order/getLogistics",
+//                  contentType: "application/json; charset=utf-8",
+//                  data : JSON.stringify(expId),
+//                  error : function(request) {
+//
+//                  },
+//                  success: function(data) {
+//                     console.log(data);
+//
+//                  }
+//            });
+//        }
+//     })
 
 
 })

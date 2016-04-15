@@ -115,13 +115,13 @@
             <div class="col-sm-6">
                 <span>支付状态:</span>
                 <input type="text" value="@orderDetail(6)" disabled>
-                <!--
+
                 @if(orderDetail(6) == "订单已超时"){
                 <button type="button" id="orderCancel" class="btn btn-primary btn-sm pull-right check-logistics">
                     取消订单
                 </button>
                 }
-                -->
+
             </div>
         </div>
 
@@ -146,7 +146,7 @@
             </div>
             <div class="col-sm-6">
                 <span>运单号:</span>
-                <input type="text" id="exp-id" value="@part1Detail(4)">
+                <input type="text" id="exp-id" value="@part1Detail(4)" disabled>
             </div>
         </div>
 
@@ -158,12 +158,12 @@
             <div class="col-sm-11">
                 <button type="button" class="btn btn-primary btn-sm pull-right check-logistics">
                     查看物流
-                    <!--<div class="logistics-info">-->
-                        <!--<h6>订单结束</h6>-->
-                        <!--<h6>已运送到-&#45;&#45;</h6>-->
-                        <!--<h6>已揽件-&#45;&#45;</h6>-->
-                        <!--<h6>已发货</h6>-->
-                    <!--</div>-->
+                    <div class="logistics-info">
+                        <h6>订单结束</h6>
+                        <h6>已运送到---</h6>
+                        <h6>已揽件---</h6>
+                        <h6>已发货</h6>
+                    </div>
                 </button>
             </div>
         </div>
