@@ -407,11 +407,10 @@ public class OrderCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result orderCancel(String lang){
         JsonNode json = request().body().asJson();
-        Logger.error(json.toString());
+        Logger.error("取消订单:"+ json.toString());
         Long ids[] = new Long[json.size()];
         for(int i=0;i<json.size();i++){
             ids[i] = (json.get(i)).asLong();
-            Logger.error(ids[i].toString());
         }
         orderService.orderCancel(ids);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
@@ -428,8 +427,6 @@ public class OrderCtrl extends Controller {
         List<Order> orderList = orderService.getOutTimeOrders();
         for(Order order : orderList) {
             Object[] object = new Object[6];
-            Logger.error(order.toString());
-            Logger.error(order.getOrderId().toString());
             object[0] = order.getOrderId();
             object[1] = order.getUserId();
             object[2] = order.getOrderCreateAt();
@@ -502,25 +499,37 @@ public class OrderCtrl extends Controller {
             }else{
                 object[3] = "";
             }
-            object[4] = refund.getCreateAt();
+            if(refund.getCreateAt() != null){
+                object[4] = refund.getCreateAt().toString().substring(0,16);
+            }else{
+                object[4] = "";
+            }
+
             switch (refund.getState()){
+                case "":
+                    object[5] = "";
+                    break;
                 case "I":
                     object[5] = "申请中";
+                    break;
                 case "A":
                     object[5] = "同意退货";
+                    break;
                 case "R":
                     object[5] = "拒绝退货";
+                    break;
                 case "Y":
                     object[5] = "退款成功";
+                    break;
                 case "N":
                     object[5] = "退款失败";
-//                default:
-//                    object[5] = "";
+                    break;
+                default:
+                    object[5] = "";
             }
             object[6] = refund.getReason();
             resultList.add(object);
         }
-
         return ok(views.html.order.refund.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,resultList,(User) ctx().args.get("user")));
 
     }
@@ -538,7 +547,6 @@ public class OrderCtrl extends Controller {
         if(json.has("refund")){
             refund = Json.fromJson(json.get("refund"),Refund.class);
         }
-        Logger.error(refund.toString());
         if(json.has("userPhone")){
             String userPhone = json.get("userPhone").asText();
             if(!userPhone.equals("")){
@@ -587,24 +595,32 @@ public class OrderCtrl extends Controller {
                     object[3] = "";
                 }
                 if(refundTemp.getCreateAt() != null){
-                    object[4] = refundTemp.getCreateAt();
+                    object[4] = refundTemp.getCreateAt().toString().substring(0,16);
                 }else {
                     object[4] = "";
                 }
-
+                Logger.error(refundTemp.getState());
                 switch (refundTemp.getState()){
+                    case "":
+                        object[5] = "";
+                        break;
                     case "I":
                         object[5] = "申请中";
+                        break;
                     case "A":
                         object[5] = "同意退货";
+                        break;
                     case "R":
                         object[5] = "拒绝退货";
+                        break;
                     case "Y":
                         object[5] = "退款成功";
+                        break;
                     case "N":
                         object[5] = "退款失败";
-//                default:
-//                    object[5] = "";
+                        break;
+                default:
+                    object[5] = "";
                 }
                 object[6] = refundTemp.getReason();
                 resultList.add(object);
@@ -720,7 +736,6 @@ public class OrderCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result refundDeal(String lang){
         JsonNode json = request().body().asJson();
-        Logger.error(json.toString());
         Long id = json.get("refundId").asLong();
         String refuseReason = json.get("reasonContent").asText();
         String refundState = json.get("response").asText();
