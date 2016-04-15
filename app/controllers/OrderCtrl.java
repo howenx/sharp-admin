@@ -3,6 +3,9 @@ package controllers;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import entity.*;
 import entity.order.*;
 import filters.UserAuth;
@@ -13,6 +16,7 @@ import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
 import service.*;
@@ -22,6 +26,9 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Created by tiffany on 16/1/8.
@@ -386,6 +393,22 @@ public class OrderCtrl extends Controller {
 
             //子订单物流
             //subOrderList.add(GetLogistics.sendGet(""));
+            String url = "http://172.28.3.51:9003/client/order/express/11122018895";
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                // builder.addHeader("id-token", (User) ctx().args.get("user"))); 
+                Request request = builder.url(url).build();
+                client.setConnectTimeout(10, TimeUnit.SECONDS);
+                Response response = client.newCall(request).execute();
+                if(response.isSuccessful()){
+                    Logger.error(new String(response.body().bytes(), UTF_8));
+                }
+
+            }catch (Exception e){
+                Logger.error("订单物流获取失败!");
+                e.printStackTrace();
+            }
 
             //全部的子订单信息
             subOrdersAll.add(subOrderList);
@@ -395,7 +418,12 @@ public class OrderCtrl extends Controller {
         ID ClientUser = idService.getID(Integer.parseInt(order.getUserId().toString()));
         Object[] userObject = new Object[2];
         userObject[0] = order.getUserId();
-        userObject[1] = ClientUser.getPhoneNum();
+        if(ClientUser != null && ClientUser.getPhoneNum() != null){
+            userObject[1] = ClientUser.getPhoneNum();
+        }else{
+            userObject[1] = "";
+        }
+
         return ok(views.html.order.orderdetail.render(lang,orderArray,orderShip,subOrdersAll,ThemeCtrl.IMAGE_URL,userObject,(User) ctx().args.get("user")));
     }
 
