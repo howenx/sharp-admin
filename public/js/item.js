@@ -32,9 +32,16 @@ $(function(){
         $('.usercenter-option > .user-state').text('已更改');
     });
 
-	/** 点击返回按钮,返回到列表查询页面 **/
+	/** 详细页点击返回按钮,返回到列表查询页面 **/
 	$("#return").on("click", function() {
 	    location.href="/"+window.lang+"/comm/search";
+
+	});
+
+	/** 修改页点击返回按钮,返回到详细页面 **/
+	$("#return_detail").on("click", function() {
+	    var itemId = $("#itemId").val();
+	    location.href="/"+window.lang+"/comm/findById/"+itemId;
 	});
 
     /** 一级类别改变重新加载二级类别 **/

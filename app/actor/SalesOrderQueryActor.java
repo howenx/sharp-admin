@@ -36,6 +36,7 @@ public class SalesOrderQueryActor extends AbstractActor {
     @Inject
     public SalesOrderQueryActor(ShopOrderMiddle shopOrderMiddle) {
         receive(ReceiveBuilder.match(Long.class, orderId -> {
+            Logger.error("在ERP中查询订单 "+orderId);
             JsonNode jsonNode = null;
             OrderSplit orderSplit = orderSplitService.getSplitByOrderId(orderId).get(0);
             List<Object> salesOrderList = shopOrderMiddle.salesOrderQuery(orderId.toString());
@@ -50,9 +51,9 @@ public class SalesOrderQueryActor extends AbstractActor {
                 String userDefinedField2 = jsonNode.get("userDefinedField2").asText();  //自定义字段2(海关状态)
                 //根据子订单的报关单位判断哪个自定义字段的推送状态
                 //报关成功且海关返回物流单号,更新快递单号到
-                if (("已推送".equals(userDefinedField1) || "已推送".equals(userDefinedField2)) && "审核通过".equals(userDefinedField4) && !"".equals(expressTrackNo)) {
+                if (orderStatus==60   &&   !"".equals(expressTrackNo)) {
                     //更新子订单状态,物流信息
-                    orderSplit.setState("S");//报关成功
+                    //orderSplit.setState("S");//报关成功
                     orderSplit.setExpressCode(expressCode);//快递公司代码
                     orderSplit.setExpressNm(expressName);//快递公司名称
                     orderSplit.setExpressNum(expressTrackNo);//快递单号
@@ -61,6 +62,8 @@ public class SalesOrderQueryActor extends AbstractActor {
                     Order order = orderService.getOrderById(orderId);
                     order.setOrderStatus("D");
                     orderService.updateOrder(order);
+                    Logger.error("订单....."+order.toString());
+                    Logger.error("子订单信息....."+orderSplit.toString());
                     //取消schedule
                     if (levelFactory.map.containsKey(orderId)) {
                         Persist p = levelFactory.map.get(orderId);
