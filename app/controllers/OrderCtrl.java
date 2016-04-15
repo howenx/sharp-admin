@@ -566,7 +566,7 @@ public class OrderCtrl extends Controller {
             refund.setPageSize(-1);
             refund.setOffset(-1);
             //取总数
-            int countNum = refundService.getRefundOrders().size();
+            int countNum = refundService.getRefundOrderPage(refund).size();
             //共分几页
             int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
 
@@ -599,7 +599,6 @@ public class OrderCtrl extends Controller {
                 }else {
                     object[4] = "";
                 }
-                Logger.error(refundTemp.getState());
                 switch (refundTemp.getState()){
                     case "":
                         object[5] = "";
