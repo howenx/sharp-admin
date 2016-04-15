@@ -167,7 +167,8 @@
         $("input[name='selectOrder']:checked").each(function(){
             var orderId = $(this).parents("tr").find("td:eq(1)").find("a:eq(0)").text();
             var state = $(this).parents("tr").find("td:eq(9)").find("input:eq(0)").val();
-            if (state!="S" && state!="PS") {
+            //订单成功的才可以推送
+            if (state!="S") {
                 isPost = false;
                 errOrders = errOrders + orderId + ",";
             } else exportOrders.push(orderId);

@@ -1,20 +1,26 @@
 package controllers;
 
+import akka.actor.ActorRef;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import com.iwilley.b1ec2.api.ApiException;
 import middle.ShopOrderMiddle;
+import modules.NewScheduler;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import scala.concurrent.duration.Duration;
 import service.IDService;
 import service.OrderLineService;
 import service.OrderService;
 import service.OrderShipService;
 
+import javax.inject.Named;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Sunny Wu 16/3/9.
@@ -32,6 +38,13 @@ public class ShopOrderCtrl extends Controller {
 
     public static final Integer ORDER_QUERY_INTERVAL = Integer.parseInt(play.Play.application().configuration().getString("shop.order.query.interval"));
     public static final Integer ORDER_QUERY_DELAY = Integer.parseInt(play.Play.application().configuration().getString("shop.order.query.delay"));
+
+    @javax.inject.Inject
+    private NewScheduler scheduler;
+
+    @javax.inject.Inject
+    @Named("salesOrderQueryActor")
+    private ActorRef salesOrderQueryActor;
 
     @Inject
     private ShopOrderMiddle shopOrderMiddle;
@@ -51,15 +64,17 @@ public class ShopOrderCtrl extends Controller {
      */
     public Result shopOrderPush() throws ApiException, ParseException {
         JsonNode json = request().body().asJson();
-        Long orderIds[] = new Long[json.size()];
         List<String> shopOrderCodeList = new ArrayList<>();
         for(int i=0;i<json.size();i++) {
-            orderIds[i] = (json.get(i)).asLong();
+            Long orderId = (json.get(i)).asLong();
             //推送之前先查询,先从ERP查询该订单若已存在则不推送
             String shopOrderNo = "";
-            List<Object> salesOrderList = shopOrderMiddle.salesOrderQuery(orderIds[i].toString());
+            List<Object> salesOrderList = shopOrderMiddle.salesOrderQuery(orderId.toString());
             if ((null == salesOrderList) ||  salesOrderList.size()==0) {
-                shopOrderNo = shopOrderMiddle.shopOrderPush(orderIds[i]);
+                shopOrderNo = shopOrderMiddle.shopOrderPush(orderId);
+                Logger.error("order"+shopOrderNo+":push to ERP");
+                //启动ERP查询订单的schedule
+                scheduler.schedule(Duration.create(ShopOrderCtrl.ORDER_QUERY_DELAY, TimeUnit.MILLISECONDS),Duration.create(ShopOrderCtrl.ORDER_QUERY_INTERVAL, TimeUnit.MILLISECONDS),salesOrderQueryActor,orderId);
                 shopOrderCodeList.add(shopOrderNo);
             }
         }
