@@ -392,21 +392,11 @@ public class OrderCtrl extends Controller {
             subOrderList.add(subOrderPart2);
 
             //子订单物流
-            //subOrderList.add(GetLogistics.sendGet(""));
-            String url = "http://172.28.3.51:9003/client/order/express/11122018895";
-            try {
-                OkHttpClient client = new OkHttpClient();
-                Request.Builder builder = new Request.Builder();
-                User userInfo = (User) ctx().args.get("user");
-                Request request = builder.url(url).build();
-                Response response = client.newCall(request).execute();
-                if(response.isSuccessful()){
-                    Logger.error(new String(response.body().bytes(), UTF_8));
-                }
-
-            }catch (Exception e){
-                Logger.error("订单物流获取失败!");
-                e.printStackTrace();
+            JsonNode json = GetLogistics.sendGet("12837698789","jd");
+            //JsonNode json = GetLogistics.sendGet(orderSplit.getExpressNum(),"jd");
+            if(json != null){
+                Logger.error(json.toString());
+                //subOrderList.add();
             }
 
             //全部的子订单信息
@@ -476,21 +466,6 @@ public class OrderCtrl extends Controller {
 
         }
         return ok(views.html.order.outTimeUnpaidOrders.render(lang,orList,(User) ctx().args.get("user")));
-    }
-
-    /**
-     * 获取物流信息   Added by Tiffany Zhu 2016.03.29
-     * @param lang
-     * @return
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result getLogistics(String lang){
-        JsonNode json = request().body().asJson();
-        String nu = json.asText();
-        String show = "0";
-        String order = "";
-        String logisticsJson = GetLogistics.sendGet(nu,show,order);
-        return ok(Json.toJson(logisticsJson));
     }
 
     /**
