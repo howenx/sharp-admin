@@ -96,6 +96,9 @@ $(function() {
 		var commDto = new Object();
 		commDto.id = $("#sku-id").val();
 		commDto.invTitle = $("#sku-title").val();
+		commDto.invCode = $("#inv-code").val();
+		commDto.invArea = $("#inv-area").val();
+		commDto.state = $("#state").val();
 		commDto.startAt = $("#item-form-starttime").val();
         commDto.endAt = $("#item-form-endtime").val();
         //起止时间如果为空
@@ -125,6 +128,7 @@ $(function() {
 		//填充列表数据
 		$(data).each(function(index, element) {
 			var state = "";
+			var invArea = "";
 			var orMasterInv = "";
             if($(this)[0].state=="Y"){state="正常"}
             if($(this)[0].state=="D"){state="下架"}
@@ -133,6 +137,13 @@ $(function() {
             if($(this)[0].state=="P"){state="预售"}
             if($(this)[0].orMasterInv==true){orMasterInv="是"}
             if($(this)[0].orMasterInv==false){orMasterInv="否"}
+            if($(this)[0].invArea=="H"){invArea="杭州保税仓备案"}
+            if($(this)[0].invArea=="HZ"){invArea="杭州保税仓直邮"}
+            if($(this)[0].invArea=="G"){invArea="广州保税仓备案"}
+            if($(this)[0].invArea=="GZ"){invArea="广州保税仓直邮"}
+            if($(this)[0].invArea=="S"){invArea="上海保税仓备案"}
+            if($(this)[0].invArea=="SZ"){invArea="上海保税仓直邮"}
+            if($(this)[0].invArea=="K"){invArea="海外直邮"}
             $('#tb-topic').find('tbody').append('' +
                 '<tr class="tb-list-data">' +
                 '<td><input type="checkbox" name="selectItem"></td>' +
@@ -143,6 +154,8 @@ $(function() {
                 '</td>' +
                 '<td>' + $(this)[0].itemColor + '</td>' +
                 '<td>' + $(this)[0].itemSize + '</td>' +
+                '<td>' + $(this)[0].invCode + '</td>' +
+                '<td>' + invArea + '</td>' +
                 '<td>' + ($(this)[0].startAt != null && $(this)[0].startAt != '' ? $(this)[0].startAt.substr(0, 19) : '') + '</td>}' +
                 '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 19) : '') + '</td>}' +
                 '<td>' + $(this)[0].restAmount + '</td>' +

@@ -42,7 +42,7 @@
     <update id="updateSplitOrder" parameterType="entity.order.OrderSplit">
         update order_split
         set
-        state=#{state},express_num=#{expressNum},express_code=#{expressCode},expressNm=#{expressNm},
+        state=#{state},express_num=#{expressNum},express_code=#{expressCode},express_nm=#{expressNm}
         where order_id = #{orderId}
     </update>
 

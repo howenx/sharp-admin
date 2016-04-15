@@ -18,6 +18,7 @@ import play.mvc.Security;
 import service.*;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -91,7 +92,8 @@ public class ItemCtrl extends Controller {
         for(Inventory inv : inventoryList) {
             inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
         }
-        return ok(views.html.item.itemsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,inventoryList,(User) ctx().args.get("user")));
+        Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
+        return ok(views.html.item.itemsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,inventoryList,(User) ctx().args.get("user"), area));
     }
 
     /**
@@ -167,7 +169,7 @@ public class ItemCtrl extends Controller {
         //包含modelName的库存列表
         List<Object[]> invList = new ArrayList<>();
         for(Inventory inventory : inventories) {
-            Object[] object = new Object[24];
+            Object[] object = new Object[25];
             object[0] = inventory.getOrMasterInv();
             object[1] = inventory.getItemColor();
             object[2] = inventory.getItemSize();
@@ -195,7 +197,22 @@ public class ItemCtrl extends Controller {
             object[21] = inventory.getEndAt();
             object[22] = inventory.getSoldAmount();
             object[23] = inventory.getOrVaryPrice();
-//            Logger.error("剩余库存:"+object[9].toString());
+            object[24] = "";
+            if (object[23].toString().equals("true")) {
+                VaryPrice varyPrice = new VaryPrice();
+                varyPrice.setInvId(inventory.getId());
+                String p_a = "";
+                List<VaryPrice> varyPriceList = varyPriceService.getVaryPriceBy(varyPrice);
+                for(int i=0; i<varyPriceList.size(); i++) {
+                    JsonNode jsonNode = Json.toJson(varyPriceList.get(i));
+                    VaryPrice vp = Json.fromJson(jsonNode, VaryPrice.class);
+                    BigDecimal price = vp.getPrice();
+                    Integer limitAmount = vp.getLimitAmount();
+                    p_a += price.toString() + "," + limitAmount.toString() + "_";
+                }
+                p_a = p_a.substring(0, p_a.length()-1);
+                object[24] = p_a;
+            }
             invList.add(object);
         }
         return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,(User) ctx().args.get("user"),customs,area));

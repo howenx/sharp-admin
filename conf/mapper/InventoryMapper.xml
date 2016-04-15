@@ -107,6 +107,15 @@
         <if test='invTitle != null and invTitle != "null" and invTitle != "" '>
             and t.inv_title like '%${invTitle}%'
         </if>
+        <if test='invCode != null and invCode != "null" and invCode != "" '>
+            and t.inv_code = #{invCode}
+        </if>
+        <if test='invArea != null and invArea != "null" and invArea != "" '>
+            and t.inv_area = #{invArea}
+        </if>
+        <if test='state != null and state != "null" and state != "" '>
+            and t.state = #{state}
+        </if>
         <if test="startAt != null">
             and t.start_at &gt;= #{startAt} ::timestamp
         </if>

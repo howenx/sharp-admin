@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",url:String,pageSize:Integer,countNum:Integer,pageCount:Integer,invs:List[entity.Inventory],user:entity.User)
+@(lang:String="cn",url:String,pageSize:Integer,countNum:Integer,pageCount:Integer,invs:List[entity.Inventory],user:entity.User, area:Map[String,String])
 @scripts = {
 <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
 <link rel="stylesheet" href="/assets/css/search.css">
@@ -46,34 +46,62 @@
     <form class="form-horizontal">
         <div class="form-group">
             <!--sku id-->
-            <label class="col-sm-2 control-label">SKU ID</label>
-            <div class="col-sm-4">
+            <label class="col-sm-1 control-label">SKU ID</label>
+            <div class="col-sm-3">
                 <input id = "sku-id" type="number" min="10000" max="99999999" class="form-control"/>
             </div>
             <!--sku 标题-->
-            <label class="col-sm-2 control-label">SKU 标题</label>
-            <div class="col-sm-4">
+            <label class="col-sm-1 control-label">SKU 标题</label>
+            <div class="col-sm-3">
                 <input id = "sku-title" type="text" class="form-control"/>
+            </div>
+            <!--规格编号-->
+            <label class="col-sm-1 control-label">规格编号</label>
+            <div class="col-sm-3">
+                <input id = "inv-code" type="text" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
             <!--上架-->
-            <label class="col-sm-2 control-label">上架时间</label>
-            <div class="col-sm-4">
+            <label class="col-sm-1 control-label">上架时间</label>
+            <div class="col-sm-3">
                 <div id="datetimepicker-starttime" class="input-group date">
                     <input id="item-form-starttime" class="form-control col-sm-2"  type="text">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
             </div>
             <!--下架-->
-            <label class="col-sm-2 control-label">下架时间</label>
-            <div class="col-sm-4">
+            <label class="col-sm-1 control-label">下架时间</label>
+            <div class="col-sm-3">
                 <div id="datetimepicker-endtime" class="input-group date">
                     <input id="item-form-endtime" class="form-control col-sm-2"  type="text">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
             </div>
+            <!--库存区域-->
+            <label class="col-sm-1 control-label">库存区域</label>
+            <div class="col-sm-3">
+                <select class="form-control" id="inv-area">
+                    <option value=""></option>
+                    @for(a <- area) {
+                    <option value='@a.toString.substring(1,a.toString.length-1).split(",")(0)'>@a.toString.substring(1,a.toString.length-1).split(",")(1)</option>
+                    }
+                </select>
+            </div>
         </div>
+        <div class="form-group">
+            <!--状态-->
+            <label class="col-sm-1 control-label">状态</label>
+            <div class="col-sm-3">
+                <select class="form-control" id="state">
+                    <option value=""></option>
+                    <option value="P">预售</option>
+                    <option value="Y">正常</option>
+                    <option value="D">下架</option>
+                </select>
+            </div>
+
+            </div>
 
 	    <div class="btn-s">
 			<input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
@@ -92,6 +120,8 @@
                     <th>主图</th>
                     <th>颜色</th>
                     <th>尺寸</th>
+                    <th>规格编号</th>
+                    <th>库存区域</th>
                     <th>上架时间</th>
                     <th>下架时间</th>
                     <th>剩余库存</th>
@@ -111,6 +141,16 @@
                         </td>
                         <td>@inv.getItemColor()</td>
                         <td>@inv.getItemSize()</td>
+                        <td>@inv.getInvCode()</td>
+                        <td>
+                            @if(inv.getInvArea()=="H"){杭州保税仓备案}
+                            @if(inv.getInvArea()=="HZ"){杭州保税仓直邮}
+                            @if(inv.getInvArea()=="G"){广州保税仓备案}
+                            @if(inv.getInvArea()=="GZ"){广州保税仓直邮}
+                            @if(inv.getInvArea()=="S"){上海保税仓备案}
+                            @if(inv.getInvArea()=="SZ"){上海保税仓直邮}
+                            @if(inv.getInvArea()=="K"){海外直邮}
+                        </td>
                         <td>@if(inv.getStartAt()!=null){@(inv.getStartAt().toString().substring(0,19))}</td>
                         <td>@if(inv.getEndAt()!=null){@(inv.getEndAt().toString().substring(0,19))}</td>
                         <td>@inv.getRestAmount()</td>
@@ -128,7 +168,7 @@
                         </td>
                     </tr>
                 }
-                <tr id="nodata-td" style="display:none;"><td colspan="9">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+                <tr id="nodata-td" style="display:none;"><td colspan="13">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
 

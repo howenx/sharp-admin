@@ -36,7 +36,7 @@ public class SalesOrderQueryActor extends AbstractActor {
     @Inject
     public SalesOrderQueryActor(ShopOrderMiddle shopOrderMiddle) {
         receive(ReceiveBuilder.match(Long.class, orderId -> {
-            Logger.error("在ERP中查询订单 "+orderId);
+            Logger.debug("在ERP中查询订单 "+orderId);
             JsonNode jsonNode = null;
             OrderSplit orderSplit = orderSplitService.getSplitByOrderId(orderId).get(0);
             List<Object> salesOrderList = shopOrderMiddle.salesOrderQuery(orderId.toString());
@@ -62,8 +62,8 @@ public class SalesOrderQueryActor extends AbstractActor {
                     Order order = orderService.getOrderById(orderId);
                     order.setOrderStatus("D");
                     orderService.updateOrder(order);
-                    Logger.error("订单....."+order.toString());
-                    Logger.error("子订单信息....."+orderSplit.toString());
+//                    Logger.error("订单....."+order.toString());
+//                    Logger.error("子订单信息....."+orderSplit.toString());
                     //取消schedule
                     if (levelFactory.map.containsKey(orderId)) {
                         Persist p = levelFactory.map.get(orderId);
