@@ -39,6 +39,7 @@
             "display": "none"
         });
     });
+
 </script>
 }
 
@@ -211,9 +212,26 @@
                                         @if(obj(16)== "P") {预售}
                                     </td>
                                     <td>
-                                        @if(obj(23)== true) {<a class="vp" style="color:blue;cursor:pointer;">是</a>}
+                                        @if(obj(23)== true) {<a class="vp" style="color:blue;cursor:pointer;" onmouseover="showVP()">是</a>}
                                         @if(obj(23)== false) {否}
+                                        <div style="display:none;">
+                                            <table>
+                                                @if(obj(23)==true && obj(24)!="") {
+                                                <tr>
+                                                    <th>销售价格</th>
+                                                    <th>限制数量</th>
+                                                </tr>
+                                                @for(pa <- obj(24).toString().split("_")) {
+                                                <tr>
+                                                    <td>@pa.toString.split(",")(0)</td>
+                                                    <td>@pa.toString.split(",")(1)</td>
+                                                </tr>
+                                                }
+                                                }
+                                            </table>
+                                        </div>
                                     </td>
+
                                 </tr>
                             }
                         </table>
@@ -317,12 +335,6 @@
     </div>
 </div>
 
-<div style="display:none;">
-    <table>
-
-    </table>
-
-</div>
 }
 
 <script>
@@ -349,4 +361,18 @@
 	    location.href="/"+window.lang+"/comm/search";
 	});
 
+    function showVP() {
+        <!--var aa = $(this).next();-->
+        <!--console.log($(this));-->
+        <!--console.log($(this).html());-->
+        <!--console.log($(this).next());-->
+        <!--$(this).next().css("display","block");-->
+    }
+
+    $(".vp").hover(function() {
+        $(this).next().css("display","block");
+    },
+    function() {
+         $(this).next().css("display","none");
+    });
 </script>
