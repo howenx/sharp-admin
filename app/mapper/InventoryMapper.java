@@ -1,7 +1,7 @@
 package mapper;
 
-import entity.Inventory;
-import entity.Skus;
+import domain.Inventory;
+import domain.Skus;
 
 import java.util.List;
 

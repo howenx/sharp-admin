@@ -1,9 +1,9 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import entity.Slider;
-import entity.Theme;
-import entity.ThemeTemplate;
+import domain.Slider;
+import domain.Theme;
+import domain.ThemeTemplate;
 
 import java.util.List;
 

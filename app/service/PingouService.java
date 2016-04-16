@@ -1,7 +1,6 @@
 package service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import entity.pingou.*;
+import domain.pingou.*;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,7 +1,7 @@
 package middle;
 
 import com.aliyun.oss.model.ObjectMetadata;
-import entity.VersionVo;
+import domain.VersionVo;
 import modules.OSSClientProvider;
 import play.Configuration;
 import play.Logger;

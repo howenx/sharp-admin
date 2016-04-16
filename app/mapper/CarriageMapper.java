@@ -1,6 +1,6 @@
 package mapper;
 
-import entity.Carriage;
+import domain.Carriage;
 
 import java.util.List;
 

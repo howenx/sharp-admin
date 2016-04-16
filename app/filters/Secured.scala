@@ -1,7 +1,7 @@
 package filters
 
 import controllers.routes
-import entity.User
+import domain.User
 import play.api.Logger
 import play.api.Play.current
 import play.api.cache.Cache

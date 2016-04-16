@@ -6,7 +6,7 @@ import javax.inject.{Inject, Named, Singleton}
 
 import actor.OSS
 import akka.actor.ActorRef
-import entity.{Prod, Prod_Type, User_Type}
+import domain.{Prod, Prod_Type, User_Type}
 import filters.{UserAuth, Secured}
 import modules.OSSClientProvider
 import org.apache.poi.ss.usermodel.Cell

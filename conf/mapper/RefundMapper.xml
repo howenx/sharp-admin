@@ -29,7 +29,7 @@
        ${alias}.pg_code
    </sql>
 
-    <select id="getRefundOrders" resultType="entity.Refund">
+    <select id="getRefundOrders" resultType="domain.RefundTemp">
         select
         <include refid="refundColumns">
             <property name="alias" value="t"/>
@@ -37,7 +37,7 @@
         from sp_refund t where 1=1
     </select>
 
-    <select id="getRefundOrderPage" parameterType="entity.Refund" resultType="entity.Refund">
+    <select id="getRefundOrderPage" parameterType="domain.RefundTemp" resultType="domain.RefundTemp">
         select
         <include refid="refundColumns">
             <property name="alias" value="t"></property>
@@ -63,7 +63,14 @@
 
     </select>
 
-    <select id="getRefundById" parameterType="java.lang.Long" resultType="entity.Refund">
+    <select id="getRefundById" parameterType="java.lang.Long" resultType="domain.RefundTemp">
+        select
+        <include refid="refundColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_refund t where 1=1 and t.id = #{id}
+    </select>
+    <select id="getRefundServiceById" parameterType="java.lang.Long" resultType="domain.Refund">
         select
         <include refid="refundColumns">
             <property name="alias" value="t"/>
@@ -71,7 +78,7 @@
         from sp_refund t where 1=1 and t.id = #{id}
     </select>
 
-    <update id="updRefund" parameterType="entity.Refund">
+    <update id="updRefund" parameterType="domain.RefundTemp">
             update sp_refund
             set state = #{state}
         <if test="rejectReason != null and rejectReason != ''">

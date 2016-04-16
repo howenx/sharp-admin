@@ -1,6 +1,6 @@
 package service;
 
-import entity.VaryPrice;
+import domain.VaryPrice;
 import mapper.VaryPriceMapper;
 
 import javax.inject.Inject;

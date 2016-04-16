@@ -1,6 +1,6 @@
 package service;
 
-import entity.SubjectPrice;
+import domain.SubjectPrice;
 import mapper.SubjectPriceMapper;
 import javax.inject.Inject;
 import java.util.List;

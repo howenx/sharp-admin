@@ -1,6 +1,6 @@
 package mapper;
 
-import entity.Coupons;
+import domain.Coupons;
 
 import java.util.List;
 

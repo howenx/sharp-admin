@@ -19,7 +19,7 @@
     </sql>
 
     <!-- 录入一条日志信息 -->
-    <insert id="insertDataLog" parameterType="entity.DataLog" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertDataLog" parameterType="domain.DataLog" useGeneratedKeys="true" keyProperty="id">
         insert into data_log
         (operate_user,operate_ip,operate_type,log_content,origin_data,new_data,operate_time)
         values
@@ -27,7 +27,7 @@
     </insert>
 
     <!-- 由id获取一条日志信息 -->
-    <select id="getDataLog" resultType="entity.DataLog" parameterType="java.lang.Long">
+    <select id="getDataLog" resultType="domain.DataLog" parameterType="java.lang.Long">
         select
         <include refid="dataLogColumns">
             <property name="alias" value="t"/>
@@ -36,7 +36,7 @@
     </select>
 
     <!-- 获取所有的日志信息 -->
-    <select id="getAllDataLogs" resultType="entity.DataLog">
+    <select id="getAllDataLogs" resultType="domain.DataLog">
         select
         <include refid="dataLogColumns">
             <property name="alias" value="t"/>
@@ -45,7 +45,7 @@
     </select>
 
     <!-- 分页获取日志信息 -->
-    <select id="getDataLogPage" parameterType="entity.DataLog" resultType="entity.DataLog">
+    <select id="getDataLogPage" parameterType="domain.DataLog" resultType="domain.DataLog">
         select
         <include refid="dataLogColumns">
             <property name="alias" value="t"/>

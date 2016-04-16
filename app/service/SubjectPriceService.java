@@ -1,6 +1,6 @@
 package service;
 
-import entity.SubjectPrice;
+import domain.SubjectPrice;
 
 import java.util.List;
 

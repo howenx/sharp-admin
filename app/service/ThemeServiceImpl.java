@@ -1,15 +1,12 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import entity.Item;
-import entity.Slider;
-import entity.Theme;
-import entity.ThemeTemplate;
+import domain.Slider;
+import domain.Theme;
+import domain.ThemeTemplate;
 import mapper.InventoryMapper;
 import mapper.ThemeMapper;
 import play.Logger;
-import play.api.libs.json.Json;
 
 import javax.inject.Inject;
 import java.util.List;

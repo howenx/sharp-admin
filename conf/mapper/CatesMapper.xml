@@ -18,7 +18,7 @@
     </sql>
 
     <!-- 由cateId获取一条类别信息 -->
-    <select id="getCate" resultType="entity.Cates" parameterType="java.lang.Long">
+    <select id="getCate" resultType="domain.Cates" parameterType="java.lang.Long">
         select
         <include refid="catesColumns">
             <property name="alias" value="t"/>
@@ -27,7 +27,7 @@
     </select>
 
     <!-- 获取所有的一级类别 -->
-    <select id="getParentCates" resultType="entity.Cates">
+    <select id="getParentCates" resultType="domain.Cates">
         select
         <include refid="catesColumns">
             <property name="alias" value="t"/>
@@ -36,7 +36,7 @@
     </select>
 
     <!-- 获取所有的子类别 -->
-    <select id="getSubCates" resultType="entity.Cates" parameterType="map">
+    <select id="getSubCates" resultType="domain.Cates" parameterType="map">
         select
         <include refid="catesColumns">
             <property name="alias" value="t"/>
@@ -51,7 +51,7 @@
     </select>
 
     <!-- 获取所有的类别信息 -->
-    <select id="getCatesAll" resultType="entity.Cates">
+    <select id="getCatesAll" resultType="domain.Cates">
         select
         <include refid="catesColumns">
             <property name="alias" value="t"/>
@@ -60,7 +60,7 @@
     </select>
 
     <!-- 录入一条类别信息 -->
-    <insert id="insertCates" parameterType="entity.Cates" useGeneratedKeys="true" keyProperty="cate_id">
+    <insert id="insertCates" parameterType="domain.Cates" useGeneratedKeys="true" keyProperty="cate_id">
         insert into cates
         (pcate_id,cate_nm,cate_desc,cate_code)
         values(#{pcateId},#{cateNm},#{cateDesc},#{cateCode})

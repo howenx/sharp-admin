@@ -1,6 +1,6 @@
 package mapper;
 
-import entity.statistics.SID;
+import domain.statistics.SID;
 
 import java.util.List;
 

@@ -15,7 +15,7 @@
         ${alias}.update_at,
         ${alias}.state
     </sql>
-    <select id="getSbjPrice" parameterType="entity.SubjectPrice" resultType="entity.SubjectPrice">
+    <select id="getSbjPrice" parameterType="domain.SubjectPrice" resultType="domain.SubjectPrice">
         select
         <include refid="subjectPriceColumns">
             <property name="alias" value="t"/>
@@ -23,7 +23,7 @@
         from subject_price t where theme_id = #{themeId} and inv_id = #{invId}
     </select>
 
-    <select id="getSbjPriceByThemeId" parameterType="java.lang.Long" resultType="entity.SubjectPrice">
+    <select id="getSbjPriceByThemeId" parameterType="java.lang.Long" resultType="domain.SubjectPrice">
         select
         <include refid="subjectPriceColumns">
             <property name="alias" value="t"/>
@@ -31,7 +31,7 @@
         from subject_price t where theme_id = #{value} and state != 'D' and state != 'N'
     </select>
 
-    <select id="getSbjPriceById" parameterType="java.lang.Long" resultType="entity.SubjectPrice">
+    <select id="getSbjPriceById" parameterType="java.lang.Long" resultType="domain.SubjectPrice">
         select
         <include refid="subjectPriceColumns">
             <property name="alias" value="t"/>
@@ -39,12 +39,12 @@
         from subject_price t where id = #{value}
     </select>
 
-    <insert id="sbjPriceAdd" parameterType="entity.SubjectPrice" useGeneratedKeys="true" keyProperty="id">
+    <insert id="sbjPriceAdd" parameterType="domain.SubjectPrice" useGeneratedKeys="true" keyProperty="id">
         insert into subject_price(theme_id,inv_id,price,discount,create_at)
         values(#{themeId},#{invId},#{price},#{discount},CURRENT_TIMESTAMP(0))
     </insert>
 
-    <update id="sbjPriceUpd" parameterType="entity.SubjectPrice">
+    <update id="sbjPriceUpd" parameterType="domain.SubjectPrice">
         update subject_price
         set theme_id=#{themeId},inv_id=#{invId},price=#{price},discount=#{discount},update_at=CURRENT_TIMESTAMP(0)
         where id = #{id}
@@ -61,7 +61,7 @@
 
 
     <!-- 由inv_id 获取一条记录         Add By Sunny.Wu 2016/02/26-->
-    <select id="getSbjPriceByInvId" parameterType="java.lang.Long" resultType="entity.SubjectPrice">
+    <select id="getSbjPriceByInvId" parameterType="java.lang.Long" resultType="domain.SubjectPrice">
         select
         <include refid="subjectPriceColumns">
             <property name="alias" value="t"/>

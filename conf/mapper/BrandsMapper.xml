@@ -17,7 +17,7 @@
     </sql>
 
     <!-- 由brandId获取一条品牌信息 -->
-    <select id="getBrands" resultType="entity.Brands" parameterType="java.lang.Long">
+    <select id="getBrands" resultType="domain.Brands" parameterType="java.lang.Long">
         select
         <include refid="brandsColumns">
             <property name="alias" value="t"/>
@@ -26,7 +26,7 @@
     </select>
 
     <!-- 获取所有的品牌 -->
-    <select id="getAllBrands" resultType="entity.Brands">
+    <select id="getAllBrands" resultType="domain.Brands">
         select
         <include refid="brandsColumns">
             <property name="alias" value="t"/>
@@ -35,7 +35,7 @@
     </select>
 
     <!-- 分页获取品牌信息 -->
-    <select id="getBrandsPage" parameterType="entity.Brands" resultType="entity.Brands">
+    <select id="getBrandsPage" parameterType="domain.Brands" resultType="domain.Brands">
         select
         <include refid="brandsColumns">
             <property name="alias" value="t" />
@@ -50,7 +50,7 @@
     </select>
 
     <!-- 录入一条品牌信息 -->
-    <insert id="insertBrands" parameterType="entity.Brands" useGeneratedKeys="true" keyColumn="brand_id">
+    <insert id="insertBrands" parameterType="domain.Brands" useGeneratedKeys="true" keyColumn="brand_id">
         insert into brands
         (brand_desc,logo,create_date,brand_nm)
         values

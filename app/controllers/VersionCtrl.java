@@ -13,9 +13,9 @@ import com.aliyuncs.http.FormatType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.fasterxml.jackson.databind.JsonNode;
-import entity.AdminUser;
-import entity.User;
-import entity.VersionVo;
+import domain.AdminUser;
+import domain.User;
+import domain.VersionVo;
 import filters.UserAuth;
 import middle.VersionMiddle;
 import play.Configuration;
@@ -181,6 +181,27 @@ public class VersionCtrl extends Controller {
             return badRequest("error");
         }
     }
+
+    /**
+     * 获取API版本历史        Added by Tiffany Zhu
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public  Result APIVersionList(String lang){
+
+//        VersionVo versionVo = new VersionVo();
+//        versionVo.setProductType("A");
+//
+//        List<VersionVo> androidVersion = dealVersionVo(versionVo);
+//
+//        versionVo.setProductType("I");
+//
+//        List<VersionVo> iosVersion = dealVersionVo(versionVo);
+
+        return ok(views.html.versioning.APIVersionList.render(lang, (User) ctx().args.get("user")));
+    }
+
 
 
 

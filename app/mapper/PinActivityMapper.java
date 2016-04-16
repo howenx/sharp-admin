@@ -1,9 +1,8 @@
 package mapper;
 
-import entity.pingou.PinActivity;
-import entity.pingou.PinCoupon;
-import entity.pingou.PinSku;
-import entity.pingou.PinUser;
+import domain.pingou.PinActivity;
+import domain.pingou.PinCoupon;
+import domain.pingou.PinUser;
 
 import java.util.HashMap;
 import java.util.List;

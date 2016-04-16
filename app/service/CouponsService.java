@@ -1,7 +1,7 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import entity.Coupons;
+import domain.Coupons;
 
 import java.util.List;
 

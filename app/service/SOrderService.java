@@ -1,6 +1,6 @@
 package service;
 
-import entity.statistics.SOrder;
+import domain.statistics.SOrder;
 
 import java.util.List;
 

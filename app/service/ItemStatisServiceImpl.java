@@ -1,6 +1,6 @@
 package service;
 
-import entity.ItemStatis;
+import domain.ItemStatis;
 import mapper.ItemStatisMapper;
 
 import javax.inject.Inject;

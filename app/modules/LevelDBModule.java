@@ -15,5 +15,6 @@ public class LevelDBModule extends AbstractModule {
         bind(NewScheduler.class);
         bind(ItemMiddle.class);
         bind(VersionMiddle.class);
+        bind(RemoteActorModule.class).asEagerSingleton();
     }
 }

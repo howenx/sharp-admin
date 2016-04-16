@@ -6,7 +6,7 @@ import javax.inject.{Inject, Singleton}
 import filters.Secured
 import play.api.cache.Cache
 import play.api.Play.current
-import entity.User
+import domain.User
 import play.api.data._
 import play.api.data.Forms._
 import play.api.i18n.{Lang, MessagesApi, I18nSupport}

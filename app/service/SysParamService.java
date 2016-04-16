@@ -2,7 +2,7 @@ package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
-import entity.SystemParam;
+import domain.SystemParam;
 
 /**
  * Created by tiffany on 15/12/19.

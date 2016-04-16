@@ -2,7 +2,7 @@ package actor;
 
 import akka.actor.AbstractActor;
 import akka.japi.pf.ReceiveBuilder;
-import entity.Coupons;
+import domain.Coupons;
 import play.Logger;
 import service.CouponsService;
 

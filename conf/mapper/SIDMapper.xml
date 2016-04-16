@@ -15,7 +15,7 @@
     </sql>
 
     <!-- 根据日期获取用户信息 -->
-    <select id="getSIDBy" resultType="entity.statistics.SID" parameterType="entity.statistics.SID">
+    <select id="getSIDBy" resultType="domain.statistics.SID" parameterType="domain.statistics.SID">
         select
             <include refid="sidColumns">
                     <property name="alias" value="t"/>
@@ -27,7 +27,7 @@
     </select>
 
     <!-- 获取所有的信息 -->
-    <select id="getAllSID" resultType="entity.statistics.SID">
+    <select id="getAllSID" resultType="domain.statistics.SID">
         select
         <include refid="sidColumns">
             <property name="alias" value="t"/>

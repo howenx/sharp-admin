@@ -1,6 +1,6 @@
 package mapper;
 
-import entity.VersionVo;
+import domain.VersionVo;
 
 import java.util.List;
 

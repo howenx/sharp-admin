@@ -1,7 +1,7 @@
 package mapper;
 
-import entity.pingou.PinSku;
-import entity.pingou.PinTieredPrice;
+import domain.pingou.PinSku;
+import domain.pingou.PinTieredPrice;
 import java.util.List;
 
 /**

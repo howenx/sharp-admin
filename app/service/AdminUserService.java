@@ -1,6 +1,6 @@
 package service;
 
-import entity.AdminUser;
+import domain.AdminUser;
 
 import java.util.List;
 

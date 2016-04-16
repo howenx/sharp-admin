@@ -2,7 +2,7 @@ package actor;
 
 import akka.actor.AbstractActor;
 import akka.japi.pf.ReceiveBuilder;
-import entity.pingou.PinSku;
+import domain.pingou.PinSku;
 import play.Logger;
 import service.PingouService;
 import javax.inject.Inject;

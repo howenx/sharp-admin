@@ -1,6 +1,6 @@
 package service;
 
-import entity.AdminUser;
+import domain.AdminUser;
 import mapper.AdminUserMapper;
 
 import javax.inject.Inject;

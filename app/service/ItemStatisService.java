@@ -1,6 +1,6 @@
 package service;
 
-import entity.ItemStatis;
+import domain.ItemStatis;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package mapper;
 
-import entity.SubjectPrice;
+import domain.SubjectPrice;
 
 import java.util.List;
 

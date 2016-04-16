@@ -1,7 +1,7 @@
 package filters;
 
 
-import entity.User;
+import domain.User;
 import play.Configuration;
 import play.Logger;
 import play.Routes;

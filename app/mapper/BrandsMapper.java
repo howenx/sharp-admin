@@ -1,6 +1,6 @@
 package mapper;
 
-import entity.Brands;
+import domain.Brands;
 
 import java.util.List;
 

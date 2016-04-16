@@ -1,5 +1,5 @@
 @import play.i18n._
-@(user:entity.User, lang:String)
+@(user:domain.User, lang:String)
 
 <header id="js-header" class="header else">
     <div class="main clearfix">
@@ -108,7 +108,7 @@
                                     <a href="/@lang/comm/order/unpaidOrders" class="info-link">超时订单</a>
                                 </li>
                                 <li class="header-dropdown-item">
-                                    <a href="/@lang/comm/order/refundList" class="info-link">退货申请</a>
+                                    <a href="/@lang/comm/order/refundTempList" class="info-link">退货申请</a>
                                 </li>
                                 <li class="header-dropdown-item">
                                     <a href="/@lang/comm/order/signedOrders" class="info-link">已签收订单</a>
@@ -181,7 +181,7 @@
                                     <a href="/release/apiView" class="info-link">API发布版本</a>
                                 </li>
                                 <li class="header-dropdown-item">
-                                    <a href="javascript:;" class="info-link">API版本历史</a>
+                                    <a href="/release/apiVersionList" class="info-link">API版本历史</a>
                                 </li>
                             </ul>
                             <i class="header-nav-border"></i>

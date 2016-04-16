@@ -1,10 +1,10 @@
 package controllers;
 
 import com.google.inject.Inject;
-import entity.User;
-import entity.statistics.SID;
-import entity.statistics.SOrder;
-import entity.statistics.SOrderLine;
+import domain.User;
+import domain.statistics.SID;
+import domain.statistics.SOrder;
+import domain.statistics.SOrderLine;
 import filters.UserAuth;
 import play.mvc.Controller;
 import play.mvc.Result;

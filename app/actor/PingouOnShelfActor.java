@@ -3,7 +3,7 @@ package actor;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.japi.pf.ReceiveBuilder;
-import entity.pingou.PinSku;
+import domain.pingou.PinSku;
 import modules.NewScheduler;
 import play.Logger;
 import scala.concurrent.duration.Duration;
