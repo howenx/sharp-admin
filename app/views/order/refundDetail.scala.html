@@ -16,6 +16,7 @@
             }
             if(state == "R"){
                 $(".refuse-reason").css("display","block");
+                $("#reason-content").attr("disabled",true);
                 $("#reason-content").val("@refund.getRejectReason()");
 
             }
