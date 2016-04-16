@@ -1,6 +1,7 @@
 package entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import play.data.validation.Constraints;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -38,6 +39,7 @@ public class Brands implements Serializable {
     /**
      * brand  name.
      */
+    @Constraints.Required
     private String brandNm;
 
     //分页,每页多少条

@@ -24,7 +24,7 @@
     </div>
 </div>
 <div class="content-1">
-    <input type="button" value="新增品牌" onclick="javascript:window.location.href='/@lang/comm/brand/add'"/>
+    <input type="button" value="新增品牌" onclick="javascript:window.location.href='/@lang/comm/brand/add'"  style="background:#0076C5;color:#fff;border:0;padding:6px 8px;"/>
     <!--
     <form class="form-horizontal">
         <div class="form-group">
@@ -73,7 +73,7 @@
                     <td>@brand.getBrandId()</td>
                     <td>@brand.getBrandNm()</td>
                     <td></td>
-                    <td> <img class="main-img" src="@url@brand.getLogo()" alt="" width="50"></td>
+                    <td>@if(brand.getLogo()!=null) {<img class="main-img" src="@url@brand.getLogo()" alt="" width="50">}</td>
                     <td>@if(brand.getCreateDate()!=null){@(brand.getCreateDate().toString().substring(0,16))}</td>
                 </tr>
                 }

@@ -14,6 +14,7 @@ import play.Configuration;
 import play.Logger;
 import play.api.libs.Codecs;
 import play.cache.Cache;
+import play.data.Form;
 import play.libs.Json;
 import play.libs.mailer.Email;
 import play.libs.mailer.MailerClient;
@@ -102,6 +103,11 @@ public class AdminUserCtrl extends Controller {
     public Result adminUserSave(){
         JsonNode json = request().body().asJson();
         AdminUser adminUser  = Json.fromJson(json, AdminUser.class);
+        Form<AdminUser> adminUserForm = Form.form(AdminUser.class).bind(json);
+        //数据验证
+        if (adminUserForm.hasErrors()) {
+            return badRequest();
+        }
         adminUser.setEmail(adminUser.getEmail()+"@kakaocorp.com");
         //先验证是否已注册
         AdminUser adu  = adminUserService.getUserBy(adminUser);

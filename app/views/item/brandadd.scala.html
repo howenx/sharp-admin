@@ -3,7 +3,7 @@
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
-<script src="/assets/js/jquery.min.js"></script>
+<!--<script src="/assets/js/jquery.min.js"></script>-->
 <script>window.uploadURL = '@uploadURL'</script>
 <script>window.imageURL = '@imageURL'</script>
 <script>
@@ -104,7 +104,7 @@
     <div class="usercenter-option">
         <div class="user-state fl">未更改</div>
         <div id="brandSubmit" class="btn-blue btn-form fr ml15">保存</div>
-        <div id="cancel" class="btn-white btn-form fr ml20">取消</div>
+        <div id="cancel" class="btn-white btn-form fr ml20" onclick="javascript:window.location.href='/@lang/comm/brand/search'">返回</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
     <form class="form-horizontal">
@@ -151,16 +151,17 @@
     /** 数据提交 **/
     $("#brandSubmit").click(function(){
         var isPost = true;
-        if($("#brandName").val() == "")
-        {
+        if($("#brandName").val() == "") {
            isPost = false;
            $("#js-userinfo-error").html("品牌名称不能为空!");
         }
-
         var brandName = $("#brandName").val();
         var brandDesc = $("#brandDesc").val();
-        var url = $(".img-logo").find("img").attr("src");
-        var logoUrl = url.split(window.imageURL)[1];
+        var logoUrl = null;
+        var img = $(".img-logo").find("img");
+        if ($(img).length!=0) {
+            logoUrl = $(".img-logo").find("img").attr("src").split(window.imageURL)[1];
+        }
         console.log(logoUrl);
         var brand = new Object();
         brand.brandNm = brandName;
