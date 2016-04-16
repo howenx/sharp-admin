@@ -410,7 +410,11 @@ public class ItemCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result brandSave(String lang){
         JsonNode json = request().body().asJson();
-//        Logger.error(json.toString());
+        Form<Brands> brandsForm = Form.form(Brands.class).bind(json);
+        //数据验证
+        if (brandsForm.hasErrors()) {
+            return badRequest();
+        }
         itemService.insertBrands(json);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
