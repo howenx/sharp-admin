@@ -43,10 +43,10 @@
             <property name="alias" value="t"/>
         </include>
         from sp_refund t where 1=1
-        <if test="id != null">
+        <if test="id != null  and id != ''">
             and t.id = #{id}
         </if>
-        <if test="userId != null">
+        <if test="userId != null and userId != ''">
             and t.user_id = #{userId}
         </if>
         <if test="state != null and state != ''">
@@ -84,7 +84,7 @@
 
     <update id="updRefund" parameterType="domain.RefundTemp">
             update sp_refund
-            set state = #{state}
+            set state = #{state},update_at = CURRENT_TIMESTAMP(0),
         <if test="rejectReason != null and rejectReason != ''">
             ,reject_reason = #{rejectReason}
         </if>

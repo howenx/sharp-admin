@@ -519,11 +519,11 @@ public class OrderCtrl extends Controller {
             } else {
                 object[3] = "";
             }
-//            if (refundTemp.getCreateAt() != null) {
-                object[4] = refundTemp.getCreateAt();
-//            } else {
-                //object[4] = "";
-           // }
+            if (refundTemp.getCreateAt() != null) {
+                object[4] = refundTemp.getCreateAt().toString().substring(0,16);
+            } else {
+                object[4] = "";
+            }
 
             switch (refundTemp.getState()) {
                 case "":
@@ -582,6 +582,7 @@ public class OrderCtrl extends Controller {
                 }
             }
         }
+        Logger.error("查询条件:" + refund.toString());
         if (pageNum >= 1) {
             //计算从第几条开始取数据
             int offset = (pageNum - 1) * ThemeCtrl.PAGE_SIZE;
