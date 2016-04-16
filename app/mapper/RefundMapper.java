@@ -31,7 +31,11 @@ public interface RefundMapper {
     RefundTemp getRefundById(Long id);
 
 
-
+    /**
+     *  通过Id获取退款申请详情  用Refund对象   Added by Tiffany Zhu 2016.04.16
+     * @param id
+     * @return
+     */
     Refund getRefundServiceById(Long id);
 
     /**

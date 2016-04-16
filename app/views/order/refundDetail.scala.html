@@ -79,7 +79,7 @@
 </script>
 
 }
-@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"退货详情")
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"退款详情")
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 <div class="mbread">
@@ -89,12 +89,12 @@
         <span class="icon-path">&gt;</span>
         <span class="current">订单管理</span>
         <span class="icon-path">&gt;</span>
-        <span>退货详情</span>
+        <span>退款详情</span>
     </div>
 </div>
 <div class="content-1">
     <div class="page-title">
-        <span class="title-name">退货详情</span>
+        <span class="title-name">退款详情</span>
     </div>
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
@@ -108,7 +108,7 @@
             <h4 class="h4-custom-hmm">处理结果</h4>
             <div class="form-group">
                 <div class="col-sm-6">
-                    <span>退货申请ID:</span>
+                    <span>退款申请ID:</span>
                     <input type="text" id="refundTemp-id" value="@refundTemp.getId()" disabled>
                 </div>
             </div>
@@ -118,8 +118,8 @@
                 <div class="col-sm-3">
                     <select class="form-control response">
                         <option value="">请选择</option>
-                        <option value="A">同意退货</option>
-                        <option value="R">拒绝退货</option>
+                        <option value="A">同意退款</option>
+                        <option value="R">拒绝退款</option>
 
                     </select>
                 </div>
@@ -134,7 +134,7 @@
 
 
             <hr/>
-            <h4 class="h4-custom-hmm">退货信息</h4>
+            <h4 class="h4-custom-hmm">退款信息</h4>
             <div class="form-group">
                 <div class="col-sm-6">
                     <span>用户ID:</span>
@@ -155,21 +155,21 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-6">
-                    <span>退货理由:</span>
+                    <span>退款理由:</span>
                     <input type="text" value="@refundTemp.getReason()" disabled>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-6">
-                    <span>退货状态:</span>
+                    <span>退款状态:</span>
                     @if(refundTemp.getState() == "I"){
                         <input type="text" value="申请中" disabled>
                     }
                     @if(refundTemp.getState() == "A"){
-                    <input type="text" value="同意退货" disabled>
+                    <input type="text" value="同意退款" disabled>
                     }
                     @if(refundTemp.getState() == "R"){
-                    <input type="text" value="拒绝退货" disabled>
+                    <input type="text" value="拒绝退款" disabled>
                     }
                     @if(refundTemp.getState() == "Y"){
                     <input type="text" value="退款成功" disabled>

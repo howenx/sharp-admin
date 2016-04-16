@@ -533,10 +533,10 @@ public class OrderCtrl extends Controller {
                     object[5] = "申请中";
                     break;
                 case "A":
-                    object[5] = "同意退货";
+                    object[5] = "同意退款";
                     break;
                 case "R":
-                    object[5] = "拒绝退货";
+                    object[5] = "拒绝退款";
                     break;
                 case "Y":
                     object[5] = "退款成功";
@@ -630,10 +630,10 @@ public class OrderCtrl extends Controller {
                         object[5] = "申请中";
                         break;
                     case "A":
-                        object[5] = "同意退货";
+                        object[5] = "同意退款";
                         break;
                     case "R":
-                        object[5] = "拒绝退货";
+                        object[5] = "拒绝退款";
                         break;
                     case "Y":
                         object[5] = "退款成功";

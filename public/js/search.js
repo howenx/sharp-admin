@@ -618,7 +618,7 @@ $(function() {
             })
         }
 
-         //每个查询页面对应一个相应的组装函数  订单查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Tiffany Zhu 2016.04.14
+         //每个查询页面对应一个相应的组装函数  退款查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Tiffany Zhu 2016.04.14
          funcList.refundlist_search = function refundlist_search(pageIndex) {
              var refundDto = new Object();
              var refund = new Object();
@@ -632,7 +632,7 @@ $(function() {
              search("/comm/order/refundTemp/search/" + pageIndex, refundDto);
          }
 
-         //每个查询页面对应一个相应的返回时填充函数 订单查询页面       Added by Tiffany Zhu 2016.04.14
+         //每个查询页面对应一个相应的返回时填充函数 退款查询页面       Added by Tiffany Zhu 2016.04.14
          funcList.refundlist_data = function refundlist_data(data) {
              //填充列表数据
              $(data).each(function(index, element) {

@@ -12,7 +12,7 @@
 <!-- 此为调用分页所提供的函数名前缀 -->
 <script>window.search_args = 'refundlist'</script>
 }
-@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"退货查询")
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"退款查询")
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 <div class="mbread">
@@ -22,12 +22,12 @@
         <span class="icon-path">&gt;</span>
         <span class="current">订单管理</span>
         <span class="icon-path">&gt;</span>
-        <span>退货查询</span>
+        <span>退款查询</span>
     </div>
 </div>
 <div class="content-1">
     <div class="page-title">
-        <span class="title-name">退货查询</span>
+        <span class="title-name">退款查询</span>
     </div>
     <form class="form-horizontal">
         <div class="form-group">
@@ -41,8 +41,8 @@
                 <select id="order-form-status" class="form-control">
                     <option value=""></option>
                     <option value="I">申请中</option>
-                    <option value="A">同意退货</option>
-                    <option value="R">拒绝退货</option>
+                    <option value="A">同意退款</option>
+                    <option value="R">拒绝退款</option>
                     <option value="Y">退款成功</option>
                     <option value="N">退款失败</option>
                 </select>
@@ -77,13 +77,13 @@
         <table id="tb-topic" class="table table-bordered table-hover">
             <thead>
             <tr>
-                <th>退货ID</th>
+                <th>退款ID</th>
                 <th>订单ID</th>
                 <th>用户ID</th>
                 <th>手机号码</th>
                 <th>申请时间</th>
                 <th>申请状态</th>
-                <th>退货理由</th>
+                <th>退款理由</th>
             </tr>
             </thead>
             <tbody>
