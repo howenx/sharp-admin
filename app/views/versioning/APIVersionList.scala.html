@@ -1,0 +1,82 @@
+@import play.i18n._
+@(lang:String="cn",user:entity.User)
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/screenshot.css">
+}
+
+@import java.lang.String; val title="版本历史"
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">应用管理</span>
+        <span class="icon-path">&gt;</span>
+        <span>API版本历史</span>
+    </div>
+</div>
+
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">版本历史</span>
+    </div>
+    <div class="usercenter-option">
+        <div class="user-state fl">未更改</div>
+        <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15"> 刷新CDN</div>
+        <span id="js-userinfo-error" class="mt20 alt fr"></span>
+    </div>
+    <div class="container-fluid table-content">
+        <h4 class="h4-custom-hmm">Android版本列表</h4>
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th style="width: 5%;text-align: center;vertical-align: middle;">主键</th>
+            <th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>
+            <th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>
+            <th style="text-align: center;vertical-align: middle;">类型</th>
+            <th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>
+            <th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>
+            <th style="text-align: center;vertical-align: middle;">版本描述</th>
+            <th style="width: 8%;text-align: center;vertical-align: middle;">发版时间</th>
+            <th style="width: 7%;text-align: center;vertical-align: middle;">配置文件</th>
+            <th style="width: 8%;text-align: center;vertical-align: middle;">是否最新版</th>
+            </thead>
+
+            <tbody>
+
+            <!---公用模块,id不能改变,只需要改变合并行数-->
+            <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container-fluid table-content">
+        <h4 class="h4-custom-hmm">IOS版本列表</h4>
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th style="width: 5%;text-align: center;vertical-align: middle;">主键</th>
+            <th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>
+            <th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>
+            <th style="text-align: center;vertical-align: middle;">类型</th>
+            <th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>
+            <th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>
+            <th style="text-align: center;vertical-align: middle;">版本描述</th>
+            <th style="width: 8%;text-align: center;vertical-align: middle;">发版时间</th>
+            <th style="width: 7%;text-align: center;vertical-align: middle;">配置文件</th>
+            <th style="width: 13%;text-align: center;vertical-align: middle;">AppStore下载地址</th>
+            <th style="width: 8%;text-align: center;vertical-align: middle;">是否最新版</th>
+            </thead>
+
+            <tbody>
+
+            <!---公用模块,id不能改变,只需要改变合并行数-->
+            <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+}

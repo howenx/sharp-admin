@@ -1,12 +1,12 @@
 @import play.i18n._
-@(lang:String="cn",refund:entity.Refund,order:entity.order.Order,orderLineList:List[Array[Object]],userInfo:entity.ID,orderShip:entity.order.OrderShip,url:String,user:entity.User)
+@(lang:String="cn",refundTemp:entity.RefundTemp,order:entity.order.Order,orderLineList:List[Array[Object]],userInfo:entity.ID,orderShip:entity.order.OrderShip,url:String,user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
 <link rel="stylesheet" href="/assets/css/carr.css">
 <script>
     $(function(){
-        var state = "@refund.getState()";
+        var state = "@refundTemp.getState()";
         console.log(state);
         if(state != "I"){
             $(".usercenter-option").css("display","none")
@@ -17,7 +17,7 @@
             if(state == "R"){
                 $(".refuse-reason").css("display","block");
                 $("#reason-content").attr("disabled",true);
-                $("#reason-content").val("@refund.getRejectReason()");
+                $("#reason-content").val("@refundTemp.getRejectReason()");
 
             }
         }
@@ -43,7 +43,7 @@
             }
 
             var object = {};
-            var refundId = $("#refund-id").val();
+            var refundId = $("#refundTemp-id").val();
             var response =  $(".response option:selected").val();
             var reasonContent = $("#reason-content").val();
 
@@ -54,7 +54,7 @@
             if(isPost){
                 $.ajax({
                     type :  "POST",
-                    url : "/comm/order/refund/deal",
+                    url : "/comm/order/refundTemp/deal",
                     contentType: "application/json; charset=utf-8",
                     data : JSON.stringify(object),
                     error : function(request) {
@@ -63,7 +63,7 @@
                     success: function(data) {
                     console.log(data);
                         alert("处理成功!");
-                        setTimeout("location.href='/"+window.lang+"/comm/order/refund/detail/"+ refundId +"'", 3000);
+                        setTimeout("location.href='/"+window.lang+"/comm/order/refundTemp/detail/"+ refundId +"'", 3000);
                     }
                  });
             }
@@ -103,7 +103,7 @@
             <div class="form-group">
                 <div class="col-sm-6">
                     <span>退货申请ID:</span>
-                    <input type="text" id="refund-id" value="@refund.getId()" disabled>
+                    <input type="text" id="refundTemp-id" value="@refundTemp.getId()" disabled>
                 </div>
             </div>
 
@@ -132,7 +132,7 @@
             <div class="form-group">
                 <div class="col-sm-6">
                     <span>用户ID:</span>
-                    <input type="text" value="@refund.getUserId()" disabled>
+                    <input type="text" value="@refundTemp.getUserId()" disabled>
                 </div>
             </div>
             <div class="form-group">
@@ -144,31 +144,31 @@
             <div class="form-group">
                 <div class="col-sm-6">
                     <span>退款金额:</span>
-                    <input type="text" value="@refund.getPayBackFee()" disabled>
+                    <input type="text" value="@refundTemp.getPayBackFee()" disabled>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-6">
                     <span>退货理由:</span>
-                    <input type="text" value="@refund.getReason()" disabled>
+                    <input type="text" value="@refundTemp.getReason()" disabled>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-6">
                     <span>退货状态:</span>
-                    @if(refund.getState() == "I"){
+                    @if(refundTemp.getState() == "I"){
                         <input type="text" value="申请中" disabled>
                     }
-                    @if(refund.getState() == "A"){
+                    @if(refundTemp.getState() == "A"){
                     <input type="text" value="同意退货" disabled>
                     }
-                    @if(refund.getState() == "R"){
+                    @if(refundTemp.getState() == "R"){
                     <input type="text" value="拒绝退货" disabled>
                     }
-                    @if(refund.getState() == "Y"){
+                    @if(refundTemp.getState() == "Y"){
                     <input type="text" value="退款成功" disabled>
                     }
-                    @if(refund.getState() == "N"){
+                    @if(refundTemp.getState() == "N"){
                     <input type="text" value="退款失败" disabled>
                     }
 
@@ -179,7 +179,7 @@
             <div class="form-group">
                 <div class="col-sm-6">
                     <span>订单编号:</span>
-                    <input type="text"  value="@refund.getOrderId()" disabled>
+                    <input type="text"  value="@refundTemp.getOrderId()" disabled>
                 </div>
                 <div class="col-sm-6">
                     <span>收货人姓名:</span>

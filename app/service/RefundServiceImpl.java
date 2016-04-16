@@ -1,6 +1,6 @@
 package service;
 
-import entity.Refund;
+import entity.RefundTemp;
 import mapper.RefundMapper;
 
 import javax.inject.Inject;
@@ -20,18 +20,18 @@ public class RefundServiceImpl implements RefundService{
      * @return
      */
     @Override
-    public List<Refund> getRefundOrders() {
+    public List<RefundTemp> getRefundOrders() {
         return refundMapper.getRefundOrders();
     }
 
     /**
      * 分页查询     Added by Tiffany Zhu 2016.04.14
-     * @param refund
+     * @param refundTemp
      * @return
      */
     @Override
-    public List<Refund> getRefundOrderPage(Refund refund) {
-        return refundMapper.getRefundOrderPage(refund);
+    public List<RefundTemp> getRefundOrderPage(RefundTemp refundTemp) {
+        return refundMapper.getRefundOrderPage(refundTemp);
     }
 
     /**
@@ -40,7 +40,7 @@ public class RefundServiceImpl implements RefundService{
      * @return
      */
     @Override
-    public Refund getRefundById(Long id) {
+    public RefundTemp getRefundById(Long id) {
         return refundMapper.getRefundById(id);
     }
 
@@ -49,7 +49,7 @@ public class RefundServiceImpl implements RefundService{
      * 更新退款申请       Added by Tiffany Zhu 2016.04.16
      */
     @Override
-    public void updRefund(Refund refund) {
-        refundMapper.updRefund(refund);
+    public void updRefund(RefundTemp refundTemp) {
+        refundMapper.updRefund(refundTemp);
     }
 }

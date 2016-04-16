@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",pageSize:Integer,countNum:Integer,pageCount:Integer,refundList:List[Array[Object]],user:entity.User)
+@(lang:String="cn",pageSize:Integer,countNum:Integer,pageCount:Integer,refundTempList:List[Array[Object]],user:entity.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -80,15 +80,15 @@
             </tr>
             </thead>
             <tbody>
-            @for(refund <- refundList){
+            @for(refundTemp <- refundTempList){
             <tr class = "tb-list-data">
-                <td><a href="/@lang/comm/order/refund/detail/@refund(0)">@refund(0)</a></td>
-                <td>@refund(1)</td>
-                <td>@refund(2)</td>
-                <td>@refund(3)</td>
-                <td>@refund(4)</td>
-                <td>@refund(5)</td>
-                <td>@refund(6)</td>
+                <td><a href="/@lang/comm/order/refundTemp/detail/@refundTemp(0)">@refundTemp(0)</a></td>
+                <td>@refundTemp(1)</td>
+                <td>@refundTemp(2)</td>
+                <td>@refundTemp(3)</td>
+                <td>@refundTemp(4)</td>
+                <td>@refundTemp(5)</td>
+                <td>@refundTemp(6)</td>
             </tr>
             }
 

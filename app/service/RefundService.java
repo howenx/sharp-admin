@@ -1,6 +1,6 @@
 package service;
 
-import entity.Refund;
+import entity.RefundTemp;
 
 import java.util.List;
 
@@ -12,26 +12,26 @@ public interface RefundService {
      * 全部退款申请   Added by Tiffany Zhu 2016.04.14
      * @return
      */
-    List<Refund> getRefundOrders();
+    List<RefundTemp> getRefundOrders();
 
     /**
      * 分页查询     Added by Tiffany Zhu 2016.04.14
-     * @param refund
+     * @param refundTemp
      * @return
      */
-    List<Refund> getRefundOrderPage(Refund refund);
+    List<RefundTemp> getRefundOrderPage(RefundTemp refundTemp);
 
     /**
      * 通过Id获取退款申请详情     Added by Tiffany Zhu 2016.04.14
      * @param id
      * @return
      */
-    Refund getRefundById(Long id);
+    RefundTemp getRefundById(Long id);
 
     /**
      * 更新退款申请       Added by Tiffany Zhu 2016.04.16
      */
-    void updRefund(Refund refund);
+    void updRefund(RefundTemp refundTemp);
 
 
 

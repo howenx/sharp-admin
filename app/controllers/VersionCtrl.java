@@ -182,6 +182,27 @@ public class VersionCtrl extends Controller {
         }
     }
 
+    /**
+     * 获取API版本历史        Added by Tiffany Zhu
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public  Result APIVersionList(String lang){
+
+//        VersionVo versionVo = new VersionVo();
+//        versionVo.setProductType("A");
+//
+//        List<VersionVo> androidVersion = dealVersionVo(versionVo);
+//
+//        versionVo.setProductType("I");
+//
+//        List<VersionVo> iosVersion = dealVersionVo(versionVo);
+
+        return ok(views.html.versioning.APIVersionList.render(lang, (User) ctx().args.get("user")));
+    }
+
+
 
 
     /**

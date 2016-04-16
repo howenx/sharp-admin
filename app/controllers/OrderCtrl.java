@@ -3,9 +3,6 @@ package controllers;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 import entity.*;
 import entity.order.*;
 import filters.UserAuth;
@@ -16,7 +13,6 @@ import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
 import play.mvc.Controller;
-import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
 import service.*;
@@ -26,9 +22,6 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Created by tiffany on 16/1/8.
@@ -475,39 +468,39 @@ public class OrderCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result refundList(String lang){
-        Refund refund_condition = new Refund();
-        refund_condition.setPageSize(-1);
-        refund_condition.setOffset(-1);
+        RefundTemp refund_Temp_condition = new RefundTemp();
+        refund_Temp_condition.setPageSize(-1);
+        refund_Temp_condition.setOffset(-1);
         int countNum = refundService.getRefundOrders().size();
         int pageCount = countNum/ThemeCtrl.PAGE_SIZE;
         if(countNum%ThemeCtrl.PAGE_SIZE != 0){
             pageCount =  countNum/ThemeCtrl.PAGE_SIZE + 1;
         }
-        refund_condition.setPageSize(ThemeCtrl.PAGE_SIZE);
-        refund_condition.setOffset(0);
+        refund_Temp_condition.setPageSize(ThemeCtrl.PAGE_SIZE);
+        refund_Temp_condition.setOffset(0);
 
         //订单列表
-        List<Refund> refundList = refundService.getRefundOrderPage(refund_condition);
+        List<RefundTemp> refundTempList = refundService.getRefundOrderPage(refund_Temp_condition);
         List<Object[]> resultList = new ArrayList<>();
-        for(Refund refund : refundList){
+        for(RefundTemp refundTemp : refundTempList){
             Object[] object = new Object[7];
-            object[0] = refund.getId();
-            object[1] = refund.getOrderId();
-            object[2] = refund.getUserId();
+            object[0] = refundTemp.getId();
+            object[1] = refundTemp.getOrderId();
+            object[2] = refundTemp.getUserId();
             //手机号码
-            if(refund.getUserId() != null){
-                ID userInfo = idService.getID(Integer.parseInt(refund.getUserId().toString()));
+            if(refundTemp.getUserId() != null){
+                ID userInfo = idService.getID(Integer.parseInt(refundTemp.getUserId().toString()));
                 object[3] = userInfo.getPhoneNum();
             }else{
                 object[3] = "";
             }
-            if(refund.getCreateAt() != null){
-                object[4] = refund.getCreateAt().toString().substring(0,16);
+            if(refundTemp.getCreateAt() != null){
+                object[4] = refundTemp.getCreateAt().toString().substring(0,16);
             }else{
                 object[4] = "";
             }
 
-            switch (refund.getState()){
+            switch (refundTemp.getState()){
                 case "":
                     object[5] = "";
                     break;
@@ -529,7 +522,7 @@ public class OrderCtrl extends Controller {
                 default:
                     object[5] = "";
             }
-            object[6] = refund.getReason();
+            object[6] = refundTemp.getReason();
             resultList.add(object);
         }
         return ok(views.html.order.refund.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,resultList,(User) ctx().args.get("user")));
@@ -545,9 +538,9 @@ public class OrderCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result refundSearchAjax(String lang,int pageNum){
         JsonNode json = request().body().asJson();
-        Refund refund = new Refund();
+        RefundTemp refund = new RefundTemp();
         if(json.has("refund")){
-            refund = Json.fromJson(json.get("refund"),Refund.class);
+            refund = Json.fromJson(json.get("refund"), RefundTemp.class);
         }
         if(json.has("userPhone")){
             String userPhone = json.get("userPhone").asText();
@@ -577,31 +570,31 @@ public class OrderCtrl extends Controller {
             }
             refund.setPageSize(ThemeCtrl.PAGE_SIZE);
             refund.setOffset(offset);
-            List<Refund> refundList = refundService.getRefundOrderPage(refund);
+            List<RefundTemp> refundTempList = refundService.getRefundOrderPage(refund);
             List<Object[]> resultList = new ArrayList<>();
-            for(Refund refundTemp : refundList){
+            for(RefundTemp refundTempTemp : refundTempList){
                 Object[] object = new Object[7];
-                object[0] = refundTemp.getId();
-                object[1] = refundTemp.getOrderId();
-                if(refundTemp.getUserId() != null){
-                    object[2] = refundTemp.getUserId();
+                object[0] = refundTempTemp.getId();
+                object[1] = refundTempTemp.getOrderId();
+                if(refundTempTemp.getUserId() != null){
+                    object[2] = refundTempTemp.getUserId();
                 }else {
                     object[2] ="";
                 }
 
                 //手机号码
-                if(refundTemp.getUserId() != null){
-                    ID userInfo = idService.getID(Integer.parseInt(refundTemp.getUserId().toString()));
+                if(refundTempTemp.getUserId() != null){
+                    ID userInfo = idService.getID(Integer.parseInt(refundTempTemp.getUserId().toString()));
                     object[3] = userInfo.getPhoneNum();
                 }else{
                     object[3] = "";
                 }
-                if(refundTemp.getCreateAt() != null){
-                    object[4] = refundTemp.getCreateAt().toString().substring(0,16);
+                if(refundTempTemp.getCreateAt() != null){
+                    object[4] = refundTempTemp.getCreateAt().toString().substring(0,16);
                 }else {
                     object[4] = "";
                 }
-                switch (refundTemp.getState()){
+                switch (refundTempTemp.getState()){
                     case "":
                         object[5] = "";
                         break;
@@ -623,7 +616,7 @@ public class OrderCtrl extends Controller {
                 default:
                     object[5] = "";
                 }
-                object[6] = refundTemp.getReason();
+                object[6] = refundTempTemp.getReason();
                 resultList.add(object);
             }
             //组装返回数据
@@ -647,8 +640,8 @@ public class OrderCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result refundDetail(String lang,Long id){
-        Refund refund = refundService.getRefundById(id);
-        Order order = orderService.getOrderById(refund.getOrderId());
+        RefundTemp refundTemp = refundService.getRefundById(id);
+        Order order = orderService.getOrderById(refundTemp.getOrderId());
         if ("JD".equals(order.getPayMethod())) {
             order.setPayMethod("京东");
         }
@@ -721,12 +714,12 @@ public class OrderCtrl extends Controller {
             resultOrderLineList.add(object);
 
         }
-        OrderShip orderShip = orderShipService.getShipByOrderId(refund.getOrderId());
+        OrderShip orderShip = orderShipService.getShipByOrderId(refundTemp.getOrderId());
         ID userInfo = new ID();
-        if(refund.getUserId() != null){
-            userInfo = idService.getID(Integer.parseInt(refund.getUserId().toString()));
+        if(refundTemp.getUserId() != null){
+            userInfo = idService.getID(Integer.parseInt(refundTemp.getUserId().toString()));
         }
-        return ok(views.html.order.refundDetail.render(lang,refund,order,resultOrderLineList,userInfo,orderShip,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
+        return ok(views.html.order.refundDetail.render(lang, refundTemp,order,resultOrderLineList,userInfo,orderShip,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
     }
 
 
@@ -740,14 +733,16 @@ public class OrderCtrl extends Controller {
         Long id = json.get("refundId").asLong();
         String refuseReason = json.get("reasonContent").asText();
         String refundState = json.get("response").asText();
-        Refund refund = refundService.getRefundById(id);
-        refund.setState(refundState);
+        RefundTemp refundTemp = refundService.getRefundById(id);
+        refundTemp.setState(refundState);
         if(refundState.equals("R")){
-            refund.setRejectReason(refuseReason);
+            refundTemp.setRejectReason(refuseReason);
         }
-        system.actorSelection(configuration.getString("shopping.cancelOrderActor")).tell(refund.getOrderId(), ActorRef.noSender());
-        system.actorSelection(configuration.getString("shopping.refundActor")).tell(refund, ActorRef.noSender());
-        refundService.updRefund(refund);
+
+
+        system.actorSelection(configuration.getString("shopping.cancelOrderActor")).tell(refundTemp.getOrderId(), ActorRef.noSender());
+        system.actorSelection(configuration.getString("shopping.refundActor")).tell(refundTemp, ActorRef.noSender());
+        refundService.updRefund(refundTemp);
         return ok("success");
     }
 

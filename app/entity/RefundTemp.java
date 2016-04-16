@@ -13,7 +13,7 @@ import java.security.Timestamp;
  */
 public class RefundTemp implements Serializable{
 
-
+    private static final long serialVersionUID = 55L;
 
     @JsonIgnore
     private Long        id;//主键
