@@ -28,4 +28,9 @@ public interface RefundMapper {
      * @return
      */
     Refund getRefundById(Long id);
+
+    /**
+     * 更新退款申请       Added by Tiffany Zhu 2016.04.16
+     */
+    void updRefund(Refund refund);
 }

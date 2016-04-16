@@ -745,10 +745,9 @@ public class OrderCtrl extends Controller {
         if(refundState.equals("R")){
             refund.setRejectReason(refuseReason);
         }
-        Logger.error("refund data:" + refund.toString());
         system.actorSelection(configuration.getString("shopping.cancelOrderActor")).tell(refund.getOrderId(), ActorRef.noSender());
         system.actorSelection(configuration.getString("shopping.refundActor")).tell(refund, ActorRef.noSender());
-
+        refundService.updRefund(refund);
         return ok("success");
     }
 
