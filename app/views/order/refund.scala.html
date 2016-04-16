@@ -60,6 +60,13 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label class=" col-sm-offset-2 col-sm-1 control-label">订单ID</label>
+            <div class="col-sm-3">
+                <input  id="order-form-orderId" type="number" min="10000" max="99999999" class="form-control"/>
+            </div>
+        </div>
+
         <div class="btn-s">
             <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
             <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>

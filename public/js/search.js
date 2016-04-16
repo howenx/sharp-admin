@@ -625,6 +625,7 @@ $(function() {
              refund.id = $("#order-form-id").val();
              refund.userId = $("#order-form-userid").val();
              refund.state = $("#order-form-status option:selected").val();
+             refund.orderId = $("#order-form-orderId").val();
              refundDto.refund = refund;
              refundDto.userPhone = $("#user_phone_num").val();
              //调用共用ajax,url从根目录开始不需要加上语言
