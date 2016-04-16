@@ -71,4 +71,13 @@
         from sp_refund t where 1=1 and t.id = #{id}
     </select>
 
+    <update id="updRefund" parameterType="entity.Refund">
+            update sp_refund
+            set state = #{state}
+        <if test="rejectReason != null and rejectReason != ''">
+            ,reject_reason = #{rejectReason}
+        </if>
+            where id = #{id}
+    </update>
+
 </mapper>

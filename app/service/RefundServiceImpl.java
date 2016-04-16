@@ -43,4 +43,13 @@ public class RefundServiceImpl implements RefundService{
     public Refund getRefundById(Long id) {
         return refundMapper.getRefundById(id);
     }
+
+
+    /**
+     * 更新退款申请       Added by Tiffany Zhu 2016.04.16
+     */
+    @Override
+    public void updRefund(Refund refund) {
+        refundMapper.updRefund(refund);
+    }
 }
