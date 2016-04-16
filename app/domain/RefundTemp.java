@@ -1,5 +1,6 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import play.data.validation.Constraints;
 
@@ -40,8 +41,10 @@ public class RefundTemp implements Serializable{
     private String      pgMessage;//支付返回消息
 
     @JsonIgnore
+    //@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp   createAt;//创建时间
     @JsonIgnore
+    //@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp   updateAt;//更新时间
     @JsonIgnore
     private Integer     amount;//申请退款数量

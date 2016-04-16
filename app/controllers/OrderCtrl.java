@@ -505,6 +505,7 @@ public class OrderCtrl extends Controller {
 
         //订单列表
         List<RefundTemp> refundTempList = refundService.getRefundOrderPage(refund_Temp_condition);
+        Logger.error(refundTempList.toString());
         List<Object[]> resultList = new ArrayList<>();
         for (RefundTemp refundTemp : refundTempList) {
             Object[] object = new Object[7];
@@ -518,11 +519,11 @@ public class OrderCtrl extends Controller {
             } else {
                 object[3] = "";
             }
-            if (refundTemp.getCreateAt() != null) {
-                object[4] = refundTemp.getCreateAt().toString().substring(0, 16);
-            } else {
-                object[4] = "";
-            }
+//            if (refundTemp.getCreateAt() != null) {
+                object[4] = refundTemp.getCreateAt();
+//            } else {
+                //object[4] = "";
+           // }
 
             switch (refundTemp.getState()) {
                 case "":
@@ -549,6 +550,7 @@ public class OrderCtrl extends Controller {
             object[6] = refundTemp.getReason();
             resultList.add(object);
         }
+
         return ok(views.html.order.refund.render(lang, ThemeCtrl.PAGE_SIZE, countNum, pageCount, resultList, (User) ctx().args.get("user")));
 
     }
@@ -743,6 +745,9 @@ public class OrderCtrl extends Controller {
         if (refundTemp.getUserId() != null) {
             userInfo = idService.getID(Integer.parseInt(refundTemp.getUserId().toString()));
         }
+
+        Logger.error("支付公司返回码:" + refundTemp.getPgCode());
+        Logger.error("支付公司消息:" + refundTemp.getPgMessage());
         return ok(views.html.order.refundDetail.render(lang, refundTemp, order, resultOrderLineList, userInfo, orderShip, ThemeCtrl.IMAGE_URL, (User) ctx().args.get("user")));
     }
 
