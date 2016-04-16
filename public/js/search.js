@@ -628,7 +628,7 @@ $(function() {
              refundDto.refund = refund;
              refundDto.userPhone = $("#user_phone_num").val();
              //调用共用ajax,url从根目录开始不需要加上语言
-             search("/comm/order/refund/search/" + pageIndex, refundDto);
+             search("/comm/order/refundTemp/search/" + pageIndex, refundDto);
          }
 
          //每个查询页面对应一个相应的返回时填充函数 订单查询页面       Added by Tiffany Zhu 2016.04.14
