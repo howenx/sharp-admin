@@ -334,6 +334,11 @@ public class ItemCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result carrSave() {
         JsonNode json = request().body().asJson();
+        Form<Carriage> carriageForm = Form.form(Carriage.class).bind(json);
+        //数据验证
+        if (carriageForm.hasErrors()) {
+            return badRequest();
+        }
         carriageService.carrModelSave(json);
         return ok("保存成功");
 

@@ -1,5 +1,8 @@
 package domain;
 
+import play.data.validation.Constraints;
+import util.Regex;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -18,36 +21,43 @@ public class Carriage implements Serializable{
     /**
      * 模板编号
      */
+    @Constraints.Pattern(Regex.LETTER_NUM)
     private String modelCode;
 
     /**
      * 模板名称
      */
+    @Constraints.Required
     private String modelName;
 
     /**
      * 首件
      */
+    @Constraints.Required
     private Integer firstNum;
 
     /**
      * 首费
      */
+    @Constraints.Required
     private BigDecimal firstFee;
 
     /**
      * 续件
      */
+    @Constraints.Required
     private Integer addNum;
 
     /**
      * 续费
      */
+    @Constraints.Required
     private BigDecimal addFee;
 
     /**
      * 指定省份代码
      */
+    @Constraints.Pattern(Regex.LETTER)
     private String cityCode;
 
     private String deliveryCode;    //快递公司编码

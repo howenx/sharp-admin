@@ -17,4 +17,16 @@ public class Regex {
         }
         return true;
     }
+
+    //整数或小数
+    public static final String MONEY = "^[0-9]+\\.{0,1}[0-9]{0,2}$";
+
+    //正整数
+    public static final String NUMBER = "^[0-9]+$";
+
+    //字母
+    public static final String LETTER = "^[A-Za-z]+$";
+
+    //字母数字
+    public static final String LETTER_NUM = "^[A-Za-z0-9]+$";
 }
