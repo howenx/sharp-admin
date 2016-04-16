@@ -223,7 +223,7 @@
         var errItems = "";
         $("input[name='selectItem']:checked").each(function(){
             var invId = $(this).parents("tr").find("td:eq(1)").find("input:eq(0)").val();
-            var state = $(this).parents("tr").find("td:eq(10)").find("input:eq(0)").val();
+            var state = $(this).parents("tr").find("td:eq(12)").find("input:eq(0)").val();
             if (state!="Y" && state!="P") {
                 isPost = false;
                 errItems = errItems + invId + ",";
