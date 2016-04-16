@@ -2,11 +2,11 @@ package controllers;
 
 import akka.actor.ActorRef;
 import com.fasterxml.jackson.databind.JsonNode;
-import entity.ID;
-import entity.Inventory;
-import entity.User;
-import entity.order.Order;
-import entity.pingou.*;
+import domain.ID;
+import domain.Inventory;
+import domain.User;
+import domain.order.Order;
+import domain.pingou.*;
 import filters.UserAuth;
 import modules.NewScheduler;
 import play.Logger;

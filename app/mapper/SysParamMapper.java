@@ -1,6 +1,6 @@
 package mapper;
 
-import entity.SystemParam;
+import domain.SystemParam;
 
 import java.util.List;
 

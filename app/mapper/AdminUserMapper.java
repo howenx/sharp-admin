@@ -1,6 +1,6 @@
 package mapper;
 
-import entity.AdminUser;
+import domain.AdminUser;
 
 import java.util.List;
 

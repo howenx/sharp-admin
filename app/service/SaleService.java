@@ -1,9 +1,9 @@
 package service;
 
-import entity.sale.SaleInventory;
-import entity.sale.SaleOrder;
-import entity.sale.SaleProduct;
-import entity.sale.SaleStatistics;
+import domain.sale.SaleInventory;
+import domain.sale.SaleOrder;
+import domain.sale.SaleProduct;
+import domain.sale.SaleStatistics;
 
 import java.util.List;
 

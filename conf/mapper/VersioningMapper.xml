@@ -21,7 +21,7 @@
     </sql>
 
     <!-- 录入一条 -->
-    <insert id="insertVersioning" parameterType="entity.VersionVo" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertVersioning" parameterType="domain.VersionVo" useGeneratedKeys="true" keyProperty="id">
         insert into versioning
         (release_number,product_type,download_link,admin_user_id,release_desc,release_at,file_name,update_req_xml,app_store_download_link,release_name)
         values
@@ -29,7 +29,7 @@
     </insert>
 
     <!-- -->
-    <select id="getVersioning" resultType="entity.VersionVo" parameterType="entity.VersionVo">
+    <select id="getVersioning" resultType="domain.VersionVo" parameterType="domain.VersionVo">
         select
         <include refid="versioningColumns">
             <property name="alias" value="t"/>
@@ -41,7 +41,7 @@
         order by current_version DESC,release_number DESC
     </select>
 
-    <update id="updateVersioning" parameterType="entity.VersionVo">
+    <update id="updateVersioning" parameterType="domain.VersionVo">
         update versioning set current_version =false where product_type=#{productType}
     </update>
 

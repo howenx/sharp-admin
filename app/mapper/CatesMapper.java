@@ -1,10 +1,9 @@
 package mapper;
 
-import entity.Cates;
+import domain.Cates;
 
 import java.util.HashMap;
 import java.util.List;
-import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * CatesMapper.xml for CatesMapper interface.

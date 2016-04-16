@@ -22,19 +22,19 @@
         (select count(*) from pin_activity pa where pa.pin_id = t.pin_id) as activity_count
     </sql>
 
-    <insert id="insertPinSku" parameterType="entity.pingou.PinSku" useGeneratedKeys="true" keyProperty="pinId">
+    <insert id="insertPinSku" parameterType="domain.pingou.PinSku" useGeneratedKeys="true" keyProperty="pinId">
         insert into pin_sku(pin_img,status,create_at,pin_title,start_at,end_at,restrict_amount,floor_price,inv_id,pin_discount)
         values(#{pinImg},#{status},CURRENT_TIMESTAMP(0),#{pinTitle},#{startAt}::timestamp,#{endAt}::timestamp,#{restrictAmount},#{floorPrice},#{invId},#{pinDiscount})
     </insert>
 
-    <update id="updatePinSku" parameterType="entity.pingou.PinSku">
+    <update id="updatePinSku" parameterType="domain.pingou.PinSku">
         update pin_sku
         set pin_img=#{pinImg},status=#{status},update_at = CURRENT_TIMESTAMP(0),pin_title=#{pinTitle},start_at=#{startAt}::timestamp,
         end_at=#{endAt}::timestamp,restrict_amount=#{restrictAmount},floor_price=#{floorPrice},inv_id=#{invId},pin_discount=#{pinDiscount}
         where pin_id = #{pinId}
     </update>
 
-    <select id="getPinSkuAll" resultType="entity.pingou.PinSku">
+    <select id="getPinSkuAll" resultType="domain.pingou.PinSku">
         select
         <include refid="pinSkuColumns">
             <property name="alias" value="t"/>
@@ -42,7 +42,7 @@
         from pin_sku t where 1=1
     </select>
 
-    <select id="getPinSkuPage" parameterType="entity.pingou.PinSku" resultType="entity.pingou.PinSku">
+    <select id="getPinSkuPage" parameterType="domain.pingou.PinSku" resultType="domain.pingou.PinSku">
         select
         <include refid="pinSkuColumns">
             <property name="alias" value="t"/>
@@ -71,14 +71,14 @@
         </if>
     </select>
 
-    <select id="getPinSkuById" resultType="entity.pingou.PinSku" parameterType="java.lang.Long">
+    <select id="getPinSkuById" resultType="domain.pingou.PinSku" parameterType="java.lang.Long">
         select
         <include refid="pinSkuColumns">
             <property name="alias" value="t"/>
         </include>
         from pin_sku t where pin_id = #{value}
     </select>
-    <update id="updPinThemeId" parameterType="entity.pingou.PinSku">
+    <update id="updPinThemeId" parameterType="domain.pingou.PinSku">
         update pin_sku
         set theme_id = #{themeId}
         where pin_id = #{pinId}
@@ -88,11 +88,11 @@
         update pin_sku set status = 'D' where end_at &lt;= CURRENT_TIMESTAMP(0)
     </update>
 
-    <update id="updStatusById" parameterType="entity.pingou.PinSku">
+    <update id="updStatusById" parameterType="domain.pingou.PinSku">
         update pin_sku set status = #{status} where pin_id = #{pinId}
     </update>
     
-    <select id="getAvailablePingou" resultType="entity.pingou.PinSku">
+    <select id="getAvailablePingou" resultType="domain.pingou.PinSku">
         select
         <include refid="pinSkuColumns">
             <property name="alias" value="t"/>
@@ -135,7 +135,7 @@
 
     </insert>
 
-    <select id="getTieredPriceByPinId" parameterType="java.lang.Long" resultType="entity.pingou.PinTieredPrice">
+    <select id="getTieredPriceByPinId" parameterType="java.lang.Long" resultType="domain.pingou.PinTieredPrice">
         select
         <include refid="tieredPriceColumns">
             <property name="alias" value="t"/>
@@ -161,7 +161,7 @@
 
     </delete>
 
-    <select id="getTieredPriceByTieredId" parameterType="java.lang.Long" resultType="entity.pingou.PinTieredPrice">
+    <select id="getTieredPriceByTieredId" parameterType="java.lang.Long" resultType="domain.pingou.PinTieredPrice">
         select
         <include refid="tieredPriceColumns">
             <property name="alias" value="t"/>
@@ -170,7 +170,7 @@
     </select>
 
     <!-- 由inv_id 获取拼购商品         Add By Sunny.Wu 2016/02/26-->
-    <select id="getPinSkuByInvId" resultType="entity.pingou.PinSku" parameterType="java.lang.Long">
+    <select id="getPinSkuByInvId" resultType="domain.pingou.PinSku" parameterType="java.lang.Long">
         select
         <include refid="pinSkuColumns">
                 <property name="alias" value="t"/>

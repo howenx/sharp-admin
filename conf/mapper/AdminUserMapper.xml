@@ -26,7 +26,7 @@
     </sql>
 
     <!-- 录入一条用户信息 -->
-    <insert id="insertUser" parameterType="entity.AdminUser" useGeneratedKeys="true" keyColumn="user_id">
+    <insert id="insertUser" parameterType="domain.AdminUser" useGeneratedKeys="true" keyColumn="user_id">
         insert into "ADMIN_USER"
         (en_nm,ch_nm,user_type,email,passwd,reg_ip,reg_dt,"active_YN",alter_dt,last_login_dt,last_login_ip,last_pwd_chg_dt,status)
         values
@@ -34,7 +34,7 @@
     </insert>
 
     <!-- 修改一条用户信息 -->
-    <update id="updateUser" parameterType="entity.AdminUser">
+    <update id="updateUser" parameterType="domain.AdminUser">
         update "ADMIN_USER"
         set
         ch_nm=#{chNm},user_type=#{userType},email=#{email},"active_YN"=#{activeYN},alter_dt=CURRENT_TIMESTAMP(0),last_login_dt=#{lastLoginDt},last_login_ip=#{lastLoginIp}::cidr,status=#{status}
@@ -42,7 +42,7 @@
     </update>
 
     <!-- 修改密码 -->
-    <update id="chgPwd" parameterType="entity.AdminUser">
+    <update id="chgPwd" parameterType="domain.AdminUser">
         update "ADMIN_USER"
         set
         passwd = user_passwd(user_id,#{passwd}),last_pwd_chg_dt = #{lastPwdChgDt}
@@ -51,7 +51,7 @@
 
 
     <!-- 查询一条用户信息 -->
-    <select id="getUserBy" resultType="entity.AdminUser" parameterType="entity.AdminUser">
+    <select id="getUserBy" resultType="domain.AdminUser" parameterType="domain.AdminUser">
         select
         user_id,en_nm,ch_nm,user_type,email,passwd,reg_ip,reg_dt,"active_YN",alter_dt,last_login_dt,last_login_ip,last_pwd_chg_dt,status
         from "ADMIN_USER" t where 1=1
@@ -70,7 +70,7 @@
     </select>
 
     <!-- 查询所有的用户信息 -->
-    <select id="getAllUsers" resultType="entity.AdminUser">
+    <select id="getAllUsers" resultType="domain.AdminUser">
         select
         <include refid="adminUserColumns">
             <property name="alias" value="t"/>

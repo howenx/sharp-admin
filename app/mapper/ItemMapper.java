@@ -1,6 +1,6 @@
 package mapper;
 
-import entity.Item;
+import domain.Item;
 
 import java.util.List;
 

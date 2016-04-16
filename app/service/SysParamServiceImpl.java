@@ -1,7 +1,7 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import entity.SystemParam;
+import domain.SystemParam;
 import mapper.SysParamMapper;
 import play.Logger;
 import javax.inject.Inject;

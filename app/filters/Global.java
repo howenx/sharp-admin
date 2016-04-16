@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
-import entity.Message;
+import domain.Message;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;

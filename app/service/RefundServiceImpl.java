@@ -1,7 +1,7 @@
 package service;
 
-import entity.Refund;
-import entity.RefundTemp;
+import domain.Refund;
+import domain.RefundTemp;
 import mapper.RefundMapper;
 
 import javax.inject.Inject;

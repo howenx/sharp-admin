@@ -1,7 +1,7 @@
 package mapper;
 
-import entity.Refund;
-import entity.RefundTemp;
+import domain.Refund;
+import domain.RefundTemp;
 
 import java.util.List;
 

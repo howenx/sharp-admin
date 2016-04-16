@@ -4,7 +4,7 @@ import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.japi.pf.ReceiveBuilder;
 import controllers.ShopOrderCtrl;
-import entity.order.Order;
+import domain.order.Order;
 import middle.ShopOrderMiddle;
 import modules.LevelFactory;
 import modules.NewScheduler;

@@ -1,8 +1,8 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import entity.DataLog;
-import entity.User;
+import domain.DataLog;
+import domain.User;
 import filters.UserAuth;
 import play.libs.Json;
 import play.mvc.Controller;

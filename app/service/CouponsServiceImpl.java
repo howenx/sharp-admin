@@ -2,7 +2,7 @@ package service;
 
 import akka.actor.ActorRef;
 import com.fasterxml.jackson.databind.JsonNode;
-import entity.Coupons;
+import domain.Coupons;
 import mapper.CouponsMapper;
 import modules.NewScheduler;
 import play.Logger;

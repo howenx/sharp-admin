@@ -9,13 +9,13 @@
         ${alias}.parameter_val,
         ${alias}.parameter_code
     </sql>
-    <insert id="insertParam" parameterType="entity.SystemParam" useGeneratedKeys="true" keyProperty="sys_id">
+    <insert id="insertParam" parameterType="domain.SystemParam" useGeneratedKeys="true" keyProperty="sys_id">
         insert into sys_parameter
         (parameter_nm,parameter_val,parameter_code)
         values
         (#{parameterNm},#{parameterVal},#{parameterCode})
     </insert>
-    <select id="getParamAll" resultType="entity.SystemParam">
+    <select id="getParamAll" resultType="domain.SystemParam">
         select
         <include refid="paramColumns">
             <property name="alias" value="t"/>

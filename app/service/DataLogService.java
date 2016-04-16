@@ -1,6 +1,6 @@
 package service;
 
-import entity.DataLog;
+import domain.DataLog;
 
 import java.util.List;
 

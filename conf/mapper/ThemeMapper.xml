@@ -22,7 +22,7 @@
 
         <!---  滚动条    -->
 
-        <select id="getSlidersAll" resultType="entity.Slider">
+        <select id="getSlidersAll" resultType="domain.Slider">
                 select
                 <include refid="sliderColumns">
                         <property name="alias" value="t"/>
@@ -30,12 +30,12 @@
                 from slider t order by t.sort_nu
         </select>
 
-        <insert id="insertSlider" parameterType="entity.Slider" useGeneratedKeys="true" keyProperty="id">
+        <insert id="insertSlider" parameterType="domain.Slider" useGeneratedKeys="true" keyProperty="id">
                 insert into slider (img,sort_nu,create_at,item_target,target_type)
                 values (#{img},#{sortNu},CURRENT_TIMESTAMP(0),#{itemTarget}, #{targetType})
         </insert>
 
-        <update id="updateSlider" parameterType="entity.Slider">
+        <update id="updateSlider" parameterType="domain.Slider">
                 update slider set
                 img=#{img},sort_nu=#{sortNu},update_at=CURRENT_TIMESTAMP(0),item_target=#{itemTarget},target_type=#{targetType}
                 where id = #{id}
@@ -69,7 +69,7 @@
                 ${alias}.h5_link
         </sql>
 
-        <select id="getThemePage" parameterType="entity.Theme" resultType="entity.Theme">
+        <select id="getThemePage" parameterType="domain.Theme" resultType="domain.Theme">
                 select
                 <include refid="themeColumns">
                         <property name="alias" value="t"/>
@@ -107,7 +107,7 @@
                 </if>
         </select>
 
-        <select id="getThemesAll" resultType="entity.Theme">
+        <select id="getThemesAll" resultType="domain.Theme">
                 select
                 <include refid="themeColumns">
                         <property name="alias" value="t"/>
@@ -115,7 +115,7 @@
                 from themes t where 1=1
         </select>
 
-        <select id="getThemeById" resultType="entity.Theme" parameterType="java.lang.Long">
+        <select id="getThemeById" resultType="domain.Theme" parameterType="java.lang.Long">
                 select
                 <include refid="themeColumns">
                         <property name="alias" value="t"/>
@@ -124,31 +124,31 @@
 
         </select>
 
-        <insert id="insertTheme" parameterType="entity.Theme" useGeneratedKeys="true" keyProperty="id">
+        <insert id="insertTheme" parameterType="domain.Theme" useGeneratedKeys="true" keyProperty="id">
                 insert into themes
                 (master_item_id,title,start_at,end_at,theme_img,create_at,theme_item,master_item_tag,theme_master_img)
                 values
                 (#{masterItemId},#{title},#{startAt}::timestamp,#{endAt}::timestamp,#{themeImg},CURRENT_TIMESTAMP(0),#{themeItem}::jsonb,#{themeTags}::jsonb,#{themeMasterImg})
         </insert>
 
-        <update id="updateTheme" parameterType="entity.Theme">
+        <update id="updateTheme" parameterType="domain.Theme">
                 update themes
                 set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},
                     update_at=CURRENT_TIMESTAMP(0),theme_item=#{themeItem}::jsonb,master_item_tag=#{themeTags}::jsonb,theme_master_img=#{themeMasterImg},or_destroy=false
                 where id = #{id}
         </update>
 
-        <update id="updThemeItems" parameterType="entity.Theme">
+        <update id="updThemeItems" parameterType="domain.Theme">
                 update themes
                 set theme_item=#{themeItem}
                 where id = #{id}
         </update>
 
-        <insert id="addH5Theme" parameterType="entity.Theme">
+        <insert id="addH5Theme" parameterType="domain.Theme">
                 insert into themes (title,create_at,start_at,end_at,type,h5_link,theme_img)
                 values(#{title},CURRENT_TIMESTAMP(0),#{startAt}::timestamp,#{endAt}::timestamp,#{type},#{h5Link},#{themeImg})
         </insert>
-        <update id="updH5Theme" parameterType="entity.Theme">
+        <update id="updH5Theme" parameterType="domain.Theme">
                 update themes
                 set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},
                 update_at=CURRENT_TIMESTAMP(0),h5_link = #{h5Link},or_destroy=false
@@ -166,7 +166,7 @@
                 where id = #{value}
         </update>
 
-        <select id="getOnShelfTheme" resultType="entity.Theme">
+        <select id="getOnShelfTheme" resultType="domain.Theme">
               select
                 <include refid="themeColumns">
                         <property name="alias" value="t"/>
@@ -191,7 +191,7 @@
                 ${alias}.navigator_html,
                 ${alias}.content_html
         </sql>
-        <select id="getTemplatesAll" resultType="entity.ThemeTemplate">
+        <select id="getTemplatesAll" resultType="domain.ThemeTemplate">
                 select
                 <include refid="templateColumns">
                         <property name="alias" value="t"/>
@@ -199,14 +199,14 @@
                 from theme_templates t where 1=1
         </select>
 
-        <insert id="insertTemplate" parameterType="entity.ThemeTemplate" useGeneratedKeys="true" keyProperty="id">
+        <insert id="insertTemplate" parameterType="domain.ThemeTemplate" useGeneratedKeys="true" keyProperty="id">
                 insert into theme_templates
                 (url,navigator_html,content_html)
                 values
                 (#{url},#{navigatorHtml}::text,#{contentHtml}::text)
         </insert>
 
-        <update id="updateTemplate" parameterType="entity.ThemeTemplate">
+        <update id="updateTemplate" parameterType="domain.ThemeTemplate">
                 update theme_templates
                 set url = #{url},navigator_html = #{navigatorHtml}::text,content_html = #{contentHtml}::text
                 where id = #{id}

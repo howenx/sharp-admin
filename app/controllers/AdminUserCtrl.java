@@ -6,7 +6,7 @@ import akka.actor.ActorSystem;
 import akka.util.Timeout;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import entity.*;
+import domain.*;
 import filters.UserAuth;
 import modules.LevelFactory;
 import modules.NewScheduler;

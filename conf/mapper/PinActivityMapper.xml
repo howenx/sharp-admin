@@ -18,11 +18,11 @@
         ${alias}.end_at
     </sql>
 
-    <insert id="activityManualAdd" parameterType="entity.pingou.PinActivity" useGeneratedKeys="true" keyProperty="pinActiveId">
+    <insert id="activityManualAdd" parameterType="domain.pingou.PinActivity" useGeneratedKeys="true" keyProperty="pinActiveId">
         insert into pin_activity(pin_tiered_id,pin_id,master_user_id,person_num,pin_price,join_persons,create_at,status,end_at)
         values(#{pinTieredId},#{pinId},#{masterUserId},#{personNum},#{pinPrice},#{joinPersons},CURRENT_TIMESTAMP(0),#{status},#{endAt}::timestamp)
     </insert>
-    <select id="getActivityAll" resultType="entity.pingou.PinActivity">
+    <select id="getActivityAll" resultType="domain.pingou.PinActivity">
         select
         <include refid="pinActivityColumns">
             <property name="alias" value="t"/>
@@ -30,7 +30,7 @@
         from pin_activity t where 1=1
     </select>
 
-    <select id="getActivityById" parameterType="java.lang.Long" resultType="entity.pingou.PinActivity">
+    <select id="getActivityById" parameterType="java.lang.Long" resultType="domain.pingou.PinActivity">
         select
         <include refid="pinActivityColumns">
             <property name="alias" value="t"/>
@@ -38,7 +38,7 @@
         from pin_activity t where pin_active_id = #{value}
     </select>
 
-    <select id="getPinActivityPage" parameterType="entity.pingou.PinActivity" resultType="entity.pingou.PinActivity">
+    <select id="getPinActivityPage" parameterType="domain.pingou.PinActivity" resultType="domain.pingou.PinActivity">
         select
         <include refid="pinActivityColumns">
             <property name="alias" value="t"/>
@@ -66,7 +66,7 @@
         </if>
     </select>
 
-    <select id="getActivityByPinId" parameterType="java.lang.Long" resultType="entity.pingou.PinActivity">
+    <select id="getActivityByPinId" parameterType="java.lang.Long" resultType="domain.pingou.PinActivity">
         select
         <include refid="pinActivityColumns">
             <property name="alias" value="t"/>
@@ -99,13 +99,13 @@
         ${alias}.member_coupon_class,
         ${alias}.member_coupon_start_at
     </sql>
-    <insert id="activityManualAddCoupon" parameterType="entity.pingou.PinCoupon" useGeneratedKeys="true" keyProperty="id">
+    <insert id="activityManualAddCoupon" parameterType="domain.pingou.PinCoupon" useGeneratedKeys="true" keyProperty="id">
         insert into pin_coupon(member_coupon_end_at,member_coupon_quota,pin_active_id,master_coupon,master_coupon_class,
                                 master_coupon_start_at,master_coupon_end_at,master_coupon_quota,member_coupon,member_coupon_class,member_coupon_start_at)
         values(#{memberCouponEndAt}::timestamp,#{memberCouponQuota},#{pinActiveId},#{masterCoupon},#{masterCouponClass},#{masterCouponStartAt}::timestamp,#{masterCouponEndAt}::timestamp,#{masterCouponQuota},
                 #{memberCoupon},#{memberCouponClass},#{memberCouponStartAt}::timestamp)
     </insert>
-    <select id="getCouponByActivityId" parameterType="java.lang.Long" resultType="entity.pingou.PinCoupon">
+    <select id="getCouponByActivityId" parameterType="java.lang.Long" resultType="domain.pingou.PinCoupon">
         select
         <include refid="pinCouponColumns">
             <property name="alias" value="t"/>
@@ -126,7 +126,7 @@
         ${alias}.join_at
     </sql>
 
-    <insert id="pinUserAdd" parameterType="entity.pingou.PinUser" useGeneratedKeys="true" keyProperty="id">
+    <insert id="pinUserAdd" parameterType="domain.pingou.PinUser" useGeneratedKeys="true" keyProperty="id">
         insert into pin_user(user_id,or_master,pin_active_id,user_ip,or_robot,join_at)
         values(#{userId},#{orMaster},#{pinActiveId},#{userIp}::CIDR,#{orRobot},CURRENT_TIMESTAMP(0))
     </insert>
@@ -139,7 +139,7 @@
         </foreach>
     </insert>
 
-    <select id="getUserByActivityId" parameterType="java.lang.Long" resultType="entity.pingou.PinUser">
+    <select id="getUserByActivityId" parameterType="java.lang.Long" resultType="domain.pingou.PinUser">
         select
         <include refid="pinUserColumns">
             <property name="alias" value="t"/>

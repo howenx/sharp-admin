@@ -22,7 +22,7 @@
     </sql>
 
     <!-- 根据日期获取订单信息 -->
-    <select id="getSOrderBy" resultType="entity.statistics.SOrder" parameterType="entity.statistics.SOrder">
+    <select id="getSOrderBy" resultType="domain.statistics.SOrder" parameterType="domain.statistics.SOrder">
         select
         <include refid="sOrderColumns">
             <property name="alias" value="t"/>
@@ -37,7 +37,7 @@
     </select>
 
     <!-- 获取所有的信息 -->
-    <select id="getAllSOrder" resultType="entity.statistics.SOrder">
+    <select id="getAllSOrder" resultType="domain.statistics.SOrder">
         select
         <include refid="sOrderColumns">
             <property name="alias" value="t"/>

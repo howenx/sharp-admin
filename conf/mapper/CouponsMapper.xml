@@ -22,7 +22,7 @@
     </sql>
 
     <!-- 录入一条优惠券信息 -->
-    <insert id="insertCoupons" parameterType="entity.Coupons">
+    <insert id="insertCoupons" parameterType="domain.Coupons">
         insert into sp_coupons
         (coup_id,user_id,cate_id,denomination,start_at,end_at,state,order_id,use_at,limit_quota,cate_nm)
         values
@@ -30,7 +30,7 @@
     </insert>
 
     <!-- 更新一条优惠券信息  Added by Sunny Wu 2016.04.05 -->
-    <update id="updateCoupons" parameterType="entity.Coupons">
+    <update id="updateCoupons" parameterType="domain.Coupons">
         update sp_coupons
         set
         user_id=#{userId},cate_id=#{cateId},denomination=#{denomination},start_at=#{startAt},end_at=#{endAt},state=#{state},order_id=#{orderId},use_at=#{useAt},limit_quota=#{limitQuota},cate_nm=#{cateNm}
@@ -38,7 +38,7 @@
     </update>
 
     <!-- 由coupId获取一条优惠券信息 -->
-    <select id="getCoupons" resultType="entity.Coupons" parameterType="java.lang.String">
+    <select id="getCoupons" resultType="domain.Coupons" parameterType="java.lang.String">
         select
         <include refid="couponsColumns">
             <property name="alias" value="t"/>
@@ -47,7 +47,7 @@
     </select>
 
     <!-- 获取所有已使用的优惠券信息 -->
-    <select id="getAllUsedCoupons" resultType="entity.Coupons">
+    <select id="getAllUsedCoupons" resultType="domain.Coupons">
         select
         <include refid="couponsColumns">
             <property name="alias" value="t"/>
@@ -56,7 +56,7 @@
     </select>
 
     <!-- 分页获取所有已使用优惠券信息 -->
-    <select id="getUsedCouponsPage" parameterType="entity.Coupons" resultType="entity.Coupons">
+    <select id="getUsedCouponsPage" parameterType="domain.Coupons" resultType="domain.Coupons">
         select
         <include refid="couponsColumns">
             <property name="alias" value="t"/>

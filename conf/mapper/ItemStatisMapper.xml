@@ -15,14 +15,14 @@
         ${alias}.size
     </sql>
 
-    <insert id="insertItemStatis" parameterType="entity.ItemStatis" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertItemStatis" parameterType="domain.ItemStatis" useGeneratedKeys="true" keyProperty="id">
         insert into item_statis
         (create_date, sku_id, color, size)
         values
         (#{createDate},#{skuId},#{color},#{size})
     </insert>
 
-    <select id="getItemStatis" resultType="entity.ItemStatis" parameterType="java.lang.Long">
+    <select id="getItemStatis" resultType="domain.ItemStatis" parameterType="java.lang.Long">
         select
         <include refid="itemStatisColumns">
             <property name="alias" value="t"/>
@@ -30,7 +30,7 @@
         from item_statis t where id=#{value}
     </select>
 
-    <select id="getAllItemStatis" resultType="entity.ItemStatis">
+    <select id="getAllItemStatis" resultType="domain.ItemStatis">
         select
         <include refid="itemStatisColumns">
             <property name="alias" value="t"/>

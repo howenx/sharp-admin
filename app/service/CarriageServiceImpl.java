@@ -1,7 +1,7 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import entity.Carriage;
+import domain.Carriage;
 import mapper.CarriageMapper;
 import play.Logger;
 import play.libs.Json;

@@ -40,7 +40,7 @@
 
     </sql>
     <!-- 录入一条销售产品信息 -->
-    <insert id="insertSaleProduct" parameterType="entity.sale.SaleProduct" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertSaleProduct" parameterType="domain.sale.SaleProduct" useGeneratedKeys="true" keyProperty="id">
         insert into sale_product
         (name,category_id,sku_code,product_code,spec,sale_count,inventory,product_cost,stock_value,purchase_count,
         no_card,damage,less_delivery,less_product,empty_box,create_at,update_at,inv_area,storage_at,custom_sku_id,damage_other,remark,create_user_id,update_user_id,back_count,jd_sku_id,sale_finish_status)
@@ -76,7 +76,7 @@
     </insert>
 
 
-    <update id="updateSaleProduct" parameterType="entity.sale.SaleProduct" >
+    <update id="updateSaleProduct" parameterType="domain.sale.SaleProduct" >
         update sale_product set name= #{name},category_id= #{categoryId},sku_code= #{skuCode},product_code= #{productCode},
         spec= #{spec},sale_count=#{saleCount},inventory= #{inventory},product_cost= #{productCost},stock_value=#{stockValue},purchase_count= #{purchaseCount},
         no_card= #{noCard},damage=#{damage},less_delivery= #{lessDelivery},less_product=#{lessProduct},empty_box=#{emptyBox},update_at= CURRENT_TIMESTAMP(0),
@@ -84,7 +84,7 @@
         update_user_id=#{updateUserId},back_count=#{backCount},jd_sku_id=#{jdSkuId},sale_finish_status=#{saleFinishStatus}
         where id=#{id}
     </update>
-    <select id="getSaleProductById" parameterType="java.lang.Long"  resultType="entity.sale.SaleProduct">
+    <select id="getSaleProductById" parameterType="java.lang.Long"  resultType="domain.sale.SaleProduct">
         select
         <include refid="saleProductColumns">
             <property name="alias" value="t"/>
@@ -92,7 +92,7 @@
         from sale_product t where 1=1 and t.id=#{value}
     </select>
 
-    <select id="getSaleProduct" parameterType="entity.sale.SaleProduct" resultType="entity.sale.SaleProduct">
+    <select id="getSaleProduct" parameterType="domain.sale.SaleProduct" resultType="domain.sale.SaleProduct">
         select
         <include refid="saleProductColumns">
             <property name="alias" value="t"/>
@@ -117,7 +117,7 @@
 
     </select>
 
-    <select id="getSaleProductPage" parameterType="entity.sale.SaleProduct" resultType="entity.sale.SaleProduct">
+    <select id="getSaleProductPage" parameterType="domain.sale.SaleProduct" resultType="domain.sale.SaleProduct">
         select
         <include refid="saleProductColumns">
             <property name="alias" value="t"/>
@@ -199,7 +199,7 @@
         ${alias}.input_type
     </sql>
     <!-- 录入一条销售订单信息 -->
-    <insert id="insertSaleOrder" parameterType="entity.sale.SaleOrder" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertSaleOrder" parameterType="domain.sale.SaleOrder" useGeneratedKeys="true" keyProperty="id">
         insert into sale_order
         (sale_at,order_id,product_name,price,sale_count,discount_amount,sale_total,
         jd_rate,jd_fee,cost,ship_fee,pack_fee,storage_fee,postal_fee,postal_tax_rate,profit,inte_logistics,
@@ -211,7 +211,7 @@
         #{updateUserId},#{shop},#{inputType}
        )
     </insert>
-    <update id="updateSaleOrder" parameterType="entity.sale.SaleOrder" >
+    <update id="updateSaleOrder" parameterType="domain.sale.SaleOrder" >
         update sale_order set sale_at=#{saleAt},order_id=#{orderId},product_name=#{productName},price=#{price},sale_count=#{saleCount},
         discount_amount=#{discountAmount},sale_total=#{saleTotal},jd_rate=#{jdRate},jd_fee=#{jdFee},cost=#{cost},ship_fee=#{shipFee},
         pack_fee=#{packFee},storage_fee=#{storageFee},postal_fee=#{postalFee},postal_tax_rate=#{postalTaxRate},profit=#{profit},inte_logistics=#{inteLogistics},
@@ -220,7 +220,7 @@
         where id=#{id}
     </update>
 
-    <select id="getSaleOrderById" parameterType="java.lang.Long"  resultType="entity.sale.SaleOrder">
+    <select id="getSaleOrderById" parameterType="java.lang.Long"  resultType="domain.sale.SaleOrder">
         select
         <include refid="saleOrderColumns">
             <property name="alias" value="t"/>
@@ -228,7 +228,7 @@
         from sale_order t where 1=1  and t.id=#{value}
     </select>
 
-    <select id="getSaleOrder" parameterType="entity.sale.SaleOrder" resultType="entity.sale.SaleOrder">
+    <select id="getSaleOrder" parameterType="domain.sale.SaleOrder" resultType="domain.sale.SaleOrder">
         select
         <include refid="saleOrderColumns">
             <property name="alias" value="t"/>
@@ -250,7 +250,7 @@
             and t.input_type = #{inputType}
         </if>
     </select>
-    <select id="getSaleStatistics" parameterType="entity.sale.SaleOrder" resultType="entity.sale.SaleStatistics">
+    <select id="getSaleStatistics" parameterType="domain.sale.SaleOrder" resultType="domain.sale.SaleStatistics">
         SELECT sum(sale_total)as saleTotal,sum(jd_fee)as jdFeeTotal ,sum(ship_fee)as shipFeeTotal,sum(inte_logistics)as inteLogisticsTotal ,
         sum(pack_fee)as packFeeTotal,sum(storage_fee)as storageFeeTotal ,sum(profit)as profitTotal, sum(sale_count) as saleCountTotal FROM sale_order
         where 1=1
@@ -272,7 +272,7 @@
         </if>
         ;
     </select>
-    <select id="getSaleInventory" parameterType="entity.sale.SaleOrder" resultType="entity.sale.SaleInventory">
+    <select id="getSaleInventory" parameterType="domain.sale.SaleOrder" resultType="domain.sale.SaleInventory">
         SELECT sum(s.sale_count)as saleCount,s.sale_at as saleDate from sale_order s
         WHERE 1=1
         <if test="saleProductId!=null and saleProductId!=''">
@@ -284,7 +284,7 @@
         and s.sale_at::TEXT LIKE '${saleMonth}%' GROUP BY s.sale_at order by s.sale_at;
    </select>
 
-    <select id="getSaleOrderPage" parameterType="entity.sale.SaleOrder" resultType="entity.sale.SaleOrder">
+    <select id="getSaleOrderPage" parameterType="domain.sale.SaleOrder" resultType="domain.sale.SaleOrder">
         select
         <include refid="saleOrderColumns">
             <property name="alias" value="t"/>

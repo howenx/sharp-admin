@@ -1,6 +1,6 @@
 package mapper;
 
-import entity.DataLog;
+import domain.DataLog;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import entity.Brands;
-import entity.Cates;
-import entity.Item;
-import entity.VersionVo;
+import domain.Brands;
+import domain.Cates;
+import domain.Item;
+import domain.VersionVo;
 import mapper.*;
 import play.Logger;
 
