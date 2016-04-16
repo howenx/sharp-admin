@@ -84,7 +84,7 @@
 
     <update id="updRefund" parameterType="domain.RefundTemp">
             update sp_refund
-            set state = #{state},update_at = CURRENT_TIMESTAMP(0),
+            set state = #{state},update_at = CURRENT_TIMESTAMP(0)
         <if test="rejectReason != null and rejectReason != ''">
             ,reject_reason = #{rejectReason}
         </if>
