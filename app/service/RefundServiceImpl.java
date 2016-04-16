@@ -1,5 +1,6 @@
 package service;
 
+import entity.Refund;
 import entity.RefundTemp;
 import mapper.RefundMapper;
 
@@ -51,5 +52,10 @@ public class RefundServiceImpl implements RefundService{
     @Override
     public void updRefund(RefundTemp refundTemp) {
         refundMapper.updRefund(refundTemp);
+    }
+
+    @Override
+    public Refund getRefundServiceById(Long id) {
+        return refundMapper.getRefundServiceById(id);
     }
 }

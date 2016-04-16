@@ -734,14 +734,17 @@ public class OrderCtrl extends Controller {
         String refuseReason = json.get("reasonContent").asText();
         String refundState = json.get("response").asText();
         RefundTemp refundTemp = refundService.getRefundById(id);
+        Refund refund = refundService.getRefundServiceById(id);
+
         refundTemp.setState(refundState);
+        refund.setState(refundState);
         if(refundState.equals("R")){
             refundTemp.setRejectReason(refuseReason);
+            refund.setRejectReason(refuseReason);
         }
 
-
         system.actorSelection(configuration.getString("shopping.cancelOrderActor")).tell(refundTemp.getOrderId(), ActorRef.noSender());
-        system.actorSelection(configuration.getString("shopping.refundActor")).tell(refundTemp, ActorRef.noSender());
+        system.actorSelection(configuration.getString("shopping.refundActor")).tell(refund, ActorRef.noSender());
         refundService.updRefund(refundTemp);
         return ok("success");
     }

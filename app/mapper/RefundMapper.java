@@ -1,5 +1,6 @@
 package mapper;
 
+import entity.Refund;
 import entity.RefundTemp;
 
 import java.util.List;
@@ -28,6 +29,10 @@ public interface RefundMapper {
      * @return
      */
     RefundTemp getRefundById(Long id);
+
+
+
+    Refund getRefundServiceById(Long id);
 
     /**
      * 更新退款申请       Added by Tiffany Zhu 2016.04.16

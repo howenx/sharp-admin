@@ -70,6 +70,13 @@
         </include>
         from sp_refund t where 1=1 and t.id = #{id}
     </select>
+    <select id="getRefundServiceById" parameterType="java.lang.Long" resultType="entity.Refund">
+        select
+        <include refid="refundColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_refund t where 1=1 and t.id = #{id}
+    </select>
 
     <update id="updRefund" parameterType="entity.RefundTemp">
             update sp_refund
