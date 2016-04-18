@@ -140,7 +140,7 @@
         </if>
 
         <if test="sort == null or sort == ''">
-            ORDER BY t.jd_sku_id,t.create_at DESC
+            ORDER BY t.name,t.create_at DESC
         </if>
 
         <if test="sort != null">
@@ -314,7 +314,7 @@
         </if>
 
         <if test="sort == null or sort == ''">
-            ORDER BY t.create_at DESC
+            ORDER BY t.sale_at,t.create_at DESC
         </if>
 
         <if test="sort != null">

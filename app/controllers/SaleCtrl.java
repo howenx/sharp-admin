@@ -932,7 +932,7 @@ public class SaleCtrl extends Controller {
 
                 BigDecimal price=new BigDecimal(str[6]); //TODO ..单价
                 BigDecimal discountAmount=new BigDecimal(str[7]).subtract(new BigDecimal(str[10])); //优惠额
-                BigDecimal jdRate=new BigDecimal(10);  //京东费率
+                BigDecimal jdRate=new BigDecimal(0);  //京东费率
                 BigDecimal postalTaxRate=new BigDecimal(0); //行邮税
                 BigDecimal shipFee = new BigDecimal(0);  //运费
                 BigDecimal inteLogistics = new BigDecimal(0); //国际运费
@@ -1178,7 +1178,7 @@ public class SaleCtrl extends Controller {
                 saleOrder=saleOrderList.get(0);
                 BigDecimal jdFee=new BigDecimal(str[3]);
                 saleOrder.setJdFee(jdFee);
-                BigDecimal jdRate=jdFee.multiply(new BigDecimal(100)).divide(new BigDecimal(str[2]),2); //jd rate 扩大了100倍
+                BigDecimal jdRate=new BigDecimal(Math.round(jdFee.multiply(new BigDecimal(100)).divide(new BigDecimal(str[2]),2).doubleValue())); //jd rate 扩大了100倍 四舍五入
                 saleOrder.setJdRate(jdRate);
 
                 saleOrder.setProfit(getOrderProfit(saleOrder.getSaleTotal(),saleOrder.getJdFee(),saleOrder.getCost(),
