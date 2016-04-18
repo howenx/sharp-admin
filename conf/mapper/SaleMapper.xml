@@ -196,19 +196,20 @@
         ${alias}.create_user_id,
         ${alias}.update_user_id,
         ${alias}.shop,
-        ${alias}.input_type
+        ${alias}.input_type,
+        ${alias}.jd_sku_id
     </sql>
     <!-- 录入一条销售订单信息 -->
     <insert id="insertSaleOrder" parameterType="domain.sale.SaleOrder" useGeneratedKeys="true" keyProperty="id">
         insert into sale_order
         (sale_at,order_id,product_name,price,sale_count,discount_amount,sale_total,
         jd_rate,jd_fee,cost,ship_fee,pack_fee,storage_fee,postal_fee,postal_tax_rate,profit,inte_logistics,
-        category_id,create_at,update_at,sale_product_id,inv_area,remark_status,remark,create_user_id,update_user_id,shop,input_type)
+        category_id,create_at,update_at,sale_product_id,inv_area,remark_status,remark,create_user_id,update_user_id,shop,input_type,jd_sku_id)
         values(
         #{saleAt},#{orderId},#{productName},#{price},#{saleCount},#{discountAmount},#{saleTotal},
         #{jdRate},#{jdFee},#{cost},#{shipFee},#{packFee},#{storageFee},#{postalFee},#{postalTaxRate},#{profit},#{inteLogistics},
        #{categoryId},CURRENT_TIMESTAMP(0),CURRENT_TIMESTAMP(0),#{saleProductId},#{invArea},#{remarkStatus},#{remark},#{createUserId},
-        #{updateUserId},#{shop},#{inputType}
+        #{updateUserId},#{shop},#{inputType},#{jdSkuId}
        )
     </insert>
     <update id="updateSaleOrder" parameterType="domain.sale.SaleOrder" >
@@ -216,7 +217,7 @@
         discount_amount=#{discountAmount},sale_total=#{saleTotal},jd_rate=#{jdRate},jd_fee=#{jdFee},cost=#{cost},ship_fee=#{shipFee},
         pack_fee=#{packFee},storage_fee=#{storageFee},postal_fee=#{postalFee},postal_tax_rate=#{postalTaxRate},profit=#{profit},inte_logistics=#{inteLogistics},
         category_id=#{categoryId},update_at= CURRENT_TIMESTAMP(0),inv_area=#{invArea},sale_product_id=#{saleProductId},remark_status=#{remarkStatus},remark=#{remark},
-        update_user_id=#{updateUserId},shop=#{shop},input_type=#{inputType}
+        update_user_id=#{updateUserId},shop=#{shop},input_type=#{inputType},jd_sku_id=#{jdSkuId}
         where id=#{id}
     </update>
 
@@ -249,6 +250,10 @@
         <if test="inputType!=null and inputType!=''">
             and t.input_type = #{inputType}
         </if>
+        <if test="jdSkuId!=null and jdSkuId!=''">
+            and t.jd_sku_id like '%${jdSkuId}%'
+        </if>
+        ORDER BY t.sale_at desc,t.create_at DESC
     </select>
     <select id="getSaleStatistics" parameterType="domain.sale.SaleOrder" resultType="domain.sale.SaleStatistics">
         SELECT sum(sale_total)as saleTotal,sum(jd_fee)as jdFeeTotal ,sum(ship_fee)as shipFeeTotal,sum(inte_logistics)as inteLogisticsTotal ,
@@ -312,9 +317,12 @@
         <if test="saleProductId!=null and saleProductId!=''">
             and t.sale_product_id = #{saleProductId}
         </if>
+        <if test="jdSkuId!=null and jdSkuId!=''">
+            and t.jd_sku_id like '%${jdSkuId}%'
+        </if>
 
         <if test="sort == null or sort == ''">
-            ORDER BY t.sale_at,t.create_at DESC
+            ORDER BY t.sale_at desc,t.create_at DESC
         </if>
 
         <if test="sort != null">
