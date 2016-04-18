@@ -14,7 +14,7 @@ import domain.order.OrderShip;
 import domain.order.OrderSplit;
 import filters.UserAuth;
 import modules.NewScheduler;
-import order.GetLogistics;
+import util.GetLogistics;
 import play.Configuration;
 import play.Logger;
 import play.i18n.Lang;
