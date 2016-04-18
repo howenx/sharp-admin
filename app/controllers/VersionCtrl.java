@@ -13,6 +13,7 @@ import com.aliyuncs.http.FormatType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import domain.AdminUser;
 import domain.User;
 import domain.VersionVo;
@@ -20,6 +21,7 @@ import filters.UserAuth;
 import middle.VersionMiddle;
 import play.Configuration;
 import play.Logger;
+import play.data.Form;
 import play.libs.Akka;
 import play.libs.Json;
 import play.mvc.*;
@@ -34,6 +36,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static play.libs.Json.newObject;
 
 /**
  * 版本管理
@@ -115,28 +119,24 @@ public class VersionCtrl extends Controller {
 
             List<Http.MultipartFormData.FilePart> fileParts = body.getFiles();
 
-            Map<String, String[]> stringMap = body.asFormUrlEncoded();
-            Map<String, String> map = new HashMap<>();
-            stringMap.forEach((k, v) -> map.put(k, v[0]));
+            Form<VersionVo> userForm = Form.form(VersionVo.class).bindFromRequest();
 
-            Optional<JsonNode> json = Optional.ofNullable(Json.toJson(map));
+            if (userForm.hasErrors()){
+                Logger.error("表单提交错误:"+userForm.errorsAsJson().toString());
+                return ok("error");
+            }else {
+                User user = (User) ctx().args.get("user");
 
-            User user = (User) ctx().args.get("user");
-
-            if (json.isPresent()) {
-                VersionVo versionVo = Json.fromJson(json.get(), VersionVo.class);
+                VersionVo versionVo = userForm.get();
 
                 versionVo.setAdminUserId(Long.valueOf(user.userId().get().toString()));
 
                 versionMiddle.publicRelease(versionVo, fileParts.get(0).getFile());
 
-
                 return ok("success");
-            } else return badRequest("error");
-
-        } catch (Exception ex) {
-            Logger.error("发布版本出错:" + ex.getMessage());
-            ex.printStackTrace();
+            }
+        }catch (Exception ex){
+            Logger.error("发布版本出错:"+ex.getMessage());
             return badRequest("error");
         }
     }
@@ -155,27 +155,22 @@ public class VersionCtrl extends Controller {
 
             List<Http.MultipartFormData.FilePart> fileParts = body.getFiles();
 
-            Map<String,String[]> stringMap = body.asFormUrlEncoded();
-            Map<String,String> map = new HashMap<>();
-            stringMap.forEach((k, v) -> map.put(k,v[0]));
+            Form<VersionVo> userForm = Form.form(VersionVo.class).bindFromRequest();
 
-            Optional<JsonNode> json = Optional.ofNullable(Json.toJson(map));
+            if (userForm.hasErrors()){
+                Logger.error("表单提交错误:"+userForm.errorsAsJson().toString());
+                return ok("error");
+            }else {
+                User user = (User) ctx().args.get("user");
 
-            User user = (User) ctx().args.get("user");
+                VersionVo versionVo = userForm.get();
 
-            VersionVo versionVo = Json.fromJson(json.get(),VersionVo.class);
+                versionVo.setAdminUserId(Long.valueOf(user.userId().get().toString()));
 
-            versionVo.setAdminUserId(Long.valueOf(user.userId().get().toString()));
+                versionMiddle.apiPublicRelease(versionVo, fileParts.get(0).getFile());
 
-//            versionMiddle.apiPublicRelease(versionVo,fileParts.get(0).getFile());
-            //创建Actor -------->start
-            ActorRef versiondeploy = Akka.system().actorOf(Props.create(StyleVersionDeployActor.class));
-            system.scheduler().scheduleOnce(Duration.create(2, TimeUnit.SECONDS),versiondeploy,versionVo.getProductType(), system.dispatcher(), ActorRef.noSender());
-
-            //创建Actor -------->end
-
-
-            return ok("success");
+                return ok("success");
+            }
         }catch (Exception ex){
             Logger.error("发布版本出错:"+ex.getMessage());
             return badRequest("error");

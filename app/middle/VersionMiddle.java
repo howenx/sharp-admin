@@ -1,5 +1,6 @@
 package middle;
 
+import akka.actor.ActorRef;
 import com.aliyun.oss.model.ObjectMetadata;
 import domain.VersionVo;
 import modules.OSSClientProvider;
@@ -8,6 +9,7 @@ import play.Logger;
 import service.ItemService;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.beans.XMLEncoder;
 import java.io.*;
 
@@ -25,6 +27,10 @@ public class VersionMiddle {
 
     @Inject
     private OSSClientProvider oss_client;
+
+    @Inject
+    @Named("autoDeployActor")
+    private ActorRef autoDeployActor;
 
     /**
      * 发布版本
@@ -91,40 +97,39 @@ public class VersionMiddle {
 
     }
 
-    public void apiPublicRelease(VersionVo versionVo,File file) throws FileNotFoundException {
+    public void apiPublicRelease(VersionVo versionVo, File file) throws FileNotFoundException {
 
-        String fileName = "style-" +versionVo.getProductType() + "-"+ versionVo.getReleaseName().toUpperCase()+".zip";
+        String fileName = "style-" + versionVo.getProductType() + "-" + versionVo.getReleaseName() + ".zip".toLowerCase();
 
-        String productType="style-id";
-        if (versionVo.getProductType().equals("imgProcess")){
-            productType="style-imgProcess";
-        } else if(versionVo.getProductType().equals("promotion")){
-            productType="style-promotion";
-        } else if(versionVo.getProductType().equals("service")){
-            productType="style-service";
-        } else if(versionVo.getProductType().equals("shopping")){
-            productType="style-shopping";
-        } else if(versionVo.getProductType().equals("web")){
-            productType="style-web";
-        }
+        String productType = "style-" + versionVo.getProductType().toLowerCase();
+
 
         versionVo.setFileName(fileName);
-        versionVo.setDownloadLink(configuration.getString("deploy.upload.path") + productType+"/"+fileName);
-        File targetFolder = new File(configuration.getString("deploy.upload.path"),productType);
+        String uploadPath = configuration.getString("deploy.upload.path");
+        versionVo.setDownloadLink(uploadPath + productType + "/" + fileName);
+        File targetFolder = new File(uploadPath, productType);
 
-        if(!targetFolder.exists()){
-            targetFolder.mkdirs();
+        if (!targetFolder.exists()) {
+            if (!targetFolder.mkdirs()) Logger.error("创建目录出错");
+        } else {
+            Logger.error("测试地址-->"+targetFolder.getPath() +" 绝对路径-->"+targetFolder.getAbsolutePath());
+            if (!file.renameTo(new File(targetFolder.getPath() + "/" + fileName))) Logger.error("文件重命名出错");
         }
-        file.renameTo(new File(targetFolder.getAbsoluteFile() +"/"+ fileName));
         try {
-            file.createNewFile();
-        }catch (IOException e){
+            if (file.exists()){
+                if (file.delete()){
+                    if (!file.createNewFile()) Logger.error("文件创建出错");
+                }else {
+                    if (!file.createNewFile()) Logger.error("文件创建出错");
+                }
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
         versionVo.setUpdateReqXml("101010");
-        itemService.updateVersioning(versionVo);
-        itemService.insertVersioning(versionVo);
+        if (itemService.insertVersioning(versionVo)) {
+            autoDeployActor.tell(versionVo, ActorRef.noSender());
+        }
     }
 
 }

@@ -38,6 +38,9 @@
         <if test="productType!=null and productType!=''">
            and product_type=#{productType}
         </if>
+        <if test="id!=null and id!=''">
+            and id=#{id}
+        </if>
         order by current_version DESC,release_number DESC
     </select>
 
