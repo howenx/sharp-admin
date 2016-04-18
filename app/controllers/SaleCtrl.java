@@ -289,6 +289,11 @@ public class SaleCtrl extends Controller {
 
             }
 
+            if(null!=saleProduct){
+                //更新后更新相关产品数据
+                updateProductAtUpdateOrder(saleProduct);
+            }
+
 
         } catch (Exception e) {
             Logger.error("product save exception "+e.getMessage());
@@ -717,6 +722,9 @@ public class SaleCtrl extends Controller {
             if (shop>0) {
                 saleOrder.setShop(shop);
             }
+            if (json.has("saleProductId")) {
+                saleOrder.setSaleProductId(json.findValue("saleProductId").asLong());
+            }
 
             saleOrder.setPageSize(-1);
             saleOrder.setOffset(-1);
@@ -737,7 +745,6 @@ public class SaleCtrl extends Controller {
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
             returnMap.put("pageSize",ThemeCtrl.PAGE_SIZE);
-            Logger.info("=salesSearchAjax=returnMap="+returnMap);
             return ok(Json.toJson(returnMap));
         }
         else{
@@ -753,8 +760,8 @@ public class SaleCtrl extends Controller {
     public Result saleOrderDel(Long id) {
         SaleOrder saleOrder=saleService.getSaleOrderById(id);
         if(null!=saleOrder){
-            SaleProduct saleProduct=saleService.getSaleProductById(saleOrder.getSaleProductId());
             if(saleService.delSaleOrderById(id)){
+                SaleProduct saleProduct=saleService.getSaleProductById(saleOrder.getSaleProductId());
                 if(null!=saleProduct){
                     //订单更新后更新相关产品数据
                     updateProductAtUpdateOrder(saleProduct);
