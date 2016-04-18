@@ -515,7 +515,12 @@ public class OrderCtrl extends Controller {
             //手机号码
             if (refundTemp.getUserId() != null) {
                 ID userInfo = idService.getID(Integer.parseInt(refundTemp.getUserId().toString()));
-                object[3] = userInfo.getPhoneNum();
+                if(userInfo != null){
+                    object[3] = userInfo.getPhoneNum();
+                }else{
+                    object[3] = "";
+                }
+
             } else {
                 object[3] = "";
             }
@@ -613,7 +618,11 @@ public class OrderCtrl extends Controller {
                 //手机号码
                 if (refundTempTemp.getUserId() != null) {
                     ID userInfo = idService.getID(Integer.parseInt(refundTempTemp.getUserId().toString()));
-                    object[3] = userInfo.getPhoneNum();
+                    if(userInfo != null){
+                        object[3] = userInfo.getPhoneNum();
+                    }else{
+                        object[3] = "";
+                    }
                 } else {
                     object[3] = "";
                 }
