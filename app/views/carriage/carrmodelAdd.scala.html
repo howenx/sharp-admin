@@ -174,39 +174,15 @@
                             <td>续费(元)</td>
                             <td>操作</td>
                         </tr>
-                        <!--<tr>-->
-                        <!--<td width="300">-->
-                        <!--<span>北京 上海</span> <a href="javascript:void(0)" class="edit" style="float: right">编辑</a>-->
-                        <!--<span class="cnm" style="display:none;">BJ,SH</span>-->
-                        <!--</td>-->
-                        <!--<td>-->
-                        <!--<input type="text" value="5">-->
-                        <!--</td>-->
-                        <!--<td>-->
-                        <!--<input type="text" value="10">-->
-                        <!--</td>-->
-                        <!--<td>-->
-                        <!--<input type="text" value="1">-->
-                        <!--</td>-->
-                        <!--<td>-->
-                        <!--<input type="text" value="10">-->
-                        <!--</td>-->
-                        <!--<td>-->
-                        <!--<a href="javascript:void(0)" class="del">删除</a>-->
-                        <!--</td>-->
-                        <!--</tr>-->
                         <tr>
                             <td colspan="6">
                                 <a href="javascript:void(0)" class="add-temp">为指定地区城市设置运费</a>
                                 <!--<a href="javascript:void(0)">批量操作</a>-->
                             </td>
                         </tr>
+                        <div>(重量请输入整数,金额请输入整数或两位小数)</div>
                     </table>
                     <h5>备注:运费按照商品金额-优惠(直降/单品促销)-返现之后的订单金额收取</h5>
-                    <!--<div class="btns">-->
-                    <!--<button type="button" id="modelSubmit">保存且返回</button>-->
-                    <!--<button type="button" style="margin-left: 30px">返回</button>-->
-                    <!--</div>-->
                 </div>
             </div>
         </form>
@@ -278,6 +254,9 @@
                     var af = modelLines[i].getElementsByTagName("input")[3].value;
                     var scModel = new Object();
                     scModel.modelName = modelName;
+                    scModel.storeArea = storeArea;
+                    scModel.deliveryCode = deliveryCode;
+                    scModel.deliveryName = deliveryName;
                     scModel.firstNum = fn;
                     scModel.firstFee = ff;
                     scModel.addNum = an;

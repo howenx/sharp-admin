@@ -6,6 +6,7 @@ import domain.*;
 import filters.UserAuth;
 import middle.ItemMiddle;
 import play.Configuration;
+import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.i18n.Lang;
@@ -334,10 +335,13 @@ public class ItemCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result carrSave() {
         JsonNode json = request().body().asJson();
-        Form<Carriage> carriageForm = Form.form(Carriage.class).bind(json);
-        //数据验证
-        if (carriageForm.hasErrors()) {
-            return badRequest();
+        for(final JsonNode jsonNode : json) {
+            Form<Carriage> carriageForm = Form.form(Carriage.class).bind(jsonNode);
+            Carriage carriage  = Json.fromJson(jsonNode, Carriage.class);
+            //数据验证
+            if (carriageForm.hasErrors() || carriage.getFirstNum()<0 || carriage.getFirstFee().compareTo(new BigDecimal(0.00))<0 || carriage.getAddNum()<0 ||carriage.getAddFee().compareTo(new BigDecimal(0.00))<0) {
+                return badRequest();
+            }
         }
         carriageService.carrModelSave(json);
         return ok("保存成功");

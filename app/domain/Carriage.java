@@ -24,33 +24,33 @@ public class Carriage implements Serializable{
     private String modelCode;
 
     /**
-     * 模板名称
+     * 模板名称 汉字、 -、 字母或者数字
      */
-//    @Constraints.Required
+    @Constraints.Pattern("^[a-zA-Z0-9\\u4e00-\\u9fa5\\-]+$")
     private String modelName;
 
     /**
      * 首件
      */
-//    @Constraints.Required
+    @Constraints.Required
     private Integer firstNum;
 
     /**
      * 首费
      */
-//    @Constraints.Required
+    @Constraints.Required
     private BigDecimal firstFee;
 
     /**
      * 续件
      */
-//    @Constraints.Required
+    @Constraints.Required
     private Integer addNum;
 
     /**
      * 续费
      */
-//    @Constraints.Required
+    @Constraints.Required
     private BigDecimal addFee;
 
     /**

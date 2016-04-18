@@ -240,7 +240,7 @@ function saveCurr(saveFlag) {
     //上下架时间验证
     var now = new Date();
     var nowTime = now.getFullYear()+"-"+(now.getMonth()+1>=10?now.getMonth()+1:'0'+(now.getMonth()+1))+"-"+(now.getDate()>=10?now.getDate():'0'+now.getDate())+" "+(now.getHours()>=10?now.getHours():'0'+now.getHours())+":"+(now.getMinutes()>=10?now.getMinutes():'0'+now.getMinutes())+":"+(now.getSeconds()>=10?now.getSeconds():'0'+now.getSeconds());
-    var ss = moment(now).format("YYYYMMDD");
+//    var ss = moment(now).format("YYYYMMDD");
     var maxDate = now.setMonth(now.getMonth()+6);
     var d1 = new Date(Date.parse(startAt.replace(/-/g,"/")));//上架时间
     var d2 = new Date(Date.parse(endAt.replace(/-/g,"/")));//下架时间
@@ -263,7 +263,7 @@ function saveCurr(saveFlag) {
     }
     if (d1>=maxDate || d2>=maxDate) {
         orSave = false;
-        alert("上架时间和下架时间距离现在不能超过六个月");
+        alert("上架时间和下架时间不能超过当前时间6个月");
     }
     //库存
     if (Number(restAmount) > Number(amount)) {

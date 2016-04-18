@@ -299,15 +299,15 @@ public class AdminUserCtrl extends Controller {
             AdminUser adu  = Json.fromJson(aduNode, AdminUser.class);
             AdminUser adminUser = adminUserService.getUserBy(adu);
             //根据用户名和密码查询用户
-            if (null!=adminUser && !"".equals(adminUser)) {
-                if (json.has("newPwd")) {
+            if (null!=adminUser && !"".equals(adminUser.toString())) {
+                if (json.has("newPwd") && json.findValue("newPwd").asText().length()>=8) {
                     String newPwd = json.findValue("newPwd").asText();
                     adminUser.setPasswd(newPwd);
                     adminUser.setLastPwdChgDt(new Timestamp(new Date().getTime()));
                     //修改密码
                     adminUserService.chgPwd(adminUser);
                     return ok("密码修改成功");
-                }
+                } else return badRequest();
             } else return ok("密码错误");
         }
         return ok("false");
