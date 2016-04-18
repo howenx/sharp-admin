@@ -26,7 +26,8 @@
        ${alias}.create_at,
        ${alias}.pg_trade_no,
        ${alias}.update_at,
-       ${alias}.pg_code
+       ${alias}.pg_code,
+       ${alias}.update_user
    </sql>
 
     <select id="getRefundOrders" resultType="domain.RefundTemp">
@@ -84,9 +85,12 @@
 
     <update id="updRefund" parameterType="domain.RefundTemp">
             update sp_refund
-            set state = #{state},update_at = CURRENT_TIMESTAMP(0)
-        <if test="rejectReason != null and rejectReason != ''">
+            set state = #{state},update_at = CURRENT_TIMESTAMP(0),update_user = #{updateUser}
+        <if test="state == 'R'.toString() and rejectReason != null and rejectReason != ''">
             ,reject_reason = #{rejectReason}
+        </if>
+        <if test="state == 'A'.toString() and payBackFee != null and payBackFee != ''">
+            ,pay_back_fee = #{payBackFee}
         </if>
             where id = #{id}
     </update>

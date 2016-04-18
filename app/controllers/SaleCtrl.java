@@ -130,11 +130,11 @@ public class SaleCtrl extends Controller {
     private SaleOrder createSaleOrder(Date saleAt,String orderId,Long saleProductId,String productName, Integer categoryId,BigDecimal price,Integer saleCount,
                                       BigDecimal discountAmount, BigDecimal saleTotal,BigDecimal jdRate,BigDecimal jdFee,BigDecimal cost,BigDecimal shipFee,
                                       BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, BigDecimal postalTaxRate, BigDecimal profit,
-                                      String invArea,Integer remarkStatus,String remark,Long createUserId,Long updateUserId,Integer shop,Integer inputType){
+                                      String invArea,Integer remarkStatus,String remark,Long createUserId,Long updateUserId,Integer shop,Integer inputType,String jdSkuId){
         SaleOrder saleOrder=new SaleOrder();
         setSaleOrder(saleOrder,saleAt,orderId, saleProductId, productName, categoryId, price, saleCount,
                 discountAmount, saleTotal, jdRate, jdFee, cost,
-                shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,invArea,remarkStatus,remark,createUserId,updateUserId,shop,inputType);
+                shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,invArea,remarkStatus,remark,createUserId,updateUserId,shop,inputType,jdSkuId);
         if(saleService.insertSaleOrder(saleOrder)){
             return saleOrder;
         }
@@ -144,7 +144,7 @@ public class SaleCtrl extends Controller {
     private void setSaleOrder(SaleOrder saleOrder,Date saleAt,String orderId,Long saleProductId,String productName, Integer categoryId,BigDecimal price,Integer saleCount,
                               BigDecimal discountAmount, BigDecimal saleTotal,BigDecimal jdRate,BigDecimal jdFee,BigDecimal cost,BigDecimal shipFee,
                               BigDecimal inteLogistics, BigDecimal packFee,BigDecimal storageFee, BigDecimal postalFee, BigDecimal postalTaxRate, BigDecimal profit,
-                              String invArea,Integer remarkStatus,String remark,Long createUserId,Long updateUserId,Integer shop,Integer inputType){
+                              String invArea,Integer remarkStatus,String remark,Long createUserId,Long updateUserId,Integer shop,Integer inputType,String jdSkuId){
         saleOrder.setSaleAt(saleAt);
         saleOrder.setOrderId(orderId);
         saleOrder.setSaleProductId(saleProductId);
@@ -171,6 +171,7 @@ public class SaleCtrl extends Controller {
         saleOrder.setUpdateUserId(updateUserId);
         saleOrder.setShop(shop);
         saleOrder.setInputType(inputType);
+        saleOrder.setJdSkuId(jdSkuId);
     }
 
     /**
@@ -287,6 +288,11 @@ public class SaleCtrl extends Controller {
                     }
                 }
 
+            }
+
+            if(null!=saleProduct){
+                //更新后更新相关产品数据
+                updateProductAtUpdateOrder(saleProduct);
             }
 
 
@@ -471,7 +477,7 @@ public class SaleCtrl extends Controller {
             if(null==id||"".equals(id)) {
                 saleOrder = createSaleOrder(new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, saleProduct.getName(), cate, price, saleCount,
                         discountAmount, saleTotal, jdRate, jdFee, saleProduct.getProductCost(),
-                        shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark,userId,userId,shop,inputType);
+                        shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark,userId,userId,shop,inputType,saleProduct.getJdSkuId());
             }else{
                 saleOrder=saleService.getSaleOrderById(Long.valueOf(id));
                 SaleProduct oldSaleProduct=null;
@@ -482,7 +488,7 @@ public class SaleCtrl extends Controller {
                 }
                 setSaleOrder(saleOrder,new SimpleDateFormat("yyyy-MM-dd").parse(saleAt), orderId, saleProductId, saleProduct.getName(), cate, price, saleCount,
                         discountAmount, saleTotal, jdRate, jdFee, saleProduct.getProductCost(),
-                        shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark,saleOrder.getCreateUserId(),userId,shop,inputType);
+                        shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate, profit,saleProduct.getInvArea(),remarkStatus,remark,saleOrder.getCreateUserId(),userId,shop,inputType,saleProduct.getJdSkuId());
                 saleService.updateSaleOrder(saleOrder);
 
                 if(null!=oldSaleProduct){
@@ -717,6 +723,9 @@ public class SaleCtrl extends Controller {
             if (shop>0) {
                 saleOrder.setShop(shop);
             }
+            if (json.has("saleProductId")) {
+                saleOrder.setSaleProductId(json.findValue("saleProductId").asLong());
+            }
 
             saleOrder.setPageSize(-1);
             saleOrder.setOffset(-1);
@@ -737,7 +746,6 @@ public class SaleCtrl extends Controller {
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
             returnMap.put("pageSize",ThemeCtrl.PAGE_SIZE);
-            Logger.info("=salesSearchAjax=returnMap="+returnMap);
             return ok(Json.toJson(returnMap));
         }
         else{
@@ -753,8 +761,8 @@ public class SaleCtrl extends Controller {
     public Result saleOrderDel(Long id) {
         SaleOrder saleOrder=saleService.getSaleOrderById(id);
         if(null!=saleOrder){
-            SaleProduct saleProduct=saleService.getSaleProductById(saleOrder.getSaleProductId());
             if(saleService.delSaleOrderById(id)){
+                SaleProduct saleProduct=saleService.getSaleProductById(saleOrder.getSaleProductId());
                 if(null!=saleProduct){
                     //订单更新后更新相关产品数据
                     updateProductAtUpdateOrder(saleProduct);
@@ -925,7 +933,7 @@ public class SaleCtrl extends Controller {
 
                 BigDecimal price=new BigDecimal(str[6]); //TODO ..单价
                 BigDecimal discountAmount=new BigDecimal(str[7]).subtract(new BigDecimal(str[10])); //优惠额
-                BigDecimal jdRate=new BigDecimal(10);  //京东费率
+                BigDecimal jdRate=new BigDecimal(0);  //京东费率
                 BigDecimal postalTaxRate=new BigDecimal(0); //行邮税
                 BigDecimal shipFee = new BigDecimal(0);  //运费
                 BigDecimal inteLogistics = new BigDecimal(0); //国际运费
@@ -961,7 +969,7 @@ public class SaleCtrl extends Controller {
                             str[0], saleProduct.getId(), str[2], saleProduct.getCategoryId(), price, saleCount,
                             discountAmount, saleTotal, jdRate, jdFee, saleProduct.getProductCost(),
                             shipFee, inteLogistics, packFee, storageFee, postalFee, postalTaxRate,
-                            profit,saleProduct.getInvArea(),remarkStatus,str[21],userId,userId,shop,2);
+                            profit,saleProduct.getInvArea(),remarkStatus,str[21],userId,userId,shop,2,jdSkuId);
                     Logger.info("<br/>"+"第"+(i)+"行成功,orderId="+orderId);
                     suc.append("<br/>"+"第"+(i)+"行成功,orderId="+orderId);
 
@@ -1154,12 +1162,26 @@ public class SaleCtrl extends Controller {
                 str=list.get(i).split(",");
                 temp=new SaleOrder();
                 String orderId=str[0];
-                if("".equals(orderId)||null==orderId){
+                if(str[1].equals("合计")){
+                    continue;
+                }
+                if("".equals(str[0])&&"".equals(str[1])){
+                    for(int j=i-1;j>1;j--){
+                        orderId=list.get(j).split(",")[0]; //,,类型的取上一个orderId
+                        if(!"".equals(orderId)&&null!=orderId){
+                            break;
+                        }
+                    }
+                }
+                if(null==orderId||"".equals(orderId.trim())){
                     Logger.error("<br/>"+(i+1)+"行订单不存在,orderId="+orderId);
                     orderErr.append("<br/>"+(i+1)+"行订单不存在,orderId="+orderId);
                     continue;
                 }
+                Logger.error(orderId+"==uploadOrderSaleDetail==="+str[0]+"==="+str[1]);
                 temp.setOrderId(orderId);
+                temp.setJdSkuId(str[7]);
+
                 List<SaleOrder> saleOrderList=saleService.getSaleOrder(temp);
 
                 if(null==saleOrderList||saleOrderList.isEmpty()){
@@ -1170,8 +1192,11 @@ public class SaleCtrl extends Controller {
                 //商品应结金额*京东费率=商品佣金，用这个公式商品佣金/商品应结金额=京东费率
                 saleOrder=saleOrderList.get(0);
                 BigDecimal jdFee=new BigDecimal(str[3]);
+                if(jdFee.compareTo(new BigDecimal(0))<0){
+                    jdFee=jdFee.multiply(new BigDecimal(-1));
+                }
                 saleOrder.setJdFee(jdFee);
-                BigDecimal jdRate=jdFee.multiply(new BigDecimal(100)).divide(new BigDecimal(str[2]),2); //jd rate 扩大了100倍
+                BigDecimal jdRate=new BigDecimal(Math.round(jdFee.multiply(new BigDecimal(100)).divide(new BigDecimal(str[2]),2).doubleValue())); //jd rate 扩大了100倍 四舍五入
                 saleOrder.setJdRate(jdRate);
 
                 saleOrder.setProfit(getOrderProfit(saleOrder.getSaleTotal(),saleOrder.getJdFee(),saleOrder.getCost(),

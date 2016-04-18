@@ -46,6 +46,18 @@ public class CoupCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result coupSave() {
         JsonNode json = request().body().asJson();
+//        for(final JsonNode jsonNode : json) {
+//            Form<Coupons> couponsForm = Form.form(Coupons.class).bind(jsonNode);
+//            Logger.error("form..........."+couponsForm.toString());
+//            Coupons coupons  = Json.fromJson(jsonNode, Coupons.class);
+//            Logger.error("优惠券..........."+coupons.toString());
+            //数据验证
+//            if (couponsForm.hasErrors() ) {
+//                Logger.error("表单有错误.....");
+//                return badRequest();
+//            }
+//        }
+        //开始时间和结束时间不能超过当前时间6个月
         couponsService.couponsSave(json);
         return ok("保存成功");
     }

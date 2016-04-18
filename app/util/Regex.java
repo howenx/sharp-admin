@@ -19,7 +19,7 @@ public class Regex {
     }
 
     //整数或小数
-    public static final String MONEY = "^[0-9]+\\.{0,1}[0-9]{0,2}$";
+    public static final String DECIMAL = "^[0-9]+\\.{0,1}[0-9]{0,2}$";
 
     //正整数
     public static final String NUMBER = "^[0-9]+$";

@@ -127,9 +127,9 @@
                     <td width="130">运送方式</td>
                     <td>运送到</td>
                     <td>首重(单位:克)</td>
-                    <td>运费(元)</td>
+                    <td>首费(元)</td>
                     <td>续重(单位:克)</td>
-                    <td>运费(元)</td>
+                    <td>续费(元)</td>
                 </tr>
                 <tr>
                     <td>快递</td>
@@ -153,12 +153,14 @@
                     </td>
                 </tr>
                 <tr>
+                <tr>
                     <td width="130">运送方式</td>
                     <td>运送到</td>
-                    <td>首件(件)</td>
-                    <td>运费(元)</td>
-                    <td>续件(件)</td>
-                    <td>运费(元)</td>
+                    <td>首重(单位:克)</td>
+                    <td>首费(元)</td>
+                    <td>续重(单位:克)</td>
+                    <td>续费(元)</td>
+                </tr>
                 </tr>
                 @for(cl <- carriageList) {
                 @if(cl.getModelCode() == ml.getModelCode()) {
@@ -187,31 +189,6 @@
             </table>
             }
             }
-            <!--one-->
-            <!--<table cellspacing="0">-->
-                <!--<tr style="background: rgb(224,238,255)">-->
-                    <!--<td colspan="6">-->
-                        <!--<span>默认模版</span>-->
-                        <!--<span>最后编辑时间:2015-11-12 15:18 <a href="javascript:void(0)" class="temp-edit">修改</a></span>-->
-                    <!--</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                    <!--<td width="130">运送方式</td>-->
-                    <!--<td>运送到</td>-->
-                    <!--<td>首件(件)</td>-->
-                    <!--<td>运费(元)</td>-->
-                    <!--<td>续件(件)</td>-->
-                    <!--<td>运费(元)</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                    <!--<td>快递</td>-->
-                    <!--<td>未被划分的配送地区自动归于默认运费</td>-->
-                    <!--<td>10</td>-->
-                    <!--<td>25.00</td>-->
-                    <!--<td>2</td>-->
-                    <!--<td>5.00</td>-->
-                <!--</tr>-->
-            <!--</table>-->
         </div>
     </div>
 </div>
