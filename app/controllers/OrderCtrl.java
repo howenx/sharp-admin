@@ -796,8 +796,14 @@ public class OrderCtrl extends Controller {
             refund.setPayBackFee(payBackFee);
         }
 
+        //更新者ID
+        User user = (User) ctx().args.get("user");
+        refundTemp.setUpdateUser(user.id());
+
+        //调用远程Actor
         system.actorSelection(configuration.getString("shopping.refundActor")).tell(refund, ActorRef.noSender());
 
+        //更新数据库
         refundService.updRefund(refundTemp);
         return ok("success");
 

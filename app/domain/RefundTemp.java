@@ -67,6 +67,8 @@ public class RefundTemp implements Serializable{
     @Constraints.Required
     private String      refundType;//退款类型，pin：拼购自动退款，receive：收货后申请退款，deliver：发货前退款
 
+    private Long updateUser;  //更新者ID
+
 
     //分页,每页多少条
     private Integer pageSize;
@@ -81,7 +83,7 @@ public class RefundTemp implements Serializable{
     public RefundTemp() {
     }
 
-    public RefundTemp(Long id, Long orderId, Long splitOrderId, Long skuId, String skuType, Long skuTypeId, BigDecimal payBackFee, String reason, String state, String pgTradeNo, String pgCode, String pgMessage, String createAt, Timestamp updateAt, Integer amount, String refundImg, String contactName, String contactTel, String expressCompany, String expressCompCode, String expressNum, String rejectReason, Long userId, String refundType, Integer pageSize, Integer offset, String sort, String order) {
+    public RefundTemp(Long id, Long orderId, Long splitOrderId, Long skuId, String skuType, Long skuTypeId, BigDecimal payBackFee, String reason, String state, String pgTradeNo, String pgCode, String pgMessage, String createAt, Timestamp updateAt, Integer amount, String refundImg, String contactName, String contactTel, String expressCompany, String expressCompCode, String expressNum, String rejectReason, Long userId, String refundType, Long updateUser, Integer pageSize, Integer offset, String sort, String order) {
         this.id = id;
         this.orderId = orderId;
         this.splitOrderId = splitOrderId;
@@ -106,6 +108,7 @@ public class RefundTemp implements Serializable{
         this.rejectReason = rejectReason;
         this.userId = userId;
         this.refundType = refundType;
+        this.updateUser = updateUser;
         this.pageSize = pageSize;
         this.offset = offset;
         this.sort = sort;
@@ -139,12 +142,14 @@ public class RefundTemp implements Serializable{
                 ", rejectReason='" + rejectReason + '\'' +
                 ", userId=" + userId +
                 ", refundType='" + refundType + '\'' +
+                ", updateUser=" + updateUser +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +
                 ", order='" + order + '\'' +
                 '}';
     }
+
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -340,6 +345,14 @@ public class RefundTemp implements Serializable{
 
     public void setRefundType(String refundType) {
         this.refundType = refundType;
+    }
+
+    public Long getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(Long updateUser) {
+        this.updateUser = updateUser;
     }
 
     public Integer getPageSize() {
