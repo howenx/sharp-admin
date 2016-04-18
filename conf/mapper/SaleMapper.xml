@@ -308,6 +308,10 @@
         <if test="endtime!=null and endtime!=''">
             and t.sale_at &lt;=#{endtime} ::timestamp
         </if>
+        
+        <if test="saleProductId!=null and saleProductId!=''">
+            and t.sale_product_id = #{saleProductId}
+        </if>
 
         <if test="sort == null or sort == ''">
             ORDER BY t.create_at DESC

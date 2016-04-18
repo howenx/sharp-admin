@@ -571,6 +571,7 @@ $(function() {
             saleDto.orderId=$("#orderId").val();
             saleDto.name=$("#productName").val();
             saleDto.shop=$("#shop").val();
+            saleDto.saleProductId=$("#saleProductId").val();
             //起止时间如果为空
             if ($("#starttime").val() != '' && $("#starttime").val() != null) {
                 saleDto.startTime=$("#starttime").val();
