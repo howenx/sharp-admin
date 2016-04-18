@@ -771,16 +771,29 @@ public class OrderCtrl extends Controller {
     public Result refundDeal(String lang) {
         JsonNode json = request().body().asJson();
         Long id = json.get("refundId").asLong();
-        String refuseReason = json.get("reasonContent").asText();
         String refundState = json.get("response").asText();
+        String refuseReason = json.get("reasonContent").asText();
+        String payBackFeeStr = json.get("payBackFee").asText();
         RefundTemp refundTemp = refundService.getRefundById(id);
         Refund refund = refundService.getRefundServiceById(id);
+
+        /*后台验证-----------start*/
+        if(json == null || id == null || id==0  || refundState== null || refundState.equals("") || (refundState.equals("R") && (refuseReason ==null || refuseReason.equals("")))
+                || (refundState.equals("A") && (payBackFeeStr==null || payBackFeeStr.equals(""))) || refundTemp == null || refund == null){
+            return badRequest();
+        }
+        /*后台验证-----------end*/
 
         refundTemp.setState(refundState);
         refund.setState(refundState);
         if (refundState.equals("R")) {
             refundTemp.setRejectReason(refuseReason);
             refund.setRejectReason(refuseReason);
+        }
+        if (refundState.equals("A")) {
+            BigDecimal payBackFee = new BigDecimal(payBackFeeStr);
+            refundTemp.setPayBackFee(payBackFee);
+            refund.setPayBackFee(payBackFee);
         }
 
         system.actorSelection(configuration.getString("shopping.refundActor")).tell(refund, ActorRef.noSender());

@@ -14,11 +14,18 @@
             if(state == "A" || state == "R"){
                 $(".response").val(state);
             }
+
             if(state == "R"){
                 $(".refuse-reason").css("display","block");
                 $("#reason-content").attr("disabled",true);
                 $("#reason-content").val("@refundTemp.getRejectReason()");
             }
+            if(state == "A"){
+                $(".refund-amount").css("display","block");
+                $("#refund-amount").attr("disabled",true);
+                $("#refund-amount").val("@refundTemp.getPayBackFee()");
+            }
+
             if(state == "N"){
                 $(".usercenter-option").css("display","block");
                 $(".response").val("A");
@@ -32,18 +39,50 @@
            var response =  $(".response option:selected").val();
            if(response === "R"){
                 $(".refuse-reason").css("display","block");
-           }else{
+                $(".refund-amount").css("display","none");
+           }else if(response === "A"){
                 $(".refuse-reason").css("display","none");
+                $(".refund-amount").css("display","block");
+           }else if(response === ""){
+                $(".refuse-reason").css("display","none");
+                $(".refund-amount").css("display","none");
            }
+
            $('.usercenter-option > .user-state').css('background-position', '20px -73px');
 		   $('.usercenter-option > .user-state').text('已更改');
         })
 
         $(document).on("click","#js-usercenter-submit",function(){
             var isPost = true;
+            var positive_float = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;       //金钱校验
+
             if($(".response option:selected").val() == "" || $(".response option:selected").val() == null){
                 isPost = false;
-                $('#js-userinfo-error').text('请选择处理结果').css('color', '#2fa900');
+                $('#js-userinfo-error').text('请选择处理结果!').css('color', '#2fa900');
+			    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+			    return false;
+            }
+            if($(".response option:selected").val() == 'R' && $("#reason-content").val() == ''){
+                isPost = false;
+                $('#js-userinfo-error').text('请填入拒绝退款理由!').css('color', '#2fa900');
+			    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+			    return false;
+            }
+            if($(".response option:selected").val() == 'A' && $("#refund-amount").val() == ''){
+                isPost = false;
+                $('#js-userinfo-error').text('请填入退款金额!').css('color', '#2fa900');
+			    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+			    return false;
+            }
+            if($(".response option:selected").val() == 'A' && parseFloat($("#refund-amount").val()) > parseFloat($("#apply-money").val())){
+                isPost = false;
+                $('#js-userinfo-error').text('退款金额须小于商品总价!').css('color', '#2fa900');
+			    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+			    return false;
+            }
+            if($(".response option:selected").val() == 'A' && !positive_float.test(parseFloat($("#refund-amount").val()))){
+                isPost = false;
+                $('#js-userinfo-error').text('退款金额须为数字!').css('color', '#2fa900');
 			    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
 			    return false;
             }
@@ -52,10 +91,13 @@
             var refundId = $("#refundTemp-id").val();
             var response =  $(".response option:selected").val();
             var reasonContent = $("#reason-content").val();
+            var payBackFee = $("#refund-amount").val();
 
             object.refundId = refundId;
             object.response = response;
             object.reasonContent = reasonContent;
+            object.payBackFee = payBackFee;
+
             console.log(object);
             if(isPost){
                 $.ajax({
@@ -131,6 +173,13 @@
                 </div>
             </div>
 
+            <div class="form-group refund-amount" style="margin-top: 20px;display:none">
+                <label class="col-sm-1 control-label" style="text-align: left;margin-left: 80px">退款金额:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="" id="refund-amount">
+                </div>
+            </div>
+
 
 
             <hr/>
@@ -144,13 +193,19 @@
             <div class="form-group">
                 <div class="col-sm-6">
                     <span>手机号:</span>
-                    <input type="text" value="@userInfo.getPhoneNum()" disabled>
+                    @if(userInfo != null){
+                        <input type="text" value="@userInfo.getPhoneNum()" disabled>
+                    }else{
+                    <input type="text" value="" disabled>
+                    }
+
+
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-6">
                     <span>退款金额:</span>
-                    <input type="text" value="@refundTemp.getPayBackFee()" disabled>
+                    <input type="text" id="apply-money" value="@refundTemp.getPayBackFee()" disabled>
                 </div>
             </div>
             <div class="form-group">

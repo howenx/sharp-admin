@@ -85,8 +85,11 @@
     <update id="updRefund" parameterType="domain.RefundTemp">
             update sp_refund
             set state = #{state},update_at = CURRENT_TIMESTAMP(0)
-        <if test="rejectReason != null and rejectReason != ''">
+        <if test="state == 'R'.toString() and rejectReason != null and rejectReason != ''">
             ,reject_reason = #{rejectReason}
+        </if>
+        <if test="state == 'A'.toString() and payBackFee != null and payBackFee != ''">
+            ,pay_back_fee = #{payBackFee}
         </if>
             where id = #{id}
     </update>
