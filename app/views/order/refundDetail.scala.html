@@ -8,32 +8,45 @@
     $(function(){
         var state = "@refundTemp.getState()";
         console.log(state);
+        //非申请中状态
         if(state != "I"){
             $(".usercenter-option").css("display","none")
             $(".response").attr("disabled","true");
             if(state == "A" || state == "R"){
                 $(".response").val(state);
             }
-
+            //拒绝退款
             if(state == "R"){
                 $(".refuse-reason").css("display","block");
+                //拒绝理由
                 $("#reason-content").attr("disabled",true);
                 $("#reason-content").val("@refundTemp.getRejectReason()");
             }
+            //同意退款
             if(state == "A"){
+                //退款金额
                 $(".refund-amount").css("display","block");
                 $("#refund-amount").attr("disabled",true);
                 $("#refund-amount").val("@refundTemp.getPayBackFee()");
             }
-
+            //退款失败
             if(state == "N"){
                 $(".usercenter-option").css("display","block");
                 $(".response").val("A");
                 //$(".response").attr("disabled",false);
                 $("#js-usercenter-submit").text("再次提交");
+                //退款金额
+                $(".refund-amount").css("display","block");
+                $("#refund-amount").attr("disabled",true);
+                $("#refund-amount").val("@refundTemp.getPayBackFee()");
             }
-             if(state == "Y"){
-                $(".response").val("A");
+            //退款成功
+            if(state == "Y"){
+               $(".response").val("A");
+               //退款金额
+               $(".refund-amount").css("display","block");
+               $("#refund-amount").attr("disabled",true);
+               $("#refund-amount").val("@refundTemp.getPayBackFee()");
             }
         }
 

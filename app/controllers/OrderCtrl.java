@@ -782,6 +782,9 @@ public class OrderCtrl extends Controller {
                 || (refundState.equals("A") && (payBackFeeStr==null || payBackFeeStr.equals(""))) || refundTemp == null || refund == null){
             return badRequest();
         }
+        if(refundState.equals("A") && new BigDecimal(payBackFeeStr).compareTo(refundTemp.getPayBackFee()) > 0){
+            return badRequest();
+        }
         /*后台验证-----------end*/
 
         refundTemp.setState(refundState);
