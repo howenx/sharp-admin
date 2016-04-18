@@ -53,6 +53,8 @@ public class SaleOrder implements Serializable {
     private String saleMonth;
     private Integer shop; //商店  1-韩密美专营店  2-韩密美化妆品店
     private Integer inputType;//1-手动录入  2-excel导入
+    private String jdSkuId;   //京东商品id,用于导入表格时关联数据，如果有多个以|分割
+
 
     //分页,从第几条开始
     @JsonIgnore
@@ -356,5 +358,13 @@ public class SaleOrder implements Serializable {
 
     public void setInputType(Integer inputType) {
         this.inputType = inputType;
+    }
+
+    public String getJdSkuId() {
+        return jdSkuId;
+    }
+
+    public void setJdSkuId(String jdSkuId) {
+        this.jdSkuId = jdSkuId;
     }
 }
