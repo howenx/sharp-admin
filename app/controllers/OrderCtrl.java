@@ -904,4 +904,5 @@ public class OrderCtrl extends Controller {
         orderService.orderConfirmReceive(ids);
         return ok("success");
     }
+
 }

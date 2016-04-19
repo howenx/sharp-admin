@@ -153,10 +153,10 @@ POST        /comm/cate/cateSave                                            contr
 
 
 # 登录 供应管理
-#GET             /                                                           controllers.Auth.login
+#GET             /                                                         controllers.Auth.login
 POST        /authenticate                                                  controllers.Auth.authenticate
 GET         /logout                                                        controllers.Auth.logout
-#GET            /test                                                       controllers.Test.test
+#GET            /test                                                      controllers.Test.test
 GET         /supply/init/$id<[0-9]+>                                       controllers.Application.supply_init(id:Long)
 POST        /supply/init/add                                               controllers.Application.supply_init_add
 POST        /supply/add                                                    controllers.Application.supply
@@ -173,6 +173,8 @@ POST        /supply/append/add                                             contr
 GET         /supply/download/shanghai                                      controllers.Application.download_shanghai
 GET         /supply/download/hangzhou                                      controllers.Application.download_hangzhou
 POST        /supply/upload                                                 controllers.Application.upload
+GET         /supply/order/process                                          controllers.SupplyCtrl.orderProcess(lang ="cn")
+GET         /$lang<(cn|en|kr)>/supply/order/process                        controllers.SupplyCtrl.orderProcess(lang)
 
 
 

@@ -18,7 +18,7 @@
                     </li>
                     <!--供应管理-->
                     <li class="header-navi-item fl">
-                        <a href="/supply/admin" class="header-link tdn">供应管理</a>
+                        <a href="/supply/admin" class="header-link tdn">供应商管理</a>
                         <i class="header-nav-border-relative"></i>
                     </li>
                     <!--主题管理-->
@@ -96,6 +96,7 @@
                             <i class="header-nav-border"></i>
                         </div>
                     </li>
+
                     <!--订单管理-->
                     <li class="header-navi-item fl">
                         <div class="user-info fl js-header-dropmenu">
@@ -113,11 +114,12 @@
                                 <li class="header-dropdown-item">
                                     <a href="/@lang/comm/order/refundTempList" class="info-link">退款查询</a>
                                 </li>
-
                             </ul>
                             <i class="header-nav-border"></i>
                         </div>
                     </li>
+
+
                     <!--数据中心-->
                     <li class="header-navi-item fl">
                         <div class="user-info fl js-header-dropmenu">
@@ -479,8 +481,20 @@
                         <i class="header-nav-border-relative"></i>
                     </li>
                     <li class="header-navi-item fl">
-                        <a href="/supply/admin" class="header-link tdn">供应管理</a>
-                        <i class="header-nav-border-relative"></i>
+                        <!--<a href="/supply/admin" class="header-link tdn">供应管理</a>-->
+                        <!--<i class="header-nav-border-relative"></i>-->
+                        <div class="user-info fl js-header-dropmenu">
+                            <span class="info-inner db">@Messages.get(new Lang(Lang.forCode(lang)),"nav.supply")<i class="ml5 caret caret-down caret-b-9b"></i></span>
+                            <ul class="header-dropdown-list fs13 js-header-list">
+                                <li class="header-dropdown-item">
+                                    <a href="/supply/admin" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.supply.menu1")</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/@lang/supply/order/process" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.supply.menu2")</a>
+                                </li>
+                            </ul>
+                            <i class="header-nav-border"></i>
+                        </div>
                     </li>
                     <!--供应管理的菜单项-->
                     }
