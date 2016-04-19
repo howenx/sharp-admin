@@ -22,7 +22,7 @@ public class CarriageServiceImpl implements CarriageService{
     public  void carrModelSave(JsonNode json) {
         String uuid = UUID.randomUUID().toString();
         uuid = uuid.replaceAll("-","");
-        Logger.error(json.toString());
+//        Logger.error(json.toString());
         //标识是否为更新
         boolean orUpdate = false;
         for(final JsonNode jsonNode : json) {
@@ -93,7 +93,7 @@ public class CarriageServiceImpl implements CarriageService{
         if (null != carrList && !"".equals(carrList)) {
             for(Carriage carr : carrList) {
                 Long id = carr.getId();
-                Logger.error(id.toString());
+//                Logger.error(id.toString());
                 carriageMapper.delCarrById(id);
             }
             return true;

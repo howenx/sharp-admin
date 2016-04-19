@@ -171,7 +171,7 @@ public class AdminUserCtrl extends Controller {
         String loginIp = request().remoteAddress();
         AdminUser adu  = Json.fromJson(json, AdminUser.class);//查询条件adu
         AdminUser adminUser = adminUserService.getUserBy(adu);
-        Logger.debug("login user:"+adu.toString());
+//        Logger.debug("login user:"+adu.toString());
         //登录后返回信息
         String data = "";
         if (null!=adminUser && !"".equals(adminUser.toString())) {
@@ -187,7 +187,7 @@ public class AdminUserCtrl extends Controller {
             //登录成功后用户信息存在cache 和 session中
             Cache.set(adminUser.getEnNm().trim(), user);
             session().put("username",adminUser.getEnNm().trim());
-            Logger.debug("user login... "+user.enNm());
+            Logger.info("user login... "+user.enNm());
             Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
             Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
             Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);
