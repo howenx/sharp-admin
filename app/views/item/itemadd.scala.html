@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn", brandsList:List[domain.Brands], catesParentList:List[domain.Cates],uploadURL:String, imageUrl:String, user:domain.User)
+@(lang:String="cn", brandsList:List[domain.Brands], catesParentList:List[domain.Cates],uploadURL:String, imageUrl:String, user:domain.User, suppliers:Map[String,String])
 
 @scripts = {
 
@@ -187,10 +187,19 @@
                     <div class="col-sm-4">
                         <input type="text" class="form-control form-data-area" id="itemTitle" name="itemTitle">
                     </div>
-                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</div></label>
+                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">供应商</div></label>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control form-data-area" id="supplyMerch" name="supplyMerch">
+                        <select class="form-control" id="supplyMerch" name="supplyMerch">
+                            <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
+                            @for(s <- suppliers) {
+                            <option value='@s.toString.substring(1,s.toString.length-1).split(",")(0)'>@s.toString.substring(1,s.toString.length-1).split(",")(1)</option>
+                            }
+                        </select>
                     </div>
+                    <!--<label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</div></label>-->
+                    <!--<div class="col-sm-2">-->
+                        <!--<input type="text" class="form-control form-data-area" id="supplyMerch" name="supplyMerch">-->
+                    <!--</div>-->
                 </div>
                 <!-- 商品库存信息-->
                 <h4 class="h4-custom-hmm">商品库存信息</h4>
