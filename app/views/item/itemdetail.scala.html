@@ -1,5 +1,5 @@
 @import play.i18n._
-@(item:domain.Item,invList:List[Array[Object]],cates:domain.Cates,pCateNm:String, brands:domain.Brands,url:String, lang:String="cn", user:domain.User, customs:Map[String,String], area:Map[String,String])
+@(item:domain.Item,invList:List[Array[Object]],cates:domain.Cates,pCateNm:String, brands:domain.Brands,url:String, lang:String="cn", user:domain.User, customs:Map[String,String], area:Map[String,String], suppliers:Map[String,String])
 
 @scripts = {
 
@@ -99,7 +99,11 @@
                 </div>
                 <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</div></label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" id="supplyMerch" name="supplyMerch" value="@item.getSupplyMerch()" readonly>
+                    @for(s <- suppliers) {
+                    @if(item.getSupplyMerch()==s.toString.substring(1,s.toString.length-1).split(",")(0)) {
+                    <input type="text" class="form-control"  name="supplyMerch" value='@s.toString.substring(1,s.toString.length-1).split(",")(1)' readonly>
+                    }
+                    }
                 </div>
             </div>
             <!-- 商品库存信息-->
