@@ -4,6 +4,7 @@ import domain.AdminSupplier;
 import mapper.AdminSupplierMapper;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Created by tiffany on 16/4/19.
@@ -22,5 +23,12 @@ public class AdminSupplierServiceImpl implements AdminSupplierService{
         return adminSupplierMapper.getSupplierByUserId(id);
     }
 
+    /**
+     * 查询所有的供应商                 Add By Sunny.Wu 2016.04.20
+     * @return list of adminSupplier
+     */
+    public List<AdminSupplier> getAllSuppliers() {
+        return adminSupplierMapper.getAllSuppliers();
+    }
 
 }

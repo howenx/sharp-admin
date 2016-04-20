@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn", brandsList:List[domain.Brands], catesParentList:List[domain.Cates],uploadURL:String, imageUrl:String, user:domain.User, suppliers:Map[String,String])
+@(lang:String="cn", brandsList:List[domain.Brands], catesParentList:List[domain.Cates],uploadURL:String, imageUrl:String, user:domain.User, adminSupplierList:List[domain.AdminSupplier])
 
 @scripts = {
 
@@ -191,8 +191,8 @@
                     <div class="col-sm-2">
                         <select class="form-control" id="supplyMerch" name="supplyMerch">
                             <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
-                            @for(s <- suppliers) {
-                            <option value='@s.toString.substring(1,s.toString.length-1).split(",")(0)'>@s.toString.substring(1,s.toString.length-1).split(",")(1)</option>
+                            @for(as <- adminSupplierList) {
+                            <option value='as.getSupplyMerch()'>@as.getSupplyName()</option>
                             }
                         </select>
                     </div>
