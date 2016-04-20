@@ -2,13 +2,23 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-        <mapper namespace="mapper.SupplyOrderMapper">
-        <sql id="supplyOrderColumns">
-            ${alias}.id,
-            ${alias}.order_id,
-            ${alias}.update_time,
-            ${alias}.update_user,
-            ${alias}.state
-        </sql>
+<mapper namespace="mapper.SupplyOrderMapper">
+    <sql id="supplyOrderColumns">
+        ${alias}.id,
+        ${alias}.order_id,
+        ${alias}.update_time,
+        ${alias}.update_user,
+        ${alias}.state
+    </sql>
+
+    <select id="getSupplyOrderAll" resultType="domain.SupplyOrder">
+        select
+        <include refid="supplyOrderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from supply_order t where 1=1
+    </select>
+
+
     
 </mapper>

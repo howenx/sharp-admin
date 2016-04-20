@@ -27,10 +27,10 @@ public class SupplyCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result orderProcess(String lang){
         User user = (User) ctx().args.get("user");
-        Order order = new Order();
-        order.setOrderStatus("");
-        List<Order> orderList = supplierMiddle.getOrder(user,order);
+        List<Order> orderList = supplierMiddle.getOrder(user);
         Logger.error("user信息:" +user.toString());
+
+
 
 
 

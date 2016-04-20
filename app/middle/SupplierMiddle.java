@@ -1,16 +1,20 @@
 package middle;
 
 import domain.AdminSupplier;
-import domain.Inventory;
 import domain.Item;
+import domain.SupplyOrder;
 import domain.User;
 import domain.order.Order;
 import domain.order.OrderLine;
+import org.apache.commons.collections.map.HashedMap;
 import play.Logger;
 import service.*;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tiffany on 16/4/20.
@@ -31,21 +35,38 @@ public class SupplierMiddle {
     @Inject
     private AdminSupplierService adminSupplierService;
 
-    public List<Order> getOrder(User user, Order order){
+    public List<Order> getOrder(User user){
 
+        List<Order> orderList = new ArrayList<>();
+
+        //全部的supplier订单
+        List<SupplyOrder> supplyOrderList = supplyOrderService.getSupplyOrderAll();
+
+        //supplier
         AdminSupplier adminSupplier = adminSupplierService.getSupplierByUserId(user.id());
         if(adminSupplier == null){
-            Logger.error("该供应商不存在,name=" + user.nickname());
+            Logger.error("The supplier does not exist. name=" + user.nickname());
+            return null;
+        }
+        //supplier的商品
+        List<Item> itemList = itemService.getItemBySupplier(adminSupplier.getSupplyMerch());
+        if(itemList != null){
+            //订单中的商品
+            List<OrderLine> orderLineList = orderLineService.getLineByItems(itemList);
+            if(orderLineList == null){
+                Logger.error("No order for current supplier.");
+            }else{
+                orderList = orderService.getOrderByIds(orderLineList);
+            }
+
+
+
+
+        }else {
+            Logger.error("There is no goods of supplier's. name=" + user.nickname());
             return null;
         }
 
-        List<Item> itemList = itemService.getItemBySupplier(adminSupplier.getSupplyMerch());
-        if(itemList != null){
-            List<OrderLine> orderLineList = orderLineService.getLineByItems(itemList);
-            Logger.error("没有最新的订单---");
-
-        }
-       List<Order> orderList = orderService.getOrder(order);
 
 
         return  orderList;

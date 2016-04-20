@@ -163,7 +163,21 @@ message.save.success = 保存成功
 
 
 #supply side order status
+order.supplier.state0 = 全部订单
 order.supplier.state1 = 已打包
 order.supplier.state2 = 已出库
 order.supplier.state3 = 已登机
 order.supplier.state4 = 抵达中国
+order.supplier.state5 = 未处理
+
+
+#supply order row head
+order.row.head1 = 订单编号
+order.row.head2 = 用户电话
+order.row.head3 = 下单时间
+order.row.head4 = 订单总价(¥)
+order.row.head5 = 订单状态
+order.row.head0 = 全选
+
+
+

@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 /**
  * Created by tiffany on 16/4/19.
  */
-public class supplyOrder implements Serializable {
+public class SupplyOrder implements Serializable {
     private Long id;
     private Long orderId;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -15,10 +15,10 @@ public class supplyOrder implements Serializable {
     private Long updateUser;
     private String state;
 
-    public supplyOrder() {
+    public SupplyOrder() {
     }
 
-    public supplyOrder(Long id, Long orderId, Timestamp updateTime, Long updateUser, String state) {
+    public SupplyOrder(Long id, Long orderId, Timestamp updateTime, Long updateUser, String state) {
         this.id = id;
         this.orderId = orderId;
         this.updateTime = updateTime;
@@ -28,7 +28,7 @@ public class supplyOrder implements Serializable {
 
     @Override
     public String toString() {
-        return "supplyOrder{" +
+        return "SupplyOrder{" +
                 "id=" + id +
                 ", orderId=" + orderId +
                 ", updateTime=" + updateTime +

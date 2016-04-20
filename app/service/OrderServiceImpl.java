@@ -1,9 +1,11 @@
 package service;
 
 import domain.order.Order;
+import domain.order.OrderLine;
 import mapper.OrderMapper;
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -103,15 +105,13 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.orderConfirmReceive(orderIds);
     }
 
-
     /**
-     * 通过order entity 获取Order信息     Added by Tiffany Zhu 2016.04.20
-     * @param order
+     * 获取Supplier 的订单       Added by Tiffany Zhu 2016.04.20
+     * @param orderLineList
      * @return
      */
     @Override
-    public List<Order> getOrder(Order order) {
-        return orderMapper.getOrder(order);
+    public List<Order> getOrderByIds(List<OrderLine> orderLineList) {
+        return orderMapper.getOrderByIds(orderLineList);
     }
-
 }
