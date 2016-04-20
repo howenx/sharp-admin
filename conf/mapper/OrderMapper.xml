@@ -126,4 +126,18 @@
         </foreach>
     </update>
 
+    <select id="getOrder" parameterType="domain.order.Order" resultType="domain.order.Order">
+        select
+        <include refid="orderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_order t where 1=1
+        <if test="orderStatus != null and orderStatus != ''">
+            and t.order_status = #{orderStatus}
+        </if>
+        order by t.order_create_at DESC
+    </select>
+
+
+
 </mapper>

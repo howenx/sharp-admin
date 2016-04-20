@@ -109,4 +109,14 @@
         from items t where state = 'Y'
     </select>
 
+
+    <!--按照供应商查询item     Added by Tiffany Zhu 2016.04.20-->
+    <select id="getItemBySupplier" parameterType="java.lang.String" resultType="domain.Item">
+        select
+        <include refid="itemColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from items t where supply_merch = #{value}
+    </select>
+
 </mapper>

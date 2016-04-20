@@ -35,5 +35,16 @@
         from sp_order_line t where order_id = #{value}
     </select>
 
+    <select id="getLineByItems" parameterType="java.util.List" resultType="domain.order.OrderLine">
+        select
+        <include refid="orderLineColumns">
+        <property name="alias" value="t"/>
+        </include>
+        from sp_order_line t where t.item_id in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+    </select>
+
 
 </mapper>

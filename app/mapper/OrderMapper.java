@@ -71,4 +71,11 @@ public interface OrderMapper {
      */
     void orderConfirmReceive(Long[] orderIds);
 
+    /**
+     * 通过order entity 获取Order信息     Added by Tiffany Zhu 2016.04.20
+     * @param order
+     * @return
+     */
+    List<Order> getOrder(Order order);
+
 }

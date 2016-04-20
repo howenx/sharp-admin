@@ -9,4 +9,14 @@
         ${alias}.supply_merch,
         ${alias}.supply_name
     </sql>
+
+    <select id="getSupplierByUserId" parameterType="java.lang.Long" resultType="domain.AdminSupplier">
+        select
+        <include refid="adminSupplierColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from admin_supplier t where 1=1 and user_id = #{value}
+    </select>
+
+
 </mapper>

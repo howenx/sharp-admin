@@ -189,4 +189,14 @@ public class ItemServiceImpl implements ItemService{
         return versioningMapper.updateVersioning(versionVo)>=0;
     }
 
+
+    /**
+     * 按照供应商查询item      Added by Tiffany Zhu 2016.04.20
+     * @param supplyMerch
+     * @return
+     */
+    @Override
+    public List<Item> getItemBySupplier(String supplyMerch) {
+        return itemMapper.getItemBySupplier(supplyMerch);
+    }
 }
