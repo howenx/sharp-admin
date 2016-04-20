@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String,user:domain.User)
+@(lang:String,orderList:List[Array[Object]],unProcessedList:List[Array[Object]],user:domain.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/jquery-ui.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -49,14 +49,15 @@
     <!--</div>-->
     <div class="row order-admin">
         <div class="col-sm-1 order-option">
-            <div class="currect">@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.state5")</div>
+            <div class="currect">@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.state5")&nbsp;@unProcessedList.size</div>
             <div>@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.state1")</div>
             <div>@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.state2")</div>
             <div>@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.state3")</div>
             <div>@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.state4")</div>
-            <div>@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.state0")</div>
+            <div>@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.state0")&nbsp;@orderList.size</div>
         </div>
         <div class="col-sm-10">
+            <!--未处理-->
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -73,24 +74,21 @@
                     <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head5")</th>
 
                 </tr>
-                <tr>
-                    <td> <input type="checkbox" name="supplyOrder1"></td>
-                    <td>table1a</td>
-                    <td>table1b</td>
-                    <td>table1c</td>
-                    <td>table1b</td>
-                    <td>table1c</td>
-                </tr>
-                <tr>
-                    <td> <input type="checkbox" name="supplyOrder1"></td>
-                    <td>table1a</td>
-                    <td>table1b</td>
-                    <td>table1c</td>
-                    <td>table1b</td>
-                    <td>table1c</td>
-                </tr>
+                @for(order <- unProcessedList){
+                    <tr>
+                        <td> <input type="checkbox" name="supplyOrder1"></td>
+                        <td>@order(0)</td>
+                        <td>@order(1)</td>
+                        <td>@order(2)</td>
+                        <td>@order(3)</td>
+                        <td>@order(4)</td>
+                    </tr>
+                }
+
+
                 </tbody>
             </table>
+            <!--已打包-->
             <table class="table table-striped" style="display: none">
                 <thead>
                 <tr>
@@ -125,6 +123,7 @@
                 </tr>
                 </tbody>
             </table>
+            <!--已出库-->
             <table class="table table-striped" style="display: none">
                 <thead>
                 <tr>
@@ -159,7 +158,7 @@
                 </tr>
                 </tbody>
             </table>
-
+            <!--已登机-->
             <table class="table table-striped" style="display: none">
                 <thead>
                 <tr>
@@ -194,7 +193,7 @@
                 </tr>
                 </tbody>
             </table>
-
+            <!--抵达中国-->
             <table class="table table-striped" style="display: none">
                 <thead>
                 <tr>
@@ -230,6 +229,7 @@
                 </tbody>
             </table>
 
+            <!--全部订单-->
             <table class="table table-striped" style="display: none">
                 <thead>
                 <tr>
@@ -246,22 +246,19 @@
                     <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head5")</th>
 
                 </tr>
+                @for(order <- orderList){
                 <tr>
                     <!--<td> <input type="checkbox" name="outTimeOrder"></td>-->
-                    <td>table1a</td>
-                    <td>table1b</td>
-                    <td>table1c</td>
-                    <td>table1b</td>
-                    <td>table1c</td>
+                    <td>@order(0)</td>
+                    <td>@order(1)</td>
+                    <td>@order(2)</td>
+                    <td>@order(3)</td>
+                    <td>@order(4)</td>
                 </tr>
-                <tr>
-                    <!--<td> <input type="checkbox" name="outTimeOrder"></td>-->
-                    <td>table1a</td>
-                    <td>table1b</td>
-                    <td>table1c</td>
-                    <td>table1b</td>
-                    <td>table1c</td>
-                </tr>
+
+
+                }
+
                 </tbody>
             </table>
         </div>

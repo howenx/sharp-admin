@@ -1,5 +1,7 @@
 package service;
 
+import domain.SupplyOrder;
+
 import java.util.List;
 
 /**
@@ -11,4 +13,12 @@ public interface SupplyOrderService {
      * @return
      */
     List<SupplyOrder> getSupplyOrderAll();
+
+    /**
+     * 通过orderId 获取SupplyOrder      Added by Tiffany Zhu 2016.04.20
+     * @param id
+     * @return
+     */
+    SupplyOrder getSupplyByOrderId(Long id);
+
 }

@@ -1,5 +1,6 @@
 package service;
 
+import domain.SupplyOrder;
 import mapper.SupplyOrderMapper;
 
 import javax.inject.Inject;
@@ -19,5 +20,15 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
     @Override
     public List<SupplyOrder> getSupplyOrderAll() {
         return supplyOrderMapper.getSupplyOrderAll();
+    }
+
+    /**
+     * 通过orderId 获取SupplyOrder      Added by Tiffany Zhu 2016.04.20
+     * @param id
+     * @return
+     */
+    @Override
+    public SupplyOrder getSupplyByOrderId(Long id) {
+        return supplyOrderMapper.getSupplyByOrderId(id);
     }
 }
