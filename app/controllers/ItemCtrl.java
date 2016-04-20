@@ -346,6 +346,7 @@ public class ItemCtrl extends Controller {
             Carriage carriage  = Json.fromJson(jsonNode, Carriage.class);
             //数据验证
             if (carriageForm.hasErrors() || carriage.getFirstNum()<0 || carriage.getFirstFee().compareTo(new BigDecimal(0.00))<0 || carriage.getAddNum()<0 ||carriage.getAddFee().compareTo(new BigDecimal(0.00))<0) {
+                Logger.error("表单数据有误.....");
                 return badRequest();
             }
         }
@@ -428,6 +429,7 @@ public class ItemCtrl extends Controller {
         Form<Brands> brandsForm = Form.form(Brands.class).bind(json);
         //数据验证
         if (brandsForm.hasErrors()) {
+            Logger.error("表单数据有误.....");
             return badRequest();
         }
         itemService.insertBrands(json);

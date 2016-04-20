@@ -106,6 +106,7 @@ public class AdminUserCtrl extends Controller {
         Form<AdminUser> adminUserForm = Form.form(AdminUser.class).bind(json);
         //数据验证
         if (adminUserForm.hasErrors()) {
+            Logger.error("表单数据有误.....");
             return badRequest();
         }
         adminUser.setEmail(adminUser.getEmail()+"@kakaocorp.com");

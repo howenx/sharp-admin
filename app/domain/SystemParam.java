@@ -1,5 +1,7 @@
 package domain;
 
+import play.data.validation.Constraints;
+
 import java.io.Serializable;
 
 /**
@@ -7,8 +9,11 @@ import java.io.Serializable;
  */
 public class SystemParam implements Serializable{
     private Long sysId;
+    @Constraints.Required
     private String parameterNm;     //参数名
+    @Constraints.Required
     private String parameterVal;    //参数值
+    @Constraints.Required
     private String parameterCode;   //参数代码
 
     public SystemParam() {
