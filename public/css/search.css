@@ -190,3 +190,7 @@
 .order-admin .order-option>div.currect{
 	color: #fff;
 }
+.order-admin table thead{
+	font-size: 18px;
+	font-weight: 400;
+}
