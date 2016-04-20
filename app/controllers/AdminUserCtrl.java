@@ -180,7 +180,7 @@ public class AdminUserCtrl extends Controller {
             adminUser.setLastLoginDt(new Timestamp(new Date().getTime()));
             adminUser.setStatus("Y");
             adminUserService.updateUser(adminUser);
-            User user = new User (adminUser.getUserId(), null,null, null , User_Type.ADMIN(),
+            User user = new User (adminUser.getUserId(), adminUser.getEnNm(),null, null , User_Type.ADMIN(),
                     Option.apply(adminUser.getUserId()), Option.apply(adminUser.getEnNm()), Option.apply(adminUser.getChNm()), Option.apply(adminUser.getEmail()),
                     Option.apply(adminUser.getUserType()), null, null, null,
                     null, null, null,null, null,null);
