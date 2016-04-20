@@ -800,4 +800,18 @@ $(function() {
 		$("table.table").css("display","none");
 		$("table.table").eq(index).css("display","table");
 	})
+    /**********订单管理********/
+    $(".order-option>div").hover(function () {
+        $(this).css("color","#fff");
+    },function () {
+        $(this).css("color","#333");
+        $(".currect").css("color","#fff");
+    }).click(function () {
+        var index = $(this).index(".order-option>div");
+        $(".currect").css("color","#333");
+        $(".order-option>div").removeClass("currect");
+        $(this).addClass("currect");
+        $(".order-admin table").hide();
+        $(".order-admin table").eq(index).show();
+    })
 })
