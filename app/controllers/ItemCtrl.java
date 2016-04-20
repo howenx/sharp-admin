@@ -40,6 +40,8 @@ public class ItemCtrl extends Controller {
 
     private VaryPriceService varyPriceService;
 
+    private AdminSupplierService adminSupplierService;
+
     @Inject
     private ItemMiddle itemMiddle;
 
@@ -47,11 +49,12 @@ public class ItemCtrl extends Controller {
     Configuration configuration;
 
     @Inject
-    public ItemCtrl(ItemService itemService, InventoryService inventoryService, CarriageService carriageService, VaryPriceService varyPriceService) {
+    public ItemCtrl(ItemService itemService, InventoryService inventoryService, CarriageService carriageService, VaryPriceService varyPriceService, AdminSupplierService adminSupplierService) {
         this.itemService = itemService;
         this.inventoryService = inventoryService;
         this.carriageService = carriageService;
         this.varyPriceService = varyPriceService;
+        this.adminSupplierService = adminSupplierService;
     }
 
     /**
@@ -145,8 +148,8 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result itemCreate(String lang) {
-        Map<String,String> suppliers = new ObjectMapper().convertValue(configuration.getObject("suppliers"),HashMap.class);
-        return ok(views.html.item.itemadd.render(lang,itemService.getAllBrands(),itemService.getParentCates(),ThemeCtrl.IMG_UPLOAD_URL,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user"), suppliers));
+        List<AdminSupplier> adminSupplierList = adminSupplierService.getAllSuppliers();
+        return ok(views.html.item.itemadd.render(lang,itemService.getAllBrands(),itemService.getParentCates(),ThemeCtrl.IMG_UPLOAD_URL,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user"), adminSupplierList));
     }
 
     /**
@@ -159,7 +162,7 @@ public class ItemCtrl extends Controller {
     public Result findItemById(String lang,Long id) {
         Map<String,String> customs = new ObjectMapper().convertValue(configuration.getObject("customs"),HashMap.class);
         Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
-        Map<String,String> suppliers = new ObjectMapper().convertValue(configuration.getObject("suppliers"),HashMap.class);
+        List<AdminSupplier> adminSupplierList = adminSupplierService.getAllSuppliers();
         Item item = itemService.getItem(id);
         Cates cates = itemService.getCate(item.getCateId());
         String pCateNm = "";
@@ -217,7 +220,7 @@ public class ItemCtrl extends Controller {
             }
             invList.add(object);
         }
-        return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,(User) ctx().args.get("user"),customs,area,suppliers));
+        return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,(User) ctx().args.get("user"),customs,area,adminSupplierList));
     }
 
     /**
@@ -228,7 +231,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result updateItemById(String lang,Long id) {
-        Map<String,String> suppliers = new ObjectMapper().convertValue(configuration.getObject("suppliers"),HashMap.class);
+        List<AdminSupplier> adminSupplierList = adminSupplierService.getAllSuppliers();
         Item item = itemService.getItem(id);
         //由商品类别id获取类别
         Cates cates = itemService.getCate(item.getCateId());
@@ -288,7 +291,7 @@ public class ItemCtrl extends Controller {
             object[25] = inventory.getState();
             invList.add(object);
         }
-        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,ThemeCtrl.IMG_UPLOAD_URL,lang,itemService.getAllBrands(),itemService.getParentCates(),(User) ctx().args.get("user"), suppliers));
+        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,ThemeCtrl.IMG_UPLOAD_URL,lang,itemService.getAllBrands(),itemService.getParentCates(),(User) ctx().args.get("user"), adminSupplierList));
     }
 
     /**

@@ -2,6 +2,7 @@ package middle;
 
 import domain.AdminSupplier;
 import domain.Item;
+import domain.SupplyOrder;
 import domain.User;
 import domain.order.Order;
 import domain.order.OrderLine;

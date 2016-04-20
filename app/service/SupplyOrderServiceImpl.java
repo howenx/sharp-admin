@@ -1,5 +1,6 @@
 package service;
 
+import domain.SupplyOrder;
 import mapper.SupplyOrderMapper;
 
 import javax.inject.Inject;

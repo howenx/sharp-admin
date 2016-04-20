@@ -1,5 +1,5 @@
 @import play.i18n._
-@(item:domain.Item,invList:List[Array[Object]],cates:domain.Cates,pCateNm:String, brands:domain.Brands,url:String,uploadURL:String, lang:String="cn", brandsList:List[domain.Brands], catesParentList:List[domain.Cates],user:domain.User, suppliers:Map[String,String])
+@(item:domain.Item,invList:List[Array[Object]],cates:domain.Cates,pCateNm:String, brands:domain.Brands,url:String,uploadURL:String, lang:String="cn", brandsList:List[domain.Brands], catesParentList:List[domain.Cates],user:domain.User, adminSupplierList:List[domain.AdminSupplier])
 
 @scripts = {
 
@@ -195,12 +195,12 @@
                     <div class="col-sm-2">
                         <select class="form-control" id="supplyMerch" name="supplyMerch">
                             <option></option>
-                            @for(s <- suppliers) {
-                            @if(item.getSupplyMerch()==s.toString.substring(1,s.toString.length-1).split(",")(0)) {
-                            <option selected value='@s.toString.substring(1,s.toString.length-1).split(",")(0)'>@s.toString.substring(1,s.toString.length-1).split(",")(1)</option>
+                            @for(as <- adminSupplierList) {
+                            @if(item.getSupplyMerch()==as.getSupplyMerch()) {
+                            <option selected value='as.getSupplyMerch()'>@as.getSupplyName()</option>
                             }
-                            @if(item.getSupplyMerch()!=s.toString.substring(1,s.toString.length-1).split(",")(0)) {
-                            <option value='@s.toString.substring(1,s.toString.length-1).split(",")(0)'>@s.toString.substring(1,s.toString.length-1).split(",")(1)</option>
+                            @if(item.getSupplyMerch()!=as.getSupplyMerch()) {
+                            <option  value='as.getSupplyMerch()'>@as.getSupplyName()</option>
                             }
                             }
                         </select>
