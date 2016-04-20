@@ -1,6 +1,7 @@
 package service;
 
 import domain.Inventory;
+import domain.Item;
 import domain.Skus;
 import mapper.InventoryMapper;
 
@@ -120,5 +121,6 @@ public class InventoryServiceImpl implements InventoryService {
     public List<Skus> getAllSkus() {
         return inventoryMapper.getAllSkus();
     }
+
 
 }

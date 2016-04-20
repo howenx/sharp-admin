@@ -1,6 +1,7 @@
 package mapper;
 
 import domain.Inventory;
+import domain.Item;
 import domain.Skus;
 
 import java.util.List;
@@ -64,6 +65,5 @@ public interface InventoryMapper {
      * @return List of Skus
      */
     List<Skus> getAllSkus();
-
 
 }

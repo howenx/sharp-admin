@@ -102,4 +102,16 @@ public class OrderServiceImpl implements OrderService {
     public void orderConfirmReceive(Long[] orderIds) {
         orderMapper.orderConfirmReceive(orderIds);
     }
+
+
+    /**
+     * 通过order entity 获取Order信息     Added by Tiffany Zhu 2016.04.20
+     * @param order
+     * @return
+     */
+    @Override
+    public List<Order> getOrder(Order order) {
+        return orderMapper.getOrder(order);
+    }
+
 }

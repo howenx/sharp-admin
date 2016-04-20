@@ -1,5 +1,6 @@
 package service;
 
+import domain.Item;
 import domain.order.OrderLine;
 
 import java.util.List;
@@ -21,4 +22,11 @@ public interface OrderLineService {
      * @return List of OrderLine
      */
     List<OrderLine> getLineByOrderId(Long orderId);
+
+    /**
+     * 通过item Id获取订单商品      Added by Tiffany Zhu 2016.04.20
+     * @param itemList
+     * @return
+     */
+    List<OrderLine> getLineByItems(List<Item> itemList);
 }
