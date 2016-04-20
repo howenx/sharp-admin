@@ -1,7 +1,5 @@
 package mapper;
 
-import domain.SupplyOrder;
-
 import java.util.List;
 
 /**
