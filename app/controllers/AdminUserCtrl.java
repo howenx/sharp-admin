@@ -161,7 +161,12 @@ public class AdminUserCtrl extends Controller {
 
         /*获取本地语言  Added by Tiffany Zhu  2016.02.21    start*/
         Locale locale = Locale.getDefault();
-        String lang = locale.getLanguage();
+        String lang = "";
+        if(locale.getLanguage().equals("zh")){
+            lang = "cn";
+        }else{
+            lang = locale.getLanguage();
+        }
         /*获取本地语言  Added by Tiffany Zhu  2016.02.21      end*/
 
         return ok(views.html.adminuser.userlogin.render(lang));
