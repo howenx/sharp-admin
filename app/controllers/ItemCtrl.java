@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import domain.*;
 import filters.UserAuth;
 import middle.ItemMiddle;
@@ -16,13 +17,12 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import service.*;
+import util.Regex;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * 商品管理
@@ -304,7 +304,67 @@ public class ItemCtrl extends Controller {
         String operateIp = request().remoteAddress();
         String enNm = ((User) ctx().args.get("user")).enNm().get();
         JsonNode json = request().body().asJson();
-//        Logger.error(json.toString());
+        //--------------------数据验证------------------start
+        Item item = new Item();
+        Date now = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strNow = sdf.format(now);//现在时间
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        calendar.add(Calendar.MONTH,+6);
+        String maxDate = sdf.format(calendar.getTime());
+        if (json.has("item")) {
+            JsonNode jsonItem = json.findValue("item");
+            if (jsonItem.has("publicity")) {
+                ((ObjectNode) jsonItem).put("publicity",jsonItem.findValue("publicity").toString());
+            }
+            if (jsonItem.has("itemFeatures")) {
+                ((ObjectNode) jsonItem).put("itemFeatures",jsonItem.findValue("itemFeatures").toString());
+            }
+            if (jsonItem.has("itemDetailImgs")) {
+                ((ObjectNode) jsonItem).put("itemDetailImgs",jsonItem.findValue("itemDetailImgs").toString());
+            }
+            Form<Item> itemForm = Form.form(Item.class).bind(jsonItem);
+            item = Json.fromJson(jsonItem,Item.class);
+            //数据验证(若有详细则为json格式,商品参数为json格式,商品优惠信息为json格式)
+            if (itemForm.hasErrors() || (null!=item.getItemDetailImgs() && !"".equals(item.getItemDetail()) && !Regex.isJason(item.getItemDetailImgs()))
+                    || !(Regex.isJason(item.getItemFeatures())) || !(Regex.isJason(item.getPublicity()))) {
+                Logger.error("item 表单数据有误.....");
+                return badRequest();
+            }
+        }
+        if (json.has("inventories")) {
+            for (final JsonNode jsonNode : json.findValue("inventories")) {
+                Inventory inventory = new Inventory();
+                if (jsonNode.has("inventory")) {
+                    JsonNode jsonInv = jsonNode.findValue("inventory");
+                    Form<Inventory> inventoryForm = Form.form(Inventory.class).bind(jsonInv);
+                    inventory = Json.fromJson(jsonInv, Inventory.class);
+                    String startAt = inventory.getStartAt();
+                    String endAt = inventory.getEndAt();
+                    //数据验证(商品价格,折扣,数量,重量等数据不能小于0, s时间不能大于结束时间,结束时间不能小于现在时间,开始时间和结束时间不能超过当前时间6个月))
+                    if (inventoryForm.hasErrors() || inventory.getItemPrice().compareTo(new BigDecimal(0.00))<0 || inventory.getItemSrcPrice().compareTo(new BigDecimal(0.00))<0
+                            || inventory.getItemCostPrice().compareTo(new BigDecimal(0.00))<0 || inventory.getItemDiscount().compareTo(new BigDecimal(0.00))<0 || inventory.getAmount()<0
+                            || inventory.getRestrictAmount()<0 || inventory.getRestAmount()<0 || inventory.getInvWeight()<0 || !(Regex.isJason(inventory.getItemPreviewImgs()))
+                            || startAt.compareTo(endAt)>0 || endAt.compareTo(strNow)<0 || startAt.compareTo(maxDate)>0 || endAt.compareTo(maxDate)>0) {
+                        Logger.error("inventory 表单数据有误.....");
+                        return badRequest();
+                    }
+                }
+                if (jsonNode.has("varyPrices")) {
+                    for (final JsonNode varyPriceNode : jsonNode.findValue("varyPrices")) {
+                        Form<VaryPrice> varyPriceForm = Form.form(VaryPrice.class).bind(varyPriceNode);
+                        VaryPrice varyPrice = Json.fromJson(varyPriceNode, VaryPrice.class);
+                        //数据验证(价格和数量不能小于0)
+                        if (varyPriceForm.hasErrors() || varyPrice.getPrice().compareTo(new BigDecimal(0.00))<0 || varyPrice.getLimitAmount()<0) {
+                            Logger.error("varyPrice 表单数据有误.....");
+                            return badRequest();
+                        }
+                    }
+                }
+            }
+        }
+        //--------------------数据验证------------------end
         List<Long> list = itemMiddle.itemSave(json, enNm, operateIp);
         return ok(list.toString());
     }
@@ -346,7 +406,7 @@ public class ItemCtrl extends Controller {
             Carriage carriage  = Json.fromJson(jsonNode, Carriage.class);
             //数据验证
             if (carriageForm.hasErrors() || carriage.getFirstNum()<0 || carriage.getFirstFee().compareTo(new BigDecimal(0.00))<0 || carriage.getAddNum()<0 ||carriage.getAddFee().compareTo(new BigDecimal(0.00))<0) {
-                Logger.error("表单数据有误.....");
+                Logger.error("carriage 表单数据有误.....");
                 return badRequest();
             }
         }
@@ -429,7 +489,7 @@ public class ItemCtrl extends Controller {
         Form<Brands> brandsForm = Form.form(Brands.class).bind(json);
         //数据验证
         if (brandsForm.hasErrors()) {
-            Logger.error("表单数据有误.....");
+            Logger.error("brand 表单数据有误.....");
             return badRequest();
         }
         itemService.insertBrands(json);

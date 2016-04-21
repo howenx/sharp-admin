@@ -24,9 +24,7 @@ import service.ItemService;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -166,8 +164,8 @@ public class ShopItemCtrl extends Controller {
                     inventory.setInvWeight((int)skuInfo.getWeight());
                     inventory.setCarriageModelCode("900011");
                     inventory.setRecordCode("{\"hangzhou\": \"02631510200071\"}");
-                    inventory.setStartAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2016-01-01 00:00:00").getTime()));
-                    inventory.setEndAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2018-01-01 00:00:00").getTime()));
+                    inventory.setStartAt("2016-01-01 00:00:00");
+                    inventory.setEndAt("2018-01-01 00:00:00");
                     inventory.setOrVaryPrice(false);
                     inventory.setInvCode(skuInfo.getSkuCode());
                     inventory.setAmount(999999);

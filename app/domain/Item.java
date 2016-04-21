@@ -1,6 +1,7 @@
 package domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import play.data.validation.Constraints;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -12,16 +13,21 @@ import java.sql.Timestamp;
 public class Item implements Serializable{
 
     private Long id;        //商品ID
+    @Constraints.Required
     private Long cateId;    //类别ID
+    @Constraints.Required
     private Long brandId;   //品牌ID
+    @Constraints.Required
     private String itemTitle;//商品标题
+    @Constraints.Required
     private String supplyMerch;//供应商名称
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+//    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp onShelvesAt;//上架时间
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+//    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp offShelvesAt;//下架时间
     private String itemMasterImg;   //商品主图
     private String itemDetailImgs;  //商品详细图
+    @Constraints.Required
     private String itemFeatures;    //商品参数
     private Long themeId;           //主题ID
     private String state;           //状态
@@ -38,6 +44,7 @@ public class Item implements Serializable{
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp createAt;     //创建时间
     private Long masterInvId;       //主SKU ID
+    @Constraints.Required
     private String publicity;       //优惠信息
     private String itemDetail;      //详情页HTML
 

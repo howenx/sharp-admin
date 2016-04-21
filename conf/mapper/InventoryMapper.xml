@@ -51,14 +51,14 @@
         insert into inventories
         (item_id,item_color,item_size,amount,item_price,item_src_price,item_cost_price,item_discount,sold_amount,rest_amount,inv_img,item_preview_imgs,or_destroy,destroy_at,update_at,create_at,or_master_inv,state,share_url,share_count,collect_count,browse_count,theme_id,inv_area,restrict_amount,inv_title,inv_customs,postal_tax_code,inv_weight,postal_tax_rate,record_code,start_at,end_at,or_vary_price,inv_code)
         values
-        (#{itemId},#{itemColor},#{itemSize},#{amount},#{itemPrice},#{itemSrcPrice},#{itemCostPrice},#{itemDiscount},0,#{restAmount},#{invImg},#{itemPreviewImgs}::jsonb,false,#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{orMasterInv},#{state},#{shareUrl},0,0,0,#{themeId},#{invArea},#{restrictAmount},#{invTitle},#{invCustoms},#{postalTaxCode},#{invWeight},#{postalTaxRate},#{recordCode}::jsonb,#{startAt},#{endAt},#{orVaryPrice},#{invCode})
+        (#{itemId},#{itemColor},#{itemSize},#{amount},#{itemPrice},#{itemSrcPrice},#{itemCostPrice},#{itemDiscount},0,#{restAmount},#{invImg},#{itemPreviewImgs}::jsonb,false,#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{orMasterInv},#{state},#{shareUrl},0,0,0,#{themeId},#{invArea},#{restrictAmount},#{invTitle},#{invCustoms},#{postalTaxCode},#{invWeight},#{postalTaxRate},#{recordCode}::jsonb,#{startAt}::timestamp,#{endAt}::timestamp,#{orVaryPrice},#{invCode})
     </insert>
 
     <!-- 更新一条库存信息 -->
     <update id="updateInventory" parameterType="domain.Inventory">
         update inventories
         set
-        item_color=#{itemColor},item_size=#{itemSize},amount=#{amount},item_price=#{itemPrice},item_src_price=#{itemSrcPrice},item_cost_price=#{itemCostPrice},item_discount=#{itemDiscount},sold_amount=#{soldAmount},rest_amount=#{restAmount},inv_img=#{invImg},item_preview_imgs=#{itemPreviewImgs}::jsonb,or_destroy=#{orDestroy},destroy_at=#{destroyAt},update_at=CURRENT_TIMESTAMP(0),or_master_inv=#{orMasterInv},state=#{state},share_url=#{shareUrl},share_count=#{shareCount},collect_count=#{collectCount},browse_count=#{browseCount},theme_id=#{themeId},inv_area=#{invArea},restrict_amount=#{restrictAmount},inv_title=#{invTitle},inv_customs=#{invCustoms},postal_tax_code=#{postalTaxCode},inv_weight=#{invWeight},postal_tax_rate=#{postalTaxRate},record_code=#{recordCode}::jsonb,start_at=#{startAt},end_at=#{endAt},or_vary_price=#{orVaryPrice},inv_code=#{invCode}
+        item_color=#{itemColor},item_size=#{itemSize},amount=#{amount},item_price=#{itemPrice},item_src_price=#{itemSrcPrice},item_cost_price=#{itemCostPrice},item_discount=#{itemDiscount},sold_amount=#{soldAmount},rest_amount=#{restAmount},inv_img=#{invImg},item_preview_imgs=#{itemPreviewImgs}::jsonb,or_destroy=#{orDestroy},destroy_at=#{destroyAt},update_at=CURRENT_TIMESTAMP(0),or_master_inv=#{orMasterInv},state=#{state},share_url=#{shareUrl},share_count=#{shareCount},collect_count=#{collectCount},browse_count=#{browseCount},theme_id=#{themeId},inv_area=#{invArea},restrict_amount=#{restrictAmount},inv_title=#{invTitle},inv_customs=#{invCustoms},postal_tax_code=#{postalTaxCode},inv_weight=#{invWeight},postal_tax_rate=#{postalTaxRate},record_code=#{recordCode}::jsonb,start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,or_vary_price=#{orVaryPrice},inv_code=#{invCode}
         where id = #{id}
     </update>
 
