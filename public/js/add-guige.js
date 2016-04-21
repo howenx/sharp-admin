@@ -233,7 +233,7 @@ function saveCurr(saveFlag) {
     });
     //验证输入数据合法性
     if (!numberReg2.test(itemPrice) || !numberReg2.test(itemSrcPrice) || !numberReg2.test(itemCostPrice)|| !numberReg2.test(itemDiscount) || !numberReg1.test(invWeight)
-        || !numberReg1.test(restrictAmount) || !numberReg1.test(amount) || !numberReg1.test(restAmount)) {
+        || !numberReg1.test(restrictAmount) || !numberReg1.test(amount) || !numberReg1.test(restAmount) || invCode=="") {
         orSave = false;
 //        alert("输入数据不合法!");
     }

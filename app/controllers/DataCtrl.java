@@ -52,7 +52,7 @@ public class DataCtrl extends Controller {
         Form<SystemParam> systemParamForm = Form.form(SystemParam.class).bind(json);
         //数据验证
         if (systemParamForm.hasErrors()) {
-            Logger.error("表单数据有误.....");
+            Logger.error("system param 表单数据有误.....");
             return badRequest();
         }
         sysParamService.insertParam(json);

@@ -1,6 +1,7 @@
 package domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import play.data.validation.Constraints;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -15,16 +16,26 @@ public class Inventory implements Serializable{
 
     private Long id;                //主键id
     private Long itemId;            //商品id
+    @Constraints.Required
     private String itemColor;       //商品颜色
+    @Constraints.Required
     private String itemSize;        //商品尺寸
+    @Constraints.Required
     private BigDecimal itemPrice;   //成本价
+    @Constraints.Required
     private BigDecimal itemSrcPrice;//原价
+    @Constraints.Required
     private BigDecimal itemCostPrice;//售价
+    @Constraints.Required
     private BigDecimal itemDiscount;//折扣价
+    @Constraints.Required
     private Integer amount;         //库存总量
     private Integer soldAmount;     //销售数量
+    @Constraints.Required
     private Integer restAmount;     //剩余库存
+    @Constraints.Required
     private String invImg;          //sku主图
+    @Constraints.Required
     private String itemPreviewImgs;//sku预览图
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp createAt;     //创建时间
@@ -33,27 +44,36 @@ public class Inventory implements Serializable{
     private Boolean orDestroy;      //是否销毁
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp destroyAt;    //删除时间
+    @Constraints.Required
     private Boolean orMasterInv;    //是否为主sku
+    @Constraints.Required
     private String state;           //单个sku状态
     private String themeId;         //主题ID(可多个)
     private String shareUrl;        //分享的链接
     private Integer shareCount;     //分享次数
     private Integer collectCount;   //收藏次数
     private Integer browseCount;    //浏览次数
+    @Constraints.Required
     private String invArea;         //库存区域
+    @Constraints.Required
     private Integer restrictAmount;//限购数量
     private String invTitle;        //商品标题
     private String invCustoms;      //报关单位
     private String postalTaxRate;   //行邮税率
     private String postalTaxCode;   //行邮税号
+    @Constraints.Required
     private  Integer invWeight;     //单个sku重量 单位克
     private String carriageModelCode;//邮费模板code
     private String recordCode;       //备案号
+    @Constraints.Required
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp startAt;       //上架时间
+    private String startAt;       //上架时间
+    @Constraints.Required
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp endAt;         //下架时间
+    private String endAt;         //下架时间
+    @Constraints.Required
     private Boolean orVaryPrice;     //是否存在多样化价格
+    @Constraints.Required
     private String invCode;          //货号
 
     //分页,每页多少条
@@ -383,19 +403,19 @@ public class Inventory implements Serializable{
         this.recordCode = recordCode;
     }
 
-    public Timestamp getStartAt() {
+    public String getStartAt() {
         return startAt;
     }
 
-    public void setStartAt(Timestamp startAt) {
+    public void setStartAt(String startAt) {
         this.startAt = startAt;
     }
 
-    public Timestamp getEndAt() {
+    public String getEndAt() {
         return endAt;
     }
 
-    public void setEndAt(Timestamp endAt) {
+    public void setEndAt(String endAt) {
         this.endAt = endAt;
     }
 
@@ -455,7 +475,7 @@ public class Inventory implements Serializable{
         this.skuNum = skuNum;
     }
 
-    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, String themeId, String shareUrl, Integer shareCount, Integer collectCount, Integer browseCount, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxRate, String postalTaxCode, Integer invWeight, String carriageModelCode, String recordCode, Timestamp startAt, Timestamp endAt, Boolean orVaryPrice, String invCode, Integer pageSize, Integer offset, String sort, String order, Integer skuNum) {
+    public Inventory(Long id, Long itemId, String itemColor, String itemSize, BigDecimal itemPrice, BigDecimal itemSrcPrice, BigDecimal itemCostPrice, BigDecimal itemDiscount, Integer amount, Integer soldAmount, Integer restAmount, String invImg, String itemPreviewImgs, Timestamp createAt, Timestamp updateAt, Boolean orDestroy, Timestamp destroyAt, Boolean orMasterInv, String state, String themeId, String shareUrl, Integer shareCount, Integer collectCount, Integer browseCount, String invArea, Integer restrictAmount, String invTitle, String invCustoms, String postalTaxRate, String postalTaxCode, Integer invWeight, String carriageModelCode, String recordCode, String startAt, String endAt, Boolean orVaryPrice, String invCode, Integer pageSize, Integer offset, String sort, String order, Integer skuNum) {
 
         this.id = id;
         this.itemId = itemId;
