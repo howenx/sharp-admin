@@ -192,14 +192,10 @@
                         <select class="form-control" id="supplyMerch" name="supplyMerch">
                             <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
                             @for(as <- adminSupplierList) {
-                            <option value='as.getSupplyMerch()'>@as.getSupplyName()</option>
+                            <option value='@as.getSupplyMerch()'>@as.getSupplyName()</option>
                             }
                         </select>
                     </div>
-                    <!--<label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</div></label>-->
-                    <!--<div class="col-sm-2">-->
-                        <!--<input type="text" class="form-control form-data-area" id="supplyMerch" name="supplyMerch">-->
-                    <!--</div>-->
                 </div>
                 <!-- 商品库存信息-->
                 <h4 class="h4-custom-hmm">商品库存信息</h4>
