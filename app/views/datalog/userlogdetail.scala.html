@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn", dataLog:domain.DataLog, user:domain.User)
+@(lang:String="cn", userLog:domain.UserLog, user:domain.User)
 
 @scripts = {
 
@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="/assets/css/item.css"/>
 }
 
-@import java.lang.String; var title="日志详情"
+@import java.lang.String; var title="用户行为记录详情"
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 
@@ -19,12 +19,12 @@
         <span class="icon-path">&gt;</span>
         <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.data.sell")</span>
         <span class="icon-path">&gt;</span>
-        <span>日志详情</span>
+        <span>用户行为记录详情</span>
     </div>
 </div>
 <div class="wrap-slider">
     <div class="page-title">
-        <span class="title-name">日志详情</span>
+        <span class="title-name">用户行为记录详情</span>
     </div>
     <div class="usercenter-option">
         <div id="return" class="btn-white btn-form fr ml20">返回</div>
@@ -33,42 +33,37 @@
     <div class="row">
         <form class="form-horizontal" method="post"   enctype="multipart/form-data">
             <div class="upinfo">
-                <h4 class="h4-custom-hmm">日志基本信息</h4>
+                <h4 class="h4-custom-hmm">基本信息</h4>
                 <div class="form-group">
                     <label class="col-sm-1 control-label" ><div class="r">操作人</div></label>
                     <div class="col-sm-2">
-                        <input class="form-control" value="@dataLog.getOperateUser()" readonly/>
+                        <input class="form-control" value="@userLog.getOperateUser()" readonly/>
                     </div>
                     <label class="col-sm-1 control-label" ><div class="r">操作IP</div></label>
                     <div class="col-sm-2">
-                        <input class="form-control" value="@dataLog.getOperateIp()" readonly/>
-                    </div>
-                    <label class="col-sm-1 control-label" ><div class="r">操作类型</div></label>
-                    <div class="col-sm-2">
-                        <input class="form-control" value="@dataLog.getOperateType()" readonly/>
+                        <input class="form-control" value="@userLog.getOperateIp()" readonly/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" ><div class="r">日志内容</div></label>
+                    <label class="col-sm-1 control-label" ><div class="r">操作类型</div></label>
                     <div class="col-sm-2">
-                        <input class="form-control" value="@dataLog.getLogContent()" readonly/>
+                        <input class="form-control" value="@userLog.getOperateType()" readonly/>
                     </div>
                     <label class="col-sm-1 control-label" ><div class="r">操作时间</div></label>
                     <div class="col-sm-2">
-                        <input class="form-control" value="@(dataLog.getOperateTime().toString().substring(0,19))" readonly/>
+                        <input class="form-control" value="@(userLog.getOperateTime().toString().substring(0,19))" readonly/>
                     </div>
                 </div>
-                <h4 class="h4-custom-hmm">日志详细信息</h4>
+                <h4 class="h4-custom-hmm">详细信息</h4>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" ><div class="r">原数据</div></label>
-                    <div class="col-sm-2">
-                        <textarea rows="15" cols="120" draggable=true disabled>@dataLog.getOriginData()</textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label" ><div class="r">新数据</div></label>
-                    <div class="col-sm-2">
-                        <textarea rows="15" cols="120" draggable=true disabled>@dataLog.getNewData()</textarea>
+                    <label class="col-sm-1 control-label" ><div class="r">日志内容</div></label>
+                    <div class="col-sm-5">
+                        @if(userLog.getOperateType()=="GET") {
+                        <input class="form-control" value="@userLog.getContent()" readonly/>
+                        }
+                        @if(userLog.getOperateType()=="POST") {
+                        <textarea rows="15" cols="120" draggable=true disabled>@userLog.getContent()</textarea>
+                        }
                     </div>
                 </div>
             </div>
@@ -81,6 +76,6 @@
 <script>
 	/** 点击返回按钮,返回到列表查询页面 **/
 	$("#return").on("click", function() {
-	    location.href="/"+window.lang+"/log/search";
+	    location.href="/"+window.lang+"/userlog/search";
 	});
 </script>

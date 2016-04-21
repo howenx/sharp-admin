@@ -192,7 +192,7 @@
                         <select class="form-control" id="supplyMerch" name="supplyMerch">
                             <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
                             @for(as <- adminSupplierList) {
-                            <option value='as.getSupplyMerch()'>@as.getSupplyName()</option>
+                            <option value='@as.getSupplyMerch()'>@as.getSupplyName()</option>
                             }
                         </select>
                     </div>

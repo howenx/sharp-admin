@@ -237,6 +237,13 @@ POST        /log/search/$pageNum<[0-9]+>                                   contr
 POST        /$lang<(cn|en|kr)>/log/search/$pageNum<[0-9]+>                 controllers.DataLogCtrl.dataLogSearchAjax(lang, pageNum:Int)
 GET         /log/findLog/:id                                               controllers.DataLogCtrl.findDataLogById(lang = "cn", id:Long)
 GET         /$lang<(cn|en|kr)>/log/findLog/:id                             controllers.DataLogCtrl.findDataLogById(lang, id:Long)
+#UserLog  --> userlog 用户行为记录
+GET         /userlog/search                                                controllers.UserLogCtrl.userLogSearch(lang = "cn")
+GET         /$lang<(cn|en|kr)>/userlog/search                              controllers.UserLogCtrl.userLogSearch(lang)
+POST        /userlog/search/$pageNum<[0-9]+>                               controllers.UserLogCtrl.userLogSearchAjax(lang ="cn", pageNum:Int)
+POST        /$lang<(cn|en|kr)>/userlog/search/$pageNum<[0-9]+>             controllers.UserLogCtrl.userLogSearchAjax(lang, pageNum:Int)
+GET         /userlog/findUserLog/:id                                       controllers.UserLogCtrl.findUserLogById(lang = "cn", id:Long)
+GET         /$lang<(cn|en|kr)>/userlog/findUserLog/:id                     controllers.UserLogCtrl.findUserLogById(lang, id:Long)
 
 
 

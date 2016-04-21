@@ -197,10 +197,10 @@
                             <option></option>
                             @for(as <- adminSupplierList) {
                             @if(item.getSupplyMerch()==as.getSupplyMerch()) {
-                            <option selected value='as.getSupplyMerch()'>@as.getSupplyName()</option>
+                            <option selected value='@as.getSupplyMerch()'>@as.getSupplyName()</option>
                             }
                             @if(item.getSupplyMerch()!=as.getSupplyMerch()) {
-                            <option  value='as.getSupplyMerch()'>@as.getSupplyName()</option>
+                            <option  value='@as.getSupplyMerch()'>@as.getSupplyName()</option>
                             }
                             }
                         </select>

@@ -17,6 +17,7 @@ public class UserLog implements Serializable {
     private String operateIp;   //操作ip
     private String operateType; //操作类型
     private String content;     //操作内容
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp operateTime;//操作时间
 
 
