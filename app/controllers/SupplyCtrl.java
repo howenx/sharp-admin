@@ -5,7 +5,6 @@ import domain.SupplyOrder;
 import domain.User;
 import filters.UserAuth;
 import middle.SupplierMiddle;
-import play.Logger;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.mvc.Controller;
@@ -31,9 +30,6 @@ public class SupplyCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result orderProcess(String lang){
-        lang = "en";
-        Logger.info("本地语言为:" +lang);
-
         User user = (User) ctx().args.get("user");
         //全部订单
         List<Object[]> objectList = supplierMiddle.getOrderAll(lang,user);
