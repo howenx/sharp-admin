@@ -170,6 +170,13 @@ order.supplier.state3 = 已登机
 order.supplier.state4 = 抵达中国
 order.supplier.state5 = 未处理
 
+order.supplier.title0 = 全部订单
+order.supplier.title1 = 已打包
+order.supplier.title2 = 已出库
+order.supplier.title3 = 已登机
+order.supplier.title4 = 抵达中国
+order.supplier.title5 = 未处理
+
 
 #supply order row head
 order.row.head1 = 订单编号

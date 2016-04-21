@@ -31,6 +31,9 @@ public class SupplyCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result orderProcess(String lang){
+        lang = "en";
+        Logger.info("本地语言为:" +lang);
+
         User user = (User) ctx().args.get("user");
         //全部订单
         List<Object[]> objectList = supplierMiddle.getOrderAll(lang,user);
