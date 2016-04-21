@@ -1,3 +1,4 @@
+@(lang:String)
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,6 +33,7 @@
 
 <script src="/assets/js/jquery-1.11.3.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
+<script>window.lang = "@lang"</script>
 
 <script>
     /** 回车键登录 **/
@@ -67,13 +69,13 @@
                         window.location.href = "/";
                     }
                     if (data=="后台用户登录成功") {
-                        window.location.href = "/summary ";
+                        window.location.href =  window.lang + "/summary";
                     }
                     if (data=="供应商登录成功") {
-                        window.location.href = "/front";
+                        window.location.href = window.lang + "/front";
                     }
                     if (data=="其他用户登录") {
-                        window.location.href = "/front";
+                        window.location.href =  window.lang + "/front";
                     }
                 }
             });
