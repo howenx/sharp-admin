@@ -152,7 +152,7 @@ object Prod {
     DB.withConnection("account") { implicit conn =>
       ret.map { m =>
          val created_id = m("products.created_id").toString.toInt
-         val user = SQL( """ select nickname from "ID" where user_id = {user_id} and status = 'Y'  """).on("user_id"->created_id).as(parser.*).headOption
+         val user = SQL( """ select en_nm from "ADMIN_USER" where user_id = {user_id} and status = 'Y'  """).on("user_id"->created_id).as(parser.*).headOption
         //Logger.debug(user.get.toString())
 
         val r = m ++ user.get
