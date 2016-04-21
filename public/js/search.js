@@ -812,6 +812,8 @@ $(function() {
         $(".order-option>div").removeClass("currect");
         $(this).addClass("currect");
         $(".order-admin table").hide();
+        $(".btn-submit").hide();
         $(".order-admin table").eq(index).show();
+        $(".btn-submit").eq(index).show();
     })
 })

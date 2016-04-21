@@ -179,5 +179,11 @@ order.row.head4 = 订单总价(¥)
 order.row.head5 = 订单状态
 order.row.head0 = 全选
 
+#supply order submit button text
+order.button.text1 = 打包完成
+order.button.text2 = 出库完成
+order.button.text3 = 登机完成
+order.button.text4 = 已抵达中国
+
 
 

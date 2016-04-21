@@ -172,7 +172,7 @@ order.supplier.state0 = All Orders
 order.supplier.state1 = Packaged
 order.supplier.state2 = Stock Out
 order.supplier.state3 = On Board
-order.supplier.state4 = Arrived China
+order.supplier.state4 = Arrived
 order.supplier.state5 = Unprocessed Orders
 
 #supply order row head
@@ -182,3 +182,9 @@ order.row.head3 = Buying Time
 order.row.head4 = Total Price(¥)
 order.row.head5 = Order Status
 order.row.head0 = All
+
+#supply order submit button text
+order.button.text1 = Packaged
+order.button.text2 = Stocked Out
+order.button.text3 = On Board
+order.button.text4 = Arrived

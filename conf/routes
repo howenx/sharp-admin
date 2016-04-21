@@ -175,6 +175,8 @@ GET         /supply/download/hangzhou                                      contr
 POST        /supply/upload                                                 controllers.Application.upload
 GET         /supply/order/process                                          controllers.SupplyCtrl.orderProcess(lang ="cn")
 GET         /$lang<(cn|en|kr)>/supply/order/process                        controllers.SupplyCtrl.orderProcess(lang)
+POST        /supply/order/status/save/:status                              controllers.SupplyCtrl.statusSave(lang ="cn",status)
+POST        /$lang<(cn|en|kr)>/supply/order/status/save/:status            controllers.SupplyCtrl.statusSave(lang,status)
 
 
 

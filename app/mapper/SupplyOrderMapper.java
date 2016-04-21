@@ -21,5 +21,24 @@ public interface SupplyOrderMapper {
      */
     SupplyOrder getSupplyByOrderId(Long id);
 
+    /**
+     * 获取SupplyOrder        Added by Tiffany Zhu 2016.04.20
+     * @param supplyOrder
+     * @return
+     */
+    List<SupplyOrder> getSupplyOrder(SupplyOrder supplyOrder);
+
+    /**
+     * 向supplyOrder表中添加数据       Added by Tiffany Zhu 2016.04.21
+     * @param supplyOrderList
+     */
+    Integer addSupplyOrder(List<SupplyOrder> supplyOrderList);
+
+    /**
+     * 更新supplyOrder状态      Added by Tiffany Zhu 2016.04.21
+     * @param supplyOrderList
+     * @return
+     */
+    Integer updSupplyOrderStatus(List<SupplyOrder> supplyOrderList);
 
 }

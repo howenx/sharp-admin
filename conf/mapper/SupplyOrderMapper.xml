@@ -27,6 +27,35 @@
         from supply_order t where t.order_id = #{value}
     </select>
 
+    <select id="getSupplyOrder" parameterType="domain.SupplyOrder" resultType="domain.SupplyOrder">
+        select
+        <include refid="supplyOrderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from supply_order t where 1=1
+        <if test="state != null and state != ''">
+            and t.state = #{state}
+        </if>
+        <if test="updateUser != null">
+            and t.update_user = #{updateUser}
+        </if>
+    </select>
 
-    
+    <insert id="addSupplyOrder" parameterType="java.util.List">
+        insert into supply_order (order_id,update_time,update_user,state)
+        values
+        <foreach collection="list" item="order" index="index" separator=",">
+            (#{order.orderId},CURRENT_TIMESTAMP(0),#{order.updateUser},#{order.state})
+        </foreach>
+
+    </insert>
+
+    <update id="updSupplyOrderStatus" parameterType="java.util.List">
+        <foreach collection="list" item="order" separator=";">
+            update supply_order set
+            update_time=CURRENT_TIMESTAMP(0),update_user=#{order.updateUser},state=#{order.state}
+            where order_id = #{order.orderId}
+        </foreach>
+    </update>
+
 </mapper>
