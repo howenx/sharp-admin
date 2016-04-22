@@ -229,7 +229,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
               case Nil =>
                 //val any_id:Any = id.get
                 //初始化一个空的内容
-                List(Map("products.category_id" -> id.get, ".row" ->"",".count" -> 0, "products.product_id" -> "", "products.name" -> "", "products.status" -> "","products.update_dt"->"","ID.nickname"->""))
+                List(Map("products.category_id" -> id.get, ".row" ->"",".count" -> 0, "products.product_id" -> "", "products.name" -> "", "products.status" -> "","products.update_dt"->"","ADMIN_USER.en_nm"->""))
               case _ =>
                 ret
             }

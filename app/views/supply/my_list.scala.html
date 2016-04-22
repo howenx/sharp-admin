@@ -1,5 +1,4 @@
 @import play.i18n._
-@import domain.User_Type
 @import domain.User
 @import scala.collection.immutable._
 @(lang:String="cn", user:User, products:List[Map[String, Any]],start:Int)
@@ -141,8 +140,8 @@ $(document).ready( function() {
     <div class="row" style="margin-top:50px">
 
 
-            @user.role match {
-            case User_Type.SELLER => {
+            @user.userType.get match {
+            case "SUPPLIER" => {
             <div class="pull-right col-md-2">
                 <input type="button" onclick="javascript:add();" class="btn btn-primary btn-block" value="新增(증가)">
 
@@ -153,7 +152,7 @@ $(document).ready( function() {
 
 
             }
-            case User_Type.TRANSLATION => {
+            case "TRANSLATION" => {
             <div class="pull-right col-md-2">
                 <input type="button" onclick="javascript:window.location='/supply/download/shanghai'" class="btn btn-primary btn-block" value="上海报关下载">
             </div>

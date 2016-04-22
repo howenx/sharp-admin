@@ -1,5 +1,4 @@
 @import scala.collection.immutable._
-@import domain.User_Type
 @import domain.User
 @import org.joda.time.DateTime
 
@@ -50,15 +49,15 @@
                 }
             </td>
             <td class="col-md-1">
-                @user.role match {
-                case User_Type.SELLER => {
+                @user.userType.get match {
+                case "SUPPLIER" => {
                   @p("products.status") match {
                     case "I" => {<a href="/supply/update/@p("products.product_id")">修改(수정)</a>  <a href="javascript:del(@p("products.product_id"))">删除(삭제)</a></td>}
                     case _ => {</td>}
                   }
 
                 }
-                case User_Type.TRANSLATION => {
+                case "TRANSLATION" => {
                   @p("products.status") match {
                     case "I" => {
                        <a href="/supply/translation/@p("products.product_id")">翻译</a>

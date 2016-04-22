@@ -5,12 +5,16 @@ import play.Logger;
 import play.libs.Json;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
+import javax.inject.Inject;
+import play.Configuration;
 
 
 /**
  * Created by tiffany on 15/12/17.
  */
 public class GetLogistics {
+    @Inject
+    private Configuration configuration;
 
     public static JsonNode sendGet(String expNum,String expCompany){
         /*企业版*/
