@@ -150,9 +150,9 @@ object Prod {
 
     var results:List[Map[String, Any]] = List()
     DB.withConnection("account") { implicit conn =>
-      ret.map { m =>
+      ret.foreach { m =>
          val created_id = m("products.created_id").toString.toInt
-         val user = SQL( """ select en_nm from "ADMIN_USER" where user_id = {user_id} and status = 'Y'  """).on("user_id"->created_id).as(parser.*).headOption
+         val user = SQL( """ select en_nm, ch_nm from "ADMIN_USER" where user_id = {user_id} and status = 'Y'  """).on("user_id"->created_id).as(parser.*).headOption
         //Logger.debug(user.get.toString())
 
         val r = m ++ user.get
