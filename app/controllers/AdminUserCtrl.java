@@ -155,22 +155,10 @@ public class AdminUserCtrl extends Controller {
      * @return views
      */
     public Result adminUserLogin() {
-        //String lang = request().getQueryString("lang");
-        //        Logger.error("语言"+lang);
+        String lang = request().getQueryString("lang");
+                Logger.error("语言"+lang);
 
-
-        /*获取本地语言  Added by Tiffany Zhu  2016.02.21    start*/
-        Locale locale = Locale.getDefault();
-        String lang = "en";
-        //lang = locale.getLanguage();
-        if(locale.getLanguage().equals("zh")){
-            lang = "cn";
-        }else if(locale.getLanguage().equals("ko")){
-            lang = "kr";
-        }
-        /*获取本地语言  Added by Tiffany Zhu  2016.02.21      end*/
-
-        return ok(views.html.adminuser.userlogin.render(lang));
+        return ok(views.html.adminuser.userlogin.render());
     }
 
     /**

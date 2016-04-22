@@ -1,4 +1,3 @@
-@(lang:String)
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +32,19 @@
 
 <script src="/assets/js/jquery-1.11.3.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
-<script>window.lang = "@lang"</script>
+<script>
+    $(function(){
+        var userLang = navigator.language || navigator.userLanguage;
+        console.log("browser language:" + userLang);
+        if(userLang == "zh-CN"){
+            window.lang = "cn";
+        }else if(userLang == "ko"){
+            window.lang = "kr";
+        }else{
+            window.lang = "en";
+        }
+    })
+</script>
 
 <script>
     /** 回车键登录 **/
