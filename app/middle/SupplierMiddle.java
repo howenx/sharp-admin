@@ -56,14 +56,15 @@ public class SupplierMiddle {
         }else{
             //supplier的商品
             List<Item> itemList = itemService.getItemBySupplier(adminSupplier.getSupplyMerch());
-            if(itemList != null){
+
+            if(itemList != null && itemList.size() > 0){
                 //订单中的商品
                 List<OrderLine> orderLineList = orderLineService.getLineByItems(itemList);
-                if(orderLineList == null){
+                if(orderLineList == null || orderLineList.size() == 0){
                     Logger.error("No order for current supplier.");
                 }else{
                     orderList = orderService.getOrderByIds(orderLineList);
-                    if(orderList != null){
+                    if(orderList != null && orderList.size() > 0){
                         for(Order order : orderList){
                             Object[] object = new Object[5];
                             object[0] = order.getOrderId();
