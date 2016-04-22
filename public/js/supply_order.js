@@ -1,29 +1,28 @@
 $(function(){
 
-        //未处理
+        //未处理       Added by Tiffany Zhu 2016.04.21
         $("input[name='selAll1']").click(function(){
             $("input[name='supplyOrder1']").prop('checked',$(this).prop("checked"));
         });
-        //已打包
+        //已打包        Added by Tiffany Zhu 2016.04.21
         $("input[name='selAll2']").click(function(){
             $("input[name='supplyOrder2']").prop('checked',$(this).prop("checked"));
         });
-        //已出库
+        //已出库        Added by Tiffany Zhu 2016.04.21
         $("input[name='selAll3']").click(function(){
             $("input[name='supplyOrder3']").prop('checked',$(this).prop("checked"));
         });
-        //已登机
+        //已登机        Added by Tiffany Zhu 2016.04.21
         $("input[name='selAll4']").click(function(){
             $("input[name='supplyOrder4']").prop('checked',$(this).prop("checked"));
         });
-        //已抵达中国
+        //已抵达中国      Added by Tiffany Zhu 2016.04.21
 //        $("input[name='selAll5']").click(function(){
 //            $("input[name='supplyOrder5']").prop('checked',$(this).prop("checked"));
 //        });
 
 
-
-        //未处理--打包商品
+        //未处理--打包商品      Added by Tiffany Zhu 2016.04.21
         $(document).on("click","#btn-submit-packaged",function(){
             var isPost = true;
             if($("input[name='supplyOrder1']:checked").length <= 0){
@@ -77,7 +76,7 @@ $(function(){
             }
         })
 
-        //已打包--商品出库
+        //已打包--商品出库      Added by Tiffany Zhu 2016.04.21
         $(document).on("click","#btn-submit-stock-out",function(){
             var isPost = true;
             if($("input[name='supplyOrder2']:checked").length <= 0){
@@ -125,14 +124,13 @@ $(function(){
                        alert("error");
                    },
                    success: function(data) {
-                       alert("success");
-                       location.reload();
+                       setTimeout(location.reload(), 2000);
                    }
                })
             }
         })
 
-        //已出库--商品登机
+        //已出库--商品登机      Added by Tiffany Zhu 2016.04.21
         $(document).on("click","#btn-submit-on-board",function(){
             var isPost = true;
             if($("input[name='supplyOrder3']:checked").length <= 0){
@@ -180,14 +178,13 @@ $(function(){
                        alert("error");
                    },
                    success: function(data) {
-                       alert("success");
-                       location.reload();
+                       setTimeout(location.reload(), 2000);
                    }
                })
             }
         })
 
-        //已登机--抵达中国
+        //已登机--抵达中国      Added by Tiffany Zhu 2016.04.21
          $(document).on("click","#btn-submit-arrived",function(){
              var isPost = true;
              if($("input[name='supplyOrder4']:checked").length <= 0){
@@ -235,19 +232,10 @@ $(function(){
                         alert("error");
                     },
                     success: function(data) {
-                        alert("success");
-                        location.reload();
+                        setTimeout(location.reload(), 2000);
                     }
                 })
              }
          })
-
-
-
-
-
-
-
-
 
     })
