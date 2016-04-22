@@ -5,12 +5,21 @@ import play.Logger;
 import play.libs.Json;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
+import sun.misc.BASE64Encoder;
+
+import javax.inject.Inject;
+import play.Configuration;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 
 /**
  * Created by tiffany on 15/12/17.
  */
 public class GetLogistics {
+    @Inject
+    private Configuration configuration;
 
     public static JsonNode sendGet(String expNum,String expCompany){
         /*企业版*/
@@ -46,5 +55,25 @@ public class GetLogistics {
         }
         return returnJson;
     }
+
+    //获取快递公司编码      Added by Tiffany Zhu 2016.04.22
+    private String getExpCompanyCode(String expNum){
+        //String url = configuration.getString("k100.exp.companycode");
+        return "ok";
+    }
+
+
+
+
+    //MD5加密(小写)        Added by Tiffany Zhu 2016.04.22
+    public static String EncoderByMd5(String str) throws NoSuchAlgorithmException,UnsupportedEncodingException{
+        MessageDigest md5 = MessageDigest.getInstance("MD5");
+        BASE64Encoder base64Encoder = new BASE64Encoder();
+        String encodedStr = base64Encoder.encode(md5.digest(str.getBytes("utf-8")));
+        return encodedStr;
+    }
+
+
+
 
 }
