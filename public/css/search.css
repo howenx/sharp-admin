@@ -190,7 +190,17 @@
 .order-admin .order-option>div.currect{
 	color: #fff;
 }
-.order-admin table thead{
+.order-admin table thead td{
 	font-size: 18px;
 	font-weight: 400;
+}
+.order-admin .order-time{
+	cursor: pointer;
+	moz-user-select: -moz-none;
+	-moz-user-select: none;
+	-o-user-select:none;
+	-khtml-user-select:none; /* you could also put this in a class */
+	-webkit-user-select:none;/* and add the CSS class here instead */
+	-ms-user-select:none;
+	user-select:none;
 }

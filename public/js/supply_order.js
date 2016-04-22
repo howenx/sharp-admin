@@ -237,5 +237,38 @@ $(function(){
                 })
              }
          })
-
+    //订单排序
+    function sortNumber_u(a,b)
+    {
+        return a-b;
+    };
+    function sortNumber_d(a,b)
+    {
+        return b-a;
+    };
+    $(".order-time").click(function () {
+        var index = $(this).parent().find("th").index(this);
+        var arrOrderTime = [];
+        $(this).parents("table").find("tr").find("td:nth-of-type("+(index+1)+")").each(function () {
+            arrOrderTime.push(new Date($(this).html().replace(/-/g,"/")).getTime());
+        });
+        if($(this).find(":input").val()=="desc"){
+            $(this).find("span").removeClass("glyphicon-arrow-up");
+            $(this).find("span").addClass("glyphicon-arrow-down");
+            arrOrderTime.sort(sortNumber_u);
+            $(this).find(":input").val("asc")
+        }else{
+            $(this).find("span").removeClass("glyphicon-arrow-down");
+            $(this).find("span").addClass("glyphicon-arrow-up");
+            arrOrderTime.sort(sortNumber_d);
+            $(this).find(":input").val("desc")
+        }
+        for(var i=0;i<arrOrderTime.length;i++){
+            $(this).parents("table").find("tr").find("td:nth-of-type("+(index+1)+")").each(function () {
+                if (new Date($(this).html().replace(/-/g,"/")).getTime() == arrOrderTime[i]) {
+                    $(this).parents("table").find("th").parent().after($(this).parent());
+                }
+            })
+        }
     })
+})
