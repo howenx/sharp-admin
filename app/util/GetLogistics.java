@@ -5,13 +5,8 @@ import play.Logger;
 import play.libs.Json;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
-import sun.misc.BASE64Encoder;
-
 import javax.inject.Inject;
 import play.Configuration;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 
 /**
