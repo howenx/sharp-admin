@@ -58,7 +58,7 @@
             <td class="col-md-1">@p("products.product_id")</td>
             <td class="col-md-2">@p("products.name")</td>
             <td class="col-md-1">@{p("products.update_dt") match {case ""=>{} case _ =>{fm.print(new DateTime(p("products.update_dt")))} }}</td>
-            <td class="col-md-2">@p("ADMIN_USER.en_nm") @p("ADMIN_USER.ch_nm")</td>
+            <td class="col-md-2">@p("ADMIN_USER.en_nm")</td>
             <td>
                 @p("products.status") match {
                    case "I" => {未翻译}

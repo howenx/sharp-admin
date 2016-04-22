@@ -31,7 +31,7 @@ object Prod {
   def init (p_type: Prod_Type.prod_type, p_name:String, bar_code:String, amount:Int, kr_string:String, user_id:Long) = {
     DB.withConnection("products") { implicit  conn =>
       val category_id = p_type.id
-      SQL(""" insert into products ( name, category_id, bar_code, amount, kr_string, created_id )values ( {name}, {category_id}, {amount}, {kr_string}::jsonb, {created_id}) """).on("name"->p_name, "category_id"->category_id, "bar_code"->bar_code, "amount"->amount, "kr_string"->kr_string, "created_id"->user_id).execute()
+      SQL(""" insert into products ( name, category_id, bar_code, amount, kr_string, created_id )values ( {name}, {category_id}, {bar_code}, {amount}, {kr_string}::jsonb, {created_id}) """).on("name"->p_name, "category_id"->category_id, "bar_code"->bar_code, "amount"->amount, "kr_string"->kr_string, "created_id"->user_id).execute()
 
     }
   }

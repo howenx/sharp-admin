@@ -65,6 +65,7 @@
     function add () {
        var url = $("#tabs .active a ").attr("href");
        var matches = url.match(/id=(\d)+/);
+       <!--alert(matches[1]);-->
        if (matches[1]) {
           window.location="/supply/init/" + matches[1];
        }

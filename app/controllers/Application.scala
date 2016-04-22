@@ -922,7 +922,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
             case map =>
               var m = map.map { case (k, v) => k -> v.head }
               if (filename != null) {
-                filename = configuration.getString("oss.prefix").get + filename
+                filename = configuration.getString("image.upload.url").get + filename
                 m += ("image" -> filename)
               }
               Logger.debug(m.toString())
@@ -934,8 +934,8 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
 
               val bar_code = m("bar_code")
               //m -= ("bar_code")
-              //m += ("添加时间" -> DateTimeFormat.longDateTime().print(new DateTime()))
-              //m += ("添加人" -> user.userId.get)
+//              m += ("添加时间" -> DateTimeFormat.longDateTime().print(new DateTime()))
+//              m += ("添加人" -> user.userId.get.toString)
               val kr_string = Json.toJson(m).toString()
               ptype = Prod_Type.withName(p_type).id;
               Prod.init(Prod_Type.withName(p_type), name, bar_code, amount, kr_string,user.userId.get)
@@ -967,7 +967,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
             case map =>
               var m = map.map { case (k, v) => k -> v.head }
               if (filename != null) {
-                filename = configuration.getString("oss.prefix").get + filename
+                filename = configuration.getString("image.upload.url").get + filename
                 m += ("image" -> filename)
               }
               Logger.debug(m.toString())

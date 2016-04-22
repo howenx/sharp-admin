@@ -478,22 +478,34 @@
                     <!--客服人员的菜单项(客服)-->
                     }
 
-                    <!--供应管理系统的菜单项-->
-                    @if(user.userType.get=="SADMIN" || user.userType.get=="SUPPLIER" || user.userType.get=="TRANSLATION" || user.userType.get=="AUDIT") {
-                    <!--供应管理-->
+                    <!--供应管理系统 管理员 的菜单项-->
+                    @if(user.userType.get=="SADMIN") {
                     <!--首页-->
                     <li class="header-navi-item fl">
                         <a href="/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
                         <i class="header-nav-border-relative"></i>
                     </li>
+                    <!--供应管理-->
                     <li class="header-navi-item fl">
-                        <!--<a href="/supply/admin" class="header-link tdn">供应管理</a>-->
-                        <!--<i class="header-nav-border-relative"></i>-->
+                        <a href="/supply/admin" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.supply.menu1")</a>
+                        <i class="header-nav-border-relative"></i>
+                    </li>
+                    <!--供应管理系统 管理员 的菜单项-->
+                    }
+                    <!--供应管理系统 供应商 的菜单项-->
+                    @if(user.userType.get=="SUPPLIER") {
+                    <!--首页-->
+                    <li class="header-navi-item fl">
+                        <a href="/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
+                        <i class="header-nav-border-relative"></i>
+                    </li>
+                    <!--供应管理 订单处理-->
+                    <li class="header-navi-item fl">
                         <div class="user-info fl js-header-dropmenu">
                             <span class="info-inner db">@Messages.get(new Lang(Lang.forCode(lang)),"nav.supply")<i class="ml5 caret caret-down caret-b-9b"></i></span>
                             <ul class="header-dropdown-list fs13 js-header-list">
                                 <li class="header-dropdown-item">
-                                    <a href="/supply/admin" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.supply.menu1")</a>
+                                    <a href="/supply/my" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.supply.menu1")</a>
                                 </li>
                                 <li class="header-dropdown-item">
                                     <a href="/@lang/supply/order/process" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.supply.menu2")</a>
@@ -502,7 +514,20 @@
                             <i class="header-nav-border"></i>
                         </div>
                     </li>
-                    <!--供应管理的菜单项-->
+                    <!--供应管理系统 翻译人员 的菜单项-->
+                    }
+                    @if(user.userType.get=="TRANSLATION") {
+                    <!--首页-->
+                    <li class="header-navi-item fl">
+                        <a href="/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
+                        <i class="header-nav-border-relative"></i>
+                    </li>
+                    <!--供应管理-->
+                    <li class="header-navi-item fl">
+                        <a href="/supply/list" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.supply.menu1")</a>
+                        <i class="header-nav-border-relative"></i>
+                    </li>
+                    <!--供应管理系统 翻译人员 的菜单项-->
                     }
 
                     <!--其他类型用户的菜单项-->
