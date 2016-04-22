@@ -18,7 +18,7 @@ trait Secured {
   def onUnauthorized(request: RequestHeader) = {
 //    Results.Redirect(routes.Auth.login)
     //Modified By Sunny.Wu 2016/02/19
-    Results.Redirect(routes.AdminUserCtrl.adminUserLogin)
+    Results.Redirect(routes.AdminUserCtrl.adminUserLogin())
   }
 
   def withAuth(f: => String => Request[AnyContent] => Result) = {

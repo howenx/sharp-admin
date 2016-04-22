@@ -31,10 +31,7 @@ import service.IDService;
 import javax.inject.Inject;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 
@@ -106,6 +103,7 @@ public class AdminUserCtrl extends Controller {
         Form<AdminUser> adminUserForm = Form.form(AdminUser.class).bind(json);
         //数据验证
         if (adminUserForm.hasErrors()) {
+            Logger.error("adminUser 表单数据有误.....");
             return badRequest();
         }
         adminUser.setEmail(adminUser.getEmail()+"@kakaocorp.com");
@@ -157,9 +155,22 @@ public class AdminUserCtrl extends Controller {
      * @return views
      */
     public Result adminUserLogin() {
-        String lang = request().getQueryString("lang");
-//        Logger.error("语言"+lang);
-        return ok(views.html.adminuser.userlogin.render());
+        //String lang = request().getQueryString("lang");
+        //        Logger.error("语言"+lang);
+
+
+        /*获取本地语言  Added by Tiffany Zhu  2016.02.21    start*/
+        Locale locale = Locale.getDefault();
+        String lang = "en";
+        //lang = locale.getLanguage();
+        if(locale.getLanguage().equals("zh")){
+            lang = "cn";
+        }else if(locale.getLanguage().equals("ko")){
+            lang = "kr";
+        }
+        /*获取本地语言  Added by Tiffany Zhu  2016.02.21      end*/
+
+        return ok(views.html.adminuser.userlogin.render(lang));
     }
 
     /**
@@ -171,7 +182,7 @@ public class AdminUserCtrl extends Controller {
         String loginIp = request().remoteAddress();
         AdminUser adu  = Json.fromJson(json, AdminUser.class);//查询条件adu
         AdminUser adminUser = adminUserService.getUserBy(adu);
-        Logger.debug("login user:"+adu.toString());
+//        Logger.debug("login user:"+adu.toString());
         //登录后返回信息
         String data = "";
         if (null!=adminUser && !"".equals(adminUser.toString())) {
@@ -180,14 +191,14 @@ public class AdminUserCtrl extends Controller {
             adminUser.setLastLoginDt(new Timestamp(new Date().getTime()));
             adminUser.setStatus("Y");
             adminUserService.updateUser(adminUser);
-            User user = new User (adminUser.getUserId(), null,null, null , User_Type.ADMIN(),
+            User user = new User (adminUser.getUserId(), adminUser.getEnNm(),null, null , User_Type.ADMIN(),
                     Option.apply(adminUser.getUserId()), Option.apply(adminUser.getEnNm()), Option.apply(adminUser.getChNm()), Option.apply(adminUser.getEmail()),
                     Option.apply(adminUser.getUserType()), null, null, null,
                     null, null, null,null, null,null);
             //登录成功后用户信息存在cache 和 session中
             Cache.set(adminUser.getEnNm().trim(), user);
             session().put("username",adminUser.getEnNm().trim());
-            Logger.debug("user login... "+user.enNm());
+            Logger.info("user login... "+user.enNm());
             Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
             Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
             Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);

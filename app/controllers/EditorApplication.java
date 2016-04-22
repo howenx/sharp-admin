@@ -42,6 +42,7 @@ public class EditorApplication extends Controller{
 			return ok("参数错误");
 		}
 		else if(action.equals("config")){
+			assert config != null;
 			return ok(config);
 		}
 //		else if(action.equals(json.get("imageActionName").textValue())){

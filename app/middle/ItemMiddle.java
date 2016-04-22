@@ -2,7 +2,6 @@ package middle;
 
 import akka.actor.ActorRef;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import domain.*;
 import domain.pingou.PinSku;
 import modules.NewScheduler;
@@ -13,7 +12,6 @@ import service.*;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,17 +80,7 @@ public class ItemMiddle {
         //items表录入数据
         if (json.has("item")) {
             JsonNode jsonItem = json.findValue("item");
-            if (jsonItem.has("publicity")) {
-                ((ObjectNode) jsonItem).put("publicity",jsonItem.findValue("publicity").toString());
-            }
-            if (jsonItem.has("itemFeatures")) {
-                ((ObjectNode) jsonItem).put("itemFeatures",jsonItem.findValue("itemFeatures").toString());
-            }
-            if (jsonItem.has("itemDetailImgs")) {
-                ((ObjectNode) jsonItem).put("itemDetailImgs",jsonItem.findValue("itemDetailImgs").toString());
-            }
-            item = Json.fromJson(json.findValue("item"),Item.class);
-//            Logger.error(item.toString());
+            item = Json.fromJson(jsonItem,Item.class);
             //更新商品信息
             if (jsonItem.has("id")) {
                 Item originItem = itemService.getItem(item.getId());
@@ -139,10 +127,16 @@ public class ItemMiddle {
                     JsonNode jsonInv = jsonNode.findValue("inventory");
                     inventory = Json.fromJson(jsonInv, Inventory.class);
                     inventory.setItemId(item.getId());
-                    Timestamp startAt = inventory.getStartAt();//现上架时间
-                    Timestamp endAt = inventory.getEndAt();//现下架时间
-                    Long startTimes = startAt.getTime();//现上架时间毫秒数
-                    Long endTimes = endAt.getTime();//现下架时间毫秒数
+                    String startAt = inventory.getStartAt();//现上架时间
+                    String endAt = inventory.getEndAt();//现下架时间
+                    Long startTimes = null;//现上架时间毫秒数
+                    Long endTimes = null;//现下架时间毫秒数
+                    try {
+                        startTimes = sdf.parse(startAt).getTime();
+                        endTimes = sdf.parse(endAt).getTime();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     if (startTimes>nowTimes) {//上架时间比现在时间大为预售状态
                         inventory.setState("P");
                     }
@@ -159,10 +153,16 @@ public class ItemMiddle {
                         String state = inventory.getState();        //现sku状态
                         Integer orUpdate = 0;   //orUpdate状态为标识是否执行更新语句
                         originInv = inventoryService.getInventory(inventory.getId());
-                        Timestamp originStartAt = originInv.getStartAt();//原上架时间
-                        Timestamp originEndAt = originInv.getEndAt();//原下架时间
-                        Long originStartTimes = originStartAt.getTime();//原上架时间毫秒数
-                        Long originEndTimes = originEndAt.getTime();//原下架时间毫秒数
+                        String originStartAt = originInv.getStartAt();//原上架时间
+                        String originEndAt = originInv.getEndAt();//原下架时间
+                        Long originStartTimes = null;//原上架时间毫秒数
+                        Long originEndTimes = null;//原下架架时间毫秒数
+                        try {
+                            originStartTimes = sdf.parse(originStartAt).getTime();
+                            originEndTimes = sdf.parse(originEndAt).getTime();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                         String originState = originInv.getState();  //原sku状态
                         inventory.setSoldAmount(originInv.getSoldAmount());
                         inventory.setOrDestroy(originInv.getOrDestroy());
@@ -231,7 +231,7 @@ public class ItemMiddle {
                             }
                             if ("Y".equals(originState)) {
                                 //sku由正常到预售,修改sku上架时间  或 sku由正常到正常,修改下架时间且现下架时间<pin_sku上架时间 ==> pin_sku 直接下架,修改状态,上下架时间为当前时间,停止schedule
-                                if (("P".equals(state) && !originStartAt.equals(startAt)) || ("Y".equals(state) && !originEndAt.equals(endAt) && endTimes<pinStartTimes)) {
+                                if (("P".equals(state) && !originStartTimes.equals(startTimes)) || ("Y".equals(state) && !originEndAt.equals(endAt) && endTimes<pinStartTimes)) {
                                     pinSku.setStatus("D");
                                     pinSku.setStartAt(sdf.format(now));
                                     pinSku.setEndAt(sdf.format(now));
@@ -278,13 +278,13 @@ public class ItemMiddle {
 
                     //-- 创建Actor --//
                     //修改时,修改时间且下架时间大于现在时间 或 新增sku时 启动Actor
-                    if ((null!=inventory.getId() && (originInv.getStartAt()!=startAt||originInv.getEndAt()!=endAt) && endTimes>nowTimes) || null==inventory.getId()) {
-                        if (((null!=inventory.getId()&&originInv.getStartAt()!=startAt) || null==inventory.getId()) && startTimes>nowTimes ) {
+                    if (null==inventory.getId()) {
+                        if (startTimes>nowTimes) {
                             //上架时间大于现在时间 启动上架schedule
                             Logger.debug(inventory.getId()+" auto on shelves start...");
                             newScheduler.scheduleOnce(Duration.create(startTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
                         }
-                        if (((null!=inventory.getId()&&originInv.getStartAt()!=startAt) || null==inventory.getId()) && startTimes<nowTimes && endTimes>nowTimes ) {
+                        if (startTimes<nowTimes && endTimes>nowTimes ) {
                             //上架时间小于现在时间小于下架时间 启动下架scheduler
                             Logger.debug(inventory.getId()+" auto off shelves start...");
                             newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
@@ -328,7 +328,12 @@ public class ItemMiddle {
         String state = inventory.getState();
         Date now = new Date();
         Long nowTimes = now.getTime();
-        Long endTimes = inventory.getEndAt().getTime();
+        Long endTimes = 0l;
+        try {
+            endTimes = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(inventory.getEndAt()).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if (!"D".equals(state)) {
             if ("P".equals(state)) {
                 inventory.setState("Y");
@@ -354,12 +359,6 @@ public class ItemMiddle {
                 vp.setStatus(inventory.getState());
                 varyPriceService.updateVaryPrice(vp);
             }
-            //修改pin_sku表中状态(获取PinSku,更新状态)
-//            List<PinSku> pinSkuList = pingouService.getPinSkuByInvId(inventory.getId());
-//            for(PinSku pinSku : pinSkuList) {
-//                pinSku.setStatus(inventory.getState());
-//                pingouService.updatePinSku(pinSku);
-//            }
             //修改subject_price表中状态(获取SubjectPrice,更新状态)
             List<SubjectPrice> subjectPriceList = subjectPriceService.getSbjPriceByInvId(inventory.getId());
             for(SubjectPrice subjectPrice : subjectPriceList) {

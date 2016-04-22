@@ -867,11 +867,7 @@ public class SaleCtrl extends Controller {
                 str= list.get(i).split(",");
                 String orderId=str[0];
                 String jdSkuId=str[1];
-                if(str[11].indexOf("删除")>0){
-                    Logger.error("<br/>"+"第"+(i)+"行订单删除jdSkuId="+jdSkuId+",orderId="+orderId);
-                    delErr.append("<br/>"+"第"+(i)+"行订单删除jdSkuId="+jdSkuId+",orderId="+orderId);
-                    continue;
-                }
+
 
                 Integer saleCount=Integer.valueOf(str[3]);
                 SaleProduct selSaleProduct=new SaleProduct();
@@ -925,8 +921,26 @@ public class SaleCtrl extends Controller {
 
                 List<SaleOrder> saleOrderList=saleService.getSaleOrder(saleOrder);
                 if(null!=saleOrderList&&!saleOrderList.isEmpty()){
-                    Logger.error("<br/>"+"第"+(i)+"行订单已经存在orderId="+orderId);
-                    orderErr.append("<br/>"+"第"+(i)+"行订单已经存在orderId="+orderId);
+                    if(str[11].indexOf("删除")>0){ //订单状态由原来的正常状态变为删除状态
+                        if(saleService.delSaleOrderById(saleOrderList.get(0).getId())){
+                            if(null!=saleProduct){
+                                //订单更新后更新相关产品数据
+                                updateProductAtUpdateOrder(saleProduct);
+                            }
+                            Logger.error("<br/>"+"第"+(i)+"行订单已经存在orderId="+orderId+",但是订单状态已经修改为删除");
+                            orderErr.append("<br/>"+"第"+(i)+"行订单已经存在orderId="+orderId+",但是订单状态已经修改为删除");
+                        }
+
+                    }else{
+                        Logger.error("<br/>"+"第"+(i)+"行订单已经存在orderId="+orderId);
+                        orderErr.append("<br/>"+"第"+(i)+"行订单已经存在orderId="+orderId);
+                    }
+                    continue;
+                }
+
+                if(str[11].indexOf("删除")>0){
+                    Logger.error("<br/>"+"第"+(i)+"行订单删除jdSkuId="+jdSkuId+",orderId="+orderId);
+                    delErr.append("<br/>"+"第"+(i)+"行订单删除jdSkuId="+jdSkuId+",orderId="+orderId);
                     continue;
                 }
 
@@ -962,7 +976,7 @@ public class SaleCtrl extends Controller {
                 //净利润=总销售额-京东费用-成本*数量-国内快递费-国际物流费*数量-包装费-仓储服务费-行邮税
                 BigDecimal productCost = saleProduct.getProductCost();//成本
                 BigDecimal profit = getOrderProfit(saleTotal,jdFee,productCost,shipFee,inteLogistics,packFee,storageFee,postalFee,saleCount,remarkStatus);
-                Logger.info(saleTotal+"=saleCount="+saleCount+",discountAmount="+discountAmount+",profit="+profit);
+              //  Logger.info(saleTotal+"=saleCount="+saleCount+",discountAmount="+discountAmount+",profit="+profit);
 
                 try {
                     createSaleOrder(new SimpleDateFormat("yyyy-MM-dd").parse(str[24]),

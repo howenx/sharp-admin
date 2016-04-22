@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * Created by Sunny Wu on 16/1/27.
  * kakao china.
- * dmin user
+ * admin user
  */
 public class AdminUser implements Serializable {
 

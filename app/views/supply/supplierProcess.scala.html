@@ -1,0 +1,288 @@
+@import play.i18n._
+@(lang:String,orderList:List[Array[Object]],unProcessedList:List[Array[Object]],packagedSupplyOrder:List[Array[Object]],outSupplyOrder:List[Array[Object]],onBoardSupplyOrder:List[Array[Object]],arrivedSupplyOrder:List[Array[Object]],user:domain.User)
+@scripts = {
+<link rel="stylesheet" href="/assets/css/jquery-ui.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/screenshot.css">
+<link rel="stylesheet" href="/assets/css/upload.css">
+<link rel="stylesheet" href="/assets/css/button.css">
+<link rel="stylesheet" href="/assets/css/font-face.css">
+<link rel="stylesheet" href="/assets/css/search.css">
+<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
+
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/jquery-ui.min.js"></script>
+<script src="/assets/js/Math.uuid.js"></script>
+<script src="/assets/js/slider.js"></script>
+<script src="/assets/js/search.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/rili.js"></script>
+<script src="/assets/js/supply_order.js"></script>
+}
+
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"nav.supply.menu2")
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+
+<div style="width: 50%;margin: 10px auto;display:none;" class="alert alert-success" role="alert">
+    <strong>Well done!</strong>
+    @if(flash.containsKey("success")) {
+    @flash.get("success")
+    }
+    <span class="close" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+</div>
+
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.supply")</span>
+        <span class="icon-path">&gt;</span>
+        <span>@Messages.get(new Lang(Lang.forCode(lang)),"nav.supply.menu2")</span>
+    </div>
+</div>
+<div class="wrap-slider">
+    <!--<div class="page-title">-->
+        <!--<span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"nav.supply.menu2")</span>-->
+    <!--</div>-->
+    <div class="usercenter-option btn-submit">
+        <div id="btn-submit-packaged" class="btn-blue btn-form fr ml15">@Messages.get(new
+            Lang(Lang.forCode(lang)),"order.button.text1")
+        </div>
+        <span id="js-userinfo-error1" class="mt20 alt fr"></span>
+    </div>
+    <div class="usercenter-option btn-submit" style="display:none;">
+        <div  id="btn-submit-stock-out" class="btn-blue btn-form fr ml15">@Messages.get(new
+            Lang(Lang.forCode(lang)),"order.button.text2")
+        </div>
+        <span id="js-userinfo-error2" class="mt20 alt fr"></span>
+    </div>
+    <div class="usercenter-option btn-submit" style="display:none;">
+        <div id="btn-submit-on-board" class="btn-blue btn-form fr ml15">@Messages.get(new
+            Lang(Lang.forCode(lang)),"order.button.text3")
+        </div>
+        <span id="js-userinfo-error3" class="mt20 alt fr"></span>
+    </div>
+    <div class="usercenter-option btn-submit" style="display:none;">
+        <div id="btn-submit-arrived" class="btn-blue btn-form fr ml15">@Messages.get(new
+            Lang(Lang.forCode(lang)),"order.button.text4")
+        </div>
+        <span id="js-userinfo-error4" class="mt20 alt fr"></span>
+    </div>
+    <div class="usercenter-option btn-submit" style="display:none;">
+        <div  class="btn-blue btn-form fr ml15" style="display:none;">
+        </div>
+        <span id="js-userinfo-error5" class="mt20 alt fr"></span>
+    </div>
+    <div class="usercenter-option btn-submit" style="display:none;">
+        <div  class="btn-blue btn-form fr ml15" style="display:none;">
+        </div>
+        <span id="js-userinfo-error6" class="mt20 alt fr"></span>
+    </div>
+
+    <div class="row order-admin">
+        <div class="col-sm-1 order-option" style="width: 145px">
+            <div class="currect">@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.state5")&nbsp;@unProcessedList.size</div>
+            <div>@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.state1")&nbsp;@packagedSupplyOrder.size</div>
+            <div>@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.state2")&nbsp;@outSupplyOrder.size</div>
+            <div>@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.state3")&nbsp;@onBoardSupplyOrder.size</div>
+            <div>@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.state4")&nbsp;@arrivedSupplyOrder.size</div>
+            <div>@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.state0")&nbsp;@orderList.size</div>
+        </div>
+        <div class="col-sm-10">
+            <!--未处理-->
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.title5")</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th><input type="checkbox" name="selAll1">@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head0")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head1")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head2")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head3")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head4")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head5")</th>
+
+                </tr>
+                @for(order <- unProcessedList){
+                    <tr>
+                        <td> <input type="checkbox" name="supplyOrder1"></td>
+                        <td>@order(0)</td>
+                        <td>@order(1)</td>
+                        <td>@order(2)</td>
+                        <td>@order(3)</td>
+                        <td>@order(4)</td>
+                    </tr>
+                }
+
+
+                </tbody>
+            </table>
+            <!--已打包-->
+            <table class="table table-striped" style="display: none">
+                <thead>
+                <tr>
+                    <td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.title1")</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th><input type="checkbox" name="selAll2">@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head0")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head1")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head2")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head3")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head4")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head5")</th>
+
+                </tr>
+                @for(order <- packagedSupplyOrder){
+                    <tr>
+                        <td> <input type="checkbox" name="supplyOrder2"></td>
+                        <td>@order(0)</td>
+                        <td>@order(1)</td>
+                        <td>@order(2)</td>
+                        <td>@order(3)</td>
+                        <td>@order(4)</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            <!--已出库-->
+            <table class="table table-striped" style="display: none">
+                <thead>
+                <tr>
+                    <td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.title2")</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th><input type="checkbox" name="selAll3">@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head0")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head1")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head2")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head3")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head4")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head5")</th>
+
+                </tr>
+                @for(order <- outSupplyOrder){
+                    <tr>
+                        <td> <input type="checkbox" name="supplyOrder3"></td>
+                        <td>@order(0)</td>
+                        <td>@order(1)</td>
+                        <td>@order(2)</td>
+                        <td>@order(3)</td>
+                        <td>@order(4)</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            <!--已登机-->
+            <table class="table table-striped" style="display: none">
+                <thead>
+                <tr>
+                    <td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.title3")</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th><input type="checkbox" name="selAll4">@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head0")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head1")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head2")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head3")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head4")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head5")</th>
+
+                </tr>
+                @for(order <- onBoardSupplyOrder){
+                    <tr>
+                        <td> <input type="checkbox" name="supplyOrder4"></td>
+                        <td>@order(0)</td>
+                        <td>@order(1)</td>
+                        <td>@order(2)</td>
+                        <td>@order(3)</td>
+                        <td>@order(4)</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            <!--抵达中国-->
+            <table class="table table-striped" style="display: none">
+                <thead>
+                <tr>
+                    <td colspan="5">@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.title4")</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <!--<th><input type="checkbox" name="selAll5">@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head0")</th>-->
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head1")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head2")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head3")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head4")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head5")</th>
+
+                </tr>
+                @for(order <- arrivedSupplyOrder){
+                    <tr>
+                        <!--<td> <input type="checkbox" name="supplyOrder5"></td>-->
+                        <td>@order(0)</td>
+                        <td>@order(1)</td>
+                        <td>@order(2)</td>
+                        <td>@order(3)</td>
+                        <td>@order(4)</td>
+                    </tr>
+                }
+
+                </tbody>
+            </table>
+
+            <!--全部订单-->
+            <table class="table table-striped" style="display: none">
+                <thead>
+                <tr>
+                    <td colspan="5">@Messages.get(new Lang(Lang.forCode(lang)),"order.supplier.title0")</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <!--<th><input type="checkbox" name="selAll">@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head0")</th>-->
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head1")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head2")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head3")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head4")</th>
+                    <th>@Messages.get(new Lang(Lang.forCode(lang)),"order.row.head5")</th>
+
+                </tr>
+                @for(order <- orderList){
+                <tr>
+                    <!--<td> <input type="checkbox" name="outTimeOrder"></td>-->
+                    <td>@order(0)</td>
+                    <td>@order(1)</td>
+                    <td>@order(2)</td>
+                    <td>@order(3)</td>
+                    <td>@order(4)</td>
+                </tr>
+
+
+                }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="goods-img-bg">
+    <div class="goods-bg"></div>
+    <div class="goods-img">
+        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>
+
+}
+

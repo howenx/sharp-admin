@@ -1,7 +1,10 @@
 package service;
 
 import domain.order.Order;
+import domain.order.OrderLine;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tiffany on 15/12/10.
@@ -66,4 +69,15 @@ public interface OrderService {
      * @param orderIds
      */
     void orderConfirmReceive(Long[] orderIds);
+
+    /**
+     * 获取Supplier 的订单       Added by Tiffany Zhu 2016.04.20
+     * @param orderLineList
+     * @return
+     */
+    List<Order> getOrderByIds(List<OrderLine> orderLineList);
+
+
+
+
 }

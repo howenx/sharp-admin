@@ -7,7 +7,7 @@ import javax.inject.{Inject, Named, Singleton}
 import actor.OSS
 import akka.actor.ActorRef
 import domain.{Prod, Prod_Type, User_Type}
-import filters.{UserAuth, Secured}
+import filters.Secured
 import modules.OSSClientProvider
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.util.CellRangeAddress
@@ -18,7 +18,6 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.json.Json
 import play.api.mvc.Controller
 import play.api.{Configuration, Logger}
-import play.mvc.Security
 
 import scala.collection.immutable.HashMap
 import scala.util.Try
@@ -103,7 +102,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
       id match {
         case Some(category_id) =>
           if (Prod_Type.values.exists(_.id == id.get)) {
-            val ret = Prod.list(Prod_Type.apply(id.get), user.id, status, start, size)
+            val ret = Prod.list(Prod_Type.apply(id.get), user.userId.get, status, start, size)
             Logger.debug(ret.toString())
             Logger.debug(s"status is $status---")
             val r: List[Map[String, Any]] = ret match {
@@ -127,7 +126,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
           }
 
         case None =>
-          val ret = Prod.list(Prod_Type.hzp, user.id,None, start, size)
+          val ret = Prod.list(Prod_Type.hzp, user.userId.get,None, start, size)
           //Logger.debug(ret.toString())
           Ok(views.html.supply.my_list("cn", user, ret, start))
       }
@@ -230,7 +229,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
               case Nil =>
                 //val any_id:Any = id.get
                 //初始化一个空的内容
-                List(Map("products.category_id" -> id.get, ".row" ->"",".count" -> 0, "products.product_id" -> "", "products.name" -> "", "products.status" -> "","products.update_dt"->"","ID.nickname"->""))
+                List(Map("products.category_id" -> id.get, ".row" ->"",".count" -> 0, "products.product_id" -> "", "products.name" -> "", "products.status" -> "","products.update_dt"->"","ADMIN_USER.en_nm"->""))
               case _ =>
                 ret
             }
@@ -521,6 +520,11 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
       cell.setCellValue("*编号")
       //cell.setCellStyle(style)
       cNum += 1
+      //--增加------Added By Sunny.Wu 2016.04.21
+      cell = row.createCell(cNum)
+      cell.setCellValue("*供货商")
+      cNum += 1
+      //----end-----
       cell = row.createCell(cNum)
       cell.setCellValue("*品牌")
       //cell.setCellStyle(style)
@@ -571,7 +575,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
       cell.setCellValue("*商品数量")
       cNum += 1
       cell = row.createCell(cNum)
-      cell.setCellValue("*商品单价")
+      cell.setCellValue("*商品单价\t(人民币)")
       cNum += 1
       cell = row.createCell(cNum)
       cell.setCellValue("*业务类型")
@@ -609,6 +613,11 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
       cell = row.createCell(cNum)
       cell.setCellValue("税则号")
       cNum += 1
+      //--增加------Added By Sunny.Wu 2016.04.21
+      cell = row.createCell(cNum)
+      cell.setCellValue("HSCODE")
+      cNum += 1
+      //----end-----
       cell = row.createCell(cNum)
       cell.setCellValue("税率")
       cNum += 1
@@ -658,6 +667,11 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
         //京东SKU
         cell.setCellValue((extra \ "商品编码").asOpt[String].getOrElse(""))
         cNum += 1
+        //--增加------Added By Sunny.Wu 2016.04.21
+        cell = r.createCell(cNum)
+        cell.setCellValue((spec \ "供货商").asOpt[String].getOrElse(""))
+        cNum += 1
+        //---end-----
         cell = r.createCell(cNum)
         cell.setCellValue((spec \ "品牌").asOpt[String].getOrElse(""))
         cNum += 1
@@ -680,7 +694,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
         cell.setCellValue((spec \ "原产地").asOpt[String].getOrElse("韩国"))
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue((spec \ "用途").asOpt[String].getOrElse("装饰"))
+        cell.setCellValue((spec \ "功能").asOpt[String].getOrElse("装饰"))
         cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((spec \ "用途").asOpt[String].getOrElse("佩戴"))
@@ -704,7 +718,7 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
         cell.setCellValue(map("products.amount").toString)
         cNum += 1
         cell = r.createCell(cNum)
-        cell.setCellValue(map("products.market_price").toString)
+        cell.setCellValue(map("products.price").toString)
         cNum += 1
         cell = r.createCell(cNum)
         cell.setCellValue((extra \ "业务类型").asOpt[String].getOrElse("一般进口"))
@@ -921,10 +935,10 @@ class Application @Inject()(val messagesApi: MessagesApi, val oss_client: OSSCli
               val bar_code = m("bar_code")
               //m -= ("bar_code")
               //m += ("添加时间" -> DateTimeFormat.longDateTime().print(new DateTime()))
-              //m += ("添加人" -> user.id.toString)
+              //m += ("添加人" -> user.userId.get)
               val kr_string = Json.toJson(m).toString()
               ptype = Prod_Type.withName(p_type).id;
-              Prod.init(Prod_Type.withName(p_type), name, bar_code, amount, kr_string,user.id)
+              Prod.init(Prod_Type.withName(p_type), name, bar_code, amount, kr_string,user.userId.get)
 
           }
 

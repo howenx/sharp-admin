@@ -105,10 +105,10 @@
                 <td>@dataLog.getOperateIp()</td>
                 <td>@dataLog.getOperateType()</td>
                 <td>@dataLog.getLogContent()</td>
-                <td>@(dataLog.getOperateTime().toString().substring(0,16))</td>
+                <td>@(dataLog.getOperateTime().toString().substring(0,19))</td>
             </tr>
             }
-            <tr id="nodata-td" style="display:none;"><td colspan="9">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            <tr id="nodata-td" style="display:none;"><td colspan=6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
 

@@ -2,6 +2,7 @@ package filters;
 
 
 import domain.User;
+import domain.UserLog;
 import play.Configuration;
 import play.Logger;
 import play.Routes;
@@ -9,6 +10,7 @@ import play.cache.Cache;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
+import service.UserLogService;
 
 import javax.inject.Inject;
 import java.util.Optional;
@@ -24,6 +26,9 @@ public class UserAuth extends Security.Authenticator {
     @Inject
     Configuration configuration;
 
+    @Inject
+    private UserLogService userLogService;
+
     @Override
     public String getUsername(Http.Context ctx) {
         //url
@@ -37,7 +42,28 @@ public class UserAuth extends Security.Authenticator {
             if(username != null) {
                 User user = (User) Cache.get(username.trim());
                 if(user != null) {
-                    Logger.debug("user:"+user.userType().get());
+//                    Logger.error("用户shi..........:"+user.toString());
+                    Logger.info("user:"+user.userType().get());
+                    //记录用户行为
+                    if (configuration.getStringList("userOperate").contains(header2.get())){
+                        UserLog userLog = new UserLog();
+                        String operateIp = ctx.request().remoteAddress();
+                        String operateType = "";
+                        String content = "";
+                        if (ctx.request().method().equals("GET")) {
+                            operateType = "GET";
+                            content = ctx.request().uri();
+                        } else {
+                            operateType = "POST";
+                            content = ctx.request().body().asJson().toString();
+                        }
+                        userLog.setOperateUser(user.enNm().get());
+                        userLog.setOperateIp(operateIp);
+                        userLog.setOperateType(operateType);
+                        userLog.setContent(content);
+                        userLogService.insertUserLog(userLog);
+                    }
+                    //过滤用户权限
                     if (configuration.getStringList(String.valueOf(user.userType().get())).contains(header.get())){
                         ctx.args.put("user",user);
                     } else if (configuration.getStringList(String.valueOf(user.userType().get())).contains(header2.get())) {

@@ -1,6 +1,7 @@
 package service;
 
 import domain.Inventory;
+import domain.Item;
 import domain.Skus;
 
 import java.util.List;
@@ -53,5 +54,7 @@ public interface InventoryService {
      * @return List of Skus
      */
     List<Skus> getAllSkus();
+
+
 
 }

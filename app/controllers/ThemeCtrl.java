@@ -107,6 +107,26 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result sliderSave(String lang){
         JsonNode json = request().body().asJson();
+        if (json.findValue("del").isArray()) {
+            for (final JsonNode jsonNode : json.findValue("del")) {
+                Form<Slider> sliderForm = Form.form(Slider.class).bind(jsonNode);
+                //数据验证
+                if (sliderForm.hasErrors()) {
+                    Logger.error("表单数据有误.....");
+                    return badRequest();
+                }
+            }
+        }
+        if (json.findValue("update").isArray()) {
+            for (final JsonNode jsonNode : json.findValue("del")) {
+                Form<Slider> sliderForm = Form.form(Slider.class).bind(jsonNode);
+                //数据验证
+                if (sliderForm.hasErrors()) {
+                    Logger.error("表单数据有误.....");
+                    return badRequest();
+                }
+            }
+        }
         service.sliderSave(json);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
@@ -241,26 +261,6 @@ public class ThemeCtrl extends Controller {
                 list.add(skus);
             }
         }
-
-        //SKU列表
-//        List<Inventory> inventoryList = inventoryService.getAllInventories();
-//        //拼购商品列表
-//        List<PinSku> pinSkuList = pingouService.getPinSkuAll();
-//        List<Object[]> pinList = new ArrayList<>();
-//        for(PinSku pinSku : pinSkuList){
-//            Object[] object = new Object[9];
-//            object[0] = pinSku.getPinId();
-//            object[1] = pinSku.getPinTitle();
-//            object[2] = Json.parse(pinSku.getPinImg()).get("url").asText();
-//            object[3] = pinSku.getStartAt();
-//            object[4] = pinSku.getEndAt();
-//            object[5] = pinSku.getStatus();
-//            object[6] = inventoryService.getInventory(pinSku.getInvId()).getItemSrcPrice();
-//            object[7] = Json.parse(pinSku.getFloorPrice()).get("price").asText();
-//            object[8] = pinSku.getPinDiscount();
-//            pinList.add(object);
-//        }
-//        Logger.error(pinList.get(0)[2].toString());
         if (themeList.size()>0 && skusList.size()>0) {
             return ok(views.html.theme.sliderPop.render(themeList,list,IMAGE_URL));
         }

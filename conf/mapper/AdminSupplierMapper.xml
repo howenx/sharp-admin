@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.AdminSupplierMapper">
+    <sql id="adminSupplierColumns">
+        ${alias}.id,
+        ${alias}.user_id,
+        ${alias}.supply_merch,
+        ${alias}.supply_name
+    </sql>
+
+    <select id="getSupplierByUserId" parameterType="java.lang.Long" resultType="domain.AdminSupplier">
+        select
+        <include refid="adminSupplierColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from admin_supplier t where 1=1 and user_id = #{value}
+    </select>
+
+    <!--查询所有的供应商             Add By Sunny.Wu 2016.04.20-->
+    <select id="getAllSuppliers" resultType="domain.AdminSupplier">
+        select
+        <include refid="adminSupplierColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from admin_supplier t where 1=1
+    </select>
+
+</mapper>

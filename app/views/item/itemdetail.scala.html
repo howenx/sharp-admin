@@ -1,5 +1,5 @@
 @import play.i18n._
-@(item:domain.Item,invList:List[Array[Object]],cates:domain.Cates,pCateNm:String, brands:domain.Brands,url:String, lang:String="cn", user:domain.User, customs:Map[String,String], area:Map[String,String])
+@(item:domain.Item,invList:List[Array[Object]],cates:domain.Cates,pCateNm:String, brands:domain.Brands,url:String, lang:String="cn", user:domain.User, customs:Map[String,String], area:Map[String,String], adminSupplierList:List[domain.AdminSupplier])
 
 @scripts = {
 
@@ -99,7 +99,11 @@
                 </div>
                 <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</div></label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" id="supplyMerch" name="supplyMerch" value="@item.getSupplyMerch()" readonly>
+                    @for(as <- adminSupplierList) {
+                    @if(item.getSupplyMerch()==as.getSupplyMerch()) {
+                    <input type="text" class="form-control"  name="supplyMerch" value='@as.getSupplyName()' readonly>
+                    }
+                    }
                 </div>
             </div>
             <!-- 商品库存信息-->
@@ -126,7 +130,8 @@
                                 <th>限购数量</th>
                                 <!--<th>运费设置</th>-->
                                 <th>库存区域</th>
-                                <th>税率/税号</th>
+                                <th>税率</th>
+                                <th>行邮税号</th>
                                 <th>报关单位</th>
                                 <th>海关商品备案号</th>
                                 <th>主图(一张)</th>
@@ -162,10 +167,8 @@
                                         }
                                     </td>
                                     @if(obj(12)!="K") {
-                                        <td>
-                                            @if(obj(10)!= "" && null != obj(10)  ) { @obj(10)}
-                                            @if(obj(11)!= "" && null != obj(11)  ) { @obj(11)}
-                                        </td>
+                                        <td>@obj(10)</td>
+                                        <td>@obj(11)</td>
                                         <td>
                                             @for(c <- customs) {
                                             @if(obj(13)==c.toString.substring(1,c.toString.length-1).split(",")(0)) {
@@ -186,6 +189,7 @@
                                         </td>
                                     }
                                     @if(obj(12)=="K") {
+                                        <td>无</td>
                                         <td>无</td>
                                         <td>无</td>
                                         <td>无</td>

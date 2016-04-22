@@ -1,6 +1,7 @@
 package domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import play.data.validation.Constraints;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -12,13 +13,16 @@ import java.sql.Timestamp;
 public class Slider implements Serializable{
 
     private Long id;    //主键ID
+    @Constraints.Required
     private String img; //滚动图URL
     private Integer sortNu;//排序号
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp createAt;//创建时间
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateAt;//更新时间
+    @Constraints.Required
     private String itemTarget;  //商品目标地址
+    @Constraints.Required
     private String targetType;  //目标类型(T主题, D详细页面)
 
     public Slider(){}

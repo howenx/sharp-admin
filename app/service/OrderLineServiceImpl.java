@@ -1,5 +1,6 @@
 package service;
 
+import domain.Item;
 import domain.order.OrderLine;
 import mapper.OrderLineMapper;
 
@@ -31,5 +32,15 @@ public class OrderLineServiceImpl implements OrderLineService {
     @Override
     public List<OrderLine> getLineByOrderId(Long orderId) {
         return orderLineMapper.getLineByOrderId(orderId);
+    }
+
+    /**
+     * 通过item Id获取订单商品      Added by Tiffany Zhu 2016.04.20
+     * @param itemList
+     * @return
+     */
+    @Override
+    public List<OrderLine> getLineByItems(List<Item> itemList) {
+        return orderLineMapper.getLineByItems(itemList);
     }
 }

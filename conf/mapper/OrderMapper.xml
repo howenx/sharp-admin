@@ -126,4 +126,20 @@
         </foreach>
     </update>
 
+    <select id="getOrderByIds" parameterType="java.util.List" resultType="domain.order.Order">
+        select
+        <include refid="orderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_order t where t.order_status = 'S' and t.order_id in
+        <foreach collection="list" item="line"  open="(" separator="," close=")">
+           #{line.orderId}
+        </foreach>
+
+    </select>
+
+
+
+
+
 </mapper>

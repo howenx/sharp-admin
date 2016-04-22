@@ -25,4 +25,11 @@ public interface ItemMapper {
      * @param item
      */
     void updItemThemeId(Item item);
+
+    /**
+     * 按照供应商查询item      Added by Tiffany Zhu 2016.04.20
+     * @param supplyMerch
+     * @return
+     */
+    List<Item> getItemBySupplier(String supplyMerch);
 }

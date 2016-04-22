@@ -91,7 +91,7 @@ function Init () {
             if (skuObj.rateSet == "S") {
                 $("#postalTaxRate").val("");
                 $("#postalTaxCode").val("");
-                $("#postalTaxRate").attr("readonly", true);
+                $("#postalTaxRate").attr("readonly", false);
                 $("#postalTaxCode").attr("readonly", false);
             }
             if (skuObj.rateSet == "D") {
@@ -233,7 +233,7 @@ function saveCurr(saveFlag) {
     });
     //验证输入数据合法性
     if (!numberReg2.test(itemPrice) || !numberReg2.test(itemSrcPrice) || !numberReg2.test(itemCostPrice)|| !numberReg2.test(itemDiscount) || !numberReg1.test(invWeight)
-        || !numberReg1.test(restrictAmount) || !numberReg1.test(amount) || !numberReg1.test(restAmount)) {
+        || !numberReg1.test(restrictAmount) || !numberReg1.test(amount) || !numberReg1.test(restAmount) || invCode=="") {
         orSave = false;
 //        alert("输入数据不合法!");
     }
@@ -284,14 +284,14 @@ function saveCurr(saveFlag) {
             $("#warn-cus").text("请选择报关单位");
         } else $("#warn-cus").text("");
         //行邮税率设置 F免税:税率为0,行邮税号不设置; S标准税率:税率不设置,输入行邮税号(数字); D自定义税率:设置税率,行邮税号不设置
-        if (rateSet == "" && !numberReg1.test(postalTaxCode) && !numberReg1.test(postalTaxRate)) {
+        if (rateSet == "") {
             orSave = false;
             $("#warn-rate").text("请设置税率");
         }
         else if (rateSet == "S") {
-            if (!numberReg1.test(postalTaxCode)) {
+            if (!numberReg1.test(postalTaxCode) || !numberReg1.test(postalTaxRate)) {
                 orSave = false;
-                $("#warn-rate").text("请输入正确的行邮税号");
+                $("#warn-rate").text("请输入正确的行邮税号和税率");
             } else $("#warn-rate").text("");
         }
         else if (rateSet == "D") {
@@ -617,7 +617,7 @@ $(function(){
         if (rateSet == "S") {
             $("#postalTaxRate").val("");
             $("#postalTaxCode").val("");
-            $("#postalTaxRate").attr("readonly", true);
+            $("#postalTaxRate").attr("readonly", false);
             $("#postalTaxCode").attr("readonly", false);
         }
         if (rateSet == "D") {

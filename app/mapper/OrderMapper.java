@@ -1,7 +1,10 @@
 package mapper;
 
 import domain.order.Order;
+import domain.order.OrderLine;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订单
@@ -70,5 +73,13 @@ public interface OrderMapper {
      * @param orderIds
      */
     void orderConfirmReceive(Long[] orderIds);
+
+    /**
+     * 获取Supplier 的订单       Added by Tiffany Zhu 2016.04.20
+     * @param orderLineList
+     * @return
+     */
+    List<Order> getOrderByIds(List<OrderLine> orderLineList);
+
 
 }

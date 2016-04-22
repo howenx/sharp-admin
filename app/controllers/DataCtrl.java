@@ -1,9 +1,11 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import domain.SystemParam;
 import domain.User;
 import filters.UserAuth;
 import play.Logger;
+import play.data.Form;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
@@ -47,7 +49,12 @@ public class DataCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result paramSave(String lang){
         JsonNode json = request().body().asJson();
-        Logger.error(json.toString());
+        Form<SystemParam> systemParamForm = Form.form(SystemParam.class).bind(json);
+        //数据验证
+        if (systemParamForm.hasErrors()) {
+            Logger.error("system param 表单数据有误.....");
+            return badRequest();
+        }
         sysParamService.insertParam(json);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }

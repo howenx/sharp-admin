@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import domain.Coupons;
 import domain.User;
 import filters.UserAuth;
+import play.Logger;
+import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -12,9 +14,9 @@ import service.CouponsService;
 import service.IDService;
 
 import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by Sunny Wu on 15/12/30.
@@ -46,18 +48,27 @@ public class CoupCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result coupSave() {
         JsonNode json = request().body().asJson();
-//        for(final JsonNode jsonNode : json) {
-//            Form<Coupons> couponsForm = Form.form(Coupons.class).bind(jsonNode);
-//            Logger.error("form..........."+couponsForm.toString());
-//            Coupons coupons  = Json.fromJson(jsonNode, Coupons.class);
-//            Logger.error("优惠券..........."+coupons.toString());
-            //数据验证
-//            if (couponsForm.hasErrors() ) {
-//                Logger.error("表单有错误.....");
-//                return badRequest();
-//            }
-//        }
-        //开始时间和结束时间不能超过当前时间6个月
+        //--------------------数据验证------------------start
+        Date now = new Date();
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strNow = sdfDate.format(now);//现在时间
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        calendar.add(Calendar.MONTH,+6);
+        String maxDate = sdfDate.format(calendar.getTime());
+        for(final JsonNode jsonNode : json) {
+            Form<Coupons> couponsForm = Form.form(Coupons.class).bind(jsonNode);
+            Coupons coupons  = Json.fromJson(jsonNode, Coupons.class);
+            String startAt = coupons.getStartAt();
+            String endAt = coupons.getEndAt();
+            //数据验证(限额不能小于0,面值不能小于0,开始时间不能大于结束时间,结束时间不能小于现在时间,开始时间和结束时间不能超过当前时间6个月)
+            if (couponsForm.hasErrors() || coupons.getLimitQuota().compareTo(new BigDecimal(0.00))<0  || coupons.getDenomination().compareTo(new BigDecimal(0.00))<0
+                   || startAt.compareTo(endAt)>0 || endAt.compareTo(strNow)<0 || startAt.compareTo(maxDate)>0 || endAt.compareTo(maxDate)>0) {
+                Logger.error("coupon 表单数据有误.....");
+                return badRequest();
+            }
+        }
+        //--------------------数据验证------------------start
         couponsService.couponsSave(json);
         return ok("保存成功");
     }

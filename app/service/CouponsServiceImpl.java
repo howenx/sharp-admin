@@ -11,7 +11,8 @@ import scala.concurrent.duration.Duration;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -45,8 +46,15 @@ public class CouponsServiceImpl implements CouponsService {
             coupons.setState("N");
             Date now = new Date();
             Long nowTimes = now.getTime();
-            Timestamp endAt = coupons.getEndAt();
-            Long endTimes = endAt.getTime();
+            Date endAt = new Date();
+            Long endTimes = 0l;
+            try {
+                endAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(coupons.getEndAt());
+                endTimes = endAt.getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             //-- 创建Actor --//
             //修改时,修改时间且下架时间大于现在时间 或 新增sku时 启动Actor
             if (endTimes>nowTimes) {

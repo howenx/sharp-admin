@@ -12,7 +12,7 @@
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 
-<div class="mbread">
+<div class="mbread" style="width:80%">
     <div class="bread-path">
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
         <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
@@ -39,7 +39,7 @@
                     <div class="col-sm-2">
                         <input class="form-control" value="@dataLog.getOperateUser()" readonly/>
                     </div>
-                    <label class="col-sm-1 control-label" ><div class="r">操作ip</div></label>
+                    <label class="col-sm-1 control-label" ><div class="r">操作IP</div></label>
                     <div class="col-sm-2">
                         <input class="form-control" value="@dataLog.getOperateIp()" readonly/>
                     </div>
@@ -55,7 +55,7 @@
                     </div>
                     <label class="col-sm-1 control-label" ><div class="r">操作时间</div></label>
                     <div class="col-sm-2">
-                        <input class="form-control" value="@(dataLog.getOperateTime().toString().substring(0,19))"  style="width:156px;" readonly/>
+                        <input class="form-control" value="@(dataLog.getOperateTime().toString().substring(0,19))" readonly/>
                     </div>
                 </div>
                 <h4 class="h4-custom-hmm">日志详细信息</h4>

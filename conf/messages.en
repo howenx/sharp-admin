@@ -72,6 +72,9 @@ nav.myproducts = My Products
 nav.myproducts.menu1 = Upload
 nav.myproducts.menu2 = My List
 nav.myproducts.menu3 = My Data
+nav.supply = Supply Management
+nav.supply.menu1 = Supply Management
+nav.supply.menu2 = Order Process
 
 
 
@@ -128,6 +131,8 @@ comm.search.willjoin = Will Join
 
 
 
+
+
 #welcome
 welcome.title = Homepage
 
@@ -160,3 +165,34 @@ footer.menu5 = BeijingPolice 110105011117
 
 #messages
 message.save.success = Save success
+
+
+#supply side order status
+order.supplier.state0 = All Orders
+order.supplier.state1 = Packaged
+order.supplier.state2 = Stock Out
+order.supplier.state3 = On Board
+order.supplier.state4 = Arrived
+order.supplier.state5 = Unprocessed
+
+
+order.supplier.title0 = All Orders
+order.supplier.title1 = Packaged Order(s)
+order.supplier.title2 = Stock Out Order(s)
+order.supplier.title3 = On Board Order(s)
+order.supplier.title4 = Arrived Order(s)
+order.supplier.title5 = Unprocessed Order(s)
+
+#supply order row head
+order.row.head1 = Order No.
+order.row.head2 = User Phone
+order.row.head3 = Buying Time
+order.row.head4 = Total Price(¥)
+order.row.head5 = Order Status
+order.row.head0 = All
+
+#supply order submit button text
+order.button.text1 = Packaged
+order.button.text2 = Stocked Out
+order.button.text3 = On Board
+order.button.text4 = Arrived

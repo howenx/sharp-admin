@@ -73,6 +73,10 @@ nav.myproducts = 产品中心
 nav.myproducts.menu1 = 上传产品
 nav.myproducts.menu2 = 上传清单
 nav.myproducts.menu3 = 产品销量
+nav.supply = 供应管理
+nav.supply.menu1 = 供应管理
+nav.supply.menu2 = 订单处理
+
 
 
 
@@ -131,12 +135,6 @@ comm.search.willjoin = 未加入
 
 
 
-
-
-
-
-
-
 #welcome
 welcome.title = 首页
 
@@ -162,3 +160,37 @@ footer.menu5 = 京公网安备110105011117
 
 #messages
 message.save.success = 保存成功
+
+
+#supply side order status
+order.supplier.state0 = 全部订单
+order.supplier.state1 = 已打包
+order.supplier.state2 = 已出库
+order.supplier.state3 = 已登机
+order.supplier.state4 = 抵达中国
+order.supplier.state5 = 未处理
+
+order.supplier.title0 = 全部订单
+order.supplier.title1 = 已打包
+order.supplier.title2 = 已出库
+order.supplier.title3 = 已登机
+order.supplier.title4 = 抵达中国
+order.supplier.title5 = 未处理
+
+
+#supply order row head
+order.row.head1 = 订单编号
+order.row.head2 = 用户电话
+order.row.head3 = 下单时间
+order.row.head4 = 订单总价(¥)
+order.row.head5 = 订单状态
+order.row.head0 = 全选
+
+#supply order submit button text
+order.button.text1 = 打包完成
+order.button.text2 = 出库完成
+order.button.text3 = 登机完成
+order.button.text4 = 已抵达中国
+
+
+

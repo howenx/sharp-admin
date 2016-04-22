@@ -1,5 +1,4 @@
 @import scala.collection.immutable._
-@import domain.User_Type
 @import domain.User
 @import org.joda.time.DateTime
 @(lang:String="cn",user:User,products:List[Map[String, Any]],status:Option[String],start:Int)
@@ -59,7 +58,7 @@
             <td class="col-md-1">@p("products.product_id")</td>
             <td class="col-md-2">@p("products.name")</td>
             <td class="col-md-1">@{p("products.update_dt") match {case ""=>{} case _ =>{fm.print(new DateTime(p("products.update_dt")))} }}</td>
-            <td class="col-md-2">@p("ID.nickname")</td>
+            <td class="col-md-2">@p("ADMIN_USER.en_nm") @p("ADMIN_USER.ch_nm")</td>
             <td>
                 @p("products.status") match {
                    case "I" => {未翻译}
@@ -69,8 +68,8 @@
                 }
             </td>
             <td>
-                @user.role match {
-                case User_Type.SELLER => {
+                @user.userType.get match {
+                case "SUPPLIER" => {
                   @p("products.status") match {
                     case "I" => {<a href="/supply/update/@p("products.product_id")">修改(수정)</a> </td>}
 
@@ -78,7 +77,7 @@
                   }
 
                 }
-                case User_Type.TRANSLATION => {
+                case "TRANSLATION" => {
                   @p("products.status") match {
                     case "I" => {
                        <a href="/supply/translation/@p("products.product_id")">翻译</a></td>
@@ -91,7 +90,7 @@
                     case _ =>{</td>}
                   }
                 }
-                case User_Type.ADMIN => {
+                case "SADMIN" => {
                     @p("products.status") match {
                     case "T" => {
 

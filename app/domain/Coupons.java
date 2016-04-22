@@ -1,6 +1,7 @@
 package domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import play.data.validation.Constraints;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -13,18 +14,20 @@ import java.util.Random;
 public class Coupons implements Serializable {
 
     private String coupId;      //主键优惠券id
-//    @Constraints.Required
+    @Constraints.Required
     private BigDecimal limitQuota;//限制满多少才能使用
     private String cateNm;        //类别名称
     private Long userId;          //用户id
-//    @Constraints.Required
+    @Constraints.Required
     private Long cateId;          //类别id (153 化妆品类商品适用券，172 配饰类商品适用券, 165 服饰类商品适用券, 555 全场通用券, 777 新人优惠券, 211 指定商品适用券, 999 免邮券)
-//    @Constraints.Required
+    @Constraints.Required
     private BigDecimal denomination;//面值
+    @Constraints.Required
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp startAt;      //可使用开始时间
+    private String startAt;      //可使用开始时间
+    @Constraints.Required
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp endAt;        //可使用截止时间
+    private String endAt;        //可使用截止时间
     private String state;           //优惠券状态 ("N"未使用，"Y"已经使用过，“S"自动失效，“F”免邮专用)
     private Long orderId;           //订单id
     private Timestamp useAt;        //使用时间
@@ -142,19 +145,19 @@ public class Coupons implements Serializable {
         this.denomination = denomination;
     }
 
-    public Timestamp getStartAt() {
+    public String getStartAt() {
         return startAt;
     }
 
-    public void setStartAt(Timestamp startAt) {
+    public void setStartAt(String startAt) {
         this.startAt = startAt;
     }
 
-    public Timestamp getEndAt() {
+    public String getEndAt() {
         return endAt;
     }
 
-    public void setEndAt(Timestamp endAt) {
+    public void setEndAt(String endAt) {
         this.endAt = endAt;
     }
 
@@ -238,7 +241,7 @@ public class Coupons implements Serializable {
         return intChar;
     }
 
-    public Coupons(String coupId, BigDecimal limitQuota, String cateNm, Long userId, Long cateId, BigDecimal denomination, Timestamp startAt, Timestamp endAt, String state, Long orderId, Timestamp useAt, Integer pageSize, Integer offset, String sort, String order, Timestamp useStartAt, Timestamp useEndAt) {
+    public Coupons(String coupId, BigDecimal limitQuota, String cateNm, Long userId, Long cateId, BigDecimal denomination, String startAt, String endAt, String state, Long orderId, Timestamp useAt, Integer pageSize, Integer offset, String sort, String order, Timestamp useStartAt, Timestamp useEndAt) {
 
         this.coupId = coupId;
         this.limitQuota = limitQuota;

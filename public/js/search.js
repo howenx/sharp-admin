@@ -415,7 +415,42 @@ $(function() {
                     '<td>' + $(this)[0].operateIp + '</td>' +
                     '<td>' + $(this)[0].operateType + '</td>' +
                     '<td>' + $(this)[0].logContent + '</td>' +
-                    '<td>' + $(this)[0].operateTime.substr(0, 16) + '</td>' +
+                    '<td>' + $(this)[0].operateTime + '</td>' +
+                    '</tr>'
+                );
+            })
+        }
+
+        //每个查询页面对应一个相应的组装函数  日志查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Sunny Wu
+        funcList.userloglist_search = function userloglist_search(pageIndex) {
+            var userLogDto = new Object();
+            userLogDto.id = $("#user-log-id").val();
+            userLogDto.operateUser = $("#operate-user").val();
+            userLogDto.operateType = $("#operate-type").val();
+            userLogDto.startAt = $("#log-form-starAt").val();
+            userLogDto.endAt = $("#log-form-endAt").val();
+            //起止时间如果为空
+            if ($("#log-form-starAt").val() == '' || $("#log-form-starAt").val() == null) {
+                userLogDto.startAt = "0000-01-01 00:00:00";
+            }
+            if ($("#log-form-endAt").val() == '' || $("#log-form-endAt").val() == null) {
+                userLogDto.endAt = "99999-12-31 23:59:59";
+            }
+            //调用共用ajax,url从根目录开始不需要加上语言
+            search("/userlog/search/" + pageIndex, userLogDto);
+        }
+
+        //每个查询页面对应一个相应的返回时填充函数 日志查询页面   Added By Sunny Wu
+        funcList.userloglist_data = function userloglist_data(data) {
+            //填充列表数据
+            $(data).each(function(index, element) {
+                $('#tb-topic').find('tbody').append('' +
+                    '<tr class="tb-list-data">' +
+                    '<td><a href="/'+window.lang+'/userlog/findUserLog/'+$(this)[0].id+'">' + $(this)[0].id + '</a></td>' +
+                    '<td>' + $(this)[0].operateUser + '</td>' +
+                    '<td>' + $(this)[0].operateIp + '</td>' +
+                    '<td>' + $(this)[0].operateType + '</td>' +
+                    '<td>' + $(this)[0].operateTime + '</td>' +
                     '</tr>'
                 );
             })
@@ -800,4 +835,20 @@ $(function() {
 		$("table.table").css("display","none");
 		$("table.table").eq(index).css("display","table");
 	})
+    /**********订单管理********/
+    $(".order-option>div").hover(function () {
+        $(this).css("color","#fff");
+    },function () {
+        $(this).css("color","#333");
+        $(".currect").css("color","#fff");
+    }).click(function () {
+        var index = $(this).index(".order-option>div");
+        $(".currect").css("color","#333");
+        $(".order-option>div").removeClass("currect");
+        $(this).addClass("currect");
+        $(".order-admin table").hide();
+        $(".btn-submit").hide();
+        $(".order-admin table").eq(index).show();
+        $(".btn-submit").eq(index).show();
+    })
 })
