@@ -8,6 +8,8 @@ import play.libs.ws.WSResponse;
 import javax.inject.Inject;
 import play.Configuration;
 
+import java.security.MessageDigest;
+
 
 /**
  * Created by tiffany on 15/12/17.
@@ -39,6 +41,8 @@ public class GetLogistics {
 
         JsonNode returnJson = null;
 
+        String testStr = "ABCDEFG";
+
         try{
             //WSResponse response = WS.url(url).post(jsonParams).get(1000L);
             WSResponse response = WS.url(url).get().get(1000L);
@@ -49,6 +53,30 @@ public class GetLogistics {
             e.printStackTrace();
         }
         return returnJson;
+    }
+
+
+    //MD5加密 32位 小写      Added by Tiffany Zhu 2016.04.22
+    public final static String md5Encrypt(String info){
+        char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                'a', 'b', 'c', 'd', 'e', 'f' };
+        try {
+            byte[] strTemp = info.getBytes();
+            MessageDigest mdTemp = MessageDigest.getInstance("MD5");
+            mdTemp.update(strTemp);
+            byte[] md = mdTemp.digest();
+            int j = md.length;
+            char str[] = new char[j * 2];
+            int k = 0;
+            for (int i = 0; i < j; i++) {
+                byte byte0 = md[i];
+                str[k++] = hexDigits[byte0 >>> 4 & 0xf];
+                str[k++] = hexDigits[byte0 & 0xf];
+            }
+            return new String(str);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

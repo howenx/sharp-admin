@@ -13,6 +13,8 @@ import service.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -153,6 +155,15 @@ public class SupplierMiddle {
 
             resultSupplyOrder.add(object);
         }
+        Collections.sort(resultSupplyOrder, new Comparator<Object[]>() {
+            @Override
+            public int compare(Object[] time2, Object[] time1) {
+                return time2[2].toString().compareTo(time1[2].toString());
+            }
+        });
+
+
+
         return resultSupplyOrder;
     }
 

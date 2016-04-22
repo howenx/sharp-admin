@@ -17,6 +17,7 @@
             <property name="alias" value="t"/>
         </include>
         from supply_order t where 1=1
+        ORDER BY t.update_time ASC
     </select>
 
     <select id="getSupplyByOrderId" parameterType="java.lang.Long" resultType="domain.SupplyOrder">
