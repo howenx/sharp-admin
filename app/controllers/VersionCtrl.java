@@ -150,6 +150,7 @@ public class VersionCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     @BodyParser.Of(value = BodyParser.MultipartFormData.class, maxLength = 200 * 1024 * 1024)
     public Result apiReleasePublic(){
+        Logger.error("是否进入");
         try {
             Http.MultipartFormData body = request().body().asMultipartFormData();
 
