@@ -1,11 +1,13 @@
 package domain;
 
+import java.io.Serializable;
+
 /**
  * 版本
  * Created by howen on 16/1/29.
  */
-public class VersionVo {
-
+public class VersionVo implements Serializable {
+    private static final long serialVersionUID = 21L;
     private Long    id;
     private String  releaseName;
     private String  productType;
