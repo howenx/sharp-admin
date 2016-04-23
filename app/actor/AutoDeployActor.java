@@ -26,7 +26,11 @@ public class AutoDeployActor extends AbstractActor {
             if (message instanceof VersionVo){
                 String actorPath = configuration.getString("style."+((VersionVo) message).getProductType());
                 if (actorPath!=null && !actorPath.isEmpty()){
-                    system.actorSelection(actorPath).tell(((VersionVo) message).getId(), ActorRef.noSender());
+                    if(((VersionVo) message).getProductType().equals("id") || ((VersionVo) message).getProductType().equals("web")){
+                        system.actorSelection(actorPath).tell(message, ActorRef.noSender());
+                    }else{
+                        system.actorSelection(actorPath).tell(((VersionVo) message).getId(), ActorRef.noSender());
+                    }
                 }else{
                     Logger.error("Configuration is not found,{}","style."+((VersionVo) message).getProductType());
                 }
