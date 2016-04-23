@@ -111,18 +111,15 @@ public class VersionMiddle {
 
         if (!targetFolder.exists()) {
             if (!targetFolder.mkdirs()) Logger.error("创建目录出错");
-        } else {
-            Logger.error("测试地址-->"+targetFolder.getPath() +" 绝对路径-->"+targetFolder.getAbsolutePath());
-            if (!file.renameTo(new File(targetFolder.getPath() + "/" + fileName))) Logger.error("文件重命名出错");
         }
+        Logger.error("测试地址-->"+targetFolder.getPath() +" 绝对路径-->"+targetFolder.getAbsolutePath());
+        if (!file.renameTo(new File(targetFolder.getPath() + "/" + fileName))) Logger.error("文件重命名出错");
+
         try {
             if (file.exists()){
-                if (file.delete()){
-                    if (!file.createNewFile()) Logger.error("文件创建出错");
-                }else {
-                    if (!file.createNewFile()) Logger.error("文件创建出错");
-                }
+               if (!file.delete()) Logger.error("文件删除出错");
             }
+            if (!file.createNewFile()) Logger.error("文件创建出错");
         } catch (IOException e) {
             e.printStackTrace();
         }
