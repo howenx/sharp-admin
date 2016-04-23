@@ -53,7 +53,7 @@ public class UserAuth extends Security.Authenticator {
                         if (ctx.request().method().equals("GET")) {
                             operateType = "GET";
                             content = ctx.request().uri();
-                        } else {
+                        } else{
                             operateType = "POST";
                             content = ctx.request().body().asJson().toString();
                         }
