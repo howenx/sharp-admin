@@ -1,0 +1,71 @@
+@import play.i18n._
+@(lang:String,user:domain.User)
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/screenshot.css">
+<script src="/assets/js/bootstrap.min.js"></script>
+<script>
+     $(document).on("click","#couponExcelBtn",function(){
+
+       var couponPath=$("#couponPath").val();
+
+       if(null==couponPath||""==couponPath){
+          alert("请导入优惠券excel");
+          return;
+       }
+      //提交表单
+      $("#couponForm").submit();
+
+  });
+</script>
+
+}
+
+@import java.lang.String; var title="优惠券导入"
+
+@layout(lang="cn",title=title,user=user)(scripts) {
+
+<div class="mbread" style="width:65%">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">优惠券系统</span>
+        <span class="icon-path">&gt;</span>
+        <span>优惠券导入</span>
+    </div>
+</div>
+
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">优惠券导入</span>
+    </div>
+
+    <div class="row">
+        <form id="couponForm" action="/coupon/import/data" method="post" enctype="multipart/form-data">
+            <div>
+                <input type="hidden" class="form-control" id="id" />
+                <br/>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">优惠券导入</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="couponPath" name="couponPath"/>
+                        <input type="file" name="couponFile" onchange="document.getElementById('couponPath').value=this.value" >
+                    </div>
+                </div>
+                <div class="form-group col-sm-4">
+                    <a id="couponExcelBtn" style="cursor:pointer;">提交</a>
+                </div>
+                <br> <br> <br>
+                <div class="form-group">
+                    <label class=" control-label">目前只支持csv格式,格式是:<br/>
+                        <h5>编码 名称 类型 品牌编码 品牌名称 商品编码 原价 折扣价 发行日期 有效期 最大有效期</h5>
+                    </label>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+}

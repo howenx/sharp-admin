@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.CouponVoMapper">
+
+    <!--enable mybatis default cache configure reference:
+        https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
+    -->
+    <!--<cache type="util.cache.MemcachedCache"/>-->
+
+    <sql id="couponColumns">
+        ${alias}.coupon_number,
+        ${alias}.coupon_name,
+        ${alias}.coupon_type,
+        ${alias}.place_code,
+        ${alias}.place_name,
+        ${alias}.brand_code,
+        ${alias}.brand_name,
+        ${alias}.event,
+        ${alias}.event_id,
+        ${alias}.code,
+        ${alias}.price,
+        ${alias}.standard_price,
+        ${alias}.issued_at,
+        ${alias}.expired_at,
+        ${alias}.max_expired_at,
+        ${alias}.status,
+        ${alias}.modified_at
+    </sql>
+
+    <!-- 录入一条优惠券信息 -->
+    <insert id="insertCoupon" parameterType="domain.CouponVo" useGeneratedKeys="true" keyColumn="coupon_number">
+        insert into coupon
+        (coupon_number,coupon_name,coupon_type,place_code,place_name,brand_code,brand_name,event,event_id,code,price,standard_price,issued_at,expired_at,max_expired_at,status,modified_at)
+        values
+        (#{couponNumber},#{couponName},#{couponType},#{placeCode},#{placeName},#{brandCode},#{brandName},#{event},#{eventId},#{code},#{price},#{standardPrice},#{issuedAt},#{expiredAt},#{maxExpiredAt},#{status},#{modifiedAt})
+    </insert>
+
+    <!-- 更新一条优惠券信息 -->
+    <update id="updateCoupon" parameterType="domain.CouponVo">
+        update coupon
+        set
+        (coupon_number=#{couponNumber},coupon_name=#{couponName},coupon_type=#{couponType},place_code=#{placeCode},place_name=#{placeName},brand_code=#{brandCode},brand_name=#{brandName},event=#{event},event_id=#{eventId},code=#{code},price=#{price},standard_price=#{standardPrice},issued_at=#{issuedAt},expired_at=#{expiredAt},max_expired_at=#{maxExpiredAt},status=#{status},modified_at=#{modifiedAt})
+        where id = #{id}
+    </update>
+
+    <!-- 获取优惠券信息 -->
+    <select id="getCoupon" resultType="domain.CouponVo" parameterType="domain.CouponVo">
+        select
+        <include refid="couponColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from coupon t where 1=1
+        <if test="couponNumber!=null and couponNumber!=''">
+            and t.coupon_number = #{couponNumber}
+        </if>
+        <if test="couponType!=null and couponType!=''">
+            and t.coupon_type = #{couponType}
+        </if>
+        <if test="brandCode!=null and brandCode!=''">
+            and t.brand_code = #{brandCode}
+        </if>
+        <if test="code!=null and code!=''">
+            and t.code = #{code}
+        </if>
+        <if test="issuedAt!=null and issuedAt!=''">
+            and t.issued_at = #{issuedAt}
+        </if>
+        <if test="status!=null and status!=''">
+            and t.status = #{status}
+        </if>
+    </select>
+
+    <!-- 查询所有的优惠券信息 -->
+    <select id="getAllCoupons" resultType="domain.CouponVo">
+        select
+        <include refid="couponColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from coupon t where 1=1
+    </select>
+
+</mapper>
