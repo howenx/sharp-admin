@@ -134,7 +134,7 @@
 					<!--必须使用tb-list-data类名，公用-->
                     <tr class = "tb-list-data">
                         <td><input type="checkbox" name="selectItem"></td>
-                        <td><a href="javascript:void(0)" class="item-info">@inv.getId()</a><input type="hidden" value="@inv.getId()"><input type="hidden" value="@inv.getItemId()"></td>
+                        <td><a href="/@lang/comm/findById/@inv.getItemId()" class="item-info">@inv.getId()</a></td>
                         <td style="width: 20%;">@inv.getInvTitle()</td>
                         <td>
                             <img class="main-img" src='@url@inv.getInvImg()' alt="" width="50">
@@ -266,9 +266,4 @@
         }
     });
 
-    /** 点击查看商品详细信息 **/
-    $(document).on('click','.item-info',function(){
-        var itemId = $(this).next().next().val();
-        window.location.href = "/"+window.lang+"/comm/findById/"+itemId;
-    });
 </script>

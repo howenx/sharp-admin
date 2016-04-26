@@ -316,3 +316,10 @@ GET         /sales/import/excel                                            contr
 POST        /sales/upload/order                                            controllers.SaleCtrl.uploadOrder()
 POST        /sales/upload/order/fee                                        controllers.SaleCtrl.uploadOrderFee()
 POST        /sales/upload/order/sale/detail                                controllers.SaleCtrl.uploadOrderSaleDetail()
+
+
+#coupon 优惠券系统
+GET         /coupon/import                                                 controllers.CouponCtrl.couponImport(lang = "cn")
+GET         /$lang<(cn|en|kr)>/coupon/import                               controllers.CouponCtrl.couponImport(lang)
+POST        /coupon/import/data                                            controllers.CouponCtrl.couponDataImport(lang = "cn")
+POST        /$lang<(cn|en|kr)>/coupon/import/data                          controllers.CouponCtrl.couponDataImport(lang)

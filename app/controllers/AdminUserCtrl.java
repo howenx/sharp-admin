@@ -155,9 +155,6 @@ public class AdminUserCtrl extends Controller {
      * @return views
      */
     public Result adminUserLogin() {
-        String lang = request().getQueryString("lang");
-                Logger.error("语言"+lang);
-
         return ok(views.html.adminuser.userlogin.render());
     }
 
