@@ -103,10 +103,10 @@ $(function() {
         commDto.endAt = $("#item-form-endtime").val();
         //起止时间如果为空
         if ($("#item-form-starttime").val() == '' || $("#item-form-starttime").val() == null) {
-            commDto.startAt = "0000-01-01 00:00:00";
+            commDto.startAt = "2000-01-01 00:00:00";
         }
         if ($("#item-form-endtime").val() == '' || $("#item-form-endtime").val() == null) {
-            commDto.endAt = "99999-12-31 23:59:59";
+            commDto.endAt = "2999-12-31 23:59:59";
         }
 		//调用共用ajax
 		search("/comm/search/" + pageIndex, commDto);
@@ -147,7 +147,7 @@ $(function() {
             $('#tb-topic').find('tbody').append('' +
                 '<tr class="tb-list-data">' +
                 '<td><input type="checkbox" name="selectItem"></td>' +
-                '<td><a href="javascript:void(0)" class="item-info">' + $(this)[0].id + '</a><input type="hidden" value="'+$(this)[0].id+'"><input type="hidden" value="'+$(this)[0].itemId+'"></td>' +
+                '<td><a href="/'+window.lang+'/comm/findById/'+$(this)[0].itemId+'" class="item-info">' + $(this)[0].id + '</a></td>' +
                 '<td style="width: 20%;">' + $(this)[0].invTitle + '</td>' +
                 '<td>' +
                 '<img class="main-img" src="' + window.url + $(this)[0].invImg + '" alt="" width="50">' +

@@ -33,9 +33,9 @@
     <!-- 录入一条优惠券信息 -->
     <insert id="insertCoupon" parameterType="domain.CouponVo" useGeneratedKeys="true" keyColumn="coupon_number">
         insert into coupon
-        (coupon_number,coupon_name,coupon_type,place_code,place_name,brand_code,brand_name,event,event_id,code,price,standard_price,issued_at,expired_at,max_expired_at,status,modified_at)
+        (coupon_number,coupon_name,coupon_type,brand_code,brand_name,event,event_id,code,price,standard_price,issued_at,expired_at,max_expired_at,status)
         values
-        (#{couponNumber},#{couponName},#{couponType},#{placeCode},#{placeName},#{brandCode},#{brandName},#{event},#{eventId},#{code},#{price},#{standardPrice},#{issuedAt},#{expiredAt},#{maxExpiredAt},#{status},#{modifiedAt})
+        (#{couponNumber},#{couponName},#{couponType},#{brandCode},#{brandName},#{event},#{eventId},#{code},#{price},#{standardPrice},#{issuedAt},#{expiredAt},#{maxExpiredAt},#{status})
     </insert>
 
     <!-- 更新一条优惠券信息 -->

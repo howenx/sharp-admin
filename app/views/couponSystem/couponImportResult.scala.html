@@ -1,0 +1,36 @@
+@import play.i18n._
+@(lang:String,user:domain.User,importResult:String)
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/screenshot.css">
+<script src="/assets/js/bootstrap.min.js"></script>
+}
+
+@import java.lang.String; var title="优惠券导入"
+
+@layout(lang="cn",title=title,user=user)(scripts) {
+
+<div class="mbread" style="width:65%">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/front"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">优惠券系统</span>
+        <span class="icon-path">&gt;</span>
+        <span>优惠券导入</span>
+    </div>
+</div>
+
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">优惠券数据导入</span>
+    </div>
+
+    <div class="row">
+        @Html(importResult)
+
+    </div>
+</div>
+}
+
