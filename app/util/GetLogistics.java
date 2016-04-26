@@ -5,56 +5,62 @@ import play.Logger;
 import play.libs.Json;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
-import javax.inject.Inject;
-import play.Configuration;
-
 import java.security.MessageDigest;
+import java.util.Map;
+import java.util.HashMap;
 
 
 /**
  * Created by tiffany on 15/12/17.
  */
 public class GetLogistics {
-    @Inject
-    private Configuration configuration;
 
-    public static JsonNode sendGet(String expNum,String expCompany){
-        /*企业版*/
-        String id = "425796724eeca6b3";  //授权key
-        String com = expCompany;                 //快递公司代码
-        String nu = expNum;     //快递单号
-        String show = "0";                 //返回类型  0：返回json字符串，1：返回xml对象，2：返回html对象，3：返回text文本。 默认返回json字符串。
-        String muti = "1";                 //返回信息数量：1:返回多行完整的信息，0:只返回一行信息。默认返回多行。
-        String order = "desc";             //排序：desc：按时间由新到旧排列，asc：按时间由旧到新排列。不填默认返回倒序（大小写不敏感）
-        String url = "http://api.kuaidi100.com/api?id=" + id + "&com="+ com +"&nu="+ nu +"&show="+ show +"&muti="+ muti +"&order=" + order;   //快递100 API 地址
-        //String url = "http://api.kuaidi100.com/api?id=425796724eeca6b3&com=jd&nu=12837698789&show=0&muti=1&order=desc";
+    public static String sendGet(String expNum,String expCom){
+        String url = play.Play.application().configuration().getString("exp.k100.logistics");
+        String key = play.Play.application().configuration().getString("exp.k100.key");
+        String customer = play.Play.application().configuration().getString("exp.k100.customer");
+        //String comCode = getExpCmpCode(expNum,key);
+        Map<String,String> param = new HashMap<>();
+        param.put("com",expCom);
+        param.put("num",expNum);
+        param.put("from","北京");
+        param.put("to","北京");
+        String sign = md5Encrypt(key + customer + param);
+        Logger.error("签名是:" + sign);
 
-//        String url = "http://api.kuaidi100.com/api";
-//        Map<String,String> params = new HashMap<>();
-//        params.put("id","425796724eeca6b3");                //授权Key
-//        params.put("com",expCompany);                       //快递公司代码
-//        params.put("nu",expNum);                            //快递单号
-//        params.put("show","0");                             //返回类型  0：返回json字符串，1：返回xml对象，2：返回html对象，3：返回text文本。 默认返回json字符串。
-//        params.put("muti","1");                             //返回信息数量：1:返回多行完整的信息，0:只返回一行信息。默认返回多行。
-//        params.put("order","desc");                         //排序：desc：按时间由新到旧排列，asc：按时间由旧到新排列。不填默认返回倒序（大小写不敏感）
-//        JsonNode jsonParams = Json.toJson(params);
 
-        JsonNode returnJson = null;
+        Map<String,String> params = new HashMap<>();
+        params.put("customer",customer);
+        params.put("sign",sign);
+        JsonNode jsonParams = Json.toJson(params);
 
-        String testStr = "ABCDEFG";
+        String result = "";
+//        try{
+//            WSResponse response = WS.url(url).post(jsonParams).get(1000L);
+//            result = new String(response.getBody().getBytes(),"utf-8");
+//
+//
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+        return result;
+    }
 
-        try{
-            //WSResponse response = WS.url(url).post(jsonParams).get(1000L);
+    //归属公司智能判断接口    Added by Tiffany Zhu 2016.04.25
+    private final static String getExpCmpCode(String expNum,String key){
+        String compCode = "";
+
+        String url = play.Play.application().configuration().getString("exp.k100.company") + "?num="+ expNum +"&key=" + key;
+        try {
             WSResponse response = WS.url(url).get().get(1000L);
-            returnJson = Json.parse(new String(response.getBody().getBytes(),"utf-8"));
-            Logger.error(returnJson.toString());
-
+            JsonNode responseJson = Json.parse(new String(response.getBody().getBytes(),"utf-8"));
+            JsonNode json = responseJson.get(0);
+            compCode = json.get("comCode").toString();
         }catch(Exception e){
             e.printStackTrace();
         }
-        return returnJson;
+        return compCode;
     }
-
 
     //MD5加密 32位 小写      Added by Tiffany Zhu 2016.04.22
     public final static String md5Encrypt(String info){

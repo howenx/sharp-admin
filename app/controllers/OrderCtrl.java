@@ -406,12 +406,7 @@ public class OrderCtrl extends Controller {
             subOrderList.add(subOrderPart2);
 
             //子订单物流
-            JsonNode json = GetLogistics.sendGet("12837698789", "jd");
-            //JsonNode json = GetLogistics.sendGet(orderSplit.getExpressNum(),"jd");
-            if (json != null) {
-                Logger.error(json.toString());
-                //subOrderList.add();
-            }
+            String logistics = GetLogistics.sendGet("12837698789", "jd");
 
             //全部的子订单信息
             subOrdersAll.add(subOrderList);
