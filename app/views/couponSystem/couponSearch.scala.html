@@ -1,0 +1,165 @@
+@import play.i18n._
+@(lang:String="cn", pageSize:Integer, countNum:Integer, pageCount:Integer, couponsList:List[domain.CouponVo], user:domain.User)
+@scripts = {
+<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/search.js"></script>
+<!-- 此为调用分页所提供的函数名前缀 -->
+<script>window.search_args = 'couList'</script>
+<script>
+        $(function () {
+            $('#datetimepicker-startAt').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+            $('#datetimepicker-endAt').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+</script>
+}
+@import java.lang.String; val title="优惠券查询"
+
+@layout(lang=lang, title=title,user=user)(scripts) {
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">优惠券系统</span>
+        <span class="icon-path">&gt;</span>
+        <span>优惠券查询</span>
+    </div>
+</div>
+<div class="content-1">
+    <div class="page-title">
+        <span class="title-name">优惠券查询</span>
+    </div>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <!--Coupon编码-->
+            <label class="col-sm-2 control-label">Coupon编码</label>
+            <div class="col-sm-2">
+                <input id = "coupon_number" type="text" class="form-control"/>
+            </div>
+            <!--Coupon名称-->
+            <label class="col-sm-2 control-label">Coupon名称</label>
+            <div class="col-sm-2">
+                <input id = "coupon_name" type="text" class="form-control"/>
+            </div>
+            <!--Coupon类型-->
+            <label class="col-sm-2 control-label">Coupon类型</label>
+            <div class="col-sm-2">
+                <input id = "coupon_type" type="text" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <!--品牌名称-->
+            <label class="col-sm-2 control-label">品牌名称</label>
+            <div class="col-sm-2">
+                <input id = "brand_name" type="text" class="form-control"/>
+            </div>
+            <!--商品编码-->
+            <label class="col-sm-2 control-label">商品编码</label>
+            <div class="col-sm-2">
+                <input id = "code" type="text" class="form-control"/>
+            </div>
+            <!--使用店铺名称-->
+            <label class="col-sm-2 control-label">店铺名称</label>
+            <div class="col-sm-2">
+                <input id = "place_name" type="text" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <!--发行日期-->
+            <label class="col-sm-2 control-label">发行日期</label>
+            <div class="col-sm-2">
+                <input id = "issued_at" type="text" class="form-control"/>
+            </div>
+            <!--有效期-->
+            <label class="col-sm-2 control-label">有效期</label>
+            <div class="col-sm-2">
+                <input id = "expired_at" type="text" class="form-control"/>
+            </div>
+            <!--状态-->
+            <label class="col-sm-2 control-label">状态</label>
+            <div class="col-sm-2">
+                <select class="form-control" id="status">
+                    <option value=""></option>
+                    <option value="NOT_USED">可使用</option>
+                    <option value="USED">已使用</option>
+                    <option value="DROPPED">作废</option>
+                </select>
+            </div>
+        </div>
+        <div class="btn-s">
+            <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
+            <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
+        </div>
+    </form>
+    <div class="table-content">
+        <!--id必须为tb-topic 公用js需要使用-->
+        <table id="tb-topic" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>Coupon编码</th>
+                <th>Coupon名称</th>
+                <th>Coupon类型</th>
+                <th>店铺名称</th>
+                <th>品牌名称</th>
+                <th>商品编码</th>
+                <th>原价(元)</th>
+                <th>折扣价(元)</th>
+                <th>发行日期</th>
+                <th>有效期</th>
+                <th>最大有效期</th>
+                <th>状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            @for(c <- couponsList){
+            <!--必须使用tb-list-data类名，公用-->
+            <tr class = "tb-list-data">
+                <td>@c.getCouponNumber()</td>
+                <td>@c.getCouponName()</td>
+                <td>@c.getCouponType()</td>
+                <td>@c.getPlaceName()</td>
+                <td>@c.getBrandName()</td>
+                <td>@c.getCode()</td>
+                <td>@c.getStandardPrice()</td>
+                <td>@c.getPrice()</td>
+                <td>@c.getIssuedAt()</td>
+                <td>@c.getExpiredAt()</td>
+                <td>@c.getMaxExpiredAt()</td>
+                <td>
+                    @if(c.getStatus()=="NOT_USED"){可使用}
+                    @if(c.getStatus()=="USED"){已使用}
+                    @if(c.getStatus()=="DROPPED"){作废}
+                </td>
+            </tr>
+            }
+            <tr id="nodata-td" style="display:none;"><td colspan="12">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            </tbody>
+        </table>
+
+        <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
+        <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
+        <div class="paging">
+            <ul class="pagination">
+                <li class="prev"><a href="javascript:void(0)">&laquo;</a></li>
+                <li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>
+                @for(count <- 1 until pageCount){
+                <li class="page-num"><a href="javascript:void(0)">@(count+1)</a></li>
+                }
+                <li class="next"><a href="javascript:void(0)">&raquo;</a></li>
+            </ul>
+        </div>
+        <!-- 公用模块,直接拷贝-->
+    </div>
+</div>
+}

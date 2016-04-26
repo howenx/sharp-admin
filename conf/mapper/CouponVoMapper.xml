@@ -82,4 +82,55 @@
         from coupon t where 1=1
     </select>
 
+    <!-- 分页获取优惠券信息 -->
+    <select id="getCouponsPage" parameterType="domain.CouponVo" resultType="domain.CouponVo">
+        select
+        <include refid="couponColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from coupon t where 1=1
+        <if test='couponNumber != null and couponNumber != "null" and couponNumber != "" '>
+            and t.coupon_number = #{couponNumber}
+        </if>
+        <if test='couponName != null and couponName != "null" and couponName != "" '>
+            and t.coupon_name like '%${couponName}%'
+        </if>
+        <if test='couponType != null and couponType != "null" and couponType != "" '>
+            and t.coupon_type = #{couponType}
+        </if>
+        <if test='brandName != null and brandName != "null" and brandName != "" '>
+            and t.brand_name = #{brandName}
+        </if>
+        <if test='placeName != null and placeName != "null" and placeName != "" '>
+            and t.place_name like '%${placeName}%'
+        </if>
+        <if test='code != null and code != "null" and code != "" '>
+            and t.code = #{code}
+        </if>
+        <if test='status != null and status != "null" and status != "" '>
+            and t.status = #{status}
+        </if>
+        <if test='expiredAt != null and expiredAt != "null" and expiredAt != "" '>
+            and t.expired_at like '%${expiredAt}%'
+        </if>
+        <if test='issuedAt != null and issuedAt != "null" and issuedAt != "" '>
+            and t.issued_at like '%${issuedAt}%'
+        </if>
+        <if test="sort == null or sort == '' ">
+            ORDER BY t.coupon_number DESC
+        </if>
+        <if test="sort != null">
+            ORDER BY t.${sort}
+            <if test="order != null">
+                ${order}
+            </if>
+        </if>
+        <if test="pageSize == -1 and offset >= -1">
+            LIMIT ALL OFFSET 0
+        </if>
+        <if test="pageSize >= 1 and offset >= 0">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
 </mapper>

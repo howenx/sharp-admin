@@ -34,4 +34,10 @@ public interface CouponVoService {
      * @return list of coupon
      */
     List<CouponVo> getAllCoupons();
+
+    /**
+     * 分页获取优惠券信息
+     * @return list of coupon
+     */
+    List<CouponVo> getCouponsPage(CouponVo couponVo);
 }

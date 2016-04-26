@@ -52,4 +52,13 @@ public class CouponVoServiceImpl implements CouponVoService {
         return couponVoMapper.getAllCoupons();
     }
 
+    /**
+     * 分页获取优惠券信息
+     * @return list of coupon
+     */
+    @Override
+    public List<CouponVo> getCouponsPage(CouponVo couponVo) {
+        return couponVoMapper.getCouponsPage(couponVo);
+    }
+
 }

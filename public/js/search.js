@@ -688,6 +688,51 @@ $(function() {
          }
 
 
+         //每个查询页面对应一个相应的组装函数  优惠券系统优惠券查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Sunny Wu 2016.04.26
+         funcList.couList_search = function couList_search(pageIndex) {
+             var CouponDto = new Object();
+             CouponDto.couponNumber = $("#coupon_number").val();
+             CouponDto.couponName = $("#coupon_name").val();
+             CouponDto.couponType = $("#coupon_type").val();
+             CouponDto.brandName = $("#brand_name").val();
+             CouponDto.code = $("#code").val();
+             CouponDto.placeName = $("#place_name").val();
+             CouponDto.issuedAt = $("#issued_at").val();
+             CouponDto.expiredAt = $("#expired_at").val();
+             CouponDto.status = $("#status").val();
+             //调用共用ajax,url从根目录开始不需要加上语言
+             search("/coupon/search/" + pageIndex, CouponDto);
+         }
+
+         //每个查询页面对应一个相应的返回时填充函数 已使用优惠券查询页面   Added By Sunny Wu  2016.03.08
+         funcList.couList_data = function couList_data(data) {
+         console.log(data);
+             //填充列表数据
+             $(data).each(function(index, element) {
+                 var status = "";
+                 if($(this)[0].status=="NOT_USED"){status="可使用"}
+                 if($(this)[0].status=="USED"){status="已使用"}
+                 if($(this)[0].status=="DROPPED"){status="作废"}
+                 $('#tb-topic').find('tbody').append('' +
+                     '<tr class="tb-list-data">' +
+                     '<td>' + $(this)[0].couponNumber + '</td>' +
+                     '<td>' + $(this)[0].couponName+ '</td>' +
+                     '<td>' + $(this)[0].couponType+ '</td>' +
+                     '<td>' + $(this)[0].placeName+ '</td>' +
+                     '<td>' + $(this)[0].brandName+ '</td>' +
+                     '<td>' + $(this)[0].code+ '</td>' +
+                     '<td>' + $(this)[0].standardPrice+ '</td>' +
+                     '<td>' + $(this)[0].price+ '</td>' +
+                     '<td>' + $(this)[0].issuedAt+ '</td>' +
+                     '<td>' + $(this)[0].expiredAt+ '</td>' +
+                     '<td>' + $(this)[0].maxExpiredAt+ '</td>' +
+                     '<td>' + status+ '</td>' +
+                     '</tr>'
+                 );
+             })
+         }
+
+
 
 	/*********************************公用模块，不需要变更改动，如需变更改动请找howen ****************************************/
 	//点击页数

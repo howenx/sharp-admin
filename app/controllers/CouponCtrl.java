@@ -1,9 +1,11 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import domain.CouponVo;
 import domain.User;
 import filters.UserAuth;
 import play.Logger;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -26,6 +28,8 @@ public class CouponCtrl extends Controller {
 
     @Inject
     private CouponVoService couponVoService;
+
+    private int pageSize = 3;
 
     /**
      * 优惠券导入
@@ -70,8 +74,8 @@ public class CouponCtrl extends Controller {
              * 3-->品牌编码(brandCode)-->00CP010100101
              * 4-->品牌名称(brandName)-->Starbucks
              * 5-->商品编码(code)-->A101
-             * 6-->原价(price)-->99
-             * 7-->折扣价(standardPrice)-->88
+             * 6-->原价(standardPrice)-->88
+             * 7-->折扣价(price)-->99
              * 8-->发行日期(issuedAt)-->20140506100431
              * 9-->有效期(expiredAt)-->20141230000000
              * 10-->最大有效期(maxExpiredAt)-->20141230000000
@@ -88,8 +92,8 @@ public class CouponCtrl extends Controller {
                 couponVo.setBrandCode(data[3]);
                 couponVo.setBrandName(data[4]);
                 couponVo.setCode(data[5]);
-                couponVo.setPrice(Integer.parseInt(data[6]));
-                couponVo.setStandardPrice((Integer.parseInt(data[7])));
+                couponVo.setStandardPrice((Integer.parseInt(data[6])));
+                couponVo.setPrice(Integer.parseInt(data[7]));
                 couponVo.setIssuedAt(data[8]);
                 couponVo.setExpiredAt(data[9]);
                 couponVo.setMaxExpiredAt(data[10]);
@@ -111,6 +115,61 @@ public class CouponCtrl extends Controller {
 
     }
 
+    /**
+     * 优惠券查询
+     * @param lang 语言
+     * @return views
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result couponSearch(String lang) {
+        CouponVo couponVo = new CouponVo();
+        couponVo.setPageSize(-1);
+        couponVo.setOffset(-1);
+        int countNum = couponVoService.getCouponsPage(couponVo).size();//取总数
+        int pageCount = countNum/pageSize;//共分几页
+        if (countNum%pageSize!=0) {
+            pageCount = countNum/pageSize+1;
+        }
+        couponVo.setPageSize(pageSize);
+        couponVo.setOffset(0);
+        List<CouponVo> couponVoList = couponVoService.getCouponsPage(couponVo);
+        return ok(views.html.couponSystem.couponSearch.render(lang, pageSize, countNum, pageCount, couponVoList, (User) ctx().args.get("user")));
+    }
 
+    /**
+     * 分页查询优惠券信息
+     * @param pageNum 请求页数
+     * @return json
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result couponSearchAjax(String lang, int pageNum) {
+        JsonNode json = request().body().asJson();
+        CouponVo couponVo = Json.fromJson(json,CouponVo.class);
+        if(pageNum>=1){
+            //计算从第几条开始取数据
+            int offset = (pageNum-1)*pageSize;
+            couponVo.setPageSize(-1);
+            couponVo.setOffset(-1);
+            int countNum = couponVoService.getCouponsPage(couponVo).size();//取总数
+            int pageCount = countNum/pageSize;//共分几页
+            if (countNum%pageSize!=0) {
+                pageCount = countNum/pageSize+1;
+            }
+            couponVo.setPageSize(pageSize);
+            couponVo.setOffset(offset);
+            List<CouponVo> couponVoList = couponVoService.getCouponsPage(couponVo);
+            //组装返回数据
+            Map<String,Object> returnMap=new HashMap<>();
+            returnMap.put("topic",couponVoList);
+            returnMap.put("pageNum",pageNum);
+            returnMap.put("countNum",countNum);
+            returnMap.put("pageCount",pageCount);
+            returnMap.put("pageSize",pageSize);
+            return ok(Json.toJson(returnMap));
+        }
+        else{
+            return badRequest();
+        }
+    }
 
 }

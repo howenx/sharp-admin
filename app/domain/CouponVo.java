@@ -19,20 +19,29 @@ public class CouponVo implements Serializable{
     private String event;           //API类型(发行 CREATED,  作废 DROPPED,  延长有效 RENEWED)
     private String eventId;         //API类型ID
     private String code;            //商品编码
-    private Integer price;           //原价
-    private Integer standardPrice;   //折扣价
+    private Integer standardPrice;   //原价
+    private Integer price;           //折扣价
     private String issuedAt;        //发行日期(yyyyMMddHHmmss)
     private String expiredAt;       //有效期(yyyyMMddHHmmss)
     private String maxExpiredAt;    //最大有效期
     private String status;          //状态(可使用 NOT_USED, 已使用 USED,  作废 DROPPED)
     private String modifiedAt;      //状态更新时间
 
+    //分页,每页多少条
+    private Integer pageSize;
+    //分页,从第几条开始
+    private Integer offset;
+    //按照哪个字段排序
+    private String sort;
+    //排序方式,降序,升序
+    private String order;
+
     public CouponVo() {
     }
 
     @Override
     public String toString() {
-        return "Coupon{" +
+        return "CouponVo{" +
                 "couponNumber='" + couponNumber + '\'' +
                 ", couponName='" + couponName + '\'' +
                 ", couponType='" + couponType + '\'' +
@@ -50,6 +59,10 @@ public class CouponVo implements Serializable{
                 ", maxExpiredAt='" + maxExpiredAt + '\'' +
                 ", status='" + status + '\'' +
                 ", modifiedAt='" + modifiedAt + '\'' +
+                ", pageSize=" + pageSize +
+                ", offset=" + offset +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
                 '}';
     }
 
@@ -189,7 +202,39 @@ public class CouponVo implements Serializable{
         this.modifiedAt = modifiedAt;
     }
 
-    public CouponVo(String couponNumber, String couponName, String couponType, String placeCode, String placeName, String brandCode, String brandName, String event, String eventId, String code, Integer price, Integer standardPrice, String issuedAt, String expiredAt, String maxExpiredAt, String status, String modifiedAt) {
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
+
+    public CouponVo(String couponNumber, String couponName, String couponType, String placeCode, String placeName, String brandCode, String brandName, String event, String eventId, String code, Integer price, Integer standardPrice, String issuedAt, String expiredAt, String maxExpiredAt, String status, String modifiedAt, Integer pageSize, Integer offset, String sort, String order) {
 
         this.couponNumber = couponNumber;
         this.couponName = couponName;
@@ -208,5 +253,9 @@ public class CouponVo implements Serializable{
         this.maxExpiredAt = maxExpiredAt;
         this.status = status;
         this.modifiedAt = modifiedAt;
+        this.pageSize = pageSize;
+        this.offset = offset;
+        this.sort = sort;
+        this.order = order;
     }
 }

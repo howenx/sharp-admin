@@ -323,3 +323,7 @@ GET         /coupon/import                                                 contr
 GET         /$lang<(cn|en|kr)>/coupon/import                               controllers.CouponCtrl.couponImport(lang)
 POST        /coupon/import/data                                            controllers.CouponCtrl.couponDataImport(lang = "cn")
 POST        /$lang<(cn|en|kr)>/coupon/import/data                          controllers.CouponCtrl.couponDataImport(lang)
+GET         /coupon/search                                                 controllers.CouponCtrl.couponSearch(lang ="cn")
+GET         /$lang<(cn|en|kr)>/coupon/search                               controllers.CouponCtrl.couponSearch(lang)
+POST        /coupon/search/$pageNum<[0-9]+>                                controllers.CouponCtrl.couponSearchAjax(lang = "cn", pageNum:Int)
+POST        /$lang<(cn|en|kr)>/coupon/search/$pageNum<[0-9]+>              controllers.CouponCtrl.couponSearchAjax(lang, pageNum:Int)
