@@ -72,10 +72,15 @@ public class ShopOrderCtrl extends Controller {
             List<Object> salesOrderList = shopOrderMiddle.salesOrderQuery(orderId.toString());
             if ((null == salesOrderList) ||  salesOrderList.size()==0) {
                 shopOrderNo = shopOrderMiddle.shopOrderPush(orderId);
-                Logger.error("order"+shopOrderNo+":push to ERP");
-                //启动ERP查询订单的schedule
-                scheduler.schedule(Duration.create(ShopOrderCtrl.ORDER_QUERY_DELAY, TimeUnit.MILLISECONDS),Duration.create(ShopOrderCtrl.ORDER_QUERY_INTERVAL, TimeUnit.MILLISECONDS),salesOrderQueryActor,orderId);
+                Logger.error("推送结果:"+shopOrderNo);
                 shopOrderCodeList.add(shopOrderNo);
+                //推送成功的订单再创建schedule
+                if (Json.parse(shopOrderNo).has("ShopOrderNo")) {
+                    shopOrderNo = Json.parse(shopOrderNo).findValue("ShopOrderNo").asText();
+                    Logger.error("订单"+shopOrderNo+":push to ERP");
+                    //启动scheduler从erp查询订单,海关审核通过,更新物流信息
+                    scheduler.schedule(Duration.create(ShopOrderCtrl.ORDER_QUERY_DELAY, TimeUnit.MILLISECONDS),Duration.create(ShopOrderCtrl.ORDER_QUERY_INTERVAL, TimeUnit.MILLISECONDS),salesOrderQueryActor,orderId);
+                }
             }
         }
         return ok(shopOrderCodeList.toString());
