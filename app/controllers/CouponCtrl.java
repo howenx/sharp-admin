@@ -86,6 +86,15 @@ public class CouponCtrl extends Controller {
             for(int i=1; i<list.size();i++) {
                 data = list.get(i).split(";");
                 CouponVo couponVo = new CouponVo();
+                //数据验证(格式是否正确, 数据是否存在)
+
+
+
+                //TODO................
+
+
+
+
                 couponVo.setCouponNumber(data[0]);
                 couponVo.setCouponName(data[1]);
                 couponVo.setCouponType(data[2]);

@@ -495,6 +495,37 @@
                     <!--客服人员的菜单项(客服)-->
                     }
 
+                    <!--版本发布人员的菜单项(版本发布)-->
+                    @if(user.userType.get=="PUBLISH") {
+                    <!--首页-->
+                    <li class="header-navi-item fl">
+                        <a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
+                        <i class="header-nav-border-relative"></i>
+                    </li>
+                    <!--应用管理-->
+                    <li class="header-navi-item fl">
+                        <div class="user-info fl js-header-dropmenu">
+                            <span class="info-inner db">@Messages.get(new Lang(Lang.forCode(lang)),"nav.app")<i class="ml5 caret caret-down caret-b-9b"></i></span>
+                            <ul class="header-dropdown-list fs13 js-header-list">
+                                <li class="header-dropdown-item">
+                                    <a href="/release/view" class="info-link">发布版本</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/release/list" class="info-link">版本历史</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/release/apiView" class="info-link">API发布版本</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/release/apiVersionList" class="info-link">API版本历史</a>
+                                </li>
+                            </ul>
+                            <i class="header-nav-border"></i>
+                        </div>
+                    </li>
+                    <!--版本发布人员的菜单项(版本发布)-->
+                    }
+
                     <!--供应管理系统 管理员 的菜单项-->
                     @if(user.userType.get=="SADMIN") {
                     <!--首页-->
