@@ -1,6 +1,6 @@
 package modules
 
-import actor._
+import actor.{MnsActor, _}
 import com.google.inject.AbstractModule
 import play.api.libs.concurrent.AkkaGuiceSupport
 
@@ -23,5 +23,6 @@ class AkkaModule extends AbstractModule with AkkaGuiceSupport {
     bindActor[StyleVersionDeployActor]("StyleVersionDeployActor")
     bindActor[AdminRunActor]("adminRunActor")
     bindActor[AutoDeployActor]("autoDeployActor")
+    bindActor[MnsActor]("mnsActor")
   }
 }
