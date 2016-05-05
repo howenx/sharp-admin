@@ -149,7 +149,22 @@
                     <td>@order.getPostalTaxRate()%</td>
                     <td>@order.getProfit()</td>
                     <td>@order.getInvArea()</td>
-                    <td>@order.getRemarkStatus()</td>
+                    <!--<td>@order.getRemarkStatus()</td>-->
+                    @if(order.getRemarkStatus() == 1){
+                    <td><img src="/assets/images/biaoji1.png" alt="" width="20"></td>
+                    }
+                    @if(order.getRemarkStatus() == 2){
+                    <td><img src="/assets/images/biaoji2.png" alt="" width="20"></td>
+                    }
+                    @if(order.getRemarkStatus() == 3){
+                    <td><img src="/assets/images/biaoji3.png" alt="" width="20"></td>
+                    }
+                    @if(order.getRemarkStatus() == 4){
+                    <td><img src="/assets/images/biaoji4.png" alt="" width="20"></td>
+                    }
+                    @if(order.getRemarkStatus() == 5){
+                    <td><img src="/assets/images/biaoji5.png" alt="" width="20"></td>
+                    }
                     <td>@order.getShop()</td>
                     <td>@order.getUpdateAt().toString().substring(0,16)</td>
                     <td><a onclick="delOrder(@order.getId())">删除</a></td>

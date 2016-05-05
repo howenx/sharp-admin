@@ -622,6 +622,23 @@ $(function() {
         funcList.saleOrderlist_data = function saleOrderlist_data(data) {
             //填充列表数据
             $(data).each(function(index, element) {
+            var remarkImg;
+            if($(this)[0].remarkStatus == 1){
+                remarkImg = "/assets/images/biaoji1.png";
+            }
+            if($(this)[0].remarkStatus == 2){
+                remarkImg = "/assets/images/biaoji2.png";
+            }
+            if($(this)[0].remarkStatus == 3){
+                remarkImg = "/assets/images/biaoji3.png";
+            }
+            if($(this)[0].remarkStatus == 4){
+                remarkImg = "/assets/images/biaoji4.png";
+            }
+            if($(this)[0].remarkStatus == 5){
+                remarkImg = "/assets/images/biaoji5.png";
+            }
+
             var saleAt=new Date($(this)[0].saleAt);
             saleAt = saleAt.getFullYear() + '-' + (saleAt.getMonth() + 1) + '-' + saleAt.getDate()
                 $('#tb-topic').find('tbody').append('' +
@@ -645,7 +662,8 @@ $(function() {
                      '<td>'+ $(this)[0].postalTaxRate+ '%</td>' +
                      '<td>'+ $(this)[0].profit+ '</td>' +
                      '<td>'+ $(this)[0].invArea+'</td>' +
-                     '<td>'+ $(this)[0].remarkStatus+'</td>' +
+//                     '<td>'+ $(this)[0].remarkStatus+'</td>' +
+                     '<td><img src="' + remarkImg + '" alt="" width="20"></td>' +
                      '<td>'+ $(this)[0].shop+'</td>' +
                      '<td>'+ $(this)[0].updateAt+ '</td>' +
                      '<td><a onclick="delOrder('+$(this)[0].id+')">删除</a></td>'+
