@@ -189,6 +189,7 @@ function Init () {
 
 /***** 保存当前按钮功能 ******/
 function saveCurr(saveFlag) {
+
     //存为新规格,invId为空
     if (saveFlag==1) {
         $("#invId").val("");
@@ -252,7 +253,7 @@ function saveCurr(saveFlag) {
         } else $("#warn-date").html("");
     }
     //新增(上架时间和下架时间均不能小于当前时间)
-    else {
+    if (invId=="" && state!="Y") {
         if (startAt=="" || endAt=="" || startAt >= endAt ) {
                orSave = false;
                $("#warn-date").html("请检查时间设置");
@@ -289,15 +290,15 @@ function saveCurr(saveFlag) {
             $("#warn-rate").text("请设置税率");
         }
         else if (rateSet == "S") {
-            if (!numberReg1.test(postalTaxCode) || !numberReg1.test(postalTaxRate)) {
+            if (!numberReg1.test(postalTaxCode) || !numberReg2.test(postalTaxRate)) {
                 orSave = false;
                 $("#warn-rate").text("请输入正确的行邮税号和税率");
             } else $("#warn-rate").text("");
         }
         else if (rateSet == "D") {
-            if (!numberReg1.test(postalTaxRate)) {
+            if (!numberReg2.test(postalTaxRate)) {
                 orSave = false;
-                $("#warn-rate").text("税率为整数");
+                $("#warn-rate").text("税率为整数或两位小数");
             } else $("#warn-rate").text("");
         }
         else if (rateSet = "F") {$("#warn-rate").html("");}

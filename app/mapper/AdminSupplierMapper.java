@@ -10,6 +10,13 @@ import java.util.List;
 public interface AdminSupplierMapper {
 
     /**
+     * 录入一条供应商信息   Added By Sunny.Wu 2016.05.05
+     * @param adminSupplier
+     * @return id
+     */
+    Long insertSupplier(AdminSupplier adminSupplier);
+
+    /**
      * 通过ID获取供应商信息      Added by Tiffany Zhu 2016.04.20
      * @param id
      * @return

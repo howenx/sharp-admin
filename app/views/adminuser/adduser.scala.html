@@ -101,9 +101,11 @@
         var chNm = $("#chNm").val();
         var email = $("#email").val();
         var userType = $("#userType").val();
-        if (enNm=="" || enNm=="") {
+        if (enNm==null || enNm=="" || chNm==null || chNm=="") {
             isPost = false;
-            alert("信息填写不正确!");
+            $('#js-userinfo-error').text('信息填写不正确');
+        } else {
+            $('#js-userinfo-error').text('');
         }
         adminUser.enNm = enNm;
         adminUser.chNm = chNm;
