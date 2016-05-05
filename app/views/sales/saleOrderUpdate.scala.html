@@ -168,44 +168,51 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">标记</label>
 
+                    <!--<div class="col-sm-8">-->
+                        <!--@if(order.getRemarkStatus()==1){-->
+                        <!--<input type="radio" name="remarkStatus" value="1" checked />&nbsp;邮费已经结&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="2"/>&nbsp;京东已结&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="3"/>&nbsp;均已结&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="4"/>&nbsp;其他&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="5"/>&nbsp;退货-->
+                        <!--}-->
+                        <!--@if(order.getRemarkStatus()==2){-->
+                        <!--<input type="radio" name="remarkStatus" value="1"  />&nbsp;邮费已经结&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="2" checked/>&nbsp;京东已结&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="3"/>&nbsp;均已结&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="4"/>&nbsp;其他&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="5"/>&nbsp;退货-->
+                        <!--}-->
+                        <!--@if(order.getRemarkStatus()==3){-->
+                        <!--<input type="radio" name="remarkStatus" value="1" />&nbsp;邮费已经结&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="2"/>&nbsp;京东已结&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="3" checked/>&nbsp;均已结&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="4"/>&nbsp;其他&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="5"/>&nbsp;退货-->
+                        <!--}-->
+                        <!--@if(order.getRemarkStatus()==4){-->
+                        <!--<input type="radio" name="remarkStatus" value="1" />&nbsp;邮费已经结&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="2"/>&nbsp;京东已结&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="3" />&nbsp;均已结&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="4" checked/>&nbsp;其他&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="5"/>&nbsp;退货-->
+                        <!--}-->
+                        <!--@if(order.getRemarkStatus()==5){-->
+                        <!--<input type="radio" name="remarkStatus" value="1" />&nbsp;邮费已经结&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="2"/>&nbsp;京东已结&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="3" />&nbsp;均已结&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="4" />&nbsp;其他&nbsp;&nbsp;-->
+                        <!--<input type="radio" name="remarkStatus" value="5" checked/>&nbsp;退货-->
+                        <!--}-->
+
+
+                    <!--</div>-->
                     <div class="col-sm-8">
-                        @if(order.getRemarkStatus()==1){
-                        <input type="radio" name="remarkStatus" value="1" checked />&nbsp;邮费已经结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="2"/>&nbsp;京东已结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="3"/>&nbsp;均已结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="4"/>&nbsp;其他&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="5"/>&nbsp;退货
-                        }
-                        @if(order.getRemarkStatus()==2){
-                        <input type="radio" name="remarkStatus" value="1"  />&nbsp;邮费已经结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="2" checked/>&nbsp;京东已结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="3"/>&nbsp;均已结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="4"/>&nbsp;其他&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="5"/>&nbsp;退货
-                        }
-                        @if(order.getRemarkStatus()==3){
-                        <input type="radio" name="remarkStatus" value="1" />&nbsp;邮费已经结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="2"/>&nbsp;京东已结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="3" checked/>&nbsp;均已结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="4"/>&nbsp;其他&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="5"/>&nbsp;退货
-                        }
-                        @if(order.getRemarkStatus()==4){
-                        <input type="radio" name="remarkStatus" value="1" />&nbsp;邮费已经结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="2"/>&nbsp;京东已结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="3" />&nbsp;均已结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="4" checked/>&nbsp;其他&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="5"/>&nbsp;退货
-                        }
-                        @if(order.getRemarkStatus()==5){
-                        <input type="radio" name="remarkStatus" value="1" />&nbsp;邮费已经结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="2"/>&nbsp;京东已结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="3" />&nbsp;均已结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="4" />&nbsp;其他&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="5" checked/>&nbsp;退货
-                        }
-
-
+                        <input type="radio" name="remarkStatus" value="1" checked />&nbsp;<img src="/assets/images/biaoji1.png" alt="" width="20">&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="2"/>&nbsp;<img src="/assets/images/biaoji2.png" alt="" width="20">&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="3"/>&nbsp;<img src="/assets/images/biaoji3.png" alt="" width="20">&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="4"/>&nbsp;<img src="/assets/images/biaoji4.png" alt="" width="20">&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="5"/>&nbsp;<img src="/assets/images/biaoji5.png" alt="" width="20">
                     </div>
                 </div>
                 <div class="form-group">
