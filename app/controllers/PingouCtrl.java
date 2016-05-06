@@ -24,11 +24,13 @@ import service.InventoryService;
 import service.OrderService;
 import service.PingouService;
 import util.Regex;
+import util.SysParCom;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  * Created by tiffany on 16/1/19.
@@ -68,7 +70,7 @@ public class PingouCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result addPingou(String lang){
 
-        return ok(views.html.pingou.pingouAdd.render(lang,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
+        return ok(views.html.pingou.pingouAdd.render(lang, SysParCom.IMAGE_URL,(User) ctx().args.get("user")));
 
     }
 
@@ -309,7 +311,7 @@ public class PingouCtrl extends Controller {
 
             rtnPinSkuList.add(object);
         }
-        return ok(views.html.pingou.pingouSearch.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,rtnPinSkuList,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
+        return ok(views.html.pingou.pingouSearch.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,rtnPinSkuList,SysParCom.IMAGE_URL,(User) ctx().args.get("user")));
 
 
     }
@@ -460,7 +462,7 @@ public class PingouCtrl extends Controller {
                 }
                 tieredList.add(object);
             }
-            return ok(views.html.pingou.pingouUpdate.render(lang,pinSku,img,tieredList,SkuEndDate,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user")));
+            return ok(views.html.pingou.pingouUpdate.render(lang,pinSku,img,tieredList,SkuEndDate,SysParCom.IMAGE_URL,(User) ctx().args.get("user")));
         }
         return null;
     }

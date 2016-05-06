@@ -28,6 +28,7 @@ import scala.concurrent.duration.Duration;
 import service.AdminSupplierService;
 import service.AdminUserService;
 import service.IDService;
+import util.SysParCom;
 
 import javax.inject.Inject;
 import java.sql.Timestamp;
@@ -363,7 +364,7 @@ public class AdminUserCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result addIDUserPop() {
         List<ID> idList = idService.getAllID();
-        return ok(views.html.coupon.coupaddPop.render(idList,ThemeCtrl.IMAGE_URL));
+        return ok(views.html.coupon.coupaddPop.render(idList, SysParCom.IMAGE_URL));
     }
 
     /**
@@ -383,7 +384,7 @@ public class AdminUserCtrl extends Controller {
         }
         id.setPageSize(pageSize);
         id.setOffset(0);
-        return ok(views.html.adminuser.appusersearch.render(lang, pageSize, countNum, pageCount, idService.getIDPage(id),ThemeCtrl.IMAGE_URL, (User) ctx().args.get("user")));
+        return ok(views.html.adminuser.appusersearch.render(lang, pageSize, countNum, pageCount, idService.getIDPage(id),SysParCom.IMAGE_URL, (User) ctx().args.get("user")));
     }
 
     /**

@@ -24,6 +24,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import service.*;
+import util.SysParCom;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
@@ -422,7 +423,7 @@ public class OrderCtrl extends Controller {
             userObject[1] = "";
         }
 
-        return ok(views.html.order.orderdetail.render(lang, orderArray, orderShip, subOrdersAll, ThemeCtrl.IMAGE_URL, userObject, (User) ctx().args.get("user")));
+        return ok(views.html.order.orderdetail.render(lang, orderArray, orderShip, subOrdersAll, SysParCom.IMAGE_URL, userObject, (User) ctx().args.get("user")));
     }
 
     /**
@@ -753,7 +754,7 @@ public class OrderCtrl extends Controller {
 
         Logger.error("支付公司返回码:" + refundTemp.getPgCode());
         Logger.error("支付公司消息:" + refundTemp.getPgMessage());
-        return ok(views.html.order.refundDetail.render(lang, refundTemp, order, resultOrderLineList, userInfo, orderShip, ThemeCtrl.IMAGE_URL, (User) ctx().args.get("user")));
+        return ok(views.html.order.refundDetail.render(lang, refundTemp, order, resultOrderLineList, userInfo, orderShip, SysParCom.IMAGE_URL, (User) ctx().args.get("user")));
     }
 
 

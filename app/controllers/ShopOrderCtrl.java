@@ -15,6 +15,7 @@ import service.IDService;
 import service.OrderLineService;
 import service.OrderService;
 import service.OrderShipService;
+import util.SysParCom;
 
 import javax.inject.Named;
 import java.text.ParseException;
@@ -35,9 +36,6 @@ public class ShopOrderCtrl extends Controller {
     private OrderLineService orderLineService;
 
     private IDService idService;
-
-    public static final Integer ORDER_QUERY_INTERVAL = Integer.parseInt(play.Play.application().configuration().getString("shop.order.query.interval"));
-    public static final Integer ORDER_QUERY_DELAY = Integer.parseInt(play.Play.application().configuration().getString("shop.order.query.delay"));
 
     @javax.inject.Inject
     private NewScheduler scheduler;
@@ -79,7 +77,7 @@ public class ShopOrderCtrl extends Controller {
                     shopOrderNo = Json.parse(shopOrderNo).findValue("ShopOrderNo").asText();
                     Logger.error("订单"+shopOrderNo+":push to ERP");
                     //启动scheduler从erp查询订单,海关审核通过,更新物流信息
-                    scheduler.schedule(Duration.create(ShopOrderCtrl.ORDER_QUERY_DELAY, TimeUnit.MILLISECONDS),Duration.create(ShopOrderCtrl.ORDER_QUERY_INTERVAL, TimeUnit.MILLISECONDS),salesOrderQueryActor,orderId);
+                    scheduler.schedule(Duration.create(SysParCom.ORDER_QUERY_DELAY, TimeUnit.MILLISECONDS),Duration.create(SysParCom.ORDER_QUERY_INTERVAL, TimeUnit.MILLISECONDS),salesOrderQueryActor,orderId);
                 }
             }
         }

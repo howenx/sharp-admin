@@ -21,6 +21,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import service.InventoryService;
 import service.ItemService;
+import util.SysParCom;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
@@ -206,7 +207,7 @@ public class ShopItemCtrl extends Controller {
             request.createdTime = inventory.getCreateAt();//创建时间
             request.updateTime = (null==inventory.getUpdateAt()?inventory.getCreateAt():inventory.getUpdateAt());//修改时间
             request.shopItemName = inventory.getInvTitle();   //宝贝名称
-            request.pictureUrl = ThemeCtrl.IMAGE_URL+Json.parse(inventory.getInvImg()).get("url").asText();//主图url
+            request.pictureUrl = SysParCom.IMAGE_URL+Json.parse(inventory.getInvImg()).get("url").asText();//主图url
             request.outerId = inventory.getInvCode();//商家编码
             request.quantity = inventory.getAmount();//数量
             request.price = inventory.getItemSrcPrice().doubleValue();//价格

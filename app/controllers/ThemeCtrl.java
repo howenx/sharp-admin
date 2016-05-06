@@ -22,6 +22,7 @@ import scala.concurrent.duration.Duration;
 import scala.concurrent.duration.FiniteDuration;
 import service.*;
 import util.Regex;
+import util.SysParCom;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
@@ -38,14 +39,6 @@ public class ThemeCtrl extends Controller {
     //每页固定的取数
     public static final int PAGE_SIZE = 10;
 
-    //图片服务器url
-    public static final String IMAGE_URL = play.Play.application().configuration().getString("image.server.url");
-
-    //发布服务器url
-    public static final String DEPLOY_URL = play.Play.application().configuration().getString("deploy.server.url");
-
-    //图片上传服务器url
-    public static final String IMG_UPLOAD_URL = play.Play.application().configuration().getString("image.upload.url");
 
     @Inject
     private ThemeService service;
@@ -84,7 +77,7 @@ public class ThemeCtrl extends Controller {
             String height = img.get("height").asText();
             slider.setImg(imgUrl+","+width+","+height);
         }
-        return ok(views.html.theme.slider.render(lang,sliderList,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.slider.render(lang,sliderList, SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
     /**
@@ -95,7 +88,7 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result thadd(String lang) {
 //        flash("success", session("username"));
-        return ok(views.html.theme.thadd.render(lang,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.thadd.render(lang,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
 
@@ -176,7 +169,7 @@ public class ThemeCtrl extends Controller {
         }
         Logger.error(resultList.toString());
 
-        return ok(views.html.theme.thsearch.render(lang,IMAGE_URL,PAGE_SIZE,countNum,pageCount,resultList,(User) ctx().args.get("user")));
+        return ok(views.html.theme.thsearch.render(lang,SysParCom.IMAGE_URL,PAGE_SIZE,countNum,pageCount,resultList,(User) ctx().args.get("user")));
     }
 
     /**
@@ -262,7 +255,7 @@ public class ThemeCtrl extends Controller {
             }
         }
         if (themeList.size()>0 && skusList.size()>0) {
-            return ok(views.html.theme.sliderPop.render(themeList,list,IMAGE_URL));
+            return ok(views.html.theme.sliderPop.render(themeList,list,SysParCom.IMAGE_URL));
         }
         else
             return ok("没有数据");
@@ -390,7 +383,7 @@ public class ThemeCtrl extends Controller {
             object[8] = varyPrice.getInvId();
             varyList.add(object);
         }
-        return ok(views.html.theme.thaddPop.render(inList,pinList,varyList,IMAGE_URL));
+        return ok(views.html.theme.thaddPop.render(inList,pinList,varyList,SysParCom.IMAGE_URL));
     }
 
 
@@ -602,7 +595,7 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result themeTemplates(String lang){
         List<ThemeTemplate> templateList = service.getTemplatesAll();
-        return ok(views.html.theme.templates.render(lang,templateList,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.templates.render(lang,templateList,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
 
     }
 
@@ -644,7 +637,7 @@ public class ThemeCtrl extends Controller {
                 themeImgObject[1] = themeImg.get("width").asInt();
                 //height
                 themeImgObject[2] = themeImg.get("height").asInt();
-                return ok(views.html.theme.H5ThemeUpd.render(lang,theme,themeImgObject,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+                return ok(views.html.theme.H5ThemeUpd.render(lang,theme,themeImgObject,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
 
             }
             //主题的商品
@@ -862,7 +855,7 @@ public class ThemeCtrl extends Controller {
                     tagList.add(tagObject);
                 }
             }
-            return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+            return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
         }
         return null;
     }
@@ -874,7 +867,7 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result addH5Theme(String lang){
-        return ok(views.html.theme.H5ThemeAdd.render(lang,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.H5ThemeAdd.render(lang,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
     /**
@@ -952,7 +945,7 @@ public class ThemeCtrl extends Controller {
             resultList.add(object);
         }
 
-        return ok(views.html.theme.themeSort.render(lang,resultList,IMAGE_URL,IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.themeSort.render(lang,resultList,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
     /**

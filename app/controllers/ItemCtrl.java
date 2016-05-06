@@ -18,6 +18,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import service.*;
 import util.Regex;
+import util.SysParCom;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
@@ -96,7 +97,7 @@ public class ItemCtrl extends Controller {
             inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
         }
         Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
-        return ok(views.html.item.itemsearch.render(lang,ThemeCtrl.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,inventoryList,(User) ctx().args.get("user"), area));
+        return ok(views.html.item.itemsearch.render(lang, SysParCom.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,inventoryList,(User) ctx().args.get("user"), area));
     }
 
     /**
@@ -149,7 +150,7 @@ public class ItemCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result itemCreate(String lang) {
         List<AdminSupplier> adminSupplierList = adminSupplierService.getAllSuppliers();
-        return ok(views.html.item.itemadd.render(lang,itemService.getAllBrands(),itemService.getParentCates(),ThemeCtrl.IMG_UPLOAD_URL,ThemeCtrl.IMAGE_URL,(User) ctx().args.get("user"), adminSupplierList));
+        return ok(views.html.item.itemadd.render(lang,itemService.getAllBrands(),itemService.getParentCates(),SysParCom.IMG_UPLOAD_URL,SysParCom.IMAGE_URL,(User) ctx().args.get("user"), adminSupplierList));
     }
 
     /**
@@ -220,7 +221,7 @@ public class ItemCtrl extends Controller {
             }
             invList.add(object);
         }
-        return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,lang,(User) ctx().args.get("user"),customs,area,adminSupplierList));
+        return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,SysParCom.IMAGE_URL,lang,(User) ctx().args.get("user"),customs,area,adminSupplierList));
     }
 
     /**
@@ -291,7 +292,7 @@ public class ItemCtrl extends Controller {
             object[25] = inventory.getState();
             invList.add(object);
         }
-        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,ThemeCtrl.IMAGE_URL,ThemeCtrl.IMG_UPLOAD_URL,lang,itemService.getAllBrands(),itemService.getParentCates(),(User) ctx().args.get("user"), adminSupplierList));
+        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,lang,itemService.getAllBrands(),itemService.getParentCates(),(User) ctx().args.get("user"), adminSupplierList));
     }
 
     /**
@@ -379,7 +380,7 @@ public class ItemCtrl extends Controller {
         Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
 //        Logger.error(customs.toString());
 //        Logger.error(area.toString());
-        return ok(views.html.item.itemaddPop.render(carriageService.getModels(),ThemeCtrl.IMG_UPLOAD_URL,ThemeCtrl.IMAGE_URL,customs,area));
+        return ok(views.html.item.itemaddPop.render(carriageService.getModels(),SysParCom.IMG_UPLOAD_URL,SysParCom.IMAGE_URL,customs,area));
     }
 
     /**
@@ -465,7 +466,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result brandList(String lang){
-        return ok(views.html.item.brandsearch.render(lang,ThemeCtrl.IMAGE_URL,itemService.getAllBrands(),(User) ctx().args.get("user")));
+        return ok(views.html.item.brandsearch.render(lang,SysParCom.IMAGE_URL,itemService.getAllBrands(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -475,7 +476,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result brandAdd(String lang){
-        return ok(views.html.item.brandadd.render(lang,(User) ctx().args.get("user"),ThemeCtrl.IMG_UPLOAD_URL,ThemeCtrl.IMAGE_URL));
+        return ok(views.html.item.brandadd.render(lang,(User) ctx().args.get("user"),SysParCom.IMG_UPLOAD_URL,SysParCom.IMAGE_URL));
     }
 
     /**

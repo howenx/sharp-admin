@@ -18,14 +18,29 @@ public class SysParCom {
     public static Integer REDIS_PORT;
     public static String REDIS_CHANNEL;
 
-    @Inject
-    public SysParCom( Configuration configuration) {
+    //图片服务器url
+    public static String IMAGE_URL;
+    //发布服务器url
+    public static String DEPLOY_URL;
+    //图片上传服务器url
+    public static String IMG_UPLOAD_URL;
+    //查询ER订单延迟时间
+    public static Integer ORDER_QUERY_DELAY;
+    //查询ER订单时间间隔
+    public static Integer ORDER_QUERY_INTERVAL;
 
+    @Inject
+    public SysParCom(Configuration configuration) {
 
         REDIS_URL = configuration.getString("redis.host");
         REDIS_PASSWORD = configuration.getString("redis.password");
         REDIS_PORT = configuration.getInt("redis.port");
         REDIS_CHANNEL = configuration.getString("redis.channel");
+        IMAGE_URL = configuration.getString("image.server.url");
+        DEPLOY_URL = configuration.getString("deploy.server.url");
+        IMG_UPLOAD_URL = configuration.getString("image.upload.url");
+        ORDER_QUERY_DELAY = configuration.getInt("shop.order.query.delay");
+        ORDER_QUERY_INTERVAL =configuration.getInt("shop.order.query.interval");
     }
 
 }
