@@ -665,7 +665,7 @@ $(function() {
 //                     '<td>'+ $(this)[0].remarkStatus+'</td>' +
                      '<td><img src="' + remarkImg + '" alt="" width="20"></td>' +
                      '<td>'+ $(this)[0].shop+'</td>' +
-                     '<td>'+ $(this)[0].updateAt+ '</td>' +
+//                     '<td>'+ $(this)[0].updateAt+ '</td>' +
                      '<td><a onclick="delOrder('+$(this)[0].id+')">删除</a></td>'+
                     '</tr>'
                 );
