@@ -49,6 +49,10 @@
                $("#refund-amount").val("@refundTemp.getPayBackFee()");
             }
         }
+        //返回列表
+        $(document).on("click","#js-usercenter-back",function(){
+            setTimeout("location.href='/"+window.lang+"/comm/order/refundTempList'", 300);
+        })
 
         $(document).on("change",".response",function(){
            var response =  $(".response option:selected").val();
@@ -156,6 +160,8 @@
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
         <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15">提交
+        </div>
+        <div id="js-usercenter-back" class="btn-blue btn-form fr ml15">返回
         </div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>

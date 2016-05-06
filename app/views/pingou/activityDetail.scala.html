@@ -16,7 +16,10 @@
         if($("#personNum").val() == $("#joinPersonNum").val()){
             $(".add-user").css("display","none");
         }
-
+        //返回
+        $(document).on("click","#pinActivityBack",function(){
+            history.back();
+        })
 
     })
 </script>
@@ -38,6 +41,11 @@
     <div class="page-title">
         <span class="title-name">拼购团详情</span>
     </div>
+    <div class="usercenter-option">
+        <div id="pinActivityBack" class="btn-blue btn-form fr ml15">返回</div>
+        <span id="js-userinfo-error" class="mt20 alt fr"></span>
+    </div>
+
     <div class="row">
         <div class="col-sm-12">
             <form class="form-horizontal">

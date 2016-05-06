@@ -13,7 +13,10 @@
 <script src="/assets/js/pinSku.js"></script>
 <script>
     $(function(){
-    $("#status").val("@pinSku.getStatus()");
+        $("#status").val("@pinSku.getStatus()");
+        $(document).on("click","#activity_count_back",function(){
+            setTimeout("location.href='/"+window.lang+"/pin/search'", 300);
+        })
     })
 </script>
 }
@@ -33,6 +36,10 @@
 <div class="wrap-slider">
     <div class="page-title">
         <span class="title-name">已开的团</span>
+    </div>
+    <div class="usercenter-option">
+        <div class="user-state fl"></div>
+        <div  id="activity_count_back" class="btn-blue btn-form fr ml15">返回</div>
     </div>
     <div class="row">
         <div class="col-sm-12">

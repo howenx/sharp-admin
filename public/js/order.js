@@ -53,6 +53,13 @@ $(function(){
         }
 
     })
+
+    //返回订单列表
+    $("#orderBack").click(function(){
+         setTimeout("location.href='/"+window.lang+"/comm/order/search'", 300);
+    })
+
+
      //取消超时订单
      $("#orderCancel").click(function(){
          var isPost = false;

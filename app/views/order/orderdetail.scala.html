@@ -23,12 +23,13 @@
     <div class="page-title">
         <span class="title-name">订单详情</span>
     </div>
+    <div class="usercenter-option">
+        <div class="user-state fl"></div>
     @if(orderDetail(6) == "订单已超时"){
-        <div class="usercenter-option">
-            <div class="user-state fl"></div>
-            <div id="pinSkuSubmit" id="orderCancel" class="btn-blue btn-form fr ml15">取消订单</div>
-        </div>
+        <div  id="orderCancel" class="btn-blue btn-form fr ml15">取消订单</div>
     }
+        <div  id="orderBack" class="btn-blue btn-form fr ml15">返回</div>
+    </div>
 
     <div class="row">
     <form class="form-horizontal">

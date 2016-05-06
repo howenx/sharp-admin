@@ -44,6 +44,10 @@
 
         //$(".tiered-price").css("display","none");//编辑阶梯价格
 
+        //返回列表
+        $(document).on("click","#pinSkuBack",function(){
+            history.back();
+        })
     })
 </script>
 
@@ -69,6 +73,7 @@
         <div class="user-state fl"></div>
         <div id="pinSkuSubmit" class="btn-blue btn-form fr ml15">保存</div>
         <div id="pinSkuEdit" class="btn-blue btn-form fr ml15">编辑</div>
+        <div id="pinSkuBack" class="btn-blue btn-form fr ml15">返回</div>
         <div id="cancel" class="btn-white btn-form fr ml20">取消</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>

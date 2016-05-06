@@ -567,6 +567,7 @@ $(function(){
     //点击编辑按钮,可编辑内容
      $(document).on("click","#pinSkuEdit",function(){
          $("#pinSkuEdit").css("display","none");   //编辑
+         $("#pinSkuBack").css("display","none");   //返回
          $("#pinSkuSubmit").css("display","");   //保存
          $("#cancel").css("display","");         //取消
 
