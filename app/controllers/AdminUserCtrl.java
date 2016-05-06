@@ -129,7 +129,7 @@ public class AdminUserCtrl extends Controller {
                     .setFrom("developer@hanmimei.com")
                     .addTo(adminUser.getEmail())
                     .setBodyText("A text message")
-                    .setBodyHtml("<html><body><p>"+adminUser.getEnNm()+"请用密码登录:"+defPwd+"</p></body></html>");
+                    .setBodyHtml("<html><body><p>韩秘美后台, 用户名:"+adminUser.getEnNm()+", 请用密码登录:"+defPwd+"</p></body></html>");
             mailerClient.send(email);
             Logger.debug("邮件发送成功!");
 
@@ -150,10 +150,9 @@ public class AdminUserCtrl extends Controller {
 //                Logger.error("发送邮件错误"+e);
 //            }
             adminUserService.insertUser(adminUser);
+            AdminUser ad = adminUserService.getUserBy(adminUser);
             AdminSupplier adminSupplier = new AdminSupplier();
-            Logger.error(adminUser.toString());
-            Logger.error("供应啥id:"+adminUser.getUserId());
-            adminSupplier.setId(adminUser.getUserId());
+            adminSupplier.setUserId(ad.getUserId());
             adminSupplier.setSupplyMerch(adminUser.getEnNm());
             adminSupplier.setSupplyName(adminUser.getChNm());
             adminSupplierService.insertSupplier(adminSupplier);

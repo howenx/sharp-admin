@@ -17,10 +17,10 @@
                         <i class="header-nav-border-relative"></i>
                     </li>
                     <!--供应管理-->
-                    <li class="header-navi-item fl">
-                        <a href="/supply/admin" class="header-link tdn">供应商管理</a>
-                        <i class="header-nav-border-relative"></i>
-                    </li>
+                    <!--<li class="header-navi-item fl">-->
+                        <!--<a href="/supply/admin" class="header-link tdn">供应商管理</a>-->
+                        <!--<i class="header-nav-border-relative"></i>-->
+                    <!--</li>-->
                     <!--主题管理-->
                     <li class="header-navi-item fl">
                         <div class="user-info fl js-header-dropmenu">
@@ -74,9 +74,9 @@
                                 <li class="header-dropdown-item">
                                     <a href="/@lang/comm/search" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products.menu1")</a>
                                 </li>
-                                <li class="header-dropdown-item">
-                                    <a href="/itemInfo/search" class="info-link">商品导入</a>
-                                </li>
+                                <!--<li class="header-dropdown-item">-->
+                                    <!--<a href="/itemInfo/search" class="info-link">商品导入</a>-->
+                                <!--</li>-->
                                 <li class="header-dropdown-item">
                                     <a href="/coup/add" class="info-link">发放优惠券</a>
                                 </li>
@@ -96,7 +96,6 @@
                             <i class="header-nav-border"></i>
                         </div>
                     </li>
-
                     <!--订单管理-->
                     <li class="header-navi-item fl">
                         <div class="user-info fl js-header-dropmenu">
@@ -118,8 +117,6 @@
                             <i class="header-nav-border"></i>
                         </div>
                     </li>
-
-
                     <!--数据中心-->
                     <li class="header-navi-item fl">
                         <div class="user-info fl js-header-dropmenu">
@@ -219,10 +216,14 @@
                         <a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
                         <i class="header-nav-border-relative"></i>
                     </li>
+                    <!--用户管理-->
                     <li class="header-navi-item fl">
                         <div class="user-info fl js-header-dropmenu">
                             <span class="info-inner db">@Messages.get(new Lang(Lang.forCode(lang)),"nav.users")<i class="ml5 caret caret-down caret-b-9b"></i></span>
                             <ul class="header-dropdown-list fs13 js-header-list">
+                                <li class="header-dropdown-item">
+                                    <a href="javascript:void(0)" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.users.menu1")</a>
+                                </li>
                                 <li class="header-dropdown-item">
                                     <a href="/@lang/aduser/add" class="info-link">新增用户</a>
                                 </li>
@@ -232,10 +233,17 @@
                                 <li class="header-dropdown-item">
                                     <a href="/@lang/appUser/search" class="info-link">APP用户</a>
                                 </li>
+                                <li class="header-dropdown-item">
+                                    <a href="javascript:void(0)" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.myproducts.menu2")</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="javascript:void(0)" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.myproducts.menu3")</a>
+                                </li>
                             </ul>
                             <i class="header-nav-border"></i>
                         </div>
                     </li>
+                    <!--应用管理-->
                     <li class="header-navi-item fl">
                         <div class="user-info fl js-header-dropmenu">
                             <span class="info-inner db">@Messages.get(new Lang(Lang.forCode(lang)),"nav.app")<i class="ml5 caret caret-down caret-b-9b"></i></span>
@@ -248,6 +256,9 @@
                                 </li>
                                 <li class="header-dropdown-item">
                                     <a href="/release/apiView" class="info-link">API发布版本</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/release/apiVersionList" class="info-link">API版本历史</a>
                                 </li>
                             </ul>
                             <i class="header-nav-border"></i>
@@ -278,6 +289,9 @@
                                     <a href="/@lang/topic/search" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu3")</a>
                                 </li>
                                 <li class="header-dropdown-item">
+                                    <a href="/@lang/topic/sort " class="info-link">主题排序</a>
+                                </li>
+                                <li class="header-dropdown-item">
                                     <a href="/@lang/topic/slider" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu1")</a>
                                 </li>
                             </ul>
@@ -290,10 +304,10 @@
                             <span class="info-inner db">拼购管理<i class="ml5 caret caret-down caret-b-9b"></i></span>
                             <ul class="header-dropdown-list fs13 js-header-list">
                                 <li class="header-dropdown-item">
-                                    <a href="/@lang/pin/add" class="info-link">添加拼购</a>
+                                    <a href="/@lang/pin/add" class="info-link">添加拼购商品</a>
                                 </li>
                                 <li class="header-dropdown-item">
-                                    <a href="/@lang/pin/search" class="info-link">拼购查询</a>
+                                    <a href="/@lang/pin/search" class="info-link">拼购商品查询</a>
                                 </li>
                                 <li class="header-dropdown-item">
                                     <a href="/@lang/pin/activity/search" class="info-link">拼购团查询</a>
@@ -313,11 +327,14 @@
                                 <li class="header-dropdown-item">
                                     <a href="/@lang/comm/search" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products.menu1")</a>
                                 </li>
-                                <li class="header-dropdown-item">
-                                    <a href="/itemInfo/search" class="info-link">商品导入</a>
-                                </li>
+                                <!--<li class="header-dropdown-item">-->
+                                    <!--<a href="/itemInfo/search" class="info-link">商品导入</a>-->
+                                <!--</li>-->
                                 <li class="header-dropdown-item">
                                     <a href="/coup/add" class="info-link">发放优惠券</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/@lang/coup/search" class="info-link">已使用优惠券</a>
                                 </li>
                                 <li class="header-dropdown-item">
                                     <a href="/@lang/carr/search" class="info-link">运费模板</a>
@@ -344,9 +361,11 @@
                                     <a href="/@lang/comm/order/unpaidOrders" class="info-link">超时订单</a>
                                 </li>
                                 <li class="header-dropdown-item">
-                                    <a href="javascript:;" class="info-link">已签收订单</a>
+                                    <a href="/@lang/comm/order/signedOrders" class="info-link">已签收订单</a>
                                 </li>
-
+                                <li class="header-dropdown-item">
+                                    <a href="/@lang/comm/order/refundTempList" class="info-link">退款查询</a>
+                                </li>
                             </ul>
                             <i class="header-nav-border"></i>
                         </div>
@@ -400,6 +419,9 @@
                                     <a href="/@lang/topic/search" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu3")</a>
                                 </li>
                                 <li class="header-dropdown-item">
+                                    <a href="/@lang/topic/sort " class="info-link">主题排序</a>
+                                </li>
+                                <li class="header-dropdown-item">
                                     <a href="/@lang/topic/slider" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.themes.menu1")</a>
                                 </li>
                             </ul>
@@ -412,10 +434,10 @@
                             <span class="info-inner db">拼购管理<i class="ml5 caret caret-down caret-b-9b"></i></span>
                             <ul class="header-dropdown-list fs13 js-header-list">
                                 <li class="header-dropdown-item">
-                                    <a href="/@lang/pin/add" class="info-link">添加拼购</a>
+                                    <a href="/@lang/pin/add" class="info-link">添加拼购商品</a>
                                 </li>
                                 <li class="header-dropdown-item">
-                                    <a href="/@lang/pin/search" class="info-link">拼购查询</a>
+                                    <a href="/@lang/pin/search" class="info-link">拼购商品查询</a>
                                 </li>
                                 <li class="header-dropdown-item">
                                     <a href="/@lang/pin/activity/search" class="info-link">拼购团查询</a>
@@ -435,11 +457,14 @@
                                 <li class="header-dropdown-item">
                                     <a href="/@lang/comm/search" class="info-link">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products.menu1")</a>
                                 </li>
-                                <li class="header-dropdown-item">
-                                    <a href="/itemInfo/search" class="info-link">商品导入</a>
-                                </li>
+                                <!--<li class="header-dropdown-item">-->
+                                    <!--<a href="/itemInfo/search" class="info-link">商品导入</a>-->
+                                <!--</li>-->
                                 <li class="header-dropdown-item">
                                     <a href="/coup/add" class="info-link">发放优惠券</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/@lang/coup/search" class="info-link">已使用优惠券</a>
                                 </li>
                                 <li class="header-dropdown-item">
                                     <a href="/@lang/carr/search" class="info-link">运费模板</a>
@@ -465,7 +490,12 @@
                                 <li class="header-dropdown-item">
                                     <a href="/@lang/comm/order/unpaidOrders" class="info-link">超时订单</a>
                                 </li>
-
+                                <li class="header-dropdown-item">
+                                    <a href="/@lang/comm/order/signedOrders" class="info-link">已签收订单</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/@lang/comm/order/refundTempList" class="info-link">退款查询</a>
+                                </li>
                             </ul>
                             <i class="header-nav-border"></i>
                         </div>
@@ -480,7 +510,6 @@
                         <a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
                         <i class="header-nav-border-relative"></i>
                     </li>
-
                     <!--财务人员的菜单项(财务,审核)-->
                     }
 
@@ -491,7 +520,6 @@
                         <a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
                         <i class="header-nav-border-relative"></i>
                     </li>
-
                     <!--客服人员的菜单项(客服)-->
                     }
 
@@ -540,6 +568,7 @@
                     </li>
                     <!--供应管理系统 管理员 的菜单项-->
                     }
+
                     <!--供应管理系统 供应商 的菜单项-->
                     @if(user.userType.get=="SUPPLIER") {
                     <!--首页-->
@@ -562,15 +591,17 @@
                             <i class="header-nav-border"></i>
                         </div>
                     </li>
-                    <!--供应管理系统 翻译人员 的菜单项-->
+                    <!--供应管理系统 供应商 的菜单项-->
                     }
+
+                    <!--供应管理系统 翻译人员 的菜单项-->
                     @if(user.userType.get=="TRANSLATION") {
                     <!--首页-->
                     <li class="header-navi-item fl">
                         <a href="/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
                         <i class="header-nav-border-relative"></i>
                     </li>
-                    <!--供应管理-->
+                    <!--供应管理 翻译 -->
                     <li class="header-navi-item fl">
                         <a href="/supply/list" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.supply.menu1")</a>
                         <i class="header-nav-border-relative"></i>
@@ -578,7 +609,7 @@
                     <!--供应管理系统 翻译人员 的菜单项-->
                     }
 
-                    <!--其他类型用户的菜单项-->
+                    <!--其他类型用户的菜单项 销售报表处理 -->
                     @if(user.userType.get=="OTHER"){
                     <!--销售报表-->
                     <!--首页-->
@@ -609,7 +640,7 @@
                             <i class="header-nav-border"></i>
                         </div>
                     </li>
-                    <!--其他类型用户的菜单项-->
+                    <!--其他类型用户的菜单项 销售报表处理 -->
                     }
 
 
