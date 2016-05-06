@@ -22,7 +22,7 @@ public class AdminUserServiceImpl implements AdminUserService {
      */
     @Override
     public Boolean insertUser(AdminUser adminUser) {
-        return adminUserMapper.insertUser(adminUser)>=0;
+        return adminUserMapper.insertUser(adminUser)>0;
     }
 
     /**
@@ -32,7 +32,7 @@ public class AdminUserServiceImpl implements AdminUserService {
      */
     @Override
     public Boolean updateUser(AdminUser adminUser) {
-        return adminUserMapper.updateUser(adminUser)>=0;
+        return adminUserMapper.updateUser(adminUser)>0;
     }
 
     /**
@@ -68,7 +68,7 @@ public class AdminUserServiceImpl implements AdminUserService {
      * @return Boolean
      */
     public Boolean chgPwd(AdminUser adminUser) {
-        return adminUserMapper.chgPwd(adminUser)>=0;
+        return adminUserMapper.chgPwd(adminUser)>0;
     }
 
 }
