@@ -10,6 +10,14 @@
         ${alias}.supply_name
     </sql>
 
+    <!-- 录入一条供应商信息    Added By Sunny.Wu  2016.05.05-->
+    <insert id="insertSupplier" parameterType="domain.AdminSupplier" useGeneratedKeys="true" keyColumn="id">
+        insert into admin_supplier
+        (user_id,supply_merch,supply_name)
+        values
+        (#{userId},#{supplyMerch},#{supplyName})
+    </insert>
+
     <select id="getSupplierByUserId" parameterType="java.lang.Long" resultType="domain.AdminSupplier">
         select
         <include refid="adminSupplierColumns">

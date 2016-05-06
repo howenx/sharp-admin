@@ -2,6 +2,7 @@ package domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import play.data.validation.Constraints;
+import util.Regex;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -59,6 +60,7 @@ public class Inventory implements Serializable{
     private Integer restrictAmount;//限购数量
     private String invTitle;        //商品标题
     private String invCustoms;      //报关单位
+    @Constraints.Pattern(Regex.DECIMAL)
     private String postalTaxRate;   //行邮税率
     private String postalTaxCode;   //行邮税号
     @Constraints.Required

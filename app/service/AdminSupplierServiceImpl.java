@@ -14,6 +14,16 @@ public class AdminSupplierServiceImpl implements AdminSupplierService{
     AdminSupplierMapper adminSupplierMapper;
 
     /**
+     * 录入一条供应商信息   Added By Sunny.Wu 2016.05.05
+     * @param adminSupplier
+     * @return boolean
+     */
+    @Override
+    public boolean insertSupplier(AdminSupplier adminSupplier) {
+        return adminSupplierMapper.insertSupplier(adminSupplier) > 0;
+    }
+
+    /**
      * 通过ID获取供应商信息      Added by Tiffany Zhu 2016.04.20
      * @param id
      * @return

@@ -25,6 +25,7 @@ import scala.Option;
 import scala.concurrent.Await;
 import scala.concurrent.Future;
 import scala.concurrent.duration.Duration;
+import service.AdminSupplierService;
 import service.AdminUserService;
 import service.IDService;
 
@@ -44,6 +45,9 @@ public class AdminUserCtrl extends Controller {
 
     @Inject
     private AdminUserService adminUserService;
+
+    @Inject
+    private AdminSupplierService adminSupplierService;
 
     @Inject
     private IDService idService;
@@ -146,6 +150,13 @@ public class AdminUserCtrl extends Controller {
 //                Logger.error("发送邮件错误"+e);
 //            }
             adminUserService.insertUser(adminUser);
+            AdminSupplier adminSupplier = new AdminSupplier();
+            Logger.error(adminUser.toString());
+            Logger.error("供应啥id:"+adminUser.getUserId());
+            adminSupplier.setId(adminUser.getUserId());
+            adminSupplier.setSupplyMerch(adminUser.getEnNm());
+            adminSupplier.setSupplyName(adminUser.getChNm());
+            adminSupplierService.insertSupplier(adminSupplier);
             return ok("保存成功");
         }
     }
