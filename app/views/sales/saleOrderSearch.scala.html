@@ -3,8 +3,8 @@
 
 @scripts = {
 <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
-<link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/search.css">
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
@@ -96,8 +96,9 @@
             <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
         </div>
     </form>
-    <div class="table-content">
+    <div class="table-content" style="height: 667px">
         <!--id必须为tb-topic 公用js需要使用-->
+        <div style="overflow: scroll;white-space:nowrap;">
         <table id="tb-topic" class="table table-bordered table-hover">
             <thead>
             <tr>
@@ -173,6 +174,7 @@
 
             </tbody>
         </table>
+        </div>
 
         <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
         <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
