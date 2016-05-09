@@ -1,0 +1,55 @@
+@import play.i18n.Messages,play.i18n.Lang
+@(lang: String = "cn", user: domain.User)
+
+@scripts = {
+    <link rel="stylesheet" href="/assets/css/slider.css">
+    <link rel="stylesheet" href="/assets/css/screenshot.css">
+    <script type="text/javascript" src="/assets/js/jquery.form.min.js"></script>
+
+    <script>
+            var wsUri = "@routes.VersionCtrl.logsocket.webSocketURL()";
+            var output;
+
+            var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
+            var dateSocket = new WS(wsUri);
+
+            var receiveEvent = function(event) {
+                $("#output").append("Last ping: "+event.data+"\n");
+            };
+
+            dateSocket.onmessage = receiveEvent;
+
+    </script>
+}
+
+
+@layout(lang = lang, title = "日志查看", user = user)(scripts) {
+
+    <div class="mbread">
+        <div class="bread-path">
+            <span class="index">@Messages.get(Lang.forCode(lang),"page.head.path.title")</span>
+            <a href="/@lang/summary"><span class="current">@Messages.get(Lang.forCode(lang), "nav.home")</span></a>
+            <span class="icon-path">&gt;</span>
+            <span class="current">应用管理</span>
+            <span class="icon-path">&gt;</span>
+            <span class="current">日志查看</span>
+        </div>
+    </div>
+    <div class="wrap-slider">
+        <div class="page-title">
+            <span class="title-name">日志查看</span>
+        </div>
+        <div class="usercenter-option">
+            <div class="user-state fl">@Messages.get(Lang.forCode(lang), "themes.slider.state1")</div>
+            <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15">@Messages.get(Lang.forCode(lang), "themes.slider.save")</div>
+            <div id="js-usercenter-cancel" class="btn-white btn-form fr ml20">@Messages.get(Lang.forCode(lang), "themes.slider.cancel")</div>
+            <span id="js-userinfo-error" class="mt20 alt fr"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="output"></div>
+            </div>
+        </div>
+    </div>
+}

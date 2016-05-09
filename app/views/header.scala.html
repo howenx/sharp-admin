@@ -1,4 +1,4 @@
-@import play.i18n._
+@import play.i18n.Messages,play.i18n.Lang
 @(user:domain.User, lang:String)
 
 <header id="js-header" class="header else">
@@ -185,6 +185,9 @@
                                 <li class="header-dropdown-item">
                                     <a href="/release/apiVersionList" class="info-link">API版本历史</a>
                                 </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/log/view" class="info-link">日志查看</a>
+                                </li>
                             </ul>
                             <i class="header-nav-border"></i>
                         </div>
@@ -259,6 +262,9 @@
                                 </li>
                                 <li class="header-dropdown-item">
                                     <a href="/release/apiVersionList" class="info-link">API版本历史</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/log/view" class="info-link">日志查看</a>
                                 </li>
                             </ul>
                             <i class="header-nav-border"></i>
@@ -546,6 +552,9 @@
                                 </li>
                                 <li class="header-dropdown-item">
                                     <a href="/release/apiVersionList" class="info-link">API版本历史</a>
+                                </li>
+                                <li class="header-dropdown-item">
+                                    <a href="/log/view" class="info-link">日志查看</a>
                                 </li>
                             </ul>
                             <i class="header-nav-border"></i>

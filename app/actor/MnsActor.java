@@ -24,6 +24,7 @@ public class MnsActor extends AbstractActor {
             try {
                 if (event instanceof ILoggingEvent) {
                     ((ILoggingEvent) event).getMDCPropertyMap().put("projectId", "style-admin");
+                    System.out.println("发送日志内容: "+Json.mapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false).valueToTree(event).toString()+"\n"+event.toString());
                     jedis.publish(REDIS_CHANNEL, Json.mapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false).valueToTree(event).toString());
                 }
             } catch (Exception ignored) {
