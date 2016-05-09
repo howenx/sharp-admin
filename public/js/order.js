@@ -146,7 +146,15 @@ $(function(){
                     });
                 }
      })
-
+    /********************物流查询按钮********************/
+    $(".check-logistics").click(function () {
+        if($(this).hasClass("glyphicon-triangle-bottom")){
+            $(this).removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-top");
+        }else{
+            $(this).removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
+        }
+        $(".logistics-info").toggle();
+    })
 
 
 

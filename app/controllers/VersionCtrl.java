@@ -23,9 +23,12 @@ import play.Configuration;
 import play.Logger;
 import play.data.Form;
 import play.libs.Akka;
+import play.libs.Comet;
+import play.libs.F;
 import play.libs.Json;
 import play.mvc.*;
 import scala.concurrent.duration.Duration;
+import scala.concurrent.impl.Promise;
 import service.AdminUserService;
 import service.ItemService;
 
@@ -150,7 +153,6 @@ public class VersionCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     @BodyParser.Of(value = BodyParser.MultipartFormData.class, maxLength = 200 * 1024 * 1024)
     public Result apiReleasePublic(){
-        Logger.error("是否进入");
         try {
             Http.MultipartFormData body = request().body().asMultipartFormData();
 
