@@ -19,7 +19,6 @@ class LoggingFilter extends EssentialFilter {
 
         val endTime = System.currentTimeMillis
         val requestTime = endTime - startTime
-
         accessLogger.info(
           s"${requestHeader.method} ${requestHeader.host}${requestHeader.uri}" +
             s" Remote Address:${requestHeader.remoteAddress} " +

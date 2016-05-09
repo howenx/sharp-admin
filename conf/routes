@@ -12,9 +12,7 @@ GET         /$lang<(cn|en|kr)>/front                                       contr
 
 
 #app启动时定时
-GET         /schedule/:cipher                                              controllers.AdminUserCtrl.getFirstApp(cipher:String)
 GET         /assets/*file                                                  controllers.Assets.versioned(path="/public", file: Asset)
-
 
 
 
