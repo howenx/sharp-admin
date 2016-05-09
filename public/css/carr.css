@@ -124,10 +124,10 @@ h1,h2,h3,h4,h5,h6{
 
 /*************订单详情*************/
 .logistics-info{
-    position: absolute;right: -3px;top: 30px;
+    position: absolute;right: 0;top: 24px;
     border: 1px solid #ccc;padding: 6px 8px;
     background: #fff;z-index: 1;
-    display: none;
+    display: none;width: 150px;
 }
 .logistics-info h6{
     margin: 10px 0;color: #000;text-align: left;
@@ -138,9 +138,6 @@ h1,h2,h3,h4,h5,h6{
 }
 .check-logistics:active:focus,.check-logistics:focus{
     outline: none;
-}
-.check-logistics:hover .logistics-info{
-    display: block;
 }
 em{
     font-style: normal;
