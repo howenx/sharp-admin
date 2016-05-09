@@ -14,16 +14,17 @@ import domain.order.OrderShip;
 import domain.order.OrderSplit;
 import filters.UserAuth;
 import modules.NewScheduler;
-import util.GetLogistics;
 import play.Configuration;
 import play.Logger;
 import play.i18n.Lang;
 import play.i18n.Messages;
+import play.libs.F;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import service.*;
+import util.GetExpress;
 import util.SysParCom;
 
 import javax.inject.Inject;
@@ -279,6 +280,8 @@ public class OrderCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result orderDetail(String lang, Long id) {
+
+
         //获取订单
         Order order = orderService.getOrderById(id);
         Object[] orderArray = new Object[9];
@@ -407,7 +410,11 @@ public class OrderCtrl extends Controller {
             subOrderList.add(subOrderPart2);
 
             //子订单物流
-            String logistics = GetLogistics.sendGet("12837698789", "jd");
+            if( orderSplit != null && orderSplit.getExpressCode() != null && orderSplit.getExpressNum() != null){
+                List<Object[]> expList = GetExpress.express(orderSplit);
+                Logger.error("订单详情---获取物流:" + expList.toString());
+
+            }
 
             //全部的子订单信息
             subOrdersAll.add(subOrderList);

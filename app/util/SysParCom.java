@@ -28,6 +28,12 @@ public class SysParCom {
     public static Integer ORDER_QUERY_DELAY;
     //查询ER订单时间间隔
     public static Integer ORDER_QUERY_INTERVAL;
+    //获取物流链接
+    public static String EXPRESS_POST_URL;
+    //获取物流 授权key
+    public static String EXPRESS_KEY;
+
+    public static String EXPRESS_CUSTOMER;
 
     @Inject
     public SysParCom(Configuration configuration) {
@@ -41,6 +47,9 @@ public class SysParCom {
         IMG_UPLOAD_URL = configuration.getString("image.upload.url");
         ORDER_QUERY_DELAY = configuration.getInt("shop.order.query.delay");
         ORDER_QUERY_INTERVAL =configuration.getInt("shop.order.query.interval");
+        EXPRESS_POST_URL = configuration.getString("express.post.url");
+        EXPRESS_KEY = configuration.getString("express.key");
+        EXPRESS_CUSTOMER = configuration.getString("express.customer");
     }
 
 }
