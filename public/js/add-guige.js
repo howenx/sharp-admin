@@ -246,20 +246,20 @@ function saveCurr(saveFlag) {
     var d1 = new Date(Date.parse(startAt.replace(/-/g,"/")));//上架时间
     var d2 = new Date(Date.parse(endAt.replace(/-/g,"/")));//下架时间
     //修改
-    if (invId!="" && invId!=null && state=="Y") {
+    if (invId!="" && invId!=null) {
         if (startAt==null || endAt==null || startAt >= endAt) {
-               orSave = false;
-               $("#warn-date").html("请检查时间设置");
+            orSave = false;
+            $("#warn-date").html("请检查时间设置");
         } else $("#warn-date").html("");
     }
     //新增(上架时间和下架时间均不能小于当前时间)
-    if (invId=="" && state!="Y") {
+    if (invId=="") {
         if (startAt=="" || endAt=="" || startAt >= endAt ) {
-               orSave = false;
-               $("#warn-date").html("请检查时间设置");
+            orSave = false;
+            $("#warn-date").html("请检查时间设置");
         } else if (endAt<nowTime) {
-               orSave = false;
-               $("#warn-date").html("下架时间不能小于当前时间");
+            orSave = false;
+            $("#warn-date").html("下架时间不能小于当前时间");
         } else $("#warn-date").html("");
     }
     if (d1>=maxDate || d2>=maxDate) {
@@ -351,6 +351,15 @@ function saveCurr(saveFlag) {
             imgsV["height"] = $(this).attr("height");
             itemPreviewImgs.push(imgsV);
         });
+    }
+    if (startAt>nowTime) {//上架时间比现在时间大为预售状态
+        state = "P"
+    }
+    if (startAt<nowTime && nowTime<endAt) {//现在时间介于上架和下架时间之间为正常状态
+        state = "Y"
+    }
+    if (endAt<nowTime) {//下架时间比当前时间小为下架状态
+        state = "D"
     }
     trdobj.itemColor = itemColor;
     trdobj.itemSize = itemSize;
@@ -448,7 +457,8 @@ function saveCurr(saveFlag) {
         $("#warn").text("请检查数据");
     }
     if (orSave) {
-        $("#warn").text("");
+    $("#warn").text("数据正确,保存成功");
+    setTimeout("$('#warn').text('')", 2000);
         if (window.showModalDialog) {
             window.returnValue = sharedObject;
         }
