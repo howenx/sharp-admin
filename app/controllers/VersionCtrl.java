@@ -2,7 +2,6 @@ package controllers;
 
 import actor.SubscribeActor;
 import akka.actor.ActorRef;
-import akka.actor.Cancellable;
 import akka.actor.Props;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
@@ -22,15 +21,12 @@ import play.Logger;
 import play.data.Form;
 import play.libs.Akka;
 import play.mvc.*;
-import redis.clients.jedis.Jedis;
-import scala.concurrent.duration.Duration;
+import redis.clients.jedis.JedisPool;
 import service.AdminUserService;
 import service.ItemService;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static util.SysParCom.REDIS_CHANNEL;
@@ -54,7 +50,7 @@ public class VersionCtrl extends Controller {
     private Configuration configuration;
 
     @Inject
-    private Jedis jedis;
+    private JedisPool jedisPool;
 
 
     @Security.Authenticated(UserAuth.class)
@@ -239,24 +235,11 @@ public class VersionCtrl extends Controller {
     public WebSocket<String> logsocket() {
 
         return WebSocket.whenReady((in, out) -> {
-
-            final ActorRef pingActor = Akka.system().actorOf(Props.create(SubscribeActor.class, jedis, in, out));
-            pingActor.tell(REDIS_CHANNEL,ActorRef.noSender());
-//            final Cancellable cancellable = Akka.system().scheduler().schedule(Duration.create(1, TimeUnit.SECONDS),
-//                    Duration.create(1, TimeUnit.SECONDS),
-//                    pingActor,
-//                    ,
-//                    Akka.system().dispatcher(),
-//                    null
-//            );
-
-//            in.onClose(cancellable::cancel);
-
+            final ActorRef pingActor = Akka.system().actorOf(Props.create(SubscribeActor.class, jedisPool.getResource(), in, out));
+            pingActor.tell(REDIS_CHANNEL, ActorRef.noSender());
             in.onMessage(System.out::println);
-
-            in.onClose(() -> System.out.println("Disconnected"));
-
-            out.write("Hello!");
+            in.onClose(() -> System.err.println("Disconnected"));
+            out.write("start...");
         });
     }
 }

@@ -14,7 +14,7 @@
             var dateSocket = new WS(wsUri);
 
             var receiveEvent = function(event) {
-                $("#output").append("Last ping: "+event.data+"\n");
+                $("#output").append("<br> 日志: "+event.data);
             };
 
             dateSocket.onmessage = receiveEvent;

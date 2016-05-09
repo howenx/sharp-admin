@@ -6,6 +6,7 @@ import play.Logger;
 import play.mvc.WebSocket;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
+import util.RedisListener;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,37 +21,10 @@ public class SubscribeActor extends AbstractActor {
         receive(ReceiveBuilder.match(String.class, channel -> {
             try {
 
-                class KVStoreMessageListener extends JedisPubSub {
-
-                    private WebSocket.Out<String> out;
-
-                    private KVStoreMessageListener(WebSocket.Out<String> out){
-                        this.out = out;
-                    }
-
-                    @Override
-                    public void onMessage(String channel, String message) {
-
-                        System.out.println("  <<< 订阅(SUBSCRIBE)< Channel:" + channel + " >接收到的Message:" + message);
-                        System.out.println();
-                        out.write(message);
-                        if (message.equalsIgnoreCase("quit")) {
-                            this.unsubscribe(channel);
-                        }
-                    }
-                }
+                JedisPubSub listener = new RedisListener(out);
 
                 ExecutorService executor = Executors.newSingleThreadExecutor();
-                executor.submit(() -> {
-                    KVStoreMessageListener listener = new KVStoreMessageListener(out);
-                    if (channel == null) {
-                        System.err.println("Error:SubClient> listener or channel is null");
-                    }
-
-                    System.out.println("  >>> 订阅(SUBSCRIBE) > Channel:" + channel);
-                    System.out.println();
-                    jedis.subscribe(listener, channel);
-                });
+                executor.submit(() -> jedis.psubscribe(listener, channel));
 
             } catch (Exception ignored) {
             }
