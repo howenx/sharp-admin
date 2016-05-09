@@ -11,7 +11,11 @@ import play.Logger;
 import play.api.libs.Codecs;
 import play.libs.F;
 import play.libs.Json;
+import play.mvc.Action;
 import play.mvc.Http;
+import play.mvc.Result;
+
+import java.lang.reflect.Method;
 
 import static play.mvc.Results.notFound;
 
@@ -42,17 +46,16 @@ public class Global extends GlobalSettings {
         result.putPOJO("message", Json.toJson(new Message(Message.ErrorCode.getName(Message.ErrorCode.FAILURE_BAD_REQUEST.getIndex()), Message.ErrorCode.FAILURE_BAD_REQUEST.getIndex())));
         return F.Promise.<play.mvc.Result>pure(notFound(views.html.error500.render()));
     }
-    public void onStart(Application app) {//作为系统启动后的第一次请求调用
-        try {
-            Request request = new Request.Builder().url(play.Play.application().configuration().getString("admin.server.url")+"/schedule/"+ Codecs.md5("hmm-100901".getBytes())).build();
-            OkHttpClient client = new OkHttpClient();
-            Response response = client.newCall(request).execute();
 
-            if (response.isSuccessful()) {
-                String responseUrl = response.body().string();
-                Logger.error("启动调用:\n"+responseUrl);
-            }else client.newCall(request).execute();
-        } catch (Exception ignored) {
-        }
+    public Action onRequest(Http.Request request, Method actionMethod) {
+        if (request.getHeader("User-Agent").contains("Alibaba.Security")){
+            ObjectNode result = Json.newObject();
+            result.putPOJO("message", Json.toJson(new Message(Message.ErrorCode.getName(Message.ErrorCode.FAILURE_BAD_REQUEST.getIndex()), Message.ErrorCode.FAILURE_BAD_REQUEST.getIndex())));
+            return new Action.Simple() {
+                public F.Promise<Result> call(Http.Context ctx) throws Throwable {
+                    return F.Promise.pure(notFound(views.html.error500.render()));
+                }
+            };
+        }else return super.onRequest(request,actionMethod);
     }
 }
