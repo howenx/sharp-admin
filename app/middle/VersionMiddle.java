@@ -87,8 +87,6 @@ public class VersionMiddle {
 
         versionVo.setUpdateReqXml(configuration.getString("image.server.url") + productType + "/" + xmlFileName);
 
-        itemService.updateVersioning(versionVo);
-
         itemService.insertVersioning(versionVo);
 
         Logger.error("xml地址:\n" + configuration.getString("image.server.url") + productType + "/" + xmlFileName);
@@ -112,7 +110,6 @@ public class VersionMiddle {
         if (!targetFolder.exists()) {
             if (!targetFolder.mkdirs()) Logger.error("创建目录出错");
         }
-        Logger.error("测试地址-->"+targetFolder.getPath() +" 绝对路径-->"+targetFolder.getAbsolutePath());
         if (!file.renameTo(new File(targetFolder.getPath() + "/" + fileName))) Logger.error("文件重命名出错");
 
         try {
@@ -124,9 +121,9 @@ public class VersionMiddle {
             e.printStackTrace();
         }
         versionVo.setUpdateReqXml("101010");
-        if (itemService.insertVersioning(versionVo)) {
-            autoDeployActor.tell(versionVo, ActorRef.noSender());
-        }
+//        if (itemService.insertVersioning(versionVo)) {
+//            autoDeployActor.tell(versionVo, ActorRef.noSender());
+//        }
     }
 
 }

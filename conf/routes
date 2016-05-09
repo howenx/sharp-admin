@@ -18,7 +18,6 @@ GET         /assets/*file                                                  contr
 
 
 
-
 # Theme--->topic, 主题 为了不使url暴露代码内部用名
 GET         /topic/slider                                                  controllers.ThemeCtrl.slider(lang = "cn")
 GET         /$lang<(cn|en|kr)>/topic/slider                                controllers.ThemeCtrl.slider(lang)

@@ -1,188 +1,200 @@
 @import play.i18n._
-@(lang:String="cn",user:domain.User)
+@(lang: String = "cn", user: domain.User)
 
 @scripts = {
-<link rel="stylesheet" href="/assets/css/slider.css">
-<link rel="stylesheet" href="/assets/css/screenshot.css">
-<script>
-$(function() {
-	/**	上传 **/
-	$(document).on('click', '#upbn', function() {
-		$('#fileinput').click();
-	});
+    <link rel="stylesheet" href="/assets/css/slider.css">
+    <link rel="stylesheet" href="/assets/css/screenshot.css">
+    <script type="text/javascript" src="/assets/js/jquery.form.min.js"></script>
 
-	$(document).on('change', '#fileinput', function() {
-		var file = $(this);
-		var files = $(this)[0].files;
-		var fileName = files[0].name;
-        var fileExt = files[0].name.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase();;
-		var allowedFileTypes = ["ipa", "apk"];
-		
-		if (allowedFileTypes.indexOf(fileExt) > -1) {
-            $('#js-userinfo-error').text('文件类型匹配').css('color', '#2fa900');
-			setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
-			
-			$('#file_area').find('span').remove();
-			$('#file_area').append('<span style="margin-left: 20px;line-height: 31px;">'+fileName+'</span>');
-		}else {
-		    // alert("文件类型不匹配");
-			file.after(file.clone().val(""));
-			file.remove();
-            $('#js-userinfo-error').text('文件类型不匹配');
-			setTimeout("$('#js-userinfo-error').text('')", 2000);
-			
-			$('#file_area').find('span').remove();
-			$('#file_area').append('<span style="margin-left: 20px;line-height: 31px;">'+fileName+'</span>');
-			setTimeout("$('#file_area').find('span').remove()", 2000);
-		}
-	})
-	
-	$(document).on('change', '.form-data-area', function() {
-		$('.usercenter-option > .user-state').css('background-position', '20px -73px');
-		$('.usercenter-option > .user-state').text('已更改');
-	})
-	
-	$(document).on('click', 'input[name=productType]', function() {
-		if($('input[name=productType]').is(':checked')){
-            if($(this).val()==='I'){
-				$('input[name=appStoreDownloadLink]').val(null);
-            	$('#appstoredown').show();
-            }else {
-				$('input[name=appStoreDownloadLink]').val(null);
-            	$('#appstoredown').hide();
-            }
-		}
-	})
-	
-	$(document).on('click', '#js-usercenter-submit', function() {
-		
-		var formdata = new FormData();
+    <script>
+            $(function () {
+                /**    上传 **/
+                $(document).on('click', '#upbn', function () {
+                    $('#fileinput').click();
+                });
 
-		if(!$('input[name=productType]').is(':checked')){
-            $('#js-userinfo-error').text('请选择类型');
-			setTimeout("$('#js-userinfo-error').text('')", 2000);
-		}else if($('input[name=releaseNumber]').val()===null || $('input[name=releaseNumber]').val()===''){
-            $('#js-userinfo-error').text('请输入版本号');
-			setTimeout("$('#js-userinfo-error').text('')", 2000);
-		}else if($('textarea[name=releaseDesc]').val()===null || $('textarea[name=releaseDesc]').val()===''){
-            $('#js-userinfo-error').text('请输入版描述');
-			setTimeout("$('#js-userinfo-error').text('')", 2000);
-		}else if($('#fileinput').val()===null || $('#fileinput').val()===''){
-            $('#js-userinfo-error').text('请上传文件');
-			setTimeout("$('#js-userinfo-error').text('')", 2000);
-		}else{
-			$("#release").serializeArray().map(function(x){
-				if(x.value!=='' && x.value!==null){
-					// console.log(x.name+ ' '+x.value)
-					formdata.append(x.name, x.value);
-				}
-			});
-			formdata.append('file', $('#fileinput')[0].files[0]);
-			$.ajax({
-				url: "/release/public",
-				data: formdata,
-				cache: false,
-				contentType: false,
-				processData: false,
-				type: 'POST',
-				success: function(data) {
-					console.log(data);
-					if(data==='success'){
-						$('.usercenter-option > .user-state').css('background-position', '20px -174px');
-						$('.usercenter-option > .user-state').text('未更改');
-						$('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
-						setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 1000);
-						setTimeout(function(){
-							window.location.href='/release/list';
-						}, 2000);
-					}else{
-						alert('Server Error.')
-					}
-				}
-			});			
-			// $('#release').submit();
-		}
-	})	
-})
-</script>
+                $(document).on('change', '#fileinput', function () {
+                    var file = $(this);
+                    var files = $(this)[0].files;
+                    var fileName = files[0].name;
+                    var fileExt = files[0].name.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase();
+                    ;
+                    var allowedFileTypes = ["ipa", "apk"];
+
+                    if (allowedFileTypes.indexOf(fileExt) > -1) {
+                        $('#js-userinfo-error').text('文件类型匹配').css('color', '#2fa900');
+                        setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+
+                        $('#file_area').find('span').remove();
+                        $('#file_area').append('<span style="margin-left: 20px;line-height: 31px;">' + fileName + '</span>');
+                    } else {
+                        // alert("文件类型不匹配");
+                        file.after(file.clone().val(""));
+                        file.remove();
+                        $('#js-userinfo-error').text('文件类型不匹配');
+                        setTimeout("$('#js-userinfo-error').text('')", 2000);
+
+                        $('#file_area').find('span').remove();
+                        $('#file_area').append('<span style="margin-left: 20px;line-height: 31px;">' + fileName + '</span>');
+                        setTimeout("$('#file_area').find('span').remove()", 2000);
+                    }
+                })
+
+                $(document).on('change', '.form-data-area', function () {
+                    $('.usercenter-option > .user-state').css('background-position', '20px -73px');
+                    $('.usercenter-option > .user-state').text('已更改');
+                })
+
+                $(document).on('click', 'input[name=productType]', function () {
+                    if ($('input[name=productType]').is(':checked')) {
+                        if ($(this).val() === 'I') {
+                            $('input[name=appStoreDownloadLink]').val(null);
+                            $('#appstoredown').show();
+                        } else {
+                            $('input[name=appStoreDownloadLink]').val(null);
+                            $('#appstoredown').hide();
+                        }
+                    }
+                })
+
+                var options = {
+                    beforeSend: function () {
+                        $("#ajaxprogressbar").width('0%').html("");
+                    },
+                    uploadProgress: function (event, position, total, percentComplete) {
+                        $("#ajaxprogressbar").width(percentComplete + '%').html(percentComplete + '%');
+                    },
+                    success: function () {
+                        $("#ajaxprogressbar").width('100%').html("100%");
+                    },
+                    complete: function (response) {
+                        $("#message").html(response.responseText);
+                        var data =response.responseText;
+                        console.log(data);
+                        if (data === 'success') {
+                            $('.usercenter-option > .user-state').css('background-position', '20px -174px');
+                            $('.usercenter-option > .user-state').text('未更改');
+                            $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                            setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 1000);
+                            setTimeout(function () {
+                                window.location.href = '/release/list';
+                            }, 2000);
+                        }
+                    },
+                    error: function () {
+                        $("#message").html("<font color='red'> ERROR: unable to upload files</font>");
+                    }
+                };
+
+                $("#release").ajaxForm(options);
+
+
+                $(document).on('click', '#js-usercenter-submit', function () {
+
+                    if (!$('input[name=productType]').is(':checked')) {
+                        $('#js-userinfo-error').text('请选择类型');
+                        setTimeout("$('#js-userinfo-error').text('')", 2000);
+                    }
+                    else if ($('input[name=releaseNumber]').val() === null || $('input[name=releaseNumber]').val() === '') {
+                        $('#js-userinfo-error').text('请输入版本号');
+                        setTimeout("$('#js-userinfo-error').text('')", 2000);
+                    } else if ($('textarea[name=releaseDesc]').val() === null || $('textarea[name=releaseDesc]').val() === '') {
+                        $('#js-userinfo-error').text('请输入版描述');
+                        setTimeout("$('#js-userinfo-error').text('')", 2000);
+                    } else if ($('#fileinput').val() === null || $('#fileinput').val() === '') {
+                        $('#js-userinfo-error').text('请上传文件');
+                        setTimeout("$('#js-userinfo-error').text('')", 2000);
+                    }
+                    else {
+                        $("#release").submit();
+                    }
+                })
+            })
+    </script>
 }
 
-@import java.lang.String; val title="发布版本"
 
-@layout(lang=lang,title=title,user=user)(scripts) {
+@layout(lang = lang, title = "发布版本", user = user)(scripts) {
 
-<div class="mbread">
-    <div class="bread-path">
-        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
-        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
-        <span class="icon-path">&gt;</span>
-        <span class="current">应用管理</span>
-        <span class="icon-path">&gt;</span>
-        <span class="current">发布版本</span>
-    </div>
-</div>
-<div class="wrap-slider">
-    <div class="page-title">
-        <span class="title-name">发布版本</span>
-    </div>
-    <div class="usercenter-option">
-        <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
-        <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
-        <div id="js-usercenter-cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
-        <span id="js-userinfo-error" class="mt20 alt fr"></span>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <form class="form-horizontal" id="release" action="/release/public" method="POST" enctype="multipart/form-data">
-                <h4 class="h4-custom-hmm">版本信息</h4>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">类型</label>
-                    <div class="col-sm-3">
-                        <label class="radio-inline">
-                            <input type="radio" value='A' class="form-data-area" name="productType" checked> android
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" value='I' class="form-data-area" name="productType"> ios
-                        </label>
-                    </div>
-                </div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">版本号</label>
-					<div class="col-sm-8">
-						<input type="number" name="releaseNumber"  class="form-control form-data-area">
-					</div>
-				</div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">版本名称</label>
-                    <div class="col-sm-8">
-                        <input type="text" name="releaseName"  class="form-control form-data-area">
-                    </div>
-                </div>
-				
-                <div id="appstoredown" class="form-group" style="display:none;">
-                    <label class="col-sm-2 control-label">Appstore下载链接</label>
-                    <div class="col-sm-8">
-                        <input type="text" name="appStoreDownloadLink"  class="form-control form-data-area">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">版本描述</label>
-                    <div class="col-sm-8">
-                        <textarea id="desc" name='releaseDesc' class="form-control form-data-area" style="resize: vertical"></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">文件</label>
-                    <div id="file_area" class="col-sm-8">
-                        <input style="display:none;" class='form-data-area' type="file" id="fileinput" name="file" accept="application/apk, application/ipa" />
-                        <button type="button" id="upbn" class="btn btn-primary btn-sm">上传</button>
-                    </div>
-                </div>
-
-            </form>
+    <div class="mbread">
+        <div class="bread-path">
+            <span class="index">@Messages.get(new Lang(Lang.forCode(lang)), "page.head.path.title", null)</span>
+            <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)), "nav.home")</span></a>
+            <span class="icon-path">&gt;</span>
+            <span class="current">应用管理</span>
+            <span class="icon-path">&gt;</span>
+            <span class="current">发布版本</span>
         </div>
     </div>
-</div>
+    <div class="wrap-slider">
+        <div class="page-title">
+            <span class="title-name">发布版本</span>
+        </div>
+        <div class="usercenter-option">
+            <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)), "themes.slider.state1")</div>
+            <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)), "themes.slider.save")</div>
+            <div id="js-usercenter-cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)), "themes.slider.cancel")</div>
+            <span id="js-userinfo-error" class="mt20 alt fr"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <form class="form-horizontal" id="release" action="/release/public" method="POST" enctype="multipart/form-data">
+                    <h4 class="h4-custom-hmm">版本信息</h4>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">类型</label>
+                        <div class="col-sm-3">
+                            <label class="radio-inline">
+                                <input type="radio" value='A' class="form-data-area" name="productType" checked>
+                                android
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" value='I' class="form-data-area" name="productType"> ios
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">版本号</label>
+                        <div class="col-sm-8">
+                            <input type="number" name="releaseNumber" class="form-control form-data-area">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">版本名称</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="releaseName" class="form-control form-data-area">
+                        </div>
+                    </div>
+
+                    <div id="appstoredown" class="form-group" style="display : none ;">
+                        <label class="col-sm-2 control-label">Appstore下载链接</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="appStoreDownloadLink" class="form-control form-data-area">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">版本描述</label>
+                        <div class="col-sm-8">
+                            <textarea id="desc" name='releaseDesc' class="form-control form-data-area" style="resize : vertical"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">文件</label>
+                        <div id="file_area" class="col-sm-8">
+                            <input style="display : none ;" class='form-data-area' type="file" id="fileinput" name="file" accept="application/apk, application/ipa" />
+                            <button type="button" id="upbn" class="btn btn-primary btn-sm">上传</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="progress">
+                    <div class="progress-bar" id="ajaxprogressbar">
+                    </div>
+                </div>
+
+                <div id="message"></div>
+            </div>
+        </div>
+    </div>
 }
