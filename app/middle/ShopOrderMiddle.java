@@ -59,7 +59,7 @@ public class ShopOrderMiddle {
         String memberNick = id.getPhoneNum();     //用户手机号
         String payMethod = order.getPayMethod();  //支付方式
         String paymentNo = order.getPgTradeNo();  //交易流水号
-        //---推送订单之前现在ERP中创建一条会员信息
+        //---推送订单之前先在ERP中创建一条会员信息
 //        CustomerMiddle customerMiddle = new CustomerMiddle(orderShipService);
 //        customerMiddle.customerCreate(orderId, memberNick);
         //----推送订单之前现在ERP中创建一条会员信息
