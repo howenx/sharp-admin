@@ -1,4 +1,4 @@
-@import play.i18n._
+@import play.i18n.Messages,play.i18n.Lang
 @(lang:String="cn",user:domain.User,androidVersion:java.util.List[domain.VersionVo],iosVersion:java.util.List[domain.VersionVo])
 
 @scripts = {
@@ -63,8 +63,8 @@ $(function() {
 
 <div class="mbread">
     <div class="bread-path">
-        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
-        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="index">@Messages.get(Lang.forCode(lang),"page.head.path.title")</span>
+        <a href="/@lang/summary"><span class="current">@Messages.get(Lang.forCode(lang),"nav.home")</span></a>
         <span class="icon-path">&gt;</span>
         <span class="current">应用管理</span>
         <span class="icon-path">&gt;</span>
@@ -115,7 +115,7 @@ $(function() {
                     </tr>
                 }
                 <!---公用模块,id不能改变,只需要改变合并行数-->
-                <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+                <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(Lang.forCode(lang),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
     </div>
@@ -155,7 +155,7 @@ $(function() {
             </tr>
             }
             <!---公用模块,id不能改变,只需要改变合并行数-->
-            <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(Lang.forCode(lang),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
     </div>

@@ -47,9 +47,9 @@ public class Message implements Serializable{
 
         SUCCESS("成功", 200),
         FAILURE("失败", 400),
-        FAILURE_REQUEST_ERROR("失败", 441),
-        FAILURE_REQUEST_HANDLER_NOT_FOUND("失败", 442),
-        FAILURE_BAD_REQUEST("失败", 443),
+        FAILURE_REQUEST_ERROR("请求出错", 441),
+        FAILURE_REQUEST_HANDLER_NOT_FOUND("请求未找到", 442),
+        FAILURE_BAD_REQUEST("非法请求", 443),
 
         ERROR("内部发生错误", 1001),
         SERVER_EXCEPTION("服务器异常", 1002),

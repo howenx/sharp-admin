@@ -1,8 +1,7 @@
 package controllers;
 
-import actor.StyleVersionDeployActor;
+import actor.SubscribeActor;
 import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
 import akka.actor.Props;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
@@ -12,8 +11,6 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.FormatType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import domain.AdminUser;
 import domain.User;
 import domain.VersionVo;
@@ -23,24 +20,16 @@ import play.Configuration;
 import play.Logger;
 import play.data.Form;
 import play.libs.Akka;
-import play.libs.Comet;
-import play.libs.F;
-import play.libs.Json;
 import play.mvc.*;
-import scala.concurrent.duration.Duration;
-import scala.concurrent.impl.Promise;
+import redis.clients.jedis.JedisPool;
 import service.AdminUserService;
 import service.ItemService;
 
 import javax.inject.Inject;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static play.libs.Json.newObject;
+import static util.SysParCom.REDIS_CHANNEL;
 
 /**
  * 版本管理
@@ -61,7 +50,7 @@ public class VersionCtrl extends Controller {
     private Configuration configuration;
 
     @Inject
-    private ActorSystem system;
+    private JedisPool jedisPool;
 
 
     @Security.Authenticated(UserAuth.class)
@@ -100,7 +89,7 @@ public class VersionCtrl extends Controller {
         return androidVersion.stream().map(av -> {
             adminUser.setUserId(av.getAdminUserId());
             AdminUser d = idService.getUserBy(adminUser);
-            Logger.error("发布人:"+d.toString());
+            Logger.error("发布人:" + d.toString());
             if (d.getChNm().isEmpty())
                 av.setAdminUserNm(d.getEnNm());
             else av.setAdminUserNm(d.getChNm());
@@ -124,10 +113,10 @@ public class VersionCtrl extends Controller {
 
             Form<VersionVo> userForm = Form.form(VersionVo.class).bindFromRequest();
 
-            if (userForm.hasErrors()){
-                Logger.error("表单提交错误:"+userForm.errorsAsJson().toString());
+            if (userForm.hasErrors()) {
+                Logger.error("表单提交错误:" + userForm.errorsAsJson().toString());
                 return ok("error");
-            }else {
+            } else {
                 User user = (User) ctx().args.get("user");
 
                 VersionVo versionVo = userForm.get();
@@ -138,21 +127,21 @@ public class VersionCtrl extends Controller {
 
                 return ok("success");
             }
-        }catch (Exception ex){
-            Logger.error("发布版本出错:"+ex.getMessage());
+        } catch (Exception ex) {
+            Logger.error("发布版本出错:" + ex.getMessage());
             return badRequest("error");
         }
     }
 
     @Security.Authenticated(UserAuth.class)
-    public Result apiReleasePage(){
-        return ok(views.html.versioning.apiRelease.render("cn",(User) ctx().args.get("user")));
+    public Result apiReleasePage() {
+        return ok(views.html.versioning.apiRelease.render("cn", (User) ctx().args.get("user")));
 
     }
 
     @Security.Authenticated(UserAuth.class)
     @BodyParser.Of(value = BodyParser.MultipartFormData.class, maxLength = 200 * 1024 * 1024)
-    public Result apiReleasePublic(){
+    public Result apiReleasePublic() {
         try {
             Http.MultipartFormData body = request().body().asMultipartFormData();
 
@@ -160,10 +149,10 @@ public class VersionCtrl extends Controller {
 
             Form<VersionVo> userForm = Form.form(VersionVo.class).bindFromRequest();
 
-            if (userForm.hasErrors()){
-                Logger.error("表单提交错误:"+userForm.errorsAsJson().toString());
+            if (userForm.hasErrors()) {
+                Logger.error("表单提交错误:" + userForm.errorsAsJson().toString());
                 return ok("error");
-            }else {
+            } else {
                 User user = (User) ctx().args.get("user");
 
                 VersionVo versionVo = userForm.get();
@@ -174,19 +163,20 @@ public class VersionCtrl extends Controller {
 
                 return ok("success");
             }
-        }catch (Exception ex){
-            Logger.error("发布版本出错:"+ex.getMessage());
+        } catch (Exception ex) {
+            Logger.error("发布版本出错:" + ex.getMessage());
             return badRequest("error");
         }
     }
 
     /**
      * 获取API版本历史        Added by Tiffany Zhu
+     *
      * @param lang
      * @return
      */
     @Security.Authenticated(UserAuth.class)
-    public  Result APIVersionList(String lang){
+    public Result APIVersionList(String lang) {
 
 //        VersionVo versionVo = new VersionVo();
 //        versionVo.setProductType("A");
@@ -201,10 +191,9 @@ public class VersionCtrl extends Controller {
     }
 
 
-
-
     /**
      * 刷新CDN
+     *
      * @return result
      */
     @Security.Authenticated(UserAuth.class)
@@ -235,5 +224,22 @@ public class VersionCtrl extends Controller {
             ex.printStackTrace();
             return badRequest("error");
         }
+    }
+
+    @Security.Authenticated(UserAuth.class)
+    public Result logview() {
+        return ok(views.html.versioning.logview.render("cn", (User) ctx().args.get("user")));
+    }
+
+    @Security.Authenticated(UserAuth.class)
+    public WebSocket<String> logsocket() {
+
+        return WebSocket.whenReady((in, out) -> {
+            final ActorRef pingActor = Akka.system().actorOf(Props.create(SubscribeActor.class, jedisPool.getResource(), in, out));
+            pingActor.tell(REDIS_CHANNEL, ActorRef.noSender());
+            in.onMessage(System.out::println);
+            in.onClose(() -> System.err.println("Disconnected"));
+            out.write("start...");
+        });
     }
 }

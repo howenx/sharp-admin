@@ -3,7 +3,7 @@ package modules;
 import com.google.inject.AbstractModule;
 import middle.ItemMiddle;
 import middle.VersionMiddle;
-import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 import util.LeveldbLoad;
 import util.LogUtil;
 import util.RedisPool;
@@ -25,7 +25,7 @@ public class LevelDBModule extends AbstractModule {
         bind(MemcachedConfiguration.class).asEagerSingleton();
         bind(LogUtil.class).asEagerSingleton();
         bind(RedisPool.class).asEagerSingleton();
-        bind(Jedis.class).toInstance(RedisPool.create());
+        bind(JedisPool.class).toInstance(RedisPool.create());
         bind(LeveldbLoad.class).asEagerSingleton();
     }
 }
