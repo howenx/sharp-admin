@@ -1,5 +1,6 @@
 package util;
 
+import com.squareup.okhttp.OkHttpClient;
 import play.Configuration;
 
 import javax.inject.Inject;
@@ -34,6 +35,8 @@ public class SysParCom {
     public static String EXPRESS_KEY;
 
     public static String EXPRESS_CUSTOMER;
+
+    public static final OkHttpClient client = new OkHttpClient();
 
     @Inject
     public SysParCom(Configuration configuration) {
