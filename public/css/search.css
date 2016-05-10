@@ -179,7 +179,7 @@
 }
 .order-admin .order-option{
 	text-align: center;line-height: 32px;
-	padding: 0;
+	padding: 0 10px 0 0;
 }
 .order-admin .order-option>div{
 	border-bottom: 1px solid #fff;
