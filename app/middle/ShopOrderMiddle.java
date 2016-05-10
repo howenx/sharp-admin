@@ -57,10 +57,15 @@ public class ShopOrderMiddle {
         List<OrderLine> orderLineList = orderLineService.getLineByOrderId(orderId);
         ID id = idService.getID(order.getUserId().intValue());
         String memberNick = id.getPhoneNum();     //用户手机号
+        //---推送订单之前现在ERP中创建一条会员信息
+        CustomerMiddle customerMiddle = new CustomerMiddle(orderShipService);
+        customerMiddle.customerCreate(orderId);
+        //----推送订单之前现在ERP中创建一条会员信息
+
         //订单信息
         request.shopOrderNo = orderId.toString();//平台订单号
         request.shopId = 4;                      //店铺id
-        request.memberNick = memberNick;         //客户名称
+        request.memberNick = orderId.toString(); //客户名称
         request.orderStatus = 10;              //订单状态(0:草稿 10：未发货 20：已发货 30：已完结 40：已关闭 50：已取消)
         request.shopCreatedTime = order.getOrderCreateAt();//下单时间
         request.orderStatusName = "未发货";    //平台订单状态(平台订单状态描述，如已付款，等待发货等等。都为中文描述，仅备注作用)
@@ -80,7 +85,10 @@ public class ShopOrderMiddle {
         request.receiverCity = orderShip.getDeliveryCity().split(" ")[1];//收货人城市
         request.receiverDistrict = orderShip.getDeliveryCity().split(" ")[2];//收货人地区
         request.receiverAddress = orderShip.getDeliveryAddress();             //收货人地址
+        request.receiverZip = orderShip.getDeliveryCardNum();             //收货人身份证号
         request.receiverMobile = orderShip.getDeliveryTel();                  //收货人手机
+        request.userDefinedField1 = orderShip.getDeliveryCardNum();
+        request.userDefinedField2 = orderShip.getDeliveryCardNum();
         //订单商品信息
         List<ShopOrderCreateLine> itemLineInfo = new ArrayList<>();
         for(OrderLine orderLine : orderLineList) {

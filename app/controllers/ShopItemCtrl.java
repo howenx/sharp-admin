@@ -12,7 +12,6 @@ import com.iwilley.b1ec2.api.response.ShopQueryResponse;
 import domain.Inventory;
 import domain.Item;
 import domain.User;
-import domain.erp.Constants;
 import domain.erp.ShopItemOperate;
 import filters.UserAuth;
 import play.libs.Json;
@@ -232,7 +231,7 @@ public class ShopItemCtrl extends Controller {
 
     @Security.Authenticated(UserAuth.class)
     public Result shopQuery() throws ApiException {
-        B1EC2Client client = new B1EC2Client(Constants.URL, Constants.COMPANY,Constants.LOGIN_NAME, Constants.PASSWORD, Constants.SECRET);
+        B1EC2Client client = new B1EC2Client(SysParCom.URL, SysParCom.COMPANY,SysParCom.LOGIN_NAME, SysParCom.PASSWORD, SysParCom.SECRET);
         ShopQueryRequest request = new ShopQueryRequest();
         ShopQueryResponse response = client.execute(request);
         List<String> shopList = new ArrayList<>();

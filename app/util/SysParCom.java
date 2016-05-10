@@ -35,6 +35,13 @@ public class SysParCom {
 
     public static String EXPRESS_CUSTOMER;
 
+    //ERP账户信息配置
+    public static String URL;
+    public static String COMPANY ;
+    public static String LOGIN_NAME;
+    public static String PASSWORD;
+    public static String SECRET;
+
     @Inject
     public SysParCom(Configuration configuration) {
 
@@ -50,6 +57,12 @@ public class SysParCom {
         EXPRESS_POST_URL = configuration.getString("express.post.url");
         EXPRESS_KEY = configuration.getString("express.key");
         EXPRESS_CUSTOMER = configuration.getString("express.customer");
+
+        URL = configuration.getString("erp.url");
+        COMPANY = configuration.getString("erp.company");
+        LOGIN_NAME = configuration.getString("erp.login.name");
+        PASSWORD = configuration.getString("erp.login.pwd");
+        SECRET = configuration.getString("erp.secret");
     }
 
 }
