@@ -232,14 +232,14 @@ public class VersionCtrl extends Controller {
     }
 
     @Security.Authenticated(UserAuth.class)
-    public WebSocket<String> logsocket() {
+    public WebSocket<String> logsocket(String channel) {
 
         return WebSocket.whenReady((in, out) -> {
             final ActorRef pingActor = Akka.system().actorOf(Props.create(SubscribeActor.class, jedisPool.getResource(), in, out));
-            pingActor.tell(REDIS_CHANNEL, ActorRef.noSender());
+            pingActor.tell("hmm.style-"+channel, ActorRef.noSender());
             in.onMessage(System.out::println);
             in.onClose(() -> System.err.println("Disconnected"));
-            out.write("start...");
+//            out.write("start...");
         });
     }
 }
