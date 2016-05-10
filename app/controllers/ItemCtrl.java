@@ -345,7 +345,7 @@ public class ItemCtrl extends Controller {
                     String endAt = inventory.getEndAt();
                     //数据验证(商品价格,折扣,数量,重量等数据不能小于0, Y状态开始时间不能大于结束时间,结束时间不能小于现在时间,开始时间和结束时间不能超过当前时间6个月))
                     if (inventoryForm.hasErrors() || inventory.getItemPrice().compareTo(new BigDecimal(0.00))<0 || inventory.getItemSrcPrice().compareTo(new BigDecimal(0.00))<0
-                            || inventory.getItemCostPrice().compareTo(new BigDecimal(0.00))<0 || inventory.getItemDiscount().compareTo(new BigDecimal(0.00))<0 || inventory.getAmount()<0
+                            || inventory.getItemCostPrice().compareTo(new BigDecimal(0.00))<0 || inventory.getItemDiscount().compareTo(new BigDecimal(0.00))<0
                             || inventory.getRestrictAmount()<0 || inventory.getRestAmount()<0 || inventory.getInvWeight()<0 || !(Regex.isJason(inventory.getItemPreviewImgs()))
                             || ("Y".equals(inventory.getState()) && (startAt.compareTo(endAt)>0 || endAt.compareTo(strNow)<0 || startAt.compareTo(maxDate)>0 || endAt.compareTo(maxDate)>0))) {
                         Logger.error("inventory 表单数据有误.....");

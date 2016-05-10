@@ -165,6 +165,14 @@ public class ItemMiddle {
                         inventory.setShareCount(originInv.getShareCount());
                         inventory.setCollectCount(originInv.getCollectCount());
                         inventory.setBrowseCount(originInv.getBrowseCount());
+                        Integer restAmount = inventory.getRestAmount();//现剩余库存
+                        Integer orginResAm = originInv.getRestAmount();//原剩余库存
+                        //如果剩余库存量增加, 增加量累加到库存总量amount
+                        if (restAmount > orginResAm) {
+                            inventory.setAmount(originInv.getAmount() + (restAmount - orginResAm));
+                        } else {
+                            inventory.setAmount(originInv.getAmount());
+                        }
                         //修改SKU
                         //状态由预售到预售, 修改上架时间  ==> 修改上架schedule
                         if ("P".equals(originState) && "P".equals(state) && !originStartTimes.equals(startTimes)) {
@@ -259,6 +267,7 @@ public class ItemMiddle {
                     }
                     //录入库存信息
                     else {
+                        inventory.setAmount(inventory.getRestAmount());
                         inventory.setInvTitle(item.getItemTitle());
                         inventoryService.insertInventory(inventory);
                         String createDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
