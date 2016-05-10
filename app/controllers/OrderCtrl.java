@@ -411,11 +411,9 @@ public class OrderCtrl extends Controller {
 
             //子订单物流
             if( orderSplit != null && orderSplit.getExpressCode() != null && orderSplit.getExpressNum() != null){
-                List<Object[]> expList = GetExpress.express(orderSplit);
-                Logger.error("订单详情---获取物流:" + expList.toString());
-
+                List<Object[]> subOrderPart3 = GetExpress.express(orderSplit);
+                subOrderList.add(subOrderPart3);
             }
-
             //全部的子订单信息
             subOrdersAll.add(subOrderList);
         }
