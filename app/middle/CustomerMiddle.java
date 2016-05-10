@@ -21,10 +21,10 @@ public class CustomerMiddle {
         this.orderShipService = orderShipService;
     }
 
-    public String customerCreate(Long orderId) throws ApiException {
+    public String customerCreate(Long orderId, String userPhone) throws ApiException {
         CustomerOperate customerOperate = new CustomerOperate();
         CustomerCreateRequest request = new CustomerCreateRequest();
-        request.customerName = orderId.toString();  //客户名称
+        request.customerName = userPhone;  //客户名称
         request.shopId = 4;                         //店铺Id
         OrderShip orderShip = orderShipService.getShipByOrderId(orderId);
         request.mobile =  orderShip.getDeliveryTel();//手机
