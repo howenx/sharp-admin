@@ -1,9 +1,10 @@
 package util;
 
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import domain.order.OrderSplit;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import play.Logger;
 import play.libs.ws.WSResponse;
 import play.libs.Json;
@@ -36,22 +37,16 @@ public class GetExpress {
                                                             .post("").get(1000L);
 
             if("200".equals(String.valueOf(response.getStatus()))){
-                //String tempStr = new String(response.getBody().getBytes("ISO-8859-1"),"UTF-8");
                 String tempStr = new String(response.getBody().getBytes("ISO-8859-1"),UTF_8);
-                Logger.error("String ~~~~~~:" + tempStr);
-                JsonNode json = Json.toJson(tempStr);
-                Json.stringify(json);
-                Logger.error("json ~~~~~~~:" + json);
-
-
-                Logger.error("status~~~~:" + json.get(2));
-                if (json.has("data")) {
-                    JsonNode dataJson = json.get("data");
-                    for(JsonNode node : dataJson){
+                JSONObject jsonObject = JSONObject.fromObject(tempStr);
+                if (jsonObject.has("data")) {
+                   JSONArray jsonArray = jsonObject.getJSONArray("data");
+                    for(Object array : jsonArray){
+                        JSONObject arrayObject = JSONObject.fromObject(array);
                         Object[] object = new Object[3];
-                        object[0] = node.get("time");
-                        object[1] = node.get("ftime");
-                        object[2] = node.get("context");
+                        object[0] = arrayObject.get("time");
+                        object[1] = arrayObject.get("ftime");
+                        object[2] = arrayObject.get("context");
                         resultList.add(object);
                     }
                 }

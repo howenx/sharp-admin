@@ -150,10 +150,9 @@
                 <input type="text" id="exp-id" value="@part1Detail(4)" style="width: auto" disabled>
                 <i class="glyphicon glyphicon-triangle-bottom check-logistics">
                     <div class="logistics-info">
-                        <h6>订单结束</h6>
-                        <h6>已运送到---</h6>
-                        <h6>已揽件---</h6>
-                        <h6>已发货</h6>
+                        @for(part3Detail <- subOrder(2)){
+                            <h6>@part3Detail(0) @part3Detail(2)</h6>
+                        }
                     </div>
                 </i>
             </div>
@@ -164,17 +163,6 @@
                 <span>支付报关状态:</span>
                 <input type="text" value="@part1Detail(2)" disabled>
             </div>
-            <!--<div class="col-sm-11">-->
-                <!--<button type="button" class="btn btn-primary btn-sm pull-right check-logistics">-->
-                    <!--查看物流-->
-                    <!--<div class="logistics-info">-->
-                        <!--<h6>订单结束</h6>-->
-                        <!--<h6>已运送到-&#45;&#45;</h6>-->
-                        <!--<h6>已揽件-&#45;&#45;</h6>-->
-                        <!--<h6>已发货</h6>-->
-                    <!--</div>-->
-                <!--</button>-->
-            <!--</div>-->
         </div>
 
         <!--<div class="form-group">-->

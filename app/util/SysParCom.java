@@ -1,5 +1,6 @@
 package util;
 
+import com.squareup.okhttp.OkHttpClient;
 import play.Configuration;
 
 import javax.inject.Inject;
@@ -41,6 +42,9 @@ public class SysParCom {
     public static String LOGIN_NAME;
     public static String PASSWORD;
     public static String SECRET;
+
+    public static final OkHttpClient client = new OkHttpClient();
+
 
     @Inject
     public SysParCom(Configuration configuration) {
