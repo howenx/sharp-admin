@@ -22,9 +22,9 @@ public class SubscribeActor extends AbstractActor {
             try {
 
                 JedisPubSub listener = new RedisListener(out);
-
-                ExecutorService executor = Executors.newSingleThreadExecutor();
-                executor.submit(() -> jedis.psubscribe(listener, channel));
+                jedis.psubscribe(listener, channel);
+//                ExecutorService executor = Executors.newSingleThreadExecutor();
+//                executor.submit(() -> jedis.psubscribe(listener, channel));
 
             } catch (Exception ignored) {
             }
