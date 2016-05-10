@@ -31,10 +31,11 @@
 .paging {
 	width: 100%;
 	height: auto;
+	overflow: hidden;
 }
 .pagination {
-	float: right;
 	margin: 0;
+	float: right;
 }
 /*good-search*/
 .radio-border {
@@ -95,7 +96,7 @@
     display: block;width: 36px;height: 36px;
 }
 .table-content{
-    padding: 20px 10px;
+    padding: 20px 10px 106px 10px;
 }
 /**/
 .table-two{

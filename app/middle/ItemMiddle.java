@@ -102,7 +102,6 @@ public class ItemMiddle {
                 }
                 dataLog.setOriginData("{\"item\":"+Json.toJson(originItem).toString() + ",\"inventories\":"+Json.toJson(originInv).toString() + ",\"varyPrices\":"+Json.toJson(originVP).toString() + "}");
                 dataLog.setNewData(json.toString());
-//                Logger.error("log数据:"+dataLog.toString());
                 dataLogService.insertDataLog(dataLog);
             }
             //录入商品信息
@@ -113,14 +112,12 @@ public class ItemMiddle {
                 dataLog.setLogContent("新增商品"+item.getId());
                 dataLog.setOriginData("{}");
                 dataLog.setNewData(json.toString());
-//                Logger.error("log数据:"+dataLog.toString());
                 dataLogService.insertDataLog(dataLog);
             }
         }
         //往inventories表插入数据
         if (json.has("inventories")) {
             for(final JsonNode jsonNode : json.findValue("inventories")) {
-//                Logger.error("库存数据:"+jsonNode);
                 Inventory inventory = new Inventory();
                 Inventory originInv = new Inventory();
                 if (jsonNode.has("inventory")) {
@@ -146,8 +143,6 @@ public class ItemMiddle {
                     if (endTimes<nowTimes) {//下架时间比当前时间小为下架状态
                         inventory.setState("D");
                     }
-
-//                Logger.error(inventory.toString());
                     //更新库存信息
                     if (jsonInv.has("id")) {
                         String state = inventory.getState();        //现sku状态
@@ -183,14 +178,14 @@ public class ItemMiddle {
                             Logger.debug(inventory.getId()+" auto off shelves start...");
                             newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
                         }
-                        //状态由预售/正常 到下架  ==> 停止schedule
-                        if (("P".equals(originState) || "Y".equals(originState)) && "D".equals(state)) {
+                        //状态由预售/正常 到下架, 修改下架时间 ==> 停止schedule
+                        if (("P".equals(originState) || "Y".equals(originState)) && "D".equals(state) && !originEndTimes.equals(endTimes)) {
                             orUpdate = 1;
                             inventoryService.updateInventory(inventory);
                             newScheduler.scheduleOnce(Duration.create(1000, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());//停止scheduler
                         }
                         //状态由正常/下架 到预售, 修改上架时间 ==> 修改上架schedule
-                        if (("Y".equals(originState) || "D".equals(originState) && "P".equals(state) && !originStartTimes.equals(startTimes))) {
+                        if (("Y".equals(originState) || "D".equals(originState)) && "P".equals(state) && !originStartTimes.equals(startTimes)) {
                             orUpdate = 1;
                             inventoryService.updateInventory(inventory);
                             Logger.debug(inventory.getId()+" auto on shelves start...");
@@ -205,10 +200,9 @@ public class ItemMiddle {
                         if ("D".equals(originState) && "Y".equals(state) && !originEndTimes.equals(endTimes)) {
                             orUpdate = 1;
                             inventoryService.updateInventory(inventory);
-                            Logger.error(inventory.getId()+" auto off shelves start...");
+                            Logger.debug(inventory.getId()+" auto off shelves start...");
                             newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
                         }
-
                         if (orUpdate.equals(0)) {
                             //以上没有执行修改语句时,此时修改数据
                             inventoryService.updateInventory(inventory);
@@ -266,7 +260,6 @@ public class ItemMiddle {
                     //录入库存信息
                     else {
                         inventory.setInvTitle(item.getItemTitle());
-//                    Logger.error("sku信息:"+inventory);
                         inventoryService.insertInventory(inventory);
                         String createDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
                         itemStatis.setCreateDate(createDate);
