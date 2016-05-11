@@ -24,11 +24,11 @@ $(".upload").change(function(){
         obj[i].appendChild(img);
     }
     var formdata = new FormData();
-    formdata.append("photo", file);
+    formdata.append("photo", this.files[0]);
     formdata.append("params", "minify");
     formdata.append("prefix","templates/photo/"+ dateStr +"/");
     var http = new XMLHttpRequest();
-//    var url = "/test/upload";
+   // var url = "/test/upload";
     var url = window.uploadUrl;
     http.open("POST", url, true);
     http.onreadystatechange = function () {
@@ -72,10 +72,10 @@ $(".add-upload").change(function(){
         obj[i].appendChild(img);
     }
     temp_img = $(obj).find("img");
-    console.log(file.name);
+    console.log(this.files[0].name);
 
     var formdata = new FormData();
-    formdata.append("photo", file);
+    formdata.append("photo", this.files[0]);
     formdata.append("params", "minify");
     formdata.append("prefix","templates/photo/" + dateStr + "");
     var http = new XMLHttpRequest();
