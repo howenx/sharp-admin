@@ -56,7 +56,7 @@ $(function(){
                     $('#categorySubSelect').empty();
                     $('#categorySubSelect').append('<option value=""></option>');
                     $.each(data, function (i, item) {
-                             $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNm + "</option>");
+                        $('#categorySubSelect').append("<option value=" + item.cateId + ">" + item.cateNm + "</option>");
                     });
                 }
                 else {
@@ -197,7 +197,13 @@ $(function(){
 
     $(document).on('click','.delTr',function(){
         if (window.confirm("确定删除吗?")) {
-            $(this).parent().parent().remove();
+            if ($(this).parent().parent().find(".master-radio").is(":checked")) {
+                $(this).parent().parent().remove();
+                if (document.getElementById("inventory").getElementsByTagName("tr").length>1) {
+                    document.getElementById("inventory").getElementsByTagName("tr")[1].getElementsByTagName("input")[0].checked = true;
+                }
+            }
+            else $(this).parent().parent().remove();
         }
     });
     /** 详细图 点击移除的操作 **/
@@ -275,7 +281,9 @@ $(function(){
         //必填项不能有空值
         if ( cateId=="" || brandId=="" || itemTitle=="" || supplyMerch=="") {
             isPost=false;
-            alert("必填项不能为空");
+            $('#js-userinfo-error').text('必填项不能为空');
+            setTimeout("$('#js-userinfo-error').text('')", 3000);
+//            alert("必填项不能为空");
         }
         var inventoryTab = document.getElementById("inventory");
         var trs = inventoryTab.getElementsByTagName("tr");
