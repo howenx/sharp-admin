@@ -9,6 +9,7 @@
         <script type="text/javascript" src="/assets/js/jquery.form.min.js"></script>
 
         <script>
+            $(function () {
                 Date.prototype.format = function (format) {
                     var date = {
                         "M+": this.getMonth() + 1,
@@ -30,7 +31,7 @@
                     }
                     return format;
                 };
-                $(document).on("hover", ".order-option>div", function () {
+                $(".order-option>div").hover(function () {
                     $(this).css("color", "#fff");
                 }, function () {
                     $(this).css("color", "#333");
@@ -38,11 +39,13 @@
                 });
 
                 $(document).on("click", ".order-option>div", function () {
-                    $(".currect").css("color", "#fff");
+                    $(".currect").css("color", "#333");
                     $(".order-option>div").removeClass("currect");
                     $(this).addClass("currect");
                     $(".order-admin table").hide();
-                    $("#" + $(this).text() + "-tb").show();
+                    var strr=$.trim("#" + $(this).text())+"-tb";
+                    console.log(strr);
+                    $(strr).show();
                 });
 
                 var wsUri = "@routes.VersionCtrl.logsocket().webSocketURL()";
@@ -83,6 +86,7 @@
 
                     $("#" + data.mdcpropertyMap.projectId + "-tbody").append(tr);
                 }
+            })
         </script>
     }
 
