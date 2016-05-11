@@ -15,7 +15,7 @@
             var targetType = sharedObject.targetType;
             var tableIndex = 0;
             var selectIndex = 0;
-            if (itemTarget!="") {
+            if (itemTarget!="" && itemTarget!=null) {
                 var typeId = itemTarget.substring(itemTarget.lastIndexOf("/")+1,itemTarget.length);
                 if ((targetType=="D" || targetType=="P" || targetType=="")) {
                     tableIndex = 0;
@@ -43,7 +43,7 @@
                     }
                 }
             }
-            if (itemTarget=="") {
+            if (itemTarget=="" || itemTarget==null) {
                 targetType = "D"
             }
 

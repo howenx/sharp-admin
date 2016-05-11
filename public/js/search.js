@@ -526,6 +526,7 @@ $(function() {
             CoupDto.cateNm = $("#coupon-catenm").val();
             CoupDto.useStartAt = $("#coup-form-useStarAt").val();
             CoupDto.useEndAt = $("#coup-form-useEndAt").val();
+            CoupDto.orderId = $("#order-id").val();
             //起止时间如果为空
             if ($("#coup-form-useStarAt").val() == '' || $("#coup-form-useStarAt").val() == null) {
                 CoupDto.useStartAt = "0000-01-01 00:00:00";
