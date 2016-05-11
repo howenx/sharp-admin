@@ -81,6 +81,9 @@
                 <if test="type != null and type != ''">
                         and t.type = #{type}
                 </if>
+                <if test="title != null and title != ''">
+                        and t.title = #{title}
+                </if>
                 <if test="startAt != null">
                         and t.start_at &gt;= #{startAt} ::timestamp
                 </if>
