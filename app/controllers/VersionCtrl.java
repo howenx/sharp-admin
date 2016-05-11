@@ -239,7 +239,7 @@ public class VersionCtrl extends Controller {
             pingActor.tell("start", ActorRef.noSender());
             in.onMessage(System.out::println);
             in.onClose(() -> {
-                pingActor.tell("end", ActorRef.noSender());
+//                pingActor.tell("end", ActorRef.noSender());
                 System.err.println("Disconnected");
             });
         });

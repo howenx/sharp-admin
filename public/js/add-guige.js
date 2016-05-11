@@ -457,13 +457,16 @@ function saveCurr(saveFlag) {
         $("#warn").text("请检查数据");
     }
     if (orSave) {
-    $("#warn").text("数据正确,保存成功");
-    setTimeout("$('#warn').text('')", 2000);
+        $("#warn").text("数据正确,保存成功");
+        setTimeout("$('#warn').text('')", 2000);
         if (window.showModalDialog) {
             window.returnValue = sharedObject;
         }
         else {
             window.opener.UpdateFields(sharedObject);
+        }
+        if (saveFlag==2) {
+            window.close();
         }
     }
 }
@@ -471,13 +474,13 @@ function saveCurr(saveFlag) {
 /**** 存为新规格 ****/
 function saveNew() {
     saveCurr(1);
-    window.close();
+//    window.close();
 }
 
 /**** 保存并关闭按钮功能 ****/
 function saveClose() {
-    saveCurr(0);
-    window.close();
+    saveCurr(2);
+//    window.close();
 }
 
 $(function(){
