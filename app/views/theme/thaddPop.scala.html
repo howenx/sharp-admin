@@ -1,10 +1,14 @@
 @(itList:List[Array[Object]],pinList:List[Array[Object]],varyList:List[Array[Object]],url:String)
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+<link href="/assets/css/jquery-ui.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/xlstablefilter.css" rel="stylesheet" type="text/css">
 <script src="/assets/js/jquery.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
 <!--self-->
 <link rel="stylesheet" href="/assets/css/search.css">
 <script src="/assets/js/search.js"></script>
+<script src="/assets/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.xlstablefilter.js"></script>
 <script type="text/javascript">
     $(function(){
         var sharedObject = window.dialogArguments;
@@ -110,7 +114,7 @@
     <li class="pull-left">拼购商品</li>
     <li class="pull-left">多样化商品</li>
 </ul>
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover" id="searchgood">
     <tr>
         <th>选择商品</th>
         <th>
@@ -171,7 +175,7 @@
     </tr>
     }
 </table>
-<table class="table table-bordered table-hover" style="display: none">
+<table class="table table-bordered table-hover" style="display: none" id="searchpin">
     <tr>
         <th>选择拼购</th>
         <th>
@@ -232,7 +236,7 @@
     </tr>
     }
 </table>
-<table class="table table-bordered table-hover" style="display: none">
+<table class="table table-bordered table-hover" style="display: none" id="searchduo">
     <tr>
         <th>选择商品</th>
         <th>
@@ -296,3 +300,16 @@
 <button class="return btn btn-primary" style="margin-left: 50px;margin-bottom: 10px">确认添加</button>
 <button class="cancel btn btn-primary" style="margin-left: 10px;margin-bottom: 10px">返回</button>
 </body>
+<script>
+    $(function() {
+        $("#searchgood").xlsTableFilter({
+            checkStyle: "custom",
+        });
+        $("#searchpin").xlsTableFilter({
+            checkStyle: "custom",
+        });
+        $("#searchduo").xlsTableFilter({
+            checkStyle: "custom",
+        });
+    });
+</script>
