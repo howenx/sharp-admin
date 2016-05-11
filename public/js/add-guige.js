@@ -69,9 +69,9 @@ function Init () {
         $("#itemSrcPrice").val(skuObj.itemSrcPrice);
         $("#itemCostPrice").val(skuObj.itemCostPrice);
         $("#itemDiscount").val(skuObj.itemDiscount);
-        $("#invWeight").val(skuObj.invWeight);
+        $("#invWeight").val((skuObj.invWeight)/1000.0);
         $("#restrictAmount").val(skuObj.restrictAmount);
-//        $("#amount").val(skuObj.amount);
+        $("#amount").val(skuObj.amount);
         $("#restAmount").val(skuObj.restAmount);
 //        $("#carriageModelCode").val(skuObj.carriageModelCode);
         $("#invArea").val(skuObj.invArea);
@@ -215,7 +215,7 @@ function saveCurr(saveFlag) {
     var itemSrcPrice = $("#itemSrcPrice").val();//原价
     var itemCostPrice = $("#itemCostPrice").val();//成本价
     var itemDiscount = $("#itemDiscount").val();//折扣
-    var invWeight = $("#invWeight").val();//重量
+    var invWeight = Number($("#invWeight").val())*1000;//重量
     var restrictAmount = $("#restrictAmount").val();//限购数量
 //    var amount = $("#amount").val();//库存总量
     var restAmount = $("#restAmount").val();//剩余库存
@@ -233,7 +233,7 @@ function saveCurr(saveFlag) {
         }
     });
     //验证输入数据合法性
-    if (!numberReg2.test(itemPrice) || !numberReg2.test(itemSrcPrice) || !numberReg2.test(itemCostPrice)|| !numberReg2.test(itemDiscount) || !numberReg1.test(invWeight)
+    if (!numberReg2.test(itemPrice) || !numberReg2.test(itemSrcPrice) || !numberReg2.test(itemCostPrice)|| !numberReg2.test(itemDiscount) || !numberReg2.test(invWeight)
         || !numberReg1.test(restrictAmount) || !numberReg1.test(restAmount) || invCode=="") {
         orSave = false;
 //        alert("输入数据不合法!");

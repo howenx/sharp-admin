@@ -172,16 +172,16 @@
                             <td colspan="6">
                                 @for(cl <- carrList) {
                                 @if(cl.getCityCode()=="ALL") {
-                                默认运费: <input type="text" name="firstNum" value="@cl.getFirstNum()" class="form-data-area">件内, <input type="text" name="firstFee" value="@cl.getFirstFee()" class="form-data-area">元,每增加<input type="text"  name="addNum" value="@cl.getAddNum()" class="form-data-area">件,增加运费 <input type="text" name="addFee" value="@cl.getAddFee()" class="form-data-area">元
+                                默认运费: <input type="text" name="firstNum" value="@cl.getFirstNum()" class="form-data-area">克内, <input type="text" name="firstFee" value="@cl.getFirstFee()" class="form-data-area">元,每增加<input type="text"  name="addNum" value="@cl.getAddNum()" class="form-data-area">克,增加运费 <input type="text" name="addFee" value="@cl.getAddFee()" class="form-data-area">元
                                 }
                                 }
                             </td>
                         </tr>
                         <tr class="define">
                             <td>运送到</td>
-                            <td>首件(件)</td>
+                            <td>首重(单位:克)</td>
                             <td>首费(元)</td>
-                            <td>续件(件)</td>
+                            <td>续重(单位:克)</td>
                             <td>续费(元)</td>
                             <td>操作</td>
                         </tr>
@@ -272,9 +272,9 @@
         defModel.storeArea = storeArea;
         defModel.deliveryCode = deliveryCode;
         defModel.deliveryName = deliveryName;
-        defModel.firstNum = defLine.getElementsByTagName("input")[0].value;
+        defModel.firstNum =  Number(defLine.getElementsByTagName("input")[0].value)*1000;
         defModel.firstFee = defLine.getElementsByTagName("input")[1].value;
-        defModel.addNum = defLine.getElementsByTagName("input")[2].value;
+        defModel.addNum =  Number(defLine.getElementsByTagName("input")[2].value)*1000;
         defModel.addFee = defLine.getElementsByTagName("input")[3].value;
         defModel.cityCode = "ALL";
         carrModels.push(defModel);
@@ -285,9 +285,9 @@
                     var cnmArr = cnm.split(",");
                     for(j=0;j<cnmArr.length;j++) {
                         var cityCode = cnmArr[j];
-                        var fn = modelLines[i].getElementsByTagName("input")[0].value;
+                        var fn =  Number(modelLines[i].getElementsByTagName("input")[0].value)*1000;
                         var ff = modelLines[i].getElementsByTagName("input")[1].value;
-                        var an = modelLines[i].getElementsByTagName("input")[2].value;
+                        var an =  Number(modelLines[i].getElementsByTagName("input")[2].value)*1000;
                         var af = modelLines[i].getElementsByTagName("input")[3].value;
                         var scModel = new Object();
                         scModel.modelName = modelName;

@@ -236,9 +236,9 @@
         defModel.storeArea = storeArea;
         defModel.deliveryCode = deliveryCode;
         defModel.deliveryName = deliveryName;
-        defModel.firstNum = defLine.getElementsByTagName("input")[0].value;
+        defModel.firstNum = Number(defLine.getElementsByTagName("input")[0].value)*1000;
         defModel.firstFee = defLine.getElementsByTagName("input")[1].value;
-        defModel.addNum = defLine.getElementsByTagName("input")[2].value;
+        defModel.addNum =  Number(defLine.getElementsByTagName("input")[2].value)*1000;
         defModel.addFee = defLine.getElementsByTagName("input")[3].value;
         defModel.cityCode = "ALL";
         carrModels.push(defModel);
@@ -248,9 +248,9 @@
                 var cnmArr = cnm.split(",");
                 for(j=0;j<cnmArr.length;j++) {
                     var cityCode = cnmArr[j];
-                    var fn = modelLines[i].getElementsByTagName("input")[0].value;
+                    var fn = Number(modelLines[i].getElementsByTagName("input")[0].value)*1000;
                     var ff = modelLines[i].getElementsByTagName("input")[1].value;
-                    var an = modelLines[i].getElementsByTagName("input")[2].value;
+                    var an = Number(modelLines[i].getElementsByTagName("input")[2].value)*1000;
                     var af = modelLines[i].getElementsByTagName("input")[3].value;
                     var scModel = new Object();
                     scModel.modelName = modelName;

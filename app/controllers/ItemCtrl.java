@@ -427,6 +427,10 @@ public class ItemCtrl extends Controller {
         Map<String,String> storeArea = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
         Map<String,String> delivery = new ObjectMapper().convertValue(configuration.getObject("delivery"),HashMap.class);
         List<Carriage> carrList = carriageService.getCarrsByModel(modelCode);
+        for(Carriage c : carrList) {
+            c.setFirstNum(c.getFirstNum()/1000);
+            c.setAddNum(c.getAddNum()/1000);
+        }
         return ok(views.html.carriage.carrmodelUpdate.render(lang,carrList,(User) ctx().args.get("user"), storeArea, delivery));
     }
 
