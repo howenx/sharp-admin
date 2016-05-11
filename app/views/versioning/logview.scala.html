@@ -1,208 +1,186 @@
-@import play.i18n.Messages,play.i18n.Lang
-@(lang: String = "cn", user: domain.User)
+@import java.util
+@import play.i18n.{Lang, Messages}
+@(lang: String = "cn", user: domain.User, subscribes: util.List[String])
 
-@scripts = {
-    <link rel="stylesheet" href="/assets/css/slider.css">
-    <link rel="stylesheet" href="/assets/css/screenshot.css">
-    <link rel="stylesheet" href="/assets/css/search.css">
-    <script type="text/javascript" src="/assets/js/jquery.form.min.js"></script>
-    <script src="/assets/js/search.js"></script>
+    @scripts = {
+        <link rel="stylesheet" href="/assets/css/slider.css">
+        <link rel="stylesheet" href="/assets/css/screenshot.css">
+        <link rel="stylesheet" href="/assets/css/search.css">
+        <script type="text/javascript" src="/assets/js/jquery.form.min.js"></script>
 
-    <script>
-//            var wsUri = "@routes.VersionCtrl.logsocket.webSocketURL()";
-//            var output;
-//
-//            var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
-//            var dateSocket = new WS(wsUri);
-//
-//            var receiveEvent = function(event) {
-//                $("#output").append("<br> 日志: "+event.data);
-//            };
-//
-//            dateSocket.onmessage = receiveEvent;
+        <script>
+                Date.prototype.format = function (format) {
+                    var date = {
+                        "M+": this.getMonth() + 1,
+                        "d+": this.getDate(),
+                        "h+": this.getHours(),
+                        "m+": this.getMinutes(),
+                        "s+": this.getSeconds(),
+                        "q+": Math.floor((this.getMonth() + 3) / 3),
+                        "S+": this.getMilliseconds()
+                    };
+                    if (/(y+)/i.test(format)) {
+                        format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+                    }
+                    for (var k in date) {
+                        if (new RegExp("(" + k + ")").test(format)) {
+                            format = format.replace(RegExp.$1, RegExp.$1.length == 1
+                                    ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+                        }
+                    }
+                    return format;
+                };
+                $(document).on("hover", ".order-option>div", function () {
+                    $(this).css("color", "#fff");
+                }, function () {
+                    $(this).css("color", "#333");
+                    $(".currect").css("color", "#fff");
+                });
 
-    </script>
-}
+                $(document).on("click", ".order-option>div", function () {
+                    $(".currect").css("color", "#fff");
+                    $(".order-option>div").removeClass("currect");
+                    $(this).addClass("currect");
+                    $(".order-admin table").hide();
+                    $("#" + $(this).text() + "-tb").show();
+                });
+
+                var wsUri = "@routes.VersionCtrl.logsocket().webSocketURL()";
+                var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
+                var dateSocket = new WS(wsUri);
+
+                dateSocket.onmessage = function (event) {
+                    var data = JSON.parse(event.data);
+                    var level;
+                    switch (data.level.levelStr) {
+                        case "INFO":
+                            level = '<span style="background: rgb(211, 204, 204);color: #f5f5f5;padding: 2px">' + data.level.levelStr + '</span>';
+                            break;
+                        case "DEBUG":
+                            level = '<span style="background: rgb(60, 187, 198);color: #f5f5f5;padding: 2px">' + data.level.levelStr + '</span>';
+                            break;
+                        case "WARN":
+                            level = '<span style="background: rgb(186, 172, 51);color: #f5f5f5;padding: 2px">' + data.level.levelStr + '</span>';
+                            break;
+                        case "ERROR":
+                            level = '<span style="background: rgb(219,82,75);color: #f5f5f5;padding: 2px">' + data.level.levelStr + '</span>';
+                            break;
+                    }
+
+                    var tr = '<tr>' +
+                            '<td rowspan="2" style="width: 20%;">' +
+                            level +
+                            '</td>' +
+                            '<td>' + new Date(data.timeStamp).format('yyyy-MM-dd hh:mm:ss') + '</td>' +
+                            '<td>' + data.loggerName + '</td>' +
+                            '<td>' + data.threadName + '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td colspan="3" style="text-align: left">' +
+                            '<span style="font-weight: 700">Message:</span>' + data.formattedMessage +
+                            '</td>' +
+                            '</tr>';
+
+                    $("#" + data.mdcpropertyMap.projectId + "-tbody").append(tr);
+                }
+        </script>
+    }
 
 
-@layout(lang = lang, title = "日志查看", user = user)(scripts) {
+    @layout(lang = lang, title = "日志查看", user = user)(scripts) {
 
-    <div class="mbread">
-        <div class="bread-path">
-            <span class="index">@Messages.get(Lang.forCode(lang),"page.head.path.title")</span>
-            <a href="/@lang/summary"><span class="current">@Messages.get(Lang.forCode(lang), "nav.home")</span></a>
-            <span class="icon-path">&gt;</span>
-            <span class="current">应用管理</span>
-            <span class="icon-path">&gt;</span>
-            <span class="current">日志查看</span>
+        <div class="mbread">
+            <div class="bread-path">
+                <span class="index">@Messages.get(Lang.forCode(lang), "page.head.path.title")</span>
+                <a href="/@lang/summary"><span class="current">@Messages.get(Lang.forCode(lang), "nav.home")</span></a>
+                <span class="icon-path">&gt;</span>
+                <span class="current">应用管理</span>
+                <span class="icon-path">&gt;</span>
+                <span class="current">日志查看</span>
+            </div>
         </div>
-    </div>
-    <div class="wrap-slider">
-        <div class="page-title">
-            <span class="title-name">日志查看</span>
-        </div>
-        <div class="usercenter-option">
-            <div class="user-state fl">@Messages.get(Lang.forCode(lang), "themes.slider.state1")</div>
-            <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15">@Messages.get(Lang.forCode(lang), "themes.slider.save")</div>
-            <div id="js-usercenter-cancel" class="btn-white btn-form fr ml20">@Messages.get(Lang.forCode(lang), "themes.slider.cancel")</div>
-            <span id="js-userinfo-error" class="mt20 alt fr"></span>
-        </div>
+        <div class="wrap-slider">
+            <div class="page-title">
+                <span class="title-name">日志查看</span>
+            </div>
+            <div class="usercenter-option">
+                <div class="user-state fl">@Messages.get(Lang.forCode(lang), "themes.slider.state1")</div>
+                <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15">@Messages.get(Lang.forCode(lang), "themes.slider.save")</div>
+                <div id="js-usercenter-cancel" class="btn-white btn-form fr ml20">@Messages.get(Lang.forCode(lang), "themes.slider.cancel")</div>
+                <span id="js-userinfo-error" class="mt20 alt fr"></span>
+            </div>
 
-        <div class="row order-admin">
-            <div class="col-sm-12">
-                <div id="output">
-                    <div class="col-sm-1 order-option" style="width: 145px">
-                        <div class="currect">01.php</div>
-                        <div>02.php</div>
-                        <div>03.php</div>
-                    </div>
-                    <div class="col-sm-10" style="border-left: 1px solid #ccc">
-                        <h3 style="margin-bottom: 20px">Login report 2/2/2 <span>All logs</span></h3>
-                        <div class="row" style="margin-bottom: 15px">
-                            <div class="col-sm-offset-5 col-sm-3">
-                                <span style="float: left;line-height: 34px;padding-right: 5px">level</span>
-                                <select name="" id="" class="form-control" style="width: 80%">
-                                    <option value="">--all--</option>
-                                    <option value="">123</option>
-                                    <option value="">456</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-2">
-                                <button type="button" class="btn btn-primary btn-block" style="padding: 4px 12px">增加</button>
-                            </div>
-                            <div class="col-sm-2">
-                                <button type="button" class="btn btn-danger btn-block" style="padding: 4px 12px">删除</button>
-                            </div>
+            <div class="row order-admin">
+                <div class="col-sm-12">
+                    <div id="output">
+                        <div class="col-sm-1 order-option" style="width : 145px">
+                        @for(sub <- subscribes) {
+                            @if(subscribes.indexOf(sub) == 0) {
+                                <div class="currect">@sub</div>
+                            }
+                            @if(subscribes.indexOf(sub) != 0) {
+                                <div>@sub </div>
+                            }
+                        }
                         </div>
-                        <!--1-->
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                            <tr>
-                                <th>Level</th>
-                                <th>Time</th>
-                                <th>Type</th>
-                                <th>File</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td rowspan="2">
-                                    <span style="background: rgb(219,82,75);color: #f5f5f5;padding: 2px">ERROR</span>
-                                </td>
-                                <td>123</td>
-                                <td>123sdadsafsfasfdfdf</td>
-                                <td>123</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" style="text-align: left">
-                                    <span style="font-weight: 700">Message:</span>
-                                    01.php
-                                </td>
-                            </tr>
-
-
-                            </tbody>
-                        </table>
-                        <!--2-->
-                        <table class="table table-striped table-bordered" style="display: none">
-                            <thead>
-                            <tr>
-                                <th>Level</th>
-                                <th>Time</th>
-                                <th>Type</th>
-                                <th>File</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td rowspan="2">
-                                    <span style="background: rgb(219,82,75);color: #f5f5f5;padding: 2px">ERROR</span>
-                                </td>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" style="text-align: left">
-                                    <span style="font-weight: 700">Message:</span>
-                                    01.php
-                                </td>
-                            </tr>
-                            <tr>
-                                <td rowspan="2">
-                                    <span style="background: rgb(219,82,75);color: #f5f5f5;padding: 2px">ERROR</span>
-                                </td>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" style="text-align: left">
-                                    <span style="font-weight: 700">Message:</span>
-                                    02.php
-                                </td>
-                            </tr>
-
-                            </tbody>
-                        </table>
-                        <!--3-->
-                        <table class="table table-striped table-bordered" style="display: none">
-                            <thead>
-                            <tr>
-                                <th>Level</th>
-                                <th>Time</th>
-                                <th>Type</th>
-                                <th>File</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td rowspan="2">
-                                    <span style="background: rgb(219,82,75);color: #f5f5f5;padding: 2px">ERROR</span>
-                                </td>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" style="text-align: left">
-                                    <span style="font-weight: 700">Message:</span>
-                                    01.php
-                                </td>
-                            </tr>
-                            <tr>
-                                <td rowspan="2">
-                                    <span style="background: rgb(219,82,75);color: #f5f5f5;padding: 2px">ERROR</span>
-                                </td>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" style="text-align: left">
-                                    <span style="font-weight: 700">Message:</span>
-                                    02.php
-                                </td>
-                            </tr>
-                            <tr>
-                                <td rowspan="2">
-                                    <span style="background: rgb(219,82,75);color: #f5f5f5;padding: 2px">ERROR</span>
-                                </td>
-                                <td>123</td>
-                                <td>123</td>
-                                <td>123</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" style="text-align: left">
-                                    <span style="font-weight: 700">Message:</span>
-                                    03.php
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <div id="tb-container" class="col-sm-10" style="border-left : 1px solid #ccc">
+                            <h3 style="margin-bottom : 20px">Login report 2/2/2 <span>All logs</span></h3>
+                            <div class="row" style="margin-bottom : 15px">
+                                <div class="col-sm-offset-5 col-sm-3">
+                                    <span style="float : left ;
+                                    line-height : 34px ;
+                                    padding-right : 5px
+                                    ">level</span>
+                                    <select name="" id="" class="form-control" style="width : 80%">
+                                        <option value="">--all--</option>
+                                        <option value="">INFO</option>
+                                        <option value="">DEBUG</option>
+                                        <option value="">WARN</option>
+                                        <option value="">ERROR</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="button" class="btn btn-primary btn-block" style="padding : 4px 12px">
+                                        增加</button>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="button" class="btn btn-danger btn-block" style="padding : 4px 12px">
+                                        删除</button>
+                                </div>
+                            </div>
+                            @for(sub <- subscribes) {
+                                @if(subscribes.indexOf(sub) == 0) {
+                                    <table id="@sub-tb" class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Level</th>
+                                                <th>Time</th>
+                                                <th>Logger Name</th>
+                                                <th>Thread Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="@sub-tbody">
+                                        </tbody>
+                                    </table>
+                                }
+                                @if(subscribes.indexOf(sub) != 0) {
+                                    <table id="@sub-tb" class="table table-striped table-bordered" style="display:none;">
+                                        <thead>
+                                            <tr>
+                                                <th>Level</th>
+                                                <th>Time</th>
+                                                <th>Logger Name</th>
+                                                <th>Thread Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="@sub-tbody">
+                                        </tbody>
+                                    </table>
+                                }
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-}
+    }

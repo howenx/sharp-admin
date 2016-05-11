@@ -292,7 +292,7 @@ GET         /release/apiVersionList                                             
 GET         /release/cdn                                                            controllers.VersionCtrl.refreshCdn
 
 GET         /log/view                                                               controllers.VersionCtrl.logview
-GET         /log/socket                                                             controllers.VersionCtrl.logsocket
+GET         /log/socket                                                             controllers.VersionCtrl.logsocket()
 
 #sales report 销售报表
 GET         /sales/import                                                           controllers.SaleCtrl.dataImport()

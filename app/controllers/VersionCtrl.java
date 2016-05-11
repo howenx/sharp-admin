@@ -29,7 +29,7 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static util.SysParCom.REDIS_CHANNEL;
+import static util.SysParCom.REDIS_SUBSCRIBE;
 
 /**
  * 版本管理
@@ -228,18 +228,20 @@ public class VersionCtrl extends Controller {
 
     @Security.Authenticated(UserAuth.class)
     public Result logview() {
-        return ok(views.html.versioning.logview.render("cn", (User) ctx().args.get("user")));
+        return ok(views.html.versioning.logview.render("cn", (User) ctx().args.get("user"), REDIS_SUBSCRIBE));
     }
 
     @Security.Authenticated(UserAuth.class)
     public WebSocket<String> logsocket() {
 
         return WebSocket.whenReady((in, out) -> {
-            final ActorRef pingActor = Akka.system().actorOf(Props.create(SubscribeActor.class, jedisPool.getResource(), in, out));
-            pingActor.tell(REDIS_CHANNEL, ActorRef.noSender());
+            final ActorRef pingActor = Akka.system().actorOf(Props.create(SubscribeActor.class, jedisPool, in, out));
+            pingActor.tell("start", ActorRef.noSender());
             in.onMessage(System.out::println);
-            in.onClose(() -> System.err.println("Disconnected"));
-            out.write("start...");
+            in.onClose(() -> {
+                pingActor.tell("end", ActorRef.noSender());
+                System.err.println("Disconnected");
+            });
         });
     }
 }
