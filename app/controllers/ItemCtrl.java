@@ -454,6 +454,10 @@ public class ItemCtrl extends Controller {
     public Result carrModelSearch(String lang) {
         List<Carriage> modelList = carriageService.getModels();
         List<Carriage> carriageList = carriageService.getAllCarriage();
+        for(Carriage c : carriageList) {
+            c.setFirstNum(c.getFirstNum()/1000);
+            c.setAddNum(c.getAddNum()/1000);
+        }
         return ok(views.html.carriage.carrmodelList.render(lang,modelList,carriageList,(User) ctx().args.get("user")));
     }
 

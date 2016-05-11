@@ -80,4 +80,5 @@ public class SubjectPriceServiceImpl  implements SubjectPriceService{
     public void sbjPriceUpd(SubjectPrice subjectPrice) {
         subjectPriceMapper.sbjPriceUpd(subjectPrice);
     }
+
 }

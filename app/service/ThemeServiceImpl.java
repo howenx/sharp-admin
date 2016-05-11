@@ -21,6 +21,8 @@ public class ThemeServiceImpl implements ThemeService {
     private ThemeMapper themeMapper;
     @Inject
     private InventoryMapper inventoryMapper;
+    @Inject
+    private SubjectPriceService subjectPriceService;
 
 
 
@@ -170,6 +172,7 @@ public class ThemeServiceImpl implements ThemeService {
     @Override
     public void updThemeDestroy(Long id) {
         themeMapper.updThemeDestroy(id);
+        subjectPriceService.updStateByThemeId(id);
     }
 
     /**

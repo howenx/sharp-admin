@@ -773,24 +773,24 @@ public class ThemeCtrl extends Controller {
                             String  url = Json.parse(inventory.getInvImg()).get("url").toString();
                             url = url.substring(1,url.length()-1);
                             object[2] = url;
-                            object[3] = inventory.getEndAt().toString().substring(0,19);
-                            if("Y".equals(inventory.getState())){
+                            object[3] = theme.getEndAt().toString().substring(0,19);
+                            if("Y".equals(subjectPrice.getState())){
                                 object[4] = "正常";
 
                             }
-                            if("D".equals(inventory.getState())){
+                            if("D".equals(subjectPrice.getState())){
                                 object[4] = "下架";
 
                             }
-                            if("N".equals(inventory.getState())){
+                            if("N".equals(subjectPrice.getState())){
                                 object[4] = "删除";
 
                             }
-                            if("K".equals(inventory.getState())){
+                            if("K".equals(subjectPrice.getState())){
                                 object[4] = "售空";
 
                             }
-                            if("P".equals(inventory.getState())){
+                            if("P".equals(subjectPrice.getState())){
                                 object[4] = "预售";
 
                             }
