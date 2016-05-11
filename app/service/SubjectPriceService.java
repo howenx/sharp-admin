@@ -55,4 +55,10 @@ public interface SubjectPriceService {
      */
     void sbjPriceUpd(SubjectPrice subjectPrice);
 
+    /**
+     * 更新自定义商品上架        Added by Tiffany Zhu 2016.05.11
+     * @param subjectPriceList
+     */
+    void updStateOnShelf(List<SubjectPrice> subjectPriceList);
+
 }

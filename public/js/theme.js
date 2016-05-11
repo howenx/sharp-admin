@@ -208,7 +208,7 @@ $(function () {
             if(obj.className=="th-del"){
                 return;
             }
-            if($(this).find("td").eq(2).text() == "普通" || $(this).find("td").eq(2).text() == "自定义"){
+            if(($(this).find("td").eq(2).text() == "普通" || $(this).find("td").eq(2).text() == "自定义") && $(this).find("td").eq(7).text() == "正常"){
                 beforePrice = parseFloat($(this).find("td").eq(8).text());
                 beforeDiscount = parseFloat($(this).find("td").eq(10).text());
                 trindex = $(".grid tbody tr").index($(this));

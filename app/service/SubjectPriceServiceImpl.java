@@ -81,4 +81,12 @@ public class SubjectPriceServiceImpl  implements SubjectPriceService{
         subjectPriceMapper.sbjPriceUpd(subjectPrice);
     }
 
+    /**
+     * 更新自定义商品上架        Added by Tiffany Zhu 2016.05.11
+     * @param subjectPriceList
+     */
+    @Override
+    public void updStateOnShelf(List<SubjectPrice> subjectPriceList) {
+        subjectPriceMapper.updStateOnShelf(subjectPriceList);
+    }
 }
