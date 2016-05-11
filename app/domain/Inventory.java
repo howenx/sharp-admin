@@ -29,7 +29,7 @@ public class Inventory implements Serializable{
     private BigDecimal itemCostPrice;//售价
     @Constraints.Required
     private BigDecimal itemDiscount;//折扣价
-    @Constraints.Required
+//    @Constraints.Required
     private Integer amount;         //库存总量
     private Integer soldAmount;     //销售数量
     @Constraints.Required

@@ -71,7 +71,7 @@ function Init () {
         $("#itemDiscount").val(skuObj.itemDiscount);
         $("#invWeight").val(skuObj.invWeight);
         $("#restrictAmount").val(skuObj.restrictAmount);
-        $("#amount").val(skuObj.amount);
+//        $("#amount").val(skuObj.amount);
         $("#restAmount").val(skuObj.restAmount);
 //        $("#carriageModelCode").val(skuObj.carriageModelCode);
         $("#invArea").val(skuObj.invArea);
@@ -217,7 +217,7 @@ function saveCurr(saveFlag) {
     var itemDiscount = $("#itemDiscount").val();//折扣
     var invWeight = $("#invWeight").val();//重量
     var restrictAmount = $("#restrictAmount").val();//限购数量
-    var amount = $("#amount").val();//库存总量
+//    var amount = $("#amount").val();//库存总量
     var restAmount = $("#restAmount").val();//剩余库存
 //    var carriageModelCode = $("#carriageModelCode").val();//运费设置
     var invArea = $("#invArea").val();//库存区域
@@ -234,7 +234,7 @@ function saveCurr(saveFlag) {
     });
     //验证输入数据合法性
     if (!numberReg2.test(itemPrice) || !numberReg2.test(itemSrcPrice) || !numberReg2.test(itemCostPrice)|| !numberReg2.test(itemDiscount) || !numberReg1.test(invWeight)
-        || !numberReg1.test(restrictAmount) || !numberReg1.test(amount) || !numberReg1.test(restAmount) || invCode=="") {
+        || !numberReg1.test(restrictAmount) || !numberReg1.test(restAmount) || invCode=="") {
         orSave = false;
 //        alert("输入数据不合法!");
     }
@@ -267,9 +267,9 @@ function saveCurr(saveFlag) {
         alert("上架时间和下架时间不能超过当前时间6个月");
     }
     //库存
-    if (Number(restAmount) > Number(amount)) {
+    if (Number(restrictAmount) > Number(restAmount)) {
         orSave = false;
-        $("#warn-amount").text("剩余库存不能大于库存总量");
+        $("#warn-amount").text("限购数量不能大于库存量");
     } else $("#warn-amount").text("");
 
     //海外直邮模式
@@ -373,7 +373,7 @@ function saveCurr(saveFlag) {
     trdobj.itemDiscount = itemDiscount;
     trdobj.invWeight = invWeight;
     trdobj.restrictAmount = restrictAmount;
-    trdobj.amount = amount;
+//    trdobj.amount = amount;
     trdobj.restAmount = restAmount;
 //    trdobj.carriageModelCode = carriageModelCode;
     trdobj.invArea = invArea;

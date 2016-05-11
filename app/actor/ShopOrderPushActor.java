@@ -47,7 +47,7 @@ public class ShopOrderPushActor extends AbstractActor{
             Order order = orderService.getOrderById(orderId);
             String orderStatus = order.getOrderStatus();
             //支付成功的订单
-            if ("S".equals(orderStatus) || "PS".equals(orderStatus)) {
+            if ("S".equals(orderStatus)) {
                 String shopOrderNo = shopOrderMiddle.shopOrderPush(orderId);
                 Logger.error("推送结果:"+shopOrderNo);
                 //推送成功的订单再创建schedule

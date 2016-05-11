@@ -5,6 +5,7 @@ import com.iwilley.b1ec2.api.B1EC2Client;
 import com.iwilley.b1ec2.api.request.ShopOrderCreateRequest;
 import com.iwilley.b1ec2.api.response.SalesOrderQueryResponse;
 import com.iwilley.b1ec2.api.response.ShopOrderCreateResponse;
+import util.SysParCom;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -26,7 +27,7 @@ public class ShopOrderOperate {
      * @throws ApiException
      */
     public String ShopOrderPush(ShopOrderCreateRequest request) throws ApiException {
-        B1EC2Client client = new B1EC2Client(Constants.URL, Constants.COMPANY, Constants.LOGIN_NAME, Constants.PASSWORD, Constants.SECRET);
+        B1EC2Client client = new B1EC2Client(SysParCom.URL, SysParCom.COMPANY, SysParCom.LOGIN_NAME, SysParCom.PASSWORD, SysParCom.SECRET);
         ShopOrderCreateResponse response = client.execute(request);
         return response.getBody();
     }
@@ -38,7 +39,7 @@ public class ShopOrderOperate {
      * @throws ParseException
      */
     public List<Object> SalesOrderQuery(String shopOrderNo) throws ApiException, ParseException {
-        B1EC2Client client = new B1EC2Client(Constants.URL, Constants.COMPANY, Constants.LOGIN_NAME, Constants.PASSWORD, Constants.SECRET);
+        B1EC2Client client = new B1EC2Client(SysParCom.URL, SysParCom.COMPANY, SysParCom.LOGIN_NAME, SysParCom.PASSWORD, SysParCom.SECRET);
         List<Object> salesOrderList = new ArrayList<>();
         DateFormat format = new SimpleDateFormat(com.iwilley.b1ec2.api.Constants.DATE_TIME_FORMAT);
         int pageSize = 30;
