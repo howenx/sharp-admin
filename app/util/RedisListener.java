@@ -19,7 +19,7 @@ public class RedisListener extends JedisPubSub {
     @Override
     public void onMessage(String channel, String message) {
 
-        System.out.println("  <<< 订阅(SUBSCRIBE)< Channel:" + channel + " >接收到的Message:" + message);
+//        System.out.println("  <<< 订阅(SUBSCRIBE)< Channel:" + channel + " >接收到的Message:" + message);
         out.write(message);
         if (message.equalsIgnoreCase("quit")) {
             this.unsubscribe(channel);
@@ -28,7 +28,7 @@ public class RedisListener extends JedisPubSub {
 
     @Override
     public void onPMessage(String pattern, String channel, String message) {
-        System.out.println("  <<< P订阅(SUBSCRIBE)< pattern: " + pattern + " Channel:" + channel + " >接收到的Message:" + message);
+//        System.out.println("  <<< P订阅(SUBSCRIBE)< pattern: " + pattern + " Channel:" + channel + " >接收到的Message:" + message);
         out.write(message);
         if (message.equalsIgnoreCase("quit")) {
             this.punsubscribe(pattern);
