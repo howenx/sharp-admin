@@ -68,6 +68,9 @@
         <if test='cateNm != null and cateNm != "null" and cateNm != "" '>
             and t.cate_nm like '%${cateNm}%'
         </if>
+        <if test='orderId != null and orderId != "" '>
+            and t.order_id = #{orderId}
+        </if>
         <if test='useStartAt != null'>
             and t.use_at &gt;= #{useStartAt} ::timestamp
         </if>
