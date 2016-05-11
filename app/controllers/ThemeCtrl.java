@@ -167,7 +167,7 @@ public class ThemeCtrl extends Controller {
             }
             resultList.add(tempTheme);
         }
-        Logger.error(resultList.toString());
+        //Logger.error(resultList.toString());
 
         return ok(views.html.theme.thsearch.render(lang,SysParCom.IMAGE_URL,PAGE_SIZE,countNum,pageCount,resultList,(User) ctx().args.get("user")));
     }
@@ -438,6 +438,11 @@ public class ThemeCtrl extends Controller {
             e.printStackTrace();
         }
         if(endAt != null){
+            Logger.error("结束时间~~~:" + endAt.getTime());
+            Logger.error("当前时间~~~:" +  now.getTime());
+            Logger.error("时间差~~~:" +  (endAt.getTime() - now.getTime()));
+
+
             FiniteDuration duration = Duration.create(endAt.getTime() - now.getTime(), TimeUnit.MILLISECONDS);
             newScheduler.scheduleOnce(duration,themeOffShelf,theme.getId());
         }
@@ -478,7 +483,7 @@ public class ThemeCtrl extends Controller {
             }
             //多样化商品
             if("vary".equals(type)){
-                Logger.error(id.toString());
+                //Logger.error(id.toString());
                 VaryPrice varyPrice = varyPriceService.getVaryPriceById(id);
                 String themeIds = varyPrice.getThemeId();
                 if ( themeIds== null || "".equals(themeIds)){
@@ -584,6 +589,21 @@ public class ThemeCtrl extends Controller {
         }else{
             subjectPriceService.updStateByThemeId(theme.getId());
         }
+
+//        //主题从下架到上架  更新自定商品的状态
+        Theme themeTemp = service.getThemeById(theme.getId());
+        if(!themeTemp.getOrDestroy() && customizeItems.size() > 0){
+            List<SubjectPrice> subjectPriceList1 = new ArrayList<>();
+            for(JsonNode customizeItem : customizeItems) {
+                SubjectPrice subjectPrice = Json.fromJson(customizeItem,SubjectPrice.class);
+                Inventory inventory = inventoryService.getInventory(subjectPrice.getInvId());
+                if("Y".equals(inventory.getState())){
+                    subjectPriceList1.add(subjectPrice);
+                }
+            }
+            subjectPriceService.updStateOnShelf(subjectPriceList1);
+        }
+
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
@@ -607,7 +627,7 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result themeTemplateSave(String lang){
         JsonNode json = request().body().asJson();
-        Logger.error(json.toString());
+        //Logger.error(json.toString());
         ThemeTemplate themeTemplate = Json.fromJson(json,ThemeTemplate.class);
         service.themeTemplateSave(themeTemplate);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
@@ -833,7 +853,7 @@ public class ThemeCtrl extends Controller {
             if(theme.getMasterItemTag() != null) {
                 JsonNode itemMasterTag = Json.parse(theme.getMasterItemTag());
                 for (JsonNode tag : itemMasterTag) {
-                    Logger.error(tag.toString());
+                    //Logger.error(tag.toString());
                     Object[] tagObject = new Object[6];
                     //top
                     tagObject[0] = tag.get("top").floatValue() * 100 + "%";

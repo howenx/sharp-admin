@@ -62,4 +62,10 @@ public interface SubjectPriceMapper {
      */
     List<SubjectPrice> getSbjPriceByInvId(Long invId);
 
+    /**
+     * 更新自定义商品上架        Added by Tiffany Zhu 2016.05.11
+     * @param subjectPriceList
+     */
+    void updStateOnShelf(List<SubjectPrice> subjectPriceList);
+
 }
