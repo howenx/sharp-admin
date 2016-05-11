@@ -108,14 +108,14 @@ $(function(){
             alert('"拼购价格"为数字!');
              return false;
         }
-        if(!positive_float.test(masterMin)){
-            alert('"团长减价"为数字!');
-             return false;
-        }
-        if(!positive_float.test(memberMin)){
-            alert('"团员减价"为数字!');
-             return false;
-        }
+//        if(!positive_float.test(masterMin)){
+//            alert('"团长减价"为数字!');
+//             return false;
+//        }
+//        if(!positive_float.test(memberMin)){
+//            alert('"团员减价"为数字!');
+//             return false;
+//        }
 
         //团长优惠券
         if($(":radio[value='tz-yes']").prop("checked")){
@@ -375,14 +375,14 @@ $(function(){
             alert('"拼购价格"为数字!');
              return false;
         }
-        if(!positive_float.test(masterMin)){
-            alert('"团长减价"为数字!');
-             return false;
-        }
-        if(!positive_float.test(memberMin)){
-            alert('"团员减价"为数字!');
-             return false;
-        }
+//        if(!positive_float.test(masterMin)){
+//            alert('"团长减价"为数字!');
+//             return false;
+//        }
+//        if(!positive_float.test(memberMin)){
+//            alert('"团员减价"为数字!');
+//             return false;
+//        }
         //团长优惠券
         if($(":radio[value='tz-yes']").prop("checked")){
             if($(".tz").find("select").val() == ""){
