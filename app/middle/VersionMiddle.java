@@ -87,6 +87,8 @@ public class VersionMiddle {
 
         versionVo.setUpdateReqXml(configuration.getString("image.server.url") + productType + "/" + xmlFileName);
 
+        itemService.updateVersioning(versionVo);
+
         itemService.insertVersioning(versionVo);
 
         Logger.error("xml地址:\n" + configuration.getString("image.server.url") + productType + "/" + xmlFileName);
@@ -121,9 +123,9 @@ public class VersionMiddle {
             e.printStackTrace();
         }
         versionVo.setUpdateReqXml("101010");
-//        if (itemService.insertVersioning(versionVo)) {
-//            autoDeployActor.tell(versionVo, ActorRef.noSender());
-//        }
+        if (itemService.insertVersioning(versionVo)) {
+            autoDeployActor.tell(versionVo, ActorRef.noSender());
+        }
     }
 
 }
