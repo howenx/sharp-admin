@@ -161,7 +161,12 @@ public class OrderCtrl extends Controller {
             }
             //手机号码
             ID userInfo = idService.getID(Integer.parseInt(order.getUserId().toString()));
-            object[6] = userInfo.getPhoneNum();
+            if(userInfo != null){
+                object[6] = userInfo.getPhoneNum();
+            }else{
+                object[6] = "";
+            }
+
             //订单类型
             if (order.getOrderType() == 1) {
                 object[7] = "普通";
