@@ -72,9 +72,14 @@ public class ThemeCtrl extends Controller {
         List<Slider> sliderList = service.sliderAll();
         for (Slider slider : sliderList) {
             JsonNode img = Json.parse(slider.getImg());
-            String imgUrl = img.get("url").asText();
-            String width = img.get("width").asText();
-            String height = img.get("height").asText();
+            String imgUrl = "0";
+            String width = "0";
+            String height = "0";
+            if (null!=img.get("url") && null!=img.get("width") && null!=img.get("height")) {
+                imgUrl = img.get("url").asText();
+                width = img.get("width").asText();
+                height = img.get("height").asText();
+            }
             slider.setImg(imgUrl+","+width+","+height);
         }
         return ok(views.html.theme.slider.render(lang,sliderList, SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
@@ -100,22 +105,13 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result sliderSave(String lang){
         JsonNode json = request().body().asJson();
-        if (json.findValue("del").isArray()) {
-            for (final JsonNode jsonNode : json.findValue("del")) {
-                Form<Slider> sliderForm = Form.form(Slider.class).bind(jsonNode);
-                //数据验证
-                if (sliderForm.hasErrors()) {
-                    Logger.error("表单数据有误.....");
-                    return badRequest();
-                }
-            }
-        }
         if (json.findValue("update").isArray()) {
-            for (final JsonNode jsonNode : json.findValue("del")) {
+            for (final JsonNode jsonNode : json.findValue("update")) {
                 Form<Slider> sliderForm = Form.form(Slider.class).bind(jsonNode);
+                Slider slider = Json.fromJson(jsonNode, Slider.class);
                 //数据验证
-                if (sliderForm.hasErrors()) {
-                    Logger.error("表单数据有误.....");
+                if (sliderForm.hasErrors() || !Regex.isJason(slider.getImg())) {
+                    Logger.error("slider 表单数据有误.....");
                     return badRequest();
                 }
             }
