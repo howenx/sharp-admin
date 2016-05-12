@@ -53,6 +53,7 @@ public class SysParCom {
     public static final OkHttpClient client = new OkHttpClient();
 
 
+
     @Inject
     public SysParCom(Configuration configuration) {
         JEDIS_SUB = new HashMap<>();
@@ -75,6 +76,7 @@ public class SysParCom {
         LOGIN_NAME = configuration.getString("erp.login.name");
         PASSWORD = configuration.getString("erp.login.pwd");
         SECRET = configuration.getString("erp.secret");
+
     }
 
 }

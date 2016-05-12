@@ -228,7 +228,11 @@ public class VersionCtrl extends Controller {
 
     @Security.Authenticated(UserAuth.class)
     public Result logview() {
-        return ok(views.html.versioning.logview.render("cn", (User) ctx().args.get("user"), REDIS_SUBSCRIBE));
+        String socketUrl = null;
+        if (configuration.getString("websocket.url") != null) {
+            socketUrl = configuration.getString("websocket.url");
+        }
+        return ok(views.html.versioning.logview.render("cn", (User) ctx().args.get("user"), REDIS_SUBSCRIBE, socketUrl));
     }
 
     @Security.Authenticated(UserAuth.class)
