@@ -1,7 +1,5 @@
 package controllers;
 
-import akka.actor.ActorRef;
-import akka.actor.ActorSelection;
 import akka.actor.ActorSystem;
 import akka.util.Timeout;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -12,7 +10,6 @@ import modules.LevelFactory;
 import modules.NewScheduler;
 import play.Configuration;
 import play.Logger;
-import play.api.libs.Codecs;
 import play.cache.Cache;
 import play.data.Form;
 import play.libs.Json;
@@ -22,9 +19,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import scala.Option;
-import scala.concurrent.Await;
-import scala.concurrent.Future;
-import scala.concurrent.duration.Duration;
 import service.AdminSupplierService;
 import service.AdminUserService;
 import service.IDService;
@@ -32,8 +26,10 @@ import util.SysParCom;
 
 import javax.inject.Inject;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
@@ -151,12 +147,15 @@ public class AdminUserCtrl extends Controller {
 //                Logger.error("发送邮件错误"+e);
 //            }
             adminUserService.insertUser(adminUser);
-            AdminUser ad = adminUserService.getUserBy(adminUser);
-            AdminSupplier adminSupplier = new AdminSupplier();
-            adminSupplier.setUserId(ad.getUserId());
-            adminSupplier.setSupplyMerch(adminUser.getEnNm());
-            adminSupplier.setSupplyName(adminUser.getChNm());
-            adminSupplierService.insertSupplier(adminSupplier);
+            //如果添加的是供应商,admin_supplier表添加一条数据
+            if ("SUPPLIER".equals(adminUser.getUserType())) {
+                AdminUser ad = adminUserService.getUserBy(adminUser);
+                AdminSupplier adminSupplier = new AdminSupplier();
+                adminSupplier.setUserId(ad.getUserId());
+                adminSupplier.setSupplyMerch(adminUser.getEnNm());
+                adminSupplier.setSupplyName(adminUser.getChNm());
+                adminSupplierService.insertSupplier(adminSupplier);
+            }
             return ok("保存成功");
         }
     }
