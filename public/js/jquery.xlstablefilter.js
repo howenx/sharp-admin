@@ -92,6 +92,9 @@
 				if (filterable == true) {
 					$(this).addClass("xlsFilterHeader").click(function(e) {
 						self._openFilter($(this));
+						$( ".ui-draggable" ).offset({
+							"top":10,
+						})
 					});
 				}
 				else {
