@@ -69,6 +69,7 @@ public class ItemMiddle {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         Long nowTimes = now.getTime();
+        String nowStr = sdf.format(now);
         List<Long> list = new ArrayList<>();
         Item item = new Item();
         //日志信息
@@ -134,15 +135,6 @@ public class ItemMiddle {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    if (startTimes>nowTimes) {//上架时间比现在时间大为预售状态
-                        inventory.setState("P");
-                    }
-                    if (startTimes<nowTimes && nowTimes<endTimes) {//现在时间介于上架和下架时间之间为正常状态
-                        inventory.setState("Y");
-                    }
-                    if (endTimes<nowTimes) {//下架时间比当前时间小为下架状态
-                        inventory.setState("D");
-                    }
                     //更新库存信息
                     if (jsonInv.has("id")) {
                         String state = inventory.getState();        //现sku状态
@@ -174,6 +166,32 @@ public class ItemMiddle {
                             inventory.setAmount(originInv.getAmount());
                         }
                         //修改SKU
+                        //如果修改时间,或时间状态都不修改,状态以时间为准
+                        if (!originStartTimes.equals(startTimes) || !originEndTimes.equals(endTimes) || (originStartTimes.equals(startTimes) && originEndTimes.equals(endTimes) && originState.equals(state))) {
+                            if (startTimes>nowTimes) {//上架时间比现在时间大为预售状态
+                                inventory.setState("P");
+                            }
+                            if (startTimes<nowTimes && nowTimes<endTimes) {//现在时间介于上架和下架时间之间为正常状态
+                                inventory.setState("Y");
+                            }
+                            if (endTimes<nowTimes) {//下架时间比当前时间小为下架状态
+                                inventory.setState("D");
+                            }
+                        }
+                        //如果时间不改 修改状态
+                        else if (originStartTimes.equals(startTimes) && originEndTimes.equals(endTimes) && !originState.equals(state)) {
+                            //P-->Y(上架时间改为现在)
+                            if ("P".equals(originState) && "Y".equals(state)) {
+                                inventory.setStartAt(nowStr);
+                                startTimes = nowTimes;
+                            }
+                            // P-->D或Y-->D(下架时间改为现在)
+                            if (("P".equals(originState) || "Y".equals(originState)) && "D".equals(state)){
+                                inventory.setEndAt(nowStr);
+                                endTimes = nowTimes;
+                            }
+
+                        }
                         //状态由预售到预售, 修改上架时间  ==> 修改上架schedule
                         if ("P".equals(originState) && "P".equals(state) && !originStartTimes.equals(startTimes)) {
                             Logger.debug(inventory.getId()+" auto on shelves start...");
@@ -267,6 +285,15 @@ public class ItemMiddle {
                     }
                     //录入库存信息
                     else {
+                        if (startTimes>nowTimes) {//上架时间比现在时间大为预售状态
+                            inventory.setState("P");
+                        }
+                        if (startTimes<nowTimes && nowTimes<endTimes) {//现在时间介于上架和下架时间之间为正常状态
+                            inventory.setState("Y");
+                        }
+                        if (endTimes<nowTimes) {//下架时间比当前时间小为下架状态
+                            inventory.setState("D");
+                        }
                         inventory.setAmount(inventory.getRestAmount());
                         inventory.setInvTitle(item.getItemTitle());
                         inventoryService.insertInventory(inventory);

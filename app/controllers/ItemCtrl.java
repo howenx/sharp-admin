@@ -84,6 +84,8 @@ public class ItemCtrl extends Controller {
         Inventory inventory = new Inventory();
         inventory.setPageSize(-1);
         inventory.setOffset(-1);
+        //首次查询只显示Y正常正常状态商品
+        inventory.setState("Y");
         List<Inventory> inventoryList = inventoryService.invSearch(inventory);
         int countNum = inventoryList.size();//取总数
         int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
