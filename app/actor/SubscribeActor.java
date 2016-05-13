@@ -15,8 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import static util.SysParCom.JEDIS_SUB;
-import static util.SysParCom.REDIS_SUBSCRIBE;
+import static util.SysParCom.*;
 
 /**
  * 用于produce消息到阿里云mns的Actor
@@ -26,11 +25,14 @@ public class SubscribeActor extends AbstractActor {
 
     private Callable<Boolean> callable(JedisPool jedisPool, WebSocket.Out<String> out, String channel) {
         return () -> {
-            JedisPubSub listener = new RedisListener(out);
-            JEDIS_SUB.put(channel, listener);
-            System.out.println("hmm." + channel);
-            jedisPool.getResource().psubscribe(listener, "hmm." + channel);
-            return listener.isSubscribed();
+            try {
+                JedisPubSub listener = new RedisListener(out);
+                JEDIS_SUB.put(channel, listener);
+                jedisPool.getResource().psubscribe(listener, "hmm." + channel);
+                return listener.isSubscribed();
+            } catch (Exception ignore) {
+                return false;
+            }
         };
     }
 
@@ -39,23 +41,24 @@ public class SubscribeActor extends AbstractActor {
             try {
                 ExecutorService executor = Executors.newFixedThreadPool(REDIS_SUBSCRIBE.size());
                 List<Callable<Boolean>> callables = new ArrayList<>();
-                System.err.println(REDIS_SUBSCRIBE);
                 if (message.equals("start")) {
                     callables.addAll(REDIS_SUBSCRIBE.stream().map(channel -> callable(jedisPool, out, channel)).collect(Collectors.toList()));
 
-                    executor.invokeAll(callables)
-                            .stream()
-                            .map(future -> {
-                                try {
-                                    return future.get();
-                                } catch (Exception e) {
-                                    throw new IllegalStateException(e);
-                                }
-                            })
-                            .forEach(System.out::println);
+                    executor.invokeAll(callables);
+                    EXECUTOR_SERVICE.add(executor);
 
                 } else if (message.equals("end")) {
-                    executor.shutdown();
+                    System.out.println("----END---");
+                    callables = null;
+                    executor.shutdownNow();
+                    JEDIS_SUB.forEach((k, v) -> {
+                        if (v.isSubscribed()) v.punsubscribe();
+                    });
+                    if (!EXECUTOR_SERVICE.isEmpty()) {
+                        EXECUTOR_SERVICE.forEach(ExecutorService::shutdownNow);
+                    }
+                    JEDIS_SUB.clear();
+                    EXECUTOR_SERVICE.clear();
                 }
 
             } catch (Exception ignored) {

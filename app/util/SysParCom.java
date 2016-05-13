@@ -6,9 +6,11 @@ import redis.clients.jedis.JedisPubSub;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 
 /**
  * 查询参数表中的参数项
@@ -50,6 +52,8 @@ public class SysParCom {
     public static String SECRET;
     public static Map<String,JedisPubSub> JEDIS_SUB;
 
+    public static List<ExecutorService> EXECUTOR_SERVICE;
+
     public static final OkHttpClient client = new OkHttpClient();
 
 
@@ -76,6 +80,8 @@ public class SysParCom {
         LOGIN_NAME = configuration.getString("erp.login.name");
         PASSWORD = configuration.getString("erp.login.pwd");
         SECRET = configuration.getString("erp.secret");
+
+        EXECUTOR_SERVICE = new ArrayList<>();
 
     }
 

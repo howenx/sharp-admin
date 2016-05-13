@@ -243,7 +243,8 @@ public class VersionCtrl extends Controller {
             pingActor.tell("start", ActorRef.noSender());
             in.onMessage(System.out::println);
             in.onClose(() -> {
-//                pingActor.tell("end", ActorRef.noSender());
+                out.close();
+                Akka.system().actorOf(Props.create(SubscribeActor.class, jedisPool, null, null)).tell("end", ActorRef.noSender());
                 System.err.println("Disconnected");
             });
         });

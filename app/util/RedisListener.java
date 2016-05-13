@@ -18,19 +18,28 @@ public class RedisListener extends JedisPubSub {
 
     @Override
     public void onMessage(String channel, String message) {
-
-//        System.out.println("  <<< 订阅(SUBSCRIBE)< Channel:" + channel + " >接收到的Message:" + message);
-        out.write(message);
-        if (message.equalsIgnoreCase("quit")) {
+        try {
+            if (out != null) {
+                out.write(message);
+            }
+            if (message.equalsIgnoreCase("quit")) {
+                this.unsubscribe(channel);
+            }
+        } catch (Exception e) {
             this.unsubscribe(channel);
         }
     }
 
     @Override
     public void onPMessage(String pattern, String channel, String message) {
-//        System.out.println("  <<< P订阅(SUBSCRIBE)< pattern: " + pattern + " Channel:" + channel + " >接收到的Message:" + message);
-        out.write(message);
-        if (message.equalsIgnoreCase("quit")) {
+        try {
+            if (out != null) {
+                out.write(message);
+            }
+            if (message.equalsIgnoreCase("quit")) {
+                this.punsubscribe(pattern);
+            }
+        } catch (Exception e) {
             this.punsubscribe(pattern);
         }
     }
@@ -38,13 +47,11 @@ public class RedisListener extends JedisPubSub {
     @Override
     public void onSubscribe(String channel, int subscribedChannels) {
         System.out.println("  <<< 正在订阅(onSubscribe)< Channel:" + channel + " >subscribedChannels:" + subscribedChannels);
-
     }
 
     @Override
     public void onUnsubscribe(String channel, int subscribedChannels) {
         System.out.println("  <<< 正在取消订阅(onUnsubscribe)< Channel:" + channel + " >subscribedChannels:" + subscribedChannels);
-
     }
 
     @Override
@@ -55,6 +62,5 @@ public class RedisListener extends JedisPubSub {
     @Override
     public void onPSubscribe(String pattern, int subscribedChannels) {
         System.out.println("  <<< 正在P订阅(onPSubscribe)< Channel:" + pattern + " >subscribedChannels:" + subscribedChannels);
-
     }
 }
