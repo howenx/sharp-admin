@@ -2,6 +2,7 @@ package controllers;
 
 import akka.actor.ActorRef;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Throwables;
 import domain.ID;
 import domain.Inventory;
 import domain.User;
@@ -230,6 +231,8 @@ public class PingouCtrl extends Controller {
                 startAt = sdf.parse(pinSku.getStartAt());
             }catch(Exception e){
                 e.printStackTrace();
+                Logger.error(Throwables.getStackTraceAsString(e));
+
             }
             if(startAt != null && (startAt.getTime() - now.getTime() > 0)){
                 FiniteDuration duration = Duration.create(startAt.getTime() - now.getTime() , TimeUnit.MILLISECONDS);
@@ -244,6 +247,7 @@ public class PingouCtrl extends Controller {
                 endAt = sdf.parse(pinSku.getEndAt());
             }catch(Exception e){
                 e.printStackTrace();
+                Logger.error(Throwables.getStackTraceAsString(e));
             }
             if(endAt != null && (endAt.getTime() - now.getTime() > 0)){
                 FiniteDuration duration = Duration.create(endAt.getTime() - now.getTime(), TimeUnit.MILLISECONDS);

@@ -5,6 +5,7 @@ import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Throwables;
 import domain.*;
 import domain.pingou.PinSku;
 import filters.UserAuth;
@@ -432,6 +433,7 @@ public class ThemeCtrl extends Controller {
             endAt = sdf.parse(theme.getEndAt());
         }catch(Exception e){
             e.printStackTrace();
+            Logger.error(Throwables.getStackTraceAsString(e));
         }
         if(endAt != null){
             Logger.error("结束时间~~~:" + endAt.getTime());
@@ -922,6 +924,7 @@ public class ThemeCtrl extends Controller {
             endAt = sdf.parse(theme.getEndAt());
         }catch(Exception e){
             e.printStackTrace();
+            Logger.error(Throwables.getStackTraceAsString(e));
         }
         if(endAt != null){
             FiniteDuration duration = Duration.create(endAt.getTime() - now.getTime(), TimeUnit.MILLISECONDS);

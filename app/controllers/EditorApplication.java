@@ -2,6 +2,7 @@ package controllers;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Throwables;
 import controllers.edit.EditorService;
 import org.springframework.util.StringUtils;
 import play.Logger;
@@ -105,6 +106,7 @@ public class EditorApplication extends Controller{
      			Logger.info("获取config.json数据："+config);
              } catch (IOException e) {
                  e.printStackTrace();
+				 Logger.error(Throwables.getStackTraceAsString(e));
                  return null;
              }
         }

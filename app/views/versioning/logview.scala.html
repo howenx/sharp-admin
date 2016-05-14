@@ -61,11 +61,12 @@
                 }
 
                 var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
-                console.log("socket请求地址----->" + wsUri);
+//                console.log("socket请求地址----->" + wsUri);
                 var dateSocket = new WS(wsUri);
 
                 dateSocket.onmessage = function (event) {
                     var data = JSON.parse(event.data);
+                    console.log(data);
                     var level;
                     switch (data.level.levelStr) {
                         case "INFO":

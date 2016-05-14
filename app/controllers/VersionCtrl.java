@@ -11,6 +11,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.FormatType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import com.google.common.base.Throwables;
 import domain.AdminUser;
 import domain.User;
 import domain.VersionVo;
@@ -220,7 +221,7 @@ public class VersionCtrl extends Controller {
             Logger.info("刷新cdn:" + describeCdnServiceResponse.getRefreshTaskId());
             return ok("success");
         } catch (ClientException ex) {
-            Logger.error("刷新CDN出错:" + ex.getMessage());
+            Logger.error("刷新CDN出错:" + Throwables.getStackTraceAsString(ex));
             ex.printStackTrace();
             return badRequest("error");
         }

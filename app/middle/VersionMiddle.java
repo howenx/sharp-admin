@@ -2,6 +2,7 @@ package middle;
 
 import akka.actor.ActorRef;
 import com.aliyun.oss.model.ObjectMetadata;
+import com.google.common.base.Throwables;
 import domain.VersionVo;
 import modules.OSSClientProvider;
 import play.Configuration;
@@ -121,6 +122,7 @@ public class VersionMiddle {
             if (!file.createNewFile()) Logger.error("文件创建出错");
         } catch (IOException e) {
             e.printStackTrace();
+            Logger.error(Throwables.getStackTraceAsString(e));
         }
         versionVo.setUpdateReqXml("101010");
         if (itemService.insertVersioning(versionVo)) {

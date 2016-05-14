@@ -6,6 +6,8 @@ package util;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.base.Throwables;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -176,6 +178,7 @@ public abstract class ExcelHelper {
                     bw=null;
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Logger.error(Throwables.getStackTraceAsString(e));
                 }
             }
             if(osw!=null){
@@ -184,6 +187,7 @@ public abstract class ExcelHelper {
                     osw=null;
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Logger.error(Throwables.getStackTraceAsString(e));
                 }
             }
             if(out!=null){
@@ -192,6 +196,7 @@ public abstract class ExcelHelper {
                     out=null;
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Logger.error(Throwables.getStackTraceAsString(e));
                 }
             }
         }
@@ -225,6 +230,7 @@ public abstract class ExcelHelper {
                     br=null;
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Logger.error(Throwables.getStackTraceAsString(e));
                 }
             }
         }

@@ -2,6 +2,7 @@ package util;
 
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Throwables;
 import domain.order.OrderSplit;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -53,6 +54,7 @@ public class GetExpress {
             }
         }catch (Exception e){
             e.printStackTrace();
+            Logger.error(Throwables.getStackTraceAsString(e));
         }
         return resultList;
     }
