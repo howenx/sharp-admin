@@ -352,15 +352,15 @@ function saveCurr(saveFlag) {
             itemPreviewImgs.push(imgsV);
         });
     }
-    if (startAt>nowTime) {//上架时间比现在时间大为预售状态
-        state = "P"
-    }
-    if (startAt<nowTime && nowTime<endAt) {//现在时间介于上架和下架时间之间为正常状态
-        state = "Y"
-    }
-    if (endAt<nowTime) {//下架时间比当前时间小为下架状态
-        state = "D"
-    }
+//    if (startAt>nowTime) {//上架时间比现在时间大为预售状态
+//        state = "P"
+//    }
+//    if (startAt<nowTime && nowTime<endAt) {//现在时间介于上架和下架时间之间为正常状态
+//        state = "Y"
+//    }
+//    if (endAt<nowTime) {//下架时间比当前时间小为下架状态
+//        state = "D"
+//    }
     trdobj.itemColor = itemColor;
     trdobj.itemSize = itemSize;
     trdobj.invCode = invCode;

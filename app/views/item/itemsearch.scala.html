@@ -12,18 +12,17 @@
 <!-- 此为调用分页所提供的函数名前缀 -->
 <script>window.search_args = 'commlist'</script>
 <script>
-    $(function(){
-        $(function () {
-            $('#datetimepicker-starttime').datetimepicker({
-                locale: 'zh-cn',
-                format:'YYYY-MM-DD HH:mm:ss'
-            });
-            $('#datetimepicker-endtime').datetimepicker({
-                locale: 'zh-cn',
-                format:'YYYY-MM-DD HH:mm:ss'
-            });
+    $(function () {
+        $('#datetimepicker-starttime').datetimepicker({
+            locale: 'zh-cn',
+            format:'YYYY-MM-DD HH:mm:ss'
         });
-    })
+        $('#datetimepicker-endtime').datetimepicker({
+            locale: 'zh-cn',
+            format:'YYYY-MM-DD HH:mm:ss'
+        });
+        $("#state").val("Y");
+    });
 </script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"comm.search.popup.title")
