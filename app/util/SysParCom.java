@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -50,7 +52,7 @@ public class SysParCom {
     public static String LOGIN_NAME;
     public static String PASSWORD;
     public static String SECRET;
-    public static Map<String,JedisPubSub> JEDIS_SUB;
+    public static ConcurrentMap<String,JedisPubSub> JEDIS_SUB;
 
     public static List<ExecutorService> EXECUTOR_SERVICE;
 
@@ -60,7 +62,7 @@ public class SysParCom {
 
     @Inject
     public SysParCom(Configuration configuration) {
-        JEDIS_SUB = new HashMap<>();
+        JEDIS_SUB = new ConcurrentHashMap<>();
         REDIS_URL = configuration.getString("redis.host");
         REDIS_PASSWORD = configuration.getString("redis.password");
         REDIS_PORT = configuration.getInt("redis.port");

@@ -234,6 +234,7 @@ public class CouponVo implements Serializable{
         this.order = order;
     }
 
+
     public CouponVo(String couponNumber, String couponName, String couponType, String placeCode, String placeName, String brandCode, String brandName, String event, String eventId, String code, Integer price, Integer standardPrice, String issuedAt, String expiredAt, String maxExpiredAt, String status, String modifiedAt, Integer pageSize, Integer offset, String sort, String order) {
 
         this.couponNumber = couponNumber;
@@ -249,6 +250,7 @@ public class CouponVo implements Serializable{
         this.price = price;
         this.standardPrice = standardPrice;
         this.issuedAt = issuedAt;
+
         this.expiredAt = expiredAt;
         this.maxExpiredAt = maxExpiredAt;
         this.status = status;
