@@ -2,6 +2,7 @@ package actor;
 
 import akka.actor.AbstractActor;
 import akka.japi.pf.ReceiveBuilder;
+import com.google.common.base.Throwables;
 import play.Logger;
 import play.mvc.WebSocket;
 import redis.clients.jedis.JedisPool;
@@ -48,6 +49,7 @@ public class SubscribeActor extends AbstractActor {
                             jedisPool.getResource().psubscribe(listener, "hmm." + channel);
                             return listener.isSubscribed();
                         } catch (Exception ignore) {
+                            Logger.error(Throwables.getStackTraceAsString(ignore));
                             return false;
                         }
                     }));
@@ -62,9 +64,13 @@ public class SubscribeActor extends AbstractActor {
                     callables = null;
                     executor.shutdownNow();
                     JEDIS_SUB.forEach((k, v) -> {
-                        if (v.isSubscribed()) v.punsubscribe();
+                        if (v.isSubscribed()) {
+                            System.out.println("----取消订阅---");
+                            v.punsubscribe();
+                        }
                     });
                     if (!EXECUTOR_SERVICE.isEmpty()) {
+                        System.out.println("----关闭线程池---");
                         EXECUTOR_SERVICE.forEach(ExecutorService::shutdownNow);
                     }
                     JEDIS_SUB.clear();
