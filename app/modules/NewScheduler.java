@@ -47,7 +47,7 @@ public class NewScheduler {
         Cancellable del = system.scheduler().scheduleOnce(Duration.create(delay.toSeconds() + 5, TimeUnit.SECONDS), delScheduleActor, message, system.dispatcher(), ActorRef.noSender());
 
         try {
-            if (levelFactory.map.containsKey(message)) {
+            if (levelFactory.map.get(message) != null) {
                 Persist p = levelFactory.map.get(message);
                 p.getCancellable().cancel();
 //                Logger.error("取消以前的所有的同一个message的schedule "+persist.getCancellable().cancel());
@@ -56,7 +56,7 @@ public class NewScheduler {
             if (levelFactory.get(message) != null) {
                 levelFactory.delete(message);
             }
-            if (levelFactory.delMap.containsKey(message)) {
+            if (levelFactory.delMap.get(message) != null) {
                 Cancellable delCancellable = levelFactory.delMap.get(message);
                 delCancellable.cancel();
 //                Logger.error("用于删除schedule所启动的schedule "+delCancellable.cancel());
@@ -97,7 +97,7 @@ public class NewScheduler {
         Cancellable cancellable = system.scheduler().schedule(initialDelay, delay, receiver, message, system.dispatcher(), ActorRef.noSender());
 
         try {
-            if (levelFactory.map.containsKey(message)) {
+            if (levelFactory.map.get(message) != null) {
                 Persist p = levelFactory.map.get(message);
                 p.getCancellable().cancel();
                 levelFactory.map.remove(message);
@@ -105,7 +105,7 @@ public class NewScheduler {
             if (levelFactory.get(message) != null) {
                 levelFactory.delete(message);
             }
-            if (levelFactory.delMap.containsKey(message)) {
+            if (levelFactory.delMap.get(message) != null) {
                 Cancellable delCancellable = levelFactory.delMap.get(message);
                 delCancellable.cancel();
                 levelFactory.delMap.remove(message);
