@@ -2,6 +2,7 @@ package controllers;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Throwables;
 import controllers.edit.EditorService;
 import org.springframework.util.StringUtils;
 import play.Logger;
@@ -97,14 +98,15 @@ public class EditorApplication extends Controller{
         	config = String.valueOf(Cache.get("editorConfig"));
         }else{
         	 try {
-             	Logger.info("=============读取配置文件：config.json=======");
+//             	Logger.info("=============读取配置文件：config.json=======");
                 in = new FileInputStream(file);
                 config = EditorService.getInstance().inputStreamString(in).replaceAll("/\\*[\\s\\S]+?\\*/", "").replaceAll("\n", "").replaceAll(" ", "");
                 in.close();
                 Cache.set("editorConfig",config,60*60);
-     			Logger.info("获取config.json数据："+config);
+//     			Logger.info("获取config.json数据："+config);
              } catch (IOException e) {
                  e.printStackTrace();
+				 Logger.error(Throwables.getStackTraceAsString(e));
                  return null;
              }
         }

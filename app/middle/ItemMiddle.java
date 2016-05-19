@@ -2,6 +2,7 @@ package middle;
 
 import akka.actor.ActorRef;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Throwables;
 import domain.*;
 import domain.pingou.PinSku;
 import modules.NewScheduler;
@@ -134,6 +135,7 @@ public class ItemMiddle {
                         endTimes = sdf.parse(endAt).getTime();
                     } catch (ParseException e) {
                         e.printStackTrace();
+                        Logger.error(Throwables.getStackTraceAsString(e));
                     }
                     //更新库存信息
                     if (jsonInv.has("id")) {
@@ -149,6 +151,7 @@ public class ItemMiddle {
                             originEndTimes = sdf.parse(originEndAt).getTime();
                         } catch (ParseException e) {
                             e.printStackTrace();
+                            Logger.error(Throwables.getStackTraceAsString(e));
                         }
                         String originState = originInv.getState();  //原sku状态
                         inventory.setSoldAmount(originInv.getSoldAmount());
@@ -248,6 +251,7 @@ public class ItemMiddle {
                                 pinEndTimes = pinEndAt.getTime();
                             } catch (ParseException e) {
                                 e.printStackTrace();
+                                Logger.error(Throwables.getStackTraceAsString(e));
                             }
                             if ("Y".equals(originState)) {
                                 //sku由正常到预售,修改sku上架时间  或 sku由正常到正常,修改下架时间且现下架时间<pin_sku上架时间 ==> pin_sku 直接下架,修改状态,上下架时间为当前时间,停止schedule
@@ -362,6 +366,7 @@ public class ItemMiddle {
             endTimes = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(inventory.getEndAt()).getTime();
         } catch (ParseException e) {
             e.printStackTrace();
+            Logger.error(Throwables.getStackTraceAsString(e));
         }
         if (!"D".equals(state)) {
             if ("P".equals(state)) {
@@ -373,6 +378,7 @@ public class ItemMiddle {
                     Thread.sleep(7000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    Logger.error(Throwables.getStackTraceAsString(e));
                 }
                 newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes,TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
             }

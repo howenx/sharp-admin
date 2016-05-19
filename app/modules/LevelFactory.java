@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import static util.SerializerJava.deserializeAndCast;
 
@@ -29,9 +31,9 @@ import static util.SerializerJava.deserializeAndCast;
 @Singleton
 public class LevelFactory {
 
-    public Map<Object, Persist> map;//用于存储所有的persist对象
+    public ConcurrentMap<Object, Persist> map;//用于存储所有的persist对象
 
-    public Map<Object, Cancellable> delMap;//用于存储所有的调用删除schedule Actor的Cancellable
+    public ConcurrentMap<Object, Cancellable> delMap;//用于存储所有的调用删除schedule Actor的Cancellable
 
     private DB db ;
 
@@ -42,8 +44,8 @@ public class LevelFactory {
     public LevelFactory(
             Environment environment,
             Configuration configuration) throws IOException {
-        map = new HashMap<>();
-        delMap = new HashMap<>();
+        map = new ConcurrentHashMap<>();
+        delMap = new ConcurrentHashMap<>();
         File lock = new File(configuration.getString("leveldb.local.dir")+"/LOCK");
         if (lock.exists()) {
             boolean delete = lock.delete();

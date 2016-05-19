@@ -81,7 +81,7 @@
     <root level="INFO">
         <appender-ref ref="ASYNC_STDOUT"/>
         <appender-ref ref="ASYNC_FILE"/>
-        <!--<appender-ref ref="ASYNC_CUSTOM"/>-->
+        <appender-ref ref="ASYNC_CUSTOM"/>
     </root>
 
 </configuration>

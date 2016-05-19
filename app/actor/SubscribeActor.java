@@ -2,6 +2,7 @@ package actor;
 
 import akka.actor.AbstractActor;
 import akka.japi.pf.ReceiveBuilder;
+import com.google.common.base.Throwables;
 import play.Logger;
 import play.mvc.WebSocket;
 import redis.clients.jedis.JedisPool;
@@ -13,7 +14,6 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
 import static util.SysParCom.*;
 
@@ -42,9 +42,21 @@ public class SubscribeActor extends AbstractActor {
                 ExecutorService executor = Executors.newFixedThreadPool(REDIS_SUBSCRIBE.size());
                 List<Callable<Boolean>> callables = new ArrayList<>();
                 if (message.equals("start")) {
-                    callables.addAll(REDIS_SUBSCRIBE.stream().map(channel -> callable(jedisPool, out, channel)).collect(Collectors.toList()));
+                    REDIS_SUBSCRIBE.forEach(channel-> executor.submit(() -> {
+                        try {
+                            JedisPubSub listener = new RedisListener(out);
+                            JEDIS_SUB.put(channel, listener);
+                            jedisPool.getResource().psubscribe(listener, "hmm." + channel);
+                            return listener.isSubscribed();
+                        } catch (Exception ignore) {
+                            Logger.error(Throwables.getStackTraceAsString(ignore));
+                            return false;
+                        }
+                    }));
 
-                    executor.invokeAll(callables);
+//                    callables.addAll(REDIS_SUBSCRIBE.stream().map(channel -> callable(jedisPool, out, channel)).collect(Collectors.toList()));
+
+//                    executor.invokeAll(callables);
                     EXECUTOR_SERVICE.add(executor);
 
                 } else if (message.equals("end")) {
@@ -52,9 +64,13 @@ public class SubscribeActor extends AbstractActor {
                     callables = null;
                     executor.shutdownNow();
                     JEDIS_SUB.forEach((k, v) -> {
-                        if (v.isSubscribed()) v.punsubscribe();
+                        if (v.isSubscribed()) {
+                            System.out.println("----取消订阅---");
+                            v.punsubscribe();
+                        }
                     });
                     if (!EXECUTOR_SERVICE.isEmpty()) {
+                        System.out.println("----关闭线程池---");
                         EXECUTOR_SERVICE.forEach(ExecutorService::shutdownNow);
                     }
                     JEDIS_SUB.clear();

@@ -2,6 +2,7 @@ package service;
 
 import akka.actor.ActorRef;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Throwables;
 import domain.Coupons;
 import mapper.CouponsMapper;
 import modules.NewScheduler;
@@ -53,6 +54,7 @@ public class CouponsServiceImpl implements CouponsService {
                 endTimes = endAt.getTime();
             } catch (ParseException e) {
                 e.printStackTrace();
+                Logger.error(Throwables.getStackTraceAsString(e));
             }
 
             //-- 创建Actor --//

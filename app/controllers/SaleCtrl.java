@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Throwables;
 import com.google.inject.Inject;
 import domain.User;
 import domain.sale.SaleInventory;
@@ -297,7 +298,7 @@ public class SaleCtrl extends Controller {
 
 
         } catch (Exception e) {
-            Logger.error("product save exception "+e.getMessage());
+            Logger.error("product save exception "+Throwables.getStackTraceAsString(e));
             e.printStackTrace();
         }
         return ok(Json.toJson(saleProduct));
@@ -989,6 +990,7 @@ public class SaleCtrl extends Controller {
 
                 } catch (ParseException e) {
                     e.printStackTrace();
+                    Logger.error(Throwables.getStackTraceAsString(e));
                 }
 
                 if(null!=saleProduct){

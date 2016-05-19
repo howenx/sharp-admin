@@ -65,7 +65,7 @@
                                 $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
                                 setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 1000);
                                 setTimeout(function () {
-                                    window.location.href = '/release/view';
+                                    window.location.href = '/release/apiView';
                                 }, 2000);
                             }
                         },
@@ -131,13 +131,12 @@
                             <label class="col-sm-2 control-label">类型</label>
                             <div class="col-sm-2">
                                 <label class="radio-inline">
-                                    <input type="radio" value='id' class="form-data-area" name="productType"> style-id
+                                    <input type="radio" value='admin' class="form-data-area" name="productType"> style-admin
                                 </label>
                             </div>
                             <div class="col-sm-2">
                                 <label class="radio-inline">
-                                    <input type="radio" value='imgprocess' class="form-data-area" name="productType">
-                                    style-imgprocess
+                                    <input type="radio" value='id' class="form-data-area" name="productType"> style-id
                                 </label>
                             </div>
                             <div class="col-sm-4">
@@ -158,15 +157,22 @@
                                     style-shopping
                                 </label>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-4">
                                 <label class="radio-inline">
-                                    <input type="radio" value='web' class="form-data-area" name="productType"> style-web
+                                    <input type="radio" value='web' class="form-data-area" name="productType">
+                                    style-web
+                                </label>
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-2">
+                                <label class="radio-inline">
+                                    <input type="radio" value='message' class="form-data-area" name="productType">
+                                    style-message
                                 </label>
                             </div>
                             <div class="col-sm-2">
                                 <label class="radio-inline">
-                                    <input type="radio" value='message' class="form-data-area" name="productType">
-                                    style-message
+                                    <input type="radio" value='coupon' class="form-data-area" name="productType">
+                                    style-coupon
                                 </label>
                             </div>
                         </div>

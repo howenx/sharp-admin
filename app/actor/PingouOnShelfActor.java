@@ -3,6 +3,7 @@ package actor;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.japi.pf.ReceiveBuilder;
+import com.google.common.base.Throwables;
 import domain.pingou.PinSku;
 import modules.NewScheduler;
 import play.Logger;
@@ -49,6 +50,7 @@ public class PingouOnShelfActor extends AbstractActor {
                 endAt = sdf.parse(pinSku.getEndAt());
             }catch(Exception e){
                 e.printStackTrace();
+                Logger.error(Throwables.getStackTraceAsString(e));
             }
             if(endAt != null && (endAt.getTime() - now.getTime() > 0)){
                 FiniteDuration duration = Duration.create(endAt.getTime() - now.getTime(), TimeUnit.MILLISECONDS);

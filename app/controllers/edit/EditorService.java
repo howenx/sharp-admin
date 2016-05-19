@@ -1,8 +1,10 @@
 package controllers.edit;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Throwables;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.logging.Log;
 import play.Logger;
 import play.Play;
 import play.libs.Json;
@@ -160,6 +162,7 @@ public class EditorService {
     		return map;
 		} catch (Exception e) {
 			e.printStackTrace();
+			Logger.error(Throwables.getStackTraceAsString(e));
 		}
 		return null;
 	}
@@ -219,6 +222,7 @@ public class EditorService {
 				list.add(Json.toJson(map));
 			} catch (Exception e) {
 				e.printStackTrace();
+				Logger.error(Throwables.getStackTraceAsString(e));
 				return null;
 			}
 		}
@@ -283,6 +287,7 @@ public class EditorService {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+			Logger.error(Throwables.getStackTraceAsString(e));
 		}
 		return out.toString();
 	}

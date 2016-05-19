@@ -269,4 +269,5 @@ public class CouponVo implements Serializable{
     public void setOrder(String order) {
         this.order = order;
     }
+
 }
