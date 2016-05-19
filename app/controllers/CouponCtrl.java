@@ -29,7 +29,7 @@ public class CouponCtrl extends Controller {
     @Inject
     private CouponVoService couponVoService;
 
-    private int pageSize = 3;
+    private int pageSize = 10;
 
     /**
      * 优惠券导入

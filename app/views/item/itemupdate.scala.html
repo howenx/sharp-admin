@@ -106,6 +106,9 @@
         });
     })
 </script>
+<style type="text/css">
+    .start{color:red;}
+</style>
 }
 
 @import java.lang.String; var title="商品修改"
@@ -148,7 +151,7 @@
                 <!-- 商品基本信息 -->
                 <h4 class="h4-custom-hmm">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.basics")</h4>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</div></label>
+                    <label class="col-sm-1 control-label" ><div class="r start" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.cate")</div></label>
                     <div class="col-sm-2">
                         <select class="form-control form-data-area" id="categorySelect">
                             @for(cate <- catesParentList) {
@@ -170,7 +173,7 @@
                             <!--<option value="@cates.getCateId()">@cates.getCateNm()</option>-->
                         </select>
                     </div>
-                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</div></label>
+                    <label class="col-sm-1 control-label" ><div class="r start" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.brand")</div></label>
                     <div class="col-sm-2">
                         <select class="form-control form-data-area" id="bandSelect" name="brandId">
                             @for(b <- brandsList) {
@@ -187,11 +190,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">商品标题</div></label>
+                    <label class="col-sm-1 control-label" ><div class="r start" style="padding:3px;"> *</div><div class="r">商品标题</div></label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control form-data-area" id="itemTitle" name="itemTitle" value="@item.getItemTitle()">
                     </div>
-                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">供应商</div></label>
+                    <label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r">供应商</div></label>
                     <div class="col-sm-2">
                         <select class="form-control" id="supplyMerch" name="supplyMerch">
                             <option></option>
@@ -290,7 +293,7 @@
                 </div>
                 <h4 class="h4-custom-hmm">商品设置及详情</h4>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">商品参数</div></label>
+                    <label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r">商品参数</div></label>
                     <div class="col-sm-7">
                         <input type="hidden" class="form-control" id="features" name="features">
                         <input type="hidden" id="del" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")'>
@@ -312,7 +315,7 @@
                     <div id="warn-attr" style="color:red; margin-left:0px;margin-top:15px;"></div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div>优惠信息</label>
+                    <label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div>优惠信息</label>
                     <div class="col-sm-7">
                         <table class="table table-bordered pub" id="publicityTab">
                             <tr>
@@ -355,7 +358,7 @@
                 <!--详细信息为图片-->
                 @if(item.getItemDetailImgs()!=null && item.getItemDetailImgs()!="") {
                 <div class="form-group pic-info">
-                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
+                    <label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
                     <div class="col-sm-7">
                         <div class="detail-img" style="border:1px solid #ccc;">
                             <div id="galleryD" style="float:left;">
@@ -382,7 +385,7 @@
                     </div>
                 </div>
                 <div class="form-group edit-info" style="display:none;">
-                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">商品详情</div></label>
+                    <label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r">商品详情</div></label>
                     <div class="col-sm-7">
                         <script id="editor" type="text/plain" style="height:500px;"></script>
                     </div>
@@ -392,7 +395,7 @@
                 <!--详细信息为图文-->
                 @if(item.getItemDetail()!=null && item.getItemDetail()!="") {
                 <div class="form-group pic-info" style="display:none;">
-                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
+                    <label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
                     <div class="col-sm-7">
                         <div class="detail-img" style="border:1px solid #ccc;">
                             <div id="galleryD" style="float: left;">
@@ -411,7 +414,7 @@
                     </div>
                 </div>
                 <div class="form-group edit-info">
-                    <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">商品详情</div></label>
+                    <label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r">商品详情</div></label>
                     <div class="col-sm-7">
                         <script id="editor" type="text/plain" style="height:500px;" ></script>
                         <input type="hidden" id="itemDetail" value="@item.getItemDetail()">
