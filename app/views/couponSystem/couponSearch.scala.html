@@ -20,6 +20,7 @@
                 locale: 'zh-cn',
                 format:'YYYY-MM-DD HH:mm:ss'
             });
+
         });
 </script>
 }
@@ -119,6 +120,7 @@
                 <th>有效期</th>
                 <th>最大有效期</th>
                 <th>状态</th>
+                <th>操作</th>
             </tr>
             </thead>
             <tbody>
@@ -128,19 +130,20 @@
                 <td>@c.getCouponNumber()</td>
                 <td>@c.getCouponName()</td>
                 <td>@c.getCouponType()</td>
-                <td>@c.getPlaceName()</td>
+                <td>@c.getUsedPlaceName()</td>
                 <td>@c.getBrandName()</td>
                 <td>@c.getCode()</td>
                 <td>@c.getStandardPrice()</td>
                 <td>@c.getPrice()</td>
                 <td>@c.getIssuedAt()</td>
                 <td>@c.getExpiredAt()</td>
-                <td>@c.getMaxExpiredAt()</td>
+                <td>@c.getMaximumExpiredAt()</td>
                 <td>
                     @if(c.getStatus()=="NOT_USED"){可使用}
                     @if(c.getStatus()=="USED"){已使用}
                     @if(c.getStatus()=="DROPPED"){作废}
                 </td>
+                <td><a href="javascript:;" class="coupon-drop">@if(c.getStatus()=="NOT_USED"){作废}</a></td>
             </tr>
             }
             <tr id="nodata-td" style="display:none;"><td colspan="12">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>

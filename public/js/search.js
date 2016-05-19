@@ -716,7 +716,7 @@ $(function() {
              CouponDto.couponType = $("#coupon_type").val();
              CouponDto.brandName = $("#brand_name").val();
              CouponDto.code = $("#code").val();
-             CouponDto.placeName = $("#place_name").val();
+             CouponDto.usedPlaceName = $("#place_name").val();
              CouponDto.issuedAt = $("#issued_at").val();
              CouponDto.expiredAt = $("#expired_at").val();
              CouponDto.status = $("#status").val();
@@ -730,7 +730,8 @@ $(function() {
              //填充列表数据
              $(data).each(function(index, element) {
                  var status = "";
-                 if($(this)[0].status=="NOT_USED"){status="可使用"}
+                 var operation = "";
+                 if($(this)[0].status=="NOT_USED"){status="可使用";operation="作废";}
                  if($(this)[0].status=="USED"){status="已使用"}
                  if($(this)[0].status=="DROPPED"){status="作废"}
                  $('#tb-topic').find('tbody').append('' +
@@ -738,15 +739,16 @@ $(function() {
                      '<td>' + $(this)[0].couponNumber + '</td>' +
                      '<td>' + $(this)[0].couponName+ '</td>' +
                      '<td>' + $(this)[0].couponType+ '</td>' +
-                     '<td>' + $(this)[0].placeName+ '</td>' +
+                     '<td>' + $(this)[0].usedPlaceName+ '</td>' +
                      '<td>' + $(this)[0].brandName+ '</td>' +
                      '<td>' + $(this)[0].code+ '</td>' +
                      '<td>' + $(this)[0].standardPrice+ '</td>' +
                      '<td>' + $(this)[0].price+ '</td>' +
                      '<td>' + $(this)[0].issuedAt+ '</td>' +
                      '<td>' + $(this)[0].expiredAt+ '</td>' +
-                     '<td>' + $(this)[0].maxExpiredAt+ '</td>' +
+                     '<td>' + $(this)[0].maximumExpiredAt+ '</td>' +
                      '<td>' + status+ '</td>' +
+                     '<td><a href="javascript:;" class="coupon-drop">' + operation+ '</a></td>' +
                      '</tr>'
                  );
              })

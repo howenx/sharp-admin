@@ -4,28 +4,30 @@ import java.io.Serializable;
 
 /**
  * Created by Sunny Wu on 16/4/25.
+ * Modified by Tiffany Zhu 2016.05.18
  * kakao china.
  * 优惠券系统Coupon
  */
 public class CouponVo implements Serializable{
 
-    private String couponNumber;    //coupon编码
-    private String couponName;      //coupon名称
-    private String couponType;      //coupon类型(兑换券 EXCHANGE,  礼品券 GIFTCARD,  代金券 MONEY)
-    private String placeCode;       //使用店铺编码
-    private String placeName;       //使用店铺名称
-    private String brandCode;       //品牌编码
-    private String brandName;       //品牌名称
-    private String event;           //API类型(发行 CREATED,  作废 DROPPED,  延长有效 RENEWED)
-    private String eventId;         //API类型ID
-    private String code;            //商品编码
-    private Integer standardPrice;   //原价
-    private Integer price;           //折扣价
-    private String issuedAt;        //发行日期(yyyyMMddHHmmss)
-    private String expiredAt;       //有效期(yyyyMMddHHmmss)
-    private String maxExpiredAt;    //最大有效期
-    private String status;          //状态(可使用 NOT_USED, 已使用 USED,  作废 DROPPED)
-    private String modifiedAt;      //状态更新时间
+    private Long couponNumber;              //coupon编码
+    private String usedPlaceCode;           //使用店铺编码
+    private String usedPlaceName;           //使用店铺名称
+    private String brandCode;               //品牌编码
+    private String brandName;               //品牌名称
+    private String maximumExpiredAt;        //最大有效期
+    private String event;                   //API类型    CREATED（发行）,   DROPPED（作废）,   RENEWED（延长有效）
+    private String eventId;                 //API类型ID
+    private String modifiedAt;              //更新时间  格式 yyyyMMddHHmmss
+    private Long id;                        //主键
+    private String couponName;              //coupon名称
+    private String code;                    //coupon编码
+    private String status;                  //NOT_USED（可使用 ）,  ISSUE（已发放）， USED（已使用）,DROPPED（  作废 ）
+    private int standardPrice;              //原价
+    private int price;                      //折扣价
+    private String expiredAt;               //有效期，格式 yyyyMMddHHmmss
+    private String issuedAt;                //发行日期，格式 yyyyMMddHHmmss
+    private String couponType;              //兑换券 EXCHANGE,  礼品券 GIFTCARD,  代金券 MONEY
 
     //分页,每页多少条
     private Integer pageSize;
@@ -39,26 +41,52 @@ public class CouponVo implements Serializable{
     public CouponVo() {
     }
 
+    public CouponVo(Long couponNumber, String usedPlaceCode, String usedPlaceName, String brandCode, String brandName, String maximumExpiredAt, String event, String eventId, String modifiedAt, Long id, String couponName, String code, String status, int standardPrice, int price, String expiredAt, String issuedAt, String couponType, Integer pageSize, Integer offset, String sort, String order) {
+        this.couponNumber = couponNumber;
+        this.usedPlaceCode = usedPlaceCode;
+        this.usedPlaceName = usedPlaceName;
+        this.brandCode = brandCode;
+        this.brandName = brandName;
+        this.maximumExpiredAt = maximumExpiredAt;
+        this.event = event;
+        this.eventId = eventId;
+        this.modifiedAt = modifiedAt;
+        this.id = id;
+        this.couponName = couponName;
+        this.code = code;
+        this.status = status;
+        this.standardPrice = standardPrice;
+        this.price = price;
+        this.expiredAt = expiredAt;
+        this.issuedAt = issuedAt;
+        this.couponType = couponType;
+        this.pageSize = pageSize;
+        this.offset = offset;
+        this.sort = sort;
+        this.order = order;
+    }
+
     @Override
     public String toString() {
         return "CouponVo{" +
-                "couponNumber='" + couponNumber + '\'' +
-                ", couponName='" + couponName + '\'' +
-                ", couponType='" + couponType + '\'' +
-                ", placeCode='" + placeCode + '\'' +
-                ", placeName='" + placeName + '\'' +
+                "couponNumber=" + couponNumber +
+                ", usedPlaceCode='" + usedPlaceCode + '\'' +
+                ", usedPlaceName='" + usedPlaceName + '\'' +
                 ", brandCode='" + brandCode + '\'' +
                 ", brandName='" + brandName + '\'' +
+                ", maximumExpiredAt='" + maximumExpiredAt + '\'' +
                 ", event='" + event + '\'' +
                 ", eventId='" + eventId + '\'' +
-                ", code='" + code + '\'' +
-                ", price=" + price +
-                ", standardPrice=" + standardPrice +
-                ", issuedAt='" + issuedAt + '\'' +
-                ", expiredAt='" + expiredAt + '\'' +
-                ", maxExpiredAt='" + maxExpiredAt + '\'' +
-                ", status='" + status + '\'' +
                 ", modifiedAt='" + modifiedAt + '\'' +
+                ", id=" + id +
+                ", couponName='" + couponName + '\'' +
+                ", code='" + code + '\'' +
+                ", status='" + status + '\'' +
+                ", standardPrice=" + standardPrice +
+                ", price=" + price +
+                ", expiredAt='" + expiredAt + '\'' +
+                ", issuedAt='" + issuedAt + '\'' +
+                ", couponType='" + couponType + '\'' +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +
@@ -66,44 +94,28 @@ public class CouponVo implements Serializable{
                 '}';
     }
 
-    public String getCouponNumber() {
+    public Long getCouponNumber() {
         return couponNumber;
     }
 
-    public void setCouponNumber(String couponNumber) {
+    public void setCouponNumber(Long couponNumber) {
         this.couponNumber = couponNumber;
     }
 
-    public String getCouponName() {
-        return couponName;
+    public String getUsedPlaceCode() {
+        return usedPlaceCode;
     }
 
-    public void setCouponName(String couponName) {
-        this.couponName = couponName;
+    public void setUsedPlaceCode(String usedPlaceCode) {
+        this.usedPlaceCode = usedPlaceCode;
     }
 
-    public String getCouponType() {
-        return couponType;
+    public String getUsedPlaceName() {
+        return usedPlaceName;
     }
 
-    public void setCouponType(String couponType) {
-        this.couponType = couponType;
-    }
-
-    public String getPlaceCode() {
-        return placeCode;
-    }
-
-    public void setPlaceCode(String placeCode) {
-        this.placeCode = placeCode;
-    }
-
-    public String getPlaceName() {
-        return placeName;
-    }
-
-    public void setPlaceName(String placeName) {
-        this.placeName = placeName;
+    public void setUsedPlaceName(String usedPlaceName) {
+        this.usedPlaceName = usedPlaceName;
     }
 
     public String getBrandCode() {
@@ -122,6 +134,14 @@ public class CouponVo implements Serializable{
         this.brandName = brandName;
     }
 
+    public String getMaximumExpiredAt() {
+        return maximumExpiredAt;
+    }
+
+    public void setMaximumExpiredAt(String maximumExpiredAt) {
+        this.maximumExpiredAt = maximumExpiredAt;
+    }
+
     public String getEvent() {
         return event;
     }
@@ -138,52 +158,36 @@ public class CouponVo implements Serializable{
         this.eventId = eventId;
     }
 
+    public String getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public void setModifiedAt(String modifiedAt) {
+        this.modifiedAt = modifiedAt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCouponName() {
+        return couponName;
+    }
+
+    public void setCouponName(String couponName) {
+        this.couponName = couponName;
+    }
+
     public String getCode() {
         return code;
     }
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public Integer getStandardPrice() {
-        return standardPrice;
-    }
-
-    public void setStandardPrice(Integer standardPrice) {
-        this.standardPrice = standardPrice;
-    }
-
-    public String getIssuedAt() {
-        return issuedAt;
-    }
-
-    public void setIssuedAt(String issuedAt) {
-        this.issuedAt = issuedAt;
-    }
-
-    public String getExpiredAt() {
-        return expiredAt;
-    }
-
-    public void setExpiredAt(String expiredAt) {
-        this.expiredAt = expiredAt;
-    }
-
-    public String getMaxExpiredAt() {
-        return maxExpiredAt;
-    }
-
-    public void setMaxExpiredAt(String maxExpiredAt) {
-        this.maxExpiredAt = maxExpiredAt;
     }
 
     public String getStatus() {
@@ -194,12 +198,44 @@ public class CouponVo implements Serializable{
         this.status = status;
     }
 
-    public String getModifiedAt() {
-        return modifiedAt;
+    public int getStandardPrice() {
+        return standardPrice;
     }
 
-    public void setModifiedAt(String modifiedAt) {
-        this.modifiedAt = modifiedAt;
+    public void setStandardPrice(int standardPrice) {
+        this.standardPrice = standardPrice;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public String getExpiredAt() {
+        return expiredAt;
+    }
+
+    public void setExpiredAt(String expiredAt) {
+        this.expiredAt = expiredAt;
+    }
+
+    public String getIssuedAt() {
+        return issuedAt;
+    }
+
+    public void setIssuedAt(String issuedAt) {
+        this.issuedAt = issuedAt;
+    }
+
+    public String getCouponType() {
+        return couponType;
+    }
+
+    public void setCouponType(String couponType) {
+        this.couponType = couponType;
     }
 
     public Integer getPageSize() {
@@ -231,31 +267,6 @@ public class CouponVo implements Serializable{
     }
 
     public void setOrder(String order) {
-        this.order = order;
-    }
-
-    public CouponVo(String couponNumber, String couponName, String couponType, String placeCode, String placeName, String brandCode, String brandName, String event, String eventId, String code, Integer price, Integer standardPrice, String issuedAt, String expiredAt, String maxExpiredAt, String status, String modifiedAt, Integer pageSize, Integer offset, String sort, String order) {
-
-        this.couponNumber = couponNumber;
-        this.couponName = couponName;
-        this.couponType = couponType;
-        this.placeCode = placeCode;
-        this.placeName = placeName;
-        this.brandCode = brandCode;
-        this.brandName = brandName;
-        this.event = event;
-        this.eventId = eventId;
-        this.code = code;
-        this.price = price;
-        this.standardPrice = standardPrice;
-        this.issuedAt = issuedAt;
-        this.expiredAt = expiredAt;
-        this.maxExpiredAt = maxExpiredAt;
-        this.status = status;
-        this.modifiedAt = modifiedAt;
-        this.pageSize = pageSize;
-        this.offset = offset;
-        this.sort = sort;
         this.order = order;
     }
 }
