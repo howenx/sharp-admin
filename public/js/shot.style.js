@@ -365,7 +365,7 @@ $(function() {
         //当前系统时间
         var dateTime = new Date();
         var currentTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-        dateTime.setSeconds(dateTime.getSeconds() + 5);
+        dateTime.setSeconds(dateTime.getSeconds() + 15);
         var deleteDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
         //设置主题结束时间
         $("#offShelvesAt").val(deleteDate);
@@ -379,7 +379,7 @@ $(function() {
         //当前系统时间
         var dateTime = new Date();
         var currentTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-        dateTime.setSeconds(dateTime.getSeconds() + 5);
+        dateTime.setSeconds(dateTime.getSeconds() + 15);
         var deleteDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
         //设置主题结束时间
         $("#offShelvesAt").val(deleteDate);
