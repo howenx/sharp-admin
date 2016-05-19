@@ -58,6 +58,7 @@
   		//保存按钮
   		$("#js-usercenter-submit").css({"display":"none"});
   		$("#js-usercenter-cancel").css({"display":"none"});
+  		$("#js-usercenter-delete").css({"display":"none"});
 
   		//基本信息
   		$("#themeTitle").attr("disabled",true);
@@ -92,6 +93,7 @@
   		$("#js-usercenter-edit").css({"display":"none"});
   		$("#js-usercenter-back").css({"display":"none"});
   		$("#js-usercenter-cancel").css({"display":""});
+  		$("#js-usercenter-delete").css({"display":""});
         //基本信息
   		$("#themeTitle").attr("disabled",false);
   		$("#onShelvesAt").attr("disabled",false);
@@ -155,8 +157,8 @@
     </div>
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
-        <div  id="js-usercenter-submit" class="btn-blue btn-form fr ml15">@Messages.get(new
-            Lang(Lang.forCode(lang)),"themes.slider.save")</div>
+        <div  id="js-usercenter-delete" class="btn-blue btn-form fr ml15">下架</div>
+        <div  id="js-usercenter-submit" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
         <div  id="js-usercenter-edit" class="btn-blue btn-form fr ml15">编辑</div>
         <div  id="js-usercenter-back" class="btn-blue btn-form fr ml15">返回</div>
         <div id="js-usercenter-cancel" class="btn-white btn-form fr ml20">@Messages.get(new

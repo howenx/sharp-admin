@@ -58,6 +58,7 @@ $(function() {
 			topicDto.endAt = "99999-12-31 23:59:59";
 		}
 		topicDto.title = $("#topic-form-thName").val();
+		topicDto.orDestroy = $("#topic-form-status").val();
 
 		//调用共用ajax,url从根目录开始不需要加上语言
 		search("/topic/search/" + pageIndex, topicDto);
