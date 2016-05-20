@@ -92,7 +92,7 @@
             <property name="alias" value="t"/>
         </include>
         from coupon t where 1=1
-        <if test='couponNumber != null and couponNumber != "null" and couponNumber != "" '>
+        <if test='couponNumber != null and couponNumber != "" '>
             and t.coupon_number = #{couponNumber}
         </if>
         <if test='couponName != null and couponName != "null" and couponName != "" '>
