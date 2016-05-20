@@ -41,31 +41,24 @@ public class SubscribeActor extends AbstractActor {
         receive(ReceiveBuilder.match(String.class, message -> {
             try {
                 ExecutorService executor = Executors.newFixedThreadPool(REDIS_SUBSCRIBE.size());
-                List<Callable<Boolean>> callables = new ArrayList<>();
                 if (message.equals("start")) {
-                    REDIS_SUBSCRIBE.forEach(channel-> executor.submit(() -> {
+                    REDIS_SUBSCRIBE.forEach(channel -> executor.submit(() -> {
                         try {
                             JedisPubSub listener = new RedisListener(out);
                             JEDIS_SUB.put(channel, listener);
                             Jedis jedis = jedisPool.getResource();
                             JEDIS_COLLECT.add(jedis);
                             jedis.psubscribe(listener, "hmm." + channel);
-
                             return listener.isSubscribed();
                         } catch (Exception ignore) {
-                            Logger.error(Throwables.getStackTraceAsString(ignore));
+//                            Logger.error(Throwables.getStackTraceAsString(ignore));
                             return false;
                         }
                     }));
-
-//                    callables.addAll(REDIS_SUBSCRIBE.stream().map(channel -> callable(jedisPool, out, channel)).collect(Collectors.toList()));
-
-//                    executor.invokeAll(callables);
-                    EXECUTOR_SERVICE.add(executor);
-
+//                    EXECUTOR_SERVICE.add(executor);
+                    executor.shutdown();
                 } else if (message.equals("end")) {
                     System.out.println("----END---");
-                    callables = null;
                     executor.shutdownNow();
                     JEDIS_SUB.forEach((k, v) -> {
                         if (v.isSubscribed()) {
@@ -73,21 +66,28 @@ public class SubscribeActor extends AbstractActor {
                             v.punsubscribe();
                         }
                     });
-                    if (!EXECUTOR_SERVICE.isEmpty()) {
-                        System.out.println("----关闭线程池---");
-                        EXECUTOR_SERVICE.forEach(ExecutorService::shutdownNow);
-                    }
-                    if (!JEDIS_COLLECT.isEmpty()){
+
+                    if (!JEDIS_COLLECT.isEmpty()) {
                         System.out.println("-----关闭Jedis------");
                         JEDIS_COLLECT.forEach(Jedis::close);
                     }
+//                    if (!JEDIS_POOLS.isEmpty()) {
+//                        System.out.println("-----destroy JedisPool------");
+//                        JEDIS_POOLS.forEach(JedisPool::destroy);
+//                    }
+//
+//                    if (!EXECUTOR_SERVICE.isEmpty()) {
+//                        System.out.println("----关闭线程池---");
+//                        EXECUTOR_SERVICE.forEach(executorService -> System.out.println("----当前状态线程池---"+executorService.isTerminated()+"----是否关闭---"+executorService.isShutdown()));
+//                    }
 
                     JEDIS_SUB.clear();
                     EXECUTOR_SERVICE.clear();
-
+                    JEDIS_COLLECT.clear();
                 }
 
             } catch (Exception ignored) {
+                Logger.error(Throwables.getStackTraceAsString(ignored));
             }
         }).matchAny(s -> {
             Logger.error("MnsActor received messages not matched: {}", s.toString());

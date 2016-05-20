@@ -4,6 +4,7 @@ import com.squareup.okhttp.OkHttpClient;
 import org.h2.mvstore.ConcurrentArrayList;
 import play.Configuration;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 
 import javax.inject.Inject;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 查询参数表中的参数项
@@ -50,22 +52,26 @@ public class SysParCom {
 
     //ERP账户信息配置
     public static String URL;
-    public static String COMPANY ;
+    public static String COMPANY;
     public static String LOGIN_NAME;
     public static String PASSWORD;
     public static String SECRET;
-    public static ConcurrentMap<String,JedisPubSub> JEDIS_SUB;
+    public static ConcurrentMap<String, JedisPubSub> JEDIS_SUB;
     public static List<Jedis> JEDIS_COLLECT;
+    public static List<JedisPool> JEDIS_POOLS;
 
 
     public static List<ExecutorService> EXECUTOR_SERVICE;
 
     public static final OkHttpClient client = new OkHttpClient();
 
+//    public static ExecutorService executor;
+
 
 
     @Inject
     public SysParCom(Configuration configuration) {
+
         JEDIS_SUB = new ConcurrentHashMap<>();
         REDIS_URL = configuration.getString("redis.host");
         REDIS_PASSWORD = configuration.getString("redis.password");
@@ -90,6 +96,10 @@ public class SysParCom {
         EXECUTOR_SERVICE = new ArrayList<>();
 
         JEDIS_COLLECT = new ArrayList<>();
+
+        JEDIS_POOLS = new ArrayList<>();
+
+//        executor = Executors.newFixedThreadPool(REDIS_SUBSCRIBE.size());
 
     }
 
