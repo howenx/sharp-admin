@@ -84,6 +84,9 @@
                 <if test="title != null and title != ''">
                         and t.title = #{title}
                 </if>
+                <if test="orDestroy != null">
+                        and t.or_destroy = #{orDestroy}
+                </if>
                 <if test="startAt != null">
                         and t.start_at &gt;= #{startAt} ::timestamp
                 </if>

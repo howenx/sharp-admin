@@ -29,7 +29,7 @@ public class CouponCtrl extends Controller {
     @Inject
     private CouponVoService couponVoService;
 
-    private int pageSize = 3;
+    private int pageSize = 10;
 
     /**
      * 优惠券导入
@@ -95,7 +95,7 @@ public class CouponCtrl extends Controller {
 
 
 
-                couponVo.setCouponNumber(data[0]);
+                couponVo.setCouponNumber(Long.valueOf(data[0]));
                 couponVo.setCouponName(data[1]);
                 couponVo.setCouponType(data[2]);
                 couponVo.setBrandCode(data[3]);
@@ -105,7 +105,7 @@ public class CouponCtrl extends Controller {
                 couponVo.setPrice(Integer.parseInt(data[7]));
                 couponVo.setIssuedAt(data[8]);
                 couponVo.setExpiredAt(data[9]);
-                couponVo.setMaxExpiredAt(data[10]);
+                couponVo.setMaximumExpiredAt(data[10]);
                 couponVo.setStatus("NOT_USED");
                 couponVoService.insertCoupon(couponVo);
                 Logger.info("<br/>"+"第"+(i)+"行成功,couponNumber="+couponVo.getCouponNumber());

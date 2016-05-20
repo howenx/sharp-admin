@@ -136,6 +136,9 @@ public class ThemeCtrl extends Controller {
         theme.setPageSize(-1);
         theme.setOffset(-1);
 
+        //主题状态
+        theme.setOrDestroy(false);
+
         //取总数
         int countNum = service.themeSearch(theme).size();
         //共分几页
@@ -418,7 +421,7 @@ public class ThemeCtrl extends Controller {
         //基本样式不匹配;主图片,商品ID不是Json格式;首页主图不是Json格式;主图标签不是Json格式;开始日期大于结束日期;
         if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || !(Regex.isJason(theme.getThemeItem())) || !(Regex.isJason(theme.getThemeMasterImg()))
                 || (theme.getMasterItemTag() != null && !(Regex.isJason(theme.getMasterItemTag()))) || (theme.getStartAt().compareTo(theme.getEndAt())>= 0) ||
-                theme.getEndAt().compareTo(strNow) <= 0 || theme.getStartAt().compareTo(validDate) > 0 || theme.getEndAt().compareTo(validDate) > 0 ){
+                theme.getEndAt().compareTo(strNow) < 0 || theme.getStartAt().compareTo(validDate) > 0 || theme.getEndAt().compareTo(validDate) > 0 ){
             return badRequest();
         }
         //数据验证      ----end
@@ -436,11 +439,6 @@ public class ThemeCtrl extends Controller {
             Logger.error(Throwables.getStackTraceAsString(e));
         }
         if(endAt != null){
-            Logger.error("结束时间~~~:" + endAt.getTime());
-            Logger.error("当前时间~~~:" +  now.getTime());
-            Logger.error("时间差~~~:" +  (endAt.getTime() - now.getTime()));
-
-
             FiniteDuration duration = Duration.create(endAt.getTime() - now.getTime(), TimeUnit.MILLISECONDS);
             newScheduler.scheduleOnce(duration,themeOffShelf,theme.getId());
         }
@@ -910,7 +908,7 @@ public class ThemeCtrl extends Controller {
         String validDate = sdfDate.format(calendar.getTime());
         //基本样式不匹配;主图片,商品ID,首页主图,主图标签     不是Json格式
         if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || (theme.getStartAt().compareTo(theme.getEndAt())>=0) ||
-                theme.getEndAt().compareTo(strNow) <= 0 || theme.getStartAt().compareTo(validDate) > 0 || theme.getEndAt().compareTo(validDate) > 0  ){
+                theme.getEndAt().compareTo(strNow) < 0 || theme.getStartAt().compareTo(validDate) > 0 || theme.getEndAt().compareTo(validDate) > 0  ){
             return badRequest();
         }
         //数据验证      ----end

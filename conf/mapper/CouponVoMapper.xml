@@ -12,22 +12,23 @@
 
     <sql id="couponColumns">
         ${alias}.coupon_number,
-        ${alias}.coupon_name,
-        ${alias}.coupon_type,
-        ${alias}.place_code,
-        ${alias}.place_name,
+        ${alias}.used_place_code,
+        ${alias}.used_place_name,
         ${alias}.brand_code,
         ${alias}.brand_name,
+        ${alias}.maximum_expired_at,
         ${alias}.event,
         ${alias}.event_id,
+        ${alias}.modified_at,
+        ${alias}.id,
+        ${alias}.coupon_name,
         ${alias}.code,
-        ${alias}.price,
-        ${alias}.standard_price,
-        ${alias}.issued_at,
-        ${alias}.expired_at,
-        ${alias}.max_expired_at,
         ${alias}.status,
-        ${alias}.modified_at
+        ${alias}.standard_price,
+        ${alias}.price,
+        ${alias}.expired_at,
+        ${alias}.issued_at,
+        ${alias}.coupon_type
     </sql>
 
     <!-- 录入一条优惠券信息 -->
@@ -101,8 +102,8 @@
         <if test='brandName != null and brandName != "null" and brandName != "" '>
             and t.brand_name = #{brandName}
         </if>
-        <if test='placeName != null and placeName != "null" and placeName != "" '>
-            and t.place_name like '%${placeName}%'
+        <if test='usedPlaceName != null and usedPlaceName != "null" and usedPlaceName != "" '>
+            and t.place_name like '%${usedPlaceName}%'
         </if>
         <if test='code != null and code != "null" and code != "" '>
             and t.code = #{code}

@@ -17,6 +17,9 @@
     <script src="/assets/js/rili.js"></script>
     <script>window.uploadURL = '@uploadURL'</script>
     <script>window.imageUrl = '@imageUrl'</script>
+    <style type="text/css">
+        .start{color:red;}
+    </style>
 </head>
 <body onload="Init()">
 <div class="panel panel-primary">
@@ -30,7 +33,7 @@
             <input type="hidden" id="index" value="">
             <div class="form-group">
                 <!-- 颜色 -->
-                <label class="col-sm-2 control-label"><div class="r" style="padding:3px;"> *</div><div class="r thval">颜色</div></label>
+                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">颜色</div></label>
                 <div class="col-sm-10">
                     <div class="color">
                         <label class="radio-inline">
@@ -51,8 +54,8 @@
             </div>
             <div class="form-group">
                 <!-- 尺寸 -->
-                <label class="col-sm-2 control-label"><div class="r" style="padding:3px;"> *</div><div class="r thval">尺寸</div></label>
-                <div class="col-sm-10">
+                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">尺寸</div></label>
+                <div class="col-sm-10"> start
                     <div class="size">
                         <label class="radio-inline">
                             <input type="radio" name="itemSize" value="100ml" checked> <span>100ml</span>
@@ -69,13 +72,13 @@
             </div>
             <div class="form-group">
                 <!-- sku编号 -->
-                <label class="col-sm-2 control-label"><div class="r" style="padding:3px;"> *</div><div class="r thval">规格编号</div></label>
+                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">规格编号</div></label>
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="invCode" name="invCode">
                 </div>
                 <!-- 状态 -->
                 <div id="skuState">
-                    <label class="col-sm-2 control-label"><div class="r" style="padding:3px;"> *</div><div class="r thval">状态</div></label>
+                    <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">状态</div></label>
                     <div class="col-sm-2">
                         <select class="form-control" id="state" name="state">
                             <option value="Y">正常</option>
@@ -89,7 +92,7 @@
             </div>
             <div class="form-group">
                 <!-- 销售期限 -->
-                <label class="col-sm-2 control-label l-pad"><div class="r" style="padding:3px;"> *</div><div class="r thval">上架时间</div></label>
+                <label class="col-sm-2 control-label l-pad"><div class="r start" style="padding:3px;"> *</div><div class="r thval">上架时间</div></label>
                 <!--<label class="col-sm-2 control-label l-pad thval">上架时间</label>-->
                 <div class="col-sm-2" style="padding-right: 0; width:212px;">
                     <div class="input-group date" id='datetimepicker1'>
@@ -97,7 +100,7 @@
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
-                <label class="col-sm-2 control-label l-pad"><div class="r" style="padding:3px;"> *</div><div class="r thval">下架时间</div></label>
+                <label class="col-sm-2 control-label l-pad"><div class="r start" style="padding:3px;"> *</div><div class="r thval">下架时间</div></label>
                 <div class="col-sm-2" style="padding-left: 0; width:212px;">
                     <div class="input-group date" id='datetimepicker2'>
                         <input class="form-control col-sm-2"  type="text"  id="endAt" name="endAt">
@@ -108,12 +111,12 @@
             </div>
             <div class="form-group">
                 <!-- 现价 -->
-                <label class="col-sm-2 control-label"><div class="r" style="padding:3px;"> *</div><div class="r thval">现价</div></label>
+                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">现价</div></label>
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="itemPrice" name="itemPrice">
                 </div>
                 <!-- 原价 -->
-                <label class="col-sm-2 control-label"><div class="r" style="padding:3px;"> *</div><div class="r thval">原价</div></label>
+                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">原价</div></label>
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="itemSrcPrice" name="itemSrcPrice">
                 </div>
@@ -123,12 +126,12 @@
             </div>
             <div class="form-group">
                 <!-- 成本价 -->
-                <label class="col-sm-2 control-labell" ><div class="r" style="padding:3px;"> *</div><div class="r thva">成本价</div></label>
+                <label class="col-sm-2 control-labell" ><div class="r start" style="padding:3px;"> *</div><div class="r thva">成本价</div></label>
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="itemCostPrice" name="itemCostPrice">
                 </div>
                 <!-- 折扣 -->
-                <label class="col-sm-2 control-label"><div class="r" style="padding:3px;"> *</div><div class="r thval">折扣</div></label>
+                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">折扣</div></label>
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="itemDiscount" name="itemDiscount" placeholder="例:5.5表示5.5折">
                 </div>
@@ -138,12 +141,12 @@
             </div>
             <div class="form-group">
                 <!-- 重量 -->
-                <label class="col-sm-2 control-label"><div class="r" style="padding:3px;"> *</div><div class="r thval">重量(整数/小数:克)</div></label>
+                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">重量(整数/小数:克)</div></label>
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="invWeight" name="invWeight">
                 </div>
                 <!-- 限购数量 -->
-                <label class="col-sm-2 control-label"><div class="r" style="padding:3px;"> *</div><div class="r thval">限购数量</div></label>
+                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">限购数量</div></label>
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="restrictAmount" name="restrictAmount">
                 </div>
@@ -159,12 +162,12 @@
                     <!--<input type="text" class="form-control" id="amount" name="amount">-->
                 <!--</div>-->
                 <!-- 剩余库存量 -->
-                <label class="col-sm-2 control-label"><div class="r" style="padding:3px;"> *</div><div class="r thval">库存量</div></label>
+                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">库存量</div></label>
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="restAmount" name="restAmount">
                 </div>
                 <!-- 库存区域 -->
-                <label class="col-sm-2 control-label"><div class="r" style="padding:3px;"> *</div><div class="r thval">库存区域</div></label>
+                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">库存区域</div></label>
                 <div class="col-sm-2">
                     <select class="form-control" id="invArea" name="invArea">
                         @for(a <- area) {
@@ -173,7 +176,7 @@
                     </select>
                 </div>
                 <!-- 报关单位 -->
-                <label class="col-sm-1 control-label K"><div class="r" style="padding:3px;"> *</div><div class="r thval ">报关单位</div></label>
+                <label class="col-sm-1 control-label K"><div class="r start" style="padding:3px;"> *</div><div class="r thval ">报关单位</div></label>
                 <div class="col-sm-2 K">
                     <select class="form-control" id="invCustoms" name="invCustoms">
                         @for(cus <- customs) {
@@ -233,7 +236,7 @@
             </div>
             <div class="form-group">
                 <!-- sku主图 -->
-                <label class="col-sm-2 control-label"><div class="r" style="padding:3px;"> *</div><div class="r thval">主图(一张)<div id="warn-m" style="color:red;font-weight:200;"></div></div></label>
+                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">主图(一张)<div id="warn-m" style="color:red;font-weight:200;"></div></div></label>
                 <div class="col-sm-2">
                     <div class="list-img clearfix" style="border:1px solid #ccc;">
                         <span class="add" id="masterImgAddM" style="float: left">＋
@@ -244,7 +247,7 @@
                     </div>
                 </div>
                 <!-- 详情页预览图 -->
-                <label class="col-sm-2 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r thval">预览图(最多六张)<div id="warn-p" style="color:red;font-weight:200;"></div></div></label>
+                <label class="col-sm-2 control-label" ><div class="r start" style="padding:3px;"> *</div><div class="r thval">预览图(最多六张)<div id="warn-p" style="color:red;font-weight:200;"></div></div></label>
                 <div class="col-sm-4">
                     <div class="preview-img clearfix" style="border:1px solid #ccc;">
                         <div id="galleryP" style="float: left">

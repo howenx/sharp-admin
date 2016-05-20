@@ -50,7 +50,7 @@
             <div class="col-sm-3">
                 <input id = "topic-form-id" type="number" min="10000" max="99999999" class="form-control"/>
             </div>
-            <!--主商品id-->
+            <!--类型-->
             <label class="col-sm-2 control-label">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.condition2")</label>
             <div class="col-sm-3">
                 <select class="form-control" id="topic-form-type">
@@ -86,6 +86,13 @@
             <label class="col-sm-2 control-label">主题名称</label>
             <div class="col-sm-3">
                 <input id = "topic-form-thName" type="text"  class="form-control"/>
+            </div>
+            <!--主题状态-->
+            <label class="col-sm-2 control-label">主题状态</label>
+            <div class="col-sm-3">
+                <select class="form-control" id="topic-form-status" disabled>
+                    <option value="false">正常</option>
+                </select>
             </div>
         </div>
 

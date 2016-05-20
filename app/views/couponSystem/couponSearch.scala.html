@@ -20,6 +20,7 @@
                 locale: 'zh-cn',
                 format:'YYYY-MM-DD HH:mm:ss'
             });
+
         });
 </script>
 }
@@ -40,7 +41,7 @@
     <div class="page-title">
         <span class="title-name">优惠券查询</span>
     </div>
-    <form class="form-horizontal">
+    <form class="form-horizontal" style="padding-right: 80px">
         <div class="form-group">
             <!--Coupon编码-->
             <label class="col-sm-2 control-label">Coupon编码</label>
@@ -92,6 +93,7 @@
                 <select class="form-control" id="status">
                     <option value=""></option>
                     <option value="NOT_USED">可使用</option>
+                    <option value="ISSUE">已发放</option>
                     <option value="USED">已使用</option>
                     <option value="DROPPED">作废</option>
                 </select>
@@ -104,6 +106,7 @@
     </form>
     <div class="table-content">
         <!--id必须为tb-topic 公用js需要使用-->
+        <div style="overflow: scroll;">
         <table id="tb-topic" class="table table-bordered table-hover">
             <thead>
             <tr>
@@ -119,6 +122,7 @@
                 <th>有效期</th>
                 <th>最大有效期</th>
                 <th>状态</th>
+                <th>操作</th>
             </tr>
             </thead>
             <tbody>
@@ -128,24 +132,27 @@
                 <td>@c.getCouponNumber()</td>
                 <td>@c.getCouponName()</td>
                 <td>@c.getCouponType()</td>
-                <td>@c.getPlaceName()</td>
+                <td>@c.getUsedPlaceName()</td>
                 <td>@c.getBrandName()</td>
                 <td>@c.getCode()</td>
                 <td>@c.getStandardPrice()</td>
                 <td>@c.getPrice()</td>
                 <td>@c.getIssuedAt()</td>
                 <td>@c.getExpiredAt()</td>
-                <td>@c.getMaxExpiredAt()</td>
-                <td>
+                <td>@c.getMaximumExpiredAt()</td>
+                <td style="white-space:nowrap;">
                     @if(c.getStatus()=="NOT_USED"){可使用}
+                    @if(c.getStatus()=="ISSUE"){已发放}
                     @if(c.getStatus()=="USED"){已使用}
                     @if(c.getStatus()=="DROPPED"){作废}
                 </td>
+                <td style="white-space:nowrap;"><a href="javascript:;" class="coupon-drop">@if(c.getStatus()=="NOT_USED"){作废}</a></td>
             </tr>
             }
-            <tr id="nodata-td" style="display:none;"><td colspan="12">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            <tr id="nodata-td" style="display:none;"><td colspan="13">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
+        </div>
 
         <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
         <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>

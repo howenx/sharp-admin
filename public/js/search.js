@@ -14,10 +14,10 @@ $(function() {
 			"height": $(window).height(),
 			"display": "block"
 		});
-		$(".goods-img").css("left", ($(window).width() - 1200) / 2);
+		$(".goods-img").css("left", ($(window).width() - 800) / 2);
 		$(this).clone().appendTo($(".goods-img")).css({
-			"width": "100%",
-			"height":"800px",
+			"width": "70%",
+			"height":"600px",
 			"z-index": 1000
 		});
 	})
@@ -58,6 +58,7 @@ $(function() {
 			topicDto.endAt = "99999-12-31 23:59:59";
 		}
 		topicDto.title = $("#topic-form-thName").val();
+		topicDto.orDestroy = $("#topic-form-status").val();
 
 		//调用共用ajax,url从根目录开始不需要加上语言
 		search("/topic/search/" + pageIndex, topicDto);
@@ -148,19 +149,19 @@ $(function() {
             $('#tb-topic').find('tbody').append('' +
                 '<tr class="tb-list-data">' +
                 '<td><input type="checkbox" name="selectItem"></td>' +
-                '<td><a href="/'+window.lang+'/comm/findById/'+$(this)[0].itemId+'" class="item-info">' + $(this)[0].id + '</a></td>' +
+                '<td><a href="/'+window.lang+'/comm/findById/'+$(this)[0].itemId+'" class="item-info">' + $(this)[0].itemId + '</a></td>' +
+                '<td>' + $(this)[0].id + '</td>' +
                 '<td style="width: 20%;">' + $(this)[0].invTitle + '</td>' +
                 '<td>' +
                 '<img class="main-img" src="' + window.url + $(this)[0].invImg + '" alt="" width="50">' +
                 '</td>' +
-                '<td>' + $(this)[0].itemColor + '</td>' +
-                '<td>' + $(this)[0].itemSize + '</td>' +
+                '<td>' + $(this)[0].itemColor + '&nbsp;&nbsp;'+ $(this)[0].itemSize +'</td>' +
                 '<td>' + $(this)[0].invCode + '</td>' +
                 '<td>' + invArea + '</td>' +
                 '<td>' + ($(this)[0].startAt != null && $(this)[0].startAt != '' ? $(this)[0].startAt.substr(0, 19) : '') + '</td>}' +
                 '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 19) : '') + '</td>}' +
                 '<td>' + $(this)[0].restAmount + '</td>' +
-                '<td>' + orMasterInv + '</td>' +
+//                '<td>' + orMasterInv + '</td>' +
                 '<td><input type="hidden" value="'+$(this)[0].state+'">' + state + '</td>' +
                 '</tr>'
             );
@@ -716,7 +717,7 @@ $(function() {
              CouponDto.couponType = $("#coupon_type").val();
              CouponDto.brandName = $("#brand_name").val();
              CouponDto.code = $("#code").val();
-             CouponDto.placeName = $("#place_name").val();
+             CouponDto.usedPlaceName = $("#place_name").val();
              CouponDto.issuedAt = $("#issued_at").val();
              CouponDto.expiredAt = $("#expired_at").val();
              CouponDto.status = $("#status").val();
@@ -730,7 +731,8 @@ $(function() {
              //填充列表数据
              $(data).each(function(index, element) {
                  var status = "";
-                 if($(this)[0].status=="NOT_USED"){status="可使用"}
+                 var operation = "";
+                 if($(this)[0].status=="NOT_USED"){status="可使用";operation="作废";}
                  if($(this)[0].status=="USED"){status="已使用"}
                  if($(this)[0].status=="DROPPED"){status="作废"}
                  $('#tb-topic').find('tbody').append('' +
@@ -738,15 +740,16 @@ $(function() {
                      '<td>' + $(this)[0].couponNumber + '</td>' +
                      '<td>' + $(this)[0].couponName+ '</td>' +
                      '<td>' + $(this)[0].couponType+ '</td>' +
-                     '<td>' + $(this)[0].placeName+ '</td>' +
+                     '<td>' + $(this)[0].usedPlaceName+ '</td>' +
                      '<td>' + $(this)[0].brandName+ '</td>' +
                      '<td>' + $(this)[0].code+ '</td>' +
                      '<td>' + $(this)[0].standardPrice+ '</td>' +
                      '<td>' + $(this)[0].price+ '</td>' +
                      '<td>' + $(this)[0].issuedAt+ '</td>' +
                      '<td>' + $(this)[0].expiredAt+ '</td>' +
-                     '<td>' + $(this)[0].maxExpiredAt+ '</td>' +
+                     '<td>' + $(this)[0].maximumExpiredAt+ '</td>' +
                      '<td>' + status+ '</td>' +
+                     '<td><a href="javascript:;" class="coupon-drop">' + operation+ '</a></td>' +
                      '</tr>'
                  );
              })
