@@ -29,8 +29,12 @@ public class CouponVoServiceImpl implements CouponVoService {
      * @param couponVo 优惠券
      */
     @Override
-    public void updateCoupon(CouponVo couponVo) {
-        couponVoMapper.updateCoupon(couponVo);
+    public boolean updateCoupon(CouponVo couponVo) {
+        if(couponVoMapper.updateCoupon(couponVo) > 0){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     /**

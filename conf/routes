@@ -325,3 +325,6 @@ GET         /coupon/search                                                      
 GET         /$lang<(cn|en|kr)>/coupon/search                                        controllers.CouponCtrl.couponSearch(lang)
 POST        /coupon/search/$pageNum<[0-9]+>                                         controllers.CouponCtrl.couponSearchAjax(lang = "cn", pageNum:Int)
 POST        /$lang<(cn|en|kr)>/coupon/search/$pageNum<[0-9]+>                       controllers.CouponCtrl.couponSearchAjax(lang, pageNum:Int)
+POST        /coupon/drop                                                            controllers.CouponCtrl.dropCoupon(lang = "cn")
+POST        /$lang<(cn|en|kr)>/coupon/drop                                          controllers.CouponCtrl.dropCoupon(lang)
+

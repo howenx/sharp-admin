@@ -43,7 +43,9 @@
     <update id="updateCoupon" parameterType="domain.CouponVo">
         update coupon
         set
-        (coupon_number=#{couponNumber},coupon_name=#{couponName},coupon_type=#{couponType},place_code=#{placeCode},place_name=#{placeName},brand_code=#{brandCode},brand_name=#{brandName},event=#{event},event_id=#{eventId},code=#{code},price=#{price},standard_price=#{standardPrice},issued_at=#{issuedAt},expired_at=#{expiredAt},max_expired_at=#{maxExpiredAt},status=#{status},modified_at=#{modifiedAt})
+        coupon_number=#{couponNumber},coupon_name=#{couponName},coupon_type=#{couponType},used_place_code=#{usedPlaceCode},used_place_name=#{usedPlaceName},brand_code=#{brandCode},
+        brand_name=#{brandName},event=#{event},event_id=#{eventId},code=#{code},price=#{price},standard_price=#{standardPrice},issued_at=#{issuedAt},expired_at=#{expiredAt},
+        maximum_expired_at=#{maximumExpiredAt},status=#{status},modified_at=#{modifiedAt}
         where id = #{id}
     </update>
 
@@ -90,7 +92,7 @@
             <property name="alias" value="t"/>
         </include>
         from coupon t where 1=1
-        <if test='couponNumber != null and couponNumber != "null" and couponNumber != "" '>
+        <if test='couponNumber != null and couponNumber != "" '>
             and t.coupon_number = #{couponNumber}
         </if>
         <if test='couponName != null and couponName != "null" and couponName != "" '>

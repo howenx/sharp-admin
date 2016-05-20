@@ -20,7 +20,7 @@ public interface CouponVoService {
      * 更新一条优惠券信息
      * @param couponVo 优惠券
      */
-    void updateCoupon(CouponVo couponVo);
+    boolean updateCoupon(CouponVo couponVo);
 
     /**
      * 获取优惠券信息
