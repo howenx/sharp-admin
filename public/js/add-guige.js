@@ -221,9 +221,6 @@ function saveCurr(saveFlag) {
     var itemSize = $("input[name=itemSize]:checked").val();//尺寸
     var invCode = $("#invCode").val();//规格编号
     var state = $("input[name=state]:checked").val();//状态
-    if (state=="Y") state = "正常";
-    if (state=="P") state = "预售";
-    if (state=="D") state = "下架";
 //    var state = $("#state").val();//状态
     var startAt = $("#startAt").val();//开始时间
     var endAt =  $("#endAt").val();//结束时间;
@@ -281,6 +278,12 @@ function saveCurr(saveFlag) {
     if (d1>=maxDate || d2>=maxDate) {
         orSave = false;
         alert("上架时间和下架时间不能超过当前时间6个月");
+    }
+    //状态和时间的检查
+    if ((state=="Y" && (startAt>nowTime || nowTime>endAt)) || (state=="P" && nowTime>startAt || nowTime>endAt) || (state=="D" && startAt>nowTime)) {
+        orSave = false;
+        $("#warn-date").text("状态和上下架时间不匹配");
+        setTimeout("$('#warn-date').text('')", 3000);
     }
     //库存
     if (Number(restrictAmount) > Number(restAmount)) {
@@ -381,6 +384,9 @@ function saveCurr(saveFlag) {
     trdobj.itemColor = itemColor;
     trdobj.itemSize = itemSize;
     trdobj.invCode = invCode;
+    if (state=="Y") state = "正常";
+    if (state=="P") state = "预售";
+    if (state=="D") state = "下架";
     trdobj.state = state;
     trdobj.startAt = startAt;
     trdobj.endAt = endAt;
@@ -466,6 +472,7 @@ function saveCurr(saveFlag) {
     if(btn.className.indexOf("saveNew")>0) {
         sharedObject.index = "";
     }
+
     console.log(orSave);
     if(orSave==false) {
         $("#warn").text("请检查数据");
