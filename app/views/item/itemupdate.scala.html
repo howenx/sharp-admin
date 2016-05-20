@@ -24,6 +24,8 @@
     function ShowModal(obj) {
         var sharedObject = {};
         sharedObject.obj = obj;
+        var itemId = $("#itemId").val();
+        sharedObject.itemId = itemId;
         //编辑SKU
         if(obj.tagName=="SPAN"){
             //index标识第几条sku
@@ -32,34 +34,32 @@
             var count = 0;
             var skuObj = new Object();
             trData.find("td").each(function(){
-                if (count==1) skuObj.itemColor = $(this).text();
-                if (count==2) skuObj.itemSize = $(this).text();
-                if (count==3) skuObj.invCode = $(this).text();
-                if (count==4) skuObj.state = $(this).text();
-                if (count==5) skuObj.startAt = $(this).text().substring(0,19);
-                if (count==6) skuObj.endAt = $(this).text().substring(0,19);
-                if (count==7) skuObj.itemPrice = $(this).text();
-                if (count==8) skuObj.itemSrcPrice = $(this).text();
-                if (count==9) skuObj.itemCostPrice = $(this).text();
-                if (count==10) skuObj.itemDiscount = $(this).text();
-                if (count==11) skuObj.invWeight = $(this).text();
-                if (count==12) skuObj.restrictAmount = $(this).text();
-                <!--if (count==13) skuObj.amount = $(this).text();-->
-                if (count==13) skuObj.restAmount = $(this).text();
-                //if (count==14) skuObj.carriageModelCode = $(this).text();
-                if (count==14) skuObj.invArea = $(this).text();
+                if (count==1) skuObj.invId = $(this).text();
+                if (count==2) skuObj.itemColor = $(this).text();
+                if (count==3) skuObj.itemSize = $(this).text();
+                if (count==4) skuObj.invCode = $(this).text();
+                if (count==5) skuObj.state = $(this).text();
+                if (count==6) skuObj.startAt = $(this).text().substring(0,19);
+                if (count==7) skuObj.endAt = $(this).text().substring(0,19);
+                if (count==8) skuObj.itemPrice = $(this).text();
+                if (count==9) skuObj.itemSrcPrice = $(this).text();
+                if (count==10) skuObj.itemCostPrice = $(this).text();
+                if (count==11) skuObj.itemDiscount = $(this).text();
+                if (count==12) skuObj.invWeight = $(this).text();
+                if (count==13) skuObj.restrictAmount = $(this).text();
+                if (count==14) skuObj.restAmount = $(this).text();
+                if (count==15) skuObj.invArea = $(this).text();
                 if (skuObj.invArea!="K") {
-                    if (count==15) skuObj.invCustoms = $(this).text();
-                    if (count==16) skuObj.rateSet = $(this).text();
-                    if (count==17) skuObj.postalTaxRate = $(this).text();
-                    if (count==18) skuObj.postalTaxCode = $(this).text();
-                    if (count==19) skuObj.recordCode = $(this).text();
+                    if (count==16) skuObj.invCustoms = $(this).text();
+                    if (count==17) skuObj.rateSet = $(this).text();
+                    if (count==18) skuObj.postalTaxRate = $(this).text();
+                    if (count==19) skuObj.postalTaxCode = $(this).text();
+                    if (count==20) skuObj.recordCode = $(this).text();
                 }
-                if (count==20) skuObj.invImg = $(this).text();
-                if (count==21) skuObj.itemPreviewImgs = $(this).text();
-                if (count==22) skuObj.orVaryPrice = $(this).text();
-                if (count==23) skuObj.varyPrice = $(this).text();
-                if (count==24) skuObj.invId = $(this).text();
+                if (count==21) skuObj.invImg = $(this).text();
+                if (count==22) skuObj.itemPreviewImgs = $(this).text();
+                if (count==23) skuObj.orVaryPrice = $(this).text();
+                if (count==24) skuObj.varyPrice = $(this).text();
                 count++;
             });
             sharedObject.skuObj = skuObj;
@@ -223,10 +223,11 @@
                             <table class='table table-bordered' id="inventory">
                                 <tr>
                                     <th>设为主商品</th>
+                                    <th>SKU ID</th>
                                     <th>颜色</th>
                                     <th>尺寸</th>
                                     <th style='display:none;'>规格编号</th>
-                                    <th style='display:none;'>状态</th>
+                                    <th>状态</th>
                                     <th style='display:none;'>上架时间</th>
                                     <th style='display:none;'>下架时间</th>
                                     <th>现价</th>
@@ -236,7 +237,7 @@
                                     <th style='display:none;'>重量(整数:克)</th>
                                     <th style='display:none;'>限购数量</th>
                                     <!--<th style='display:none;'>库存总量</th>-->
-                                    <th style='display:none;'>剩余库存</th>
+                                    <th>剩余库存</th>
                                     <!--<th style='display:none;'>运费设置</th>-->
                                     <th style='display:none;'>库存区域</th>
                                     <th style='display:none;'>报关单位</th>
@@ -248,16 +249,21 @@
                                     <th style='display:none;'>预览图</th>
                                     <th style='display:none;'>开启多样化价格</th>
                                     <th style='display:none;'>多样化价格</th>
-                                    <th style='display:none;'>skuId</th>
+                                    <!--<th style='display:none;'>skuId</th>-->
                                     <th>修改</th>
                                 </tr>
                                 @for(obj <-  invList) {
                                 <tr>
                                     <td><input type="radio" name="orMasterInv" class="master-radio" checked="checked" value="@obj(2)"/></td>
+                                    <td>@obj(0)</td>
                                     <td>@obj(3)</td>
                                     <td>@obj(4)</td>
                                     <td style='display:none;'>@obj(24)</td>
-                                    <td style='display:none;'>@obj(25)</td>
+                                    <td>
+                                        @if(obj(25)=="Y"){正常}
+                                        @if(obj(25)=="P"){预售}
+                                        @if(obj(25)=="D"){下架}
+                                    </td>
                                     <td style='display:none;'>@obj(5)</td>
                                     <td style='display:none;'>@obj(6)</td>
                                     <td>@obj(7)</td>
@@ -267,7 +273,7 @@
                                     <td style='display:none;'>@obj(11)</td>
                                     <td style='display:none;'>@obj(12)</td>
                                     <!--<td style='display:none;'>@obj(13)</td>-->
-                                    <td style='display:none;'>@obj(14)</td>
+                                    <td>@obj(14)</td>
                                     <!--<td style='display:none;'>@obj(15)</td>-->
                                     <td style='display:none;'>@obj(15)</td>
                                     <td  style='display:none;'>@obj(16)</td>
@@ -281,7 +287,6 @@
                                     <td style='display:none;'>@obj(21)</td>
                                     <td style='display:none;'>@obj(22)</td>
                                     <td style='display:none;'>@obj(23)</td>
-                                    <td style='display:none;'>@obj(0)</td>
                                     <td class="trEdit">
                                         <span onclick="ShowModal(this)">编辑</span>
                                     </td>

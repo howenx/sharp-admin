@@ -30,6 +30,8 @@ var option; //标识触发的按钮是添加还是编辑
 function Init () {
     var sharedObject = window.dialogArguments;
     option = sharedObject.obj;
+    var itemId = sharedObject.itemId;
+    $("#itemId").val(itemId);
     //编辑操作,初始化,即把此行SKU数据显示在页面上
     if(option.tagName=="SPAN"){
         var skuObj = sharedObject.skuObj;
@@ -62,7 +64,16 @@ function Init () {
         }
         $("#invId").val(skuObj.invId);
         $("#invCode").val(skuObj.invCode);
-        $("#state").val(skuObj.state);
+        if ($.trim(skuObj.state)=="正常") skuObj.state = "Y";
+        if ($.trim(skuObj.state)=="预售") skuObj.state = "P";
+        if ($.trim(skuObj.state)=="下架") skuObj.state = "D";
+        var stateObj = document.getElementsByName("state");
+        for(var i=0; i<stateObj.length; i++) {
+            if (stateObj[i].value == skuObj.state) {
+                stateObj[i].checked = 'checked';
+            }
+        }
+//        $("#state").val(skuObj.state);
         $("#startAt").val(skuObj.startAt);
         $("#endAt").val(skuObj.endAt);
         $("#itemPrice").val(skuObj.itemPrice);
@@ -204,11 +215,16 @@ function saveCurr(saveFlag) {
     var sharedObject = {};
     var trd = $("<tr>");
     var trdobj = {};
+    var itemId = $("#itemId").val(); //item id
     var invId = $("#invId").val();//sku id
     var itemColor = $("input[name=itemColor]:checked").val();//颜色
     var itemSize = $("input[name=itemSize]:checked").val();//尺寸
     var invCode = $("#invCode").val();//规格编号
-    var state = $("#state").val();//状态
+    var state = $("input[name=state]:checked").val();//状态
+    if (state=="Y") state = "正常";
+    if (state=="P") state = "预售";
+    if (state=="D") state = "下架";
+//    var state = $("#state").val();//状态
     var startAt = $("#startAt").val();//开始时间
     var endAt =  $("#endAt").val();//结束时间;
     var itemPrice = $("#itemPrice").val();//现价;
@@ -361,6 +377,7 @@ function saveCurr(saveFlag) {
 //    if (endAt<nowTime) {//下架时间比当前时间小为下架状态
 //        state = "D"
 //    }
+    trdobj.invId = invId;
     trdobj.itemColor = itemColor;
     trdobj.itemSize = itemSize;
     trdobj.invCode = invCode;
@@ -415,14 +432,12 @@ function saveCurr(saveFlag) {
         trdobj.openVaryPrice = "false";
         trdobj.varyPrice = "";
     }
-    trdobj.invId = invId;
-
     console.log(trdobj);
     $("<td>").html('<input type="radio" name="orMasterInv" checked="checked" class="master-radio"/>').appendTo(trd);
     var count = 0;
     //行数据,其余的隐藏
     for(var item in trdobj){
-        if (count==0||count==1||count==6)
+        if ((count==0 && itemId>0) || count==1 || count==2 || count==4 || count==7 || count==13)
         $("<td>").html(trdobj[item]).appendTo(trd);
         else $("<td style='display:none;'>").html(trdobj[item]).appendTo(trd);
         count++;
@@ -439,7 +454,7 @@ function saveCurr(saveFlag) {
         //表头,其余的表头项隐藏
         $(".thval").each(function(){
             var thName = $(this).html();
-            if (thName=="颜色"||thName=="尺寸"||thName=="现价")
+            if ((thName=="SKU ID" && itemId>0) || thName=="颜色"||thName=="尺寸"||thName=="状态" || thName=="现价" || thName=="库存量")
             $("<th>").html(thName).appendTo(trh);
             else $("<th style='display:none;'>").html(thName).appendTo(trh);
         });
@@ -451,7 +466,6 @@ function saveCurr(saveFlag) {
     if(btn.className.indexOf("saveNew")>0) {
         sharedObject.index = "";
     }
-    console.log(orSave);
     console.log(orSave);
     if(orSave==false) {
         $("#warn").text("请检查数据");

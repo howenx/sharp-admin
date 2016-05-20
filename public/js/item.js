@@ -40,8 +40,10 @@ $(function(){
 
 	/** 修改页点击返回按钮,返回到详细页面 **/
 	$("#return_detail").on("click", function() {
-	    var itemId = $("#itemId").val();
-	    location.href="/"+window.lang+"/comm/findById/"+itemId;
+	    if (window.confirm("确定返回吗?")) {
+            var itemId = $("#itemId").val();
+            location.href="/"+window.lang+"/comm/findById/"+itemId;
+        }
 	});
 
     /** 一级类别改变重新加载二级类别 **/
@@ -258,257 +260,253 @@ $(function(){
 
     /** 数据提交 **/
     $(".saveItem").click(function(){
-        var divId = window.event.srcElement.id;
-        var isPost = true;
-        var numberReg1 =    /^-?\d+$/;          //正整数
-        var numberReg2 =    /^-?\d+\.?\d{0,2}$/;//整数或小数
-        var numberReg3 =    /[^/d]/g;           //数字
-        var numberReg4 =    /^[0-9a-zA-Z]*$/g;  //字母和数字
-        var item = new Object();
-        var inventories = [];
-        var itemData = new Object();
-        var cateId = "";
-        if($("#categorySubSelect").text()=="") cateId=$("#categorySelect").val();
-        else cateId=$("#categorySubSelect").val();
-        var brandId = $("#bandSelect").val();
-        var itemTitle = $("#itemTitle").val();
-        var supplyMerch = $("#supplyMerch").val();
-        var itemFeatures = {};
-        var publicity = [];
-        var itemDetailImgs = [];
-        var itemNotice = $("#itemNotice").val();
-        var itemDetail = UE.getEditor('editor').getContent();
-        //必填项不能有空值
-        if ( cateId=="" || brandId=="" || itemTitle=="" || supplyMerch=="") {
-            isPost=false;
-            $('#js-userinfo-error').text('必填项不能为空');
-            setTimeout("$('#js-userinfo-error').text('')", 3000);
-//            alert("必填项不能为空");
-        }
-        var inventoryTab = document.getElementById("inventory");
-        var trs = inventoryTab.getElementsByTagName("tr");
-        if (trs.length==0) {
-            isPost = false;
-            alert("请添加商品规格!");
-        }
-        //选择主商品
-        var orMasterInv = document.getElementsByName("orMasterInv");
-        for(m=0;m<orMasterInv.length;m++) {
-            if (orMasterInv[m].checked==true) break;
-            if (m==orMasterInv.length-1) {
-                isPost = false;
-                $("#warn-choice").text("请选择主商品!");
-            }
-            else $("#warn-choice").text("");
-        }
-        //优惠信息
-        var publicityTab = document.getElementById("publicityTab");
-        var pubtr = publicityTab.getElementsByTagName("tr");
-        if (pubtr.length==1) {
-            isPost = false;
-            $("#warn-pub").text("请录入优惠信息!");
-        } else $("#warn-pub").text("");
-        for(i=1;i<pubtr.length;i++) {
-            publicity.push(pubtr[i].getElementsByTagName("td")[0].innerText);
-        }
-        //商品详细图
-        var galleryD = document.getElementById("galleryD");
-        var detailImg = galleryD.getElementsByTagName("div");
-        if ($(".pic").is(":checked")) {
-           if (detailImg.length<1) {
+       var divId = window.event.srcElement.id;
+       var isPost = true;
+       var numberReg1 =    /^-?\d+$/;          //正整数
+       var numberReg2 =    /^-?\d+\.?\d{0,2}$/;//整数或小数
+       var numberReg3 =    /[^/d]/g;           //数字
+       var numberReg4 =    /^[0-9a-zA-Z]*$/g;  //字母和数字
+       var item = new Object();
+       var inventories = [];
+       var itemData = new Object();
+       var cateId = "";
+       if($("#categorySubSelect").text()=="") cateId=$("#categorySelect").val();
+       else cateId=$("#categorySubSelect").val();
+       var brandId = $("#bandSelect").val();
+       var itemTitle = $("#itemTitle").val();
+       var supplyMerch = $("#supplyMerch").val();
+       var itemFeatures = {};
+       var publicity = [];
+       var itemDetailImgs = [];
+       var itemNotice = $("#itemNotice").val();
+       var itemDetail = UE.getEditor('editor').getContent();
+       //必填项不能有空值
+       if ( cateId=="" || brandId=="" || itemTitle=="" || supplyMerch=="") {
+           isPost=false;
+           $('#js-userinfo-error').text('必填项不能为空');
+           setTimeout("$('#js-userinfo-error').text('')", 3000);
+       }
+       var inventoryTab = document.getElementById("inventory");
+       var trs = inventoryTab.getElementsByTagName("tr");
+       if (trs.length==0) {
+           isPost = false;
+           alert("请添加商品规格!");
+       }
+       //选择主商品
+       var orMasterInv = document.getElementsByName("orMasterInv");
+       for(m=0;m<orMasterInv.length;m++) {
+           if (orMasterInv[m].checked==true) break;
+           if (m==orMasterInv.length-1) {
                isPost = false;
-               $("#warn-detailImg").text("请上传商品详细图!");
-           } else {
-               $("#warn-detailImg").text("");
+               $("#warn-choice").text("请选择主商品!");
            }
-           for(i=0;i<detailImg.length;i++) {
-               var spanArr = [];
-               var spanD = detailImg[i].getElementsByTagName("span");
-               var inpD = detailImg[i].getElementsByTagName("input");
-               var imgD = detailImg[i].getElementsByTagName("img");
-               //图片来源为读取商品图片/上传新图片
-               if(inpD.length==0 && imgD.length!=0) {
-                   var imgArr = [];
-                   for(d=0;d<imgD.length;d++) {
-                       var detV  = imgD[d].src;
-                       detV = detV.split(imageUrl)[1];
-                       imgArr.push(detV);
-                   }
-                   itemDetailImgs.push(imgArr);
-               }
-               if(inpD.length!=0 && imgD.length!=0) {
-                   var inpDArr = inpD[0].value.split(",");
-                   for(s=0;s<inpDArr.length;s++){
-                       spanArr.push(inpDArr[s]);
-                   }
-                   itemDetailImgs.push(spanArr);
-               }
+           else $("#warn-choice").text("");
+       }
+       //优惠信息
+       var publicityTab = document.getElementById("publicityTab");
+       var pubtr = publicityTab.getElementsByTagName("tr");
+       if (pubtr.length==1) {
+           isPost = false;
+           $("#warn-pub").text("请录入优惠信息!");
+       } else $("#warn-pub").text("");
+       for(i=1;i<pubtr.length;i++) {
+           publicity.push(pubtr[i].getElementsByTagName("td")[0].innerText);
+       }
+       //商品详细图
+       var galleryD = document.getElementById("galleryD");
+       var detailImg = galleryD.getElementsByTagName("div");
+       if ($(".pic").is(":checked")) {
+          if (detailImg.length<1) {
+              isPost = false;
+              $("#warn-detailImg").text("请上传商品详细图!");
+          } else {
+              $("#warn-detailImg").text("");
+          }
+          for(i=0;i<detailImg.length;i++) {
+              var spanArr = [];
+              var spanD = detailImg[i].getElementsByTagName("span");
+              var inpD = detailImg[i].getElementsByTagName("input");
+              var imgD = detailImg[i].getElementsByTagName("img");
+              //图片来源为读取商品图片/上传新图片
+              if(inpD.length==0 && imgD.length!=0) {
+                  var imgArr = [];
+                  for(d=0;d<imgD.length;d++) {
+                      var detV  = imgD[d].src;
+                      detV = detV.split(imageUrl)[1];
+                      imgArr.push(detV);
+                  }
+                  itemDetailImgs.push(imgArr);
+              }
+              if(inpD.length!=0 && imgD.length!=0) {
+                  var inpDArr = inpD[0].value.split(",");
+                  for(s=0;s<inpDArr.length;s++){
+                      spanArr.push(inpDArr[s]);
+                  }
+                  itemDetailImgs.push(spanArr);
+              }
+          }
+       }
+       if ($(".edit").is(":checked")) {
+           if (itemDetail=="") {
+               isPost = false;
+               $("#warn-edit").text("请输入商品详情!");
+           } else $("#warn-edit").text("");
+       }
+
+       //遍历所有参数及参数值,且不能有空值
+       var tabFea = document.getElementById("tabFea");
+       var attrN = document.getElementsByName("attrN");
+       var attrV = document.getElementsByName("attrV");
+       for(i=0; i<attrN.length; i++) {
+           if (attrN[i].value=="" || attrV[i].value=="") {
+               isPost = false;
+               if (window.lang=="cn") $("#warn-attr").text("属性名或值不能有空");
+               else $("#warn-attr").text("attribute or attribute value can't be value");
+           } else $("#warn-attr").text("");
+           itemFeatures[attrN[i].value] = attrV[i].value;
+       }
+       //拼装inventories数据
+       for(i=1;i<trs.length;i++) {
+           var tds = trs[i].getElementsByTagName("td");
+           var orMasterInv = false;
+           if (tds[0].getElementsByTagName("input")[0].checked==true)    orMasterInv = true;
+           var invId = tds[1].innerHTML;
+           var itemColor = tds[2].innerHTML;
+           var itemSize = tds[3].innerHTML;
+           var invCode = tds[4].innerHTML;
+           var state = "";
+           if (tds[5].innerHTML.replace(/(^\s+)|(\s+$)/g,"")=="正常") state = "Y";
+           if (tds[5].innerHTML.replace(/(^\s+)|(\s+$)/g,"")=="预售") state = "P";
+           if (tds[5].innerHTML.replace(/(^\s+)|(\s+$)/g,"")=="下架") state = "D";
+           var startAt = tds[6].innerHTML;
+           var endAt = tds[7].innerHTML;
+           var itemPrice = tds[8].innerHTML;
+           var itemSrcPrice = tds[9].innerHTML;
+           var itemCostPrice = tds[10].innerHTML;
+           var itemDiscount = tds[11].innerHTML;
+           var invWeight = tds[12].innerHTML;
+           var restrictAmount = tds[13].innerHTML;
+           var restAmount = tds[14].innerHTML;
+           var invArea = tds[15].innerHTML;
+           var invCustoms = tds[16].innerHTML;
+           var postalTaxRate = tds[18].innerHTML;
+           var postalTaxCode = tds[19].innerHTML;
+           var recordCode = tds[20].innerHTML;
+           var invImg = tds[21].innerHTML;
+           var itemPreviewImgs = tds[22].innerHTML;
+           var orVaryPrice = tds[23].innerHTML;
+           //拼装成一条数据
+           var invData = new Object();
+           var inventory = new Object();
+           var varyPrices = [];
+           inventory.orMasterInv = orMasterInv;
+           inventory.itemColor = itemColor;
+           inventory.itemSize = itemSize;
+           inventory.invCode = invCode;
+           inventory.state = state;
+           inventory.startAt = startAt;
+           inventory.endAt = endAt;
+           inventory.itemPrice = itemPrice;
+           inventory.itemSrcPrice = itemSrcPrice;
+           inventory.itemCostPrice = itemCostPrice;
+           inventory.itemDiscount = itemDiscount;
+           inventory.invWeight = invWeight;
+           inventory.restrictAmount = restrictAmount;
+           inventory.restAmount = restAmount;
+           inventory.invArea = invArea;
+           inventory.invCustoms = invCustoms;
+           inventory.postalTaxRate = postalTaxRate;
+           inventory.postalTaxCode = postalTaxCode;
+           if(postalTaxRate=="") {inventory.postalTaxRate = null;}
+           if(postalTaxCode=="") {inventory.postalTaxCode = null;}
+           inventory.recordCode = recordCode;
+           inventory.invImg = invImg;
+           inventory.itemPreviewImgs = itemPreviewImgs;
+           inventory.orVaryPrice = orVaryPrice;
+           if (invId!=null && invId !=""  && divId =="submitItem") {
+               inventory.id = invId;
            }
-//           console.log(itemDetailImgs.toString());
-        }
-        if ($(".edit").is(":checked")) {
-            if (itemDetail=="") {
-                isPost = false;
-                $("#warn-edit").text("请输入商品详情!");
-            } else $("#warn-edit").text("");
-        }
+           invData.inventory = inventory;
+           if (orVaryPrice=="true") {
+               var vp_arr = tds[23].innerHTML.split(",");
+               for(v=0;v<vp_arr.length;v++) {
+                   if (v%4==0) {
+                       var varyPrice = new Object();
+                       if (vp_arr[v]!="" && vp_arr[v]!=null && divId =="submitItem") {
+                           varyPrice.id = vp_arr[v];
+                       }
+                       varyPrice.status = vp_arr[v+1];
+                       varyPrice.price = vp_arr[v+2];
+                       varyPrice.limitAmount = vp_arr[v+3];
+                       varyPrices.push(varyPrice);
+                   }
+               }
+               invData.varyPrices = varyPrices;
+           }
+           inventories.push(invData);
+       }
+       item.cateId = cateId;
+       item.brandId = brandId;
+       item.supplyMerch = supplyMerch;
+       item.itemTitle = itemTitle;
+       item.publicity = publicity;
+       item.itemFeatures = itemFeatures;
+       if ($(".pic").is(":checked")) {
+           item.itemDetailImgs = itemDetailImgs;
+           item.itemNotice = itemNotice;
+       }
+       if ($(".edit").is(":checked")) {
+           item.itemDetail = itemDetail;
+       }
 
-        //遍历所有参数及参数值,且不能有空值
-        var tabFea = document.getElementById("tabFea");
-        var attrN = document.getElementsByName("attrN");
-        var attrV = document.getElementsByName("attrV");
-        for(i=0; i<attrN.length; i++) {
-            if (attrN[i].value=="" || attrV[i].value=="") {
-                isPost = false;
-                if (window.lang=="cn") $("#warn-attr").text("属性名或值不能有空");
-                else $("#warn-attr").text("attribute or attribute value can't be value");
-            } else $("#warn-attr").text("");
-            itemFeatures[attrN[i].value] = attrV[i].value;
-        }
-        //拼装inventories数据
-        for(i=1;i<trs.length;i++) {
-            var tds = trs[i].getElementsByTagName("td");
-            var orMasterInv = false;
-            if (tds[0].getElementsByTagName("input")[0].checked==true)    orMasterInv = true;
-            var itemColor = tds[1].innerHTML;
-            var itemSize = tds[2].innerHTML;
-            var invCode = tds[3].innerHTML;
-            var state = tds[4].innerHTML;
-            var startAt = tds[5].innerHTML;
-            var endAt = tds[6].innerHTML;
-            var itemPrice = tds[7].innerHTML;
-            var itemSrcPrice = tds[8].innerHTML;
-            var itemCostPrice = tds[9].innerHTML;
-            var itemDiscount = tds[10].innerHTML;
-            var invWeight = tds[11].innerHTML;
-            var restrictAmount = tds[12].innerHTML;
-//            var amount = tds[13].innerHTML;
-            var restAmount = tds[13].innerHTML;
-//            var carriageModelCode = tds[15].innerHTML;
-            var invArea = tds[14].innerHTML;
-            var invCustoms = tds[15].innerHTML;
-            var postalTaxRate = tds[17].innerHTML;
-            var postalTaxCode = tds[18].innerHTML;
-            var recordCode = tds[19].innerHTML;
-            var invImg = tds[20].innerHTML;
-            var itemPreviewImgs = tds[21].innerHTML;
-            var orVaryPrice = tds[22].innerHTML;
-            var invId = tds[24].innerHTML;
-            //拼装成一条数据
-            var invData = new Object();
-            var inventory = new Object();
-            var varyPrices = [];
-            inventory.orMasterInv = orMasterInv;
-            inventory.itemColor = itemColor;
-            inventory.itemSize = itemSize;
-            inventory.invCode = invCode;
-            inventory.state = state;
-            inventory.startAt = startAt;
-            inventory.endAt = endAt;
-            inventory.itemPrice = itemPrice;
-            inventory.itemSrcPrice = itemSrcPrice;
-            inventory.itemCostPrice = itemCostPrice;
-            inventory.itemDiscount = itemDiscount;
-            inventory.invWeight = invWeight;
-            inventory.restrictAmount = restrictAmount;
-//            inventory.amount = amount;
-            inventory.restAmount = restAmount;
-//            inventory.carriageModelCode = carriageModelCode;
-            inventory.invArea = invArea;
-            inventory.invCustoms = invCustoms;
-            inventory.postalTaxRate = postalTaxRate;
-            inventory.postalTaxCode = postalTaxCode;
-            if(postalTaxRate=="") {inventory.postalTaxRate = null;}
-            if(postalTaxCode=="") {inventory.postalTaxCode = null;}
-            inventory.recordCode = recordCode;
-            inventory.invImg = invImg;
-            inventory.itemPreviewImgs = itemPreviewImgs;
-            inventory.orVaryPrice = orVaryPrice;
-            if (invId!=null && invId !=""  && divId =="submitItem") {
-                inventory.id = invId;
-            }
-            invData.inventory = inventory;
-            if (orVaryPrice=="true") {
-                var vp_arr = tds[23].innerHTML.split(",");
-                for(v=0;v<vp_arr.length;v++) {
-                    if (v%4==0) {
-                        var varyPrice = new Object();
-                        if (vp_arr[v]!="" && vp_arr[v]!=null && divId =="submitItem") {
-                            varyPrice.id = vp_arr[v];
-                        }
-                        varyPrice.status = vp_arr[v+1];
-                        varyPrice.price = vp_arr[v+2];
-                        varyPrice.limitAmount = vp_arr[v+3];
-                        varyPrices.push(varyPrice);
-                    }
-                }
-                invData.varyPrices = varyPrices;
-            }
-            inventories.push(invData);
-        }
-        item.cateId = cateId;
-        item.brandId = brandId;
-        item.supplyMerch = supplyMerch;
-        item.itemTitle = itemTitle;
-        item.publicity = publicity;
-        item.itemFeatures = itemFeatures;
-        if ($(".pic").is(":checked")) {
-            item.itemDetailImgs = itemDetailImgs;
-            item.itemNotice = itemNotice;
-//            item.itemDetail = null;
-        }
-        if ($(".edit").is(":checked")) {
-//            item.itemDetailImgs = null;
-//            item.itemNotice = null;
-            item.itemDetail = itemDetail;
-        }
+       if ($("#itemId").val()!="" && $("#itemId").val()!=null && divId=="submitItem") {
+           item.id = $("#itemId").val();
+       }
 
-        if ($("#itemId").val()!="" && $("#itemId").val()!=null && divId=="submitItem") {
-            item.id = $("#itemId").val();
-        }
+       itemData.item = item;
+       itemData.inventories = inventories;
 
-        itemData.item = item;
-        itemData.inventories = inventories;
-
-        console.log(JSON.stringify(itemData));
-//        console.log(JSON.stringify(item));
-//        console.log(JSON.stringify(inventories));
-        console.log(isPost);
-        if (isPost) {
-            $.ajax({
-                type :  "POST",
-                url : "/comm/itemSave",
-                contentType: "application/json; charset=utf-8",
-                data : JSON.stringify(itemData),
-                error : function(request) {
-                    if (window.lang = 'cn') {
-                        $('#js-userinfo-error').text('保存失败');
-                    } else {
-                        $('#js-userinfo-error').text('Save error');
-                    }
-                    setTimeout("$('#js-userinfo-error').text('')", 2000);
-                },
-                success: function(data) {
-                    if (data!=""&&data!=null) {
-                        $('.usercenter-option > .user-state').css('background-position', '20px -174px');
-                        $('.usercenter-option > .user-state').text('未更改');
-                        $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
-                        //商品更新, 成功后返回到列表查询页面
-                        if($("#itemId").val() != "") {
-                            setTimeout("location.href='/"+window.lang+"/comm/findById/"+$("#itemId").val()+"'", 3000);
-                        }
-                        //商品录入, 成功后返回到商品录入页面
-                        else {
-                            setTimeout("location.href='/"+window.lang+"/comm/add'", 3000);
-                        }
-                    }
-                    else {
-                        $('#js-userinfo-error').text('保存失败');
-                    }
-                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
-                }
-            });
-        }
+       console.log(JSON.stringify(itemData));
+       //console.log(JSON.stringify(item));
+       //console.log(JSON.stringify(inventories));
+       console.log(isPost);
+       if (isPost) {
+           if (window.confirm("确定保存吗?")) {
+               $.ajax({
+                   type :  "POST",
+                   url : "/comm/itemSave",
+                   contentType: "application/json; charset=utf-8",
+                   data : JSON.stringify(itemData),
+                   error : function(request) {
+                       if (window.lang = 'cn') {
+                           $('#js-userinfo-error').text('保存失败');
+                       } else {
+                           $('#js-userinfo-error').text('Save error');
+                       }
+                       setTimeout("$('#js-userinfo-error').text('')", 2000);
+                   },
+                   success: function(data) {
+                       if (data!=""&&data!=null) {
+                           $('.usercenter-option > .user-state').css('background-position', '20px -174px');
+                           $('.usercenter-option > .user-state').text('未更改');
+                           $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                           //商品更新, 成功后返回到列表查询页面
+                           if($("#itemId").val() != "") {
+                               setTimeout("location.href='/"+window.lang+"/comm/findById/"+$("#itemId").val()+"'", 3000);
+                           }
+                           //商品录入, 成功后返回到商品录入页面
+                           else {
+                               setTimeout("location.href='/"+window.lang+"/comm/add'", 3000);
+                           }
+                       }
+                       else {
+                           $('#js-userinfo-error').text('保存失败');
+                       }
+                       setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+                   }
+               });
+           }
+       }
     });
 
 });
