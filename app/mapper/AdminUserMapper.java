@@ -1,6 +1,7 @@
 package mapper;
 
 import domain.AdminUser;
+import domain.IDAdmin;
 
 import java.util.List;
 
@@ -22,4 +23,9 @@ public interface AdminUserMapper {
 
     Long chgPwd(AdminUser adminUser);
 
+    /**
+     * 录入一条用户类型信息  Add By Sunny.Wu 2016.05.20
+     * @param idAdmin
+     */
+    void insertIDAdmin(IDAdmin idAdmin);
 }

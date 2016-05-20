@@ -147,6 +147,16 @@ public class AdminUserCtrl extends Controller {
 //                Logger.error("发送邮件错误"+e);
 //            }
             adminUserService.insertUser(adminUser);
+
+
+            //ID_ADMIN表中录入用户的角色信息
+            IDAdmin idAdmin = new IDAdmin();
+            idAdmin.setUserId(adminUser.getUserId());
+            idAdmin.setRole(adminUser.getUserType());
+            idAdmin.setStatus("N");
+            adminUserService.insertIDAdmin(idAdmin);
+
+
             //如果添加的是供应商,admin_supplier表添加一条数据
             if ("SUPPLIER".equals(adminUser.getUserType())) {
                 AdminUser ad = adminUserService.getUserBy(adminUser);

@@ -60,23 +60,25 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label" >角色</label>
-                    <div class="col-sm-3">
-                        <select class="form-control form-data-area" id="userType" name="userType">
+                    <div class="col-sm-5">
+                        <!--<select class="form-control form-data-area" id="userType" name="userType">-->
                             @if(user.userType.get=="SYSTEM") {
                                 @for(utl <- userTypeList) {
                                 @if("ROOT"!=utl.toString.substring(1,utl.toString.length-1).split(",")(0) && "SYSTEM"!=utl.toString.substring(1,utl.toString.length-1).split(",")(0)) {
-                                <option value='@utl.toString.substring(1,utl.toString.length-1).split(",")(0)'>@utl.toString.substring(1,utl.toString.length-1).split(",")(1)</option>
+                                <!--<option value='@utl.toString.substring(1,utl.toString.length-1).split(",")(0)'>@utl.toString.substring(1,utl.toString.length-1).split(",")(1)</option>-->
+                                <input type="checkbox" name="userType" value='@utl.toString.substring(1,utl.toString.length-1).split(",")(0)'>@utl.toString.substring(1,utl.toString.length-1).split(",")(1)
                                 }
                                 }
                             }
                             @if(user.userType.get=="ROOT") {
                                 @for(utl <- userTypeList) {
                                 @if("ROOT"!=utl.toString.substring(1,utl.toString.length-1).split(",")(0)) {
-                                <option value='@utl.toString.substring(1,utl.toString.length-1).split(",")(0)'>@utl.toString.substring(1,utl.toString.length-1).split(",")(1)</option>
+                                <!--<option value='@utl.toString.substring(1,utl.toString.length-1).split(",")(0)'>@utl.toString.substring(1,utl.toString.length-1).split(",")(1)</option>-->
+                                <input type="checkbox" name="userType" value='@utl.toString.substring(1,utl.toString.length-1).split(",")(0)'>@utl.toString.substring(1,utl.toString.length-1).split(",")(1)
                                 }
                                 }
                             }
-                        </select>
+                        <!--</select>-->
                     </div>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 package service;
 
 import domain.AdminUser;
+import domain.IDAdmin;
 import mapper.AdminUserMapper;
 
 import javax.inject.Inject;
@@ -69,6 +70,15 @@ public class AdminUserServiceImpl implements AdminUserService {
      */
     public Boolean chgPwd(AdminUser adminUser) {
         return adminUserMapper.chgPwd(adminUser)>0;
+    }
+
+    /**
+     * 录入一条用户类型信息  Add By Sunny.Wu 2016.05.20
+     * @param idAdmin
+     */
+    @Override
+    public void insertIDAdmin(IDAdmin idAdmin) {
+        adminUserMapper.insertIDAdmin(idAdmin);
     }
 
 }

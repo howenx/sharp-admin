@@ -83,4 +83,20 @@
         delete from "ADMIN_USER" where user_id=#{id}
     </delete>
 
+
+    <sql id="idAdminColumns">
+        ${alias}.user_id,
+        ${alias}.role,
+        ${alias}.created_dt,
+        ${alias}.status
+    </sql>
+
+    <!-- 录入一条用户角色信息      Add By Sunny.Wu 2016.05.20-->
+    <insert id="insertIDAdmin" parameterType="domain.IDAdmin" useGeneratedKeys="false" keyColumn="user_id">
+        insert into "ID_ADMIN"
+        (user_id,role,created_dt,status)
+        values
+        (#{userId},#{role},CURRENT_TIMESTAMP(0),#{status})
+    </insert>
+
 </mapper>
