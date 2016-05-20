@@ -5,6 +5,7 @@ import akka.japi.pf.ReceiveBuilder;
 import com.google.common.base.Throwables;
 import play.Logger;
 import play.mvc.WebSocket;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 import util.RedisListener;
@@ -46,7 +47,10 @@ public class SubscribeActor extends AbstractActor {
                         try {
                             JedisPubSub listener = new RedisListener(out);
                             JEDIS_SUB.put(channel, listener);
-                            jedisPool.getResource().psubscribe(listener, "hmm." + channel);
+                            Jedis jedis = jedisPool.getResource();
+                            JEDIS_COLLECT.add(jedis);
+                            jedis.psubscribe(listener, "hmm." + channel);
+
                             return listener.isSubscribed();
                         } catch (Exception ignore) {
                             Logger.error(Throwables.getStackTraceAsString(ignore));
@@ -73,8 +77,14 @@ public class SubscribeActor extends AbstractActor {
                         System.out.println("----关闭线程池---");
                         EXECUTOR_SERVICE.forEach(ExecutorService::shutdownNow);
                     }
+                    if (!JEDIS_COLLECT.isEmpty()){
+                        System.out.println("-----关闭Jedis------");
+                        JEDIS_COLLECT.forEach(Jedis::close);
+                    }
+
                     JEDIS_SUB.clear();
                     EXECUTOR_SERVICE.clear();
+
                 }
 
             } catch (Exception ignored) {

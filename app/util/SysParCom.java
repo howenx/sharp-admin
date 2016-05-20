@@ -1,7 +1,9 @@
 package util;
 
 import com.squareup.okhttp.OkHttpClient;
+import org.h2.mvstore.ConcurrentArrayList;
 import play.Configuration;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
 import javax.inject.Inject;
@@ -53,6 +55,8 @@ public class SysParCom {
     public static String PASSWORD;
     public static String SECRET;
     public static ConcurrentMap<String,JedisPubSub> JEDIS_SUB;
+    public static List<Jedis> JEDIS_COLLECT;
+
 
     public static List<ExecutorService> EXECUTOR_SERVICE;
 
@@ -84,6 +88,8 @@ public class SysParCom {
         SECRET = configuration.getString("erp.secret");
 
         EXECUTOR_SERVICE = new ArrayList<>();
+
+        JEDIS_COLLECT = new ArrayList<>();
 
     }
 
