@@ -56,15 +56,12 @@ public class CouponsServiceImpl implements CouponsService {
                 e.printStackTrace();
                 Logger.error(Throwables.getStackTraceAsString(e));
             }
-
-            //-- 创建Actor --//
-            //修改时,修改时间且下架时间大于现在时间 或 新增sku时 启动Actor
-            if (endTimes>nowTimes) {
-                //截止时间大于现在时间 启动自动失效scheduler
-                Logger.debug("coupon "+coupId+" auto invalid start...");
-                newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), couponInvalidActor, coupId);
-            }
             couponsMapper.insertCoupons(coupons);
+            //-- 创建Actor --//
+            //截止时间大于现在时间 启动自动失效scheduler
+            Logger.debug("coupon "+coupId+" auto invalid start...");
+            newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), couponInvalidActor, coupId);
+
         }
     }
 

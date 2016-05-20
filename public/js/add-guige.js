@@ -490,9 +490,9 @@ $(function(){
             "height": $(window).height(),
             "display": "block"
         });
-        $(".goods-img").css("left", ($(window).width() - 1200) / 2);
+        $(".goods-img").css("left", ($(window).width() - 1100) / 2);
         $(this).clone().appendTo($(".goods-img")).css({
-            "width": "80%",
+            "width": "70%",
             "height":"600px",
             "z-index": 1000
         });

@@ -127,6 +127,7 @@
                 <select class="form-control" id="status">
                     <option value=""></option>
                     <option value="NOT_USED">可使用</option>
+                    <option value="ISSUE">已发放</option>
                     <option value="USED">已使用</option>
                     <option value="DROPPED">作废</option>
                 </select>
@@ -175,13 +176,14 @@
                 <td>@c.getMaximumExpiredAt()</td>
                 <td style="white-space:nowrap;">
                     @if(c.getStatus()=="NOT_USED"){可使用}
+                    @if(c.getStatus()=="ISSUE"){已发放}
                     @if(c.getStatus()=="USED"){已使用}
                     @if(c.getStatus()=="DROPPED"){作废}
                 </td>
                 <td style="white-space:nowrap;"><a href="javascript:;" class="coupon-drop">@if(c.getStatus()=="NOT_USED"){作废}</a></td>
             </tr>
             }
-            <tr id="nodata-td" style="display:none;"><td colspan="12">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            <tr id="nodata-td" style="display:none;"><td colspan="13">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
         </div>
