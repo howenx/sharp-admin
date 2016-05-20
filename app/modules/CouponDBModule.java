@@ -3,11 +3,14 @@ package modules;
 import com.google.inject.PrivateModule;
 import com.google.inject.Scopes;
 import com.google.inject.name.Names;
+import mapper.CouponVoDropLogMapper;
 import mapper.CouponVoMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.guice.session.SqlSessionManagerProvider;
 import play.db.DBApi;
+import service.CouponVoDropLogService;
+import service.CouponVoDropLogServiceImpl;
 import service.CouponVoService;
 import service.CouponVoServiceImpl;
 
@@ -35,6 +38,7 @@ public class CouponDBModule extends PrivateModule {
                 bindDataSourceProviderType(CouponDataSourceProvider.class);
                 bindTransactionFactoryType(JdbcTransactionFactory.class);
                 addMapperClass(CouponVoMapper.class);
+                addMapperClass(CouponVoDropLogMapper.class);
             }
         });
 
@@ -48,7 +52,9 @@ public class CouponDBModule extends PrivateModule {
          * bind service for controller or other service inject.
          */
         bind(CouponVoService.class).to(CouponVoServiceImpl.class).asEagerSingleton();
+        bind(CouponVoDropLogService.class).to(CouponVoDropLogServiceImpl.class).asEagerSingleton();
         expose(CouponVoService.class);
+        expose(CouponVoDropLogService.class);
 
     }
 

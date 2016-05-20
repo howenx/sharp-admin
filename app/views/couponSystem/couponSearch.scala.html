@@ -21,6 +21,40 @@
                 format:'YYYY-MM-DD HH:mm:ss'
             });
 
+            $(document).on("click",".coupon-drop",function(){
+                var isPost = true;
+                var couponId = $(this).parent().parent().find("td").eq(0).text();
+                console.log("废弃优惠券编码:" + couponId);
+                var a = confirm("确定废弃吗?");
+                if(!a){
+                    isPost = false;
+                    return false;
+                }
+                if(isPost){
+                    $.ajax({
+                        type :  "POST",
+                        url : "/coupon/drop",
+                        contentType: "application/json; charset=utf-8",
+                        data : JSON.stringify(couponId),
+                        error : function(request) {
+                            if (window.lang = 'cn') {
+                                 alert("废弃优惠券失败!");
+                            } else {
+                                alert("Drop coupon Error!");
+                            }
+                        },
+                        success: function(data) {
+                            if (window.lang = 'cn') {
+                                alert("废弃优惠券成功!");
+                            } else {
+                                alert(" Drop Coupon Success!");
+                            }
+                            //返回优惠券查询页面
+                            setTimeout("location.href='/coupon/search'", 2000);
+                        }
+                    })
+                }
+            })
         });
 </script>
 }
@@ -66,7 +100,7 @@
                 <input id = "brand_name" type="text" class="form-control"/>
             </div>
             <!--商品编码-->
-            <label class="col-sm-2 control-label">商品编码</label>
+            <label class="col-sm-2 control-label">品牌编码</label>
             <div class="col-sm-2">
                 <input id = "code" type="text" class="form-control"/>
             </div>

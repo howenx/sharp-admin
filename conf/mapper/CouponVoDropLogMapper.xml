@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="mapper.CouponVoDropLogMapper">
+    <sql id="dropLogColumns">
+        ${alias}.id,
+        ${alias}.noncestr,
+        ${alias}.timestamp,
+        ${alias}.create_dt,
+        ${alias}.params,
+        ${alias}.status
+    </sql>
+    <insert id="addCouponVoDropLog" parameterType="domain.CouponVoDropLog">
+        insert into coupon_drop_log(noncestr,timestamp,create_dt,params,status)
+        values (#{noncestr},#{timestamp},CURRENT_TIMESTAMP(0),#{params}::json,#{status})
+    </insert>
+    
+</mapper>
