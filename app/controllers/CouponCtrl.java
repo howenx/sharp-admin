@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import domain.CouponVo;
+import domain.CouponVoDropLog;
 import domain.User;
 import filters.UserAuth;
 import play.Logger;
@@ -10,11 +11,14 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
+import service.CouponVoDropLogService;
 import service.CouponVoService;
 import util.ExcelHelper;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +32,9 @@ public class CouponCtrl extends Controller {
 
     @Inject
     private CouponVoService couponVoService;
+
+    @Inject
+    private CouponVoDropLogService couponVoDropLogService;
 
     private int pageSize = 3;
 
@@ -181,4 +188,33 @@ public class CouponCtrl extends Controller {
         }
     }
 
+    //废弃优惠券
+    @Security.Authenticated(UserAuth.class)
+    public Result dropCoupon(String lang){
+        //当前时间
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date now = new Date();
+        String strNow = sdfDate.format(now);
+        Logger.error("优惠券编码~~~:" + request().body().asJson());
+
+        Long couponNum =Long.valueOf(request().body().asJson().asText());
+        CouponVo pCoupon = new CouponVo();
+        pCoupon.setCouponNumber(couponNum);
+        List<CouponVo> couponVoList = couponVoService.getCoupon(pCoupon);
+        pCoupon = couponVoList.get(0);
+        pCoupon.setStatus("DROPPED");
+        pCoupon.setModifiedAt(strNow);
+
+        CouponVoDropLog couponVoDropLog = new CouponVoDropLog();
+        couponVoDropLog.setNoncestr("admin");
+        couponVoDropLog.setTimestamp(Long.valueOf(strNow));
+        couponVoDropLog.setStatus("Y");
+        couponVoDropLog.setParams(couponNum.toString());
+        if(couponVoService.updateCoupon(pCoupon) && couponVoDropLogService.addCouponVoDropLog(couponVoDropLog)){
+            return ok("success");
+        }else {
+            return ok("error");
+        }
+
+    }
 }
