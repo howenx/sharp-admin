@@ -115,7 +115,8 @@ public class AdminUserCtrl extends Controller {
         } else {
             String defPwd = AdminUser.CreateCode(8);//给邮箱发送的8位随机默认密码
             String regIp = request().remoteAddress();
-            adminUser.setPasswd(defPwd);
+            adminUser.setPasswd("11111111");
+//            adminUser.setPasswd(defPwd);
             adminUser.setRegIp(regIp);
             adminUser.setActiveYN("N");
             adminUser.setStatus("N");
@@ -127,7 +128,7 @@ public class AdminUserCtrl extends Controller {
                     .addTo(adminUser.getEmail())
                     .setBodyText("A text message")
                     .setBodyHtml("<html><body><p>韩秘美后台, 用户名:"+adminUser.getEnNm()+", 请用密码登录:"+defPwd+"</p></body></html>");
-            mailerClient.send(email);
+//            mailerClient.send(email);
             Logger.debug("邮件发送成功!");
 
 //            MultiPartEmail email = new MultiPartEmail();
@@ -147,18 +148,14 @@ public class AdminUserCtrl extends Controller {
 //                Logger.error("发送邮件错误"+e);
 //            }
             adminUserService.insertUser(adminUser);
-
-
             //ID_ADMIN表中录入用户的角色信息
-            IDAdmin idAdmin = new IDAdmin();
-            idAdmin.setUserId(adminUser.getUserId());
-            idAdmin.setRole(adminUser.getUserType());
-            idAdmin.setStatus("N");
-            adminUserService.insertIDAdmin(idAdmin);
-
-
+//            IDAdmin idAdmin = new IDAdmin();
+//            idAdmin.setUserId(adminUser.getUserId());
+//            idAdmin.setRole(adminUser.getUserType());
+//            idAdmin.setStatus("N");
+//            adminUserService.insertIDAdmin(idAdmin);
             //如果添加的是供应商,admin_supplier表添加一条数据
-            if ("SUPPLIER".equals(adminUser.getUserType())) {
+            if (adminUser.getUserType().contains("SUPPLIER")) {
                 AdminUser ad = adminUserService.getUserBy(adminUser);
                 AdminSupplier adminSupplier = new AdminSupplier();
                 adminSupplier.setUserId(ad.getUserId());
@@ -207,25 +204,28 @@ public class AdminUserCtrl extends Controller {
             Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
             Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
             Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);
+            //后台管理用户
             for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
-                if (adminUser.getUserType().equals(ut.getKey())) {
-                    data = "后台用户登录成功";
+                if (adminUser.getUserType().contains(ut.getKey())) {
+                    data = "1";
                 }
             }
+            //供应系统用户
             for(Map.Entry<String, String> ut:userTypeList2.entrySet()) {
-                if (adminUser.getUserType().equals(ut.getKey())) {
-                    data = "供应商登录成功";
+                if (adminUser.getUserType().contains(ut.getKey())) {
+                    data = "2";
                 }
             }
+            //其他类型用户
             for(Map.Entry<String, String> ut:userTypeList3.entrySet()) {
-                if (adminUser.getUserType().equals(ut.getKey())) {
-                    data = "其他用户登录";
+                if (adminUser.getUserType().contains(ut.getKey())) {
+                    data = "2";
                 }
             }
         }
         else {
             Logger.debug("not admin user");
-            data = "登录失败";
+            data = "login_error";
         }
         return ok(data);
     }

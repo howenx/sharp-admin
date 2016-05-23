@@ -102,8 +102,14 @@
         var enNm = $("#enNm").val();
         var chNm = $("#chNm").val();
         var email = $("#email").val();
-        var userType = $("#userType").val();
-        if (enNm==null || enNm=="" || chNm==null || chNm=="") {
+        var userType = "";
+        $("input[name='userType']:checkbox").each(function(){
+            if(this.checked){
+                userType += $(this).val()+","
+            }
+        });
+        userType = userType.substring(0,userType.length-1);
+        if (enNm==null || enNm=="" || chNm==null || chNm=="" || userType=="") {
             isPost = false;
             $('#js-userinfo-error').text('信息填写不正确');
         } else {
@@ -113,7 +119,7 @@
         adminUser.chNm = chNm;
         adminUser.email = email;
         adminUser.userType = userType;
-
+        console.log(adminUser);
         if (isPost) {
             $.ajax({
                 type :  "POST",
