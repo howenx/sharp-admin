@@ -41,7 +41,7 @@
             @for(au <- adminUserList){
             @if(au.getUserType()!="ROOT"){
             <tr class = "tb-list-data">
-                <td><a href="/@lang/aduser/info">@au.getUserId()</a></td>
+                <td><a href="/@lang/aduser/detail/@au.getUserId()">@au.getUserId()</a></td>
                 <td>@au.getEnNm()</td>
                 <td>
                     @for(utl <- userTypeList) {

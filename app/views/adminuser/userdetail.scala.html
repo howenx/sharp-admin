@@ -1,18 +1,12 @@
 @import play.i18n._
-@(lang:String="cn", userTypeList:Map[String,String], user:domain.User)
+@(adminUser:domain.AdminUser, lang:String="cn", userTypeList:Map[String,String], user:domain.User)
 
 @scripts = {
 <link rel="stylesheet" href="/assets/css/slider.css">
-<!--<script src="/assets/js/jquery.min.js"></script>-->
 <script src="/assets/js/bootstrap.min.js"></script>
-<style type="text/css">
-    .control-label{
-    font-weight: 500;
-    }
-</style>
 }
 
-@import java.lang.String; var title="新增用户"
+@import java.lang.String; var title="用户信息"
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 
@@ -21,20 +15,19 @@
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
         <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
         <span class="icon-path">&gt;</span>
-        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.users.menu1")</span>
+        <span class="current">用户管理</span>
         <span class="icon-path">&gt;</span>
-        <span>新增用户</span>
+        <span>用户信息</span>
     </div>
 </div>
 
 <div class="wrap-slider">
     <div class="page-title">
-        <span class="title-name">新增用户</span>
     </div>
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
-        <div id="submit" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
-        <div id="cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
+        <div id="submit" class="btn-blue btn-form fr ml15">修改</div>
+        <div id="return" class="btn-white btn-form fr ml20">返回</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
     <div class="row">
@@ -43,42 +36,49 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label" >用户名</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control form-data-area" id="enNm" name="enNm"><div style="margin-left:250px;width:200px;margin-top:-25px;">(示例:aaa.aa)</div>
+                        <input type="text" class="form-control" id="enNm" name="enNm" value="@adminUser.getEnNm()" style="border:0px;" disabled >
+                        <input type="hidden" class="form-control" id="userId" name="userId" value="@adminUser.getUserId()" >
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label" >中文名称</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control form-data-area" id="chNm" name="chNm">
+                        <input type="text" class="form-control form-data-area" id="chNm" name="chNm" value="@adminUser.getChNm()" disabled>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label" >邮箱</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control form-data-area" id="email" name="email"><div style="margin-left:250px;width:200px;margin-top:-25px;">@@kakaocorp.com</div>
+                        <input type="text" class="form-control" id="email" name="email" value="@adminUser.getEmail()" style="border:0px;" disabled>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label" >角色</label>
-                    <div class="col-sm-5">
-                        <!--<select class="form-control form-data-area" id="userType" name="userType">-->
-                            @if(user.userType.get=="SYSTEM") {
-                                @for(utl <- userTypeList) {
+                    <div class="col-sm-3">
+                        @if(user.userType.get=="ROOT") {
+                            @for(utl <- userTypeList) {
                                 @if("ROOT"!=utl.toString.substring(1,utl.toString.length-1).split(",")(0) && "SYSTEM"!=utl.toString.substring(1,utl.toString.length-1).split(",")(0)) {
-                                <!--<option value='@utl.toString.substring(1,utl.toString.length-1).split(",")(0)'>@utl.toString.substring(1,utl.toString.length-1).split(",")(1)</option>-->
-                                <input type="checkbox" class="form-data-area" name="userType" value='@utl.toString.substring(1,utl.toString.length-1).split(",")(0)'>@utl.toString.substring(1,utl.toString.length-1).split(",")(1)
-                                }
+                                    @if(adminUser.getUserType().contains(utl.toString.substring(1,utl.toString.length-1).split(",")(0))) {
+                                    <input type="checkbox" class="form-data-area" name="userType" value='@utl.toString.substring(1,utl.toString.length-1).split(",")(0)' checked="checked">@utl.toString.substring(1,utl.toString.length-1).split(",")(1)
+                                    }
+                                    @if(!(adminUser.getUserType().contains(utl.toString.substring(1,utl.toString.length-1).split(",")(0)))) {
+                                    <input type="checkbox" class="form-data-area" name="userType" value='@utl.toString.substring(1,utl.toString.length-1).split(",")(0)'>@utl.toString.substring(1,utl.toString.length-1).split(",")(1)
+                                    }
                                 }
                             }
-                            @if(user.userType.get=="ROOT") {
-                                @for(utl <- userTypeList) {
+                        }
+                        @if(user.userType.get=="SYSTEM") {
+                            @for(utl <- userTypeList) {
                                 @if("ROOT"!=utl.toString.substring(1,utl.toString.length-1).split(",")(0)) {
-                                <!--<option value='@utl.toString.substring(1,utl.toString.length-1).split(",")(0)'>@utl.toString.substring(1,utl.toString.length-1).split(",")(1)</option>-->
-                                <input type="checkbox" class="form-data-area" name="userType" value='@utl.toString.substring(1,utl.toString.length-1).split(",")(0)'>@utl.toString.substring(1,utl.toString.length-1).split(",")(1)
-                                }
+                                    @if(adminUser.getUserType().contains(utl.toString.substring(1,utl.toString.length-1).split(",")(0))) {
+                                    <input type="checkbox" class="form-data-area" name="userType" value='@utl.toString.substring(1,utl.toString.length-1).split(",")(0)' checked="checked">@utl.toString.substring(1,utl.toString.length-1).split(",")(1)
+                                    }
+                                    @if(!(adminUser.getUserType().contains(utl.toString.substring(1,utl.toString.length-1).split(",")(0)))) {
+                                    <input type="checkbox" class="form-data-area" name="userType" value='@utl.toString.substring(1,utl.toString.length-1).split(",")(0)'>@utl.toString.substring(1,utl.toString.length-1).split(",")(1)
+                                    }
                                 }
                             }
-                        <!--</select>-->
+                        }
                     </div>
                 </div>
             </div>
@@ -102,6 +102,7 @@
         var enNm = $("#enNm").val();
         var chNm = $("#chNm").val();
         var email = $("#email").val();
+        var userId = $("#userId").val();
         var userType = "";
         $("input[name='userType']:checkbox").each(function(){
             if(this.checked){
@@ -109,9 +110,9 @@
             }
         });
         userType = userType.substring(0,userType.length-1);
-        if (enNm==null || enNm=="" || chNm==null || chNm=="" || userType=="") {
+        if (userType=="") {
             isPost = false;
-            $('#js-userinfo-error').text('信息填写不正确');
+            $('#js-userinfo-error').text('请选择用户类型');
         } else {
             $('#js-userinfo-error').text('');
         }
@@ -119,11 +120,13 @@
         adminUser.chNm = chNm;
         adminUser.email = email;
         adminUser.userType = userType;
+        adminUser.userId = userId;
         console.log(adminUser);
+
         if (isPost) {
             $.ajax({
                 type :  "POST",
-                url : "/aduser/save",
+                url : "/aduser/update",
                 contentType: "application/json; charset=utf-8",
                 data : JSON.stringify(adminUser),
                 error : function(request) {
@@ -135,23 +138,30 @@
                     setTimeout("$('#js-userinfo-error').text('')", 2000);
                 },
                 success: function(data) {
-                    if (data=="该用户已注册!") {
+                    if (data=="修改失败") {
                         alert(data);
                     }
-                    else if (data=="保存成功") {
-                        $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                    if (data=="修改成功") {
                         $('.usercenter-option > .user-state').css('background-position', '20px -174px');
-                        $('.usercenter-option > .user-state').text('未更改');
-                        setTimeout("location.href='/"+window.lang+"/aduser/add'", 1000);
+                        if (window.lang = 'cn') {
+                            $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                            $('.usercenter-option > .user-state').text('未更改');
+                        } else {
+                            $('#js-userinfo-error').text('Save success');
+                            $('.usercenter-option > .user-state').text('Unchanged');
+                        }
+                        setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+                        setTimeout("location.href='/"+window.lang+"/aduser/search'", 1000);
                     }
-                    else {
-                        $('#js-userinfo-error').text('保存失败');
-                    }
-                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
                 }
             });
         }
-
     });
+
+
+    /** 点击返回按钮,返回到列表查询页面 **/
+	$("#return").on("click", function() {
+	    location.href="/"+window.lang+"/aduser/search";
+	});
 
 </script>

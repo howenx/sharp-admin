@@ -56,11 +56,11 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label" >角色</label>
-                    <div class="col-sm-3">
-                        @for(utl <- userTypeList) {
-                            @if(user.userType.get==utl.toString.substring(1,utl.toString.length-1).split(",")(0)) {
-                                <input type="text" class="form-control" id="userType" name="userType" value='@utl.toString.substring(1,utl.toString.length-1).split(",")(1)' disabled>
-                            }
+                    <div class="col-sm-3" style="margin-top:5px;">
+                       @for(utl <- userTypeList) {
+                        @if(user.userType.get.contains(utl.toString.substring(1,utl.toString.length-1).split(",")(0))) {
+                        @utl.toString.substring(1,utl.toString.length-1).split(",")(1) <br/>
+                        }
                         }
                     </div>
                 </div>

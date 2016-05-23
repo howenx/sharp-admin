@@ -191,6 +191,8 @@ GET         /aduser/info                                                        
 GET         /$lang<(cn|en|kr)>/aduser/info                                          controllers.AdminUserCtrl.adminUserInfo(lang)
 POST        /aduser/update                                                          controllers.AdminUserCtrl.adminUserUpdate(lang="cn")
 POST        /$lang<(cn|en|kr)>/aduser/update                                        controllers.AdminUserCtrl.adminUserUpdate(lang)
+GET         /aduser/detail/$id<[0-9]+>                                              controllers.AdminUserCtrl.adminUserDetail(lang="cn",id:Long)
+GET         /$lang<(cn|en|kr)>/aduser/detail/$id<[0-9]+>                            controllers.AdminUserCtrl.adminUserDetail(lang,id:Long)
 GET         /aduser/chgpwd                                                          controllers.AdminUserCtrl.adminUserChgPwd(lang="cn")
 GET         /$lang<(cn|en|kr)>/aduser/chgpwd                                        controllers.AdminUserCtrl.adminUserChgPwd(lang)
 POST        /aduser/resetpwd                                                        controllers.AdminUserCtrl.adminUserResetPwd(lang="cn")

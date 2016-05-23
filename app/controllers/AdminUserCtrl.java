@@ -115,8 +115,8 @@ public class AdminUserCtrl extends Controller {
         } else {
             String defPwd = AdminUser.CreateCode(8);//给邮箱发送的8位随机默认密码
             String regIp = request().remoteAddress();
-            adminUser.setPasswd("11111111");
-//            adminUser.setPasswd(defPwd);
+//            adminUser.setPasswd("11111111");
+            adminUser.setPasswd(defPwd);
             adminUser.setRegIp(regIp);
             adminUser.setActiveYN("N");
             adminUser.setStatus("N");
@@ -128,7 +128,7 @@ public class AdminUserCtrl extends Controller {
                     .addTo(adminUser.getEmail())
                     .setBodyText("A text message")
                     .setBodyHtml("<html><body><p>韩秘美后台, 用户名:"+adminUser.getEnNm()+", 请用密码登录:"+defPwd+"</p></body></html>");
-//            mailerClient.send(email);
+            mailerClient.send(email);
             Logger.debug("邮件发送成功!");
 
 //            MultiPartEmail email = new MultiPartEmail();
@@ -249,6 +249,7 @@ public class AdminUserCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result adminUserInfo(String lang) {
+        Logger.error("登录的这个用户是::::::"+((User) ctx().args.get("user")).toString());
         Map<String,String> userTypeList = new HashMap<>();
         Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
         Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
@@ -278,18 +279,48 @@ public class AdminUserCtrl extends Controller {
         AdminUser adminUser = adminUserService.getUserBy(adu);
         //更新用户信息
         adminUser.setChNm(adu.getChNm());
+        adminUser.setUserType(adu.getUserType());
         Boolean bool = adminUserService.updateUser(adminUser);
         User user = new User (adminUser.getUserId(), null,null, null , User_Type.ADMIN(),
                 Option.apply(adminUser.getUserId()), Option.apply(adminUser.getEnNm()), Option.apply(adminUser.getChNm()), Option.apply(adminUser.getEmail()),
                 Option.apply(adminUser.getUserType()), null, null, null,
                 null, null, null,null, null,null);
         //更新cache 和 session中用户信息
-        Cache.set(adminUser.getEnNm().trim(), user);
-        session().put("username",adminUser.getEnNm().trim());
+        if (((User) ctx().args.get("user")).userId().equals(adu.getUserId())) {
+            Cache.set(adminUser.getEnNm().trim(), user);
+            session().put("username",adminUser.getEnNm().trim());
+        }
         if (bool) {
             return ok("修改成功");
         }
         else return ok("修改失败");
+    }
+
+    /**
+     *
+     * @param lang 语言               Added By Sunny.Wu 2016.05.23
+     * @param id 用户id
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result adminUserDetail(String lang, Long id) {
+        AdminUser adminUser = new AdminUser();
+        adminUser.setUserId(id);
+        adminUser  = adminUserService.getUserBy(adminUser);
+        Map<String,String> userTypeList = new HashMap<>();
+        Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
+        Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
+        Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);
+        for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        for(Map.Entry<String, String> ut:userTypeList2.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        for(Map.Entry<String, String> ut:userTypeList3.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        return ok(views.html.adminuser.userdetail.render(adminUser, lang, userTypeList, (User) ctx().args.get("user")));
     }
 
     /**
