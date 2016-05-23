@@ -18,6 +18,16 @@
     <script src="/assets/js/rili.js"></script>
     <script>window.uploadURL = '@uploadURL'</script>
     <script>window.imageUrl = '@imageUrl'</script>
+    <script>
+        $(function () {
+            /*********改变图片位置*********/
+            $('.gridly').gridly({
+                base: 40, // px
+                gutter: 10, // px
+                columns: 12
+            });
+        })
+    </script>
     <style type="text/css">
         .start{color:red;}
     </style>
@@ -259,7 +269,7 @@
                         <div id="galleryP" class="gridly" style="float: left">
                         </div>
                         <span class="add" id="preImgAddP">＋
-                            <input type="file" id="P" name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png">
+                            <input type="file" id="P" name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png" multiple="multiple"/>
                         </span>
                     </div>
                 </div>

@@ -739,11 +739,5 @@ $(function(){
             '</label>';
         $(html).appendTo(".color");
     })
-    /*********改变图片位置*********/
-    $('.gridly').gridly({
-        base: 40, // px
-        gutter: 10, // px
-        columns: 12
-    });
 });
 
