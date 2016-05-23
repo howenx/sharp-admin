@@ -119,6 +119,7 @@ $(function(){
         }
 
         var thumb = document.createElement("div");
+        thumb.classList="brick small";
         var img = document.createElement("img");
 
         img.classList.add('main-img');
@@ -507,6 +508,12 @@ $(function(){
                });
            }
        }
+    });
+    /*移动改变 图片位置*/
+    $('.gridly').gridly({
+        base: 40, // px
+        gutter: 10, // px
+        columns: 12
     });
 
 });

@@ -94,15 +94,13 @@
     }
 
     $(function(){
-        $(function () {
-            $('#datetimepicker1').datetimepicker({
-                locale: 'zh-cn',
-                format:'YYYY-MM-DD HH:mm:ss'
-            });
-            $('#datetimepicker2').datetimepicker({
-                locale: 'zh-cn',
-                format:'YYYY-MM-DD HH:mm:ss'
-            });
+        $('#datetimepicker1').datetimepicker({
+            locale: 'zh-cn',
+            format:'YYYY-MM-DD HH:mm:ss'
+        });
+        $('#datetimepicker2').datetimepicker({
+            locale: 'zh-cn',
+            format:'YYYY-MM-DD HH:mm:ss'
         });
     })
 </script>
@@ -360,13 +358,13 @@
                         </div>
                     </div>
                 </div>
-                <!--详细信息为图片-->
+                详细信息为图片
                 @if(item.getItemDetailImgs()!=null && item.getItemDetailImgs()!="") {
                 <div class="form-group pic-info">
                     <label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
                     <div class="col-sm-7">
-                        <div class="detail-img" style="border:1px solid #ccc;">
-                            <div id="galleryD" style="float:left;">
+                        <div class="detail-img" style="border:1px solid #ccc;overflow: hidden">
+                            <div id="galleryD" class="gridly" style="position: relative;width: 500px;">
                                 @for(detail <- item.getItemDetailImgs().substring(1,item.getItemDetailImgs().length()-2).split("], ")) {
                                 <div style="display:inline-block; border:1px solid #ccc;">
                                     @for(d <- detail.substring(1,detail.length()).split(", ")) {
@@ -402,8 +400,8 @@
                 <div class="form-group pic-info" style="display:none;">
                     <label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
                     <div class="col-sm-7">
-                        <div class="detail-img" style="border:1px solid #ccc;">
-                            <div id="galleryD" style="float: left;">
+                        <div class="detail-img" style="border:1px solid #ccc;overflow: hidden">
+                            <div id="galleryD" class="gridly" style="position: relative;width: 500px;">
                             </div>
                             <span class="add" id="detailImgAddD">＋
                                 <input type="file" id="D" name="itemDetailImgs" class="hidden1 form-data-area" value="" accept="image/gif, image/jpeg, image/webp, image/png"/>
@@ -427,6 +425,7 @@
                     <div id="warn-edit" style="color:red;margin-left:800px;width:200px;"></div>
                 </div>
                 }
+                <!--</div>-->
             </div>
         </form>
     </div>
@@ -454,3 +453,4 @@
     };
 
 </script>
+<script src="/assets/js/jquery.gridly.js"></script>

@@ -569,6 +569,7 @@ $(function(){
         }
 
         var thumb = document.createElement("div");
+        thumb.classList="brick small";
         var img = document.createElement("img");
 
         img.classList.add('main-img');
@@ -738,5 +739,11 @@ $(function(){
             '</label>';
         $(html).appendTo(".color");
     })
+    /*********改变图片位置*********/
+    $('.gridly').gridly({
+        base: 40, // px
+        gutter: 10, // px
+        columns: 12
+    });
 });
 

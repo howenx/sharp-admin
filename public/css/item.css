@@ -22,7 +22,7 @@ body {
 }
 /*content*/
 .wrap-slider {
-	width: 80%;
+	/*width: 80%;*/
 	height: auto;
 	background-color: #fff;
 	margin: 0 auto;
@@ -149,12 +149,12 @@ body {
 	border-collapse:collapse;
 }
 .preview-img img,.list-img img, .detail-img img{
-	display: inline-block;
+	/*display: inline-block;*/
 	border: 1px solid #ccc;
 	width:40px;
 	height:40px;
-	margin-bottom:12px;
-	margin-top:12px;
+	/*margin-bottom:12px;*/
+	/*margin-top:12px;*/
 }
 .preview-img div, .list-img div, .detail-img div{
 	display:inline-block;position: relative;
@@ -164,9 +164,10 @@ body {
 	width: 40px;height:25px;display: inline-block;line-height: 22px;
 	position: relative;font-size: 18px;overflow: hidden;
 	background-color:#00B7EE;text-align: center;margin: 20px 10px;
+	float: right;
 }
 .preview-img .close,.list-img .close, .detail-img .close{
-	position: absolute;top: 6px;right: 0;opacity: 0.3;
+	position: absolute;top: -3px;right: 0;opacity: 0.3;
 }
 .qubian td, .pub td {
     border:1px solid #ccc;
@@ -261,4 +262,14 @@ body {
 }
 .trEdit span{
     color:blue; cursor:pointer;
+}
+/*yidong图片位置*/
+.gridly, .gridly > :not(.dragging) {
+	-webkit-transition: all 0.4s ease-in-out;
+	-moz-transition: all 0.4s ease-in-out;
+	transition: all 0.4s ease-in-out; }
+.gridly .dragging {
+	z-index: 800; }
+.brick.small{
+	width: 40px;height: 40px;margin: 12px 0 0 8px;padding: 0;
 }
