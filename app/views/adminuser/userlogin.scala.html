@@ -76,18 +76,18 @@
                     alert("login error");
                 },
                 success: function(data) {
-                    if (data=="登录失败") {
+                    if (data=="login_error") {
                         window.location.href = "/";
                     }
-                    if (data=="后台用户登录成功") {
+                    if (data=="1") {
                         window.location.href =  window.lang + "/summary";
                     }
-                    if (data=="供应商登录成功") {
+                    if (data=="2") {
                         window.location.href = window.lang + "/front";
                     }
-                    if (data=="其他用户登录") {
-                        window.location.href =  window.lang + "/front";
-                    }
+                    <!--if (data=="其他用户登录") {-->
+                        <!--window.location.href =  window.lang + "/front";-->
+                    <!--}-->
                 }
             });
         }

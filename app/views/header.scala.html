@@ -9,18 +9,28 @@
         <div class="fr">
             <nav class="nav pr fl">
                 <ul class="header-navi-list clearfix">
-                    <!--超级管理员的菜单项-->
-                    @if(user.userType.get=="ROOT") {
+                    @if(user.userType.get.contains("SADMIN") || user.userType.get.contains("SUPPLIER") || user.userType.get.contains("TRANSLATION") || user.userType.get.contains("AUDIT")
+                    || user.userType.get.contains("OTHER")) {
+                    <li class="header-navi-item fl">
+                        <a href="/front" class="header-link tdn">Welcome</a>
+                        <i class="header-nav-border-relative"></i>
+                    </li>
+                    }
                     <!--首页-->
+                    @if(user.userType.get.contains("ROOT") || user.userType.get.contains("SYSTEM") || user.userType.get.contains("ADMIN") || user.userType.get.contains("OPERATE")
+                    || user.userType.get.contains("FINANCE") || user.userType.get.contains("SERVICE") || user.userType.get.contains("PUBLISH")) {
                     <li class="header-navi-item fl">
                         <a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
                         <i class="header-nav-border-relative"></i>
                     </li>
+                    }
+                    <!--超级管理员的菜单项-->
+                    @if(user.userType.get.contains("ROOT")) {
                     <!--供应管理-->
-                    <!--<li class="header-navi-item fl">-->
-                        <!--<a href="/supply/admin" class="header-link tdn">供应商管理</a>-->
-                        <!--<i class="header-nav-border-relative"></i>-->
-                    <!--</li>-->
+                    <li class="header-navi-item fl">
+                        <a href="/supply/admin" class="header-link tdn">供应商管理</a>
+                        <i class="header-nav-border-relative"></i>
+                    </li>
                     <!--主题管理-->
                     <li class="header-navi-item fl">
                         <div class="user-info fl js-header-dropmenu">
@@ -213,12 +223,12 @@
                     }
 
                     <!--系统管理员的菜单项(用户,版本)-->
-                    @if(user.userType.get=="SYSTEM") {
+                    @if(user.userType.get.contains("SYSTEM")) {
                     <!--首页-->
-                    <li class="header-navi-item fl">
-                        <a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
-                        <i class="header-nav-border-relative"></i>
-                    </li>
+                    <!--<li class="header-navi-item fl">-->
+                        <!--<a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>-->
+                        <!--<i class="header-nav-border-relative"></i>-->
+                    <!--</li>-->
                     <!--用户管理-->
                     <li class="header-navi-item fl">
                         <div class="user-info fl js-header-dropmenu">
@@ -274,12 +284,12 @@
                     }
 
                     <!--管理员的菜单项(除供应管理,用户,版本)-->
-                    @if(user.userType.get=="ADMIN") {
+                    @if(user.userType.get.contains("ADMIN")) {
                     <!--首页-->
-                    <li class="header-navi-item fl">
-                        <a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
-                        <i class="header-nav-border-relative"></i>
-                    </li>
+                    <!--<li class="header-navi-item fl">-->
+                        <!--<a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>-->
+                        <!--<i class="header-nav-border-relative"></i>-->
+                    <!--</li>-->
                     <!--主题管理-->
                     <li class="header-navi-item fl">
                         <div class="user-info fl js-header-dropmenu">
@@ -404,11 +414,11 @@
                     }
 
                     <!--运营人员的菜单项(主题,拼购,商品,订单)-->
-                    @if(user.userType.get=="OPERATE") {
+                    @if(user.userType.get.contains("OPERATE")) {
                     <!--首页-->
-                    <li class="header-navi-item fl">
-                        <a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
-                        <i class="header-nav-border-relative"></i>
+                    <!--<li class="header-navi-item fl">-->
+                        <!--<a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>-->
+                        <!--<i class="header-nav-border-relative"></i>-->
                     </li>
                     <!--主题管理-->
                     <li class="header-navi-item fl">
@@ -510,32 +520,32 @@
                     }
 
                     <!--财务人员的菜单项(财务,审核)-->
-                    @if(user.userType.get=="FINANCE") {
+                    @if(user.userType.get.contains("FINANCE")) {
                     <!--首页-->
-                    <li class="header-navi-item fl">
-                        <a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
-                        <i class="header-nav-border-relative"></i>
-                    </li>
+                    <!--<li class="header-navi-item fl">-->
+                        <!--<a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>-->
+                        <!--<i class="header-nav-border-relative"></i>-->
+                    <!--</li>-->
                     <!--财务人员的菜单项(财务,审核)-->
                     }
 
                     <!--客服人员的菜单项(客服)-->
-                    @if(user.userType.get=="SERVICE") {
+                    @if(user.userType.get.contains("SERVICE")) {
                     <!--首页-->
-                    <li class="header-navi-item fl">
-                        <a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
-                        <i class="header-nav-border-relative"></i>
-                    </li>
+                    <!--<li class="header-navi-item fl">-->
+                        <!--<a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>-->
+                        <!--<i class="header-nav-border-relative"></i>-->
+                    <!--</li>-->
                     <!--客服人员的菜单项(客服)-->
                     }
 
                     <!--版本发布人员的菜单项(版本发布)-->
-                    @if(user.userType.get=="PUBLISH") {
+                    @if(user.userType.get.contains("PUBLISH")) {
                     <!--首页-->
-                    <li class="header-navi-item fl">
-                        <a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
-                        <i class="header-nav-border-relative"></i>
-                    </li>
+                    <!--<li class="header-navi-item fl">-->
+                        <!--<a href="/summary" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>-->
+                        <!--<i class="header-nav-border-relative"></i>-->
+                    <!--</li>-->
                     <!--应用管理-->
                     <li class="header-navi-item fl">
                         <div class="user-info fl js-header-dropmenu">
@@ -564,12 +574,12 @@
                     }
 
                     <!--供应管理系统 管理员 的菜单项-->
-                    @if(user.userType.get=="SADMIN") {
+                    @if(user.userType.get.contains("SADMIN")) {
                     <!--首页-->
-                    <li class="header-navi-item fl">
-                        <a href="/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
-                        <i class="header-nav-border-relative"></i>
-                    </li>
+                    <!--<li class="header-navi-item fl">-->
+                        <!--<a href="/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>-->
+                        <!--<i class="header-nav-border-relative"></i>-->
+                    <!--</li>-->
                     <!--供应管理-->
                     <li class="header-navi-item fl">
                         <a href="/supply/admin" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.supply.menu1")</a>
@@ -579,12 +589,12 @@
                     }
 
                     <!--供应管理系统 供应商 的菜单项-->
-                    @if(user.userType.get=="SUPPLIER") {
+                    @if(user.userType.get.contains("SUPPLIER")) {
                     <!--首页-->
-                    <li class="header-navi-item fl">
-                        <a href="/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
-                        <i class="header-nav-border-relative"></i>
-                    </li>
+                    <!--<li class="header-navi-item fl">-->
+                        <!--<a href="/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>-->
+                        <!--<i class="header-nav-border-relative"></i>-->
+                    <!--</li>-->
                     <!--供应管理 订单处理-->
                     <li class="header-navi-item fl">
                         <div class="user-info fl js-header-dropmenu">
@@ -604,12 +614,12 @@
                     }
 
                     <!--供应管理系统 翻译人员 的菜单项-->
-                    @if(user.userType.get=="TRANSLATION") {
+                    @if(user.userType.get.contains("TRANSLATION")) {
                     <!--首页-->
-                    <li class="header-navi-item fl">
-                        <a href="/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
-                        <i class="header-nav-border-relative"></i>
-                    </li>
+                    <!--<li class="header-navi-item fl">-->
+                        <!--<a href="/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>-->
+                        <!--<i class="header-nav-border-relative"></i>-->
+                    <!--</li>-->
                     <!--供应管理 翻译 -->
                     <li class="header-navi-item fl">
                         <a href="/supply/list" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.supply.menu1")</a>
@@ -619,13 +629,13 @@
                     }
 
                     <!--其他类型用户的菜单项 销售报表处理 -->
-                    @if(user.userType.get=="OTHER"){
+                    @if(user.userType.get.contains("OTHER")){
                     <!--销售报表-->
                     <!--首页-->
-                    <li class="header-navi-item fl">
-                        <a href="/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>
-                        <i class="header-nav-border-relative"></i>
-                    </li>
+                    <!--<li class="header-navi-item fl">-->
+                        <!--<a href="/front" class="header-link tdn">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</a>-->
+                        <!--<i class="header-nav-border-relative"></i>-->
+                    <!--</li>-->
                     <li class="header-navi-item fl">
                         <div class="user-info fl js-header-dropmenu">
                             <span class="info-inner db">销售报表<i class="ml5 caret caret-down caret-b-9b"></i></span>
@@ -651,7 +661,6 @@
                     </li>
                     <!--其他类型用户的菜单项 销售报表处理 -->
                     }
-
 
                     <!--个人中心-->
                     <li class="header-navi-item fl">
