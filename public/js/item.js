@@ -126,6 +126,7 @@ $(function(){
         }
 
         var thumb = document.createElement("div");
+        thumb.style.border="1px solid #ccc";
         var img = document.createElement("img");
 
         img.classList.add('main-img');

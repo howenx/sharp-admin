@@ -365,13 +365,13 @@
                     <label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
                     <div class="col-sm-7">
                         <div class="detail-img" style="border:1px solid #ccc;overflow: hidden">
-                            <div id="galleryD" class="gridly" style="position: relative;width: 500px;">
+                            <div id="galleryD" style="width: 500px;">
                                 @for(detail <- item.getItemDetailImgs().substring(1,item.getItemDetailImgs().length()-2).split("], ")) {
-                                <div style="display:inline-block; border:1px solid #ccc;">
+                                <div style="border:1px solid #ccc;">
                                     @for(d <- detail.substring(1,detail.length()).split(", ")) {
                                     <img src="@url@d.substring(1,d.length()-1)" alt="" style="border:0px;height:13.3px;display:block;margin-top:0px;margin-bottom:0px;">
                                     }
-                                    <button type="button" class="close" style="top:-6px;" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 }
                             </div>
@@ -402,7 +402,7 @@
                     <label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
                     <div class="col-sm-7">
                         <div class="detail-img" style="border:1px solid #ccc;overflow: hidden">
-                            <div id="galleryD" class="gridly" style="position: relative;width: 500px;">
+                            <div id="galleryD" style="width: 500px;">
                             </div>
                             <span class="add" id="detailImgAddD">＋
                                 <input type="file" id="D" name="itemDetailImgs" class="hidden1 form-data-area" value="" accept="image/gif, image/jpeg, image/webp, image/png" multiple="multiple"/>
