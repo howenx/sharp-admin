@@ -5,13 +5,20 @@
     <meta charset="UTF-8">
     <title>选择用户</title>
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link href="/assets/css/jquery-ui.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/xlstablefilter.css" rel="stylesheet" type="text/css">
     <script src="/assets/js/jquery-1.11.3.min.js"></script>
     <script src="/assets/js/bootstrap.min.js"></script>
     <!--self-->
     <link rel="stylesheet" href="/assets/css/search.css">
     <script src="/assets/js/search.js"></script>
+    <script src="/assets/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.xlstablefilter.js"></script>
     <script type="text/javascript">
         $(function(){
+            $("#searchUser").xlsTableFilter({
+                checkStyle: "custom",
+            });
             var sharedObject = window.dialogArguments;
             var user_arr = sharedObject.user_arr;
             for(i=0;i<user_arr.length;i++) {
@@ -54,7 +61,8 @@
 </head>
 <body>
 <h3 style="margin-left:20px;">用户查询</h3>
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover" id="searchUser">
+    <thead>
     <tr>
         <th>选择用户</th>
         <th>用户ID</th>
@@ -72,6 +80,7 @@
         <!--<th>是否激活</th>-->
         <th>是否实名认证</th>
     </tr>
+    </thead>
     @for(id <- idList){
     <tr>
         <td>
