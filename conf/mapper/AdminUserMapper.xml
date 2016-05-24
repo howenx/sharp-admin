@@ -75,7 +75,7 @@
         <include refid="adminUserColumns">
             <property name="alias" value="t"/>
         </include>
-        from "ADMIN_USER" t where 1=1
+        from "ADMIN_USER" t where 1=1  ORDER BY t.user_id DESC
     </select>
 
     <!-- 由id删除一条用户信息 -->

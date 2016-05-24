@@ -1,5 +1,9 @@
 $(function(){
 
+    //图片拖动
+    var el = document.getElementById('galleryD');
+    new Sortable(el);
+
     /** 图片放大和关闭的功能 **/
     $(document).on("click", ".main-img", function(e) {
         $(".goods-img-bg").css({
@@ -107,6 +111,7 @@ $(function(){
         for (var i = 0; i < files.length; i++) {
             previewImage(this.files[i], id);
         }
+        //图片拖动
         var el = document.getElementById('galleryD');
         new Sortable(el);
     });
