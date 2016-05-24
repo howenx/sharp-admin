@@ -435,7 +435,7 @@ $(function(){
            }
            invData.inventory = inventory;
            if (orVaryPrice=="true") {
-               var vp_arr = tds[23].innerHTML.split(",");
+               var vp_arr = tds[24].innerHTML.split(",");
                for(v=0;v<vp_arr.length;v++) {
                    if (v%4==0) {
                        var varyPrice = new Object();
