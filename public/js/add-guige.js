@@ -505,6 +505,10 @@ function saveClose() {
 }
 
 $(function(){
+    //图片拖动
+    var el2 = document.getElementById('galleryP');
+    new Sortable(el2);
+
     /** 图片放大和关闭的功能 **/
     $(document).on("click", ".main-img", function(e) {
         $(".goods-img-bg").css({
@@ -557,6 +561,7 @@ $(function(){
         for (var i = 0; i < files.length; i++) {
             previewImage(this.files[i], id);
         }
+        //图片拖动
         var el = document.getElementById('galleryP');
         new Sortable(el);
     });
