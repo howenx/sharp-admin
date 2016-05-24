@@ -184,7 +184,6 @@ public class AdminUserCtrl extends Controller {
         String loginIp = request().remoteAddress();
         AdminUser adu  = Json.fromJson(json, AdminUser.class);//查询条件adu
         AdminUser adminUser = adminUserService.getUserBy(adu);
-//        Logger.debug("login user:"+adu.toString());
         //登录后返回信息
         String data = "";
         if (null!=adminUser && !"".equals(adminUser.toString())) {
@@ -249,7 +248,6 @@ public class AdminUserCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result adminUserInfo(String lang) {
-        Logger.error("登录的这个用户是::::::"+((User) ctx().args.get("user")).toString());
         Map<String,String> userTypeList = new HashMap<>();
         Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
         Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
@@ -279,14 +277,16 @@ public class AdminUserCtrl extends Controller {
         AdminUser adminUser = adminUserService.getUserBy(adu);
         //更新用户信息
         adminUser.setChNm(adu.getChNm());
-        adminUser.setUserType(adu.getUserType());
+        if (null != adu.getUserType()) {
+            adminUser.setUserType(adu.getUserType());
+        }
         Boolean bool = adminUserService.updateUser(adminUser);
         User user = new User (adminUser.getUserId(), null,null, null , User_Type.ADMIN(),
                 Option.apply(adminUser.getUserId()), Option.apply(adminUser.getEnNm()), Option.apply(adminUser.getChNm()), Option.apply(adminUser.getEmail()),
                 Option.apply(adminUser.getUserType()), null, null, null,
                 null, null, null,null, null,null);
-        //更新cache 和 session中用户信息
-        if (((User) ctx().args.get("user")).userId().equals(adu.getUserId())) {
+        //(修改登录用户)更新cache 和 session中用户信息
+        if (((User) ctx().args.get("user")).userId().get().equals(adu.getUserId())) {
             Cache.set(adminUser.getEnNm().trim(), user);
             session().put("username",adminUser.getEnNm().trim());
         }
