@@ -506,9 +506,10 @@ function saveClose() {
 
 $(function(){
     //图片拖动
-    var el2 = document.getElementById('galleryP');
-    new Sortable(el2);
-
+    var el = document.getElementById('galleryP');
+    $(el).hover(function () {
+        new Sortable(el);
+    })
     /** 图片放大和关闭的功能 **/
     $(document).on("click", ".main-img", function(e) {
         $(".goods-img-bg").css({
