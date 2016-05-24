@@ -6,10 +6,20 @@
         <title>选择主题或商品</title>
         <link rel="shortcut icon" type="image/png" href="/assets/images/favicon.ico">
         <link rel="stylesheet" href="/assets/css/bootstrap.min.css" >
+        <link href="/assets/css/jquery-ui.css" rel="stylesheet" type="text/css">
+        <link href="/assets/css/xlstablefilter.css" rel="stylesheet" type="text/css">
         <script src="/assets/js/jquery-1.11.3.min.js"></script>
         <link rel="stylesheet" href="/assets/css/search.css" >
+        <script src="/assets/js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.xlstablefilter.js"></script>
         <script>
         $(function(){
+            $("#searchitem").xlsTableFilter({
+                checkStyle: "custom",
+            });
+            $("#searchtheme").xlsTableFilter({
+                checkStyle: "custom",
+            });
             var sharedObject = window.dialogArguments;
             var itemTarget = sharedObject.itemTarget;
             var targetType = sharedObject.targetType;
@@ -142,7 +152,8 @@
     <div class="goods-table pull-left switch"><span>商品选择</span></div>
     <div class="theme-table pull-left switch"><span>主题选择</span></div>
         <!--SKU-->
-        <table class="table table-bordered table-hover table-goods">
+        <table class="table table-bordered table-hover table-goods" id="searchitem">
+            <thead>
             <tr>
                 <th>选择商品</th>
                 <th style="display:none;">商品ID</th>
@@ -158,6 +169,7 @@
                 <th>原价(￥)</th>
                 <th>折扣</th>
             </tr>
+            </thead>
             @for(sku <- skusList) {
             <tr>
                 <td><input type="radio" name="selectItem"></td>
@@ -187,7 +199,8 @@
             }
         </table>
         <!--主题-->
-        <table class="table table-bordered table-hover table-theme">
+        <table class="table table-bordered table-hover table-theme" id="searchtheme">
+            <thead>
                 <tr>
                         <th>选择主题</th>
                         <th>主题ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
@@ -196,6 +209,7 @@
                         <th>开始时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
                         <th>结束时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
                 </tr>
+            </thead>
                 @for(theme <- themeList) {
                 <tr>
                         <td><input type="radio" name="selectTheme"></td>
