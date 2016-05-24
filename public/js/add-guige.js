@@ -557,6 +557,8 @@ $(function(){
         for (var i = 0; i < files.length; i++) {
             previewImage(this.files[i], id);
         }
+        var el = document.getElementById('galleryP');
+        new Sortable(el);
     });
 
     function previewImage(file, id) {
@@ -569,7 +571,6 @@ $(function(){
         }
 
         var thumb = document.createElement("div");
-        thumb.classList="brick small";
         var img = document.createElement("img");
 
         img.classList.add('main-img');

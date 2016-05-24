@@ -107,6 +107,8 @@ $(function(){
         for (var i = 0; i < files.length; i++) {
             previewImage(this.files[i], id);
         }
+        var el = document.getElementById('galleryD');
+        new Sortable(el);
     });
 
     function previewImage(file, id) {
@@ -119,7 +121,6 @@ $(function(){
         }
 
         var thumb = document.createElement("div");
-        thumb.classList="brick small";
         var img = document.createElement("img");
 
         img.classList.add('main-img');
@@ -510,11 +511,11 @@ $(function(){
        }
     });
     /*移动改变 图片位置*/
-    $('.gridly').gridly({
-        base: 40, // px
-        gutter: 10, // px
-        columns: 12
-    });
+    // $('.gridly').gridly({
+    //     base: 40, // px
+    //     gutter: 10, // px
+    //     columns: 12
+    // });
 
 });
 

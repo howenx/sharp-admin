@@ -263,13 +263,13 @@ body {
 .trEdit span{
     color:blue; cursor:pointer;
 }
-/*yidong图片位置*/
-.gridly, .gridly > :not(.dragging) {
-	-webkit-transition: all 0.4s ease-in-out;
-	-moz-transition: all 0.4s ease-in-out;
-	transition: all 0.4s ease-in-out; }
-.gridly .dragging {
-	z-index: 800; }
-.brick.small{
-	width: 40px;height: 40px;margin: 12px 0 0 8px;padding: 0;
-}
+/*!*yidong图片位置*!*/
+/*.gridly, .gridly > :not(.dragging) {*/
+	/*-webkit-transition: all 0.4s ease-in-out;*/
+	/*-moz-transition: all 0.4s ease-in-out;*/
+	/*transition: all 0.4s ease-in-out; }*/
+/*.gridly .dragging {*/
+	/*z-index: 800; }*/
+/*.brick.small{*/
+	/*width: 40px;height: 40px;margin: 12px 0 0 8px;padding: 0;*/
+/*}*/
