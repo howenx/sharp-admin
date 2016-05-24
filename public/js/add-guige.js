@@ -280,7 +280,7 @@ function saveCurr(saveFlag) {
         alert("上架时间和下架时间不能超过当前时间6个月");
     }
     //状态和时间的检查
-    if ((state=="Y" && (startAt>nowTime || nowTime>endAt)) || (state=="P" && nowTime>startAt || nowTime>endAt) || (state=="D" && startAt>nowTime)) {
+    if ((state=="Y" && (startAt>nowTime || nowTime>endAt)) || (state=="P" && (nowTime>startAt || nowTime>endAt)) || (state=="D" && startAt>nowTime)) {
         orSave = false;
         $("#warn-date").text("状态和上下架时间不匹配");
         setTimeout("$('#warn-date').text('')", 3000);
