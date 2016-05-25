@@ -14,26 +14,21 @@
     jQuery(document).ready(function ($) {
         $('[data-toggle="tabajax"]').click(function(e) {
             var $this = $(this),
-        loadurl = $this.attr('href'),
-        targ = $this.attr('data-target');
+            loadurl = $this.attr('href'),
+            targ = $this.attr('data-target');
 
-    $.get(loadurl, function(data) {
-        $(targ).html(data);
-        //$("#stat").on("change",function(){alert(1);});
-    });
+            $.get(loadurl, function(data) {
+                $(targ).html(data);
+                //$("#stat").on("change",function(){alert(1);});
+            });
 
+            $this.tab('show');
 
-    $this.tab('show');
-
-    return false;
+            return false;
         });
-
-
-
     });
 
     function load(loadurl) {
-
        $.get(loadurl, function(data) {
          $("#my-tab-content .active").html(data);
 
@@ -41,13 +36,11 @@
             //  alert(111);
             //});
        });
-
-
-
-
     }
 
-    load('/supply/my?id=@{products.head("products.category_id")}&start=1');
+    if(@products.length>0 ) {
+        load('/supply/my?id=1&start=1');
+    }
 
     function del(id) {
        if(confirm('삭제 하시겠습니까?')) {
@@ -76,40 +69,39 @@
       /**
       if(window.location.search == '') {
           load("/supply/my"  + "?stat=" + my.value + "&start=1");
-       }
-       else {
+      }
+      else {
           var matches = window.location.search.match(/id=(\d)+/);
 
           if(matches == null) {
              load("/supply/my"  + "?stat=" + my.value + "&start=1");
-           }
-           else {
-              if(matches[1]) {
+          }
+          else {
+             if(matches[1]) {
                load("/supply/my" + "?id=" + matches[1] + "&stat=" + my.value + "&start=1");
-              }
-              else {
+             }
+             else {
                 load("/supply/my"  + "?stat=" + my.value + "&start=1");
-              }
+             }
           }
       }
       **/
-
     }
 
     $(document).on('change', '.btn-file :file', function() {
-    var input = $(this),
+        var input = $(this),
         numFiles = input.get(0).files ? input.get(0).files.length : 1,
         label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-    input.trigger('fileselect', [numFiles, label]);
-});
-
-$(document).ready( function() {
-    $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-        //console.log(numFiles);
-        //console.log(label);
-        $("#form_upload").submit();
+        input.trigger('fileselect', [numFiles, label]);
     });
-});
+
+    $(document).ready( function() {
+        $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+            //console.log(numFiles);
+            //console.log(label);
+            $("#form_upload").submit();
+        });
+    });
 
 </script>
 
@@ -140,49 +132,46 @@ $(document).ready( function() {
 <div class="container">
     <div class="row" style="margin-top:50px">
 
-
-            @user.userType.get match {
-            case "SUPPLIER" => {
+        @if(user.userType.get.contains("SUPPLIER")) {
             <div class="pull-right col-md-2">
                 <input type="button" onclick="javascript:add();" class="btn btn-primary btn-block" value="新增(증가)">
-
             </div>
-               <form id="form_upload" action="/supply/upload" method="post" enctype="multipart/form-data">
-                <span class="pull-right btn btn-primary btn-file col-md-2">导入 <input name="upload_file" type="file"></span>
-               </form>
-
-
-            }
-            case "TRANSLATION" => {
+           <form id="form_upload" action="/supply/upload" method="post" enctype="multipart/form-data">
+            <span class="pull-right btn btn-primary btn-file col-md-2">导入 <input name="upload_file" type="file"></span>
+           </form>
+        }
+        @if(user.userType.get.contains("TRANSLATION")) {
             <div class="pull-right col-md-2">
                 <input type="button" onclick="javascript:window.location='/supply/download/shanghai'" class="btn btn-primary btn-block" value="上海报关下载">
             </div>
             <div class="pull-right col-md-2">
                 <input type="button" onclick="javascript:window.location='/supply/download/hangzhou'" class="btn btn-primary btn-block" value="杭州报关下载">
             </div>
-            }
-            }
-
+        }
     </div>
+
+    @if(products.length>0) {
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
         @products.head("products.category_id") match {
-               case 3 => {
-               <li ><a href="/supply/my?id=1&start=1" data-target="#hzp" data-toggle="tabajax">化妆品(화장품)</a></li>
-               <li><a href="/supply/my?id=2&start=1" data-target="#ps" data-toggle="tabajax">配饰(액세서리)</a></li>
-               <li class="active"><a href="/supply/my?id=3&start=1" data-target="#fs" data-toggle="tabajax">服饰(의상)</a></li>
-               }
-                case 2 => {
-                <li ><a href="/supply/my?id=1&start=1" data-target="#hzp" data-toggle="tabajax">化妆品(화장품)</a></li>
-                <li class="active"><a href="/supply/my?id=2&start=1" data-target="#ps" data-toggle="tabajax">配饰(액세서리)</a></li>
-                <li ><a href="/supply/my?id=3&start=1" data-target="#fs" data-toggle="tabajax">服饰(의상)</a></li>
-                }
-                case 1 => {
-                <li class="active"><a href="/supply/my?id=1&start=1" data-target="#hzp" data-toggle="tabajax">化妆品(화장품)</a></li>
-                <li><a href="/supply/my?id=2&start=1" data-target="#ps" data-toggle="tabajax">配饰(액세서리)</a></li>
-                <li ><a href="/supply/my?id=3&start=1" data-target="#fs" data-toggle="tabajax">服饰(의상)</a></li>
-                }
+        case 3 => {
+        <li ><a href="/supply/my?id=1&start=1" data-target="#hzp" data-toggle="tabajax">化妆品(화장품)</a></li>
+        <li><a href="/supply/my?id=2&start=1" data-target="#ps" data-toggle="tabajax">配饰(액세서리)</a></li>
+        <li class="active"><a href="/supply/my?id=3&start=1" data-target="#fs" data-toggle="tabajax">服饰(의상)</a></li>
+        }
+        case 2 => {
+        <li ><a href="/supply/my?id=1&start=1" data-target="#hzp" data-toggle="tabajax">化妆品(화장품)</a></li>
+        <li class="active"><a href="/supply/my?id=2&start=1" data-target="#ps" data-toggle="tabajax">配饰(액세서리)</a></li>
+        <li ><a href="/supply/my?id=3&start=1" data-target="#fs" data-toggle="tabajax">服饰(의상)</a></li>
+        }
+        case 1 => {
+        <li class="active"><a href="/supply/my?id=1&start=1" data-target="#hzp" data-toggle="tabajax">化妆品(화장품)</a></li>
+        <li><a href="/supply/my?id=2&start=1" data-target="#ps" data-toggle="tabajax">配饰(액세서리)</a></li>
+        <li ><a href="/supply/my?id=3&start=1" data-target="#fs" data-toggle="tabajax">服饰(의상)</a></li>
+        }
         }
     </ul>
+    }
+
     <div id="my-tab-content" class="tab-content">
         <div class="tab-pane active" id="hzp">
         </div>

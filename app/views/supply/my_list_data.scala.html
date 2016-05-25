@@ -49,15 +49,13 @@
                 }
             </td>
             <td class="col-md-1">
-                @user.userType.get match {
-                case "SUPPLIER" => {
+                @if(user.userType.get.contains("SUPPLIER")) {
                   @p("products.status") match {
                     case "I" => {<a href="/supply/update/@p("products.product_id")">修改(수정)</a>  <a href="javascript:del(@p("products.product_id"))">删除(삭제)</a></td>}
                     case _ => {</td>}
                   }
-
                 }
-                case "TRANSLATION" => {
+                @if(user.userType.get.contains("TRANSLATION")) {
                   @p("products.status") match {
                     case "I" => {
                        <a href="/supply/translation/@p("products.product_id")">翻译</a>
@@ -66,20 +64,13 @@
                     case _ =>{<a href="/supply/append/@p("products.product_id")">追加</a></td>}
                   }
                 }
-                }
-
+            }
         </tr>
-
-        }
     </table>
     @status match {
        case Some(s) => {@pages(start,15,count,"/supply/my?id="+category_id+"&stat="+s)}
        case _ => {@pages(start,15,count,"/supply/my?id="+category_id)}
     }
-
-
-
-
 </div>
 
 @import scala.Int; var f = 0; var t = 0 ;

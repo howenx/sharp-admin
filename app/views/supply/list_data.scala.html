@@ -47,29 +47,25 @@
                 }
             </td>
             <td>
-                @user.userType.get match {
-                case "SUPPLIER" => {
+                @if(user.userType.get.contains("SUPPLIER")) {
                   @p("products.status") match {
                     case "I" => {<a href="/supply/update/@p("products.product_id")">修改(수정)</a> </td>}
 
                     case _ => {</td>}
                   }
-
                 }
-                case "TRANSLATION" => {
+                @if(user.userType.get.contains("TRANSLATION")) {
                   @p("products.status") match {
                     case "I" => {
                        <a href="/supply/translation/@p("products.product_id")">翻译</a></td>
-
                     }
                     case "T" => {
                     <a href="/supply/translation/@p("products.product_id")">翻译</a></td>
-
                     }
                     case _ =>{</td>}
                   }
                 }
-                case "SADMIN" => {
+                @if(user.userType.get.contains("MANAGE")) {
                     @p("products.status") match {
                     case "I" => {
 
@@ -81,8 +77,6 @@
                 }
 
         </tr>
-
-        }
     </table>
     @status match {
     case Some(s) => {@pages(start,15,count,"/supply/list?id="+category_id+"&stat="+s)}
