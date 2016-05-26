@@ -23,7 +23,7 @@ public class UserLogCtrl extends Controller {
     @Inject
     private UserLogService userLogService;
 
-    private int pageSize = 20;
+    public static final int pageSize = 10;
 
     /**
      * 日志查询列表

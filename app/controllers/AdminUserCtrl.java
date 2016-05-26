@@ -66,7 +66,7 @@ public class AdminUserCtrl extends Controller {
 
     public static final Timeout TIMEOUT = new Timeout(100, TimeUnit.MILLISECONDS);
 
-    private int pageSize = 3;
+    public static final int pageSize = 10;
 
     /**
      * 添加管理员用户
