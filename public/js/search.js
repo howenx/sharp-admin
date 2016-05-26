@@ -752,21 +752,21 @@ function search(url, dto) {
 				} else {
 					$('.page-toolbar-title').text("Count:" + data.countNum + " results/Every Page:" + data.pageSize + " results/Sum Page:" + data.pageCount + " pages");
 				}
-				//清空页码
-				$('.pagination').find(".page-num").remove();
-				//重新生成页码
-				for (var i = 1; i <= data.pageCount; i++) {
-					//如果是当前页,高亮
-					if (i == data.pageNum) {
-						$('.pagination').find('.next').before("" +
-							'<li class="page-num active"><a href="javascript:void(0)">' + i + '</a></li>'
-						);
-					} else {
-						$('.pagination').find('.next').before("" +
-							'<li class="page-num"><a href="javascript:void(0)">' + i + '</a></li>'
-						);
-					}
-				}
+				// //清空页码
+				// $('.pagination').find(".page-num").remove();
+				// //重新生成页码
+				// for (var i = 1; i <= data.pageCount; i++) {
+				// 	//如果是当前页,高亮
+				// 	if (i == data.pageNum) {
+				// 		$('.pagination').find('.next').before("" +
+				// 			'<li class="page-num active"><a href="javascript:void(0)">' + i + '</a></li>'
+				// 		);
+				// 	} else {
+				// 		$('.pagination').find('.next').before("" +
+				// 			'<li class="page-num"><a href="javascript:void(0)">' + i + '</a></li>'
+				// 		);
+				// 	}
+				// }
 			} else {
 				//清空数据
 				$('#tb-topic').find('tbody').find(".tb-list-data").remove();
@@ -849,44 +849,44 @@ $(function() {
 		}
 	})
 
-	//点击上一页
-	$(document).on('click', '.pagination>.prev', function() {
-		var $prev = $(".pagination").find(".active").prev(".page-num");
-		console.log($prev.length)
-		if ($prev.length != 0) {
-			console.log("存在");
-			$(".pagination>.page-num").removeClass("active");
-			$prev.addClass("active");
-			if (window.search_args + "_search" in funcList) {
-				funcList[window.search_args + "_search"]($prev.first().text());
-			}
-		} else {
-			console.log("不存在")
-		}
-	})
-
-	//点击下一页
-	$(document).on('click', '.pagination>.next', function() {
-		var $next = $(".pagination").find(".active").next(".page-num");
-		console.log($next.length)
-		if ($next.length != 0) {
-			console.log("存在");
-			$(".pagination>.page-num").removeClass("active");
-			$next.addClass("active");
-			if (window.search_args + "_search" in funcList) {
-				funcList[window.search_args + "_search"]($next.first().text());
-			}
-		} else {
-			console.log("不存在")
-		}
-	})
-
-	//主题查询页面,点击查询事件
-	$(document).on('click', "#topic-search-bt", function() {
-		if (window.search_args + "_search" in funcList) {
-			funcList[window.search_args + "_search"](1);
-		}
-	})
+	// //点击上一页
+	// $(document).on('click', '.pagination>.prev', function() {
+	// 	var $prev = $(".pagination").find(".active").prev(".page-num");
+	// 	console.log($prev.length)
+	// 	if ($prev.length != 0) {
+	// 		console.log("存在");
+	// 		$(".pagination>.page-num").removeClass("active");
+	// 		$prev.addClass("active");
+	// 		if (window.search_args + "_search" in funcList) {
+	// 			funcList[window.search_args + "_search"]($prev.first().text());
+	// 		}
+	// 	} else {
+	// 		console.log("不存在")
+	// 	}
+	// })
+    //
+	// //点击下一页
+	// $(document).on('click', '.pagination>.next', function() {
+	// 	var $next = $(".pagination").find(".active").next(".page-num");
+	// 	console.log($next.length)
+	// 	if ($next.length != 0) {
+	// 		console.log("存在");
+	// 		$(".pagination>.page-num").removeClass("active");
+	// 		$next.addClass("active");
+	// 		if (window.search_args + "_search" in funcList) {
+	// 			funcList[window.search_args + "_search"]($next.first().text());
+	// 		}
+	// 	} else {
+	// 		console.log("不存在")
+	// 	}
+	// })
+    //
+	// //主题查询页面,点击查询事件
+	// $(document).on('click', "#topic-search-bt", function() {
+	// 	if (window.search_args + "_search" in funcList) {
+	// 		funcList[window.search_args + "_search"](1);
+	// 	}
+	// })
 
 
 
