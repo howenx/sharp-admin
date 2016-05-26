@@ -29,7 +29,7 @@ public class CoupCtrl extends Controller {
     @Inject
     private IDService idService;
 
-    private int pageSize = 5;
+    public static final int pageSize = 10;
 
     /**
      * 发放优惠券
