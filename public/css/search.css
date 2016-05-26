@@ -85,7 +85,7 @@
 }
 .page-toolbar-title {
 	color: rgba(242, 100, 86, 0.9);
-	float: right;
+	text-align: right;
 	margin: 20px 5px;
 }
 .goods-img-bg .close{

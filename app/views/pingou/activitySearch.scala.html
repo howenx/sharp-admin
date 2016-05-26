@@ -4,10 +4,14 @@
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
 <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
+
+<link href="/assets/css/myPage.css" rel="stylesheet" type="text/css" />
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
 <script src="/assets/js/rili.js"></script>
 <script src="/assets/js/search.js"></script>
+<script src="/assets/js/jqPaginator.min.js" type="text/javascript"></script>
+<script src="/assets/js/myPage.js" type="text/javascript"></script>
 
 <!-- 此为调用分页所提供的函数名前缀 -->
 <script>window.search_args = 'activitylist'</script>
@@ -109,19 +113,20 @@
             </tbody>
         </table>
         <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
-        <span class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</span>
-        <div class="paging">
-            <ul class="pagination">
-                <li class="prev"><a href="javascript:void(0)">&laquo;</a></li>
-                <li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>
-                @for(count <- 1 until pageCount){
-                <li class="page-num"><a href="javascript:void(0)">@(count+1)</a></li>
-                }
-                <li class="next"><a href="javascript:void(0)">&raquo;</a></li>
-            </ul>
-        </div>
-        <!-- 公用模块,直接拷贝-->
-
+        <p class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</p>
+        <!--<div class="paging">-->
+            <!--<ul class="pagination">-->
+                <!--<li class="prev"><a href="javascript:void(0)">&laquo;</a></li>-->
+                <!--<li class="page-num page-first active"><a href="javascript:void(0)">1</a></li>-->
+                <!--@for(count <- 1 until pageCount){-->
+                <!--<li class="page-num"><a href="javascript:void(0)">@(count+1)</a></li>-->
+                <!--}-->
+                <!--<li class="next"><a href="javascript:void(0)">&raquo;</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <ul class="pagination" id="pagination">
+            <input type="hidden" value="@pageCount" id="pagecount">
+        </ul>
     </div>
 </div>
 <!-- 点击图片预览-->
