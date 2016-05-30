@@ -61,6 +61,7 @@ funcList.thmlist_data = function thmlist_data(data) {
 //每个查询页面对应一个相应的组装函数 商品查询页面
 funcList.commlist_search = function commlist_search(pageIndex) {
     var commDto = new Object();
+    commDto.itemId = $("#itemId-id").val();
     commDto.id = $("#sku-id").val();
     commDto.invTitle = $("#sku-title").val();
     commDto.invCode = $("#inv-code").val();
@@ -694,9 +695,12 @@ funcList.couList_search = function couList_search(pageIndex) {
 funcList.couList_data = function couList_data(data) {
     console.log(data);
     //填充列表数据
+    console.log(data[0].usedPlaceName);
     $(data).each(function(index, element) {
         var status = "";
         var operation = "";
+        var usedPlaceName = "";
+        if (usedPlaceName!=null && usedPlaceName!='null' && usedPlaceName!="") {usedPlaceName = $(this)[0].usedPlaceName;}
         if($(this)[0].status=="NOT_USED"){status="可使用";operation="作废";}
         if($(this)[0].status=="USED"){status="已使用"}
         if($(this)[0].status=="DROPPED"){status="作废"}
@@ -705,7 +709,7 @@ funcList.couList_data = function couList_data(data) {
             '<td>' + $(this)[0].couponNumber + '</td>' +
             '<td>' + $(this)[0].couponName+ '</td>' +
             '<td>' + $(this)[0].couponType+ '</td>' +
-            '<td>' + $(this)[0].usedPlaceName+ '</td>' +
+            '<td>' + usedPlaceName + '</td>' +
             '<td>' + $(this)[0].brandName+ '</td>' +
             '<td>' + $(this)[0].code+ '</td>' +
             '<td>' + $(this)[0].standardPrice+ '</td>' +
@@ -880,13 +884,13 @@ $(function() {
 	// 		console.log("不存在")
 	// 	}
 	// })
-    //
-	// //主题查询页面,点击查询事件
-	// $(document).on('click', "#topic-search-bt", function() {
-	// 	if (window.search_args + "_search" in funcList) {
-	// 		funcList[window.search_args + "_search"](1);
-	// 	}
-	// })
+
+	 //主题查询页面,点击查询事件
+	 $(document).on('click', "#topic-search-bt", function() {
+	 	if (window.search_args + "_search" in funcList) {
+	 		funcList[window.search_args + "_search"](1);
+	 	}
+	 })
 
 
 

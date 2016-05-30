@@ -99,7 +99,7 @@ public class ItemCtrl extends Controller {
             inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
         }
         Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
-        return ok(views.html.item.itemsearch.render(lang, SysParCom.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,inventoryList,(User) ctx().args.get("user"), area));
+        return ok(views.html.item.itemsearch.render(lang, SysParCom.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,inventoryList, (User) ctx().args.get("user"), area));
     }
 
     /**
@@ -111,13 +111,13 @@ public class ItemCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result itemSearchAjax(String lang,int pageNum) {
         JsonNode json = request().body().asJson();
-//        Item item = Json.fromJson(json,Item.class);
         Inventory inventory = Json.fromJson(json,Inventory.class);
         if(pageNum>=1){
             //计算从第几条开始取数据
             int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
             inventory.setPageSize(-1);
             inventory.setOffset(-1);
+            inventory.setState("Y");
             List<Inventory> inventoryList = inventoryService.invSearch(inventory);
             int countNum = inventoryList.size();//取总数
             int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
