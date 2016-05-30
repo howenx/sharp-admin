@@ -50,7 +50,7 @@ public class Theme implements Serializable{
     private String themeMasterImg;
     private String masterItemTag;
     private String type;
-    @Constraints.Pattern(Regex.HTTP)
+    //@Constraints.Pattern(Regex.HTTP)
     private String h5Link;
 
     //分页,每页多少条

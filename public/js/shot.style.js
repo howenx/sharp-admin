@@ -288,12 +288,12 @@ $(function() {
              setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
              return false;
          }
-         if(!httpRe.test($("#h5-link").val())){
-            isPost = false;
-            $('#js-userinfo-error').text('H5链接格式错误!').css('color', '#c00');
-            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-            return false;
-         }
+//         if(!httpRe.test($("#h5-link").val())){
+//            isPost = false;
+//            $('#js-userinfo-error').text('H5链接格式错误!').css('color', '#c00');
+//            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+//            return false;
+//         }
          if($("#themeImg").find("img").attr("src") == ""){
              isPost = false;
              $('#js-userinfo-error').text('请选择主题图片!').css('color', '#c00');
