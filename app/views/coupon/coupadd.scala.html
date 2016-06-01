@@ -58,6 +58,10 @@
         }
     }
 </script>
+<style type="text/css">
+    .start{color:red;padding-top:3px;padding-left:3px;}
+    .r{float:right;}
+</style>
 }
 
 @import java.lang.String; var title="发放优惠券"
@@ -89,7 +93,7 @@
         <form class="form-horizontal" method="post" enctype="multipart/form-data">
             <div class="upinfo">
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" >类别</label>
+                    <label class="col-sm-1 control-label" ><div class="r start"> *</div><div class="r">类别</div></label>
                     <div class="col-sm-3">
                         <select class="form-control form-data-area" id="cateId" name="cateId">
                             <option value="">请选择</option>
@@ -101,17 +105,17 @@
                             <option value="211">指定商品适用券</option>
                         </select>
                     </div>
-                    <label class="col-sm-1 control-label">限额(￥)</label>
+                    <label class="col-sm-1 control-label" ><div class="r start"> *</div><div class="r">限额(￥)</div></label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control form-data-area" id="limitQuota" name="limitQuota">
                     </div>
-                    <label class="col-sm-1 control-label">面值(￥)</label>
+                    <label class="col-sm-1 control-label" ><div class="r start"> *</div><div class="r">面值(￥)</div></label>
                     <div class="col-sm-2">
                         <input type="text" class="form-control form-data-area" id="denomination" name="denomination">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label ">使用期限</label>
+                    <label class="col-sm-1 control-label" ><div class="r start" style="padding-left:0;"> *</div><div class="r">使用期限</div></label>
                     <div class="col-sm-3">
                         <div class="input-group date" id='datetimepicker1'>
                             <input class="form-control col-sm-2 form-data-area" type="text"  id="startAt" name="startAt"/>
@@ -203,17 +207,19 @@
         var denomination = $("#denomination").val();
         var users = $(".table tbody").find("tr");
         //验证是否选择用户
-        if (users.length==0) {
-            isPost = false;
-             $('#js-userinfo-error').text('请选择用户');
-        }
+
         //验证使用期限
         var now = new Date();
         var nowTime = now.getFullYear()+"-"+(now.getMonth()+1>=10?now.getMonth()+1:'0'+(now.getMonth()+1))+"-"+(now.getDate()>=10?now.getDate():'0'+now.getDate())+" "+(now.getHours()>=10?now.getHours():'0'+now.getHours())+":"+(now.getMinutes()>=10?now.getMinutes():'0'+now.getMinutes())+":"+(now.getSeconds()>=10?now.getSeconds():'0'+now.getSeconds());
         var maxDate = now.setMonth(now.getMonth()+6);
         var d1 = new Date(Date.parse(startAt.replace(/-/g,"/")));//开始时间
         var d2 = new Date(Date.parse(endAt.replace(/-/g,"/")));//结束时间
-        if (startAt=="" || endAt=="" || startAt >= endAt ) {
+
+        //验证必填项及数据正确性
+        if (cateId=="" || !numberReg1.test(limitQuota) || !numberReg1.test(denomination)) {
+            isPost=false;
+            $('#js-userinfo-error').text('必填项有误');
+        } else if (startAt=="" || endAt=="" || startAt >= endAt ) {
            isPost = false;
            $('#js-userinfo-error').text('请检查时间设置');
         } else if (endAt<nowTime) {
@@ -222,13 +228,10 @@
         } else if (d1>=maxDate || d2>=maxDate) {
             isPost = false;
             $('#js-userinfo-error').text('开始时间和结束时间不能超过当前时间6个月');
+        } else if (users.length==0) {
+            isPost = false;
+             $('#js-userinfo-error').text('请选择用户');
         } else $('#js-userinfo-error').text('');
-        //验证必填项及数据正确性
-        if (cateId=="" || startAt=="" || endAt=="" || !numberReg1.test(limitQuota) || !numberReg1.test(denomination)) {
-            isPost=false;
-            $('#js-userinfo-error').text('必填项有误');
-        }
-        if (isPost) {$('#js-userinfo-error').text('');}
 
         for(i=0;i<users.length;i++) {
             var coupon = new Object();

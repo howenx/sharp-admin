@@ -80,6 +80,10 @@
         })
     })
 </script>
+<style type="text/css">
+    .start{color:red;padding:3px;}
+    .r{float:right;}
+</style>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"新增品牌")
 
@@ -108,20 +112,20 @@
     </div>
     <form class="form-horizontal">
         <div class="form-group">
-            <label class="col-sm-2 control-label">品牌名称</label>
-            <div class="col-sm-10">
+            <label class="col-sm-2 control-label" ><div class="r start"> *</div><div class="r">品牌名称</div></label>
+            <div class="col-sm-7">
                 <input id="brandName" type="text" class="form-control form-data-area" placeholder="品牌名称">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">品牌描述</label>
-            <div class="col-sm-10">
+            <div class="col-sm-7">
                 <input type="text" id="brandDesc" class="form-control form-data-area" placeholder="品牌描述">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">商品logo</label>
-            <div class="col-sm-10">
+            <div class="col-sm-7">
                 <div class="img-logo">
                     <button type="button" class="btn btn-primary btn-sm" style="position: relative">
                         上传图片
