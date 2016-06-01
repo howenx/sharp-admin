@@ -718,7 +718,8 @@ funcList.couList_data = function couList_data(data) {
             '<td>' + $(this)[0].expiredAt+ '</td>' +
             '<td>' + $(this)[0].maximumExpiredAt+ '</td>' +
             '<td>' + status+ '</td>' +
-            '<td><a href="javascript:;" class="coupon-drop">' + operation+ '</a></td>' +
+            //'<td><a href="javascript:;" class="coupon-drop">' + operation+ '</a></td>' +
+            '<td></td>' +
             '</tr>'
         );
     })
