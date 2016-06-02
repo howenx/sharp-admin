@@ -1,0 +1,122 @@
+@import play.i18n._
+@(lang:String="cn",user:domain.User)
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/screenshot.css">
+<link rel="stylesheet" href="/assets/css/button.css">
+<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<style type="text/css">
+    .start{color:red;padding-top:3px;padding-left:3px;}
+    .r{float:right;}
+</style>
+}
+
+@import java.lang.String; var title="消息推送"
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+
+<div class="mbread" style="width:65%">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
+        <span class="icon-path">&gt;</span>
+        <span>消息推送</span>
+    </div>
+</div>
+
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">消息推送</span>
+    </div>
+    <div class="usercenter-option">
+        <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
+        <div id="submit" class="btn-blue btn-form fr ml15">推送</div>
+        <div id="cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
+        <span id="js-userinfo-error" class="mt20 alt fr"></span>
+    </div>
+    <div class="row">
+        <form class="form-horizontal" method="post" enctype="multipart/form-data">
+            <div class="upinfo">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">标题</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control form-data-area" id="title" name="title">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">内容</label>
+                    <div class="col-sm-7">
+                        <textarea rows="6"  class="form-control form-data-area" id="msgContent" name="msgContent"></textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+}
+
+<script>
+
+    /** 数据改变的提示 **/
+    $(document).on('change', '.form-data-area', function() {
+		$('.usercenter-option > .user-state').css('background-position', '20px -73px');
+		$('.usercenter-option > .user-state').text('已更改');
+	});
+
+    /** 数据提交 **/
+    $("#submit").click(function(){
+        var isPost = true;
+        var title = $("#title").val();
+        var msgContent = $("#msgContent").val();
+
+        var msg = new Object();
+        msg.title = title;
+        <!--msg.msgContent = msgContent;-->
+
+        //验证必填项及数据正确性
+        if (title=="") {
+            isPost=false;
+            $('#js-userinfo-error').text('请输入消息的标题');
+        } else $('#js-userinfo-error').text('');
+
+        console.log(isPost);
+        console.log(JSON.stringify(msg));
+        if (isPost) {
+            $.ajax({
+                type :  "POST",
+                url : "/msg/msgSave",
+                contentType: "application/json; charset=utf-8",
+                data : JSON.stringify(msg),
+                error : function(request) {
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('推送失败');
+                    } else {
+                        $('#js-userinfo-error').text('Send error');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('')", 2000);
+                },
+                success: function(data) {
+                    if (data=="推送成功") {
+                        $('#js-userinfo-error').text('推送成功').css('color', '#2fa900');
+                        $('.usercenter-option > .user-state').css('background-position', '20px -174px');
+                        $('.usercenter-option > .user-state').text('未更改');
+                        <!--setTimeout("location.href='/"+window.lang+"/msg/send'", 3000);-->
+                    }
+                    else {
+                        $('#js-userinfo-error').text('推送失败');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+                }
+            });
+        }
+
+    });
+
+</script>

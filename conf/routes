@@ -330,3 +330,9 @@ POST        /$lang<(cn|en|kr)>/coupon/search/$pageNum<[0-9]+>                   
 POST        /coupon/drop                                                            controllers.CouponCtrl.dropCoupon(lang = "cn")
 POST        /$lang<(cn|en|kr)>/coupon/drop                                          controllers.CouponCtrl.dropCoupon(lang)
 
+#msg 消息推送
+GET         /msg/send                                                               controllers.ItemCtrl.msgSend(lang = "cn")
+GET         /$lang<(cn|en|kr)>/msg/send                                             controllers.ItemCtrl.msgSend(lang)
+POST        /msg/msgSave                                                            controllers.ItemCtrl.msgSave()
+
+

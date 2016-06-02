@@ -1,7 +1,6 @@
 package util;
 
 import com.squareup.okhttp.OkHttpClient;
-import org.h2.mvstore.ConcurrentArrayList;
 import play.Configuration;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -10,13 +9,10 @@ import redis.clients.jedis.JedisPubSub;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * 查询参数表中的参数项
@@ -56,6 +52,7 @@ public class SysParCom {
     public static String LOGIN_NAME;
     public static String PASSWORD;
     public static String SECRET;
+
     public static ConcurrentMap<String, JedisPubSub> JEDIS_SUB;
     public static List<Jedis> JEDIS_COLLECT;
     public static List<JedisPool> JEDIS_POOLS;
@@ -67,6 +64,9 @@ public class SysParCom {
 
 //    public static ExecutorService executor;
 
+
+    //消息推送
+    public static String MSG_SEND;
 
 
     @Inject
@@ -100,6 +100,8 @@ public class SysParCom {
         JEDIS_POOLS = new ArrayList<>();
 
 //        executor = Executors.newFixedThreadPool(REDIS_SUBSCRIBE.size());
+
+        MSG_SEND = configuration.getString("msg.send");
 
     }
 
