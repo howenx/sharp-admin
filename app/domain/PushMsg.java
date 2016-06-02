@@ -1,8 +1,7 @@
 package domain;
 
-import play.data.validation.Constraints;
-
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Created by sibyl.sun on 16/3/1.
@@ -10,7 +9,6 @@ import java.io.Serializable;
 public class PushMsg implements Serializable {
     private static final long serialVersionUID = -1L;
     private String alert;
-    @Constraints.Required
     private String title;
     private String url;
     private String targetType;
@@ -24,6 +22,18 @@ public class PushMsg implements Serializable {
 
     public String getAlert() {
         return alert;
+    }
+
+    @Override
+    public String toString() {
+        return "PushMsg{" +
+                "alert='" + alert + '\'' +
+                ", title='" + title + '\'' +
+                ", url='" + url + '\'' +
+                ", targetType='" + targetType + '\'' +
+                ", audience='" + audience + '\'' +
+                ", aliasOrTag=" + Arrays.toString(aliasOrTag) +
+                '}';
     }
 
     public void setAlert(String alert) {
@@ -68,14 +78,5 @@ public class PushMsg implements Serializable {
 
     public void setAliasOrTag(String[] aliasOrTag) {
         this.aliasOrTag = aliasOrTag;
-    }
-    @Override
-    public String toString(){
-        return "PushMsg [alert="+alert+
-                ",title="+title+
-                ",url="+url+
-                ",targetType="+targetType+
-                ",audience="+audience+
-                ",aliasOrTag="+aliasOrTag;
     }
 }

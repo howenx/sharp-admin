@@ -331,8 +331,8 @@ POST        /coupon/drop                                                        
 POST        /$lang<(cn|en|kr)>/coupon/drop                                          controllers.CouponCtrl.dropCoupon(lang)
 
 #msg 消息推送
-GET         /msg/send                                                               controllers.ItemCtrl.msgSend(lang = "cn")
-GET         /$lang<(cn|en|kr)>/msg/send                                             controllers.ItemCtrl.msgSend(lang)
-POST        /msg/msgSave                                                            controllers.ItemCtrl.msgSave()
+GET         /msg/push                                                               controllers.ItemCtrl.msgPush(lang = "cn")
+GET         /$lang<(cn|en|kr)>/msg/push                                             controllers.ItemCtrl.msgPush(lang)
+POST        /msg/pushSave                                                           controllers.ItemCtrl.msgPushSave()
 
 

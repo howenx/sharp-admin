@@ -53,7 +53,7 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label">内容</label>
                     <div class="col-sm-7">
-                        <textarea rows="6"  class="form-control form-data-area" id="msgContent" name="msgContent"></textarea>
+                        <textarea rows="6"  class="form-control form-data-area" id="alert" name="alert"></textarea>
                     </div>
                 </div>
             </div>
@@ -74,11 +74,11 @@
     $("#submit").click(function(){
         var isPost = true;
         var title = $("#title").val();
-        var msgContent = $("#msgContent").val();
+        var alert = $("#alert").val();
 
         var msg = new Object();
         msg.title = title;
-        <!--msg.msgContent = msgContent;-->
+        msg.alert = alert;
 
         //验证必填项及数据正确性
         if (title=="") {
@@ -91,7 +91,7 @@
         if (isPost) {
             $.ajax({
                 type :  "POST",
-                url : "/msg/msgSave",
+                url : "/msg/pushSave",
                 contentType: "application/json; charset=utf-8",
                 data : JSON.stringify(msg),
                 error : function(request) {
@@ -107,10 +107,10 @@
                         $('#js-userinfo-error').text('推送成功').css('color', '#2fa900');
                         $('.usercenter-option > .user-state').css('background-position', '20px -174px');
                         $('.usercenter-option > .user-state').text('未更改');
-                        <!--setTimeout("location.href='/"+window.lang+"/msg/send'", 3000);-->
+                        <!--setTimeout("location.href='/"+window.lang+"/msg/push'", 3000);-->
                     }
                     else {
-                        $('#js-userinfo-error').text('推送失败');
+                        $('#js-userinfo-error').text('推送错误');
                     }
                     setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
                 }

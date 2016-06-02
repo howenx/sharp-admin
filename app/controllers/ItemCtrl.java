@@ -569,17 +569,16 @@ public class ItemCtrl extends Controller {
      * @return views
      */
     @Security.Authenticated(UserAuth.class)
-    public Result msgSend(String lang) {
-        return ok(views.html.item.msgsend.render(lang, (User) ctx().args.get("user")));
+    public Result msgPush(String lang) {
+        return ok(views.html.item.msgpush.render(lang, (User) ctx().args.get("user")));
     }
 
-
     /**
-     * 消息推送保存
+     * 消息推送保存      Added By Sunny WU  2016.06.02
      * @return
      */
     @Security.Authenticated(UserAuth.class)
-    public Result msgSave() {
+    public Result msgPushSave() {
         JsonNode json = request().body().asJson();
 
         Form<PushMsg> msgForm = Form.form(PushMsg.class).bind(json);
@@ -589,9 +588,13 @@ public class ItemCtrl extends Controller {
             Logger.error("msg 表单数据有误.....");
             return badRequest();
         }
+        msg.setAudience("all");
+        msg.setUrl("/comm/detail/item/888432/111637");
+        msg.setTargetType("D");
+
         Logger.error("消息:"+msg.toString());
 
-        system.actorSelection(SysParCom.MSG_SEND).tell(msg, ActorRef.noSender());
+        system.actorSelection(SysParCom.MSG_PUSH).tell(msg, ActorRef.noSender());
 
 
         return ok("推送成功");

@@ -13,7 +13,7 @@ public interface CouponsMapper {
      * 生成一张优惠券
      * @param coupons 优惠券
      */
-    void insertCoupons(Coupons coupons);
+    int insertCoupons(Coupons coupons);
 
     /**
      * 更新优惠券

@@ -66,6 +66,7 @@ public class SysParCom {
 
 
     //消息推送
+    public static String MSG_PUSH;
     public static String MSG_SEND;
 
 
@@ -101,6 +102,7 @@ public class SysParCom {
 
 //        executor = Executors.newFixedThreadPool(REDIS_SUBSCRIBE.size());
 
+        MSG_PUSH = configuration.getString("msg.push");
         MSG_SEND = configuration.getString("msg.send");
 
     }
