@@ -1,3 +1,6 @@
+body{
+	min-width: 1600px;
+}
 .header.else {
 	height: 69px;
 /*	border-bottom: 1px solid #cecece;*/
