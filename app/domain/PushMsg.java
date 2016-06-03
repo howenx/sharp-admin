@@ -1,5 +1,7 @@
 package domain;
 
+import play.data.validation.Constraints;
+
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -9,6 +11,7 @@ import java.util.Arrays;
 public class PushMsg implements Serializable {
     private static final long serialVersionUID = -1L;
     private String alert;
+    @Constraints.Required
     private String title;
     private String url;
     private String targetType;

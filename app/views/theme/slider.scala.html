@@ -13,18 +13,16 @@
             var itemTarget = "";
             if(targetType=="T" || targetType=="U") {
                 var id = obj.id;
-                itemTarget = "/topic/list/"+id;
+                if (targetType=="T")  itemTarget = "/topic/list/"+id;
+                if (targetType=="U")  itemTarget = obj.h5Link;
             }
-            if (targetType=="D") {
+            if (targetType=="D" || targetType=="P") {
                 var itemId = obj.itemId;
-                var invId = obj.invId;
-                var itemType = obj.itemType;
                 var skuTypeId = obj.skuTypeId;
-                if (itemType=="item") {
+                if (targetType=="D") {
                     itemTarget = "/comm/detail/item/" + itemId + "/" + skuTypeId;
                 }
-                if (itemType=="pin") {
-                    targetType = "P";
+                if (targetType=="P") {
                     itemTarget = "/comm/detail/pin/" + itemId + "/" + skuTypeId;
                 }
             }

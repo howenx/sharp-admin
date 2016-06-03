@@ -14,6 +14,61 @@
     .start{color:red;padding-top:3px;padding-left:3px;}
     .r{float:right;}
 </style>
+<script>
+        function UpdateFields(obj) {
+            var targetType = obj.targetType;
+            var $obj = obj;
+            var url = "";
+            $(".grid tr:gt(0):eq(0)").remove();
+            if(targetType=="T" || targetType=="U") {
+                var id = obj.id;
+                if(targetType=="T") {
+                    tt = "普通主题";
+                    url = "/topic/list/"+id;
+                }
+                if(targetType=="U") {
+                    tt = "H5主题";
+                    url = obj.h5Link;
+                }
+                var title = obj.title;
+                var themeImg = obj.themeImg;
+                $("<tr>").html('<td>'+id+'</td><td>'+tt+'<input type="hidden" id="targetType" value='+targetType+'><input type="hidden" id="url" value='+url+'></td><td>'+title+'</td><td><img width="50" height="50" src='+themeImg+'></td>').appendTo($(".grid"));
+            }
+            if (targetType=="D" || targetType=="P") {
+                var itemId = obj.itemId;
+                var skuTypeId = obj.skuTypeId;
+                if (targetType=="D") {
+                    url = "/comm/detail/item/" + itemId + "/" + skuTypeId;
+                }
+                if (targetType=="P") {
+                    url = "/comm/detail/pin/" + itemId + "/" + skuTypeId;
+                }
+                if(targetType=="D") tt = "普通商品";
+                if(targetType=="P") tt = "拼购商品";
+                var skuTypeTitle = obj.skuTypeTitle;
+                var skuTypeImg = obj.skuTypeImg;
+                $("<tr>").html('<td>'+skuTypeId+'</td><td>'+tt+'<input type="hidden" id="targetType" value='+targetType+'><input type="hidden" id="url" value='+url+'></td><td>'+skuTypeTitle+'</td><td><img width="50" height="50" src='+skuTypeImg+'></td>').appendTo($(".grid"));
+            }
+        }
+
+
+        function ShowModal() {
+            var sharedObject = {};
+            sharedObject.targetType = "";
+            sharedObject.itemTarget = "";
+            if (window.showModalDialog) {
+                var retValue = showModalDialog("/topic/slider/popup", sharedObject, "dialogWidth:1300px; dialogHeight:800px; dialogLeft:300px;");
+                if (retValue) {
+                    UpdateFields(retValue);
+                }
+            }
+            else {
+                // for similar functionality in Opera, but it's not modal!
+                var modal = window.open ("/topic/slider/popup", null, "width=1300,height=800,left=300,modal=yes,alwaysRaised=yes", null);
+                modal.dialogArguments = sharedObject;
+            }
+        }
+    </script>
 }
 
 @import java.lang.String; var title="消息推送"
@@ -56,6 +111,25 @@
                         <textarea rows="6"  class="form-control form-data-area" id="alert" name="alert"></textarea>
                     </div>
                 </div>
+                <hr style="margin-top:50px;"/>
+                <h3>选择商品/主题</h3>
+                <hr/>
+                <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModal()">选择</button>
+                <div class="bgk">
+                    <table class="table table-bordered table-hover grid" id="user-add" title="Kurt Vonnegut novels" style="margin-top:0px;">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>类型</th>
+                            <th>标题</th>
+                            <th>图片</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </form>
     </div>
@@ -70,21 +144,30 @@
 		$('.usercenter-option > .user-state').text('已更改');
 	});
 
+
     /** 数据提交 **/
     $("#submit").click(function(){
         var isPost = true;
         var title = $("#title").val();
         var alert = $("#alert").val();
-
-        var msg = new Object();
-        msg.title = title;
-        msg.alert = alert;
+        var targetType = $("#targetType").val();
+        var url = $("#url").val();
 
         //验证必填项及数据正确性
         if (title=="") {
             isPost=false;
             $('#js-userinfo-error').text('请输入消息的标题');
-        } else $('#js-userinfo-error').text('');
+        } else if ($(".grid tr").length<2 || targetType=="" || targetType==null || url=="" || url==null ) {
+            isPost=false;
+            $('#js-userinfo-error').text('选择的数据有误');
+        }
+        else $('#js-userinfo-error').text('');
+
+        var msg = new Object();
+        msg.title = title;
+        msg.alert = alert;
+        msg.targetType = targetType;
+        msg.url = url;
 
         console.log(isPost);
         console.log(JSON.stringify(msg));
@@ -96,7 +179,7 @@
                 data : JSON.stringify(msg),
                 error : function(request) {
                     if (window.lang = 'cn') {
-                        $('#js-userinfo-error').text('推送失败');
+                        $('#js-userinfo-error').text('推送错误');
                     } else {
                         $('#js-userinfo-error').text('Send error');
                     }
@@ -107,10 +190,10 @@
                         $('#js-userinfo-error').text('推送成功').css('color', '#2fa900');
                         $('.usercenter-option > .user-state').css('background-position', '20px -174px');
                         $('.usercenter-option > .user-state').text('未更改');
-                        <!--setTimeout("location.href='/"+window.lang+"/msg/push'", 3000);-->
+                        setTimeout("location.href='/"+window.lang+"/msg/push'", 3000);
                     }
                     else {
-                        $('#js-userinfo-error').text('推送错误');
+                        $('#js-userinfo-error').text('推送失败');
                     }
                     setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
                 }

@@ -580,7 +580,6 @@ public class ItemCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result msgPushSave() {
         JsonNode json = request().body().asJson();
-
         Form<PushMsg> msgForm = Form.form(PushMsg.class).bind(json);
         PushMsg msg = Json.fromJson(json, PushMsg.class);
         //数据验证
@@ -589,14 +588,11 @@ public class ItemCtrl extends Controller {
             return badRequest();
         }
         msg.setAudience("all");
-        msg.setUrl("/comm/detail/item/888432/111637");
-        msg.setTargetType("D");
-
-        Logger.error("消息:"+msg.toString());
-
+        if (null != msg.getUrl() && !"".equals(msg.getUrl()) && !"U".equals(msg.getTargetType())) {
+            msg.setUrl(SysParCom.DEPLOY_URL+msg.getUrl());
+        }
+        Logger.info("消息:"+msg.toString());
         system.actorSelection(SysParCom.MSG_PUSH).tell(msg, ActorRef.noSender());
-
-
         return ok("推送成功");
     }
 
