@@ -29,7 +29,7 @@
                 var typeId = itemTarget.substring(itemTarget.lastIndexOf("/")+1,itemTarget.length);
                 if ((targetType=="D" || targetType=="P" || targetType=="")) {
                     tableIndex = 0;
-                    selectIndex = 4;
+                    selectIndex = 1;
                     $(".goods-table").css("background","#ccc");
                     $(".theme-table").css("background","#fff");
                     $(".table").eq(0).css("display","table");
@@ -71,14 +71,17 @@
              $(".table input[type=radio]").click(function(){
                 //选择商品
                 if (targetType=="D") {
-                    var itemId = $("input[type=radio]:checked").parent().next().html();
-                    var invId = $("input[type=radio]:checked").parent().next().next().html();
-                    var itemType = $("input[type=radio]:checked").parent().next().next().next().find(".item-type").val();
-                    var skuTypeId = $("input[type=radio]:checked").parent().next().next().next().next().html();
+                    var skuTypeId = $("input[type=radio]:checked").parent().next().html();
+                    var itemId = $("input[type=radio]:checked").parent().next().next().next().html();
+                    var itemType = $("input[type=radio]:checked").parent().next().next().next().next().find(".item-type").val();
+                    var skuTypeTitle = $("input[type=radio]:checked").parent().next().next().next().next().next().html();
+                    var skuTypeImg = $("input[type=radio]:checked").parent().next().next().next().next().next().next().children().attr("src");
+                    if (itemType=="item") {targetType = "D"}
+                    if (itemType=="pin") {targetType = "P"}
                     sharedObject.itemId = itemId;
-                    sharedObject.invId = invId;
-                    sharedObject.itemType = itemType;
                     sharedObject.skuTypeId = skuTypeId;
+                    sharedObject.skuTypeTitle = skuTypeTitle;
+                    sharedObject.skuTypeImg = skuTypeImg;
                     sharedObject.targetType = targetType;
                 }
                 //选择主题
@@ -86,16 +89,24 @@
                     var id = $("input[type=radio]:checked").parent().next().html();
                     var thType = $("input[type=radio]:checked").parent().next().next().find(".topic-type").val();
                     if (thType=="ordinary") {targetType = "T"}
-                    if (thType=="h5") {targetType = "U"}
+                    if (thType=="h5") {
+                        targetType = "U";
+                        var h5Link = $("input[type=radio]:checked").parent().next().next().find(".h5Link").val();
+                        sharedObject.h5Link = h5Link;
+                    }
+                    var title = $("input[type=radio]:checked").parent().next().next().next().html();
+                    var themeImg = $("input[type=radio]:checked").parent().next().next().next().next().children().attr("src");
                     sharedObject.id = id;
                     sharedObject.targetType = targetType;
+                    sharedObject.title = title;
+                    sharedObject.themeImg = themeImg;
                 }
 
-                var itemId=$("input[type=radio]:checked").parent().next().html();
-                var skuId=$("input[type=radio]:checked").parent().next().next().html();
-                sharedObject.itemId = itemId;
-                sharedObject.skuId = skuId;
-                sharedObject.targetType = targetType;
+                <!--var itemId=$("input[type=radio]:checked").parent().next().html();-->
+                <!--var skuId=$("input[type=radio]:checked").parent().next().next().html();-->
+                <!--sharedObject.itemId = itemId;-->
+                <!--sharedObject.skuId = skuId;-->
+                <!--sharedObject.targetType = targetType;-->
                 if (window.showModalDialog) {
                     window.returnValue = sharedObject;
                 }
@@ -156,10 +167,10 @@
             <thead>
             <tr>
                 <th>选择商品</th>
-                <th style="display:none;">商品ID</th>
-                <th>SKU ID</th>
-                <th>商品类型</th>
                 <th>类型 ID</th>
+                <th>SKU ID</th>
+                <th style="display:none;">商品ID</th>
+                <th>商品类型</th>
                 <th>商品标题</th>
                 <th>主图</th>
                 <th>上架时间</th>
@@ -173,14 +184,14 @@
             @for(sku <- skusList) {
             <tr>
                 <td><input type="radio" name="selectItem"></td>
-                <td style="display:none;">@sku.getItemId()</td>
+                <td>@sku.getSkuTypeId()</td>
                 <td>@sku.getInvId()</td>
+                <td style="display:none;">@sku.getItemId()</td>
                 <td>
                     @if(sku.getSkuType()=="item"){普通商品}
                     @if(sku.getSkuType()=="pin"){拼购商品}
                     <input class="item-type" type="hidden" value="@sku.getSkuType()">
                 </td>
-                <td>@sku.getSkuTypeId()</td>
                 <td>@sku.getSkuTypeTitle()</td>
                 <td><img class="main-img" src='@url@sku.getSkuTypeImg()' alt="" width="50"></td>
                 <td>@(sku.getSkuTypeStartAt().toString().substring(0,16))</td>
@@ -202,26 +213,29 @@
         <table class="table table-bordered table-hover table-theme" id="searchtheme">
             <thead>
                 <tr>
-                        <th>选择主题</th>
-                        <th>主题ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
-                        <th>类型</th>
-                        <th>主题图片</th>
-                        <th>开始时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
-                        <th>结束时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                    <th>选择主题</th>
+                    <th>主题ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                    <th>类型</th>
+                    <th>标题</th>
+                    <th>主题图片</th>
+                    <th>开始时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                    <th>结束时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
                 </tr>
             </thead>
                 @for(theme <- themeList) {
                 <tr>
-                        <td><input type="radio" name="selectTheme"></td>
-                        <td>@theme.getId()</td>
-                        <td>
-                            @if(theme.getType()=="ordinary"){普通主题}
-                            @if(theme.getType()=="h5"){HTML5}
-                            <input class="topic-type" type="hidden" value="@theme.getType()">
-                        </td>
-                        <td><img class="main-img" src='@url@theme.getThemeImg()' alt="" width="50"></td>
-                        <td>@theme.getStartAt()</td>
-                        <td>@theme.getEndAt()</td>
+                    <td><input type="radio" name="selectTheme"></td>
+                    <td>@theme.getId()</td>
+                    <td>
+                        @if(theme.getType()=="ordinary"){普通主题}
+                        @if(theme.getType()=="h5"){H5主题}
+                        <input class="topic-type" type="hidden" value="@theme.getType()">
+                        <input class="h5Link" type="hidden" value="@theme.getH5Link()">
+                    </td>
+                    <td>@theme.getTitle()</td>
+                    <td><img class="main-img" src='@url@theme.getThemeImg()' alt="" width="50"></td>
+                    <td>@theme.getStartAt()</td>
+                    <td>@theme.getEndAt()</td>
                 </tr>
                 }
         </table>

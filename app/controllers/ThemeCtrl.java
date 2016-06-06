@@ -243,19 +243,24 @@ public class ThemeCtrl extends Controller {
     public Result sliderPop(){
         //主题列表
         List<Theme> themeList = service.getThemesAll();
+        List<Theme> tList = new ArrayList<>();
+        String strNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());//现在时间
         for(Theme theme : themeList) {
-            theme.setThemeImg(Json.parse(theme.getThemeImg()).get("url").asText());
+            if (theme.getEndAt().compareTo(strNow)>0) {
+                theme.setThemeImg(Json.parse(theme.getThemeImg()).get("url").asText());
+                tList.add(theme);
+            }
         }
         List<Skus> skusList = inventoryService.getAllSkus();
-        List<Skus> list = new ArrayList<>();
+        List<Skus> slist = new ArrayList<>();
         for(Skus skus : skusList) {//商品列表为(除自定义价格和多样化价格的预售和正常商品)
             if (!skus.getSkuType().equals("customize")&&!skus.getSkuType().equals("vary")&&(skus.getSkuTypeStatus().equals("P")||skus.getSkuTypeStatus().equals("Y"))) {
                 skus.setSkuTypeImg(Json.parse(skus.getSkuTypeImg()).get("url").asText());
-                list.add(skus);
+                slist.add(skus);
             }
         }
         if (themeList.size()>0 && skusList.size()>0) {
-            return ok(views.html.theme.sliderPop.render(themeList,list,SysParCom.IMAGE_URL));
+            return ok(views.html.theme.sliderPop.render(tList,slist,SysParCom.IMAGE_URL));
         }
         else
             return ok("没有数据");

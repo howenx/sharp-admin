@@ -1,5 +1,7 @@
 package controllers;
 
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -48,6 +50,9 @@ public class ItemCtrl extends Controller {
 
     @Inject
     Configuration configuration;
+
+    @Inject
+    private ActorSystem system;
 
     @Inject
     public ItemCtrl(ItemService itemService, InventoryService inventoryService, CarriageService carriageService, VaryPriceService varyPriceService, AdminSupplierService adminSupplierService) {
@@ -475,7 +480,7 @@ public class ItemCtrl extends Controller {
      * @return
      */
     @Security.Authenticated(UserAuth.class)
-    public Result brandList(String lang){
+    public Result brandList(String lang) {
         return ok(views.html.item.brandsearch.render(lang,SysParCom.IMAGE_URL,itemService.getAllBrands(),(User) ctx().args.get("user")));
     }
 
@@ -485,7 +490,7 @@ public class ItemCtrl extends Controller {
      * @return
      */
     @Security.Authenticated(UserAuth.class)
-    public Result brandAdd(String lang){
+    public Result brandAdd(String lang) {
         return ok(views.html.item.brandadd.render(lang,(User) ctx().args.get("user"),SysParCom.IMG_UPLOAD_URL,SysParCom.IMAGE_URL));
     }
 
@@ -495,7 +500,7 @@ public class ItemCtrl extends Controller {
      * @return
      */
     @Security.Authenticated(UserAuth.class)
-    public Result brandSave(String lang){
+    public Result brandSave(String lang) {
         JsonNode json = request().body().asJson();
         Form<Brands> brandsForm = Form.form(Brands.class).bind(json);
         //数据验证
@@ -513,7 +518,7 @@ public class ItemCtrl extends Controller {
      * @return
      */
     @Security.Authenticated(UserAuth.class)
-    public Result cateList(String lang){
+    public Result cateList(String lang) {
 
         List<Cates> catesList= itemService.getCatesAll();
         //含有父类名的分类列表
@@ -541,7 +546,7 @@ public class ItemCtrl extends Controller {
      * @return
      */
     @Security.Authenticated(UserAuth.class)
-    public Result cateAdd(String lang){
+    public Result cateAdd(String lang) {
         return ok(views.html.item.cateadd.render(lang,itemService.getParentCates(),(User) ctx().args.get("user")));
     }
 
@@ -551,13 +556,45 @@ public class ItemCtrl extends Controller {
      * @return
      */
     @Security.Authenticated(UserAuth.class)
-    public Result cateSave(String lang){
+    public Result cateSave(String lang) {
         JsonNode json = request().body().asJson();
 //        Logger.error(json.toString());
         itemService.catesSave(json);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
+    /**
+     * 消息推送         Added By Sunny WU  2016.06.02
+     * @param lang 语言
+     * @return views
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result msgPush(String lang) {
+        return ok(views.html.item.msgpush.render(lang, (User) ctx().args.get("user")));
+    }
+
+    /**
+     * 消息推送保存      Added By Sunny WU  2016.06.02
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result msgPushSave() {
+        JsonNode json = request().body().asJson();
+        Form<PushMsg> msgForm = Form.form(PushMsg.class).bind(json);
+        PushMsg msg = Json.fromJson(json, PushMsg.class);
+        //数据验证
+        if (msgForm.hasErrors()) {
+            Logger.error("msg 表单数据有误.....");
+            return badRequest();
+        }
+        msg.setAudience("all");
+        if (null != msg.getUrl() && !"".equals(msg.getUrl()) && !"U".equals(msg.getTargetType())) {
+            msg.setUrl(SysParCom.DEPLOY_URL+msg.getUrl());
+        }
+        Logger.info("消息:"+msg.toString());
+        system.actorSelection(SysParCom.MSG_PUSH).tell(msg, ActorRef.noSender());
+        return ok("推送成功");
+    }
 
 
 }
