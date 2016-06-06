@@ -591,7 +591,7 @@ public class ItemCtrl extends Controller {
         if (null != msg.getUrl() && !"".equals(msg.getUrl()) && !"U".equals(msg.getTargetType())) {
             msg.setUrl(SysParCom.DEPLOY_URL+msg.getUrl());
         }
-        Logger.info("消息:"+msg.toString());
+        Logger.info("推送消息:"+msg.toString());
         system.actorSelection(SysParCom.MSG_PUSH).tell(msg, ActorRef.noSender());
         return ok("推送成功");
     }
