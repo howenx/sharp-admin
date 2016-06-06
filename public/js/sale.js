@@ -330,6 +330,34 @@ function delOrder(id){
       }
   }
 
+  //删除商品
+  function delSaleProduct(id){
+      if (window.confirm("确定删除该商品吗?")) {
+          $.ajax({
+                type :"GET",
+                url : "/sales/product/del/"+id,
+                contentType: "application/json; charset=utf-8",
+                error : function(request) {
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('删除失败');
+                    } else {
+                        $('#js-userinfo-error').text('delete error');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('')", 2000);
+                },
+                success: function(data) {
+                     if(data=="success"){
+                         $("#productTr"+id).remove();
+                     }else if(data=="exist"){
+                       alert("存在关联的订单,不允许删除!");
+                     }
+                     else alert("删除失败!");
+
+                }
+            });
+        }
+  }
+
   //导入订单
   $(document).on("click",".orderExcelBtn",function(){
 

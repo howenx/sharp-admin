@@ -1,9 +1,6 @@
 package service;
 
-import domain.sale.SaleInventory;
-import domain.sale.SaleOrder;
-import domain.sale.SaleProduct;
-import domain.sale.SaleStatistics;
+import domain.sale.*;
 import mapper.SaleMapper;
 
 import javax.inject.Inject;
@@ -89,5 +86,35 @@ public class SaleServiceImpl implements SaleService{
     @Override
     public Integer getProductBackCountTotal(Long id) {
         return saleMapper.getProductBackCountTotal(id);
+    }
+
+    @Override
+    public Boolean delSaleProductById(Long id) {
+        return saleMapper.delSaleProductById(id)>0;
+    }
+
+    @Override
+    public Boolean insertSaleOrderLine(SaleOrderLine saleOrderLine) {
+        return saleMapper.insertSaleOrderLine(saleOrderLine)>0;
+    }
+
+    @Override
+    public List<SaleOrderLine> getSaleOrderLine(SaleOrderLine saleOrderLine) {
+        return saleMapper.getSaleOrderLine(saleOrderLine);
+    }
+
+    @Override
+    public Boolean delSaleOrderLineById(Long id) {
+        return saleMapper.delSaleOrderLineById(id)>0;
+    }
+
+    @Override
+    public List<SaleOrder> getSaleOrderBySaleOrderLinePage(SaleOrderLine saleOrderLine) {
+        return saleMapper.getSaleOrderBySaleOrderLinePage(saleOrderLine);
+    }
+
+    @Override
+    public Integer updateSaleOrderLine(SaleOrderLine saleOrderLine) {
+        return saleMapper.updateSaleOrderLine(saleOrderLine);
     }
 }

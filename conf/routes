@@ -316,6 +316,7 @@ GET         /sales/import/excel                                                 
 POST        /sales/upload/order                                                     controllers.SaleCtrl.uploadOrder()
 POST        /sales/upload/order/fee                                                 controllers.SaleCtrl.uploadOrderFee()
 POST        /sales/upload/order/sale/detail                                         controllers.SaleCtrl.uploadOrderSaleDetail()
+GET         /sales/product/del/:id                                                  controllers.SaleCtrl.saleProductDel(id:Long)
 
 
 #coupon 优惠券系统

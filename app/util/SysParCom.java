@@ -69,6 +69,15 @@ public class SysParCom {
 
 
 
+    public static String ALIPAY_PARTNER;
+    public static String ALIPAY_SELLER_ID;
+    public static String ALIPAY_KEY;
+    public static String ALIPAY_RSA_PRIVATE_KEY;
+    //shopping服务器url
+    public static String SHOPPING_URL;
+    public static Boolean ONE_CENT_PAY;
+
+
     @Inject
     public SysParCom(Configuration configuration) {
 
@@ -100,6 +109,18 @@ public class SysParCom {
         JEDIS_POOLS = new ArrayList<>();
 
 //        executor = Executors.newFixedThreadPool(REDIS_SUBSCRIBE.size());
+
+        //支付宝
+        ALIPAY_PARTNER = configuration.getString("alipay.partner");
+        ALIPAY_SELLER_ID = configuration.getString("alipay.seller.id");
+        ALIPAY_KEY = configuration.getString("alipay.key");
+        ALIPAY_RSA_PRIVATE_KEY=configuration.getString("alipay.rsa.private.key");
+
+        SHOPPING_URL = configuration.getString("shopping.server.url");
+        ONE_CENT_PAY = configuration.getBoolean("one.cent.pay");
+
+
+
 
     }
 

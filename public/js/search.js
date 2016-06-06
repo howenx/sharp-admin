@@ -549,7 +549,7 @@ funcList.saleProductlist_data = function saleProductlist_data(data) {
     //填充列表数据
     $(data).each(function(index, element) {
         $('#tb-topic').find('tbody').append('' +
-            '<tr class="tb-list-data">' +
+            '<tr class="tb-list-data" id="productTr'+ $(this)[0].id+ '">' +
             '<td><a href="/sales/product/find/'+$(this)[0].id+'">'+$(this)[0].id+'</a></td>'+
             '<td>'+ $(this)[0].name+ '</td>' +
             '<td>'+ $(this)[0].skuCode+ '</td>' +
@@ -561,9 +561,11 @@ funcList.saleProductlist_data = function saleProductlist_data(data) {
             '<td>'+ $(this)[0].productCost+ '</td>' +
             '<td>'+ $(this)[0].stockValue+ '</td>' +
             '<td>'+ $(this)[0].purchaseCount+ '</td>' +
+            '<td>'+ $(this)[0].remark+ '</td>' +
             '<td>'+ $(this)[0].updateAt+ '</td>' +
             '<td><a href="/sales/order/import/'+$(this)[0].id+'" target="_blank" >订单</a></td>'+
             '<td><a href="/sales/inventory/view/'+$(this)[0].id+'" target="_blank">库存</a></td>'+
+            '<td><a onclick="delSaleProduct('+$(this)[0].id+')">删除</a></td>'+
             '</tr>'
         );
     })
@@ -592,52 +594,68 @@ funcList.saleOrderlist_data = function saleOrderlist_data(data) {
     //填充列表数据
     $(data).each(function(index, element) {
         var remarkImg;
-        if($(this)[0].remarkStatus == 1){
+        if($(this)[0].saleOrder.remarkStatus == 1){
             remarkImg = "/assets/images/biaoji1.png";
         }
-        if($(this)[0].remarkStatus == 2){
+        if($(this)[0].saleOrder.remarkStatus == 2){
             remarkImg = "/assets/images/biaoji2.png";
         }
-        if($(this)[0].remarkStatus == 3){
+        if($(this)[0].saleOrder.remarkStatus == 3){
             remarkImg = "/assets/images/biaoji3.png";
         }
-        if($(this)[0].remarkStatus == 4){
+        if($(this)[0].saleOrder.remarkStatus == 4){
             remarkImg = "/assets/images/biaoji4.png";
         }
-        if($(this)[0].remarkStatus == 5){
+        if($(this)[0].saleOrder.remarkStatus == 5){
             remarkImg = "/assets/images/biaoji5.png";
         }
 
-        var saleAt=new Date($(this)[0].saleAt);
+        var rowNum=$(this)[0].saleOrderLineList.length;
+        var saleOrderLineList = eval($(this)[0].saleOrderLineList);
+
+        var saleAt=new Date($(this)[0].saleOrder.saleAt);
         saleAt = saleAt.getFullYear() + '-' + (saleAt.getMonth() + 1) + '-' + saleAt.getDate()
-        $('#tb-topic').find('tbody').append('' +
-            '<tr class="tb-list-data" id="orderTr'+ $(this)[0].id+ '">' +
-            '<td><a href="/sales/order/find/'+$(this)[0].id+'">'+$(this)[0].id+'</a></td>'+
-            '<td>'+ saleAt + '</td>' +
-            '<td>'+ $(this)[0].orderId+ '</td>' +
-            '<td>'+ $(this)[0].productName+ '</td>' +
-            '<td>'+ $(this)[0].price+ '</td>' +
-            '<td>'+ $(this)[0].saleCount+ '</td>' +
-            '<td>'+ $(this)[0].discountAmount+ '</td>' +
-            '<td>'+ $(this)[0].saleTotal+ '</td>' +
-            '<td>'+ $(this)[0].jdRate+ '%</td>' +
-            '<td>'+ $(this)[0].jdFee+ '</td>' +
-            '<td>'+ $(this)[0].cost+ '</td>' +
-            '<td>'+ $(this)[0].shipFee+ '</td>' +
-            '<td>'+ $(this)[0].inteLogistics+ '</td>' +
-            '<td>'+ $(this)[0].packFee+ '</td>' +
-            '<td>'+ $(this)[0].storageFee+ '</td>' +
-            '<td>'+ $(this)[0].postalFee+ '</td>' +
-            '<td>'+ $(this)[0].postalTaxRate+ '%</td>' +
-            '<td>'+ $(this)[0].profit+ '</td>' +
-            '<td>'+ $(this)[0].invArea+'</td>' +
-//                     '<td>'+ $(this)[0].remarkStatus+'</td>' +
-            '<td><img src="' + remarkImg + '" alt="" width="20"></td>' +
-            '<td>'+ $(this)[0].shop+'</td>' +
-//                     '<td>'+ $(this)[0].updateAt+ '</td>' +
-            '<td><a onclick="delOrder('+$(this)[0].id+')">删除</a></td>'+
-            '</tr>'
-        );
+
+        var appendHtml='<tr class="tb-list-data" id="orderTr'+ $(this)[0].saleOrder.id+ '">' +
+            '<td rowspan="'+rowNum+'"><a href="/sales/order/find/'+$(this)[0].saleOrder.id+'">'+$(this)[0].saleOrder.id+'</a></td>'+
+            '<td rowspan="'+rowNum+'">'+ saleAt + '</td>' +
+            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.orderId+ '</td>' +
+            '<td>'+ saleOrderLineList[0].saleProductName+ '</td>' +
+            '<td>'+ saleOrderLineList[0].jdPrice+ '</td>' +
+            '<td>'+ saleOrderLineList[0].saleCount+ '</td>' +
+            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.discountAmount+ '</td>' +
+            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.saleTotal+ '</td>' +
+            '<td>'+ saleOrderLineList[0].jdRate+ '%</td>' +
+            '<td>'+ saleOrderLineList[0].jdFee+ '</td>' +
+            '<td>'+ saleOrderLineList[0].saleProductCost+ '</td>' +
+            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.shipFee+ '</td>' +
+            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.inteLogistics+ '</td>' +
+            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.packFee+ '</td>' +
+            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.storageFee+ '</td>' +
+            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.postalFee+ '</td>' +
+            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.postalTaxRate+ '%</td>' +
+            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.profit+ '</td>' +
+            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.invArea+'</td>' +
+            '<td rowspan="'+rowNum+'"><img src="' + remarkImg + '" alt="" width="20"></td>' +
+            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.remark+'</td>' +
+            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.shop+'</td>' +
+            '<td rowspan="'+rowNum+'"><a onclick="delOrder('+$(this)[0].saleOrder.id+')">删除</a></td>'+
+            '</tr>';
+            if(rowNum>1){
+            for(var n in saleOrderLineList)
+                if(n!=0){
+                  appendHtml+='<tr class="tb-list-data">' +
+                    '<td>'+ saleOrderLineList[n].saleProductName+ '</td>' +
+                    '<td>'+ saleOrderLineList[n].jdPrice+ '</td>' +
+                    '<td>'+ saleOrderLineList[n].saleCount+ '</td>' +
+                    '<td>'+ saleOrderLineList[0].jdRate+ '%</td>' +
+                    '<td>'+ saleOrderLineList[0].jdFee+ '</td>' +
+                    '<td>'+ saleOrderLineList[n].saleProductCost+ '</td>' +
+                   '</tr>';
+                }
+
+            }
+        $('#tb-topic').find('tbody').append(appendHtml);
     })
 }
 

@@ -16,7 +16,7 @@ public class SaleOrder implements Serializable {
     private Long id;             //唯一id
     private Date saleAt;    //日期
     private String orderId;      //订单号
-    private Long saleProductId;  //销售商品id
+    private Long saleProductId;  //销售商品id (删除)
     private String productName; //品名
     private Integer categoryId;    //商品分类
     private BigDecimal price;    //单价
@@ -70,6 +70,8 @@ public class SaleOrder implements Serializable {
     //排序方式,降序,升序
     @JsonIgnore
     private String order;
+    @JsonIgnore
+    private String jdOrderStatus;//京东订单状态
 
 
     public Long getId() {
@@ -366,5 +368,17 @@ public class SaleOrder implements Serializable {
 
     public void setJdSkuId(String jdSkuId) {
         this.jdSkuId = jdSkuId;
+    }
+
+    public String getJdOrderStatus() {
+        return jdOrderStatus;
+    }
+
+    public void setJdOrderStatus(String jdOrderStatus) {
+        this.jdOrderStatus = jdOrderStatus;
+    }
+    @Override
+    public String toString(){
+       return "[SaleOrder id="+id+",saleAt="+saleAt+",orderId="+orderId+",saleProductId="+saleProductId+",productName="+productName+",price="+price+" ]";
     }
 }

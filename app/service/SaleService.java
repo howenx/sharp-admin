@@ -1,9 +1,6 @@
 package service;
 
-import domain.sale.SaleInventory;
-import domain.sale.SaleOrder;
-import domain.sale.SaleProduct;
-import domain.sale.SaleStatistics;
+import domain.sale.*;
 
 import java.util.List;
 
@@ -113,4 +110,42 @@ public interface SaleService {
      * @return
      */
     Integer getProductBackCountTotal(Long id);
+    /**
+     * 删除销售商品
+     * @param id
+     * @return
+     */
+    Boolean delSaleProductById(Long id);
+    /**
+     * 插入销售子订单
+     * @param saleOrderLine
+     * @return
+     */
+    Boolean insertSaleOrderLine(SaleOrderLine saleOrderLine);
+    /**
+     *获取销售子订单
+     * @param saleOrderLine
+     * @return
+     */
+    List<SaleOrderLine> getSaleOrderLine(SaleOrderLine saleOrderLine);
+    /**
+     * 删除销售子订单
+     * @param id
+     * @return
+     */
+    Boolean delSaleOrderLineById(Long id);
+
+    /**
+     * 根据子订单数据获取订单
+     * @param saleOrderLine
+     * @return
+     */
+    List<SaleOrder> getSaleOrderBySaleOrderLinePage(SaleOrderLine saleOrderLine);
+
+    /**
+     * 更新子订单
+     * @param saleOrderLine
+     * @return
+     */
+    Integer updateSaleOrderLine(SaleOrderLine saleOrderLine);
 }

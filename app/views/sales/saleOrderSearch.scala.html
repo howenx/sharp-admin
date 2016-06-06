@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String,pageSize:Integer,countNum:Integer,pageCount:Integer,orderList:List[domain.sale.SaleOrder],user:domain.User)
+@(lang:String,pageSize:Integer,countNum:Integer,pageCount:Integer,user:domain.User)
 
 @scripts = {
 <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
@@ -49,7 +49,7 @@
     <form class="form-horizontal">
         <div class="form-group">
             <!--订单号-->
-            <label class="col-sm-2 control-label">订单号</label>
+            <label class="col-sm-2 control-label">订单号(优先)</label>
             <div class="col-sm-4">
                 <input id = "orderId" type="number" min="10000" max="99999999" class="form-control"/>
             </div>
@@ -98,7 +98,7 @@
             <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
         </div>
     </form>
-    <div class="table-content" style="height: 667px">
+    <div class="table-content">
         <!--id必须为tb-topic 公用js需要使用-->
         <div style="overflow: scroll;white-space:nowrap;">
         <table id="tb-topic" class="table table-bordered table-hover">
@@ -124,56 +124,14 @@
                 <th>利润</th>
                 <th>保税区</th>
                 <th>标记</th>
+                <th>备注</th>
                 <th>商店</th>
                 <!--<th>最后更新</th>-->
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            <tr id="nodata-td" style="display:none;"><td colspan="22">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
-                @for(order <- orderList){
-                <tr class = "tb-list-data" id="orderTr@order.getId()">
-                    <td><a href="/sales/order/find/@order.getId()">@order.getId()</a></td>
-                    <td>@order.getSaleAt().format("yyyy-MM-dd")</td>
-                    <td>@order.getOrderId()</td>
-                    <td>@order.getProductName()</td>
-                    <td>@order.getPrice()</td>
-                    <td>@order.getSaleCount()</td>
-                    <td>@order.getDiscountAmount()</td>
-                    <td>@order.getSaleTotal()</td>
-                    <td>@order.getJdRate()%</td>
-                    <td>@order.getJdFee()</td>
-                    <td>@order.getCost()</td>
-                    <td>@order.getShipFee()</td>
-                    <td>@order.getInteLogistics()</td>
-                    <td>@order.getPackFee()</td>
-                    <td>@order.getStorageFee()</td>
-                    <td>@order.getPostalFee()</td>
-                    <td>@order.getPostalTaxRate()%</td>
-                    <td>@order.getProfit()</td>
-                    <td>@order.getInvArea()</td>
-                    <!--<td>@order.getRemarkStatus()</td>-->
-                    @if(order.getRemarkStatus() == 1){
-                    <td><img src="/assets/images/biaoji1.png" alt="" width="20"></td>
-                    }
-                    @if(order.getRemarkStatus() == 2){
-                    <td><img src="/assets/images/biaoji2.png" alt="" width="20"></td>
-                    }
-                    @if(order.getRemarkStatus() == 3){
-                    <td><img src="/assets/images/biaoji3.png" alt="" width="20"></td>
-                    }
-                    @if(order.getRemarkStatus() == 4){
-                    <td><img src="/assets/images/biaoji4.png" alt="" width="20"></td>
-                    }
-                    @if(order.getRemarkStatus() == 5){
-                    <td><img src="/assets/images/biaoji5.png" alt="" width="20"></td>
-                    }
-                    <td>@order.getShop()</td>
-                    <!--<td>@order.getUpdateAt().toString().substring(0,16)</td>-->
-                    <td><a onclick="delOrder(@order.getId())">删除</a></td>
-                </tr>
-                }
-
+            <tr id="nodata-td" style="display:none;"><td colspan="23">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
         </div>
