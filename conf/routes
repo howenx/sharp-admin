@@ -322,6 +322,7 @@ POST        /sales/upload/order                                                 
 POST        /sales/upload/order/fee                                                 controllers.SaleCtrl.uploadOrderFee()
 POST        /sales/upload/order/sale/detail                                         controllers.SaleCtrl.uploadOrderSaleDetail()
 GET         /sales/product/del/:id                                                  controllers.SaleCtrl.saleProductDel(id:Long)
+GET         /sales/product/datapub                                                  controllers.SaleCtrl.saleProductDatapub()
 
 
 #coupon 优惠券系统

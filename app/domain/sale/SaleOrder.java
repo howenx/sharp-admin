@@ -17,15 +17,15 @@ public class SaleOrder implements Serializable {
     private Date saleAt;    //日期
     private String orderId;      //订单号
     private Long saleProductId;  //销售商品id (删除)
-    private String productName; //品名
-    private Integer categoryId;    //商品分类
-    private BigDecimal price;    //单价
-    private Integer saleCount;       //数量
+//    private String productName; //品名
+//    private Integer categoryId;    //商品分类
+//    private BigDecimal price;    //单价
+//    private Integer saleCount;       //数量
     private BigDecimal discountAmount;    //优惠额
     private BigDecimal saleTotal;    //销售额
-    private BigDecimal jdRate;    //京东费率
-    private BigDecimal jdFee;    //京东费用
-    private BigDecimal cost;    //成本
+//    private BigDecimal jdRate;    //京东费率
+    private BigDecimal jdFeeSum;    //京东费用
+    private BigDecimal productCostSum;    //成本总和
     private BigDecimal shipFee;    //国内快递费
     private BigDecimal inteLogistics;    //国际物流
     private BigDecimal packFee;    //包装
@@ -53,7 +53,10 @@ public class SaleOrder implements Serializable {
     private String saleMonth;
     private Integer shop; //商店  1-韩密美专营店  2-韩密美化妆品店
     private Integer inputType;//1-手动录入  2-excel导入
-    private String jdSkuId;   //京东商品id,用于导入表格时关联数据，如果有多个以|分割
+//    private String jdSkuId;   //京东商品id,用于导入表格时关联数据，如果有多个以|分割
+    private String orderStatus;   //S:成功 T:全部退货
+
+    private Integer feeCategoryId;  //费用归属那个品类
 
 
     //分页,从第几条开始
@@ -106,37 +109,7 @@ public class SaleOrder implements Serializable {
         this.saleProductId = saleProductId;
     }
 
-    public String getProductName() {
-        return productName;
-    }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Integer getSaleCount() {
-        return saleCount;
-    }
-
-    public void setSaleCount(Integer saleCount) {
-        this.saleCount = saleCount;
-    }
 
     public BigDecimal getDiscountAmount() {
         return discountAmount;
@@ -154,28 +127,20 @@ public class SaleOrder implements Serializable {
         this.saleTotal = saleTotal;
     }
 
-    public BigDecimal getJdRate() {
-        return jdRate;
+    public BigDecimal getJdFeeSum() {
+        return jdFeeSum;
     }
 
-    public void setJdRate(BigDecimal jdRate) {
-        this.jdRate = jdRate;
+    public void setJdFeeSum(BigDecimal jdFeeSum) {
+        this.jdFeeSum = jdFeeSum;
     }
 
-    public BigDecimal getJdFee() {
-        return jdFee;
+    public BigDecimal getProductCostSum() {
+        return productCostSum;
     }
 
-    public void setJdFee(BigDecimal jdFee) {
-        this.jdFee = jdFee;
-    }
-
-    public BigDecimal getCost() {
-        return cost;
-    }
-
-    public void setCost(BigDecimal cost) {
-        this.cost = cost;
+    public void setProductCostSum(BigDecimal productCostSum) {
+        this.productCostSum = productCostSum;
     }
 
     public BigDecimal getShipFee() {
@@ -362,14 +327,6 @@ public class SaleOrder implements Serializable {
         this.inputType = inputType;
     }
 
-    public String getJdSkuId() {
-        return jdSkuId;
-    }
-
-    public void setJdSkuId(String jdSkuId) {
-        this.jdSkuId = jdSkuId;
-    }
-
     public String getJdOrderStatus() {
         return jdOrderStatus;
     }
@@ -377,8 +334,60 @@ public class SaleOrder implements Serializable {
     public void setJdOrderStatus(String jdOrderStatus) {
         this.jdOrderStatus = jdOrderStatus;
     }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public Integer getFeeCategoryId() {
+        return feeCategoryId;
+    }
+
+    public void setFeeCategoryId(Integer feeCategoryId) {
+        this.feeCategoryId = feeCategoryId;
+    }
+
     @Override
-    public String toString(){
-       return "[SaleOrder id="+id+",saleAt="+saleAt+",orderId="+orderId+",saleProductId="+saleProductId+",productName="+productName+",price="+price+" ]";
+    public String toString() {
+        return "SaleOrder{" +
+                "id=" + id +
+                ", saleAt=" + saleAt +
+                ", orderId='" + orderId + '\'' +
+                ", saleProductId=" + saleProductId +
+                ", discountAmount=" + discountAmount +
+                ", saleTotal=" + saleTotal +
+                ", jdFeeSum=" + jdFeeSum +
+                ", productCostSum=" + productCostSum +
+                ", shipFee=" + shipFee +
+                ", inteLogistics=" + inteLogistics +
+                ", packFee=" + packFee +
+                ", storageFee=" + storageFee +
+                ", postalFee=" + postalFee +
+                ", postalTaxRate=" + postalTaxRate +
+                ", profit=" + profit +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                ", invArea='" + invArea + '\'' +
+                ", remarkStatus=" + remarkStatus +
+                ", remark='" + remark + '\'' +
+                ", createUserId=" + createUserId +
+                ", updateUserId=" + updateUserId +
+                ", starttime='" + starttime + '\'' +
+                ", endtime='" + endtime + '\'' +
+                ", saleMonth='" + saleMonth + '\'' +
+                ", shop=" + shop +
+                ", inputType=" + inputType +
+                ", orderStatus='" + orderStatus + '\'' +
+                ", feeCategoryId='" + feeCategoryId + '\'' +
+                ", offset=" + offset +
+                ", pageSize=" + pageSize +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
+                ", jdOrderStatus='" + jdOrderStatus + '\'' +
+                '}';
     }
 }

@@ -65,7 +65,11 @@ public class SaleServiceImpl implements SaleService{
 
     @Override
     public Integer getProductSaleCountTotal(Long id) {
-        return saleMapper.getProductSaleCountTotal(id);
+        Integer count=saleMapper.getProductSaleCountTotal(id);
+        if(null==count){
+            return 0;
+        }
+        return count;
     }
 
     @Override
@@ -85,7 +89,11 @@ public class SaleServiceImpl implements SaleService{
 
     @Override
     public Integer getProductBackCountTotal(Long id) {
-        return saleMapper.getProductBackCountTotal(id);
+        Integer count=saleMapper.getProductBackCountTotal(id);
+        if(null==count){
+            return 0;
+        }
+        return count;
     }
 
     @Override
@@ -116,5 +124,10 @@ public class SaleServiceImpl implements SaleService{
     @Override
     public Integer updateSaleOrderLine(SaleOrderLine saleOrderLine) {
         return saleMapper.updateSaleOrderLine(saleOrderLine);
+    }
+
+    @Override
+    public Integer updateOrderLineCostByProId(SaleOrderLine saleOrderLine) {
+        return saleMapper.updateOrderLineCostByProId(saleOrderLine);
     }
 }

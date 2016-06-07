@@ -24,6 +24,7 @@ public class SaleOrderLine implements Serializable {
     private Date saleAt;    //日期
     private BigDecimal jdRate;    //京东费率
     private BigDecimal jdFee;    //京东费用
+    private String orderStatus;   //S:成功 T:退货
 
 
     @JsonIgnore
@@ -182,5 +183,38 @@ public class SaleOrderLine implements Serializable {
 
     public void setJdFee(BigDecimal jdFee) {
         this.jdFee = jdFee;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "SaleOrderLine{" +
+                "id=" + id +
+                ", saleOrderId=" + saleOrderId +
+                ", saleProductId=" + saleProductId +
+                ", saleCount=" + saleCount +
+                ", jdOrderId='" + jdOrderId + '\'' +
+                ", jdSkuId='" + jdSkuId + '\'' +
+                ", jdPrice=" + jdPrice +
+                ", saleProductName='" + saleProductName + '\'' +
+                ", saleProductCost=" + saleProductCost +
+                ", categoryId=" + categoryId +
+                ", saleAt=" + saleAt +
+                ", jdRate=" + jdRate +
+                ", jdFee=" + jdFee +
+                ", orderStatus='" + orderStatus + '\'' +
+                ", starttime='" + starttime + '\'' +
+                ", endtime='" + endtime + '\'' +
+                ", offset=" + offset +
+                ", pageSize=" + pageSize +
+                ", shop=" + shop +
+                '}';
     }
 }
