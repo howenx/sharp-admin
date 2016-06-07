@@ -29,10 +29,6 @@ public class SaleJdOrderLineInfo implements Serializable {
     private BigDecimal shipFee ;//运费金额
     private Date saleAt;    //付款确认时间
 
-
-
-    private String invArea;//库存区域区分：'S' 上海保税仓备货，'G'广州保税仓备货，'H'杭州保税仓备货，'SZ'上海保税区直邮，'GZ'广州保税仓直邮，'HZ'杭州保税仓直邮，'K' 海外直邮，'SELF' 自营商品
-
     public String getJdOrderId() {
         return jdOrderId;
     }
@@ -129,11 +125,22 @@ public class SaleJdOrderLineInfo implements Serializable {
         this.saleAt = saleAt;
     }
 
-    public String getInvArea() {
-        return invArea;
-    }
 
-    public void setInvArea(String invArea) {
-        this.invArea = invArea;
+    @Override
+    public String toString() {
+        return "SaleJdOrderLineInfo{" +
+                "jdOrderId='" + jdOrderId + '\'' +
+                ", jdSkuId='" + jdSkuId + '\'' +
+                ", saleCount=" + saleCount +
+                ", price=" + price +
+                ", orderValue=" + orderValue +
+                ", settleValue=" + settleValue +
+                ", payValue=" + payValue +
+                ", jdOrderStatus='" + jdOrderStatus + '\'' +
+                ", remark='" + remark + '\'' +
+                ", remarkStatus=" + remarkStatus +
+                ", shipFee=" + shipFee +
+                ", saleAt=" + saleAt +
+                '}';
     }
 }

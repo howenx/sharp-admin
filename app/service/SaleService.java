@@ -148,4 +148,11 @@ public interface SaleService {
      * @return
      */
     Integer updateSaleOrderLine(SaleOrderLine saleOrderLine);
+
+    /***
+     * 根据saleProductId更新所有子订单的成本
+     * @param saleOrderLine
+     * @return
+     */
+    Integer updateOrderLineCostByProId(SaleOrderLine saleOrderLine);
 }
