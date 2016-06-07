@@ -620,7 +620,7 @@ funcList.saleOrderlist_data = function saleOrderlist_data(data) {
             '<td rowspan="'+rowNum+'"><a href="/sales/order/find/'+$(this)[0].saleOrder.id+'">'+$(this)[0].saleOrder.id+'</a></td>'+
             '<td rowspan="'+rowNum+'">'+ saleAt + '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.orderId+ '</td>' +
-            '<td>'+ saleOrderLineList[0].saleProductName+ '</td>' +
+            '<td><a href="/sales/inventory/view/'+saleOrderLineList[0].saleProductId+'" target="_blank">'+ saleOrderLineList[0].saleProductName+ '</a></td>' +
             '<td>'+ saleOrderLineList[0].jdPrice+ '</td>' +
             '<td>'+ saleOrderLineList[0].saleCount+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.discountAmount+ '</td>' +
@@ -639,18 +639,20 @@ funcList.saleOrderlist_data = function saleOrderlist_data(data) {
             '<td rowspan="'+rowNum+'"><img src="' + remarkImg + '" alt="" width="20"></td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.remark+'</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.shop+'</td>' +
+            '<td >'+(saleOrderLineList[0].orderStatus=="T"?"退货":"正常")+'</td>' +
             '<td rowspan="'+rowNum+'"><a onclick="delOrder('+$(this)[0].saleOrder.id+')">删除</a></td>'+
             '</tr>';
             if(rowNum>1){
             for(var n in saleOrderLineList)
                 if(n!=0){
                   appendHtml+='<tr class="tb-list-data">' +
-                    '<td>'+ saleOrderLineList[n].saleProductName+ '</td>' +
+                    '<td><a href="/sales/inventory/view/'+saleOrderLineList[n].saleProductId+'" target="_blank">'+ saleOrderLineList[n].saleProductName+ '</a></td>' +
                     '<td>'+ saleOrderLineList[n].jdPrice+ '</td>' +
                     '<td>'+ saleOrderLineList[n].saleCount+ '</td>' +
-                    '<td>'+ saleOrderLineList[0].jdRate+ '%</td>' +
-                    '<td>'+ saleOrderLineList[0].jdFee+ '</td>' +
+                    '<td>'+ saleOrderLineList[n].jdRate+ '%</td>' +
+                    '<td>'+ saleOrderLineList[n].jdFee+ '</td>' +
                     '<td>'+ saleOrderLineList[n].saleProductCost+ '</td>' +
+                    '<td >'+(saleOrderLineList[n].orderStatus=="T"?"退货":"正常")+'</td>' +
                    '</tr>';
                 }
 
