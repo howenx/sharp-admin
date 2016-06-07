@@ -1829,4 +1829,7 @@ public class SaleCtrl extends Controller {
         return badRequest();
 
     }
+    public Result saleProductDatapub() {
+        return ok(views.html.sales.datapub.render());
+    }
 }
