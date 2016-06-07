@@ -1807,12 +1807,18 @@ public class SaleCtrl extends Controller {
                 }
                 //商品应结金额*京东费率=商品佣金，用这个公式商品佣金/商品应结金额=京东费率
                 saleOrderLine=saleOrderLineList.get(0);
-                BigDecimal jdFee=new BigDecimal(str[3]); //TODO ... 京东费用,该位置是美元不能这样用
+                BigDecimal jdFee=new BigDecimal(str[3]).setScale(2,BigDecimal.ROUND_HALF_DOWN); //TODO ... 京东费用,该位置是美元不能这样用
                 if(jdFee.compareTo(new BigDecimal(0))<0){
                     jdFee=jdFee.multiply(new BigDecimal(-1));
                 }
+
+                BigDecimal jdRate=new BigDecimal(Math.round(jdFee.multiply(new BigDecimal(100)).divide(new BigDecimal(str[2]),2).doubleValue())).setScale(2,BigDecimal.ROUND_HALF_DOWN); //jd rate 扩大了100倍 四舍五入
+//                Logger.info(saleOrderLine+"========jdFee="+jdFee+"===jdRate="+jdRate+"==="+(saleOrderLine.getJdFee().equals(jdFee))+"=="+(saleOrderLine.getJdRate().equals(jdRate)));
+                if(saleOrderLine.getJdFee().equals(jdFee)&&saleOrderLine.getJdRate().equals(jdRate)){
+                    Logger.info("<br/>"+(i+1)+"行订单费用没有变化,orderId="+orderId);
+                    continue;
+                }
                 saleOrderLine.setJdFee(jdFee);
-                BigDecimal jdRate=new BigDecimal(Math.round(jdFee.multiply(new BigDecimal(100)).divide(new BigDecimal(str[2]),2).doubleValue())); //jd rate 扩大了100倍 四舍五入
                 saleOrderLine.setJdRate(jdRate);
                 saleService.updateSaleOrderLine(saleOrderLine);
 
@@ -1830,7 +1836,7 @@ public class SaleCtrl extends Controller {
                     saleOrder.setJdFeeSum(jdFeeSum);
                     saleOrder.setProfit(getOrderProfit(saleOrder));
                     saleService.updateSaleOrder(saleOrder);
-                    Logger.info("========"+saleOrder);
+             //       Logger.info("========"+saleOrder);
                 }
 
 
