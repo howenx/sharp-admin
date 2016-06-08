@@ -622,6 +622,7 @@ funcList.saleOrderlist_data = function saleOrderlist_data(data) {
             '<td><a href="/sales/inventory/view/'+saleOrderLineList[0].saleProductId+'" target="_blank">'+ saleOrderLineList[0].saleProductName+ '</a></td>' +
             '<td>'+ saleOrderLineList[0].jdPrice+ '</td>' +
             '<td>'+ saleOrderLineList[0].saleCount+ '</td>' +
+            '<td>'+ saleOrderLineList[0].discountAmount+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.discountAmount+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.saleTotal+ '</td>' +
             '<td>'+ saleOrderLineList[0].jdRate+ '%</td>' +
@@ -648,6 +649,7 @@ funcList.saleOrderlist_data = function saleOrderlist_data(data) {
                     '<td><a href="/sales/inventory/view/'+saleOrderLineList[n].saleProductId+'" target="_blank">'+ saleOrderLineList[n].saleProductName+ '</a></td>' +
                     '<td>'+ saleOrderLineList[n].jdPrice+ '</td>' +
                     '<td>'+ saleOrderLineList[n].saleCount+ '</td>' +
+                    '<td>'+ saleOrderLineList[n].discountAmount+ '</td>' +
                     '<td>'+ saleOrderLineList[n].jdRate+ '%</td>' +
                     '<td>'+ saleOrderLineList[n].jdFee+ '</td>' +
                     '<td>'+ saleOrderLineList[n].saleProductCost+ '</td>' +

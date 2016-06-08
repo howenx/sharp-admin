@@ -737,17 +737,17 @@ public class SaleCtrl extends Controller {
         JsonNode json = request().body().asJson();
         ObjectNode result = newObject();
         Long saleProductId=json.findValue("saleProductId").asLong();
-        SaleOrder saleOrder = new SaleOrder();
+        SaleOrderLine saleOrderLine = new SaleOrderLine();
         SaleProduct saleProduct=saleService.getSaleProductById(saleProductId);
-//        if (saleProductId != -1) { //TODO ....
-//            saleOrder.setSaleProductId(saleProductId);
-//        }
+        if (saleProductId != -1) {
+            saleOrderLine.setSaleProductId(saleProductId);
+        }
         String saleMonth = "";
         if (json.has("saleMonth")) {
             saleMonth = json.findValue("saleMonth").asText().trim();
-            saleOrder.setSaleMonth(saleMonth);
+            saleOrderLine.setSaleMonth(saleMonth);
         }
-        List<SaleInventory> saleInventoryList=saleService.getSaleInventory(saleOrder);
+        List<SaleInventory> saleInventoryList=saleService.getSaleInventory(saleOrderLine);
         int saleMonthTotal=0;
         if(null!=saleInventoryList&&!saleInventoryList.isEmpty()){
             for(SaleInventory saleInventory:saleInventoryList){
@@ -1721,7 +1721,6 @@ public class SaleCtrl extends Controller {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        BigDecimal saleTotal=saleOrder.getSaleTotal();
         if(saleOrder.getSaleAt().before(date)){ //
             /**
              *  化妆品订单总额超过100元，收订单总额的50%，配饰超过500元，收订单总额的10%
@@ -1732,13 +1731,13 @@ public class SaleCtrl extends Controller {
             for(SaleOrderLine saleOrderLine:saleOrderLineList){
                 BigDecimal lineSaleTotal=getSaleOrderLineSaleTotal(saleOrderLine);
                 if(saleOrderLine.getCategoryId()==1&&lineSaleTotal.doubleValue()>500){ // 配饰 行邮税=如果总销售额>500元，=总销售额*行邮税率
-                    postalFee=postalFee.add(saleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
+                    postalFee=postalFee.add(lineSaleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
                 }
                 if(saleOrderLine.getCategoryId()==2&&lineSaleTotal.doubleValue()>100){ //化妆品 行邮税=如果总销售额>100元，=总销售额*行邮税率
-                    postalFee=postalFee.add(saleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
+                    postalFee=postalFee.add(lineSaleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
                 }
                 if(saleOrderLine.getCategoryId()==3){
-                    postalFee=postalFee.add(saleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
+                    postalFee=postalFee.add(lineSaleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
                 }
             }
             saleOrder.setPostalFee(postalFee);
@@ -1755,14 +1754,14 @@ public class SaleCtrl extends Controller {
             BigDecimal postalFee2 = new BigDecimal(0);
             for(SaleOrderLine saleOrderLine:saleOrderLineList){
                 BigDecimal lineSaleTotal=getSaleOrderLineSaleTotal(saleOrderLine);
-                if(saleOrderLine.getCategoryId()==1&&lineSaleTotal.doubleValue()>500){ // 配饰 行邮税=如果总销售额>500元，=总销售额*行邮税率
-                    postalFee1=postalFee1.add(saleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
+                if(saleOrderLine.getCategoryId()==1){ // 配饰 行邮税=如果总销售额>500元，=总销售额*行邮税率
+                    postalFee1=postalFee1.add(lineSaleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
                 }
-                if(saleOrderLine.getCategoryId()==2&&lineSaleTotal.doubleValue()>100){ //化妆品 行邮税=如果总销售额>100元，=总销售额*行邮税率
-                    postalFee2=postalFee2.add(saleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
+                if(saleOrderLine.getCategoryId()==2){ //化妆品 行邮税=如果总销售额>100元，=总销售额*行邮税率
+                    postalFee2=postalFee2.add(lineSaleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
                 }
                 if(saleOrderLine.getCategoryId()==3){
-                    postalFee=postalFee.add(saleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
+                    postalFee=postalFee.add(lineSaleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
                 }
             }
             BigDecimal postalFee12=postalFee1.add(postalFee2);
@@ -2068,11 +2067,22 @@ public class SaleCtrl extends Controller {
                 str=list.get(i).split(",");
                 String jdOrderId=str[0];
                 String couponInfo=str[6];
+
                 if(couponInfo.startsWith("C")) { //C表示无优惠
                     suc.append("<br/>"+(i+1)+"行无优惠,orderId="+jdOrderId);
                     continue;
                 }
+                Logger.info(jdOrderId+"====="+couponInfo);
                 int orderDiscountSum=0;//订单优惠
+                SaleOrderLine tempSaleOrderLine=new SaleOrderLine();
+                tempSaleOrderLine.setJdOrderId(jdOrderId);
+                //所有子订单
+                List<SaleOrderLine> saleOrderLineList=saleService.getSaleOrderLine(tempSaleOrderLine);
+                if(null==saleOrderLineList||saleOrderLineList.isEmpty()){
+                    suc.append("<br/>"+(i+1)+"行订单不存在,orderId="+jdOrderId);
+                    continue;
+                }
+
                 List<Integer> selfDiscountList=new ArrayList<>(); //顺序
                 if(couponInfo.startsWith("B")) {  //B表示只有单品优惠
                     String[] discountStr=couponInfo.split("】");
@@ -2084,26 +2094,23 @@ public class SaleCtrl extends Controller {
                 if(couponInfo.startsWith("A")) {  //A表示含有订单优惠
                     String[] discountStr=couponInfo.split("】");
                     for(String item:discountStr){
-                        String[] itemArr=item.split("：");
-                        if(itemArr[0].contains("单品促销优惠")){
-                            selfDiscountList.add(Integer.valueOf(itemArr[1]));
+                        if(item.contains("单品促销优惠")){
+                            selfDiscountList.add(Integer.valueOf(item.split("：")[1]));
                         }
                         else{
-                            orderDiscountSum+=Integer.valueOf(itemArr[1]); //订单优惠
+                            orderDiscountSum+=Integer.valueOf(item.split(":")[1]); //订单优惠
                         }
 
                     }
                 }
 
-                SaleOrderLine tempSaleOrderLine=new SaleOrderLine();
-                tempSaleOrderLine.setJdOrderId(jdOrderId);
-                //所有子订单
-                List<SaleOrderLine> saleOrderLineList=saleService.getSaleOrderLine(tempSaleOrderLine);
+
 
                 BigDecimal total=new BigDecimal(0);
                 BigDecimal orderDiscount=new BigDecimal(orderDiscountSum).divide(new BigDecimal(100));
                 if(orderDiscountSum>0){
                     for(SaleOrderLine saleOrderLine:saleOrderLineList){
+                        Logger.info(total+"====="+saleOrderLine);
                         total=total.add((saleOrderLine.getJdPrice().multiply(new BigDecimal(saleOrderLine.getSaleCount()))));
                     }
                 }
@@ -2116,8 +2123,10 @@ public class SaleCtrl extends Controller {
                         BigDecimal discount=new BigDecimal(selfDiscountList.get(j)).divide(new BigDecimal(100));
                         if(orderDiscountSum>0){
                             //订单按比例优惠
-                            BigDecimal averageDiscount=saleOrderLine.getJdPrice().multiply(new BigDecimal(saleOrderLine.getSaleCount())).multiply(orderDiscount).divide(total);
-                            discount.add(averageDiscount);
+                            BigDecimal averageDiscount=saleOrderLine.getJdPrice().multiply(new BigDecimal(saleOrderLine.getSaleCount())).multiply(orderDiscount).divide(total,2,BigDecimal.ROUND_HALF_DOWN);
+
+                            discount=discount.add(averageDiscount);
+                            Logger.info(orderDiscount+"====averageDiscount="+averageDiscount+"==="+discount);
                         }
                         saleOrderLine.setDiscountAmount(discount);
                         saleOrderLine.setJdFee(calJdFee(saleOrderLine)); //计算京东费用

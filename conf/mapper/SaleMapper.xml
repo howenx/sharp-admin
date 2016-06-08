@@ -209,7 +209,7 @@
     <update id="updateSaleOrder" parameterType="domain.sale.SaleOrder" >
         update sale_order set sale_at=#{saleAt},order_id=#{orderId},
         discount_amount=#{discountAmount},sale_total=#{saleTotal},jd_fee_sum=#{jdFeeSum},ship_fee=#{shipFee},product_cost_sum=#{productCostSum},
-        pack_fee=#{packFee},storage_fee=#{storageFee},postal_fee=#{postalFee},postal_tax_rate=#{postalTaxRate},profit=#{profit},inte_logistics=#{inteLogistics},
+        pack_fee=#{packFee},storage_fee=#{storageFee},postal_fee=#{postalFee},profit=#{profit},inte_logistics=#{inteLogistics},
         update_at= CURRENT_TIMESTAMP(0),inv_area=#{invArea},remark_status=#{remarkStatus},remark=#{remark},
         update_user_id=#{updateUserId},shop=#{shop},input_type=#{inputType},order_status=#{orderStatus},fee_category_id=#{feeCategoryId}
         where id=#{id}
@@ -272,14 +272,11 @@
         <!--</if>-->
         ;
     </select>
-    <select id="getSaleInventory" parameterType="domain.sale.SaleOrder" resultType="domain.sale.SaleInventory">
-        SELECT sum(s.sale_count)as saleCount,s.sale_at as saleDate from sale_order s
+    <select id="getSaleInventory" parameterType="domain.sale.SaleOrderLine" resultType="domain.sale.SaleInventory">
+        SELECT sum(s.sale_count)as saleCount,s.sale_at as saleDate from sale_order_line s
         WHERE 1=1
         <if test="saleProductId!=null and saleProductId!=''">
             and sale_product_id =#{saleProductId}
-        </if>
-        <if test="shop!=null and shop!=''">
-            and shop = #{shop}
         </if>
         and s.sale_at::TEXT LIKE '${saleMonth}%' GROUP BY s.sale_at order by s.sale_at;
    </select>

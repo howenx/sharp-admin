@@ -41,8 +41,10 @@ public class SaleOrderLine implements Serializable {
     @JsonIgnore
     //分页,每页多少条
     private Integer pageSize;
+    private Integer shop; //商店  1-韩密美专营店  2-韩密美化妆品店
 
-    private Integer shop;
+    /**销售月份*/
+    private String saleMonth;
 
     public Long getId() {
         return id;
@@ -148,13 +150,6 @@ public class SaleOrderLine implements Serializable {
         this.pageSize = pageSize;
     }
 
-    public Integer getShop() {
-        return shop;
-    }
-
-    public void setShop(Integer shop) {
-        this.shop = shop;
-    }
 
     public String getStarttime() {
         return starttime;
@@ -221,6 +216,22 @@ public class SaleOrderLine implements Serializable {
         this.seq = seq;
     }
 
+    public String getSaleMonth() {
+        return saleMonth;
+    }
+
+    public void setSaleMonth(String saleMonth) {
+        this.saleMonth = saleMonth;
+    }
+
+    public Integer getShop() {
+        return shop;
+    }
+
+    public void setShop(Integer shop) {
+        this.shop = shop;
+    }
+
     @Override
     public String toString() {
         return "SaleOrderLine{" +
@@ -245,7 +256,6 @@ public class SaleOrderLine implements Serializable {
                 ", endtime='" + endtime + '\'' +
                 ", offset=" + offset +
                 ", pageSize=" + pageSize +
-                ", shop=" + shop +
                 '}';
     }
 }

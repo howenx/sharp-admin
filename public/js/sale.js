@@ -311,6 +311,7 @@
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.lessProduct+'</td>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.emptyBox+'</td>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.damageOther+'</td>');
+                              $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.backCount+'</td>');
                                //日销量
                                $(data.saleInventoryList).each(function(index, element) {
                                     console.log("index="+index+",element="+element);
