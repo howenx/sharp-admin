@@ -215,6 +215,11 @@ GET         /data/config/add                                                    
 GET         /$lang<(cn|en|kr)>/data/config/add                                      controllers.DataCtrl.systemParameterAdd(lang)
 POST        /data/config/paramSave                                                  controllers.DataCtrl.paramSave(lang = "cn")
 
+#SMS 短信管理
+GET         /sms/send                                                               controllers.DataCtrl.smsSend(lang="cn")
+GET         /$lang<(cn|en|kr)>/sms/send                                             controllers.DataCtrl.smsSend(lang)
+POST        /sms/save                                                               controllers.DataCtrl.smsSave()
+
 
 #Coupons -->coup 优惠券
 GET         /coup/add                                                               controllers.CoupCtrl.coupCreate(lang="cn")
@@ -317,6 +322,7 @@ POST        /sales/upload/order                                                 
 POST        /sales/upload/order/fee                                                 controllers.SaleCtrl.uploadOrderFee()
 POST        /sales/upload/order/sale/detail                                         controllers.SaleCtrl.uploadOrderSaleDetail()
 GET         /sales/product/del/:id                                                  controllers.SaleCtrl.saleProductDel(id:Long)
+GET         /sales/product/datapub                                                  controllers.SaleCtrl.saleProductDatapub()
 
 
 #coupon 优惠券系统

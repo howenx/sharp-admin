@@ -83,9 +83,16 @@ public class SaleStatistics implements Serializable {
     }
 
     @Override
-    public String toString(){
-        return "[SaleStatistics: saleTotal="+saleTotal+",jdFeeTotal="+jdFeeTotal+",shipFeeTotal="+shipFeeTotal+
-                ",inteLogisticsTotal="+inteLogisticsTotal+",packFeeTotal="+packFeeTotal+",storageFeeTotal="+storageFeeTotal+
-                ",profitTotal="+profitTotal+",saleCountTotal="+saleCountTotal;
+    public String toString() {
+        return "SaleStatistics{" +
+                "saleTotal=" + saleTotal +
+                ", jdFeeTotal=" + jdFeeTotal +
+                ", shipFeeTotal=" + shipFeeTotal +
+                ", inteLogisticsTotal=" + inteLogisticsTotal +
+                ", packFeeTotal=" + packFeeTotal +
+                ", storageFeeTotal=" + storageFeeTotal +
+                ", profitTotal=" + profitTotal +
+                ", saleCountTotal=" + saleCountTotal +
+                '}';
     }
 }

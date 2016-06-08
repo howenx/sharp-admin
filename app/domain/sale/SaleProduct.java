@@ -340,4 +340,44 @@ public class SaleProduct implements Serializable {
     public void setSaleFinishStatus(Integer saleFinishStatus) {
         this.saleFinishStatus = saleFinishStatus;
     }
+
+    @Override
+    public String toString() {
+        return "SaleProduct{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", categoryId=" + categoryId +
+                ", skuCode='" + skuCode + '\'' +
+                ", productCode='" + productCode + '\'' +
+                ", spec='" + spec + '\'' +
+                ", saleCount=" + saleCount +
+                ", inventory=" + inventory +
+                ", productCost=" + productCost +
+                ", stockValue=" + stockValue +
+                ", purchaseCount=" + purchaseCount +
+                ", noCard=" + noCard +
+                ", damage=" + damage +
+                ", lessDelivery=" + lessDelivery +
+                ", lessProduct=" + lessProduct +
+                ", emptyBox=" + emptyBox +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                ", invArea='" + invArea + '\'' +
+                ", storageAt=" + storageAt +
+                ", customSkuId=" + customSkuId +
+                ", damageOther=" + damageOther +
+                ", remark='" + remark + '\'' +
+                ", createUserId=" + createUserId +
+                ", updateUserId=" + updateUserId +
+                ", backCount=" + backCount +
+                ", jdSkuId='" + jdSkuId + '\'' +
+                ", saleFinishStatus=" + saleFinishStatus +
+                ", offset=" + offset +
+                ", pageSize=" + pageSize +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
+                ", starttime='" + starttime + '\'' +
+                ", endtime='" + endtime + '\'' +
+                '}';
+    }
 }

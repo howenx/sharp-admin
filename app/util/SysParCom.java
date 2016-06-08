@@ -72,6 +72,8 @@ public class SysParCom {
     //消息推送
     public static String MSG_PUSH;
     public static String MSG_SEND;
+    //发送短息
+    public static String SMS_SEND;
 
 
     public static String ALIPAY_PARTNER;
@@ -137,6 +139,7 @@ public class SysParCom {
 
         MSG_PUSH = configuration.getString("msg.push");
         MSG_SEND = configuration.getString("msg.send");
+        SMS_SEND = configuration.getString("sms.send");
 
         //携程参数
         AID = configuration.getString("coupon.ctrip.AID");
