@@ -531,7 +531,7 @@ public class SaleCtrl extends Controller {
                         saleService.updateSaleOrderLine(saleOrderLine);
 
                     }
-                    Logger.info("=====saleOrderLine==="+saleOrderLine);
+                 //   Logger.info("=====saleOrderLine==="+saleOrderLine);
                 }
                 //更新商品
                 updateProductAtUpdateOrder(saleProduct);
@@ -564,14 +564,14 @@ public class SaleCtrl extends Controller {
                 //退货逻辑处理
                 orderRefund(saleOrder);
                 saleService.updateSaleOrder(saleOrder);
-                Logger.info("====退款后订单====="+saleOrder);
+             //   Logger.info("====退款后订单====="+saleOrder);
                 return ok("success");
             }
             //净利润=总销售额-京东费用-成本*数量-国内快递费-国际物流费*数量-包装费-仓储服务费-行邮税
             saleOrder.setProfit(getOrderProfit(saleOrder));
             saleService.updateSaleOrder(saleOrder);
 
-            Logger.info("===订单====="+saleOrder);
+          //  Logger.info("===订单====="+saleOrder);
 
         }catch (Exception e){
             Logger.error("sale order save exception "+e.getMessage());
@@ -1462,11 +1462,11 @@ public class SaleCtrl extends Controller {
              *  按照每个京东订单号处理采集的数据
              */
             List<SaleJdOrderLineInfo> jdOrderLineInfoList=null;
-            int num=1;
+         //   int num=1;
             for(Map.Entry<String,List<SaleJdOrderLineInfo>> entry:orderListMap.entrySet()){
-                if(num++>50){
-                    break;
-                }
+//                if(num++>50){
+//                    break;
+//                }
                 jdOrderLineInfoList=entry.getValue();  //同一个订单号数据
                 String jdOrderId=jdOrderLineInfoList.get(0).getJdOrderId();
                 //订单数据
