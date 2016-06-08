@@ -337,6 +337,9 @@ POST        /coupon/search/$pageNum<[0-9]+>                                     
 POST        /$lang<(cn|en|kr)>/coupon/search/$pageNum<[0-9]+>                       controllers.CouponCtrl.couponSearchAjax(lang, pageNum:Int)
 POST        /coupon/drop                                                            controllers.CouponCtrl.dropCoupon(lang = "cn")
 POST        /$lang<(cn|en|kr)>/coupon/drop                                          controllers.CouponCtrl.dropCoupon(lang)
+GET         /$lang<(cn|en|kr)>/coupon/imageUpload                                   controllers.CouponCtrl.imageUpload(lang)
+GET         /coupon/imageUpload                                                      controllers.CouponCtrl.imageUpload(lang = "cn")
+
 
 #msg 消息推送
 GET         /msg/push                                                               controllers.ItemCtrl.msgPush(lang = "cn")

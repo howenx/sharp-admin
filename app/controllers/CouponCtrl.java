@@ -217,4 +217,10 @@ public class CouponCtrl extends Controller {
         }
 
     }
+
+    @Security.Authenticated(UserAuth.class)
+    public Result imageUpload(String lang){
+        return ok(views.html.couponSystem.imageUpload.render(lang,(User) ctx().args.get("user")));
+    }
+
 }
