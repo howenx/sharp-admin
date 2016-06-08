@@ -1,6 +1,8 @@
 package util;
 
+import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
 import play.Configuration;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -22,6 +24,8 @@ import java.util.concurrent.ExecutorService;
 public class SysParCom {
 
 
+    public static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
+    public static Request.Builder builder = new Request.Builder();
     public static String REDIS_URL;
     public static String REDIS_PASSWORD;
     public static Integer REDIS_PORT;
@@ -68,6 +72,8 @@ public class SysParCom {
     //消息推送
     public static String MSG_PUSH;
     public static String MSG_SEND;
+    //发送短息
+    public static String SMS_SEND;
 
 
     public static String ALIPAY_PARTNER;
@@ -77,6 +83,16 @@ public class SysParCom {
     //shopping服务器url
     public static String SHOPPING_URL;
     public static Boolean ONE_CENT_PAY;
+
+    //携程参数
+    public static String AID;
+    public static String SID;
+    public static String KEY;
+    public static String CTRIPURL;
+    public static String REFRESHTOKEN;
+    public static String ACCESSTOKEN;
+    public static int REFRESHTIME;
+    public static int ACCESSTIME;
 
 
     @Inject
@@ -123,6 +139,17 @@ public class SysParCom {
 
         MSG_PUSH = configuration.getString("msg.push");
         MSG_SEND = configuration.getString("msg.send");
+        SMS_SEND = configuration.getString("sms.send");
+
+        //携程参数
+        AID = configuration.getString("coupon.ctrip.AID");
+        SID = configuration.getString("coupon.ctrip.SID");
+        KEY = configuration.getString("coupon.ctrip.TokenKey");
+        CTRIPURL = configuration.getString("coupon.ctrip.url");
+        REFRESHTOKEN = configuration.getString("coupon.ctrip.getRefreshToken");
+        ACCESSTOKEN = configuration.getString("coupon.ctrip.getAccessToken");
+        REFRESHTIME = configuration.getInt("coupon.ctrip.refreshTokenTime");
+        ACCESSTIME = configuration.getInt("coupon.ctrip.accessTokenTime");
 
     }
 

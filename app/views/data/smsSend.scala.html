@@ -1,30 +1,11 @@
 @import play.i18n._
-@(lang:String="cn",user:domain.User)
+@(lang:String="cn", tempList:Map[String,String], user:domain.User)
 
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
 <link rel="stylesheet" href="/assets/css/screenshot.css">
 <link rel="stylesheet" href="/assets/css/button.css">
-<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
-<script src="/assets/js/bootstrap.min.js"></script>
-<script src="/assets/js/moment-with-locales.js"></script>
-<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
-<script>
-    $(function(){
-        $(function () {
-            $('#datetimepicker1').datetimepicker({
-                locale: 'zh-cn',
-                format:'YYYY-MM-DD HH:mm:ss'
-            });
-            $('#datetimepicker2').datetimepicker({
-                locale: 'zh-cn',
-                format:'YYYY-MM-DD HH:mm:ss'
-            });
-        });
-    })
-</script>
-
 <script>
     function ShowModal() {
         var sharedObject = {};
@@ -58,13 +39,9 @@
         }
     }
 </script>
-<style type="text/css">
-    .start{color:red;padding-top:3px;padding-left:3px;}
-    .r{float:right;}
-</style>
 }
 
-@import java.lang.String; var title="发放优惠券"
+@import java.lang.String; var title="短信管理"
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 
@@ -73,15 +50,15 @@
         <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
         <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
         <span class="icon-path">&gt;</span>
-        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.data.sell")</span>
         <span class="icon-path">&gt;</span>
-        <span>发放优惠券</span>
+        <span>短信管理</span>
     </div>
 </div>
 
 <div class="wrap-slider">
     <div class="page-title">
-        <span class="title-name">发放优惠券</span>
+        <span class="title-name">短信管理</span>
     </div>
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
@@ -93,41 +70,20 @@
         <form class="form-horizontal" method="post" enctype="multipart/form-data">
             <div class="upinfo">
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" ><div class="r start"> *</div><div class="r">类别</div></label>
-                    <div class="col-sm-3">
-                        <select class="form-control form-data-area" id="cateId" name="cateId">
+                    <label class="col-sm-1 control-label">短信模板</label>
+                    <div class="col-sm-7">
+                        <select class="form-control form-data-area" id="template_id" name="template_id">
                             <option value="">请选择</option>
-                            <option value="153">化妆品类商品适用券</option>
-                            <option value="172">配饰类商品适用券</option>
-                            <option value="165">服饰类商品适用券</option>
-                            <option value="555">全场通用券</option>
-                            <option value="777">新人优惠券</option>
-                            <option value="211">指定商品适用券</option>
+                            @for(t <- tempList) {
+                            <option value='@t.toString.substring(1,t.toString.length-1).split(",")(0)'>@t.toString.substring(1,t.toString.length-1).split(",")(1)</option>
+                            }
                         </select>
-                    </div>
-                    <label class="col-sm-1 control-label" ><div class="r start"> *</div><div class="r">限额(￥)</div></label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control form-data-area" id="limitQuota" name="limitQuota">
-                    </div>
-                    <label class="col-sm-1 control-label" ><div class="r start"> *</div><div class="r">面值(￥)</div></label>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control form-data-area" id="denomination" name="denomination">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" ><div class="r start" style="padding-left:0;"> *</div><div class="r">使用期限</div></label>
-                    <div class="col-sm-3">
-                        <div class="input-group date" id='datetimepicker1'>
-                            <input class="form-control col-sm-2 form-data-area" type="text"  id="startAt" name="startAt"/>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-1" style="font-size: 24px;width:30px;margin-left:30px;margin-right:30px;">~</div>
-                    <div class="col-sm-3">
-                        <div class="input-group date" id='datetimepicker2'>
-                            <input class="form-control col-sm-2 form-data-area" type="text"  id="endAt" name="endAt"/>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        </div>
+                    <label class="col-sm-1 control-label">短信内容</label>
+                    <div class="col-sm-7">
+                        <textarea rows="6"  class="form-control form-data-area" id="send_content" name="send_content" placeholder='请按照短信模板的格式进行填写,数据以逗号分隔.&#10;例如:发货通知的短信模板为:&#10;"感谢您在韩秘美购物, 您的订单号{1}已经为您派送, 派送快递公司为{2}, 快递编号{3}, 请注意查收!"&#10;只需输入:50102394,京东快递,806843734758'></textarea>
                     </div>
                 </div>
                 <hr style="margin-top:50px;"/>
@@ -143,14 +99,9 @@
                             <th>用户名称</th>
                             <th>头像</th>
                             <th>性别</th>
-                            <!--<th>邮箱</th>-->
                             <th>电话号码</th>
                             <th>生日</th>
-                            <!--<th>真实姓名</th>-->
-                            <!--<th>证件类型</th>-->
-                            <!--<th>证件号码</th>-->
                             <th>注册时间</th>
-                            <!--<th>是否激活</th>-->
                             <th>用户类型</th>
                             <th>是否实名认证</th>
                             <th>删除</th>
@@ -198,66 +149,39 @@
     $("#submit").click(function(){
         var isPost = true;
         var numberReg1 = /^-?\d+\.?\d{0,2}$/;   //整数或小数
-        var coupon_list = [];
-        var cateId = $("#cateId").val();
-        var cateNm = "";
-        var limitQuota = $("#limitQuota").val();
-        var startAt = $("#startAt").val();
-        var endAt = $("#endAt").val();
-        var denomination = $("#denomination").val();
+        var sms_list = [];
+        var template_id = $("#template_id").val();
+        var send_content = $("#send_content").val();
         var users = $(".table tbody").find("tr");
 
-        //验证使用期限
-        var now = new Date();
-        var nowTime = now.getFullYear()+"-"+(now.getMonth()+1>=10?now.getMonth()+1:'0'+(now.getMonth()+1))+"-"+(now.getDate()>=10?now.getDate():'0'+now.getDate())+" "+(now.getHours()>=10?now.getHours():'0'+now.getHours())+":"+(now.getMinutes()>=10?now.getMinutes():'0'+now.getMinutes())+":"+(now.getSeconds()>=10?now.getSeconds():'0'+now.getSeconds());
-        var maxDate = now.setMonth(now.getMonth()+6);
-        var d1 = new Date(Date.parse(startAt.replace(/-/g,"/")));//开始时间
-        var d2 = new Date(Date.parse(endAt.replace(/-/g,"/")));//结束时间
-
         //验证必填项及数据正确性
-        if (cateId=="" || !numberReg1.test(limitQuota) || !numberReg1.test(denomination)) {
+        if (template_id=="") {
             isPost=false;
-            $('#js-userinfo-error').text('必填项有误');
-        } else if (startAt=="" || endAt=="" || startAt >= endAt ) {
-           isPost = false;
-           $('#js-userinfo-error').text('请检查时间设置');
-        } else if (endAt<nowTime) {
-           isPost = false;
-           $('#js-userinfo-error').text('截止时间不能小于当前时间');
-        } else if (d1>=maxDate || d2>=maxDate) {
-            isPost = false;
-            $('#js-userinfo-error').text('开始时间和结束时间不能超过当前时间6个月');
+            $('#js-userinfo-error').text('请选择短信模板');
+        } else if (send_content=="") {
+            isPost=false;
+            $('#js-userinfo-error').text('请输入短信内容');
         } else if (users.length==0) {
             isPost = false;
              $('#js-userinfo-error').text('请选择用户');
         } else $('#js-userinfo-error').text('');
 
         for(i=0;i<users.length;i++) {
-            var coupon = new Object();
-            var userId = users[i].getElementsByTagName("td")[1].innerText;
-            coupon.cateId = cateId;
-            if (cateId == 153) cateNm =  "化妆品类商品适用券";
-            else if (cateId == 172) cateNm =  "配饰类商品适用券";
-            else if (cateId == 165) cateNm =  "服饰类商品适用券";
-            else if (cateId == 555) cateNm =  "全场通用券";
-            else if (cateId == 777) cateNm =  "新人优惠券";
-            else if (cateId == 211) cateNm =  "指定商品适用券";
-            coupon.cateNm = cateNm;
-            coupon.limitQuota = limitQuota;
-            coupon.startAt = startAt;
-            coupon.endAt = endAt;
-            coupon.denomination = denomination;
-            coupon.userId = userId;
-            coupon_list.push(coupon);
+            var sms = new Object();
+            var phone_num = users[i].getElementsByTagName("td")[5].innerText;
+            sms.phone_num = phone_num;
+            sms.template_id = template_id;
+            sms.send_content = send_content;
+            sms_list.push(sms);
         }
         console.log(isPost);
-        console.log(JSON.stringify(coupon_list));
+        console.log(JSON.stringify(sms_list));
         if (isPost) {
             $.ajax({
                 type :  "POST",
-                url : "/coup/coupSave",
+                url : "/sms/save",
                 contentType: "application/json; charset=utf-8",
-                data : JSON.stringify(coupon_list),
+                data : JSON.stringify(sms_list),
                 error : function(request) {
                     if (window.lang = 'cn') {
                         $('#js-userinfo-error').text('保存失败');
@@ -271,7 +195,7 @@
                         $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
                         $('.usercenter-option > .user-state').css('background-position', '20px -174px');
                         $('.usercenter-option > .user-state').text('未更改');
-                        setTimeout("location.href='/"+window.lang+"/coup/add'", 3000);
+                        setTimeout("location.href='/"+window.lang+"/sms/send'", 3000);
                     }
                     else {
                         $('#js-userinfo-error').text('保存失败');
