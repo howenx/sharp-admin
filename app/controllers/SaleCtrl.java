@@ -1507,11 +1507,11 @@ public class SaleCtrl extends Controller {
              *  按照每个京东订单号处理采集的数据
              */
             List<SaleJdOrderLineInfo> jdOrderLineInfoList=null;
-            int num=1;
+//            int num=1;
             for(Map.Entry<String,List<SaleJdOrderLineInfo>> entry:orderListMap.entrySet()){
-                if(num++>50){
-                    break;
-                }
+//                if(num++>50){
+//                    break;
+//                }
                 jdOrderLineInfoList=entry.getValue();  //同一个订单号数据
                 String jdOrderId=jdOrderLineInfoList.get(0).getJdOrderId();
                 //订单数据
