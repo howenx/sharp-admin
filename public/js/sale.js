@@ -237,7 +237,7 @@
                 },
                 success: function(data) {
 
-                        if(null!=data){
+                        if(null!=data&&null!=data.saleTotal){
                             $('#tb-topic').find('tbody').html('' +
                              '<tr class = "tb-list-data">'+
                              '<td>'+data.saleTotal+'</td>'+
