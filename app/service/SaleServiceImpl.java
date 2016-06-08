@@ -59,6 +59,11 @@ public class SaleServiceImpl implements SaleService{
     }
 
     @Override
+    public List<SaleStatistics> getSaleStatisticsByLine(SaleOrderLine saleOrderLine) {
+        return saleMapper.getSaleStatisticsByLine(saleOrderLine);
+    }
+
+    @Override
     public List<SaleInventory> getSaleInventory(SaleOrderLine saleOrderLine) {
         return saleMapper.getSaleInventory(saleOrderLine);
     }

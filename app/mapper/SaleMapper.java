@@ -70,6 +70,7 @@ public interface SaleMapper {
      * @return
      */
     List<SaleStatistics> getSaleStatistics(SaleOrder saleOrder);
+    List<SaleStatistics> getSaleStatisticsByLine(SaleOrderLine saleOrderLine);
     /**
      * 月份日销量
      * @param saleOrderLine

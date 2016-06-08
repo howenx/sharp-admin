@@ -504,6 +504,7 @@ public class SaleCtrl extends Controller {
                     saleOrderLine.setSaleProductCost(saleProduct.getProductCost());
                     saleOrderLine.setJdOrderId("");
                     saleOrderLine.setJdSkuId("");
+                    saleOrderLine.setLineSaleTotal(new BigDecimal(0));
                     saleOrderLine.setSaleCount(saleOrderLineInfo.getSaleCount());
                     saleOrderLine.setJdPrice(saleOrderLineInfo.getJdPrice());
                     saleOrderLine.setCategoryId(saleProduct.getCategoryId());
@@ -516,6 +517,8 @@ public class SaleCtrl extends Controller {
                     saleOrderLine.setJdFee(calJdFee(saleOrderLine));
                     saleOrderLine.setPostalTaxRate(getPostalTaxRate(saleOrderLine.getCategoryId()));
                     saleOrderLine.setSeq(99);
+                    saleOrderLine.setShop(shop);
+
                     saleService.insertSaleOrderLine(saleOrderLine);
                 }else{
                     SaleOrderLine temp=new SaleOrderLine();
@@ -529,6 +532,7 @@ public class SaleCtrl extends Controller {
                         saleOrderLine.setOrderStatus(isRefund?ORDER_STATUS_REFUND:ORDER_STATUS_SUC);
                         saleOrderLine.setDiscountAmount(saleOrderLineInfo.getDiscountAmountLine());
                         saleOrderLine.setJdFee(calJdFee(saleOrderLine));
+                        saleOrderLine.setShop(shop);
                         saleService.updateSaleOrderLine(saleOrderLine);
 
                     }
@@ -681,44 +685,84 @@ public class SaleCtrl extends Controller {
     public Result saleStatistics() {
         JsonNode json = request().body().asJson();
         Integer categoryId=json.findValue("categoryId").asInt();
-         List<SaleStatistics> saleStatisticsList=new ArrayList<SaleStatistics>() ;
+        SaleStatistics saleStatistics=null;
+        List<SaleStatistics> saleStatisticsList=new ArrayList<SaleStatistics>() ;
 
         try {
             SaleOrder saleOrder = new SaleOrder();
-//            if (categoryId != -1) {
-//                saleOrder.setCategoryId(categoryId);
-//            }
+            SaleOrderLine saleOrderLine=new SaleOrderLine();
+            if (categoryId != -1) {
+                saleOrder.setFeeCategoryId(categoryId);
+                saleOrderLine.setCategoryId(categoryId);
+            }
             String starttime = "";
             if (json.has("starttime")) {
                 starttime = json.findValue("starttime").asText().trim();
                 saleOrder.setStarttime(starttime);
+                saleOrderLine.setStarttime(starttime);
             }
             String endtime = "";
             if (json.has("endtime")) {
                 endtime = json.findValue("endtime").asText().trim();
                 saleOrder.setEndtime(endtime);
+                saleOrderLine.setEndtime(endtime);
             }
-//            if (json.has("productName")) {
-//                saleOrder.setProductName(json.findValue("productName").asText().trim());
-//            }
+
             Integer shop=json.findValue("shop").asInt();
             if (shop>0) {
                 saleOrder.setShop(shop);
+                saleOrderLine.setShop(shop);
             }
 
-           saleStatisticsList = saleService.getSaleStatistics(saleOrder);
+            saleStatisticsList = saleService.getSaleStatistics(saleOrder);
             if (null!=saleStatisticsList&&!saleStatisticsList.isEmpty()){
-                if(saleStatisticsList.get(0).getSaleCountTotal()<=0){
-                    saleStatisticsList=new ArrayList<>();
+                saleStatistics=saleStatisticsList.get(0);
+                Logger.info("========="+saleStatistics);
+                if(saleStatistics.getSaleCountTotal()<=0){
+                    saleStatistics=null;
                 }
             }
+
+            String productName="";
+            if (json.has("productName")) {
+                productName=json.findValue("productName").asText().trim();
+                saleOrderLine.setSaleProductName(productName);
+            }
+
+            if(categoryId!=-1||(!"".equals(productName)&&null!=productName)){
+                saleStatisticsList = saleService.getSaleStatisticsByLine(saleOrderLine);
+                if (null!=saleStatisticsList&&!saleStatisticsList.isEmpty()){
+                    SaleStatistics saleStatisticsLine=saleStatisticsList.get(0);
+                    Logger.info("====22saleStatisticsLine====="+saleStatisticsLine);
+                    if(null==saleStatistics){
+                        saleStatisticsLine.setInteLogisticsTotal(new BigDecimal(0));
+                        saleStatisticsLine.setPackFeeTotal(new BigDecimal(0));
+                        saleStatisticsLine.setShipFeeTotal(new BigDecimal(0));
+                        saleStatisticsLine.setStorageFeeTotal(new BigDecimal(0));
+                    }else{
+                        saleStatisticsLine.setInteLogisticsTotal(saleStatistics.getInteLogisticsTotal());
+                        saleStatisticsLine.setPackFeeTotal(saleStatistics.getPackFeeTotal());
+                        saleStatisticsLine.setShipFeeTotal(saleStatistics.getShipFeeTotal());
+                        saleStatisticsLine.setStorageFeeTotal(saleStatistics.getStorageFeeTotal());
+                    }
+                    BigDecimal profit=saleStatisticsLine.getSaleTotal().subtract(saleStatisticsLine.getJdFeeTotal())
+                            .subtract(saleStatisticsLine.getInteLogisticsTotal()).subtract(saleStatisticsLine.getPackFeeTotal())
+                            .subtract(saleStatisticsLine.getShipFeeTotal()).subtract(saleStatisticsLine.getStorageFeeTotal());
+                    saleStatisticsLine.setProfitTotal(profit);
+                    Logger.info("====saleStatisticsLine====="+saleStatisticsLine);
+                    saleStatistics=saleStatisticsLine;
+                }
+
+            }
+
+
 
         }catch(Exception e){
             Logger.error("sale statistics exception"+e.getMessage());
 
         }
 
-        return ok(Json.toJson(saleStatisticsList));
+        return ok(Json.toJson(saleStatistics));
     }
 
     /***
@@ -1463,11 +1507,11 @@ public class SaleCtrl extends Controller {
              *  按照每个京东订单号处理采集的数据
              */
             List<SaleJdOrderLineInfo> jdOrderLineInfoList=null;
-         //   int num=1;
+            int num=1;
             for(Map.Entry<String,List<SaleJdOrderLineInfo>> entry:orderListMap.entrySet()){
-//                if(num++>50){
-//                    break;
-//                }
+                if(num++>50){
+                    break;
+                }
                 jdOrderLineInfoList=entry.getValue();  //同一个订单号数据
                 String jdOrderId=jdOrderLineInfoList.get(0).getJdOrderId();
                 //订单数据
@@ -1487,9 +1531,11 @@ public class SaleCtrl extends Controller {
                             jdOrderLineInfoList.get(0).getRemark(),userId,userId,shop,2,ORDER_STATUS_SUC,1);
                 }
 
-                SaleJdOrderLineInfo  jdOrderLineInfoSourceDate=null;//可用的一条京东来源数据
+                SaleJdOrderLineInfo  jdOrderLineInfoSourceDate=jdOrderLineInfoList.get(0);//可用的一条京东来源数据
                 SaleJdOrderLineInfo jdOrderLineInfo=null;
                 TreeMap<Integer,Integer> cateMap=new TreeMap<>();//该订单下的所有类别
+                //优惠额
+                BigDecimal discountAmount=jdOrderLineInfoSourceDate.getOrderValue().subtract(jdOrderLineInfoSourceDate.getSettleValue()); //优惠额=订单金额-结算金额
 
                 boolean isHaveOrderChange=false; //是否有订单的改变
                 for(int i=0;i<jdOrderLineInfoList.size();i++) {
@@ -1530,7 +1576,7 @@ public class SaleCtrl extends Controller {
                     //是否是退货
                     boolean isRefund=jdOrderLineInfo.getJdOrderStatus().indexOf("删除")>=0;
                     saleOrder.setInvArea(saleProduct.getInvArea());
-                    jdOrderLineInfoSourceDate = jdOrderLineInfo;
+                  //  jdOrderLineInfoSourceDate = jdOrderLineInfo;
                     //子订单
                     SaleOrderLine tempOrderLine = new SaleOrderLine();
                     tempOrderLine.setJdOrderId(jdOrderId);
@@ -1566,11 +1612,13 @@ public class SaleCtrl extends Controller {
                     saleOrderLine.setSaleAt(jdOrderLineInfo.getSaleAt());
                     saleOrderLine.setJdRate(new BigDecimal(0));
                     saleOrderLine.setJdFee(new BigDecimal(0));
+                    saleOrderLine.setLineSaleTotal(new BigDecimal(0));
                     saleOrderLine.setOrderStatus(isRefund?ORDER_STATUS_REFUND:ORDER_STATUS_SUC);
                     saleOrderLine.setSaleOrderId(saleOrder.getId());
                     saleOrderLine.setPostalTaxRate(getPostalTaxRate(saleOrderLine.getCategoryId()));
-                    saleOrderLine.setDiscountAmount(new BigDecimal(0)); //每个子订单的优惠额,从优惠额中导入
+                    saleOrderLine.setDiscountAmount(discountAmount); //每个子订单的优惠额,从优惠额中导入
                     saleOrderLine.setSeq((i+1));
+                    saleOrderLine.setShop(shop);
                     saleService.insertSaleOrderLine(saleOrderLine);
 
                 }
@@ -1596,8 +1644,7 @@ public class SaleCtrl extends Controller {
 
                 saleOrder.setFeeCategoryId(cateMap.firstKey());//默认类别小的
 
-                //优惠额
-                BigDecimal discountAmount=jdOrderLineInfoSourceDate.getOrderValue().subtract(jdOrderLineInfoSourceDate.getSettleValue()); //优惠额=订单金额-结算金额
+
                 saleOrder.setDiscountAmount(discountAmount);
                 // 京东费用和  京东费用=总销售 额*京东费率
                 BigDecimal jdFeeSum = new BigDecimal(0);
@@ -1705,7 +1752,12 @@ public class SaleCtrl extends Controller {
      * @return
      */
     private BigDecimal getSaleOrderLineSaleTotal(SaleOrderLine saleOrderLine){
-        return saleOrderLine.getJdPrice().multiply(new BigDecimal(saleOrderLine.getSaleCount())).subtract(saleOrderLine.getDiscountAmount());
+        BigDecimal lineSaleTotal=new BigDecimal(0);
+        if(ORDER_STATUS_SUC.equals(saleOrderLine.getOrderStatus())) {
+            lineSaleTotal=saleOrderLine.getJdPrice().multiply(new BigDecimal(saleOrderLine.getSaleCount())).subtract(saleOrderLine.getDiscountAmount());
+        }
+        saleOrderLine.setLineSaleTotal(lineSaleTotal);
+        return lineSaleTotal;
 
     }
 

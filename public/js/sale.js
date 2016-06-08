@@ -237,17 +237,17 @@
                 },
                 success: function(data) {
 
-                        if(null!=data&&data.length>0&&null!=data[0]){
+                        if(null!=data){
                             $('#tb-topic').find('tbody').html('' +
                              '<tr class = "tb-list-data">'+
-                             '<td>'+data[0].saleTotal+'</td>'+
-                             '<td>'+data[0].jdFeeTotal+'</td>'+
-                             '<td>'+data[0].shipFeeTotal+'</td>'+
-                             '<td>'+data[0].inteLogisticsTotal+'</td>'+
-                             '<td>'+data[0].packFeeTotal+'</td>'+
-                             '<td>'+data[0].storageFeeTotal+'</td>'+
-                             '<td>'+data[0].profitTotal+'</td>'+
-                             '<td>'+data[0].saleCountTotal+'</td>'+
+                             '<td>'+data.saleTotal+'</td>'+
+                             '<td>'+data.jdFeeTotal+'</td>'+
+                             '<td>'+data.shipFeeTotal+'</td>'+
+                             '<td>'+data.inteLogisticsTotal+'</td>'+
+                             '<td>'+data.packFeeTotal+'</td>'+
+                             '<td>'+data.storageFeeTotal+'</td>'+
+                             '<td>'+data.profitTotal+'</td>'+
+                             '<td>'+data.saleCountTotal+'</td>'+
                              '</tr>');
                         }else{
                             if (window.lang = 'cn') {
