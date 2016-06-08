@@ -122,7 +122,6 @@ public class ItemCtrl extends Controller {
             int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
             inventory.setPageSize(-1);
             inventory.setOffset(-1);
-            inventory.setState("Y");
             List<Inventory> inventoryList = inventoryService.invSearch(inventory);
             int countNum = inventoryList.size();//取总数
             int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
@@ -135,6 +134,7 @@ public class ItemCtrl extends Controller {
             for(Inventory inv : inventoryList) {
                 inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
             }
+            Logger.error("查询结果:"+inventoryList);
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
             returnMap.put("topic",inventoryList);

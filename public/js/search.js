@@ -61,7 +61,7 @@ funcList.thmlist_data = function thmlist_data(data) {
 //每个查询页面对应一个相应的组装函数 商品查询页面
 funcList.commlist_search = function commlist_search(pageIndex) {
     var commDto = new Object();
-    commDto.itemId = $("#itemId-id").val();
+    commDto.itemId = $("#item-id").val();
     commDto.id = $("#sku-id").val();
     commDto.invTitle = $("#sku-title").val();
     commDto.invCode = $("#inv-code").val();
@@ -563,7 +563,6 @@ funcList.saleProductlist_data = function saleProductlist_data(data) {
             '<td>'+ $(this)[0].purchaseCount+ '</td>' +
             '<td>'+ $(this)[0].remark+ '</td>' +
             '<td>'+ $(this)[0].updateAt+ '</td>' +
-            '<td><a href="/sales/order/import/'+$(this)[0].id+'" target="_blank" >订单</a></td>'+
             '<td><a href="/sales/inventory/view/'+$(this)[0].id+'" target="_blank">库存</a></td>'+
             '<td><a onclick="delSaleProduct('+$(this)[0].id+')">删除</a></td>'+
             '</tr>'
@@ -616,13 +615,14 @@ funcList.saleOrderlist_data = function saleOrderlist_data(data) {
         var saleAt=new Date($(this)[0].saleOrder.saleAt);
         saleAt = saleAt.getFullYear() + '-' + (saleAt.getMonth() + 1) + '-' + saleAt.getDate()
 
-        var appendHtml='<tr class="tb-list-data" id="orderTr'+ $(this)[0].saleOrder.id+ '">' +
+        var appendHtml='<tr class="tb-list-data orderTr'+ $(this)[0].saleOrder.id+ '">' +
             '<td rowspan="'+rowNum+'"><a href="/sales/order/find/'+$(this)[0].saleOrder.id+'">'+$(this)[0].saleOrder.id+'</a></td>'+
             '<td rowspan="'+rowNum+'">'+ saleAt + '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.orderId+ '</td>' +
             '<td><a href="/sales/inventory/view/'+saleOrderLineList[0].saleProductId+'" target="_blank">'+ saleOrderLineList[0].saleProductName+ '</a></td>' +
             '<td>'+ saleOrderLineList[0].jdPrice+ '</td>' +
             '<td>'+ saleOrderLineList[0].saleCount+ '</td>' +
+            '<td>'+ saleOrderLineList[0].discountAmount+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.discountAmount+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.saleTotal+ '</td>' +
             '<td>'+ saleOrderLineList[0].jdRate+ '%</td>' +
@@ -633,7 +633,7 @@ funcList.saleOrderlist_data = function saleOrderlist_data(data) {
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.packFee+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.storageFee+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.postalFee+ '</td>' +
-            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.postalTaxRate+ '%</td>' +
+            '<td >'+ saleOrderLineList[0].postalTaxRate+ '%</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.profit+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.invArea+'</td>' +
             '<td rowspan="'+rowNum+'"><img src="' + remarkImg + '" alt="" width="20"></td>' +
@@ -645,13 +645,15 @@ funcList.saleOrderlist_data = function saleOrderlist_data(data) {
             if(rowNum>1){
             for(var n in saleOrderLineList)
                 if(n!=0){
-                  appendHtml+='<tr class="tb-list-data">' +
+                  appendHtml+='<tr class="tb-list-data orderTr'+ $(this)[0].saleOrder.id+ '">' +
                     '<td><a href="/sales/inventory/view/'+saleOrderLineList[n].saleProductId+'" target="_blank">'+ saleOrderLineList[n].saleProductName+ '</a></td>' +
                     '<td>'+ saleOrderLineList[n].jdPrice+ '</td>' +
                     '<td>'+ saleOrderLineList[n].saleCount+ '</td>' +
+                    '<td>'+ saleOrderLineList[n].discountAmount+ '</td>' +
                     '<td>'+ saleOrderLineList[n].jdRate+ '%</td>' +
                     '<td>'+ saleOrderLineList[n].jdFee+ '</td>' +
                     '<td>'+ saleOrderLineList[n].saleProductCost+ '</td>' +
+                    '<td>'+ saleOrderLineList[n].postalTaxRate+ '%</td>' +
                     '<td >'+(saleOrderLineList[n].orderStatus=="T"?"退货":"正常")+'</td>' +
                    '</tr>';
                 }
@@ -752,12 +754,14 @@ function search(url, dto) {
 	$.ajax({
 		type: 'POST',
 		url: "/" + window.lang + url,
+        async: false,
 		data: JSON.stringify(dto),
 		contentType: "application/json; charset=utf-8",
 		dataType: 'json',
 		success: function(data) {
 			// console.log(data);
 			//回传结果数据不为空
+            nummm = data.pageCount;
 			if (data.topic.length != 0) {
 
 				// console.log(data);
@@ -862,17 +866,17 @@ $(function() {
 
 	/*********************************公用模块，不需要变更改动，如需变更改动请找howen ****************************************/
 	//点击页数
-	$(document).on('click', '.pagination>.page-num', function() {
-		if ($(this).first().text() != $(".pagination").find(".active").first().text()) {
-			$(".pagination>.page-num").removeClass("active");
-			$(this).addClass("active");
-			if (window.search_args + "_search" in funcList) {
-				funcList[window.search_args + "_search"]($(this).first().text());
-			}
-		} else {
-			console.log("已经是当前页")
-		}
-	})
+	// $(document).on('click', '.pagination>.page-num', function() {
+	// 	if ($(this).first().text() != $(".pagination").find(".active").first().text()) {
+	// 		$(".pagination>.page-num").removeClass("active");
+	// 		$(this).addClass("active");
+	// 		if (window.search_args + "_search" in funcList) {
+	// 			funcList[window.search_args + "_search"]($(this).first().text());
+	// 		}
+	// 	} else {
+	// 		console.log("已经是当前页")
+	// 	}
+	// })
 
 	// //点击上一页
 	// $(document).on('click', '.pagination>.prev', function() {
@@ -911,6 +915,23 @@ $(function() {
 	 	if (window.search_args + "_search" in funcList) {
 	 		funcList[window.search_args + "_search"](1);
 	 	}
+             $.jqPaginator('#pagination', {
+                 totalPages: nummm,
+                 visiblePages: 5,
+                 // currentPage: 1,
+                 first: '<li class="first"><a href="javascript:;">首页</a></li>',
+                 prev: '<li class="prev"><a href="javascript:;"><i class="arrow arrow2"></i>上一页</a></li>',
+                 next: '<li class="next"><a href="javascript:;">下一页<i class="arrow arrow3"></i></a></li>',
+                 last: '<li class="last"><a href="javascript:;">末页</a></li>',
+                 page: '<li class="page-num"><a href="javascript:;">{{page}}</a></li>',
+                 onPageChange: function (num,type) {
+                     if(type=="change"){
+                         funcList[window.search_args + "_search"](num);
+                     }
+                 }
+             });
+
+
 	 })
 
 

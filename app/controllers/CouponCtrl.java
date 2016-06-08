@@ -223,11 +223,14 @@ public class CouponCtrl extends Controller {
     }
 
     @Security.Authenticated(UserAuth.class)
-    public Result getCtripParam(){
-
-
-
+    public Result getCtripParam() {
         return ok(Json.toJson(""));
+    }
+
+
+    @Security.Authenticated(UserAuth.class)
+    public Result imageUpload(String lang){
+        return ok(views.html.couponSystem.imageUpload.render(lang,(User) ctx().args.get("user")));
     }
 
 }

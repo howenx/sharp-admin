@@ -104,7 +104,6 @@
                 <th>最后更新</th>
                 <th>操作</th>
                 <th>操作</th>
-                <th>操作</th>
             </tr>
             </thead>
             <tbody>
@@ -123,12 +122,11 @@
                     <td>@product.getPurchaseCount()</td>
                     <td>@product.getRemark()</td>
                     <td>@product.getUpdateAt().toString().substring(0,16)</td>
-                    <td><a href="/sales/order/import/@product.getId()" target="_blank">订单</a></td>
                     <td><a href="/sales/inventory/view/@product.getId()" target="_blank">库存</a></td>
                     <td><a onclick="delSaleProduct(@product.getId())">删除</a></td>
                 </tr>
                 }
-            <tr id="nodata-td" style="display:none;"><td colspan="16">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            <tr id="nodata-td" style="display:none;"><td colspan="15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
 
