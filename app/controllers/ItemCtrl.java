@@ -134,7 +134,6 @@ public class ItemCtrl extends Controller {
             for(Inventory inv : inventoryList) {
                 inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
             }
-            Logger.error("查询结果:"+inventoryList);
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
             returnMap.put("topic",inventoryList);
