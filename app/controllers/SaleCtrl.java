@@ -276,6 +276,7 @@ public class SaleCtrl extends Controller {
                     //根据saleProductId更新所有子订单的成本
                     SaleOrderLine saleOrderLine=new SaleOrderLine();
                     saleOrderLine.setSaleProductCost(productCost);
+                    saleOrderLine.setCategoryId(categoryId);
                     saleOrderLine.setSaleProductId(saleProduct.getId());
                     saleService.updateOrderLineCostByProId(saleOrderLine);
 

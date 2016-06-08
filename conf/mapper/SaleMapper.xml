@@ -456,7 +456,11 @@
     </select>
     <!--根据saleProductId更新所有子订单的成本-->
     <update id="updateOrderLineCostByProId" parameterType="domain.sale.SaleOrderLine">
-        update sale_order_line set sale_product_cost=#{saleProductCost} where sale_product_id = #{saleProductId}
+        update sale_order_line set sale_product_cost=#{saleProductCost}
+        <if test="categoryId!=null and categoryId!=''">
+        ,category_id=#{categoryId}
+        </if>
+        where sale_product_id = #{saleProductId}
     </update>
 
 </mapper>
