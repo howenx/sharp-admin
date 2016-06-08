@@ -78,7 +78,7 @@ public class DataCtrl extends Controller {
     }
 
     /**
-     * 给用户发送短息          Added By Sunny WU  2016.06.07
+     * 给用户发送短信          Added By Sunny WU  2016.06.07
      * @param lang 语言
      * @return views
      */
