@@ -752,12 +752,14 @@ function search(url, dto) {
 	$.ajax({
 		type: 'POST',
 		url: "/" + window.lang + url,
+        async: false,
 		data: JSON.stringify(dto),
 		contentType: "application/json; charset=utf-8",
 		dataType: 'json',
 		success: function(data) {
 			// console.log(data);
 			//回传结果数据不为空
+            nummm = data.pageCount;
 			if (data.topic.length != 0) {
 
 				// console.log(data);
@@ -862,17 +864,17 @@ $(function() {
 
 	/*********************************公用模块，不需要变更改动，如需变更改动请找howen ****************************************/
 	//点击页数
-	$(document).on('click', '.pagination>.page-num', function() {
-		if ($(this).first().text() != $(".pagination").find(".active").first().text()) {
-			$(".pagination>.page-num").removeClass("active");
-			$(this).addClass("active");
-			if (window.search_args + "_search" in funcList) {
-				funcList[window.search_args + "_search"]($(this).first().text());
-			}
-		} else {
-			console.log("已经是当前页")
-		}
-	})
+	// $(document).on('click', '.pagination>.page-num', function() {
+	// 	if ($(this).first().text() != $(".pagination").find(".active").first().text()) {
+	// 		$(".pagination>.page-num").removeClass("active");
+	// 		$(this).addClass("active");
+	// 		if (window.search_args + "_search" in funcList) {
+	// 			funcList[window.search_args + "_search"]($(this).first().text());
+	// 		}
+	// 	} else {
+	// 		console.log("已经是当前页")
+	// 	}
+	// })
 
 	// //点击上一页
 	// $(document).on('click', '.pagination>.prev', function() {
@@ -911,6 +913,23 @@ $(function() {
 	 	if (window.search_args + "_search" in funcList) {
 	 		funcList[window.search_args + "_search"](1);
 	 	}
+             $.jqPaginator('#pagination', {
+                 totalPages: nummm,
+                 visiblePages: 5,
+                 // currentPage: 1,
+                 first: '<li class="first"><a href="javascript:;">首页</a></li>',
+                 prev: '<li class="prev"><a href="javascript:;"><i class="arrow arrow2"></i>上一页</a></li>',
+                 next: '<li class="next"><a href="javascript:;">下一页<i class="arrow arrow3"></i></a></li>',
+                 last: '<li class="last"><a href="javascript:;">末页</a></li>',
+                 page: '<li class="page-num"><a href="javascript:;">{{page}}</a></li>',
+                 onPageChange: function (num,type) {
+                     if(type=="change"){
+                         funcList[window.search_args + "_search"](num);
+                     }
+                 }
+             });
+
+
 	 })
 
 
