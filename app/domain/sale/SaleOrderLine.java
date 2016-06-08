@@ -25,6 +25,9 @@ public class SaleOrderLine implements Serializable {
     private BigDecimal jdRate;    //京东费率
     private BigDecimal jdFee;    //京东费用
     private String orderStatus;   //S:成功 T:退货
+    private BigDecimal discountAmount;    //优惠额
+    private BigDecimal postalTaxRate;    //行邮税税率，单位百分比，例如填入3，表示3%
+    private Integer seq; //导入订单时顺序，用于导入优惠时对应
 
 
     @JsonIgnore
@@ -193,6 +196,31 @@ public class SaleOrderLine implements Serializable {
         this.orderStatus = orderStatus;
     }
 
+    public BigDecimal getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(BigDecimal discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+
+    public BigDecimal getPostalTaxRate() {
+        return postalTaxRate;
+    }
+
+    public void setPostalTaxRate(BigDecimal postalTaxRate) {
+        this.postalTaxRate = postalTaxRate;
+    }
+
+    public Integer getSeq() {
+        return seq;
+    }
+
+    public void setSeq(Integer seq) {
+        this.seq = seq;
+    }
+
     @Override
     public String toString() {
         return "SaleOrderLine{" +
@@ -210,6 +238,9 @@ public class SaleOrderLine implements Serializable {
                 ", jdRate=" + jdRate +
                 ", jdFee=" + jdFee +
                 ", orderStatus='" + orderStatus + '\'' +
+                ", discountAmount=" + discountAmount +
+                ", postalTaxRate=" + postalTaxRate +
+                ", seq=" + seq +
                 ", starttime='" + starttime + '\'' +
                 ", endtime='" + endtime + '\'' +
                 ", offset=" + offset +
