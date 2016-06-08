@@ -563,7 +563,6 @@ funcList.saleProductlist_data = function saleProductlist_data(data) {
             '<td>'+ $(this)[0].purchaseCount+ '</td>' +
             '<td>'+ $(this)[0].remark+ '</td>' +
             '<td>'+ $(this)[0].updateAt+ '</td>' +
-            '<td><a href="/sales/order/import/'+$(this)[0].id+'" target="_blank" >订单</a></td>'+
             '<td><a href="/sales/inventory/view/'+$(this)[0].id+'" target="_blank">库存</a></td>'+
             '<td><a onclick="delSaleProduct('+$(this)[0].id+')">删除</a></td>'+
             '</tr>'
@@ -616,13 +615,14 @@ funcList.saleOrderlist_data = function saleOrderlist_data(data) {
         var saleAt=new Date($(this)[0].saleOrder.saleAt);
         saleAt = saleAt.getFullYear() + '-' + (saleAt.getMonth() + 1) + '-' + saleAt.getDate()
 
-        var appendHtml='<tr class="tb-list-data" id="orderTr'+ $(this)[0].saleOrder.id+ '">' +
+        var appendHtml='<tr class="tb-list-data orderTr'+ $(this)[0].saleOrder.id+ '">' +
             '<td rowspan="'+rowNum+'"><a href="/sales/order/find/'+$(this)[0].saleOrder.id+'">'+$(this)[0].saleOrder.id+'</a></td>'+
             '<td rowspan="'+rowNum+'">'+ saleAt + '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.orderId+ '</td>' +
             '<td><a href="/sales/inventory/view/'+saleOrderLineList[0].saleProductId+'" target="_blank">'+ saleOrderLineList[0].saleProductName+ '</a></td>' +
             '<td>'+ saleOrderLineList[0].jdPrice+ '</td>' +
             '<td>'+ saleOrderLineList[0].saleCount+ '</td>' +
+            '<td>'+ saleOrderLineList[0].discountAmount+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.discountAmount+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.saleTotal+ '</td>' +
             '<td>'+ saleOrderLineList[0].jdRate+ '%</td>' +
@@ -633,7 +633,7 @@ funcList.saleOrderlist_data = function saleOrderlist_data(data) {
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.packFee+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.storageFee+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.postalFee+ '</td>' +
-            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.postalTaxRate+ '%</td>' +
+            '<td >'+ saleOrderLineList[0].postalTaxRate+ '%</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.profit+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.invArea+'</td>' +
             '<td rowspan="'+rowNum+'"><img src="' + remarkImg + '" alt="" width="20"></td>' +
@@ -645,13 +645,15 @@ funcList.saleOrderlist_data = function saleOrderlist_data(data) {
             if(rowNum>1){
             for(var n in saleOrderLineList)
                 if(n!=0){
-                  appendHtml+='<tr class="tb-list-data">' +
+                  appendHtml+='<tr class="tb-list-data orderTr'+ $(this)[0].saleOrder.id+ '">' +
                     '<td><a href="/sales/inventory/view/'+saleOrderLineList[n].saleProductId+'" target="_blank">'+ saleOrderLineList[n].saleProductName+ '</a></td>' +
                     '<td>'+ saleOrderLineList[n].jdPrice+ '</td>' +
                     '<td>'+ saleOrderLineList[n].saleCount+ '</td>' +
+                    '<td>'+ saleOrderLineList[n].discountAmount+ '</td>' +
                     '<td>'+ saleOrderLineList[n].jdRate+ '%</td>' +
                     '<td>'+ saleOrderLineList[n].jdFee+ '</td>' +
                     '<td>'+ saleOrderLineList[n].saleProductCost+ '</td>' +
+                    '<td>'+ saleOrderLineList[n].postalTaxRate+ '%</td>' +
                     '<td >'+(saleOrderLineList[n].orderStatus=="T"?"退货":"正常")+'</td>' +
                    '</tr>';
                 }

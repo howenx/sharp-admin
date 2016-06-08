@@ -102,44 +102,74 @@
         var shop=$("#shop").val();
         var saleAt=$("#saleAt").val();
         var orderId=$("#orderId").val();
-        var saleProductId=$("#saleProductId").val();
-        var price=$("#price").val();
-        var saleCount=$("#saleCount").val();
         var discountAmount=$("#discountAmount").val();
-        var jdRate=$("#jdRate").val();
         var shipFee=$("#shipFee").val();
         var inteLogistics=$("#inteLogistics").val();
         var packFee=$("#packFee").val();
         var storageFee=$("#storageFee").val();
-        var postalTaxRate=$("#postalTaxRate").val();
+      //  var postalTaxRate=$("#postalTaxRate").val();
         var remarkStatus=$('input:radio[name=remarkStatus]:checked').val();
         var remark=$("#remark").val();
         var inputType=$("#inputType").val();
+        var orderStatus=$('input:radio[name=orderStatus]:checked').val();
+
+
+        var lineIdArray=$("input[name=lineId]");
+        var saleProductIdArray=$("input[name=saleProductId]");
+        var jdPriceArray=$("input[name=jdPrice]");
+        var saleCountArray=$("input[name=saleCount]");
+        var jdRateArray=$("input[name=jdRate]");
+        var discountAmountLineArray=$("input[name=discountAmountLine]");
 
         //必填项不能有空值
-        if ( saleAt=="" || orderId=="" || price=="" || saleCount=="") {
+        if ( saleAt=="" || orderId==""||saleProductIdArray.length<=0) {
             isPost=false;
             alert("必填项不能为空");
         }
+
+        var saleOrderLineArray=new Array();
+        var lineId,saleProductId,jdPrice,saleCount,jdRate,discountAmountLine;
+        for(var i=0;i<saleProductIdArray.length;i++){
+             lineId=lineIdArray[i].value;
+             saleProductId=saleProductIdArray[i].value;
+             jdPrice=jdPriceArray[i].value;
+             saleCount=saleCountArray[i].value;
+             jdRate=jdRateArray[i].value;
+             discountAmountLine=discountAmountLineArray[i].value;
+             if(null==saleProductId||""==saleProductId||null==jdPrice||""==jdPrice
+             ||null==saleCount||""==saleCount||null==jdRate||""==jdRate||null==discountAmountLine||""==discountAmountLine){
+                isPost=false;
+                alert("商品必填项不能为空");
+                return false;
+             }
+             var lineInfo=new Object();
+             lineInfo.lineId=lineId;
+             lineInfo.saleProductId=saleProductId;
+             lineInfo.jdPrice=jdPrice;
+             lineInfo.saleCount=saleCount;
+             lineInfo.jdRate=jdRate;
+             lineInfo.discountAmountLine=discountAmountLine;
+             saleOrderLineArray.push(lineInfo);
+        }
+
 
         var order=new Object();
         order.id=id;
         order.shop=shop;
         order.saleAt=saleAt;
         order.orderId=orderId;
-        order.saleProductId=saleProductId;
-        order.price=price;
-        order.saleCount=saleCount;
         order.discountAmount=discountAmount;
-        order.jdRate=jdRate;
         order.shipFee=shipFee;
         order.inteLogistics=inteLogistics;
         order.packFee=packFee;
         order.storageFee=storageFee;
-        order.postalTaxRate=postalTaxRate;
+       // order.postalTaxRate=postalTaxRate;
         order.remarkStatus=remarkStatus;
         order.remark=remark;
         order.inputType=inputType;
+        order.orderStatus=orderStatus;
+        order.saleOrderLineArray=saleOrderLineArray;
+
 
         if (isPost) {
                     $.ajax({
@@ -281,6 +311,7 @@
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.lessProduct+'</td>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.emptyBox+'</td>');
                               $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.damageOther+'</td>');
+                              $('#product-topic').find('tbody tr').append('<td>'+data.saleProduct.backCount+'</td>');
                                //日销量
                                $(data.saleInventoryList).each(function(index, element) {
                                     console.log("index="+index+",element="+element);
@@ -322,7 +353,7 @@ function delOrder(id){
               },
               success: function(data) {
                    if(data=="success"){
-                       $("#orderTr"+id).remove();
+                       $(".orderTr"+id).remove();
                    } else alert("删除失败!");
 
               }
@@ -407,3 +438,36 @@ function delOrder(id){
      $("#saleDetailForm").submit();
 
  });
+
+//导入订单费用
+ $(document).on("click",".saleCouponExcelBtn",function(){
+
+      var saleDetailPath=$("#saleCouponPath").val();
+
+      if(null==saleDetailPath||""==saleDetailPath){
+         alert("请导入优惠信息");
+         return;
+      }
+     //提交表单
+     $("#saleCouponForm").submit();
+
+ });
+
+//添加商品
+ function addSaleOrderLine(){
+    var appendHtml=' <tr><td><input type="hidden" name="lineId" value=""/><input type="text" name="saleProductId" value=""/></td>'+
+                        '<td></td>'+
+                        '<td><input type="text" name="jdPrice" value=""/></td>'+
+                        '<td><input type="text" name="saleCount" value=""/></td>'+
+                        '<td><input type="text" name="jdRate" value=""/></td>'+
+                        '<td></td>'+
+                        '<td></td>'+
+                        '<td><input type="text" name="discountAmountLine" value=""/></td>'+
+                        '<td class="delSaleOrderLineCss">删除</td>'+
+                    '</tr>';
+     $("#orderLinetbody").append(appendHtml);
+  };
+
+  $(document).on("click",".delSaleOrderLineCss",function(){
+    $(this).parent().remove();
+  });

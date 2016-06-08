@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String,product:domain.sale.SaleProduct, user:domain.User)
+@(lang:String, user:domain.User)
 
 @scripts = {
 <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
@@ -36,10 +36,10 @@
 
 <div class="wrap-slider">
     <div class="page-title">
-        <span class="title-name">导入订单</span>
+        <span class="title-name">更新订单</span>
     </div>
     <div>
-        <h4 class="h4-custom-hmm">@product.getId()  @product.getName()  成本:@product.getProductCost()</h4>
+        <h4 class="h4-custom-hmm"></h4>
     </div>
     <div class="usercenter-option">
         <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
@@ -50,23 +50,23 @@
     <div class="row">
         <form class="form-horizontal" method="post" enctype="multipart/form-data">
             <div class="upinfo">
-                <input type="hidden" class="form-control" id="id" />
-                <input type="hidden" class="form-control" id="saleProductId" value="@product.getId()"/>
+                <input type="hidden" class="form-control" id="id" value=""/>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">商店</label>
                     <div class="col-sm-2">
                         <select class="form-control form-data-area" id="shop">
-                            <option value="1">韩秘美专营店</option>
+                            <option selected value="1">韩秘美专营店</option>
                             <option value="2">韩秘美化妆品店</option>
                         </select>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label class="col-sm-2 control-label">日期*</label>
 
                     <div class="col-sm-4">
                         <div id="datetimepicker-starttime" class="input-group date">
-                            <input id="saleAt" class="form-control col-sm-2"  type="text">
+                            <input id="saleAt" class="form-control col-sm-2"  type="text" value=''>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
@@ -76,94 +76,142 @@
                     <label class="col-sm-2 control-label">订单号*</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="orderId"/>
+                        <input type="text" class="form-control" id="orderId" value=""/>
                     </div>
                 </div>
+
+                <!--<div class="form-group">-->
+                <!--<label class="col-sm-2 control-label">单价*</label>-->
+
+                <!--<div class="col-sm-8">-->
+                <!--<input type="text" class="form-control" id="price" value=""/>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                <!--<label class="col-sm-2 control-label">数量*</label>-->
+
+                <!--<div class="col-sm-8">-->
+                <!--<input type="text" class="form-control" id="saleCount" value=""/>-->
+                <!--</div>-->
+                <!--</div>-->
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">单价*</label>
+                    <label class="col-sm-2 control-label">优惠额总和</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="price"/>
+                        <input type="text" class="form-control" id="discountAmount" value=""/>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">数量*</label>
+                <!--<div class="form-group">-->
+                <!--<label class="col-sm-2 control-label">京东费率,单位百分比</label>-->
 
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="saleCount"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">优惠额</label>
-
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="discountAmount"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">京东费率,单位百分比</label>
-
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="jdRate"/>
-                    </div>
-                </div>
+                <!--<div class="col-sm-8">-->
+                <!--<input type="text" class="form-control" id="jdRate" value=""/>-->
+                <!--</div>-->
+                <!--</div>-->
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label">国内快递费</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="shipFee"/>
+                        <input type="text" class="form-control" id="shipFee" value=""/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">国际物流</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="inteLogistics"/>
+                        <input type="text" class="form-control" id="inteLogistics" value=""/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">包装</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="packFee"/>
+                        <input type="text" class="form-control" id="packFee" value=""/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">仓储服务费</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="storageFee"/>
+                        <input type="text" class="form-control" id="storageFee" value=""/>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">行邮税税率，单位百分比，例如填入3，表示3%</label>
+                <!--<div class="form-group">-->
+                    <!--<label class="col-sm-2 control-label">行邮税税率，单位百分比，例如填入3，表示3%</label>-->
 
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="postalTaxRate"/>
-                    </div>
-                </div>
+                    <!--<div class="col-sm-8">-->
+                        <!--<input type="text" class="form-control" id="postalTaxRate" value=""/>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="form-group">
                     <label class="col-sm-2 control-label">标记</label>
-
                     <div class="col-sm-8">
-                        <input type="radio" name="remarkStatus" value="1" checked />&nbsp;邮费已经结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="2"/>&nbsp;京东已结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="3"/>&nbsp;均已结&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="4"/>&nbsp;其他&nbsp;&nbsp;
-                        <input type="radio" name="remarkStatus" value="5"/>&nbsp;退货
+                        <input type="radio" name="remarkStatus" value="1" checked />&nbsp;<img src="/assets/images/biaoji1.png" alt="" width="20">&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="2"/>&nbsp;<img src="/assets/images/biaoji2.png" alt="" width="20">&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="3"/>&nbsp;<img src="/assets/images/biaoji3.png" alt="" width="20">&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="4"/>&nbsp;<img src="/assets/images/biaoji4.png" alt="" width="20">&nbsp;&nbsp;
+                        <input type="radio" name="remarkStatus" value="5"/>&nbsp;<img src="/assets/images/biaoji5.png" alt="" width="20">
                     </div>
+
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">备注</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="remark"/>
+                        <input type="text" class="form-control" id="remark" value=""/>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">订单状态</label>
+                    <div class="col-sm-8">
+                        <input type="radio" name="orderStatus" value="S" checked />正常&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="orderStatus" value="T"/>退货
+                    </div>
+
+                </div>
                 <input type="hidden" class="form-control" id="inputType" value="1"/>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-xs add-goods" onclick="addSaleOrderLine()">添加商品</button>
+            <div class="bgk">
+                <table class="table table-bordered table-hover grid" id="sort" title="Kurt Vonnegut novels">
+                    <thead>
+                    <tr>
+                        <th>
+                            商品ID
+                            <span></span>
+                        </th>
+                        <th>
+                            商品标题
+                        </th>
+                        <th>
+                            单价
+                        </th>
+                        <th>
+                            数量
+                        </th>
+                        <th>
+                            京东费率
+                        </th>
+                        <th>
+                            京东费用
+                        </th>
+                        <th>
+                            成本
+                        </th>
+                        <th>
+                            优惠额
+                        </th>
+                        <th>
+                            删除
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="ui-sortable" id="orderLinetbody">
+                    </tbody>
+                </table>
             </div>
         </form>
     </div>

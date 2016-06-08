@@ -59,8 +59,8 @@ public class SaleServiceImpl implements SaleService{
     }
 
     @Override
-    public List<SaleInventory> getSaleInventory(SaleOrder saleOrder) {
-        return saleMapper.getSaleInventory(saleOrder);
+    public List<SaleInventory> getSaleInventory(SaleOrderLine saleOrderLine) {
+        return saleMapper.getSaleInventory(saleOrderLine);
     }
 
     @Override
