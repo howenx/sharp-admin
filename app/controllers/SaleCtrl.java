@@ -516,6 +516,7 @@ public class SaleCtrl extends Controller {
                     saleOrderLine.setDiscountAmount(saleOrderLineInfo.getDiscountAmountLine());
                     saleOrderLine.setJdFee(calJdFee(saleOrderLine));
                     saleOrderLine.setPostalTaxRate(getPostalTaxRate(saleOrderLine.getCategoryId()));
+                    saleOrderLine.setLinePostalFee(new BigDecimal(0));
                     saleOrderLine.setSeq(99);
                     saleOrderLine.setShop(shop);
 
@@ -744,9 +745,11 @@ public class SaleCtrl extends Controller {
                             saleStatisticsLine.setShipFeeTotal(saleStatistics.getShipFeeTotal());
                             saleStatisticsLine.setStorageFeeTotal(saleStatistics.getStorageFeeTotal());
                         }
-                        BigDecimal profit=saleStatisticsLine.getSaleTotal().subtract(saleStatisticsLine.getJdFeeTotal())
-                                .subtract(saleStatisticsLine.getInteLogisticsTotal()).subtract(saleStatisticsLine.getPackFeeTotal())
-                                .subtract(saleStatisticsLine.getShipFeeTotal()).subtract(saleStatisticsLine.getStorageFeeTotal());
+//                        Logger.info("=====saleStatisticsLine======"+saleStatisticsLine);
+                        BigDecimal profit=saleStatisticsLine.getSaleTotal().subtract(saleStatisticsLine.getCostTotal())
+                                .subtract(saleStatisticsLine.getJdFeeTotal()).subtract(saleStatisticsLine.getInteLogisticsTotal())
+                                .subtract(saleStatisticsLine.getPackFeeTotal()).subtract(saleStatisticsLine.getShipFeeTotal())
+                                .subtract(saleStatisticsLine.getStorageFeeTotal()).subtract(saleStatisticsLine.getPostalFeeTotal());
                         saleStatisticsLine.setProfitTotal(profit);
                         saleStatistics=saleStatisticsLine;
                     }
@@ -1617,6 +1620,7 @@ public class SaleCtrl extends Controller {
                     saleOrderLine.setOrderStatus(isRefund?ORDER_STATUS_REFUND:ORDER_STATUS_SUC);
                     saleOrderLine.setSaleOrderId(saleOrder.getId());
                     saleOrderLine.setPostalTaxRate(getPostalTaxRate(saleOrderLine.getCategoryId()));
+                    saleOrderLine.setLinePostalFee(new BigDecimal(0));
                     saleOrderLine.setDiscountAmount(new BigDecimal(0)); //每个子订单的优惠额,从优惠额中导入
                     saleOrderLine.setSeq((i+1));
                     saleOrderLine.setShop(shop);
@@ -1785,15 +1789,19 @@ public class SaleCtrl extends Controller {
             BigDecimal postalFee = new BigDecimal(0);
             for(SaleOrderLine saleOrderLine:saleOrderLineList){
                 BigDecimal lineSaleTotal=getSaleOrderLineSaleTotal(saleOrderLine);
+                BigDecimal linePostalFee=new BigDecimal(0);
                 if(saleOrderLine.getCategoryId()==1&&lineSaleTotal.doubleValue()>500){ // 配饰 行邮税=如果总销售额>500元，=总销售额*行邮税率
-                    postalFee=postalFee.add(lineSaleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
+                    linePostalFee=lineSaleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100));
                 }
                 if(saleOrderLine.getCategoryId()==2&&lineSaleTotal.doubleValue()>100){ //化妆品 行邮税=如果总销售额>100元，=总销售额*行邮税率
-                    postalFee=postalFee.add(lineSaleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
+                    linePostalFee=lineSaleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100));
                 }
                 if(saleOrderLine.getCategoryId()==3){
-                    postalFee=postalFee.add(lineSaleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
+                    linePostalFee=lineSaleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100));
                 }
+                postalFee=postalFee.add(linePostalFee);
+                saleOrderLine.setLinePostalFee(linePostalFee);
+                saleService.updateSaleOrderLine(saleOrderLine);
             }
             saleOrder.setPostalFee(postalFee);
 
@@ -1806,22 +1814,33 @@ public class SaleCtrl extends Controller {
             //行邮税
             BigDecimal postalFee = new BigDecimal(0);
             BigDecimal postalFee1 = new BigDecimal(0);
-            BigDecimal postalFee2 = new BigDecimal(0);
-            for(SaleOrderLine saleOrderLine:saleOrderLineList){
+            Map<Integer,BigDecimal> tempMap=new HashMap<>();
+            for(int i=0;i<saleOrderLineList.size();i++){
+                SaleOrderLine saleOrderLine=saleOrderLineList.get(i);
                 BigDecimal lineSaleTotal=getSaleOrderLineSaleTotal(saleOrderLine);
-                if(saleOrderLine.getCategoryId()==1){ // 配饰 行邮税=如果总销售额>500元，=总销售额*行邮税率
-                    postalFee1=postalFee1.add(lineSaleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
-                }
-                if(saleOrderLine.getCategoryId()==2){ //化妆品 行邮税=如果总销售额>100元，=总销售额*行邮税率
-                    postalFee2=postalFee2.add(lineSaleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
+                BigDecimal linePostalFee=lineSaleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100));
+                if(saleOrderLine.getCategoryId()==1||saleOrderLine.getCategoryId()==2){ // 1配饰 2化妆品
+                    postalFee1=postalFee1.add(linePostalFee);
+                    tempMap.put(i,linePostalFee);
                 }
                 if(saleOrderLine.getCategoryId()==3){
-                    postalFee=postalFee.add(lineSaleTotal.multiply(saleOrderLine.getPostalTaxRate()).divide(new BigDecimal(100)));
+                    postalFee=postalFee.add(linePostalFee);
+                    saleOrderLine.setLinePostalFee(linePostalFee);
+                    saleService.updateSaleOrderLine(saleOrderLine);
                 }
             }
-            BigDecimal postalFee12=postalFee1.add(postalFee2);
-            if(postalFee12.doubleValue()>50){
-                postalFee=postalFee.add(postalFee12);
+            if(postalFee1.doubleValue()>50){ //两项和如果未超过50元，免收
+                postalFee=postalFee.add(postalFee1);
+                for(Map.Entry<Integer,BigDecimal> entry:tempMap.entrySet()){
+                    saleOrderLineList.get(entry.getKey()).setLinePostalFee(entry.getValue());
+                    saleService.updateSaleOrderLine(saleOrderLineList.get(entry.getKey()));
+                }
+            }else{
+                for(Map.Entry<Integer,BigDecimal> entry:tempMap.entrySet()){
+                    saleOrderLineList.get(entry.getKey()).setLinePostalFee(new BigDecimal(0));
+                    saleService.updateSaleOrderLine(saleOrderLineList.get(entry.getKey()));
+                }
+
             }
             saleOrder.setPostalFee(postalFee);
         }
@@ -1835,10 +1854,10 @@ public class SaleCtrl extends Controller {
      * @return
      */
     private BigDecimal getPostalTaxRate(int categoryId){
-        if(categoryId==1){ // 化妆品订单总额超过100元，收订单总额的50%，
-            return new BigDecimal(50);
-        }else if(categoryId==2){ //配饰超过500元，收订单总额的10%
+        if(categoryId==1){ //配饰超过500元，收订单总额的10%
             return new BigDecimal(10);
+        }else if(categoryId==2){ // 化妆品订单总额超过100元，收订单总额的50%，
+            return new BigDecimal(50);
         }else if(categoryId==3){ //投影仪是按订单总额的10%收
             return new BigDecimal(10);
         }

@@ -248,7 +248,8 @@
     </select>
     <select id="getSaleStatistics" parameterType="domain.sale.SaleOrder" resultType="domain.sale.SaleStatistics">
         SELECT sum(sale_total)as saleTotal,sum(jd_fee_sum)as jdFeeTotal ,sum(ship_fee)as shipFeeTotal,sum(inte_logistics)as inteLogisticsTotal ,
-        sum(pack_fee)as packFeeTotal,sum(storage_fee)as storageFeeTotal ,sum(profit)as profitTotal, count(id) as saleCountTotal FROM sale_order
+        sum(pack_fee)as packFeeTotal,sum(storage_fee)as storageFeeTotal ,sum(postal_fee)as postalFeeTotal,sum(product_cost_sum)as costTotal,
+        sum(profit)as profitTotal, count(id) as saleCountTotal FROM sale_order
         where 1=1
 
         <if test="shop!=null and shop!=''">
@@ -269,7 +270,9 @@
         ;
     </select>
     <select id="getSaleStatisticsByLine" parameterType="domain.sale.SaleOrderLine" resultType="domain.sale.SaleStatistics">
-        SELECT sum(line_sale_total)as saleTotal,sum(jd_fee)as jdFeeTotal, count(id) as saleCountTotal FROM sale_order_line
+        SELECT sum(line_sale_total)as saleTotal,sum(jd_fee)as jdFeeTotal,sum(line_postal_fee)as postalFeeTotal, count(id) as saleCountTotal,
+        sum(sale_product_cost*sale_count)as costTotal
+        FROM sale_order_line
         where 1=1
 
         <if test="shop!=null and shop!=''">
@@ -375,22 +378,23 @@
         ${alias}.postal_tax_rate,
         ${alias}.seq,
         ${alias}.line_sale_total,
-        ${alias}.shop
+        ${alias}.shop,
+        ${alias}.line_postal_fee
     </sql>
     <!-- 录入一条销售子订单信息 -->
     <insert id="insertSaleOrderLine" parameterType="domain.sale.SaleOrderLine" useGeneratedKeys="true" keyProperty="id">
         insert into sale_order_line
         (sale_order_id,sale_product_id,sale_count,jd_order_id,jd_sku_id,jd_price,sale_product_name,sale_product_cost,category_id,sale_at,jd_rate,jd_fee,
-        order_status,discount_amount,postal_tax_rate,seq,line_sale_total,shop)
+        order_status,discount_amount,postal_tax_rate,seq,line_sale_total,shop,line_postal_fee)
         values(#{saleOrderId},#{saleProductId},#{saleCount},#{jdOrderId},#{jdSkuId},#{jdPrice},#{saleProductName},#{saleProductCost},#{categoryId},#{saleAt},#{jdRate},#{jdFee},
-        #{orderStatus},#{discountAmount},#{postalTaxRate},#{seq},#{lineSaleTotal},#{shop})
+        #{orderStatus},#{discountAmount},#{postalTaxRate},#{seq},#{lineSaleTotal},#{shop},#{linePostalFee})
     </insert>
 
     <update id="updateSaleOrderLine" parameterType="domain.sale.SaleOrderLine">
         update sale_order_line set sale_order_id=#{saleOrderId},sale_product_id=#{saleProductId},sale_count=#{saleCount},
         jd_order_id=#{jdOrderId},jd_sku_id=#{jdSkuId},jd_price=#{jdPrice},sale_product_name=#{saleProductName},
         sale_product_cost=#{saleProductCost},sale_at=#{saleAt},category_id=#{categoryId},jd_rate=#{jdRate},jd_fee=#{jdFee},order_status=#{orderStatus},
-        discount_amount=#{discountAmount},postal_tax_rate=#{postalTaxRate},seq=#{seq},line_sale_total=#{lineSaleTotal},shop=#{shop}
+        discount_amount=#{discountAmount},postal_tax_rate=#{postalTaxRate},seq=#{seq},line_sale_total=#{lineSaleTotal},shop=#{shop},line_postal_fee=#{linePostalFee}
         where id=#{id}
     </update>
 

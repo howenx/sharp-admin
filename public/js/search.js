@@ -634,6 +634,7 @@ funcList.saleOrderlist_data = function saleOrderlist_data(data) {
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.storageFee+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.postalFee+ '</td>' +
             '<td >'+ saleOrderLineList[0].postalTaxRate+ '%</td>' +
+            '<td >'+ saleOrderLineList[0].linePostalFee+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.profit+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.invArea+'</td>' +
             '<td rowspan="'+rowNum+'"><img src="' + remarkImg + '" alt="" width="20"></td>' +
@@ -654,6 +655,7 @@ funcList.saleOrderlist_data = function saleOrderlist_data(data) {
                     '<td>'+ saleOrderLineList[n].jdFee+ '</td>' +
                     '<td>'+ saleOrderLineList[n].saleProductCost+ '</td>' +
                     '<td>'+ saleOrderLineList[n].postalTaxRate+ '%</td>' +
+                    '<td>'+ saleOrderLineList[n].linePostalFee+ '</td>' +
                     '<td >'+(saleOrderLineList[n].orderStatus=="T"?"退货":"正常")+'</td>' +
                    '</tr>';
                 }

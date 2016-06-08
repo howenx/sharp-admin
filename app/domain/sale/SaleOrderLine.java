@@ -30,6 +30,7 @@ public class SaleOrderLine implements Serializable {
     private Integer seq; //导入订单时顺序，用于导入优惠时对应
 
     private BigDecimal lineSaleTotal; //子订单的销售额
+    private BigDecimal linePostalFee; //子订单的行邮税
 
 
     @JsonIgnore
@@ -242,6 +243,14 @@ public class SaleOrderLine implements Serializable {
         this.lineSaleTotal = lineSaleTotal;
     }
 
+    public BigDecimal getLinePostalFee() {
+        return linePostalFee;
+    }
+
+    public void setLinePostalFee(BigDecimal linePostalFee) {
+        this.linePostalFee = linePostalFee;
+    }
+
     @Override
     public String toString() {
         return "SaleOrderLine{" +
@@ -262,10 +271,14 @@ public class SaleOrderLine implements Serializable {
                 ", discountAmount=" + discountAmount +
                 ", postalTaxRate=" + postalTaxRate +
                 ", seq=" + seq +
+                ", lineSaleTotal=" + lineSaleTotal +
+                ", linePostalFee=" + linePostalFee +
                 ", starttime='" + starttime + '\'' +
                 ", endtime='" + endtime + '\'' +
                 ", offset=" + offset +
                 ", pageSize=" + pageSize +
+                ", shop=" + shop +
+                ", saleMonth='" + saleMonth + '\'' +
                 '}';
     }
 }
