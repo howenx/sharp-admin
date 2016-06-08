@@ -19,41 +19,40 @@ public class Ctrip {
     @Inject
     private MemcachedClient cache;
 
-    /**
-     * 访问携程API  Added by Tiffany Zhu 2016.06.06
-     * @param ICODE         //接口名称
-     * @param postData      //post数据
-     * @return
-     */
-    public String ctripAPI(String ICODE,JsonNode postData){
-        String result = "";
-        try {
-            Optional<Object> accessToken = Optional.ofNullable(cache.get("AccessToken"));
-            if(!accessToken.isPresent()){
-                getAccessToken();
-            }
-            HttpUrl url = HttpUrl.parse(CTRIPURL)
-                    .newBuilder()
-                    .setQueryParameter("AID", AID)
-                    .setQueryParameter("SID",SID)
-                    .setQueryParameter("ICODE",ICODE)
-                    .setQueryParameter("UUID", UUID.randomUUID().toString())
-                    .setQueryParameter("Token",accessToken.toString())
-                    .setQueryParameter("mode","1")
-                    .setQueryParameter("format","json").build();
-            Logger.error("访问携程URL~~~~:" + url);
-            RequestBody body = RequestBody.create(MEDIA_TYPE_JSON,postData.toString());
-            Request request = builder.url(url).post(body).build();
-            Response response = client.newCall(request).execute();
-            if (response.isSuccessful()) {
-                result = new String(response.body().bytes(), UTF_8);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return result;
-    }
-
+//    /**
+//     * 访问携程API  Added by Tiffany Zhu 2016.06.06
+//     * @param ICODE         //接口名称
+//     * @param postData      //post数据
+//     * @return
+//     */
+//    public String ctripAPI(String ICODE,JsonNode postData){
+//        String result = "";
+//        try {
+//            Optional<Object> accessToken = Optional.ofNullable(cache.get("AccessToken"));
+//            if(!accessToken.isPresent()){
+//                getAccessToken();
+//            }
+//            HttpUrl url = HttpUrl.parse(CTRIPURL)
+//                    .newBuilder()
+//                    .setQueryParameter("AID", AID)
+//                    .setQueryParameter("SID",SID)
+//                    .setQueryParameter("ICODE",ICODE)
+//                    .setQueryParameter("UUID", UUID.randomUUID().toString())
+//                    .setQueryParameter("Token",accessToken.toString())
+//                    .setQueryParameter("mode","1")
+//                    .setQueryParameter("format","json").build();
+//            Logger.error("访问携程URL~~~~:" + url);
+//            RequestBody body = RequestBody.create(MEDIA_TYPE_JSON,postData.toString());
+//            Request request = builder.url(url).post(body).build();
+//            Response response = client.newCall(request).execute();
+//            if (response.isSuccessful()) {
+//                result = new String(response.body().bytes(), UTF_8);
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return result;
+//    }
 
     /**
      * 获取refreshToken   Added by Tiffany Zhu 2016.06.06
@@ -79,7 +78,7 @@ public class Ctrip {
     /**
      * 获取AccessToken    Added by Tiffany Zhu 2016.06.06
      */
-    private void getAccessToken(){
+    public void getAccessToken(){
         try {
             Optional<Object> refreshToken = Optional.ofNullable(cache.get("refreshToken"));
             if(!refreshToken.isPresent()){

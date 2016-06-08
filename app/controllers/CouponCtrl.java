@@ -5,6 +5,7 @@ import domain.CouponVo;
 import domain.CouponVoDropLog;
 import domain.User;
 import filters.UserAuth;
+import net.spy.memcached.MemcachedClient;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -13,15 +14,12 @@ import play.mvc.Result;
 import play.mvc.Security;
 import service.CouponVoDropLogService;
 import service.CouponVoService;
+import util.Ctrip;
 import util.ExcelHelper;
-
 import javax.inject.Inject;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Sunny Wu on 16/4/25.
@@ -35,6 +33,12 @@ public class CouponCtrl extends Controller {
 
     @Inject
     private CouponVoDropLogService couponVoDropLogService;
+
+    @Inject
+    private MemcachedClient cache;
+
+    @Inject
+    private Ctrip ctrip;
 
     private int pageSize = 10;
 
@@ -224,6 +228,14 @@ public class CouponCtrl extends Controller {
 
     @Security.Authenticated(UserAuth.class)
     public Result getCtripParam() {
+        try {
+            Optional<Object> accessToken = Optional.ofNullable(cache.get("AccessToken"));
+            if(!accessToken.isPresent()){
+                ctrip.getAccessToken();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return ok(Json.toJson(""));
     }
 
