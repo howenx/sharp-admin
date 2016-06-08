@@ -72,10 +72,10 @@ public interface SaleService {
 
     /**
      * 月份日销量
-     * @param saleOrder
+     * @param saleOrderLine
      * @return
      */
-    List<SaleInventory>  getSaleInventory(SaleOrder saleOrder);
+    List<SaleInventory>  getSaleInventory(SaleOrderLine saleOrderLine);
 
     /**
      * 获取商品销售的总数量

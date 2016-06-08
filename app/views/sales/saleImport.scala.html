@@ -81,6 +81,21 @@
             </div>
         </form>
         <br/><br/><br/><br/>
+        <form id="saleCouponForm" action="/sales/upload/order/sale/coupon" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">优惠信息</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="saleCouponPath" name="saleCouponPath"/>
+                    <input type="file" name="saleCouponFile" onchange="document.getElementById('saleCouponPath').value=this.value" >
+                </div>
+            </div>
+            <br/><br/><br/>
+            <div class="form-group col-sm-4">
+                <a class="saleCouponExcelBtn">提交</a>
+            </div>
+        </form>
+
+        <br/><br/><br/><br/>
         <form id="saleDetailForm" action="/sales/upload/order/sale/detail" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label class="col-sm-2 control-label">妥投销货清单明细.csv</label>

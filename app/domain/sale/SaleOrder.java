@@ -16,7 +16,7 @@ public class SaleOrder implements Serializable {
     private Long id;             //唯一id
     private Date saleAt;    //日期
     private String orderId;      //订单号
-    private Long saleProductId;  //销售商品id (删除)
+ //   private Long saleProductId;  //销售商品id (删除)
 //    private String productName; //品名
 //    private Integer categoryId;    //商品分类
 //    private BigDecimal price;    //单价
@@ -31,7 +31,6 @@ public class SaleOrder implements Serializable {
     private BigDecimal packFee;    //包装
     private BigDecimal storageFee;//仓储服务费
     private BigDecimal postalFee;    //行邮税
-    private BigDecimal postalTaxRate;    //行邮税税率，单位百分比，例如填入3，表示3%
     private BigDecimal profit;    //净利
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp createAt;     //创建时间
@@ -101,13 +100,13 @@ public class SaleOrder implements Serializable {
         this.orderId = orderId;
     }
 
-    public Long getSaleProductId() {
-        return saleProductId;
-    }
-
-    public void setSaleProductId(Long saleProductId) {
-        this.saleProductId = saleProductId;
-    }
+//    public Long getSaleProductId() {
+//        return saleProductId;
+//    }
+//
+//    public void setSaleProductId(Long saleProductId) {
+//        this.saleProductId = saleProductId;
+//    }
 
 
 
@@ -183,13 +182,6 @@ public class SaleOrder implements Serializable {
         this.postalFee = postalFee;
     }
 
-    public BigDecimal getPostalTaxRate() {
-        return postalTaxRate;
-    }
-
-    public void setPostalTaxRate(BigDecimal postalTaxRate) {
-        this.postalTaxRate = postalTaxRate;
-    }
 
     public BigDecimal getProfit() {
         return profit;
@@ -357,7 +349,6 @@ public class SaleOrder implements Serializable {
                 "id=" + id +
                 ", saleAt=" + saleAt +
                 ", orderId='" + orderId + '\'' +
-                ", saleProductId=" + saleProductId +
                 ", discountAmount=" + discountAmount +
                 ", saleTotal=" + saleTotal +
                 ", jdFeeSum=" + jdFeeSum +
@@ -367,7 +358,6 @@ public class SaleOrder implements Serializable {
                 ", packFee=" + packFee +
                 ", storageFee=" + storageFee +
                 ", postalFee=" + postalFee +
-                ", postalTaxRate=" + postalTaxRate +
                 ", profit=" + profit +
                 ", createAt=" + createAt +
                 ", updateAt=" + updateAt +

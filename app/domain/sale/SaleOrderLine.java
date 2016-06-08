@@ -25,6 +25,9 @@ public class SaleOrderLine implements Serializable {
     private BigDecimal jdRate;    //京东费率
     private BigDecimal jdFee;    //京东费用
     private String orderStatus;   //S:成功 T:退货
+    private BigDecimal discountAmount;    //优惠额
+    private BigDecimal postalTaxRate;    //行邮税税率，单位百分比，例如填入3，表示3%
+    private Integer seq; //导入订单时顺序，用于导入优惠时对应
 
 
     @JsonIgnore
@@ -38,8 +41,10 @@ public class SaleOrderLine implements Serializable {
     @JsonIgnore
     //分页,每页多少条
     private Integer pageSize;
+    private Integer shop; //商店  1-韩密美专营店  2-韩密美化妆品店
 
-    private Integer shop;
+    /**销售月份*/
+    private String saleMonth;
 
     public Long getId() {
         return id;
@@ -145,13 +150,6 @@ public class SaleOrderLine implements Serializable {
         this.pageSize = pageSize;
     }
 
-    public Integer getShop() {
-        return shop;
-    }
-
-    public void setShop(Integer shop) {
-        this.shop = shop;
-    }
 
     public String getStarttime() {
         return starttime;
@@ -193,6 +191,47 @@ public class SaleOrderLine implements Serializable {
         this.orderStatus = orderStatus;
     }
 
+    public BigDecimal getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(BigDecimal discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+
+    public BigDecimal getPostalTaxRate() {
+        return postalTaxRate;
+    }
+
+    public void setPostalTaxRate(BigDecimal postalTaxRate) {
+        this.postalTaxRate = postalTaxRate;
+    }
+
+    public Integer getSeq() {
+        return seq;
+    }
+
+    public void setSeq(Integer seq) {
+        this.seq = seq;
+    }
+
+    public String getSaleMonth() {
+        return saleMonth;
+    }
+
+    public void setSaleMonth(String saleMonth) {
+        this.saleMonth = saleMonth;
+    }
+
+    public Integer getShop() {
+        return shop;
+    }
+
+    public void setShop(Integer shop) {
+        this.shop = shop;
+    }
+
     @Override
     public String toString() {
         return "SaleOrderLine{" +
@@ -210,11 +249,13 @@ public class SaleOrderLine implements Serializable {
                 ", jdRate=" + jdRate +
                 ", jdFee=" + jdFee +
                 ", orderStatus='" + orderStatus + '\'' +
+                ", discountAmount=" + discountAmount +
+                ", postalTaxRate=" + postalTaxRate +
+                ", seq=" + seq +
                 ", starttime='" + starttime + '\'' +
                 ", endtime='" + endtime + '\'' +
                 ", offset=" + offset +
                 ", pageSize=" + pageSize +
-                ", shop=" + shop +
                 '}';
     }
 }

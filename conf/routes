@@ -307,7 +307,7 @@ GET         /sales/search                                                       
 POST        /$lang<(cn|en|kr)>/sales/search/$pageNum<[0-9]+>                        controllers.SaleCtrl.salesSearchAjax(lang,pageNum:Int)
 GET         /sales/product/find/:id                                                 controllers.SaleCtrl.saleProductFind(id:Long)
 POST        /sales/product/save                                                     controllers.SaleCtrl.productSave()
-GET         /sales/order/import/:id                                                 controllers.SaleCtrl.saleOrderImport(id:Long)
+GET         /sales/order/import                                                     controllers.SaleCtrl.saleOrderImport()
 POST        /sales/order/save                                                       controllers.SaleCtrl.saleOrderSave()
 GET         /sales/order/find/:id                                                   controllers.SaleCtrl.saleOrderFind(id:Long)
 GET         /sales/statistics/view                                                  controllers.SaleCtrl.saleStatisticsView()
@@ -321,6 +321,7 @@ GET         /sales/import/excel                                                 
 POST        /sales/upload/order                                                     controllers.SaleCtrl.uploadOrder()
 POST        /sales/upload/order/fee                                                 controllers.SaleCtrl.uploadOrderFee()
 POST        /sales/upload/order/sale/detail                                         controllers.SaleCtrl.uploadOrderSaleDetail()
+POST        /sales/upload/order/sale/coupon                                         controllers.SaleCtrl.uploadOrderSaleCoupon()
 GET         /sales/product/del/:id                                                  controllers.SaleCtrl.saleProductDel(id:Long)
 GET         /sales/product/datapub                                                  controllers.SaleCtrl.saleProductDatapub()
 
