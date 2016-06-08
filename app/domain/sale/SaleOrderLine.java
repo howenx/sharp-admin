@@ -29,6 +29,8 @@ public class SaleOrderLine implements Serializable {
     private BigDecimal postalTaxRate;    //行邮税税率，单位百分比，例如填入3，表示3%
     private Integer seq; //导入订单时顺序，用于导入优惠时对应
 
+    private BigDecimal lineSaleTotal; //子订单的销售额
+
 
     @JsonIgnore
     private String starttime;
@@ -230,6 +232,14 @@ public class SaleOrderLine implements Serializable {
 
     public void setShop(Integer shop) {
         this.shop = shop;
+    }
+
+    public BigDecimal getLineSaleTotal() {
+        return lineSaleTotal;
+    }
+
+    public void setLineSaleTotal(BigDecimal lineSaleTotal) {
+        this.lineSaleTotal = lineSaleTotal;
     }
 
     @Override

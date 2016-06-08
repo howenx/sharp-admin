@@ -263,13 +263,33 @@
         <if test="orderStatus!=null and orderStatus!=''">
             and order_status = #{orderStatus}
         </if>
+        <if test="feeCategoryId!=null and feeCategoryId!=''">
+            and fee_category_id = #{feeCategoryId}
+        </if>
+        ;
+    </select>
+    <select id="getSaleStatisticsByLine" parameterType="domain.sale.SaleOrderLine" resultType="domain.sale.SaleStatistics">
+        SELECT sum(line_sale_total)as saleTotal,sum(jd_fee)as jdFeeTotal, count(id) as saleCountTotal FROM sale_order_line
+        where 1=1
 
-        <!--<if test="categoryId!=null and categoryId!=''">-->
-            <!--and category_id = #{categoryId}-->
-        <!--</if>-->
-        <!--<if test="productName != null and productName!='' ">-->
-            <!--and product_name like '%${productName}%'-->
-        <!--</if>-->
+        <if test="shop!=null and shop!=''">
+            and shop = #{shop}
+        </if>
+        <if test="starttime!=null and starttime!=''">
+            and sale_at &gt;=#{starttime} ::timestamp
+        </if>
+        <if test="endtime!=null and endtime!=''">
+            and sale_at &lt;=#{endtime} ::timestamp
+        </if>
+        <if test="orderStatus!=null and orderStatus!=''">
+            and order_status = #{orderStatus}
+        </if>
+        <if test="categoryId!=null and categoryId!=''">
+            and category_id = #{categoryId}
+        </if>
+        <if test="saleProductName != null and saleProductName!='' ">
+            and sale_product_name like '%${saleProductName}%'
+        </if>
         ;
     </select>
     <select id="getSaleInventory" parameterType="domain.sale.SaleOrderLine" resultType="domain.sale.SaleInventory">
@@ -353,22 +373,24 @@
         ${alias}.order_status,
         ${alias}.discount_amount,
         ${alias}.postal_tax_rate,
-        ${alias}.seq
+        ${alias}.seq,
+        ${alias}.line_sale_total,
+        ${alias}.shop
     </sql>
     <!-- 录入一条销售子订单信息 -->
     <insert id="insertSaleOrderLine" parameterType="domain.sale.SaleOrderLine" useGeneratedKeys="true" keyProperty="id">
         insert into sale_order_line
         (sale_order_id,sale_product_id,sale_count,jd_order_id,jd_sku_id,jd_price,sale_product_name,sale_product_cost,category_id,sale_at,jd_rate,jd_fee,
-        order_status,discount_amount,postal_tax_rate,seq)
+        order_status,discount_amount,postal_tax_rate,seq,line_sale_total,shop)
         values(#{saleOrderId},#{saleProductId},#{saleCount},#{jdOrderId},#{jdSkuId},#{jdPrice},#{saleProductName},#{saleProductCost},#{categoryId},#{saleAt},#{jdRate},#{jdFee},
-        #{orderStatus},#{discountAmount},#{postalTaxRate},#{seq})
+        #{orderStatus},#{discountAmount},#{postalTaxRate},#{seq},#{lineSaleTotal},#{shop})
     </insert>
 
     <update id="updateSaleOrderLine" parameterType="domain.sale.SaleOrderLine">
         update sale_order_line set sale_order_id=#{saleOrderId},sale_product_id=#{saleProductId},sale_count=#{saleCount},
         jd_order_id=#{jdOrderId},jd_sku_id=#{jdSkuId},jd_price=#{jdPrice},sale_product_name=#{saleProductName},
         sale_product_cost=#{saleProductCost},sale_at=#{saleAt},category_id=#{categoryId},jd_rate=#{jdRate},jd_fee=#{jdFee},order_status=#{orderStatus},
-        discount_amount=#{discountAmount},postal_tax_rate=#{postalTaxRate},seq=#{seq}
+        discount_amount=#{discountAmount},postal_tax_rate=#{postalTaxRate},seq=#{seq},line_sale_total=#{lineSaleTotal},shop=#{shop}
         where id=#{id}
     </update>
 
