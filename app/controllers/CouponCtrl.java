@@ -188,7 +188,11 @@ public class CouponCtrl extends Controller {
         }
     }
 
-    //废弃优惠券
+    /**
+     * 废弃优惠券        Added by Tiffany Zhu 2016.06.02
+     * @param lang
+     * @return
+     */
     @Security.Authenticated(UserAuth.class)
     public Result dropCoupon(String lang){
         //当前时间
@@ -217,4 +221,13 @@ public class CouponCtrl extends Controller {
         }
 
     }
+
+    @Security.Authenticated(UserAuth.class)
+    public Result getCtripParam(){
+
+
+
+        return ok(Json.toJson(""));
+    }
+
 }
