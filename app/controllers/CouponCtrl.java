@@ -241,7 +241,7 @@ public class CouponCtrl extends Controller {
 
 
     @Security.Authenticated(UserAuth.class)
-    public Result imageUpload(String lang){
+    public Result image(String lang){
         return ok(views.html.couponSystem.imageUpload.render(lang,(User) ctx().args.get("user")));
     }
 
