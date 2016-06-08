@@ -61,7 +61,7 @@ funcList.thmlist_data = function thmlist_data(data) {
 //每个查询页面对应一个相应的组装函数 商品查询页面
 funcList.commlist_search = function commlist_search(pageIndex) {
     var commDto = new Object();
-    commDto.itemId = $("#itemId-id").val();
+    commDto.itemId = $("#item-id").val();
     commDto.id = $("#sku-id").val();
     commDto.invTitle = $("#sku-title").val();
     commDto.invCode = $("#inv-code").val();
