@@ -23,6 +23,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static util.SysParCom.*;
+
 /**
  * Created by Sunny Wu on 16/4/25.
  * kakao china.
@@ -231,8 +233,13 @@ public class CouponCtrl extends Controller {
 
     }
 
+    /**
+     * 获取携程url 请求参数token       Added by Tiffany Zhu 2016.06.12
+     * @param lang
+     * @return
+     */
     @Security.Authenticated(UserAuth.class)
-    public Result getCtripParam() {
+    public Result getCtripParam(String lang) {
         try {
             Optional<Object> accessToken = Optional.ofNullable(cache.get("AccessToken"));
             if(!accessToken.isPresent()){
@@ -243,15 +250,33 @@ public class CouponCtrl extends Controller {
         }
         String token = cache.get("AccessToken").toString();
         Logger.error("获取的token是~~~~~:" + token);
-        return ok(Json.toJson(token));
+
+        Map<String,String> params = new HashMap<>();
+        params.put("AID",AID);                              //联盟账号
+        params.put("SID",SID);                              //联盟账号
+        params.put("ICODE","");                             //接口名称
+        params.put("token",token);                          //验证参数
+        params.put("UUID",UUID.randomUUID().toString());    //每次请求唯一值
+        params.put("mode","1");                             //接口请求模式
+        params.put("format","json");                        //请求体返回体编码格式
+        return ok(Json.toJson(params));
     }
 
-
+    /**
+     * 上传图片的临时页面        Added by Tiffany Zhu 2016.06.08
+     * @param lang
+     * @return
+     */
     @Security.Authenticated(UserAuth.class)
     public Result image(String lang){
-        return ok(views.html.couponSystem.imageUpload.render(lang,(User) ctx().args.get("user")));
+        return ok(views.html.couponSystem.imageUpload.render(lang,IMG_UPLOAD_URL,CTRIPURL,(User) ctx().args.get("user")));
     }
 
+    /**
+     * 保存图片上传路径(OSS和ctrip)      Added by Tiffany Zhu 2016.06.12
+     * @param lang
+     * @return
+     */
     @Security.Authenticated(UserAuth.class)
     public Result imageSave(String lang){
         JsonNode json = request().body().asJson();

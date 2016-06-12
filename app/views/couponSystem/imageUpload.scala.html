@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",user:domain.User)
+@(lang:String="cn",uploadUrl:String,ctripUrl:String,user:domain.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/jquery-ui.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -7,13 +7,14 @@
 <link rel="stylesheet" href="/assets/css/upload.css">
 <link rel="stylesheet" href="/assets/css/button.css">
 <link rel="stylesheet" href="/assets/css/font-face.css">
-
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/Math.uuid.js"></script>
 <script src="/assets/js/upload.style.js"></script>
 <script src="/assets/js/shot.style.js"></script>
 <script src="/assets/js/slider.js"></script>
 <script src="/assets/js/image-upload.js"></script>
+<script>window.uploadUrl = "@uploadUrl" + "/upload"</script>
+<script>window.ctripUrl = "@ctripUrl"</script>
 <script>
     $(function(){
         pageEditStatus = true;
