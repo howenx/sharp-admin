@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        <mapper namespace="mapper.ImageMapper">
+    <sql id="imageColumns">
+        ${alias}.id,
+        ${alias}.oss_url,
+        ${alias}.ctrip_url,
+        ${alias}.create_at
+    </sql>
+    
+    <insert id="addImage" parameterType="domain.Image">
+        insert into image (oss_url,ctrip_url,create_at)
+        values(ossUrl,ctripUrl,CURRENT_TIMESTAMP(0))
+    </insert>
+</mapper>

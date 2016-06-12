@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import domain.CouponVo;
 import domain.CouponVoDropLog;
+import domain.Image;
 import domain.User;
 import filters.UserAuth;
 import net.spy.memcached.MemcachedClient;
@@ -14,6 +15,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import service.CouponVoDropLogService;
 import service.CouponVoService;
+import service.ImageService;
 import util.Ctrip;
 import util.ExcelHelper;
 import javax.inject.Inject;
@@ -39,6 +41,9 @@ public class CouponCtrl extends Controller {
 
     @Inject
     private Ctrip ctrip;
+
+    @Inject
+    private ImageService imageService;
 
     private int pageSize = 10;
 
@@ -236,13 +241,23 @@ public class CouponCtrl extends Controller {
         }catch (Exception e){
             e.printStackTrace();
         }
-        return ok(Json.toJson(""));
+        String token = cache.get("AccessToken").toString();
+        Logger.error("获取的token是~~~~~:" + token);
+        return ok(Json.toJson(token));
     }
 
 
     @Security.Authenticated(UserAuth.class)
     public Result image(String lang){
         return ok(views.html.couponSystem.imageUpload.render(lang,(User) ctx().args.get("user")));
+    }
+
+    @Security.Authenticated(UserAuth.class)
+    public Result imageSave(String lang){
+        JsonNode json = request().body().asJson();
+        Image image = Json.fromJson(json,Image.class);
+        imageService.addImage(image);
+        return ok("SUCCESS");
     }
 
 }

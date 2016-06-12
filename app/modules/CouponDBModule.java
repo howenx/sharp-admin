@@ -5,14 +5,12 @@ import com.google.inject.Scopes;
 import com.google.inject.name.Names;
 import mapper.CouponVoDropLogMapper;
 import mapper.CouponVoMapper;
+import mapper.ImageMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.guice.session.SqlSessionManagerProvider;
 import play.db.DBApi;
-import service.CouponVoDropLogService;
-import service.CouponVoDropLogServiceImpl;
-import service.CouponVoService;
-import service.CouponVoServiceImpl;
+import service.*;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -39,6 +37,7 @@ public class CouponDBModule extends PrivateModule {
                 bindTransactionFactoryType(JdbcTransactionFactory.class);
                 addMapperClass(CouponVoMapper.class);
                 addMapperClass(CouponVoDropLogMapper.class);
+                addMapperClass(ImageMapper.class);
             }
         });
 
@@ -53,8 +52,10 @@ public class CouponDBModule extends PrivateModule {
          */
         bind(CouponVoService.class).to(CouponVoServiceImpl.class).asEagerSingleton();
         bind(CouponVoDropLogService.class).to(CouponVoDropLogServiceImpl.class).asEagerSingleton();
+        bind(ImageService.class).to(ImageServiceImpl.class).asEagerSingleton();
         expose(CouponVoService.class);
         expose(CouponVoDropLogService.class);
+        expose(ImageService.class);
 
     }
 
