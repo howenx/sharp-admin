@@ -339,6 +339,8 @@ POST        /coupon/drop                                                        
 POST        /$lang<(cn|en|kr)>/coupon/drop                                          controllers.CouponCtrl.dropCoupon(lang)
 GET         /coupon/image                                                           controllers.CouponCtrl.image(lang ="cn")
 GET         /$lang<(cn|en|kr)>/coupon/image                                         controllers.CouponCtrl.image(lang)
+POST        /coupon/params                                                          controllers.CouponCtrl.getCtripParam(lang ="cn")
+POST        /$lang<(cn|en|kr)>/coupon/params                                        controllers.CouponCtrl.getCtripParam(lang)
 
 
 #msg 消息推送
