@@ -28,6 +28,7 @@ public class SaleJdOrderLineInfo implements Serializable {
     private Integer remarkStatus;//商家备注等级（等级1-5为由高到低
     private BigDecimal shipFee ;//运费金额
     private Date saleAt;    //付款确认时间
+    private Timestamp orderFinishAt; //订单完成时间
 
     public String getJdOrderId() {
         return jdOrderId;
@@ -125,6 +126,13 @@ public class SaleJdOrderLineInfo implements Serializable {
         this.saleAt = saleAt;
     }
 
+    public Timestamp getOrderFinishAt() {
+        return orderFinishAt;
+    }
+
+    public void setOrderFinishAt(Timestamp orderFinishAt) {
+        this.orderFinishAt = orderFinishAt;
+    }
 
     @Override
     public String toString() {
@@ -141,6 +149,7 @@ public class SaleJdOrderLineInfo implements Serializable {
                 ", remarkStatus=" + remarkStatus +
                 ", shipFee=" + shipFee +
                 ", saleAt=" + saleAt +
+                ", orderFinishAt=" + orderFinishAt +
                 '}';
     }
 }

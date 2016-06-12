@@ -6,6 +6,8 @@ package util;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.common.base.Throwables;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -238,4 +240,47 @@ public abstract class ExcelHelper {
         return dataList;
     }
 
+
+    /*
+    * 解析csv文件 到一个list中 每个单元个为一个String类型记录，每一行为一个list。 再将所有的行放到一个总list中
+    */
+    public static List<List<String>> readCSVFile(File file) throws IOException {
+
+        DataInputStream in = new DataInputStream(new FileInputStream(file));
+        BufferedReader br= new BufferedReader(new InputStreamReader(in,"GBK"));
+        String rec = null;// 一行
+        String str;// 一个单元格
+        List<List<String>> listFile = new ArrayList<List<String>>();
+        try {
+            // 读取一行
+            while ((rec = br.readLine()) != null) {
+                Pattern pCells = Pattern
+                        .compile("(\"[^\"]*(\"{2})*[^\"]*\")*[^,]*,");
+                Matcher mCells = pCells.matcher(rec);
+                List<String> cells = new ArrayList<String>();// 每行记录一个list
+                // 读取每个单元格
+                while (mCells.find()) {
+                    str = mCells.group();
+                    str = str.replaceAll(
+                            "(?sm)\"?([^\"]*(\"{2})*[^\"]*)\"?.*,", "$1");
+                    str = str.replaceAll("(?sm)(\"(\"))", "$2");
+                    cells.add(str);
+                }
+                listFile.add(cells);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(br!=null){
+                try {
+                    br.close();
+                    br=null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Logger.error(Throwables.getStackTraceAsString(e));
+                }
+            }
+        }
+        return listFile;
+    }
 }

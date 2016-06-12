@@ -191,19 +191,22 @@
         ${alias}.shop,
         ${alias}.input_type,
         ${alias}.order_status,
-        ${alias}.fee_category_id
+        ${alias}.fee_category_id,
+        ${alias}.order_value,
+        ${alias}.order_finish_at
+
     </sql>
     <!-- 录入一条销售订单信息 -->
     <insert id="insertSaleOrder" parameterType="domain.sale.SaleOrder" useGeneratedKeys="true" keyProperty="id">
         insert into sale_order
         (sale_at,order_id,discount_amount,sale_total,product_cost_sum,
         jd_fee_sum,ship_fee,pack_fee,storage_fee,postal_fee,profit,inte_logistics,
-        create_at,update_at,inv_area,remark_status,remark,create_user_id,update_user_id,shop,input_type,order_status,fee_category_id)
+        create_at,update_at,inv_area,remark_status,remark,create_user_id,update_user_id,shop,input_type,order_status,fee_category_id,order_value,order_finish_at)
         values(
         #{saleAt},#{orderId},#{discountAmount},#{saleTotal},#{productCostSum},
         #{jdFeeSum},#{shipFee},#{packFee},#{storageFee},#{postalFee},#{profit},#{inteLogistics},
         CURRENT_TIMESTAMP(0),CURRENT_TIMESTAMP(0),#{invArea},#{remarkStatus},#{remark},#{createUserId},
-        #{updateUserId},#{shop},#{inputType},#{orderStatus},#{feeCategoryId}
+        #{updateUserId},#{shop},#{inputType},#{orderStatus},#{feeCategoryId},#{orderValue},#{orderFinishAt}
        )
     </insert>
     <update id="updateSaleOrder" parameterType="domain.sale.SaleOrder" >
@@ -211,7 +214,8 @@
         discount_amount=#{discountAmount},sale_total=#{saleTotal},jd_fee_sum=#{jdFeeSum},ship_fee=#{shipFee},product_cost_sum=#{productCostSum},
         pack_fee=#{packFee},storage_fee=#{storageFee},postal_fee=#{postalFee},profit=#{profit},inte_logistics=#{inteLogistics},
         update_at= CURRENT_TIMESTAMP(0),inv_area=#{invArea},remark_status=#{remarkStatus},remark=#{remark},
-        update_user_id=#{updateUserId},shop=#{shop},input_type=#{inputType},order_status=#{orderStatus},fee_category_id=#{feeCategoryId}
+        update_user_id=#{updateUserId},shop=#{shop},input_type=#{inputType},order_status=#{orderStatus},fee_category_id=#{feeCategoryId},
+        order_value=#{orderValue},order_finish_at=#{orderFinishAt}
         where id=#{id}
     </update>
 

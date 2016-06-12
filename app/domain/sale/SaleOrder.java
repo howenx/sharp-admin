@@ -57,6 +57,11 @@ public class SaleOrder implements Serializable {
 
     private Integer feeCategoryId;  //费用归属那个品类
 
+    private BigDecimal orderValue;  //订单金额
+
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Timestamp orderFinishAt;     //订单完成时间
+
 
     //分页,从第几条开始
     @JsonIgnore
@@ -343,6 +348,22 @@ public class SaleOrder implements Serializable {
         this.feeCategoryId = feeCategoryId;
     }
 
+    public BigDecimal getOrderValue() {
+        return orderValue;
+    }
+
+    public void setOrderValue(BigDecimal orderValue) {
+        this.orderValue = orderValue;
+    }
+
+    public Timestamp getOrderFinishAt() {
+        return orderFinishAt;
+    }
+
+    public void setOrderFinishAt(Timestamp orderFinishAt) {
+        this.orderFinishAt = orderFinishAt;
+    }
+
     @Override
     public String toString() {
         return "SaleOrder{" +
@@ -372,7 +393,9 @@ public class SaleOrder implements Serializable {
                 ", shop=" + shop +
                 ", inputType=" + inputType +
                 ", orderStatus='" + orderStatus + '\'' +
-                ", feeCategoryId='" + feeCategoryId + '\'' +
+                ", feeCategoryId=" + feeCategoryId +
+                ", orderValue=" + orderValue +
+                ", orderFinishAt=" + orderFinishAt +
                 ", offset=" + offset +
                 ", pageSize=" + pageSize +
                 ", sort='" + sort + '\'' +

@@ -89,11 +89,12 @@
         <table id="tb-topic" class="table table-bordered table-hover">
             <thead>
             <tr>
-                <th>序号</th>
+                <th>商品ID</th>
                 <th>商品名称</th>
                 <th>SKU编码</th>
                 <th>货品编码</th>
                 <th>规格</th>
+                <th>批次</th>
                 <th>保税区</th>
                 <th>总销量</th>
                 <th>库存量</th>
@@ -114,6 +115,7 @@
                     <td>@product.getSkuCode()</td>
                     <td>@product.getProductCode()</td>
                     <td>@product.getSpec()</td>
+                    <td>@product.getCustomSkuId()</td>
                     <td>@product.getInvArea()</td>
                     <td>@product.getSaleCount()</td>
                     <td>@product.getInventory()</td>
@@ -126,7 +128,7 @@
                     <td><a onclick="delSaleProduct(@product.getId())">删除</a></td>
                 </tr>
                 }
-            <tr id="nodata-td" style="display:none;"><td colspan="15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            <tr id="nodata-td" style="display:none;"><td colspan="16">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
 

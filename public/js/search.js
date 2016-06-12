@@ -555,6 +555,7 @@ funcList.saleProductlist_data = function saleProductlist_data(data) {
             '<td>'+ $(this)[0].skuCode+ '</td>' +
             '<td>'+ $(this)[0].productCode+ '</td>' +
             '<td>'+ $(this)[0].spec+ '</td>' +
+            '<td>'+ $(this)[0].customSkuId+ '</td>' +
             '<td>'+ $(this)[0].invArea+ '</td>' +
             '<td>'+ $(this)[0].saleCount+ '</td>' +
             '<td>'+ $(this)[0].inventory+ '</td>' +
@@ -622,9 +623,10 @@ funcList.saleOrderlist_data = function saleOrderlist_data(data) {
             '<td><a href="/sales/inventory/view/'+saleOrderLineList[0].saleProductId+'" target="_blank">'+ saleOrderLineList[0].saleProductName+ '</a></td>' +
             '<td>'+ saleOrderLineList[0].jdPrice+ '</td>' +
             '<td>'+ saleOrderLineList[0].saleCount+ '</td>' +
-            '<td>'+ saleOrderLineList[0].discountAmount+ '</td>' +
-            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.discountAmount+ '</td>' +
+            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.orderValue+ '</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.saleTotal+ '</td>' +
+            '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.discountAmount+ '</td>' +
+            '<td>'+ saleOrderLineList[0].discountAmount+ '</td>' +
             '<td>'+ saleOrderLineList[0].jdRate+ '%</td>' +
             '<td>'+ saleOrderLineList[0].jdFee+ '</td>' +
             '<td>'+ saleOrderLineList[0].saleProductCost+ '</td>' +
@@ -641,6 +643,7 @@ funcList.saleOrderlist_data = function saleOrderlist_data(data) {
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.remark+'</td>' +
             '<td rowspan="'+rowNum+'">'+ $(this)[0].saleOrder.shop+'</td>' +
             '<td >'+(saleOrderLineList[0].orderStatus=="T"?"退货":"正常")+'</td>' +
+            '<td rowspan="'+rowNum+'">'+ ($(this)[0].saleOrder.orderFinishAt==null?"":$(this)[0].saleOrder.orderFinishAt)+'</td>' +
             '<td rowspan="'+rowNum+'"><a onclick="delOrder('+$(this)[0].saleOrder.id+')">删除</a></td>'+
             '</tr>';
             if(rowNum>1){
