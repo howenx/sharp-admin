@@ -260,7 +260,7 @@
                         @for(saleOrderLine<-saleOrderDTO.getSaleOrderLineList()){
                             <tr>
                                 <td><input type="hidden" name="lineId" value="@saleOrderLine.getId()"/>
-                                    <input type="text" name="saleProductId" value="@saleOrderLine.getSaleProductId()"/></td>
+                                    <input type="text" name="saleProductId" value="@saleOrderLine.getSaleProductId()" disabled/></td>
                                 <td>@saleOrderLine.getSaleProductName()</td>
                                 <td><input type="text" name="jdPrice" value="@saleOrderLine.getJdPrice()"/></td>
                                 <td><input type="text" name="saleCount" value="@saleOrderLine.getSaleCount()"/></td>
