@@ -461,7 +461,6 @@ function delOrder(id){
                         '<td><input type="text" name="saleCount" value=""/></td>'+
                         '<td><input type="text" name="jdRate" value=""/></td>'+
                         '<td></td>'+
-                        '<td></td>'+
                         '<td><input type="text" name="discountAmountLine" value=""/></td>'+
                         '<td class="delSaleOrderLineCss">删除</td>'+
                     '</tr>';
