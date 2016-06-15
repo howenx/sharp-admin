@@ -221,6 +221,18 @@ GET         /$lang<(cn|en|kr)>/sms/send                                         
 POST        /sms/save                                                               controllers.DataCtrl.smsSave()
 
 
+#销售数据
+GET         /sales/data                                                             controllers.DataCtrl.salesData(lang ="cn")
+GET         /$lang<(cn|en|kr)>/sales/data                                           controllers.DataCtrl.salesData(lang)
+
+#库存数据
+GET         /inventory/data                                                         controllers.DataCtrl.inventoryData(lang ="cn")
+GET         /$lang<(cn|en|kr)>/inventory/data                                       controllers.DataCtrl.inventoryData(lang)
+
+
+
+
+
 #Coupons -->coup 优惠券
 GET         /coup/add                                                               controllers.CoupCtrl.coupCreate(lang="cn")
 GET         /$lang<(cn|en|kr)>/coup/add                                             controllers.CoupCtrl.coupCreate(lang)
@@ -251,6 +263,7 @@ POST        /userlog/search/$pageNum<[0-9]+>                                    
 POST        /$lang<(cn|en|kr)>/userlog/search/$pageNum<[0-9]+>                      controllers.UserLogCtrl.userLogSearchAjax(lang, pageNum:Int)
 GET         /userlog/findUserLog/:id                                                controllers.UserLogCtrl.findUserLogById(lang = "cn", id:Long)
 GET         /$lang<(cn|en|kr)>/userlog/findUserLog/:id                              controllers.UserLogCtrl.findUserLogById(lang, id:Long)
+
 
 
 

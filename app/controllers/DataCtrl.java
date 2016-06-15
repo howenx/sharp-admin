@@ -111,4 +111,25 @@ public class DataCtrl extends Controller {
         return ok("保存成功");
     }
 
+    /**
+     * 销售数据       Added By Sunny WU  2016.06.15
+     * @param lang 语言
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result salesData(String lang) {
+        return ok(views.html.data.salesdata.render(lang, (User) ctx().args.get("user")));
+    }
+
+
+    /**
+     * 库存数据       Added By Sunny WU  2016.06.15
+     * @param lang 语言
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result inventoryData(String lang) {
+        return ok(views.html.data.inventorydata.render(lang, (User) ctx().args.get("user")));
+    }
+
 }
