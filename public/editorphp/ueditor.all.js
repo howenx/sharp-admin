@@ -25191,6 +25191,7 @@
 					//                file.remove();
 
 					upload(input.files[0]);
+					input.value = null;
 				});
 
 
