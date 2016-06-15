@@ -1,13 +1,10 @@
 package controllers;
 
-import akka.actor.ActorSystem;
 import akka.util.Timeout;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.*;
 import filters.UserAuth;
-import modules.LevelFactory;
-import modules.NewScheduler;
 import play.Configuration;
 import play.Logger;
 import play.cache.Cache;
@@ -53,15 +50,6 @@ public class AdminUserCtrl extends Controller {
     Configuration configuration;
 
     @Inject
-    private NewScheduler newScheduler;
-
-    @Inject
-    private LevelFactory levelFactory;
-
-    @Inject
-    private ActorSystem system;
-
-    @Inject
     MailerClient mailerClient;
 
     public static final Timeout TIMEOUT = new Timeout(100, TimeUnit.MILLISECONDS);
@@ -80,6 +68,7 @@ public class AdminUserCtrl extends Controller {
         Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
         Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
         Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);
+        Map<String,String> userTypeList4 = new ObjectMapper().convertValue(configuration.getObject("role4"),HashMap.class);
         for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
@@ -87,6 +76,9 @@ public class AdminUserCtrl extends Controller {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
         for(Map.Entry<String, String> ut:userTypeList3.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        for(Map.Entry<String, String> ut:userTypeList4.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
 //        Map<String,String> menus = new ObjectMapper().convertValue(configuration.getObject("menu"),HashMap.class);
@@ -203,6 +195,7 @@ public class AdminUserCtrl extends Controller {
             Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
             Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
             Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);
+            Map<String,String> userTypeList4 = new ObjectMapper().convertValue(configuration.getObject("role4"),HashMap.class);
             //后台管理用户
             for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
                 if (adminUser.getUserType().contains(ut.getKey())) {
@@ -217,6 +210,12 @@ public class AdminUserCtrl extends Controller {
             }
             //其他类型用户
             for(Map.Entry<String, String> ut:userTypeList3.entrySet()) {
+                if (adminUser.getUserType().contains(ut.getKey())) {
+                    data = "2";
+                }
+            }
+            //Coupon系统用户
+            for(Map.Entry<String, String> ut:userTypeList4.entrySet()) {
                 if (adminUser.getUserType().contains(ut.getKey())) {
                     data = "2";
                 }
@@ -252,6 +251,7 @@ public class AdminUserCtrl extends Controller {
         Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
         Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
         Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);
+        Map<String,String> userTypeList4 = new ObjectMapper().convertValue(configuration.getObject("role4"),HashMap.class);
         for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
@@ -259,6 +259,9 @@ public class AdminUserCtrl extends Controller {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
         for(Map.Entry<String, String> ut:userTypeList3.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        for(Map.Entry<String, String> ut:userTypeList4.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
         return ok(views.html.adminuser.userinfo.render(lang, userTypeList, (User) ctx().args.get("user")));
@@ -311,6 +314,7 @@ public class AdminUserCtrl extends Controller {
         Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
         Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
         Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);
+        Map<String,String> userTypeList4 = new ObjectMapper().convertValue(configuration.getObject("role4"),HashMap.class);
         for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
@@ -318,6 +322,9 @@ public class AdminUserCtrl extends Controller {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
         for(Map.Entry<String, String> ut:userTypeList3.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        for(Map.Entry<String, String> ut:userTypeList4.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
         return ok(views.html.adminuser.userdetail.render(adminUser, lang, userTypeList, (User) ctx().args.get("user")));
@@ -372,6 +379,7 @@ public class AdminUserCtrl extends Controller {
         Map<String,String> userTypeList1 = new ObjectMapper().convertValue(configuration.getObject("role1"),HashMap.class);
         Map<String,String> userTypeList2 = new ObjectMapper().convertValue(configuration.getObject("role2"),HashMap.class);
         Map<String,String> userTypeList3 = new ObjectMapper().convertValue(configuration.getObject("role3"),HashMap.class);
+        Map<String,String> userTypeList4 = new ObjectMapper().convertValue(configuration.getObject("role4"),HashMap.class);
         for(Map.Entry<String, String> ut:userTypeList1.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
@@ -379,6 +387,9 @@ public class AdminUserCtrl extends Controller {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
         for(Map.Entry<String, String> ut:userTypeList3.entrySet()) {
+            userTypeList.put(ut.getKey(),ut.getValue());
+        }
+        for(Map.Entry<String, String> ut:userTypeList4.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
         return ok(views.html.adminuser.usersearch.render(lang, adminUserList, userTypeList, (User) ctx().args.get("user")));
