@@ -25181,14 +25181,10 @@
 					//                form.action = utils.formatUrl(imageActionUrl + (imageActionUrl.indexOf('?') == -1 ? '?':'&') + params);
 					//                form.submit();
 
-					//                console.dir($(this));
-					//                console.dir(input);
 					var input2 = form.appendChild(document.createElement("input"));
 					input2.outerHTML = input.outerHTML;
 					var inputs = form.getElementsByTagName("input");
 					form.removeChild(inputs[inputs.length - 1]);
-					//                file.after(file.clone().val(""));
-					//                file.remove();
 
 					upload(input.files[0]);
 					input.value = null;
