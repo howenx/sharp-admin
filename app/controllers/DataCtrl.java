@@ -4,6 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import domain.Inventory;
 import domain.SMSVo;
 import domain.SystemParam;
 import domain.User;
@@ -17,12 +18,14 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import service.InventoryService;
 import service.SysParamService;
 import util.SysParCom;
 
 import javax.inject.Inject;
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,6 +36,9 @@ public class DataCtrl extends Controller {
 
     @Inject
     SysParamService sysParamService;
+
+    @Inject
+    InventoryService inventoryService;
 
     @Inject
     Configuration configuration;
@@ -78,7 +84,7 @@ public class DataCtrl extends Controller {
     }
 
     /**
-     * 给用户发送短信          Added By Sunny WU  2016.06.07
+     * 给用户发送短信          Added By Sunny Wu  2016.06.07
      * @param lang 语言
      * @return views
      */
@@ -89,7 +95,7 @@ public class DataCtrl extends Controller {
     }
 
     /**
-     * 保存给用户发送的短信    Added By Sunny WU  2016.06.07
+     * 保存给用户发送的短信    Added By Sunny Wu  2016.06.07
      * @return
      */
     @Security.Authenticated(UserAuth.class)
@@ -112,24 +118,74 @@ public class DataCtrl extends Controller {
     }
 
     /**
-     * 销售数据       Added By Sunny WU  2016.06.15
+     * 销售数据       Added By Sunny Wu  2016.06.15
      * @param lang 语言
      * @return
      */
     @Security.Authenticated(UserAuth.class)
     public Result salesData(String lang) {
-        return ok(views.html.data.salesdata.render(lang, (User) ctx().args.get("user")));
+        return ok(views.html.data.salesdata.render(lang,ThemeCtrl.PAGE_SIZE,36,4, (User) ctx().args.get("user")));
     }
 
 
     /**
-     * 库存数据       Added By Sunny WU  2016.06.15
+     * 库存数据       Added By Sunny Wu  2016.06.15
      * @param lang 语言
      * @return
      */
     @Security.Authenticated(UserAuth.class)
     public Result inventoryData(String lang) {
-        return ok(views.html.data.inventorydata.render(lang, (User) ctx().args.get("user")));
+        Inventory inventory = new Inventory();
+        inventory.setPageSize(-1);
+        inventory.setOffset(-1);
+        List<Inventory> inventoryList = inventoryService.invSearch(inventory);
+        int countNum = inventoryList.size();//取总数
+        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
+        if (countNum%ThemeCtrl.PAGE_SIZE!=0) {
+            pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
+        }
+        return ok(views.html.data.inventorydata.render(lang, ThemeCtrl.PAGE_SIZE,countNum,pageCount,(User) ctx().args.get("user")));
     }
+
+    /**
+     * ajax分页查询         Added By Sunny Wu  2016.06.16
+     * @param lang 语言
+     * @param pageNum 当前页
+     * @return json
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result inventoryDataAjax(String lang, int pageNum) {
+        JsonNode json = request().body().asJson();
+        Inventory inventory = Json.fromJson(json,Inventory.class);
+        if(pageNum>=1){
+            //计算从第几条开始取数据
+            int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
+            inventory.setPageSize(-1);
+            inventory.setOffset(-1);
+            List<Inventory> inventoryList = inventoryService.invSearch(inventory);
+            int countNum = inventoryList.size();//取总数
+            int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
+            if(countNum%ThemeCtrl.PAGE_SIZE!=0){
+                pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
+            }
+            inventory.setPageSize(ThemeCtrl.PAGE_SIZE);
+            inventory.setOffset(offset);
+            inventory.setSort("rest_amount");
+            inventoryList = inventoryService.invSearch(inventory);
+            //组装返回数据
+            Map<String,Object> returnMap=new HashMap<>();
+            returnMap.put("topic",inventoryList);
+            returnMap.put("pageNum",pageNum);
+            returnMap.put("countNum",countNum);
+            returnMap.put("pageCount",pageCount);
+            returnMap.put("pageSize",ThemeCtrl.PAGE_SIZE);
+            return ok(Json.toJson(returnMap));
+        }
+        else{
+            return badRequest();
+        }
+    }
+
+
 
 }

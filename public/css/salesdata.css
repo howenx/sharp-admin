@@ -1,0 +1,46 @@
+ul.table-nav{
+    list-style: none;
+    padding: 10px 12px;
+}
+ul.table-nav>li{
+    padding: 5px 12px;
+    cursor: pointer;
+}
+ul.table-nav>li:hover{
+    background: rgba(242, 100, 86, 0.9);
+}
+ul.table-nav>li.active{
+    background: rgba(242, 100, 86, 0.9);
+}
+.generate-table{
+    padding: 6px 8px;background: #ccc;
+}
+.tablenum{
+    display: none;
+}
+.tablenum.one{
+    display: block;
+}
+.money{
+    border: 3px double #ccc;
+    padding: 10px 12px;
+}
+.money>div{
+    float: left;
+    width: 20%;
+    padding-left: 22px;
+}
+.money>div i{
+    font-style: normal;
+    font-size: 16px;
+    padding-left: 4px;
+}
+.money-1{
+    background: url("/assets/images/money/money.gif") no-repeat 3px 2px;
+}
+.money-2{
+    background: url("/assets/images/money/money_delete.gif") no-repeat 3px 2px;
+}
+.money-3{
+    background: url("/assets/images/money/coins.gif") no-repeat 3px 2px;
+}

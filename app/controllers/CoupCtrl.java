@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import domain.Coupons;
 import domain.User;
+import domain.order.Order;
 import filters.UserAuth;
 import play.Logger;
 import play.data.Form;
@@ -12,6 +13,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import service.CouponsService;
 import service.IDService;
+import service.OrderService;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
@@ -28,6 +30,9 @@ public class CoupCtrl extends Controller {
 
     @Inject
     private IDService idService;
+
+    @Inject
+    private OrderService orderService;
 
     public static final int pageSize = 10;
 
@@ -124,6 +129,11 @@ public class CoupCtrl extends Controller {
             for(Coupons coup : couponsList) {
                 String phoneNum = idService.getID(coup.getUserId().intValue()).getPhoneNum();
                 coup.setUserId(Long.parseLong(phoneNum));//用户id字段保存用户的手机号
+                Order order = orderService.getOrderById(coup.getOrderId());
+                if (null != order)
+                    coup.setLimitQuota(order.getPayTotal());//优惠券限额字段保存订单的金额
+                else coup.setLimitQuota(BigDecimal.valueOf(0));
+                Logger.error(coup.toString());
             }
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
