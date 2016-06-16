@@ -39,7 +39,7 @@
         <include refid="pinSkuColumns">
             <property name="alias" value="t"/>
         </include>
-        from pin_sku t where 1=1
+        from pin_sku t where 1=1 and status = 'Y'
     </select>
 
     <select id="getPinSkuPage" parameterType="domain.pingou.PinSku" resultType="domain.pingou.PinSku">
