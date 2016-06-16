@@ -8,6 +8,7 @@ import domain.Inventory;
 import domain.SMSVo;
 import domain.SystemParam;
 import domain.User;
+import domain.order.Order;
 import filters.UserAuth;
 import play.Configuration;
 import play.Logger;
@@ -19,6 +20,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import service.InventoryService;
+import service.OrderService;
 import service.SysParamService;
 import util.SysParCom;
 
@@ -41,6 +43,9 @@ public class DataCtrl extends Controller {
     InventoryService inventoryService;
 
     @Inject
+    OrderService orderService;
+
+    @Inject
     Configuration configuration;
 
     @Inject
@@ -52,7 +57,7 @@ public class DataCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result systemParameterSearch(String lang){
-        return ok(views.html.data.sysparamsearch.render(lang,sysParamService.getParamAll(),(User) ctx().args.get("user")));
+        return ok(views.html.data.sysparamsearch.render(lang, sysParamService.getParamAll(), (User) ctx().args.get("user")));
     }
 
     /**
@@ -62,7 +67,7 @@ public class DataCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result systemParameterAdd(String lang){
-        return ok(views.html.data.sysparamadd.render(lang,(User) ctx().args.get("user")));
+        return ok(views.html.data.sysparamadd.render(lang, (User) ctx().args.get("user")));
     }
 
     /**
@@ -124,9 +129,56 @@ public class DataCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result salesData(String lang) {
-        return ok(views.html.data.salesdata.render(lang,ThemeCtrl.PAGE_SIZE,36,4, (User) ctx().args.get("user")));
+        Order order = new Order();
+        order.setPageSize(-1);
+        order.setOffset(-1);
+        List<Order> orderList = orderService.getTradeOrder(order);
+        int countNum = orderList.size();//取总数
+        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
+        if (countNum%ThemeCtrl.PAGE_SIZE!=0) {
+            pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
+        }
+        return ok(views.html.data.salesdata.render(lang, ThemeCtrl.PAGE_SIZE, countNum, pageCount, (User) ctx().args.get("user")));
     }
 
+    /**
+     * ajax分页查询         Added By Sunny Wu  2016.06.16
+     * @param pageNum 当前页
+     * @return json
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result salesDataAjax(String lang, int pageNum) {
+        JsonNode json = request().body().asJson();
+        Order order = Json.fromJson(json,Order.class);
+        if(pageNum>=1){
+            //计算从第几条开始取数据
+            int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
+            order.setPageSize(-1);
+            order.setOffset(-1);
+            List<Order> orderList = orderService.getTradeOrder(order);
+            int countNum = orderList.size();//取总数
+            int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
+            if(countNum%ThemeCtrl.PAGE_SIZE!=0){
+                pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
+            }
+            order.setPageSize(ThemeCtrl.PAGE_SIZE);
+            order.setOffset(offset);
+            order.setSort("order_create_at");
+            order.setSort("DESC");
+            orderList = orderService.getTradeOrder(order);
+            //组装返回数据
+            Map<String,Object> returnMap=new HashMap<>();
+            returnMap.put("topic",orderList);
+            returnMap.put("pageNum",pageNum);
+            returnMap.put("countNum",countNum);
+            returnMap.put("pageCount",pageCount);
+            returnMap.put("pageSize",ThemeCtrl.PAGE_SIZE);
+            return ok(Json.toJson(returnMap));
+        }
+        else{
+            return badRequest();
+        }
+    }
 
     /**
      * 库存数据       Added By Sunny Wu  2016.06.15
@@ -144,12 +196,11 @@ public class DataCtrl extends Controller {
         if (countNum%ThemeCtrl.PAGE_SIZE!=0) {
             pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
         }
-        return ok(views.html.data.inventorydata.render(lang, ThemeCtrl.PAGE_SIZE,countNum,pageCount,(User) ctx().args.get("user")));
+        return ok(views.html.data.inventorydata.render(lang, ThemeCtrl.PAGE_SIZE, countNum, pageCount,(User) ctx().args.get("user")));
     }
 
     /**
      * ajax分页查询         Added By Sunny Wu  2016.06.16
-     * @param lang 语言
      * @param pageNum 当前页
      * @return json
      */
@@ -185,7 +236,5 @@ public class DataCtrl extends Controller {
             return badRequest();
         }
     }
-
-
 
 }
