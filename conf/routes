@@ -228,6 +228,8 @@ GET         /$lang<(cn|en|kr)>/sales/data                                       
 #库存数据
 GET         /inventory/data                                                         controllers.DataCtrl.inventoryData(lang ="cn")
 GET         /$lang<(cn|en|kr)>/inventory/data                                       controllers.DataCtrl.inventoryData(lang)
+POST        /inventory/data/$pageNum<[0-9]+>                                        controllers.DataCtrl.inventoryDataAjax(lang ="cn", pageNum:Int)
+POST        /$lang<(cn|en|kr)>/inventory/data/$pageNum<[0-9]+>                      controllers.DataCtrl.inventoryDataAjax(lang, pageNum:Int)
 
 
 
