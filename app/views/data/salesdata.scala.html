@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/salesdata.css">
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
@@ -18,13 +19,30 @@
 
 <script>
     $(function () {
+        function benzhou() {
+            var now=new Date();
+            var start=new Date();
+            var end=new Date();
+
+            var n=now.getDay();
+
+            start.setDate(now.getDate()-n+1);
+            end.setDate(now.getDate()-n+7);
+
+            start = start.getFullYear() + "-" + (start.getMonth()+1) + "-" + start.getDate();
+            end = end.getFullYear() + "-" + (end.getMonth()+1) + "-" + end.getDate();
+
+            $("#topic-form-starttime").val(start);
+            $("#topic-form-endtime").val(end);
+        }
+        benzhou();
         $('#datetimepicker-starttime').datetimepicker({
             locale: 'zh-cn',
-            format:'YYYY-MM-DD HH:mm:ss'
+            format:'YYYY-MM-DD'
         });
         $('#datetimepicker-endtime').datetimepicker({
             locale: 'zh-cn',
-            format:'YYYY-MM-DD HH:mm:ss'
+            format:'YYYY-MM-DD'
         });
 
         $(".table-nav>li").click(function () {
@@ -37,50 +55,40 @@
             var start = new Date($("#topic-form-starttime").val()).getTime();
             var end = new Date($("#topic-form-endtime").val()).getTime();
             $(".sedate").each(function () {
-                if( !(new Date($(this).html()).getTime() >=start && new Date($(this).html()).getTime()<=end)){
+                console.log(1);
+                if( !(new Date($(this).html().split(" ")[0]).getTime() >=start && new Date($(this).html().split(" ")[0]).getTime()<=end+86399000)){
                     $(this).parent().css("display","none");
+                }else{
+                    $(this).parent().css("display","table-row");
                 }
             })
         })
+        $(".yesterday").click(function () {
+            var now=new Date();
+            var start=new Date();
+            start.setDate(now.getDate()-1);
+
+            start = start.getFullYear() + "-" + (start.getMonth()+1) + "-" + start.getDate();
+
+            $("#topic-form-starttime").val(start);
+            $("#topic-form-endtime").val(start);
+        });
+        $(".benzhou").click(function () {
+            benzhou();
+        })
+        $(".benyue").click(function () {
+            var now = new Date();
+            //获取天数：
+            var day = new Date(now.getFullYear(),now.getMonth()+1,0);
+            var daycount = day.getDate();
+            var start = now.getFullYear() + "-" + (now.getMonth()+1) + "-" + "01";
+            var end = now.getFullYear() + "-" + (now.getMonth()+1) + "-" + daycount;
+
+            $("#topic-form-starttime").val(start);
+            $("#topic-form-endtime").val(end);
+        })
     });
 </script>
-<style>
-    html{
-    width: 100%;height: 100%;
-    }
-    body{
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    }
-    ul.table-nav{
-    list-style: none;
-    background: #eaeef4;
-    padding: 10px 12px;
-    height: 100%;
-    }
-    ul.table-nav>li{
-    padding: 5px 12px;
-    cursor: pointer;
-    }
-    ul.table-nav>li:hover{
-    background: #ccc;
-    }
-    ul.table-nav>li.active{
-    background: #00a0e9;
-    }
-    .generate-table{
-    padding: 6px 8px;background: #ccc;
-    }
-    .tablenum{
-    display: none;
-    }
-    .tablenum.one{
-    display: block;
-    }
-</style>
 }
 
 @import java.lang.String; val title="销售数据"
@@ -100,8 +108,8 @@
     <div class="page-title">
         <span class="title-name">销售数据</span>
     </div>
-    <div class="row" style="height: 100%">
-        <div class="col-sm-2" style="height: 100%">
+    <div class="row" style="height: 100%;padding-left: 15px">
+        <div class="col-sm-2" style="height: 100%;padding: 0">
             <ul class="table-nav">
                 <li class="active">销售收入统计</li>
                 <li>商品销售情况</li>
@@ -124,8 +132,18 @@
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-primary choose">确定</button>
+                    <div class="col-sm-4" style="line-height: 34px">
+                        <button type="button" class="btn btn-primary btn-xs choose">确定</button>
+                        <button type="button" class="btn btn-xs yesterday">昨日</button>
+                        <button type="button" class="btn btn-xs benzhou">本周</button>
+                        <button type="button" class="btn btn-xs benyue">本月</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12 money">
+                        <div class="money-1"><span>收款额:</span><i>21323</i></div>
+                        <div class="money-2"><span>退款额:</span><i>21323</i></div>
+                        <div class="money-3"><span>收入:</span><i>21323</i></div>
                     </div>
                 </div>
                 <!--表格-->
@@ -144,7 +162,7 @@
                                 <th>006</th>
                             </tr>
                             <tr>
-                                <td class="sedate">2016/06/16 15:26</td>
+                                <td class="sedate">2016/06/16 15:26:10</td>
                                 <td>2</td>
                                 <td>3</td>
                                 <td>4</td>
@@ -152,7 +170,7 @@
                                 <td>6</td>
                             </tr>
                             <tr>
-                                <td class="sedate">2016/06/19 15:26</td>
+                                <td class="sedate">2016/06/15 15:26:12</td>
                                 <td>2</td>
                                 <td>3</td>
                                 <td>4</td>
@@ -160,7 +178,7 @@
                                 <td>6</td>
                             </tr>
                             <tr>
-                                <td class="sedate">2016/06/17 15:26</td>
+                                <td class="sedate">2016/06/20 00:00:00</td>
                                 <td>2</td>
                                 <td>3</td>
                                 <td>4</td>
@@ -168,7 +186,7 @@
                                 <td>6</td>
                             </tr>
                             <tr>
-                                <td class="sedate">2016/06/18 15:26</td>
+                                <td class="sedate">2016/06/18 15:26:12</td>
                                 <td>2</td>
                                 <td>3</td>
                                 <td>4</td>
