@@ -124,7 +124,7 @@ public class DataCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result salesData(String lang) {
-        return ok(views.html.data.salesdata.render(lang, (User) ctx().args.get("user")));
+        return ok(views.html.data.salesdata.render(lang,ThemeCtrl.PAGE_SIZE,36,4, (User) ctx().args.get("user")));
     }
 
 

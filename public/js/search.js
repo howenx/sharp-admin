@@ -773,6 +773,30 @@ funcList.invDataList_data = function invDataList_data(data) {
 }
 
 
+//每个查询页面对应一个相应的组装函数  销售数据页面 ,只更改前缀,不要更改下划线后面的名称     Added By Sunny Wu  2016.06.16
+funcList.salesData_search = function salesData_search(pageIndex) {
+    var Inventory = new Object();
+    //调用共用ajax,url从根目录开始不需要加上语言
+//    search("/inventory/data/" + pageIndex, Inventory);
+}
+
+//每个查询页面对应一个相应的返回时填充函数 销售数据页面   Added By Sunny Wu  2016.06.16
+//funcList.salesData_data = function salesData_data(data) {
+//    //填充列表数据
+//    $(data).each(function(index, element) {
+//        $(s'#tb-topic').find('tbody').append('' +
+//            '<tr class="tb-list-data">' +
+//            '<td>' + $(this)[0].itemId + '</td>' +
+//            '<td>' + $(this)[0].id + '</td>' +
+//            '<td>' + $(this)[0].invTitle + "&nbsp;&nbsp;" + $(this)[0].itemColor + "&nbsp;&nbsp;" + $(this)[0].itemSize +  '</td>' +
+//            '<td>￥' + $(this)[0].itemPrice.toFixed(2) + '</td>' +
+//            '<td>' + $(this)[0].restAmount + '</td>' +
+//            '</tr>'
+//        );
+//    })
+//}
+
+
 // 公用的,传入当前页,查询条件所组成的Object,以及需要填充的列表tr,同时必须保证使用同一个table id
 //
 function search(url, dto) {

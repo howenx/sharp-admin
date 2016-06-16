@@ -1,95 +1,119 @@
-@(lang:String="cn", user:domain.User)
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" >
-    <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
-    <script src="/assets/js/jquery-1.11.3.min.js"></script>
-    <script src="/assets/js/bootstrap.min.js"></script>
-    <script src="/assets/js/moment-with-locales.js"></script>
-    <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
-    <script>
-        $(function () {
-            $('#datetimepicker-starttime').datetimepicker({
-                locale: 'zh-cn',
-                format:'YYYY-MM-DD HH:mm:ss'
-            });
-            $('#datetimepicker-endtime').datetimepicker({
-                locale: 'zh-cn',
-                format:'YYYY-MM-DD HH:mm:ss'
-            });
+@import play.i18n._
+@(lang:String="cn",pageSize:Integer, countNum:Integer, pageCount:Integer, user:domain.User)
+@scripts = {
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css" >
+<link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/search.js"></script>
+<!--分页-->
+<link href="/assets/css/myPage.css" rel="stylesheet" type="text/css" />
+<script src="/assets/js/jqPaginator.min.js" type="text/javascript"></script>
+<script src="/assets/js/myPage.js" type="text/javascript"></script>
+<!-- 此为调用分页所提供的函数名前缀 -->
+<script>window.search_args = 'salesData'</script>
 
-            $(".table-nav>li").click(function () {
-                var index = $(this).index();
-                $(".table-nav>li").removeClass("active").eq(index).addClass("active");
-                $(".tablenum").css("display","none").eq(index).css("display","block");
-            })
-            $(".choose").click(function () {
-                var start = new Date($("#topic-form-starttime").val()).getTime();
-                var end = new Date($("#topic-form-endtime").val()).getTime();
-                $(".sedate").each(function () {
-                    if( !(new Date($(this).html()).getTime() >=start && new Date($(this).html()).getTime()<=end)){
-                        $(this).parent().css("display","none");
-                    }
-                })
-            })
+<script>
+    $(function () {
+        $('#datetimepicker-starttime').datetimepicker({
+            locale: 'zh-cn',
+            format:'YYYY-MM-DD HH:mm:ss'
         });
-    </script>
-    <style>
-        html{
-            width: 100%;height: 100%;
-        }
-        body{
-            overflow: hidden;
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-        }
-        ul.table-nav{
-            list-style: none;
-            background: #eaeef4;
-            padding: 10px 12px;
-            height: 100%;
-        }
-        ul.table-nav>li{
-            padding: 5px 12px;
-            cursor: pointer;
-        }
-        ul.table-nav>li:hover{
-            background: #ccc;
-        }
-        ul.table-nav>li.active{
-            background: #00a0e9;
-        }
-        .generate-table{
-            padding: 6px 8px;background: #ccc;
-        }
-        .tablenum{
-            display: none;
-        }
-        .tablenum.one{
-            display: block;
-        }
-    </style>
-</head>
-<body>
+        $('#datetimepicker-endtime').datetimepicker({
+            locale: 'zh-cn',
+            format:'YYYY-MM-DD HH:mm:ss'
+        });
+
+        $(".table-nav>li").click(function () {
+            var index = $(this).index();
+            $(".table-nav>li").removeClass("active").eq(index).addClass("active");
+            $(".tablenum").css("display","none").eq(index).css("display","block");
+            $(".table-h3").html($(this).html());
+        })
+        $(".choose").click(function () {
+            var start = new Date($("#topic-form-starttime").val()).getTime();
+            var end = new Date($("#topic-form-endtime").val()).getTime();
+            $(".sedate").each(function () {
+                if( !(new Date($(this).html()).getTime() >=start && new Date($(this).html()).getTime()<=end)){
+                    $(this).parent().css("display","none");
+                }
+            })
+        })
+    });
+</script>
+<style>
+    html{
+        width: 100%;height: 100%;
+    }
+    body{
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+    }
+    ul.table-nav{
+        list-style: none;
+        background: #eaeef4;
+        padding: 10px 12px;
+        height: 100%;
+    }
+    ul.table-nav>li{
+        padding: 5px 12px;
+        cursor: pointer;
+    }
+    ul.table-nav>li:hover{
+        background: #ccc;
+    }
+    ul.table-nav>li.active{
+        background: #00a0e9;
+    }
+    .generate-table{
+        padding: 6px 8px;background: #ccc;
+    }
+    .tablenum{
+        display: none;
+    }
+    .tablenum.one{
+        display: block;
+    }
+</style>
+}
+
+@import java.lang.String; val title="销售数据"
+
+@layout(lang=lang, title=title,user=user)(scripts) {
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.data.sell")</span>
+        <span class="icon-path">&gt;</span>
+        <span>销售数据</span>
+    </div>
+</div>
+<div class="content-1">
+    <div class="page-title">
+        <span class="title-name">销售数据</span>
+    </div>
     <div class="row" style="height: 100%">
         <div class="col-sm-2" style="height: 100%">
             <ul class="table-nav">
                 <li class="active">销售收入统计</li>
-                <li>店铺销售情况</li>
+                <li>商品销售情况</li>
                 <li>商品销售排行</li>
             </ul>
         </div>
         <div class="col-sm-10">
             <form class="form-horizontal">
-                <h3>销售收入统计</h3>
+                <h3 class="table-h3">销售收入统计</h3>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">时间范围</label>
-                    <div class="col-sm-5">
+                    <div class="col-sm-6">
                         <div id="datetimepicker-starttime" class="input-group date" style="width: 45%;float:left">
                             <input id = "topic-form-starttime" class="form-control col-sm-2"  type="text">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -100,7 +124,7 @@
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
-                    <div class="col-sm-5">
+                    <div class="col-sm-2">
                         <button type="button" class="btn btn-primary choose">确定</button>
                     </div>
                 </div>
@@ -249,8 +273,16 @@
                         </table>
                     </div>
                 </div>
+                <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
+                <p class="page-toolbar-title">@Messages.get(new Lang(Lang.forCode(lang)), "themes.search.table.page.toolbar", countNum, pageSize, pageCount)</p>
+                <ul class="pagination" id="pagination">
+                    <input type="hidden" value="@pageCount" id="pagecount">
+                </ul>
+                <!-- 公用模块,直接拷贝-->
             </form>
         </div>
     </div>
-</body>
-</html>
+</div>
+
+
+}
