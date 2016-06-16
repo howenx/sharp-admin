@@ -3,7 +3,7 @@ ul.table-nav{
     padding: 10px 12px;
 }
 ul.table-nav>li{
-    padding: 5px 12px;
+    padding: 5px 35px;
     cursor: pointer;
 }
 ul.table-nav>li:hover{

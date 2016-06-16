@@ -4,7 +4,6 @@ import domain.order.Order;
 import domain.order.OrderLine;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 订单
@@ -81,5 +80,10 @@ public interface OrderMapper {
      */
     List<Order> getOrderByIds(List<OrderLine> orderLineList);
 
+    /**
+     * 查询成功付款和成功退款的订单       Add By Sunny Wu 2016.06.16
+     * @return list of order and refund order
+     */
+    List<Order> getTradeOrder(Order order);
 
 }

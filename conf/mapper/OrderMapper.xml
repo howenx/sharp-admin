@@ -132,14 +132,31 @@
             <property name="alias" value="t"/>
         </include>
         from sp_order t where t.order_status = 'S' and t.order_id in
-        <foreach collection="list" item="line"  open="(" separator="," close=")">
-           #{line.orderId}
+        <foreach collection="list" item="line" open="(" separator="," close=")">
+            #{line.orderId}
         </foreach>
         order by t.order_create_at ASC
     </select>
 
 
+    <sql id="refundColumns">
+        ${alias}.order_id,
+        ${alias}.pay_back_fee,
+        ${alias}.state,
+        ${alias}.create_at,
+        ${alias}.pg_trade_no,
+        ${alias}.refund_type
+    </sql>
 
+    <!--销售收入统计 成功付款订单 成功退款订单查询          Add By Sunny.Wu 2016.06.16-->
+    <select id="getTradeOrder" parameterType="domain.order.Order" resultType="domain.order.Order">
+        select order_create_at, order_id, pay_total, pg_trade_no, order_status
+        from sp_order where order_status='PS' or order_status='S'
+        union
+        select create_at as order_create_at, order_id, pay_back_fee as pay_total, pg_trade_no, refund_type as
+        order_status from sp_refund where state='Y'
+        ORDER BY order_create_at
+    </select>
 
 
 </mapper>

@@ -3,9 +3,9 @@ package service;
 import domain.order.Order;
 import domain.order.OrderLine;
 import mapper.OrderMapper;
+
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -114,4 +114,14 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getOrderByIds(List<OrderLine> orderLineList) {
         return orderMapper.getOrderByIds(orderLineList);
     }
+
+    /**
+     * 查询成功付款和成功退款的订单       Add By Sunny Wu 2016.06.16
+     * @return list of order and refund order
+     */
+    @Override
+    public List<Order> getTradeOrder(Order order) {
+        return orderMapper.getTradeOrder(order);
+    }
+
 }
