@@ -508,7 +508,6 @@ funcList.couponlist_search = function couponlist_search(pageIndex) {
 
 //每个查询页面对应一个相应的返回时填充函数 已使用优惠券查询页面   Added By Sunny Wu  2016.03.08
 funcList.couponlist_data = function couponlist_data(data) {
-    console.log(data);
     //填充列表数据
     $(data).each(function(index, element) {
         var useAt = new Date($(this)[0].useAt);
@@ -520,8 +519,8 @@ funcList.couponlist_data = function couponlist_data(data) {
             '<td>' + $(this)[0].userId+ '</td>' +
             '<td>' + $(this)[0].orderId+ '</td>' +
             '<td>' + useAt + '</td>' +
-            '<td>' + $(this)[0].limitQuota+ '</td>' +
-            '<td>' + $(this)[0].denomination+ '</td>' +
+            '<td>￥' + $(this)[0].limitQuota.toFixed(2) + '</td>' +
+            '<td>￥' + $(this)[0].denomination.toFixed(2) + '</td>' +
             '</tr>'
         );
     })
@@ -718,11 +717,9 @@ funcList.couList_search = function couList_search(pageIndex) {
     search("/coupon/search/" + pageIndex, CouponDto);
 }
 
-//每个查询页面对应一个相应的返回时填充函数 已使用优惠券查询页面   Added By Sunny Wu  2016.03.08
+//每个查询页面对应一个相应的返回时填充函数 优惠券系统优惠券查询页面    Added By Sunny Wu 2016.04.26
 funcList.couList_data = function couList_data(data) {
-    console.log(data);
     //填充列表数据
-    console.log(data[0].usedPlaceName);
     $(data).each(function(index, element) {
         var status = "";
         var operation = "";
@@ -747,6 +744,29 @@ funcList.couList_data = function couList_data(data) {
             '<td>' + status+ '</td>' +
             //'<td><a href="javascript:;" class="coupon-drop">' + operation+ '</a></td>' +
             '<td></td>' +
+            '</tr>'
+        );
+    })
+}
+
+//每个查询页面对应一个相应的组装函数  库存数据查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Sunny Wu  2016.06.16
+funcList.invDataList_search = function invDataList_search(pageIndex) {
+    var Inventory = new Object();
+    //调用共用ajax,url从根目录开始不需要加上语言
+    search("/inventory/data/" + pageIndex, Inventory);
+}
+
+//每个查询页面对应一个相应的返回时填充函数 库存数据查询页面   Added By Sunny Wu  2016.06.16
+funcList.invDataList_data = function invDataList_data(data) {
+    //填充列表数据
+    $(data).each(function(index, element) {
+        $('#tb-topic').find('tbody').append('' +
+            '<tr class="tb-list-data">' +
+            '<td>' + $(this)[0].itemId + '</td>' +
+            '<td>' + $(this)[0].id + '</td>' +
+            '<td>' + $(this)[0].invTitle + "&nbsp;&nbsp;" + $(this)[0].itemColor + "&nbsp;&nbsp;" + $(this)[0].itemSize +  '</td>' +
+            '<td>￥' + $(this)[0].itemPrice.toFixed(2) + '</td>' +
+            '<td>' + $(this)[0].restAmount + '</td>' +
             '</tr>'
         );
     })
