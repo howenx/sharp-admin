@@ -32,18 +32,18 @@
             $(".table-h3").html($(this).html());
         });
 
-        $(".choose").click(function () {
-            var start = new Date($("#topic-form-starttime").val()).getTime();
-            var end = new Date($("#topic-form-endtime").val()).getTime();
-            $(".sedate").each(function () {
-                console.log(1);
-                if( !(new Date($(this).html().split(" ")[0]).getTime() >=start && new Date($(this).html().split(" ")[0]).getTime()<=end+86399000)){
-                    $(this).parent().css("display","none");
-                }else{
-                    $(this).parent().css("display","table-row");
-                }
-            })
-        });
+//        $(".choose").click(function () {
+//            var start = new Date($("#topic-form-starttime").val()).getTime();
+//            var end = new Date($("#topic-form-endtime").val()).getTime();
+//            $(".sedate").each(function () {
+//                console.log(1);
+//                if( !(new Date($(this).html().split(" ")[0]).getTime() >=start && new Date($(this).html().split(" ")[0]).getTime()<=end+86399000)){
+//                    $(this).parent().css("display","none");
+//                }else{
+//                    $(this).parent().css("display","table-row");
+//                }
+//            })
+//        });
 
         function benzhou() {
             var now=new Date();
@@ -60,6 +60,7 @@
 
             $("#topic-form-starttime").val(start);
             $("#topic-form-endtime").val(end);
+            $("#topic-search-bt").trigger("click");
         }
 
         $(".yesterday").click(function () {
@@ -73,6 +74,19 @@
             $("#topic-form-endtime").val(start);
 
              <!--$("#topic-search-bt").removeAttr("id");-->
+            <!--$(".yesterday").attr({"id":"topic-search-bt"});-->
+            $("#topic-search-bt").trigger("click");
+
+        });
+        $(".today").click(function () {
+            var start=new Date();
+
+            start = start.getFullYear() + "-" + (start.getMonth()+1) + "-" + start.getDate();
+
+            $("#topic-form-starttime").val(start);
+            $("#topic-form-endtime").val(start);
+
+            <!--$("#topic-search-bt").removeAttr("id");-->
             <!--$(".yesterday").attr({"id":"topic-search-bt"});-->
             $("#topic-search-bt").trigger("click");
 
@@ -92,6 +106,7 @@
 
             $("#topic-form-starttime").val(start);
             $("#topic-form-endtime").val(end);
+            $("#topic-search-bt").trigger("click");
         })
     });
 </script>
@@ -148,6 +163,7 @@
                     <div class="col-sm-4" style="line-height: 34px">
                         <button type="button" class="btn btn-primary btn-xs choose" id="topic-search-bt">确定</button>
                         <button type="button" class="btn btn-xs yesterday">昨日</button>
+                        <button type="button" class="btn btn-xs today">今天</button>
                         <button type="button" class="btn btn-xs benzhou">本周</button>
                         <button type="button" class="btn btn-xs benyue">本月</button>
                     </div>
