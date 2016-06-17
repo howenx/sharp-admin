@@ -116,6 +116,20 @@ $(function(){
 //            alert('"团员减价"为数字!');
 //             return false;
 //        }
+         //检查拼购价格是否已存在
+         var isExist = false;
+         $(".pingou").find("tr").each(function(){
+             var tab_peopleNum = $(this).find("td").eq(2).text();
+             var tab_price = $(this).find("td").eq(3).text();
+             if(peopleNum == tab_peopleNum || price == tab_price){
+                 isExist = true;
+             }
+         })
+
+         if(isExist){
+             alert('"拼购人数"或"阶梯价格"已存在!');
+             return false;
+         }
 
         //团长优惠券
         if($(":radio[value='tz-yes']").prop("checked")){
