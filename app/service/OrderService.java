@@ -82,4 +82,17 @@ public interface OrderService {
      */
     List<Order> getTradeOrder(Order order);
 
+    /**
+     * 订单交易额,交易量统计        Add By Sunny Wu 2016.06.17
+     * @return list of order
+     */
+    List<Order> countTradeOrder(Order order);
+
+    /**
+     * 查询商品的销量              Add By Sunny Wu 2016.06.17
+     * @param orderLine
+     * @return list of orderLine
+     */
+    List<OrderLine> countTradeGoods(OrderLine orderLine);
+
 }

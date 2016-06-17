@@ -792,12 +792,11 @@ funcList.salesData_search = function salesData_search(pageIndex) {
 funcList.salesData_data = function salesData_data(data) {
     //填充列表数据
     $(data).each(function(index, element) {
-        var orderStatus = "";
-        if ($(this)[0].orderStatus=="S") orderStatus = "<span style='color:green;'>付款单</span>";
-        if ($(this)[0].orderStatus=="PS") orderStatus = "<span style='color:green;'>拼购付款单</span>"
-        if ($(this)[0].orderStatus=="pin") orderStatus = "<span style='color:Brown;'>拼购自动退款</span>"
-        if ($(this)[0].orderStatus=="receive") orderStatus = "<span style='color:Brown;'>收货后申请退款</span>"
-        if ($(this)[0].orderStatus=="deliver") orderStatus = "<span style='color:Brown;'>发货前退款</span>"
+        var orderStatus = $(this)[0].orderStatus;
+        if (orderStatus!="pin" && orderStatus!="receive" && orderStatus!="deliver") orderStatus = "<span style='color:green;'>付款单</span>";
+        if (orderStatus=="pin") orderStatus = "<span style='color:Brown;'>拼购自动退款</span>"
+        if (orderStatus=="receive") orderStatus = "<span style='color:Brown;'>收货后申请退款</span>"
+        if (orderStatus=="deliver") orderStatus = "<span style='color:Brown;'>发货前退款</span>"
         $('#tb-topic').find('tbody').append('' +
             '<tr class="tb-list-data">' +
             '<td>' + $(this)[0].orderCreateAt.substr(0,10) + '</td>' +

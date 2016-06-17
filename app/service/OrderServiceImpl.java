@@ -124,4 +124,23 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.getTradeOrder(order);
     }
 
+    /**
+     * 订单交易额,交易量统计        Add By Sunny Wu 2016.06.17
+     * @return list of order
+     */
+    @Override
+    public List<Order> countTradeOrder(Order order) {
+        return orderMapper.countTradeOrder(order);
+    }
+
+    /**
+     * 查询商品的销量              Add By Sunny Wu 2016.06.17
+     * @param orderLine
+     * @return list of orderLine
+     */
+    @Override
+    public List<OrderLine> countTradeGoods(OrderLine orderLine) {
+        return orderMapper.countTradeGoods(orderLine);
+    }
+
 }

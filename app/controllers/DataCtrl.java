@@ -129,11 +129,28 @@ public class DataCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result salesData(String lang) {
+        final String param = request().getQueryString("param");
         Order order = new Order();
         order.setPageSize(-1);
         order.setOffset(-1);
-        List<Order> orderList = orderService.getTradeOrder(order);
-        int countNum = orderList.size();//取总数
+        List<Order> orderList = null;
+        List<Inventory> inventoryList = null;
+        int countNum = 0;//总数
+        if ("sales".equals(param)) {
+            orderList = orderService.getTradeOrder(order);
+            countNum = orderList.size();
+        }
+        if ("trade".equals(param)) {
+            orderList = orderService.countTradeOrder(order);
+            countNum = orderList.size();
+        }
+        if ("goods".equals(param)) {
+            Inventory inventory = new Inventory();
+            inventory.setPageSize(-1);
+            inventory.setOffset(-1);
+            inventoryList = inventoryService.invSearch(inventory);
+            countNum = inventoryList.size();
+        }
         int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
         if (countNum%ThemeCtrl.PAGE_SIZE!=0) {
             pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
@@ -163,8 +180,6 @@ public class DataCtrl extends Controller {
             }
             order.setPageSize(ThemeCtrl.PAGE_SIZE);
             order.setOffset(offset);
-//            order.setSort("order_create_at");
-//            order.setSort("DESC");
             orderList = orderService.getTradeOrder(order);
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
