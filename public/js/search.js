@@ -978,6 +978,7 @@ $(function() {
 	 	if (window.search_args + "_search" in funcList) {
 	 		funcList[window.search_args + "_search"](1);
 	 	}
+         if(nummm!=0){
              $.jqPaginator('#pagination', {
                  totalPages: nummm,
                  visiblePages: 5,
@@ -993,8 +994,7 @@ $(function() {
                      }
                  }
              });
-
-
+         }
 	 })
 
 
