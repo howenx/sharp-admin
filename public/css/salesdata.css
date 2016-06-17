@@ -13,7 +13,8 @@ ul.table-nav>li.active{
     background: rgba(242, 100, 86, 0.9);
 }
 .generate-table{
-    padding: 6px 8px;background: #ccc;
+    padding: 6px 8px;
+    /*background: #ccc;*/
 }
 .tablenum{
     display: none;

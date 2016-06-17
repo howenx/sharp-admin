@@ -163,8 +163,8 @@ public class DataCtrl extends Controller {
             }
             order.setPageSize(ThemeCtrl.PAGE_SIZE);
             order.setOffset(offset);
-            order.setSort("order_create_at");
-            order.setSort("DESC");
+//            order.setSort("order_create_at");
+//            order.setSort("DESC");
             orderList = orderService.getTradeOrder(order);
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();

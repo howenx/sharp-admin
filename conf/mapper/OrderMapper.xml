@@ -150,13 +150,30 @@
 
     <!--销售收入统计 成功付款订单 成功退款订单查询          Add By Sunny.Wu 2016.06.16-->
     <select id="getTradeOrder" parameterType="domain.order.Order" resultType="domain.order.Order">
-        select order_create_at, order_id, pay_total, pg_trade_no, order_status
-        from sp_order where order_status='PS' or order_status='S'
+        select order_create_at, order_id, pay_total, order_status, pg_trade_no
+        from sp_order where (order_status='PS' or order_status='S')
+        <if test='startTime != null'>
+            and order_create_at &gt;= #{startTime} ::timestamp
+        </if>
+        <if test='endTime != null'>
+            and order_create_at &lt;= #{endTime} ::timestamp
+        </if>
         union
-        select create_at as order_create_at, order_id, pay_back_fee as pay_total, pg_trade_no, refund_type as
-        order_status from sp_refund where state='Y'
-        ORDER BY order_create_at
+        select create_at as order_create_at, order_id, pay_back_fee as pay_total, refund_type as
+        order_status, pg_trade_no from sp_refund where state='Y'
+        <if test='startTime != null'>
+            and create_at &gt;= #{startTime} ::timestamp
+        </if>
+        <if test='endTime != null'>
+            and create_at &lt;= #{endTime} ::timestamp
+        </if>
+        ORDER BY order_create_at DESC
+        <if test="pageSize == -1 and offset >= -1">
+            LIMIT ALL OFFSET 0
+        </if>
+        <if test="pageSize >= 1 and offset >= 0">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
     </select>
-
 
 </mapper>

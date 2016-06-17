@@ -1,6 +1,7 @@
 package domain.order;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -44,11 +45,19 @@ public class Order implements Serializable {
     private String sort;
     //排序方式,降序,升序
     private String order;
+    //查询开始时间
+    @Ignore
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "GMT+8")
+    private Timestamp startTime;
+    //查询结束时间
+    @Ignore
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone = "GMT+8")
+    private Timestamp endTime;
 
     public Order() {
     }
 
-    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, BigDecimal shipFee, BigDecimal postalFee, Timestamp confirmReveiveAt, BigDecimal totalFee, Integer shipTime, Integer clientType, Integer orderType, Long pinActiveId, Integer pageSize, Integer offset, String sort, String order) {
+    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, BigDecimal shipFee, BigDecimal postalFee, Timestamp confirmReveiveAt, BigDecimal totalFee, Integer shipTime, Integer clientType, Integer orderType, Long pinActiveId, Integer pageSize, Integer offset, String sort, String order, Timestamp startTime, Timestamp endTime) {
         this.orderId = orderId;
         this.userId = userId;
         this.payTotal = payTotal;
@@ -73,6 +82,8 @@ public class Order implements Serializable {
         this.offset = offset;
         this.sort = sort;
         this.order = order;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     @Override
@@ -102,6 +113,8 @@ public class Order implements Serializable {
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +
                 ", order='" + order + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
                 '}';
     }
 
@@ -295,5 +308,21 @@ public class Order implements Serializable {
 
     public void setOrder(String order) {
         this.order = order;
+    }
+
+    public Timestamp getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Timestamp startTime) {
+        this.startTime = startTime;
+    }
+
+    public Timestamp getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Timestamp endTime) {
+        this.endTime = endTime;
     }
 }

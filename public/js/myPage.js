@@ -11,7 +11,6 @@ $(function () {
             last: '<li class="last"><a href="javascript:;">末页</a></li>',
             page: '<li class="page-num"><a href="javascript:;">{{page}}</a></li>',
             onPageChange: function (num) {
-//                alert(num);
                 funcList[window.search_args + "_search"](num);
             }
         });
