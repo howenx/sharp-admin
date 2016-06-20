@@ -20,11 +20,14 @@ public class OrderLine implements Serializable {
     private Long splitId;       //子订单编号
     private String skuSize;     //商品尺寸
     private String skuColor;    //商品颜色
+    private String skuType;     //商品类型(vary,item,customize,pin)
+    private Long skuTypeId;     //类型ID
+    private Long pinTieredPriceId; //拼购价格ID
 
     public OrderLine() {
     }
 
-    public OrderLine(Long lineId, Long orderId, Long skuId, Long itemId, Integer amount, BigDecimal price, String skuTitle, String skuImg, Long splitId, String skuSize, String skuColor) {
+    public OrderLine(Long lineId, Long orderId, Long skuId, Long itemId, Integer amount, BigDecimal price, String skuTitle, String skuImg, Long splitId, String skuSize, String skuColor, String skuType, Long skuTypeId, Long pinTieredPriceId) {
         this.lineId = lineId;
         this.orderId = orderId;
         this.skuId = skuId;
@@ -36,6 +39,9 @@ public class OrderLine implements Serializable {
         this.splitId = splitId;
         this.skuSize = skuSize;
         this.skuColor = skuColor;
+        this.skuType = skuType;
+        this.skuTypeId = skuTypeId;
+        this.pinTieredPriceId = pinTieredPriceId;
     }
 
     @Override
@@ -52,6 +58,9 @@ public class OrderLine implements Serializable {
                 ", splitId=" + splitId +
                 ", skuSize='" + skuSize + '\'' +
                 ", skuColor='" + skuColor + '\'' +
+                ", skuType='" + skuType + '\'' +
+                ", skuTypeId=" + skuTypeId +
+                ", pinTieredPriceId=" + pinTieredPriceId +
                 '}';
     }
 
@@ -141,5 +150,29 @@ public class OrderLine implements Serializable {
 
     public void setSkuColor(String skuColor) {
         this.skuColor = skuColor;
+    }
+
+    public String getSkuType() {
+        return skuType;
+    }
+
+    public void setSkuType(String skuType) {
+        this.skuType = skuType;
+    }
+
+    public Long getSkuTypeId() {
+        return skuTypeId;
+    }
+
+    public void setSkuTypeId(Long skuTypeId) {
+        this.skuTypeId = skuTypeId;
+    }
+
+    public Long getPinTieredPriceId() {
+        return pinTieredPriceId;
+    }
+
+    public void setPinTieredPriceId(Long pinTieredPriceId) {
+        this.pinTieredPriceId = pinTieredPriceId;
     }
 }

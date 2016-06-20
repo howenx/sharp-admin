@@ -151,8 +151,8 @@
             and order_create_at &lt;= #{endTime} ::timestamp
         </if>
         union
-        select r.create_at as order_create_at, r.order_id, r.pay_back_fee as pay_total, r.refund_type as order_status ,
-        r.pg_trade_no from sp_refund r ,sp_order o where r.order_id=o.order_id and o.order_status='T'
+        select r.create_at as order_create_at, r.order_id, r.pay_back_fee as pay_total, r.refund_type as order_status,
+        r.pg_trade_no from sp_refund r, sp_order o where r.order_id=o.order_id and o.order_status='T'
         <if test='startTime != null'>
             and create_at &gt;= #{startTime} ::timestamp
         </if>
@@ -168,19 +168,21 @@
         </if>
     </select>
 
-    <!--订单交易额,交易量统计   Add By Sunny.Wu 2016.06.17-->
+    <!--每日订单交易额,交易量统计   Add By Sunny.Wu 2016.06.17-->
     <select id="countTradeOrder" parameterType="domain.order.Order" resultType="domain.order.Order">
-        select order_create_at, pay_total, amount, order_status from sp_order o ,sp_order_line l where
+        select to_char(order_create_at, 'yyyy-mm-dd') as sort, sum((select amount from sp_order o, sp_order_line l where
+        o.order_id=l.order_id and order_status='T')) as discount, sum(amount) as pay_method, sum(pay_total) as pay_total
+        from sp_order o, sp_order_line l
+        where
         o.order_id=l.order_id and
-        (order_status='S' or order_status='R' or order_status='D' or order_status='J' or
-        order_status='PS' or order_status='T')
+        (order_status='S' or order_status='R' or order_status='D' or order_status='J' or order_status='PS')
         <if test='startTime != null'>
             and order_create_at &gt;= #{startTime} ::timestamp
         </if>
         <if test='endTime != null'>
             and order_create_at &lt;= #{endTime} ::timestamp
         </if>
-        ORDER BY order_create_at DESC
+        GROUP BY sort ORDER BY sort DESC
         <if test="pageSize == -1 and offset >= -1">
             LIMIT ALL OFFSET 0
         </if>
@@ -189,13 +191,27 @@
         </if>
     </select>
 
-    <!--查询商品的销量             Add By Sunny.Wu 2016.06.17-->
-    <select id="countTradeGoods" parameterType="domain.order.OrderLine" resultType="domain.order.OrderLine">
-        select order_create_at, sku_id, sum(amount) amount, sum(pay_total) pay_total from sp_order_line ol , sp_order o
-        where ol.order_id=o.order_id
-        group by sku_id
-        order by sku_id
+    <!--商品的销量排行             Add By Sunny.Wu 2016.06.17-->
+    <select id="countTradeGoods" parameterType="domain.order.Order" resultType="domain.order.OrderLine">
+        select ROW_NUMBER() OVER() as line_id, sku_id, sku_title, sku_color, sku_size, sum(pay_total) price, sum(amount)
+        amount, sum((select amount from sp_order o, sp_order_line l
+        where
+        o.order_id=l.order_id and order_status='T')) as item_id from sp_order_line l, sp_order o
+        where l.order_id=o.order_id and
+        (order_status='S' or order_status='R' or order_status='D' or order_status='J' or order_status='PS')
+        <if test='startTime != null'>
+            and order_create_at &gt;= #{startTime} ::timestamp
+        </if>
+        <if test='endTime != null'>
+            and order_create_at &lt;= #{endTime} ::timestamp
+        </if>
+        GROUP BY sku_id, sku_title, sku_color, sku_size
+        <if test="pageSize == -1 and offset >= -1">
+            LIMIT ALL OFFSET 0
+        </if>
+        <if test="pageSize >= 1 and offset >= 0">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
     </select>
-
 
 </mapper>

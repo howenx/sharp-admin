@@ -125,7 +125,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 订单交易额,交易量统计        Add By Sunny Wu 2016.06.17
+     * 每日订单交易额,交易量统计        Add By Sunny Wu 2016.06.17
      * @return list of order
      */
     @Override
@@ -134,13 +134,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 查询商品的销量              Add By Sunny Wu 2016.06.17
-     * @param orderLine
+     * 商品的销量排行              Add By Sunny Wu 2016.06.17
+     * @param order
      * @return list of orderLine
      */
     @Override
-    public List<OrderLine> countTradeGoods(OrderLine orderLine) {
-        return orderMapper.countTradeGoods(orderLine);
+    public List<OrderLine> countTradeGoods(Order order) {
+        return orderMapper.countTradeGoods(order);
     }
 
 }

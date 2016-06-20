@@ -9,6 +9,7 @@ import domain.SMSVo;
 import domain.SystemParam;
 import domain.User;
 import domain.order.Order;
+import domain.order.OrderLine;
 import filters.UserAuth;
 import play.Configuration;
 import play.Logger;
@@ -130,17 +131,20 @@ public class DataCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result salesData(String lang) {
         final String param = request().getQueryString("param");
-        Order order = new Order();
-        order.setPageSize(-1);
-        order.setOffset(-1);
         List<Order> orderList = null;
         List<Inventory> inventoryList = null;
         int countNum = 0;//总数
         if ("sales".equals(param)) {
+            Order order = new Order();
+            order.setPageSize(-1);
+            order.setOffset(-1);
             orderList = orderService.getTradeOrder(order);
             countNum = orderList.size();
         }
         if ("trade".equals(param)) {
+            Order order = new Order();
+            order.setPageSize(-1);
+            order.setOffset(-1);
             orderList = orderService.countTradeOrder(order);
             countNum = orderList.size();
         }
@@ -159,31 +163,59 @@ public class DataCtrl extends Controller {
     }
 
     /**
-     * ajax分页查询         Added By Sunny Wu  2016.06.16
+     * 销售数据Ajax分页查询         Added By Sunny Wu  2016.06.16
      * @param pageNum 当前页
      * @return json
      */
     @Security.Authenticated(UserAuth.class)
     public Result salesDataAjax(String lang, int pageNum) {
         JsonNode json = request().body().asJson();
+        final String param = request().getQueryString("param");
         Order order = Json.fromJson(json,Order.class);
+        order.setPageSize(-1);
+        order.setOffset(-1);
+        List<Order> orderList = null;
+        List<OrderLine> orderLineList = null;
+        int countNum = 0;//总数
+        //组装返回数据
+        Map<String,Object> returnMap=new HashMap<>();
         if(pageNum>=1){
             //计算从第几条开始取数据
             int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
-            order.setPageSize(-1);
-            order.setOffset(-1);
-            List<Order> orderList = orderService.getTradeOrder(order);
-            int countNum = orderList.size();//取总数
+            if ("sales".equals(param)) {
+                orderList = orderService.getTradeOrder(order);
+                countNum = orderList.size();
+                order.setPageSize(ThemeCtrl.PAGE_SIZE);
+                order.setOffset(offset);
+                orderList = orderService.getTradeOrder(order);
+                returnMap.put("topic",orderList);
+            }
+            if ("trade".equals(param)) {
+                orderList = orderService.countTradeOrder(order);
+                countNum = orderList.size();
+                order.setPageSize(ThemeCtrl.PAGE_SIZE);
+                order.setOffset(offset);
+                orderList = orderService.countTradeOrder(order);
+                returnMap.put("topic",orderList);
+            }
+            if ("goods".equals(param)) {
+                orderLineList = orderService.countTradeGoods(order);
+                countNum = orderLineList.size();
+                order.setPageSize(ThemeCtrl.PAGE_SIZE);
+                order.setOffset(offset);
+                orderLineList = orderService.countTradeGoods(order);
+                for(OrderLine orderLine : orderLineList) {
+                    Long skuId = orderLine.getSkuId();
+                    Inventory inventory = inventoryService.getInventory(skuId);
+                    orderLine.setSkuType(inventory.getInvCode());//保存sku的编码
+                }
+                returnMap.put("topic",orderLineList);
+            }
             int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
             if(countNum%ThemeCtrl.PAGE_SIZE!=0){
                 pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
             }
-            order.setPageSize(ThemeCtrl.PAGE_SIZE);
-            order.setOffset(offset);
-            orderList = orderService.getTradeOrder(order);
-            //组装返回数据
-            Map<String,Object> returnMap=new HashMap<>();
-            returnMap.put("topic",orderList);
+
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);

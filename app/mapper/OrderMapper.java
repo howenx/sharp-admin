@@ -87,16 +87,16 @@ public interface OrderMapper {
     List<Order> getTradeOrder(Order order);
 
     /**
-     * 订单交易额,交易量统计        Add By Sunny Wu 2016.06.17
+     * 每日订单交易额,交易量统计        Add By Sunny Wu 2016.06.17
      * @return list of order
      */
     List<Order> countTradeOrder(Order order);
 
     /**
-     * 查询商品的销量              Add By Sunny Wu 2016.06.17
-     * @param orderLine
+     * 商品的销量排行              Add By Sunny Wu 2016.06.17
+     * @param order
      * @return list of orderLine
      */
-    List<OrderLine> countTradeGoods(OrderLine orderLine);
+    List<OrderLine> countTradeGoods(Order order);
 
 }

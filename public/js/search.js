@@ -784,29 +784,66 @@ funcList.salesData_search = function salesData_search(pageIndex) {
         Order.endTime = "99999-12-31";
     }
     console.log(Order);
+    var p = $("#param").val();
     //调用共用ajax,url从根目录开始不需要加上语言
-    search("/sales/data/" + pageIndex, Order);
+    search("/sales/data/" + pageIndex + "?param=" + p, Order);
 }
 
 //每个查询页面对应一个相应的返回时填充函数 销售数据页面   Added By Sunny Wu  2016.06.16
 funcList.salesData_data = function salesData_data(data) {
     //填充列表数据
-    $(data).each(function(index, element) {
-        var orderStatus = $(this)[0].orderStatus;
-        if (orderStatus!="pin" && orderStatus!="receive" && orderStatus!="deliver") orderStatus = "<span style='color:green;'>付款单</span>";
-        if (orderStatus=="pin") orderStatus = "<span style='color:Brown;'>拼购自动退款</span>"
-        if (orderStatus=="receive") orderStatus = "<span style='color:Brown;'>收货后申请退款</span>"
-        if (orderStatus=="deliver") orderStatus = "<span style='color:Brown;'>发货前退款</span>"
-        $('#tb-topic').find('tbody').append('' +
-            '<tr class="tb-list-data">' +
-            '<td>' + $(this)[0].orderCreateAt.substr(0,10) + '</td>' +
-            '<td>' + $(this)[0].orderId + '</td>' +
-            '<td>￥' + $(this)[0].payTotal.toFixed(2) + '</td>' +
-            '<td>' + orderStatus + '</td>' +
-            '<td>' + $(this)[0].pgTradeNo + '</td>' +
-            '</tr>'
-        );
-    })
+    //销售收入统计 列表填充数据  "sales"
+    if (data[0].orderId != null) {
+        $(data).each(function(index, element) {
+            var orderStatus = $(this)[0].orderStatus;
+            if (orderStatus!="pin" && orderStatus!="receive" && orderStatus!="deliver") orderStatus = "<span style='color:green;'>付款单</span>";
+            if (orderStatus=="pin") orderStatus = "<span style='color:Brown;'>拼购自动退款</span>"
+            if (orderStatus=="receive") orderStatus = "<span style='color:Brown;'>收货后申请退款</span>"
+            if (orderStatus=="deliver") orderStatus = "<span style='color:Brown;'>发货前退款</span>"
+            $('#tb-topic').find('tbody').append('' +
+                '<tr class="tb-list-data">' +
+                '<td>' + $(this)[0].orderCreateAt.substr(0,10) + '</td>' +
+                '<td>' + $(this)[0].orderId + '</td>' +
+                '<td>￥' + $(this)[0].payTotal.toFixed(2) + '</td>' +
+                '<td>' + orderStatus + '</td>' +
+                '<td>' + $(this)[0].pgTradeNo + '</td>' +
+                '</tr>'
+            );
+        });
+    }
+    //商品销售情况 列表填充数据  "trade"
+    if (data[0].payTotal != null) {
+        $(data).each(function(index, element) {
+            var discount = $(this)[0].discount;//discount字段存放 商品退换量
+            if (discount == null) discount = 0;
+            $('#tb-topic').find('tbody').append('' +
+                '<tr class="tb-list-data">' +
+                '<td>' + $(this)[0].sort + '</td>' +    //日期
+                '<td>' + discount + '</td>' +           //商品退换量
+                '<td>' + $(this)[0].payMethod + '</td>' +//订单成交量
+                '<td>￥' + $(this)[0].payTotal.toFixed(2) + '</td>' +//订单成交额
+                '</tr>'
+            );
+        });
+    }
+    //商品销售排行 列表填充数据  "goods"
+    if ('skuId' in data[0]) {
+       $(data).each(function(index, element) {
+           var itemId = $(this)[0].itemId;//itemId字段存放 商品退换量
+           if (itemId == null) itemId = 0;
+           $('#tb-topic').find('tbody').append('' +
+               '<tr class="tb-list-data">' +
+               '<td>' + $(this)[0].lineId + '</td>' +    //排名
+               '<td>' + $(this)[0].skuTitle + "&nbsp;" + $(this)[0].skuColor + "&nbsp;" + $(this)[0].skuSize +  '</td>' + //商品名称+规格
+               '<td>￥' + $(this)[0].price + '</td>' +    //销售额
+               '<td>' + $(this)[0].amount + '</td>' +    //销售量
+               '<td>' + itemId + '</td>' +               //商品退换量
+               '<td>' + $(this)[0].skuType + '</td>' +   //商品编码
+               '</tr>'
+           );
+       });
+    }
+
 }
 
 
