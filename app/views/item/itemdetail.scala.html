@@ -116,6 +116,7 @@
                                 <th>是否主商品</th>
                                 <th>颜色分类</th>
                                 <th>尺寸分类</th>
+                                <th>主图(一张)</th>
                                 <th>规格编号</th>
                                 <th>上架时间</th>
                                 <th>下架时间</th>
@@ -134,7 +135,7 @@
                                 <th>行邮税号</th>
                                 <th>报关单位</th>
                                 <th>海关商品备案号</th>
-                                <th>主图(一张)</th>
+                                <!--<th>主图(一张)</th>-->
                                 <th>详情页预览图(最多6张)</th>
                                 <th>状态</th>
                                 <th>是否存在多样化价格</th>
@@ -146,6 +147,15 @@
                                     </td>
                                     <td>@obj(1)</td>
                                     <td>@obj(2)</td>
+
+                                    <td class="list-img">
+                                        <div >
+                                            <div>
+                                                <img class="main-img" src='@url@obj(14)'>
+                                            </div>
+                                        </div>
+                                    </td>
+
                                     <td>@obj(19)</td>
                                     <td>@(obj(20).toString().substring(0,19))</td>
                                     <td>@(obj(21).toString().substring(0,19))</td>
@@ -194,13 +204,6 @@
                                         <td>无</td>
                                         <td>无</td>
                                     }
-                                    <td class="list-img">
-                                        <div >
-                                            <div>
-                                                <img class="main-img" src='@url@obj(14)'>
-                                            </div>
-                                        </div>
-                                    </td>
                                     <td width="146" class="preview-img">
                                         <div >
                                             @for(pre <- obj(15).toString().substring(1,obj(15).toString().length()-2).split("}, ")) {
