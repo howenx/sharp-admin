@@ -33,6 +33,9 @@ function updateThemeImg(obj){
 
 
 $(function(){
+     var pinOffShelf = false;
+     var pinOffShelfTime =  $("#offShelvesAt").val();
+
      $(".tiered-price").find("button").eq(1).css("display","none");
      $(".tiered-price").find("button").eq(2).css("display","none");
 
@@ -583,6 +586,7 @@ $(function(){
          $("#pinSkuEdit").css("display","none");   //编辑
          $("#pinSkuBack").css("display","none");   //返回
          $("#pinSkuSubmit").css("display","");   //保存
+         $("#pinSkuDelete").css("display","");   //下架
          $("#cancel").css("display","");         //取消
 
          $("#onShelvesAt").attr("disabled",false);    //开始时间
@@ -612,6 +616,12 @@ $(function(){
      $(document).on("click","#cancel",function(){
          setTimeout("location.href='/"+window.lang+"/pin/getPinById/"+ $("#pinId").val() +"'", 300);
      })
+
+    //拼购商品下架
+    $(document).on("click","#pinSkuDelete",function(){
+         pinOffShelf = true;
+         $("#pinSkuSubmit").click();
+    })
 
     //保存
     $(document).on("click","#pinSkuSubmit",function(){
@@ -746,6 +756,27 @@ $(function(){
             }
         })
         pinData.tieredPrice = tieredPrice;
+
+        var confirm_text = "确定保存吗?";
+        if(pinOffShelf == true){
+           confirm_text = "确定下架吗?";
+        }
+        var a = confirm(confirm_text);
+        if(!a){
+            $("#offShelvesAt").val(pinOffShelfTime);
+            isPost = false;
+            return false;
+        }else{
+            if(confirm_text == "确定下架吗?"){
+                   //当前系统时间
+                   var dateTime = new Date();
+                   var currentTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+                   dateTime.setSeconds(dateTime.getSeconds() + 15);
+                   var deleteDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+                   //设置主题结束时间
+                   $("#offShelvesAt").val(deleteDate);
+            }
+        }
 
         //pinSku组装数据
         var pinSku = new Object();

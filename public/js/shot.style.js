@@ -99,6 +99,16 @@ $(function() {
              $("#offShelvesAt").val(themeOffShelfTime);
              isPost = false;
              return false;
+         }else{
+             if(confirm_text == "确定下架吗?"){
+                //当前系统时间
+                var dateTime = new Date();
+                var currentTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+                dateTime.setSeconds(dateTime.getSeconds() + 15);
+                var deleteDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+                //设置主题结束时间
+                $("#offShelvesAt").val(deleteDate);
+             }
          }
 
         //填充数据
@@ -300,13 +310,6 @@ $(function() {
              setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
              return false;
          }
-         var theme = {};
-         var themeId = $("#themeId").val();
-         theme.id = $("#themeId").val();
-         theme.title = $("#themeTitle").val();
-         theme.startAt = $("#onShelvesAt").val();
-         theme.endAt = $("#offShelvesAt").val();
-         theme.h5Link = $("#h5-link").val();
 
          var confirm_text = "确定保存吗?";
          if(themeOffShelf == true){
@@ -314,10 +317,28 @@ $(function() {
          }
          var a = confirm(confirm_text);
          if(!a){
-         $("#offShelvesAt").val(themeOffShelfTime);
+             $("#offShelvesAt").val(themeOffShelfTime);
              isPost = false;
              return false;
+         }else{
+             if(confirm_text == "确定下架吗?"){
+                    //当前系统时间
+                    var dateTime = new Date();
+                    var currentTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+                    dateTime.setSeconds(dateTime.getSeconds() + 15);
+                    var deleteDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+                    //设置主题结束时间
+                    $("#offShelvesAt").val(deleteDate);
+             }
          }
+
+         var theme = {};
+         var themeId = $("#themeId").val();
+         theme.id = $("#themeId").val();
+         theme.title = $("#themeTitle").val();
+         theme.startAt = $("#onShelvesAt").val();
+         theme.endAt = $("#offShelvesAt").val();
+         theme.h5Link = $("#h5-link").val();
 
          //主题主图片
          var themeImgContent = {};
@@ -363,12 +384,12 @@ $(function() {
     //主题下架-----普通
     $(document).on("click","#js-usercenter-delete",function(){
         //当前系统时间
-        var dateTime = new Date();
-        var currentTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-        dateTime.setSeconds(dateTime.getSeconds() + 15);
-        var deleteDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-        //设置主题结束时间
-        $("#offShelvesAt").val(deleteDate);
+//        var dateTime = new Date();
+//        var currentTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+//        dateTime.setSeconds(dateTime.getSeconds() + 15);
+//        var deleteDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+//        //设置主题结束时间
+//        $("#offShelvesAt").val(deleteDate);
         //点击保存
         themeOffShelf = true;
         $("#js-usercenter-submit").click();
@@ -376,13 +397,13 @@ $(function() {
 
     //主题下架-----HTML5
     $(document).on("click","#js-usercenter-delete-h5",function(){
-        //当前系统时间
-        var dateTime = new Date();
-        var currentTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-        dateTime.setSeconds(dateTime.getSeconds() + 15);
-        var deleteDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-        //设置主题结束时间
-        $("#offShelvesAt").val(deleteDate);
+//        //当前系统时间
+//        var dateTime = new Date();
+//        var currentTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+//        dateTime.setSeconds(dateTime.getSeconds() + 15);
+//        var deleteDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+//        //设置主题结束时间
+//        $("#offShelvesAt").val(deleteDate);
         //点击保存
         themeOffShelf = true;
         $("#js-usercenter-submit-h5").click();
