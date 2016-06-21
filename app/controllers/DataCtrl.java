@@ -4,10 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import domain.Inventory;
-import domain.SMSVo;
-import domain.SystemParam;
-import domain.User;
+import domain.*;
 import domain.order.Order;
 import domain.order.OrderLine;
 import filters.UserAuth;
@@ -22,10 +19,12 @@ import play.mvc.Result;
 import play.mvc.Security;
 import service.InventoryService;
 import service.OrderService;
+import service.RefundService;
 import service.SysParamService;
 import util.SysParCom;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +44,9 @@ public class DataCtrl extends Controller {
 
     @Inject
     OrderService orderService;
+
+    @Inject
+    RefundService refundService;
 
     @Inject
     Configuration configuration;
@@ -184,19 +186,59 @@ public class DataCtrl extends Controller {
             int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
             if ("sales".equals(param)) {
                 orderList = orderService.getTradeOrder(order);
+                BigDecimal income = new BigDecimal(0.0);    //收款额
+                BigDecimal expend = new BigDecimal(0.0);    //退款额
+                BigDecimal profit = new BigDecimal(0.0);    //收入
+                for(Order o : orderList) {
+                    if ("T".equals(order.getOrderStatus())) {
+                        //退款单, 退款额增加, 收入减少
+                        Refund refund = refundService.getRefundByOrderId(o.getOrderId());
+                        BigDecimal payBackFee = refund.getPayBackFee();
+                        expend = expend.add(payBackFee);
+                        profit = profit.subtract(payBackFee);
+                    }
+                    if (!"T".equals(order.getOrderStatus())) {
+                        //付款单, 收款额增加, 收入增加
+                        BigDecimal payTotal = o.getPayTotal();
+                        income = income.add(payTotal);
+                        profit = profit.add(payTotal);
+                    }
+                }
                 countNum = orderList.size();
                 order.setPageSize(ThemeCtrl.PAGE_SIZE);
                 order.setOffset(offset);
                 orderList = orderService.getTradeOrder(order);
+                if (orderList.size()>0) {
+                    orderList.get(0).setShipFee(income);
+                    orderList.get(0).setPostalFee(expend);
+                    orderList.get(0).setTotalFee(profit);
+                }
                 returnMap.put("topic",orderList);
+//                Logger.error("sales:"+orderList);
             }
             if ("trade".equals(param)) {
                 orderList = orderService.countTradeOrder(order);
+                int tradeNum = 0;   //成交量
+                BigDecimal tradeMoney = new BigDecimal(0.0);//成交额
+                int retreatNum = 0;    //退换量
+                for(Order o : orderList) {
+                    //每日成交量, 成交额, 退换量累加
+                    tradeNum = tradeNum + Integer.valueOf(o.getPayMethod());
+                    tradeMoney = tradeMoney.add(o.getPayTotal());
+                    if (null != o.getOrderType())
+                        retreatNum = retreatNum + o.getOrderType();
+                }
                 countNum = orderList.size();
                 order.setPageSize(ThemeCtrl.PAGE_SIZE);
                 order.setOffset(offset);
                 orderList = orderService.countTradeOrder(order);
+                if (orderList.size()>0) {
+                    orderList.get(0).setUserId((long) tradeNum);
+                    orderList.get(0).setTotalFee(tradeMoney);
+                    orderList.get(0).setOrderType(retreatNum);
+                }
                 returnMap.put("topic",orderList);
+//                Logger.error("trade:"+orderList);
             }
             if ("goods".equals(param)) {
                 orderLineList = orderService.countTradeGoods(order);
@@ -210,12 +252,12 @@ public class DataCtrl extends Controller {
                     orderLine.setSkuType(inventory.getInvCode());//保存sku的编码
                 }
                 returnMap.put("topic",orderLineList);
+//                Logger.error("goods:"+orderLineList);
             }
             int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
             if(countNum%ThemeCtrl.PAGE_SIZE!=0){
                 pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
             }
-
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);

@@ -794,6 +794,9 @@ funcList.salesData_data = function salesData_data(data) {
     //填充列表数据
     //销售收入统计 列表填充数据  "sales"
     if (data[0].orderId != null) {
+        $("#money-1").html("<span>收款额:</span><i class='data'>" + data[0].shipFee + "</i>");
+        $("#money-2").html("<span>退款额:</span><i class='data'>" + data[0].postalFee + "</i>");
+        $("#money-3").html("<span>收入:</span><i class='data'>" + data[0].totalFee + "</i>");
         $(data).each(function(index, element) {
             var orderStatus = $(this)[0].orderStatus;
             if (orderStatus!="pin" && orderStatus!="receive" && orderStatus!="deliver") orderStatus = "<span style='color:green;'>付款单</span>";
@@ -812,16 +815,19 @@ funcList.salesData_data = function salesData_data(data) {
         });
     }
     //商品销售情况 列表填充数据  "trade"
-    if (data[0].payTotal != null) {
+    if (data[0].payMethod != null) {
+        $("#money-1").html("<span>成交量:</span><i class='data'>" + data[0].userId +"</i>");
+        $("#money-2").html("<span>成交额:</span><i class='data'>" + data[0].totalFee + "</i>");
+        $("#money-3").html("<span>退换量:</span><i class='data'>" + data[0].orderType + "</i>");
         $(data).each(function(index, element) {
-            var discount = $(this)[0].discount;//discount字段存放 商品退换量
-            if (discount == null) discount = 0;
+            var orderType = $(this)[0].orderType;//orderType字段存放商品退换量
+            if (orderType == null) orderType = 0;
             $('#tb-topic').find('tbody').append('' +
                 '<tr class="tb-list-data">' +
                 '<td>' + $(this)[0].sort + '</td>' +    //日期
-                '<td>' + discount + '</td>' +           //商品退换量
                 '<td>' + $(this)[0].payMethod + '</td>' +//订单成交量
                 '<td>￥' + $(this)[0].payTotal.toFixed(2) + '</td>' +//订单成交额
+                '<td>' + orderType + '</td>' +           //商品退换量
                 '</tr>'
             );
         });

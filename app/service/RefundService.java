@@ -41,6 +41,11 @@ public interface RefundService {
      */
     Refund getRefundServiceById(Long id);
 
-
+    /**
+     * 由订单号查询退款单记录      Add By Sunny.Wu 2016.06.21
+     * @param orderId 订单号
+     * @return Refund
+     */
+    Refund getRefundByOrderId(Long orderId);
 
 }

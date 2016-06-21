@@ -95,4 +95,13 @@
             where id = #{id}
     </update>
 
+    <!--由订单号查询退款单记录          Add By Sunny.Wu 2016.06.21-->
+    <select id="getRefundByOrderId" parameterType="java.lang.Long" resultType="domain.Refund">
+        select
+        <include refid="refundColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_refund t t.order_id = #{orderId}
+    </select>
+
 </mapper>

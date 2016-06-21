@@ -42,4 +42,11 @@ public interface RefundMapper {
      * 更新退款申请       Added by Tiffany Zhu 2016.04.16
      */
     void updRefund(RefundTemp refundTemp);
+
+    /**
+     * 由订单号查询退款单记录      Add By Sunny.Wu 2016.06.21
+     * @param orderId 订单号
+     * @return Refund
+     */
+    Refund getRefundByOrderId(Long orderId);
 }

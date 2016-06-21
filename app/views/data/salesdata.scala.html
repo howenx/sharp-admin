@@ -32,19 +32,40 @@
             $(".table-nav>li").removeClass("active").eq(0).addClass("active");
             $(".tablenum").css("display","none").eq(0).css("display","block");
             $(".table-hover").eq(0).attr({"id":"tb-topic"});
+            $(".nodata-td").eq(0).attr({"id":"nodata-td"});
             $(".table-h3").html($(".table-nav>li").eq(0).html());
+
+            $(".money").css("display","block");
+            $("#money-1").removeClass("trade-1").addClass("money-1");
+            $("#money-1").html('<span>收款额:</span><i class="data">0</i>');
+            $("#money-2").removeClass("trade-2").addClass("money-2");
+            $("#money-2").html('<span>退款额:</span><i class="data">0</i>');
+            $("#money-3").removeClass("trade-3").addClass("money-3");
+            $("#money-3").html('<span>收入:</span><i class="data">0</i>');
         }
         if (param=="trade") {
             $(".table-nav>li").removeClass("active").eq(1).addClass("active");
             $(".tablenum").css("display","none").eq(1).css("display","block");
-            $(".tablenum").eq(1).attr({"id":"tb-topic"});
+             $(".table-hover").eq(1).attr({"id":"tb-topic"});
+            $(".nodata-td").eq(1).attr({"id":"nodata-td"});
             $(".table-h3").html($(".table-nav>li").eq(1).html());
+
+            $(".money").css("display","block");
+            $("#money-1").removeClass("money-1").addClass("trade-1");
+            $("#money-1").html('<span>成交量:</span><i class="data">0</i>');
+            $("#money-2").removeClass("money-2").addClass("trade-2");
+            $("#money-2").html('<span>成交额:</span><i class="data">0</i>');
+            $("#money-3").removeClass("money-3").addClass("trade-3");
+            $("#money-3").html('<span>退换量:</span><i class="data">0</i>');
         }
         if (param=="goods") {
             $(".table-nav>li").removeClass("active").eq(2).addClass("active");
             $(".tablenum").css("display","none").eq(2).css("display","block");
-            $(".tablenum").eq(2).attr({"id":"tb-topic"});
+            $(".table-hover").eq(2).attr({"id":"tb-topic"});
+            $(".nodata-td").eq(2).attr({"id":"nodata-td"});
             $(".table-h3").html($(".table-nav>li").eq(2).html());
+
+            $(".money").css("display","none");
         }
 
         //获取请求参数
@@ -68,18 +89,11 @@
             window.location.href = '/sales/data?param='+param;
         });
 
-//        $(".choose").click(function () {
-//            var start = new Date($("#topic-form-starttime").val()).getTime();
-//            var end = new Date($("#topic-form-endtime").val()).getTime();
-//            $(".sedate").each(function () {
-//                console.log(1);
-//                if( !(new Date($(this).html().split(" ")[0]).getTime() >=start && new Date($(this).html().split(" ")[0]).getTime()<=end+86399000)){
-//                    $(this).parent().css("display","none");
-//                }else{
-//                    $(this).parent().css("display","table-row");
-//                }
-//            })
-//        });
+        //点击确定
+        $(".choose").click(function () {
+            $("#topic-search-bt").trigger("click");
+            sales();
+        });
 
         //本周
         function benzhou() {
@@ -112,7 +126,7 @@
             $("#topic-form-endtime").val(start);
 
             $("#topic-search-bt").trigger("click");
-
+            sales();
         });
 
         //今日
@@ -125,12 +139,13 @@
             $("#topic-form-endtime").val(start);
 
             $("#topic-search-bt").trigger("click");
-
+            sales();
         });
 
         //本周
         $(".benzhou").click(function () {
             benzhou();
+            sales();
         })
 
         //本月
@@ -144,8 +159,17 @@
 
             $("#topic-form-starttime").val(start);
             $("#topic-form-endtime").val(end);
+
             $("#topic-search-bt").trigger("click");
+            sales();
         });
+
+        function sales() {
+            var trNum = $("#tb-topic tr").length;
+            if (trNum == 2) {
+                $(".data").html(0);
+            }
+        }
 
     });
 </script>
@@ -154,7 +178,6 @@
 <script src="/assets/js/jqPaginator.min.js" type="text/javascript"></script>
 <script src="/assets/js/myPage.js" type="text/javascript"></script>
 <script src="/assets/js/search.js"></script>
-
 }
 
 @import java.lang.String; val title="销售数据"
@@ -200,18 +223,19 @@
                         </div>
                     </div>
                     <div class="col-sm-4" style="line-height: 34px">
-                        <button type="button" class="btn btn-primary btn-xs choose" id="topic-search-bt">确定</button>
+                        <button type="button" class="btn btn-primary btn-xs choose">确定</button>
                         <button type="button" class="btn btn-xs yesterday">昨日</button>
                         <button type="button" class="btn btn-xs today">今日</button>
                         <button type="button" class="btn btn-xs benzhou">本周</button>
                         <button type="button" class="btn btn-xs benyue">本月</button>
+                        <input type="hidden" id="topic-search-bt">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12 money">
-                        <div class="money-1"><span>收款额:</span><i>21323</i></div>
-                        <div class="money-2"><span>退款额:</span><i>21323</i></div>
-                        <div class="money-3"><span>收入:</span><i>21323</i></div>
+                        <div id="money-1"></div>
+                        <div id="money-2"></div>
+                        <div id="money-3"></div>
                     </div>
                 </div>
                 <!--表格-->
@@ -232,6 +256,7 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <tr class="nodata-td" style="display:none;"><td colspan="5">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -240,12 +265,13 @@
                             <thead>
                             <tr>
                                 <th>日期</th>
-                                <th>商品退换量</th>
                                 <th>订单成交量</th>
                                 <th>订单成交额</th>
+                                <th>商品退换量</th>
                             </tr>
                             </thead>
                             <tbody>
+                            <tr class="nodata-td" style="display:none;"><td colspan="4">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -262,6 +288,7 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <tr class="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
                             </tbody>
                         </table>
                     </div>

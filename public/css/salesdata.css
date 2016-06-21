@@ -45,3 +45,12 @@ ul.table-nav>li.active{
 .money-3{
     background: url("/assets/images/money/coins.gif") no-repeat 3px 2px;
 }
+.trade-1{
+    background: url("/assets/images/money/application_add.gif") no-repeat 3px 2px;
+}
+.trade-2{
+    background: url("/assets/images/money/coins.gif") no-repeat 3px 2px;
+}
+.trade-3{
+    background: url("/assets/images/money/money_delete.gif") no-repeat 3px 2px;
+}

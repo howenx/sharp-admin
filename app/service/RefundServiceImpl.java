@@ -63,4 +63,14 @@ public class RefundServiceImpl implements RefundService{
     public Refund getRefundServiceById(Long id) {
         return refundMapper.getRefundServiceById(id);
     }
+
+    /**
+     * 由订单号查询退款单记录      Add By Sunny.Wu 2016.06.21
+     * @param orderId 订单号
+     * @return Refund
+     */
+    @Override
+    public Refund getRefundByOrderId(Long orderId) {
+        return refundMapper.getRefundByOrderId(orderId);
+    }
 }
