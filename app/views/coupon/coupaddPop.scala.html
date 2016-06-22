@@ -18,6 +18,7 @@
         $(function(){
             $("#searchUser").xlsTableFilter({
                 checkStyle: "custom",
+                ignoreColumns:[0,3,4,9]   //不需要检索的列
             });
 
             var sharedObject = window.dialogArguments;

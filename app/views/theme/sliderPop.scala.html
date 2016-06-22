@@ -16,6 +16,7 @@
         $(function(){
             $("#searchitem").xlsTableFilter({
                 checkStyle: "custom",
+                ignoreColumns:[0,6]   //不需要检索的列
             });
             $("#searchtheme").xlsTableFilter({
                 checkStyle: "custom",
