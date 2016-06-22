@@ -25,7 +25,7 @@ public class LevelDBModule extends AbstractModule {
         bind(MemcachedConfiguration.class).asEagerSingleton();
         bind(LogUtil.class).asEagerSingleton();
         bind(RedisPool.class).asEagerSingleton();
-        bind(JedisPool.class).toInstance(RedisPool.create());
         bind(LeveldbLoad.class).asEagerSingleton();
+        bind(ExecSubscribe.class).asEagerSingleton();
     }
 }

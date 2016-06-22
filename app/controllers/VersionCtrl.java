@@ -25,6 +25,7 @@ import play.mvc.*;
 import redis.clients.jedis.JedisPool;
 import service.AdminUserService;
 import service.ItemService;
+import util.SysParCom;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -49,9 +50,6 @@ public class VersionCtrl extends Controller {
 
     @Inject
     private Configuration configuration;
-
-    @Inject
-    private JedisPool jedisPool;
 
 
     @Security.Authenticated(UserAuth.class)
@@ -240,12 +238,13 @@ public class VersionCtrl extends Controller {
     public WebSocket<String> logsocket() {
 
         return WebSocket.whenReady((in, out) -> {
-            final ActorRef pingActor = Akka.system().actorOf(Props.create(SubscribeActor.class, jedisPool, in, out));
-            pingActor.tell("start", ActorRef.noSender());
+            SysParCom.WEBSOCKET_OUT_LIST.add(out);
             in.onMessage(System.out::println);
             in.onClose(() -> {
                 out.close();
-                Akka.system().actorOf(Props.create(SubscribeActor.class, jedisPool, null, null)).tell("end", ActorRef.noSender());
+                if (SysParCom.WEBSOCKET_OUT_LIST.contains(out)){
+                    SysParCom.WEBSOCKET_OUT_LIST.remove(out);
+                }
                 System.err.println("Disconnected");
             });
         });

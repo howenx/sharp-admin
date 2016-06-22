@@ -4,6 +4,7 @@ import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import play.Configuration;
+import play.mvc.WebSocket;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
@@ -13,6 +14,7 @@ import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutorService;
 
@@ -60,6 +62,8 @@ public class SysParCom {
     public static ConcurrentMap<String, JedisPubSub> JEDIS_SUB;
     public static List<Jedis> JEDIS_COLLECT;
     public static List<JedisPool> JEDIS_POOLS;
+
+    public final static ConcurrentLinkedDeque<WebSocket.Out<String>> WEBSOCKET_OUT_LIST = new ConcurrentLinkedDeque<>();
 
 
     public static List<ExecutorService> EXECUTOR_SERVICE;
