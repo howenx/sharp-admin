@@ -8,6 +8,11 @@ import domain.*;
 import domain.order.Order;
 import domain.order.OrderLine;
 import filters.UserAuth;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import play.Configuration;
 import play.Logger;
 import play.data.Form;
@@ -24,6 +29,8 @@ import service.SysParamService;
 import util.SysParCom;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -117,7 +124,7 @@ public class DataCtrl extends Controller {
                 Logger.error("smsVo 表单数据有误.....");
                 return badRequest();
             }
-            Logger.error("短信内容:"+smsVo.toString());
+            Logger.info("短信内容:"+smsVo.toString());
             ObjectMapper mapper = new ObjectMapper();
             Map<String, BigInteger> paramMap = mapper.convertValue(jsonNode, Map.class);
             system.actorSelection(SysParCom.SMS_SEND).tell(paramMap, ActorRef.noSender());
@@ -267,6 +274,140 @@ public class DataCtrl extends Controller {
         else{
             return badRequest();
         }
+    }
+
+    /**
+     * 报表导出功能
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result salesReport() {
+        JsonNode json = request().body().asJson();
+        String param = "";
+        Order order = null;
+        if (json.has("param")) {
+            param = json.findValue("param").asText();
+        }
+        if (json.has("order")) {
+            JsonNode jsonOrder = json.findValue("order");
+            order = Json.fromJson(jsonOrder, Order.class);
+        }
+        if ("".equals(param) || null==order) {
+            return badRequest();
+        }
+        order.setPageSize(-1);
+        order.setOffset(-1);
+        List<Order> orderList = null;
+        List<OrderLine> orderLineList = null;
+        //导出excel
+        XSSFWorkbook wb = new XSSFWorkbook();//创建HSSFWorkbook对象(excel的文档对象)
+        //输出Excel文件
+        FileOutputStream output = null;
+        File file = new File("aaa.xlsx");
+        if ("sales".equals(param)) {
+            orderList = orderService.getTradeOrder(order);
+            Sheet sheet = wb.createSheet("销售收入统计");//建立新的sheet对象（excel的表单）
+            Row row1 = sheet.createRow(0);//在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个
+            Cell cell = row1.createCell(0);//创建单元格（excel的单元格，参数为列索引，可以是0～255之间的任何一个
+            cell.setCellValue("销售收入统计表");//设置单元格内容
+            sheet.addMergedRegion(new CellRangeAddress(0,0,0,4));//合并单元格CellRangeAddress构造参数依次表示起始行，截至行，起始列， 截至列
+            Row row2 = sheet.createRow(1);//在sheet里创建第二行
+            //创建单元格并设置单元格内容
+            row2.createCell(0).setCellValue("日期");
+            row2.createCell(1).setCellValue("订单号");
+            row2.createCell(2).setCellValue("交易金额");
+            row2.createCell(3).setCellValue("订单类型");
+            row2.createCell(4).setCellValue("交易流水号");
+            //在sheet里从第三行开始创建数据
+            int r = 2;
+            for(Order o : orderList) {
+                Row row = sheet.createRow(r);
+                row.createCell(0).setCellValue(o.getOrderCreateAt().toString().substring(0,10));
+                row.createCell(1).setCellValue(o.getOrderId());
+                row.createCell(2).setCellValue(o.getPayTotal().doubleValue());
+                String orderStatus = o.getOrderStatus();
+                if (!"pin".equals(orderStatus) && !"receive".equals(orderStatus) && !"deliver".equals(orderStatus))
+                    orderStatus = "付款单";
+                if ("pin".equals(orderStatus))
+                    orderStatus = "拼购自动退款";
+                if ("receive".equals(orderStatus))
+                    orderStatus = "收货后申请退款";
+                if ("deliver".equals(orderStatus))
+                    orderStatus = "发货前退款";
+                row.createCell(3).setCellValue(orderStatus);
+                row.createCell(4).setCellValue(o.getPgTradeNo());
+                r += 1;
+            }
+//            file = new File("/Users/sunny/Downloads/销售收入统计表.xlsx");
+            file = new File("销售收入统计表.xlsx");
+        }
+        if ("trade".equals(param)) {
+            orderList = orderService.countTradeOrder(order);
+            Sheet sheet = wb.createSheet("商品销售情况");
+            Row row1 = sheet.createRow(0);
+            Cell cell = row1.createCell(0);
+            cell.setCellValue("商品销售情况表");
+            sheet.addMergedRegion(new CellRangeAddress(0,0,0,3));
+            Row row2 = sheet.createRow(1);
+            row2.createCell(0).setCellValue("日期");
+            row2.createCell(1).setCellValue("订单成交量");
+            row2.createCell(2).setCellValue("订单成交额");
+            row2.createCell(3).setCellValue("商品退换量");
+            int r = 2;
+            for(Order o : orderList) {
+                Row row = sheet.createRow(r);
+                row.createCell(0).setCellValue(o.getSort().substring(0,10));
+                row.createCell(1).setCellValue(o.getPayMethod());
+                row.createCell(2).setCellValue(o.getPayTotal().doubleValue());
+                int retreatNum = 0;
+                if (null != o.getOrderType()) retreatNum = o.getOrderType();
+                row.createCell(3).setCellValue(retreatNum);
+                r += 1;
+            }
+//            file = new File("/Users/sunny/Downloads/商品销售情况表.xlsx");
+            file = new File("商品销售情况表.xlsx");
+        }
+        if ("goods".equals(param)) {
+            orderLineList = orderService.countTradeGoods(order);
+            Sheet sheet = wb.createSheet("商品销售排行");
+            Row row1 = sheet.createRow(0);
+            Cell cell = row1.createCell(0);
+            cell.setCellValue("商品销售排行表");
+            sheet.addMergedRegion(new CellRangeAddress(0,0,0,3));
+            Row row2 = sheet.createRow(1);
+            row2.createCell(0).setCellValue("排名");
+            row2.createCell(1).setCellValue("商品名称");
+            row2.createCell(2).setCellValue("销售额");
+            row2.createCell(3).setCellValue("销售量");
+            row2.createCell(4).setCellValue("退换量");
+            row2.createCell(5).setCellValue("商品编号");
+            int r = 2;
+            for(OrderLine ol : orderLineList) {
+                Row row = sheet.createRow(r);
+                row.createCell(0).setCellValue(ol.getLineId());
+                row.createCell(1).setCellValue(ol.getSkuTitle() + " " + ol.getSkuColor() + " " + ol.getSkuSize());
+                row.createCell(2).setCellValue(ol.getPrice().doubleValue());
+                row.createCell(3).setCellValue(ol.getAmount());
+                int retreatNum = 0;
+                if (null != ol.getItemId()) retreatNum = ol.getItemId().intValue();
+                row.createCell(4).setCellValue(retreatNum);
+                Long skuId = ol.getSkuId();
+                Inventory inventory = inventoryService.getInventory(skuId);
+                row.createCell(5).setCellValue(inventory.getInvCode());
+                r += 1;
+            }
+//            file = new File("/Users/sunny/Downloads/商品销售排行表.xlsx");
+            file = new File("商品销售排行表.xlsx");
+        }
+        try {
+            output = new FileOutputStream(file);
+            wb.write(output);
+            output.close();
+        } catch (Exception e) {
+            return badRequest();
+        }
+        Logger.info("报表导出成功");
+        return ok("报表导出成功");
     }
 
     /**

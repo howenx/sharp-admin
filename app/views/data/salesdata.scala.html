@@ -164,9 +164,10 @@
             sales();
         });
 
+        //没有数据时, 统计结果数据置为0
         function sales() {
             var trNum = $("#tb-topic tr").length;
-            if (trNum == 2) {
+            if (trNum <= 2) {
                 $(".data").html(0);
             }
         }
@@ -210,6 +211,7 @@
             <form class="form-horizontal">
                 <h3 class="table-h3">销售收入统计</h3>
                 <div class="form-group">
+                    <!--时间范围-->
                     <label class="col-sm-2 control-label">时间范围</label>
                     <div class="col-sm-5">
                         <div id="datetimepicker-starttime" class="input-group date" style="width: 45%;float:left">
@@ -231,6 +233,7 @@
                         <input type="hidden" id="topic-search-bt">
                     </div>
                 </div>
+                <!--统计结果数据-->
                 <div class="form-group">
                     <div class="col-sm-12 money">
                         <div id="money-1"></div>
@@ -241,7 +244,8 @@
                 <!--表格-->
                 <div>
                     <div class="generate-table">
-                        <a href="" class="btn btn-primary">生成报表</a>
+                        <a id="report" class="btn btn-primary">生成报表</a>
+                        <span id="notice" style="color:#c00;margin-top:-25px; margin-left:200px;width:200px;"></span>
                     </div>
                     <div class="tablenum one">
                         <!--id必须为tb-topic 公用js需要使用-->
@@ -303,6 +307,45 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(function() {
+        $("#report").click(function () {
+            var isPost = true;
+            var parm = $("#param").val();
+            var startTime = $("#topic-form-starttime").val();
+            var endTime = $("#topic-form-endtime").val();
+            if (parm==null || parm =="" || startTime==null || startTime=="" || endTime==null || endTime=="") {
+                isPost = false;
+            }
+            var obj = new Object();
+            var Order = new Object();
+            Order.startTime = startTime;
+            Order.endTime = endTime;
+            obj.order = Order;
+            obj.param = parm;
+            if (isPost) {
+                console.log(JSON.stringify(obj));
+                $.ajax({
+                    type :  "POST",
+                    url : "/sales/report",
+                    contentType: "application/json; charset=utf-8",
+                    data : JSON.stringify(obj),
+                    error : function(request) {
+                        $('#notice').text('报表导出失败')
+                        setTimeout("$('#notice').text('')", 2000);
+                    },
+                    success: function(data) {
+                        if (data!="" && data!=null) {
+                            $('#notice').text(data)
+                            setTimeout("$('#notice').text('')", 2000);
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
 
 
 }

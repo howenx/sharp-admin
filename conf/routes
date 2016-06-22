@@ -226,6 +226,8 @@ GET         /sales/data                                                         
 GET         /$lang<(cn|en|kr)>/sales/data                                           controllers.DataCtrl.salesData(lang)
 POST        /sales/data/$pageNum<[0-9]+>                                            controllers.DataCtrl.salesDataAjax(lang ="cn", pageNum:Int)
 POST        /$lang<(cn|en|kr)>/sales/data/$pageNum<[0-9]+>                          controllers.DataCtrl.salesDataAjax(lang, pageNum:Int)
+POST        /sales/report                                                           controllers.DataCtrl.salesReport()
+
 
 #库存数据
 GET         /inventory/data                                                         controllers.DataCtrl.inventoryData(lang ="cn")
