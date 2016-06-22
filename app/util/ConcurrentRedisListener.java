@@ -33,8 +33,9 @@ public class ConcurrentRedisListener extends JedisPubSub {
     @Override
     public void onPMessage(String pattern, String channel, String message) {
         if (SysParCom.WEBSOCKET_OUT_LIST.size() > 0) {
-
+            System.out.println("订阅频道:" + channel + "  > 订阅消息:" + message);
             SysParCom.WEBSOCKET_OUT_LIST.iterator().forEachRemaining(out -> {
+                System.out.println("并发遍历>>订阅频道:" + channel + "  > 订阅消息:" + message);
                 try {
                     if (out != null) {
                         out.write(message);
