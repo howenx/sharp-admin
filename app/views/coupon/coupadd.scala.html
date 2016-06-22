@@ -31,10 +31,11 @@
         var user_arr = [];
         var users = $(".table tbody").find("tr");
         for(i=0;i<users.length;i++) {
-            var user_id = users[i].getElementsByTagName("td")[0].innerText;
+            var user_id = users[i].getElementsByTagName("td")[1].innerText;
             user_arr.push(user_id);
         }
         sharedObject.user_arr = user_arr;
+        console.log(user_arr);
         if (window.showModalDialog) {
             var retValue = showModalDialog("/coup/add/popup", sharedObject, "dialogWidth:1300px; dialogHeight:600px; dialogLeft:300px;");
             if (retValue) {

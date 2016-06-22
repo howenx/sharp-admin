@@ -19,19 +19,27 @@
             $("#searchUser").xlsTableFilter({
                 checkStyle: "custom",
             });
+
             var sharedObject = window.dialogArguments;
             var user_arr = sharedObject.user_arr;
             for(i=0;i<user_arr.length;i++) {
                 var trs = $(".table tbody").find("tr");
-                for(j=1;j<trs.length;j++) {
+                for(j=0;j<trs.length;j++) {
                     if (user_arr[i]==trs[j].getElementsByTagName("td")[1].innerText) {
                         $(trs[j].getElementsByTagName("td")[0].getElementsByTagName("input")[0]).attr("disabled",'true');
                         $(trs[j]).css("background","#f5f5f5");
                     }
                 }
             }
+
+            /** 全选/取消全选 **/
+            $("input[name='selAll']").click(function(){
+                $("input[name='users']").prop('checked',$(this).prop("checked"));
+            });
+
+            //确认添加
             $(".return").click(function(){
-                var id=$("input[type=checkbox]:checked").parents("tr");
+                var id=$("input[name='users']:checked").parents("tr");
                 $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("cou-del").appendTo(id);
                 $(id).find("input[type=checkbox]:checked").parent().remove();
                 if (window.showModalDialog) {
@@ -48,6 +56,7 @@
                 window.close ();
             })
 
+            //返回
             $(".cancel").click(function(){
                 window.close ();
             });
@@ -64,7 +73,7 @@
 <table class="table table-bordered table-hover" id="searchUser">
     <thead>
     <tr>
-        <th>选择用户</th>
+        <th><input type="checkbox" name="selAll">全选</th>
         <th>用户ID</th>
         <th>用户名称</th>
         <th>头像</th>
