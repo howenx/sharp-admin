@@ -516,7 +516,7 @@ $(function(){
             "height": $(window).height(),
             "display": "block"
         });
-        $(".goods-img").css("left", ($(window).width() - 1100) / 2);
+        $(".goods-img").css("left", ($(window).width() - 800) / 2);
         $(this).clone().appendTo($(".goods-img")).css({
             "width": "70%",
             "height":"600px",
