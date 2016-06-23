@@ -509,7 +509,8 @@ funcList.couponlist_data = function couponlist_data(data) {
     //填充列表数据
     $(data).each(function(index, element) {
         var useAt = new Date($(this)[0].useAt);
-        useAt = useAt.getFullYear() + '-' + (useAt.getMonth() + 1) + '-' + useAt.getDate() + ' ' + useAt.getHours() + ':' + useAt.getMinutes() + ':' + useAt.getSeconds();
+        useAt = useAt.getFullYear() + '-' + (useAt.getMonth()+1>=10?useAt.getMonth()+1:'0'+(useAt.getMonth()+1)) + '-' + (useAt.getDate()>=10?useAt.getDate():'0'+useAt.getDate()) + ' '
+                + (useAt.getHours()>=10?useAt.getHours():'0'+useAt.getHours()) + ':' + (useAt.getMinutes()>=10?useAt.getMinutes():'0'+useAt.getMinutes()) + ':' + (useAt.getSeconds()>=10?useAt.getSeconds():'0'+useAt.getSeconds());
         $('#tb-topic').find('tbody').append('' +
             '<tr class="tb-list-data">' +
             '<td><a href="javascript:void(0)">' + $(this)[0].coupId + '</a></td>' +

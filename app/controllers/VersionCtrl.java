@@ -157,17 +157,16 @@ public class VersionCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result APIVersionList(String lang) {
-
-//        VersionVo versionVo = new VersionVo();
+        List<String> project = REDIS_SUBSCRIBE;
+        project.add("style-ios");
+        project.add("style-android");
+        VersionVo versionVo = new VersionVo();
+        List<VersionVo> versionList = dealVersionVo(versionVo);
 //        versionVo.setProductType("A");
-//
 //        List<VersionVo> androidVersion = dealVersionVo(versionVo);
-//
 //        versionVo.setProductType("I");
-//
 //        List<VersionVo> iosVersion = dealVersionVo(versionVo);
-
-        return ok(views.html.versioning.APIVersionList.render(lang, (User) ctx().args.get("user")));
+        return ok(views.html.versioning.APIVersionList.render(lang, project, versionList, (User) ctx().args.get("user")));
     }
 
     @Security.Authenticated(UserAuth.class)

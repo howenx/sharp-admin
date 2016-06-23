@@ -16,7 +16,7 @@
     <select id="getShipByOrderId" resultType="domain.order.OrderShip" parameterType="java.lang.Long">
         select
         <include refid="orderShipColumns">
-            <property name="alias" value="t"></property>
+            <property name="alias" value="t"/>
         </include>
         from sp_order_ship t where order_id = #{value}
     </select>

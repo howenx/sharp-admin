@@ -39,7 +39,7 @@
         <include refid="userLogColumns">
             <property name="alias" value="t"/>
         </include>
-        from user_log t where 1=1
+        from user_log t where 1=1 ORDER BY t.id DESC
     </select>
 
     <!-- 分页获取日志信息 -->

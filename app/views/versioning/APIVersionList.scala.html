@@ -1,10 +1,37 @@
 @import play.i18n.Messages,play.i18n.Lang
-@(lang:String="cn",user:domain.User)
+@(lang:String="cn", project:List[String], versionList:List[domain.VersionVo], user:domain.User)
 
 @scripts = {
-<link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
 <link rel="stylesheet" href="/assets/css/screenshot.css">
+<link rel="stylesheet" href="/assets/css/search.css">
+<script>
+    $(function () {
+        $(".order-option>div").hover(function () {
+            $(this).css("color", "#fff");
+        }, function () {
+            $(this).css("color", "#333");
+            $(".currect").css("color", "#fff");
+        });
+
+        $(document).on("click", ".order-option>div", function () {
+            $(".currect").css("color", "#333");
+            $(".order-option>div").removeClass("currect");
+            $(this).addClass("currect");
+            var projectName = $(this).html();
+            projectName = projectName.substring(projectName.indexOf("-")+1, projectName.length);
+            console.log(projectName);
+            <!--console.log($(".table-hover tr").eq(1).html());-->
+            $(".tb-list-data").each(function () {
+                if($(this).find("td").eq(3).html()==projectName){
+                    $(this).css("display","table-row");
+                }else {
+                    $(this).css("display","none");
+                }
+            })
+        });
+    })
+</script>
 }
 
 @import java.lang.String; val title="版本历史"
@@ -31,52 +58,52 @@
         <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15"> 刷新CDN</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
-    <div class="container-fluid table-content">
-        <h4 class="h4-custom-hmm">Android版本列表</h4>
-        <table class="table table-bordered table-hover">
-            <thead>
-            <th style="width: 5%;text-align: center;vertical-align: middle;">主键</th>
-            <th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>
-            <th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>
-            <th style="text-align: center;vertical-align: middle;">类型</th>
-            <th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>
-            <th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>
-            <th style="text-align: center;vertical-align: middle;">版本描述</th>
-            <th style="width: 8%;text-align: center;vertical-align: middle;">发版时间</th>
-            <th style="width: 7%;text-align: center;vertical-align: middle;">配置文件</th>
-            <th style="width: 8%;text-align: center;vertical-align: middle;">是否最新版</th>
-            </thead>
-
-            <tbody>
-
-            <!---公用模块,id不能改变,只需要改变合并行数-->
-            <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="container-fluid table-content">
-        <h4 class="h4-custom-hmm">IOS版本列表</h4>
-        <table class="table table-bordered table-hover">
-            <thead>
-            <th style="width: 5%;text-align: center;vertical-align: middle;">主键</th>
-            <th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>
-            <th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>
-            <th style="text-align: center;vertical-align: middle;">类型</th>
-            <th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>
-            <th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>
-            <th style="text-align: center;vertical-align: middle;">版本描述</th>
-            <th style="width: 8%;text-align: center;vertical-align: middle;">发版时间</th>
-            <th style="width: 7%;text-align: center;vertical-align: middle;">配置文件</th>
-            <th style="width: 13%;text-align: center;vertical-align: middle;">AppStore下载地址</th>
-            <th style="width: 8%;text-align: center;vertical-align: middle;">是否最新版</th>
-            </thead>
-
-            <tbody>
-
-            <!---公用模块,id不能改变,只需要改变合并行数-->
-            <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
-            </tbody>
-        </table>
+    <div class="row order-admin">
+        <div class="col-sm-1 order-option" style="width: 145px">
+            @for(p <- project) {
+                @if(project.indexOf(p) == 0) {
+                    <div class="currect">@p</div>
+                }
+                @if(project.indexOf(p) != 0) {
+                    <div>@p</div>
+                }
+            }
+        </div>
+        <div id="tb-container" class="col-sm-10" style="border-left: 1px solid #ccc;white-space:nowrap">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <th style="width: 5%;text-align: center;vertical-align: middle;">主键</th>
+                    <th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>
+                    <th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>
+                    <th style="text-align: center;vertical-align: middle;">类型</th>
+                    <th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>
+                    <th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>
+                    <th style="text-align: center;vertical-align: middle;">版本描述</th>
+                    <th style="width: 8%;text-align: center;vertical-align: middle;">发版时间</th>
+                    <th style="width: 7%;text-align: center;vertical-align: middle;">配置文件</th>
+                    <th style="width: 13%;text-align: center;vertical-align: middle;">AppStore下载地址</th>
+                    <th style="width: 8%;text-align: center;vertical-align: middle;">是否最新版</th>
+                </thead>
+                <tbody>
+                @for(vl <- versionList) {
+                <tr class = "tb-list-data">
+                    <td style="text-align: center;vertical-align: middle;">@vl.getId()</td>
+                    <td style="text-align: center;vertical-align: middle;">@vl.getReleaseNumber()</td>
+                    <td style="text-align: center;vertical-align: middle;">@vl.getReleaseName()</td>
+                    <td style="text-align: center;vertical-align: middle;">@vl.getProductType()</td>
+                    <td style="width: 11%;text-align: center;vertical-align: middle;"><a href="@vl.getDownloadLink()" target="_blank">@vl.getFileName()</a></td>
+                    <td style="width: 10%;text-align: center;vertical-align: middle;">@vl.getAdminUserNm()</td>
+                    <td style="text-align: left;vertical-align: inherit;">@vl.getReleaseDesc()</td>
+                    <td>@vl.getReleaseAt()</td>
+                    <td style="text-align: center;vertical-align: middle;"><a href="@vl.getUpdateReqXml()" target="_blank">点击查看</a></td>
+                    <td style="text-align: center;vertical-align: middle;"><a href="@vl.getAppStoreDownloadLink()" target="_blank">点击查看</a></td>
+                    @if(vl.getCurrentVersion()){<td style="color: red;">是</td>}
+                    @if(!vl.getCurrentVersion()){<td>否</td>}
+                </tr>
+                }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 }

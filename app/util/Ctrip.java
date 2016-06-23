@@ -1,6 +1,7 @@
 package util;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Throwables;
 import com.squareup.okhttp.*;
 import net.spy.memcached.MemcachedClient;
 import play.Logger;
@@ -71,7 +72,8 @@ public class Ctrip {
 
 
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
+            Logger.error(Throwables.getStackTraceAsString(e));
         }
     }
 
@@ -94,7 +96,8 @@ public class Ctrip {
                 cache.add("AccessToken",ACCESSTIME,AccessToken);
             }
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
+            Logger.error(Throwables.getStackTraceAsString(e));
         }
     }
 }

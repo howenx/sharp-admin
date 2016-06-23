@@ -245,7 +245,7 @@
                 <div>
                     <div class="generate-table">
                         <a id="report" class="btn btn-primary">生成报表</a>
-                        <span id="notice" style="color:#c00;margin-top:-25px; margin-left:200px;width:200px;"></span>
+                        <span id="notice" style="margin-top:-25px; margin-left:200px;width:200px;"></span>
                     </div>
                     <div class="tablenum one">
                         <!--id必须为tb-topic 公用js需要使用-->
@@ -331,16 +331,14 @@
                     url : "/sales/report",
                     contentType: "application/json; charset=utf-8",
                     data : JSON.stringify(obj),
-                    error : function(request) {
-                        $('#notice').text('报表导出失败')
-                        setTimeout("$('#notice').text('')", 2000);
-                    },
-                    success: function(data) {
-                        if (data!="" && data!=null) {
-                            $('#notice').text(data)
-                            setTimeout("$('#notice').text('')", 2000);
-                        }
-                    }
+                    <!--error : function(request) {-->
+                        <!--$('#notice').text('报表导出失败').css('color', '#c00');-->
+                        <!--setTimeout("$('#notice').text('')", 2000);-->
+                    <!--},-->
+                    <!--success: function(data) {-->
+                        <!--$('#notice').text("报表导出成功").css('color', '#2fa900');-->
+                        <!--setTimeout("$('#notice').text('')", 2000);-->
+                    <!--}-->
                 });
             }
         });

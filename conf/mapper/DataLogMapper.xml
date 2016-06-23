@@ -41,7 +41,7 @@
         <include refid="dataLogColumns">
             <property name="alias" value="t"/>
         </include>
-        from data_log t where 1=1
+        from data_log t where 1=1 ORDER BY t.id
     </select>
 
     <!-- 分页获取日志信息 -->

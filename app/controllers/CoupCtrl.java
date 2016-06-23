@@ -133,7 +133,7 @@ public class CoupCtrl extends Controller {
                 if (null != order)
                     coup.setLimitQuota(order.getPayTotal());//优惠券限额字段保存订单的金额
                 else coup.setLimitQuota(BigDecimal.valueOf(0));
-                Logger.error(coup.toString());
+//                Logger.error(coup.toString());
             }
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();

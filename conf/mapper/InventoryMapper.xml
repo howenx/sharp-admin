@@ -78,7 +78,7 @@
             <property name="alias" value="t"/>
         </include>
         from inventories t where item_id=#{value}
-        ORDER BY id
+        ORDER BY t.id
     </select>
 
     <!-- 获取所有的库存信息 -->
@@ -88,7 +88,7 @@
             <property name="alias" value="t"/>
         </include>
         from inventories t where 1=1
-        ORDER BY id
+        ORDER BY t.id
     </select>
 
     <!-- 分页获取SKU信息 -->
@@ -224,7 +224,6 @@
         from skus t where 1=1 ORDER BY inv_id
     </select>
 
-
     <select id="getAvailableInventory" resultType="domain.Inventory">
         select
         <include refid="inventoryColumns">
@@ -232,7 +231,6 @@
         </include>
         from inventories t where t.state = 'Y' or t.state = 'P'
         ORDER BY id
-
     </select>
 
 </mapper>

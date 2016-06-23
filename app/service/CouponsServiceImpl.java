@@ -17,6 +17,7 @@ import util.SysParCom;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -67,12 +68,16 @@ public class CouponsServiceImpl implements CouponsService {
             //优惠券发送成功
             if (couponsMapper.insertCoupons(coupons) >0 ) {
                 String title = "您有一张新的优惠券";
-                String content = "优惠券金额"+coupons.getDenomination()+"元,满"+coupons.getLimitQuota()+"元可用,快去用掉吧!";
+                String content = "";
+                if (coupons.getLimitQuota().equals(new BigDecimal(0.0)))
+                    content = "优惠券金额"+coupons.getDenomination()+"元,无限额使用,快去用掉吧!";
+                else if (coupons.getLimitQuota().compareTo(new BigDecimal(0.0)) > 0)
+                    content = "优惠券金额"+coupons.getDenomination()+"元,满"+coupons.getLimitQuota()+"元可用,快去用掉吧!";
                 //给用户推送消息
                 PushMsg pushMsg = new PushMsg();
                 pushMsg.setTitle(title);    //标题
                 pushMsg.setAlert(content);  //内容
-                pushMsg.setAudience("tag");//给指定用户推送
+                pushMsg.setAudience("alias");//给指定用户推送
                 String[] tags = new String[1];
                 tags[0] = coupons.getUserId().toString();
                 pushMsg.setAliasOrTag(tags);

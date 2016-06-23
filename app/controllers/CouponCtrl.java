@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Throwables;
 import domain.CouponVo;
 import domain.CouponVoDropLog;
 import domain.Image;
@@ -246,7 +247,8 @@ public class CouponCtrl extends Controller {
                 ctrip.getAccessToken();
             }
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
+            Logger.error(Throwables.getStackTraceAsString(e));
         }
         String token = cache.get("AccessToken").toString();
         Logger.error("获取的token是~~~~~:" + token);

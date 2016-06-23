@@ -106,7 +106,7 @@
         <include refid="itemColumns">
             <property name="alias" value="t"/>
         </include>
-        from items t where state = 'Y'
+        from items t where state = 'Y' ORDER BY t.id DESC
     </select>
 
 
@@ -116,7 +116,7 @@
         <include refid="itemColumns">
             <property name="alias" value="t"/>
         </include>
-        from items t where supply_merch = #{value}
+        from items t where supply_merch = #{value} ORDER BY t.id
     </select>
 
 </mapper>
