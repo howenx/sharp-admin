@@ -2,9 +2,29 @@
 @(lang:String="cn",user:domain.User)
 
 @scripts = {
-<link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
 <link rel="stylesheet" href="/assets/css/screenshot.css">
+<link rel="stylesheet" href="/assets/css/search.css">
+<script>
+    $(function () {
+        $(".order-option>div").hover(function () {
+            $(this).css("color", "#fff");
+        }, function () {
+            $(this).css("color", "#333");
+            $(".currect").css("color", "#fff");
+        });
+
+        $(document).on("click", ".order-option>div", function () {
+            $(".currect").css("color", "#333");
+            $(".order-option>div").removeClass("currect");
+            $(this).addClass("currect");
+            $(".order-admin table").hide();
+            $(".order-admin table").eq($(this).index()).show();
+//            var strr = $.trim("#" + $(this).text()) + "-tb";
+//            $(strr).show();
+        });
+    })
+</script>
 }
 
 @import java.lang.String; val title="版本历史"
@@ -31,34 +51,64 @@
         <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15"> 刷新CDN</div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
-    <div class="container-fluid table-content">
-        <h4 class="h4-custom-hmm">Android版本列表</h4>
-        <table class="table table-bordered table-hover">
-            <thead>
-            <th style="width: 5%;text-align: center;vertical-align: middle;">主键</th>
-            <th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>
-            <th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>
-            <th style="text-align: center;vertical-align: middle;">类型</th>
-            <th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>
-            <th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>
-            <th style="text-align: center;vertical-align: middle;">版本描述</th>
-            <th style="width: 8%;text-align: center;vertical-align: middle;">发版时间</th>
-            <th style="width: 7%;text-align: center;vertical-align: middle;">配置文件</th>
-            <th style="width: 8%;text-align: center;vertical-align: middle;">是否最新版</th>
-            </thead>
+    <!--<div class="container-fluid table-content">-->
+        <!--<h4 class="h4-custom-hmm">Android版本列表</h4>-->
+        <!--<table class="table table-bordered table-hover">-->
+            <!--<thead>-->
+            <!--<th style="width: 5%;text-align: center;vertical-align: middle;">主键</th>-->
+            <!--<th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>-->
+            <!--<th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>-->
+            <!--<th style="text-align: center;vertical-align: middle;">类型</th>-->
+            <!--<th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>-->
+            <!--<th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>-->
+            <!--<th style="text-align: center;vertical-align: middle;">版本描述</th>-->
+            <!--<th style="width: 8%;text-align: center;vertical-align: middle;">发版时间</th>-->
+            <!--<th style="width: 7%;text-align: center;vertical-align: middle;">配置文件</th>-->
+            <!--<th style="width: 8%;text-align: center;vertical-align: middle;">是否最新版</th>-->
+            <!--</thead>-->
 
-            <tbody>
+            <!--<tbody>-->
 
-            <!---公用模块,id不能改变,只需要改变合并行数-->
-            <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="container-fluid table-content">
-        <h4 class="h4-custom-hmm">IOS版本列表</h4>
-        <table class="table table-bordered table-hover">
+            <!--&lt;!&ndash;-公用模块,id不能改变,只需要改变合并行数&ndash;&gt;-->
+            <!--<tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>-->
+            <!--</tbody>-->
+        <!--</table>-->
+    <!--</div>-->
+    <!--<div class="container-fluid table-content">-->
+        <!--<h4 class="h4-custom-hmm">IOS版本列表</h4>-->
+        <!--<table class="table table-bordered table-hover">-->
+            <!--<thead>-->
+            <!--<th style="width: 5%;text-align: center;vertical-align: middle;">主键</th>-->
+            <!--<th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>-->
+            <!--<th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>-->
+            <!--<th style="text-align: center;vertical-align: middle;">类型</th>-->
+            <!--<th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>-->
+            <!--<th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>-->
+            <!--<th style="text-align: center;vertical-align: middle;">版本描述</th>-->
+            <!--<th style="width: 8%;text-align: center;vertical-align: middle;">发版时间</th>-->
+            <!--<th style="width: 7%;text-align: center;vertical-align: middle;">配置文件</th>-->
+            <!--<th style="width: 13%;text-align: center;vertical-align: middle;">AppStore下载地址</th>-->
+            <!--<th style="width: 8%;text-align: center;vertical-align: middle;">是否最新版</th>-->
+            <!--</thead>-->
+
+            <!--<tbody>-->
+
+            <!--&lt;!&ndash;-公用模块,id不能改变,只需要改变合并行数&ndash;&gt;-->
+            <!--<tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>-->
+            <!--</tbody>-->
+        <!--</table>-->
+    <!--</div>-->
+    <div class="row order-admin">
+        <div class="col-sm-1 order-option">
+            <div class="currect">主键1</div>
+            <div>主键2</div>
+            <div>主键3</div>
+            <div>主键4</div>
+        </div>
+        <div id="tb-container" class="col-sm-10" style="border-left: 1px solid #ccc;white-space:nowrap">
+            <table class="table table-bordered table-hover">
             <thead>
-            <th style="width: 5%;text-align: center;vertical-align: middle;">主键</th>
+            <th style="width: 5%;text-align: center;vertical-align: middle;">主键1</th>
             <th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>
             <th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>
             <th style="text-align: center;vertical-align: middle;">类型</th>
@@ -70,13 +120,78 @@
             <th style="width: 13%;text-align: center;vertical-align: middle;">AppStore下载地址</th>
             <th style="width: 8%;text-align: center;vertical-align: middle;">是否最新版</th>
             </thead>
-
             <tbody>
-
             <!---公用模块,id不能改变,只需要改变合并行数-->
             <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
-        </table>
+            </table>
+            <!--2-->
+            <table class="table table-bordered table-hover" style="display: none">
+                <thead>
+                <th style="width: 5%;text-align: center;vertical-align: middle;">主键2</th>
+                <th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>
+                <th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>
+                <th style="text-align: center;vertical-align: middle;">类型</th>
+                <th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>
+                <th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>
+                <th style="text-align: center;vertical-align: middle;">版本描述</th>
+                <th style="width: 8%;text-align: center;vertical-align: middle;">发版时间</th>
+                <th style="width: 7%;text-align: center;vertical-align: middle;">配置文件</th>
+                <th style="width: 13%;text-align: center;vertical-align: middle;">AppStore下载地址</th>
+                <th style="width: 8%;text-align: center;vertical-align: middle;">是否最新版</th>
+                </thead>
+
+                <tbody>
+
+                <!---公用模块,id不能改变,只需要改变合并行数-->
+                <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+                </tbody>
+            </table>
+            <!--3-->
+            <table class="table table-bordered table-hover" style="display: none">
+                <thead>
+                <th style="width: 5%;text-align: center;vertical-align: middle;">主键3</th>
+                <th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>
+                <th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>
+                <th style="text-align: center;vertical-align: middle;">类型</th>
+                <th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>
+                <th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>
+                <th style="text-align: center;vertical-align: middle;">版本描述</th>
+                <th style="width: 8%;text-align: center;vertical-align: middle;">发版时间</th>
+                <th style="width: 7%;text-align: center;vertical-align: middle;">配置文件</th>
+                <th style="width: 13%;text-align: center;vertical-align: middle;">AppStore下载地址</th>
+                <th style="width: 8%;text-align: center;vertical-align: middle;">是否最新版</th>
+                </thead>
+
+                <tbody>
+
+                <!---公用模块,id不能改变,只需要改变合并行数-->
+                <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+                </tbody>
+            </table>
+            <!--4-->
+            <table class="table table-bordered table-hover" style="display: none">
+                <thead>
+                <th style="width: 5%;text-align: center;vertical-align: middle;">主键4</th>
+                <th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>
+                <th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>
+                <th style="text-align: center;vertical-align: middle;">类型</th>
+                <th style="width: 7%;text-align: center;vertical-align: middle;">下载链接</th>
+                <th style="width: 10%;text-align: center;vertical-align: middle;">发布版本人员</th>
+                <th style="text-align: center;vertical-align: middle;">版本描述</th>
+                <th style="width: 8%;text-align: center;vertical-align: middle;">发版时间</th>
+                <th style="width: 7%;text-align: center;vertical-align: middle;">配置文件</th>
+                <th style="width: 13%;text-align: center;vertical-align: middle;">AppStore下载地址</th>
+                <th style="width: 8%;text-align: center;vertical-align: middle;">是否最新版</th>
+                </thead>
+
+                <tbody>
+
+                <!---公用模块,id不能改变,只需要改变合并行数-->
+                <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 }
