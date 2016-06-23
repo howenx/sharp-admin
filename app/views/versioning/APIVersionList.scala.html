@@ -20,10 +20,15 @@
             $(this).addClass("currect");
             var projectName = $(this).html();
             projectName = projectName.substring(projectName.indexOf("-")+1, projectName.length);
+            console.log(projectName);
             <!--console.log($(".table-hover tr").eq(1).html());-->
-            if ($(".tb-list-data td").eq(3).html() == projectName) {
-                 //本行的版本类型和点击的项目名称相同 则显示 否则 隐藏
-            }
+            $(".tb-list-data").each(function () {
+                if($(this).find("td").eq(3).html()==projectName){
+                    $(this).css("display","table-row");
+                }else {
+                    $(this).css("display","none");
+                }
+            })
         });
     })
 </script>
