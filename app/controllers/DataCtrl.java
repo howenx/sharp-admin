@@ -4,6 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Throwables;
 import domain.*;
 import domain.order.Order;
 import domain.order.OrderLine;
@@ -303,7 +304,7 @@ public class DataCtrl extends Controller {
         XSSFWorkbook wb = new XSSFWorkbook();//创建HSSFWorkbook对象(excel的文档对象)
         //输出Excel文件
         FileOutputStream output = null;
-        File file = new File("aaa.xlsx");
+        String fileName = "";   //文件名
         if ("sales".equals(param)) {
             orderList = orderService.getTradeOrder(order);
             Sheet sheet = wb.createSheet("销售收入统计");//建立新的sheet对象（excel的表单）
@@ -338,8 +339,7 @@ public class DataCtrl extends Controller {
                 row.createCell(4).setCellValue(o.getPgTradeNo());
                 r += 1;
             }
-//            file = new File("/Users/sunny/Downloads/销售收入统计表.xlsx");
-            file = new File("销售收入统计表.xlsx");
+            fileName = "销售收入统计表.xlsx";
         }
         if ("trade".equals(param)) {
             orderList = orderService.countTradeOrder(order);
@@ -364,8 +364,7 @@ public class DataCtrl extends Controller {
                 row.createCell(3).setCellValue(retreatNum);
                 r += 1;
             }
-//            file = new File("/Users/sunny/Downloads/商品销售情况表.xlsx");
-            file = new File("商品销售情况表.xlsx");
+            fileName = "商品销售情况表.xlsx";
         }
         if ("goods".equals(param)) {
             orderLineList = orderService.countTradeGoods(order);
@@ -396,18 +395,25 @@ public class DataCtrl extends Controller {
                 row.createCell(5).setCellValue(inventory.getInvCode());
                 r += 1;
             }
-//            file = new File("/Users/sunny/Downloads/商品销售排行表.xlsx");
-            file = new File("商品销售排行表.xlsx");
+            fileName = "商品销售排行表.xlsx";
         }
         try {
+
+            File file = new File("/tmp/"+fileName);
             output = new FileOutputStream(file);
             wb.write(output);
             output.close();
+
+            // 设置response的Header
+            response().setHeader("Content-Disposition", "attachment;filename="
+                    + new String(fileName.getBytes()));
+//            response().setHeader("Content-Length", "" + file.length());
+
+            return ok(file);
         } catch (Exception e) {
+            Logger.error(Throwables.getStackTraceAsString(e));
             return badRequest();
         }
-        Logger.info("报表导出成功");
-        return ok("报表导出成功");
     }
 
     /**

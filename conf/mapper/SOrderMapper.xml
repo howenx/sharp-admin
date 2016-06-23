@@ -42,7 +42,7 @@
         <include refid="sOrderColumns">
             <property name="alias" value="t"/>
         </include>
-        from s_order t where 1=1 ORDER BY t.s_date
+        from s_order t where 1=1 ORDER BY t.s_date DESC
     </select>
 
 </mapper>

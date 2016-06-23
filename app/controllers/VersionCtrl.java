@@ -1,8 +1,5 @@
 package controllers;
 
-import actor.SubscribeActor;
-import akka.actor.ActorRef;
-import akka.actor.Props;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.cdn.model.v20141111.RefreshObjectCachesRequest;
@@ -20,9 +17,7 @@ import middle.VersionMiddle;
 import play.Configuration;
 import play.Logger;
 import play.data.Form;
-import play.libs.Akka;
 import play.mvc.*;
-import redis.clients.jedis.JedisPool;
 import service.AdminUserService;
 import service.ItemService;
 import util.SysParCom;
@@ -176,17 +171,16 @@ public class VersionCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result APIVersionList(String lang) {
-
-//        VersionVo versionVo = new VersionVo();
+        List<String> project = REDIS_SUBSCRIBE;
+        project.add("style-ios");
+        project.add("style-android");
+        VersionVo versionVo = new VersionVo();
+        List<VersionVo> versionList = dealVersionVo(versionVo);
 //        versionVo.setProductType("A");
-//
 //        List<VersionVo> androidVersion = dealVersionVo(versionVo);
-//
 //        versionVo.setProductType("I");
-//
 //        List<VersionVo> iosVersion = dealVersionVo(versionVo);
-
-        return ok(views.html.versioning.APIVersionList.render(lang, (User) ctx().args.get("user")));
+        return ok(views.html.versioning.APIVersionList.render(lang, project, versionList, (User) ctx().args.get("user")));
     }
 
 
