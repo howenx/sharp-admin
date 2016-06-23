@@ -36,7 +36,7 @@
         <include refid="sOrderLineColumns">
             <property name="alias" value="t"/>
         </include>
-        from s_order_line t where 1=1
+        from s_order_line t where 1=1 ORDER BY t.order_id
     </select>
 
 </mapper>

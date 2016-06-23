@@ -27,7 +27,7 @@
         <include refid="itemStatisColumns">
             <property name="alias" value="t"/>
         </include>
-        from item_statis t where id=#{value}
+        from item_statis t where id=#{value} ORDER BY t.id
     </select>
 
     <select id="getAllItemStatis" resultType="domain.ItemStatis">
@@ -35,7 +35,7 @@
         <include refid="itemStatisColumns">
             <property name="alias" value="t"/>
         </include>
-        from item_statis t where 1=1
+        from item_statis t where 1=1 ORDER BY t.id
     </select>
 
 </mapper>

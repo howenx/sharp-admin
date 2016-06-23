@@ -52,7 +52,7 @@
         <include refid="couponsColumns">
             <property name="alias" value="t"/>
         </include>
-        from sp_coupons t where state='Y' and use_at NOTNULL
+        from sp_coupons t where state='Y' and use_at NOTNULL ORDER BY t.use_at DESC
     </select>
 
     <!-- 分页获取所有已使用优惠券信息 -->
@@ -78,7 +78,7 @@
             and t.use_at &lt;= #{useEndAt} ::timestamp
         </if>
         <if test="sort == null or sort == '' ">
-            ORDER BY t.user_id DESC
+            ORDER BY t.use_at DESC
         </if>
         <if test="sort != null">
             ORDER BY t.${sort}

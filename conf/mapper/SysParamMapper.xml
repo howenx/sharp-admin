@@ -20,6 +20,6 @@
         <include refid="paramColumns">
             <property name="alias" value="t"/>
         </include>
-         from sys_parameter t where 1=1
+         from sys_parameter t where 1=1 ORDER BY t.sys_id
     </select>
 </mapper>
