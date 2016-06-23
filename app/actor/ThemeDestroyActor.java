@@ -18,8 +18,6 @@ public class ThemeDestroyActor extends AbstractActor {
         receive(ReceiveBuilder.match(Long.class, message -> {
            themeService.updThemeDestroy(message);
             Logger.error("" + message.toString());
-        }).matchAny(s -> {
-            unhandled(s);
-        }).build());
+        }).matchAny(this::unhandled).build());
     }
 }

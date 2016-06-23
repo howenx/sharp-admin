@@ -308,14 +308,11 @@ GET         /$lang<(cn|en|kr)>/pin/activity/list/:id                            
 
 
 #versiong
-GET         /release/view                                                           controllers.VersionCtrl.release()
 POST        /release/public                                                         controllers.VersionCtrl.publicRelease()
 GET         /release/list                                                           controllers.VersionCtrl.releaseList()
 GET         /release/apiView                                                        controllers.VersionCtrl.apiReleasePage()
 POST        /release/api/public                                                     controllers.VersionCtrl.apiReleasePublic()
 GET         /release/apiVersionList                                                 controllers.VersionCtrl.APIVersionList(lang="cn")
-
-GET         /release/cdn                                                            controllers.VersionCtrl.refreshCdn
 
 GET         /log/view                                                               controllers.VersionCtrl.logview
 GET         /log/socket                                                             controllers.VersionCtrl.logsocket()

@@ -1,17 +1,5 @@
 package controllers;
 
-import actor.SubscribeActor;
-import akka.actor.ActorRef;
-import akka.actor.Props;
-import com.aliyuncs.DefaultAcsClient;
-import com.aliyuncs.IAcsClient;
-import com.aliyuncs.cdn.model.v20141111.RefreshObjectCachesRequest;
-import com.aliyuncs.cdn.model.v20141111.RefreshObjectCachesResponse;
-import com.aliyuncs.exceptions.ClientException;
-import com.aliyuncs.http.FormatType;
-import com.aliyuncs.profile.DefaultProfile;
-import com.aliyuncs.profile.IClientProfile;
-import com.google.common.base.Throwables;
 import domain.AdminUser;
 import domain.User;
 import domain.VersionVo;
@@ -20,9 +8,7 @@ import middle.VersionMiddle;
 import play.Configuration;
 import play.Logger;
 import play.data.Form;
-import play.libs.Akka;
 import play.mvc.*;
-import redis.clients.jedis.JedisPool;
 import service.AdminUserService;
 import service.ItemService;
 import util.SysParCom;
@@ -51,11 +37,6 @@ public class VersionCtrl extends Controller {
     @Inject
     private Configuration configuration;
 
-
-    @Security.Authenticated(UserAuth.class)
-    public Result release() {
-        return ok(views.html.versioning.release.render("cn", (User) ctx().args.get("user")));
-    }
 
     /**
      * 版本历史页面
@@ -189,42 +170,6 @@ public class VersionCtrl extends Controller {
         return ok(views.html.versioning.APIVersionList.render(lang, (User) ctx().args.get("user")));
     }
 
-
-    /**
-     * 刷新CDN
-     *
-     * @return result
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result refreshCdn() {
-        try {
-            String endpoint = configuration.getString("cdn.endpoint");
-            String key = configuration.getString("oss.access_key");
-            String secret = configuration.getString("oss.access_secret");
-
-            DefaultProfile.addEndpoint(endpoint, endpoint, "Cdn", "cdn.aliyuncs.com");
-            IClientProfile profile = DefaultProfile.getProfile(endpoint, key, secret);
-            IAcsClient client = new DefaultAcsClient(profile);
-
-
-            RefreshObjectCachesRequest describeCdnServiceRequest = new RefreshObjectCachesRequest();
-
-            describeCdnServiceRequest.setAcceptFormat(FormatType.JSON); //指定api返回格式
-            describeCdnServiceRequest.setRegionId(endpoint);
-            describeCdnServiceRequest.setObjectPath(configuration.getString("cdn.directory"));
-            describeCdnServiceRequest.setObjectType("Directory");
-
-            RefreshObjectCachesResponse describeCdnServiceResponse = client.getAcsResponse(describeCdnServiceRequest);
-
-            Logger.info("刷新cdn:" + describeCdnServiceResponse.getRefreshTaskId());
-            return ok("success");
-        } catch (ClientException ex) {
-            Logger.error("刷新CDN出错:" + Throwables.getStackTraceAsString(ex));
-            ex.printStackTrace();
-            return badRequest("error");
-        }
-    }
-
     @Security.Authenticated(UserAuth.class)
     public Result logview() {
         String socketUrl = null;
@@ -242,7 +187,7 @@ public class VersionCtrl extends Controller {
             in.onMessage(System.out::println);
             in.onClose(() -> {
                 out.close();
-                if (SysParCom.WEBSOCKET_OUT_LIST.contains(out)){
+                if (SysParCom.WEBSOCKET_OUT_LIST.contains(out)) {
                     SysParCom.WEBSOCKET_OUT_LIST.remove(out);
                 }
                 System.err.println("Disconnected");

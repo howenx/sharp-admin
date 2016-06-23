@@ -41,10 +41,7 @@ libraryDependencies += "org.apache.poi" % "poi" % "3.13" withSources() withJavad
 
 libraryDependencies += "org.apache.poi" % "poi-ooxml" % "3.13" withSources() withJavadoc()
 
-///邮件
-libraryDependencies += "org.apache.commons" % "commons-email" % "1.4" withSources() withJavadoc()
 libraryDependencies += "com.typesafe.play" %% "play-mailer" % "4.0.0" withSources() withJavadoc()
-
 
 libraryDependencies += "com.squareup.okhttp" % "okhttp" % "2.7.2"
 
