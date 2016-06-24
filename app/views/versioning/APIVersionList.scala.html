@@ -14,21 +14,42 @@
             $(".currect").css("color", "#fff");
         });
 
+        //首次加载页面 显示style-admin的版本信息
+        $(".tb-list-data").each(function () {
+            if($(this).find("td").eq(3).html() == "admin"){
+                $(this).css("display","table-row");
+            }else {
+                $(this).css("display","none");
+            }
+        });
+
+        //点击切换标签显示不同项目的版本列表
         $(document).on("click", ".order-option>div", function () {
             $(".currect").css("color", "#333");
             $(".order-option>div").removeClass("currect");
             $(this).addClass("currect");
+
             var projectName = $(this).html();
             projectName = projectName.substring(projectName.indexOf("-")+1, projectName.length);
-            console.log(projectName);
-            <!--console.log($(".table-hover tr").eq(1).html());-->
+
+            <!--style-ios的版本列表显示"AppStore下载地址"列-->
+            if (projectName == "ios")
+                $(".table-hover").find("tr").eq(0).find("th").eq(9).css("display","block");
+            else
+                $(".table-hover").find("tr").eq(0).find("th").eq(9).css("display","none");
+
+            //所在行与所点击版本类型相同则显示,否则隐藏
             $(".tb-list-data").each(function () {
-                if($(this).find("td").eq(3).html()==projectName){
+                if ($(this).find("td").eq(3).html()==projectName) {
                     $(this).css("display","table-row");
-                }else {
+                    if (projectName=="ios")
+                        $(this).find("td").eq(9).css("display","block");
+                    else
+                        $(this).find("td").eq(9).css("display","none");
+                } else {
                     $(this).css("display","none");
                 }
-            })
+            });
         });
     })
 </script>
@@ -53,11 +74,6 @@
     <div class="page-title">
         <span class="title-name">版本历史</span>
     </div>
-    <div class="usercenter-option">
-        <div class="user-state fl">未更改</div>
-        <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15"> 刷新CDN</div>
-        <span id="js-userinfo-error" class="mt20 alt fr"></span>
-    </div>
     <div class="row order-admin">
         <div class="col-sm-1 order-option" style="width: 145px">
             @for(p <- project) {
@@ -72,6 +88,7 @@
         <div id="tb-container" class="col-sm-10" style="border-left: 1px solid #ccc;white-space:nowrap">
             <table class="table table-bordered table-hover">
                 <thead>
+                <tr>
                     <th style="width: 5%;text-align: center;vertical-align: middle;">主键</th>
                     <th style="width: 2%;text-align: center;vertical-align: middle;">版本号</th>
                     <th style="width: 6%;text-align: center;vertical-align: middle;">版本名称</th>
@@ -81,8 +98,9 @@
                     <th style="text-align: center;vertical-align: middle;">版本描述</th>
                     <th style="width: 8%;text-align: center;vertical-align: middle;">发版时间</th>
                     <th style="width: 7%;text-align: center;vertical-align: middle;">配置文件</th>
-                    <th style="width: 13%;text-align: center;vertical-align: middle;">AppStore下载地址</th>
+                    <th style="text-align: center;vertical-align: middle;display:none;">AppStore下载地址</th>
                     <th style="width: 8%;text-align: center;vertical-align: middle;">是否最新版</th>
+                </tr>
                 </thead>
                 <tbody>
                 @for(vl <- versionList) {
@@ -96,7 +114,7 @@
                     <td style="text-align: left;vertical-align: inherit;">@vl.getReleaseDesc()</td>
                     <td>@vl.getReleaseAt()</td>
                     <td style="text-align: center;vertical-align: middle;"><a href="@vl.getUpdateReqXml()" target="_blank">点击查看</a></td>
-                    <td style="text-align: center;vertical-align: middle;"><a href="@vl.getAppStoreDownloadLink()" target="_blank">点击查看</a></td>
+                    <td style="text-align: center;vertical-align: middle;display:none;"><a href="@vl.getAppStoreDownloadLink()" target="_blank">点击查看</a></td>
                     @if(vl.getCurrentVersion()){<td style="color: red;">是</td>}
                     @if(!vl.getCurrentVersion()){<td>否</td>}
                 </tr>

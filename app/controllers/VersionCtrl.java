@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static util.SysParCom.REDIS_SUBSCRIBE;
+import static util.SysParCom.VERSION_PROJECT;
 
 /**
  * 版本管理
@@ -150,22 +151,15 @@ public class VersionCtrl extends Controller {
     }
 
     /**
-     * 获取API版本历史        Added by Tiffany Zhu
-     *
+     * 获取版本历史        Added by Tiffany Zhu
      * @param lang
      * @return
      */
     @Security.Authenticated(UserAuth.class)
     public Result APIVersionList(String lang) {
-        List<String> project = REDIS_SUBSCRIBE;
-        project.add("style-ios");
-        project.add("style-android");
+        List<String> project = VERSION_PROJECT;
         VersionVo versionVo = new VersionVo();
         List<VersionVo> versionList = dealVersionVo(versionVo);
-//        versionVo.setProductType("A");
-//        List<VersionVo> androidVersion = dealVersionVo(versionVo);
-//        versionVo.setProductType("I");
-//        List<VersionVo> iosVersion = dealVersionVo(versionVo);
         return ok(views.html.versioning.APIVersionList.render(lang, project, versionList, (User) ctx().args.get("user")));
     }
 
