@@ -46,16 +46,10 @@ public class VersionCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result releaseList() {
+        List<String> project = VERSION_PROJECT;
         VersionVo versionVo = new VersionVo();
-        versionVo.setProductType("A");
-
-        List<VersionVo> androidVersion = dealVersionVo(versionVo);
-
-        versionVo.setProductType("I");
-
-        List<VersionVo> iosVersion = dealVersionVo(versionVo);
-
-        return ok(views.html.versioning.releaselist.render("cn", (User) ctx().args.get("user"), androidVersion, iosVersion));
+        List<VersionVo> versionList = dealVersionVo(versionVo);
+        return ok(views.html.versioning.releaselist.render("cn", project, versionList, (User) ctx().args.get("user")));
     }
 
     /**
@@ -115,52 +109,9 @@ public class VersionCtrl extends Controller {
     }
 
     @Security.Authenticated(UserAuth.class)
-    public Result apiReleasePage() {
-        return ok(views.html.versioning.apiRelease.render("cn", (User) ctx().args.get("user")));
+    public Result release() {
+        return ok(views.html.versioning.release.render("cn", (User) ctx().args.get("user")));
 
-    }
-
-    @Security.Authenticated(UserAuth.class)
-    @BodyParser.Of(value = BodyParser.MultipartFormData.class, maxLength = 200 * 1024 * 1024)
-    public Result apiReleasePublic() {
-        try {
-            Http.MultipartFormData body = request().body().asMultipartFormData();
-
-            List<Http.MultipartFormData.FilePart> fileParts = body.getFiles();
-
-            Form<VersionVo> userForm = Form.form(VersionVo.class).bindFromRequest();
-
-            if (userForm.hasErrors()) {
-                Logger.error("表单提交错误:" + userForm.errorsAsJson().toString());
-                return ok("error");
-            } else {
-                User user = (User) ctx().args.get("user");
-
-                VersionVo versionVo = userForm.get();
-
-                versionVo.setAdminUserId(Long.valueOf(user.userId().get().toString()));
-
-                versionMiddle.apiPublicRelease(versionVo, fileParts.get(0).getFile());
-
-                return ok("success");
-            }
-        } catch (Exception ex) {
-            Logger.error("发布版本出错:" + ex.getMessage());
-            return badRequest("error");
-        }
-    }
-
-    /**
-     * 获取版本历史        Added by Tiffany Zhu
-     * @param lang
-     * @return
-     */
-    @Security.Authenticated(UserAuth.class)
-    public Result APIVersionList(String lang) {
-        List<String> project = VERSION_PROJECT;
-        VersionVo versionVo = new VersionVo();
-        List<VersionVo> versionList = dealVersionVo(versionVo);
-        return ok(views.html.versioning.APIVersionList.render(lang, project, versionList, (User) ctx().args.get("user")));
     }
 
     @Security.Authenticated(UserAuth.class)
