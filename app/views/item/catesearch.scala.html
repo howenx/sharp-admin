@@ -23,7 +23,8 @@
         if(element.childNodes.length==0
             ||(element.childNodes.length==1&&element.childNodes[0].nodeType==3)){
             var addText = $("<input type='text'>").css({
-                "width":"100%"
+                "width":"100%",
+                "height":17,
             }).val(oldHtml);
             $(addText).blur(function(){
                 $(element).html(this.value?this.value:oldHtml);
@@ -133,7 +134,7 @@
                 @for(cates <- catesList){
                 <tr>
                     <td>@cates(0)</td>
-                    <td onclick="changeText(event,this)">@cates(1)</td>
+                    <td width="300" onclick="changeText(event,this)">@cates(1)</td>
                     <td>@cates(2)</td>
                     <td>@cates(3)</td>
                     <td>@cates(4)</td>
