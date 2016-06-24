@@ -199,4 +199,14 @@ public class ItemServiceImpl implements ItemService{
     public List<Item> getItemBySupplier(String supplyMerch) {
         return itemMapper.getItemBySupplier(supplyMerch);
     }
+
+    /**
+     * 由id修改类别名称        Added By Sunny Wu 2016.06.24
+     * @param cates 类别
+     * @return
+     */
+    @Override
+    public boolean updateCateNm(Cates cates) {
+        return catesMapper.updateCateNm(cates) > 0;
+    }
 }

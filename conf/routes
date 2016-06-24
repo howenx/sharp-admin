@@ -146,6 +146,7 @@ GET         /$lang<(cn|en|kr)>/comm/cate/search                                 
 GET         /comm/cate/add                                                          controllers.ItemCtrl.cateAdd(lang ="cn")
 GET         /$lang<(cn|en|kr)>/comm/cate/add                                        controllers.ItemCtrl.cateAdd(lang)
 POST        /comm/cate/cateSave                                                     controllers.ItemCtrl.cateSave(lang = "cn")
+POST        /comm/cate/updateNm                                                     controllers.ItemCtrl.cateNmUpdate()
 
 
 

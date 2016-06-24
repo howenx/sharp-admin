@@ -557,9 +557,38 @@ public class ItemCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result cateSave(String lang) {
         JsonNode json = request().body().asJson();
-//        Logger.error(json.toString());
+        Form<Cates> catesForm = Form.form(Cates.class).bind(json);
+        //数据验证
+        if (catesForm.hasErrors()) {
+            Logger.error("cates 表单数据有误.....");
+            return badRequest();
+        }
         itemService.catesSave(json);
+        Logger.error(json.toString());
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
+    }
+
+    /**
+     * 由id修改类别名称    Added By Sunny Wu 2016.06.24
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result cateNmUpdate() {
+        JsonNode json = request().body().asJson();
+        Form<Cates> catesForm = Form.form(Cates.class).bind(json);
+        //数据验证
+        if (catesForm.hasErrors()) {
+            Logger.error("cates 表单数据有误.....");
+            return badRequest();
+        }
+        Cates c = Json.fromJson(json,Cates.class);
+        Cates cates = itemService.getCate(c.getCateId());
+        cates.setCateNm(c.getCateNm());
+        if (itemService.updateCateNm(cates))
+            return ok("更新成功");
+        else
+            return ok("更新失败");
+
     }
 
     /**
