@@ -318,7 +318,7 @@ public class OrderCtrl extends Controller {
                 orderArray[6] = "成功";
             }
             if ("C".equals(order.getOrderStatus())) {
-                orderArray[6] = "取消";
+                orderArray[6] = "已取消";
             }
             if ("F".equals(order.getOrderStatus())) {
                 orderArray[6] = "失败";

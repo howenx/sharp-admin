@@ -178,7 +178,7 @@ funcList.orderlist_data = function orderlist_data(data) {
                 orderStatus = "成功";
             }
             if($(this)[5] == "C"){
-                orderStatus = "取消";
+                orderStatus = "已取消";
             }
             if($(this)[5] == "F"){
                 orderStatus = "失败";
