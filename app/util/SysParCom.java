@@ -34,6 +34,7 @@ public class SysParCom {
     public static String REDIS_CHANNEL;
 
     public static List<String> REDIS_SUBSCRIBE;
+    public static List<String> VERSION_PROJECT;
 
     //图片服务器url
     public static String IMAGE_URL;
@@ -108,6 +109,7 @@ public class SysParCom {
         REDIS_PORT = configuration.getInt("redis.port");
         REDIS_CHANNEL = configuration.getString("redis.channel");
         REDIS_SUBSCRIBE = configuration.getStringList("redis.subscribe");
+        VERSION_PROJECT = configuration.getStringList("version.project");
         IMAGE_URL = configuration.getString("image.server.url");
         DEPLOY_URL = configuration.getString("deploy.server.url");
         IMG_UPLOAD_URL = configuration.getString("image.upload.url");
