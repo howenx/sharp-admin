@@ -152,6 +152,7 @@ public class VersionMiddle {
                 Logger.error(Throwables.getStackTraceAsString(e));
             }
             versionVo.setUpdateReqXml("101010");
+            itemService.updateVersioning(versionVo);
             if (itemService.insertVersioning(versionVo)) {
                 autoDeployActor.tell(versionVo, ActorRef.noSender());
             }
