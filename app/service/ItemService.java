@@ -92,4 +92,11 @@ public interface ItemService {
      */
     List<Item> getItemBySupplier(String supplyMerch);
 
+    /**
+     * 由id修改类别名称        Added By Sunny Wu 2016.06.24
+     * @param cates 类别
+     * @return
+     */
+    boolean updateCateNm(Cates cates);
+
 }

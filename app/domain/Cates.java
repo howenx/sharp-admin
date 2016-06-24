@@ -1,5 +1,7 @@
 package domain;
 
+import play.data.validation.Constraints;
+
 import java.io.Serializable;
 
 /**
@@ -24,6 +26,7 @@ public class Cates implements Serializable {
     /**
      * cate  name.
      */
+    @Constraints.Required
     private String cateNm;
 
     /**

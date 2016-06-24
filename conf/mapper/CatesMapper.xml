@@ -67,4 +67,13 @@
         values(#{pcateId},#{cateNm},#{cateDesc},#{cateCode})
     </insert>
 
+    <!--由id修改类别名称       Added By Sunny Wu 2016.06.24-->
+    <update id="updateCateNm" parameterType="domain.Cates">
+        update cates
+        set
+        cate_nm = #{cateNm}
+        where cate_id = #{cateId}
+    </update>
+
+
 </mapper>
