@@ -70,12 +70,10 @@ ul,li {
 }
 .wrap-slider {
 	width: 1080px;
-	min-height: 500px;
 	background-color: #fff;
 	margin: 20px auto;
 	margin-bottom: 50px;
 	padding-bottom: 30px;
-	min-height: 800px;
 	border: 1px solid #eee;
 }
 .page-title {
