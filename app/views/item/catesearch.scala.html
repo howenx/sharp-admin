@@ -8,7 +8,33 @@
 
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
-<script src="/assets/js/add-guige.js"></script>
+<script>
+    function changeText(event,element){
+        var e = window.event||event;
+        var obj = e.target;
+        if(obj.tagName=="INPUT"){
+            return;
+        }
+        var oldHtml = $(element).html();
+        console.log(oldHtml);
+
+        if(element.childNodes.length==0
+            ||(element.childNodes.length==1&&element.childNodes[0].nodeType==3)){
+            var addText = $("<input type='text'>").css({
+                "width":"100%"
+            }).val(oldHtml);
+            $(addText).blur(function(){
+                $(element).html(this.value?this.value:oldHtml);
+                if($(element).parent().find(":input")){
+                    $(element).parent().find(":input").val($(element).html());
+                }
+            })
+        }
+        element.innerHTML = "";
+        $(addText).appendTo($(element));
+        addText.focus();
+    }
+</script>
 <script src="/assets/js/rili.js"></script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"商品类别")
