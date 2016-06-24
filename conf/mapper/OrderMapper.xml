@@ -137,7 +137,21 @@
         </foreach>
         order by t.order_create_at ASC
     </select>
-
+    
+    
+    <select id="getOrder" parameterType="domain.order.Order" resultType="domain.order.Order">
+        select
+        <include refid="orderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_order t where 1=1
+        <if test="orderCreateAt != null">
+            and to_char(t.order_create_at,'YYYYMMDD') = to_char(#{orderCreateAt}::timestamp,'YYYYMMDD')
+        </if>
+        <if test="orderStatus != null">
+            and t.order_status = #{orderStatus}
+        </if>
+    </select>
 
     <!--销售收入统计 成功付款订单 成功退款订单查询          Add By Sunny.Wu 2016.06.16-->
     <select id="getTradeOrder" parameterType="domain.order.Order" resultType="domain.order.Order">

@@ -99,4 +99,11 @@ public interface OrderMapper {
      */
     List<OrderLine> countTradeGoods(Order order);
 
+    /**
+     * 获取Order      Added by Tiffany Zhu 2016.06.24
+     * @param order
+     * @return
+     */
+    List<Order> getOrder(Order order);
+
 }

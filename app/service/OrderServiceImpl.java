@@ -143,4 +143,14 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.countTradeGoods(order);
     }
 
+    /**
+     * 获取Order      Added by Tiffany Zhu 2016.06.24
+     * @param order
+     * @return
+     */
+
+    @Override
+    public List<Order> getOrder(Order order) {
+        return orderMapper.getOrder(order);
+    }
 }
