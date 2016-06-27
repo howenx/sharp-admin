@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import domain.Coupons;
+import domain.CouponsCate;
 import domain.User;
 import domain.order.Order;
 import filters.UserAuth;
@@ -43,7 +44,8 @@ public class CoupCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result coupCreate(String lang) {
-        return ok(views.html.coupon.coupadd.render(lang, (User) ctx().args.get("user")));
+        List<CouponsCate> couponsCateList = couponsService.getAllCouponsCate();
+        return ok(views.html.coupon.coupadd.render(lang, couponsCateList, (User) ctx().args.get("user")));
     }
 
     /**

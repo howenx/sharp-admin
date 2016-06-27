@@ -2,6 +2,7 @@ package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import domain.Coupons;
+import domain.CouponsCate;
 
 import java.util.List;
 
@@ -31,15 +32,21 @@ public interface CouponsService {
 
     /**
      * 获取所有已使用的优惠券信息
-     * @return list of CouponsService
+     * @return list of Coupons
      */
     List<Coupons> getAllUsedCoupons();
 
     /**
      * 分页获取所有已使用优惠券信息
      * @param coupons 优惠券
-     * @return list of CouponsService
+     * @return list of Coupons
      */
     List<Coupons> getUsedCouponsPage(Coupons coupons);
+
+    /**
+     * 获取所有的优惠券类别       Added By Sunny Wu 2016.06.27
+     * @return list of CouponsCate
+     */
+    List<CouponsCate> getAllCouponsCate();
 
 }
