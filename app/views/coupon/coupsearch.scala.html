@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn", pageSize:Integer, countNum:Integer, pageCount:Integer, couponsList:List[domain.Coupons], user:domain.User)
+@(lang:String="cn", pageSize:Integer, countNum:Integer, pageCount:Integer, user:domain.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
 <link rel="stylesheet" href="/assets/css/search.css">
@@ -103,18 +103,6 @@
             </tr>
             </thead>
             <tbody>
-            @for(c <- couponsList){
-            <!--必须使用tb-list-data类名，公用-->
-            <tr class = "tb-list-data">
-                <td><a href="javascript:void(0)">@c.getCoupId()</a></td>
-                <td>@if(c.getCateNm()!=null){@c.getCateNm()}</td>
-                <td>@c.getUserId()</td>
-                <td>@c.getOrderId()</td>
-                <td>@(c.getUseAt().toString().substring(0,16))</td>
-                <td>@c.getLimitQuota()</td>
-                <td>@c.getDenomination()</td>
-            </tr>
-            }
             <tr id="nodata-td" style="display:none;"><td colspan="7">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>

@@ -95,14 +95,7 @@ public class CoupCtrl extends Controller {
         if (countNum%pageSize!=0) {
             pageCount = countNum/pageSize+1;
         }
-        coupons.setPageSize(pageSize);
-        coupons.setOffset(0);
-        List<Coupons> couponsList = couponsService.getUsedCouponsPage(coupons);
-        for(Coupons coup : couponsList) {
-            String phoneNum = idService.getID(coup.getUserId().intValue()).getPhoneNum();
-            coup.setUserId(Long.parseLong(phoneNum));//用户id字段保存用户的手机号
-        }
-        return ok(views.html.coupon.coupsearch.render(lang, pageSize, countNum, pageCount, couponsList, (User) ctx().args.get("user")));
+        return ok(views.html.coupon.coupsearch.render(lang, pageSize, countNum, pageCount, (User) ctx().args.get("user")));
     }
 
     /**
@@ -129,13 +122,13 @@ public class CoupCtrl extends Controller {
             coupons.setOffset(offset);
             List<Coupons> couponsList = couponsService.getUsedCouponsPage(coupons);
             for(Coupons coup : couponsList) {
+                coup.setCateNm(couponsService.getCouponsCate(coup.getCateId()).getCateNm());
                 String phoneNum = idService.getID(coup.getUserId().intValue()).getPhoneNum();
                 coup.setUserId(Long.parseLong(phoneNum));//用户id字段保存用户的手机号
                 Order order = orderService.getOrderById(coup.getOrderId());
                 if (null != order)
                     coup.setLimitQuota(order.getPayTotal());//优惠券限额字段保存订单的金额
                 else coup.setLimitQuota(BigDecimal.valueOf(0));
-//                Logger.error(coup.toString());
             }
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();

@@ -110,4 +110,13 @@
         from sp_coupons_cate t where 1=1 and cate_id!=999 ORDER BY t.cate_id
     </select>
 
+    <!--由cateId查询一条优惠券类别信息      Added By Sunny Wu 2016.06.27-->
+    <select id="getCouponsCate" resultType="domain.CouponsCate" parameterType="java.lang.Long">
+        select
+        <include refid="couponsCateColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_coupons_cate t where cate_id=#{value}
+    </select>
+
 </mapper>
