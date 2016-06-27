@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",user:domain.User)
+@(lang:String="cn", couponsCateList:List[domain.CouponsCate], user:domain.User)
 
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
@@ -35,7 +35,7 @@
             user_arr.push(user_id);
         }
         sharedObject.user_arr = user_arr;
-        console.log(user_arr);
+        <!--console.log(user_arr);-->
         if (window.showModalDialog) {
             var retValue = showModalDialog("/coup/add/popup", sharedObject, "dialogWidth:1300px; dialogHeight:600px; dialogLeft:300px;");
             if (retValue) {
@@ -98,12 +98,9 @@
                     <div class="col-sm-3">
                         <select class="form-control form-data-area" id="cateId" name="cateId">
                             <option value="">请选择</option>
-                            <option value="153">化妆品类商品适用券</option>
-                            <option value="172">配饰类商品适用券</option>
-                            <option value="165">服饰类商品适用券</option>
-                            <option value="555">全场通用券</option>
-                            <option value="777">新人优惠券</option>
-                            <option value="211">指定商品适用券</option>
+                            @for(cc <- couponsCateList) {
+                                <option value="@cc.getCateId()">@cc.getCateNm()</option>
+                            }
                         </select>
                     </div>
                     <label class="col-sm-1 control-label" ><div class="r start"> *</div><div class="r">限额(￥)</div></label>
@@ -201,7 +198,7 @@
         var numberReg1 = /^-?\d+\.?\d{0,2}$/;   //整数或小数
         var coupon_list = [];
         var cateId = $("#cateId").val();
-        var cateNm = "";
+        var cateNm = $("#cateId  option:selected").text();
         var limitQuota = $("#limitQuota").val();
         var startAt = $("#startAt").val();
         var endAt = $("#endAt").val();
@@ -237,12 +234,6 @@
             var coupon = new Object();
             var userId = users[i].getElementsByTagName("td")[1].innerText;
             coupon.cateId = cateId;
-            if (cateId == 153) cateNm =  "化妆品类商品适用券";
-            else if (cateId == 172) cateNm =  "配饰类商品适用券";
-            else if (cateId == 165) cateNm =  "服饰类商品适用券";
-            else if (cateId == 555) cateNm =  "全场通用券";
-            else if (cateId == 777) cateNm =  "新人优惠券";
-            else if (cateId == 211) cateNm =  "指定商品适用券";
             coupon.cateNm = cateNm;
             coupon.limitQuota = limitQuota;
             coupon.startAt = startAt;
@@ -272,7 +263,7 @@
                         $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
                         $('.usercenter-option > .user-state').css('background-position', '20px -174px');
                         $('.usercenter-option > .user-state').text('未更改');
-                        setTimeout("location.href='/"+window.lang+"/coup/add'", 3000);
+                        <!--setTimeout("location.href='/"+window.lang+"/coup/add'", 3000);-->
                     }
                     else {
                         $('#js-userinfo-error').text('保存失败');

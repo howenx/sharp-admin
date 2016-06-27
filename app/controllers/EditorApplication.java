@@ -105,7 +105,7 @@ public class EditorApplication extends Controller{
                 Cache.set("editorConfig",config,60*60);
 //     			Logger.info("获取config.json数据："+config);
              } catch (IOException e) {
-                 e.printStackTrace();
+//                 e.printStackTrace();
 				 Logger.error(Throwables.getStackTraceAsString(e));
                  return null;
              }

@@ -29,18 +29,18 @@
             $(addText).blur(function(){
                 $(element).html(this.value?this.value:oldHtml);
                 if($(element).parent().find(":input")){
-                    $(element).parent().find(":input").val($(element).html());
-                    var cateNm = $(element).html();
-                    var cateId = $(element).parent().find("td").eq(0).html();
-                    var Cates = new Object();
-                    Cates.cateId = cateId;
-                    Cates.cateNm = cateNm;
+                    if (window.confirm("确定保存吗?")) {
+                        $(element).parent().find(":input").val($(element).html());
+                        var cateNm = $(element).html();
+                        var cateId = $(element).parent().find("td").eq(0).html();
+                        var Cates = new Object();
+                        Cates.cateId = cateId;
+                        Cates.cateNm = cateNm;
 
-                    if (cateId=="" || cateNm=="")
-                        isPost = false;
-                    if (isPost) {
-                        console.log(JSON.stringify(Cates));
-                        if (window.confirm("确定保存吗?")) {
+                        if (cateId=="" || cateNm=="")
+                            isPost = false;
+                        if (isPost) {
+                           console.log(JSON.stringify(Cates));
                            $.ajax({
                                type :  "POST",
                                url : "/comm/cate/updateNm",
@@ -57,6 +57,9 @@
                                }
                            });
                         }
+                    }
+                    else {
+                        $(element).html(oldHtml);
                     }
                 }
             });
@@ -83,40 +86,6 @@
 </div>
 <div class="content-1">
     <input type="button" value="新增商品类别" onclick="javascript:window.location.href='/@lang/comm/cate/add'" style="background:#0076C5;color:#fff;border:0;padding:6px 8px;"/>
-    <!--
-    <form class="form-horizontal">
-        <div class="form-group">
-
-            <label class="col-sm-1 control-label">类别Id</label>
-            <div class="col-sm-3">
-                <input type="number" min="10000" max="99999999" class="form-control"/>
-            </div>
-
-            <label class="col-sm-1 control-label">父类Id</label>
-            <div class="col-sm-3">
-                <input type="number" min="10000" max="99999999" class="form-control"/>
-            </div>
-
-            <label class="col-sm-1 control-label">类别名</label>
-            <div class="col-sm-3">
-                <input type="text" class="form-control">
-            </div>
-
-        </div>
-
-        <div class="form-group">
-            <label class="col-sm-1 control-label">类别Code</label>
-            <div class="col-sm-3">
-                <input type="text" class="form-control">
-            </div>
-        </div>
-
-        <div class="btn-s">
-            <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
-            <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
-        </div>
-    </form>
-    -->
     <div class="table-content">
         <div class="param">
             <table class="table table-bordered">

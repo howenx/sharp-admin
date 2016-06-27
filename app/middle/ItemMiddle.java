@@ -134,7 +134,7 @@ public class ItemMiddle {
                         startTimes = sdf.parse(startAt).getTime();
                         endTimes = sdf.parse(endAt).getTime();
                     } catch (ParseException e) {
-                        e.printStackTrace();
+//                        e.printStackTrace();
                         Logger.error(Throwables.getStackTraceAsString(e));
                     }
                     //更新库存信息
@@ -150,7 +150,7 @@ public class ItemMiddle {
                             originStartTimes = sdf.parse(originStartAt).getTime();
                             originEndTimes = sdf.parse(originEndAt).getTime();
                         } catch (ParseException e) {
-                            e.printStackTrace();
+//                            e.printStackTrace();
                             Logger.error(Throwables.getStackTraceAsString(e));
                         }
                         String originState = originInv.getState();  //原sku状态
@@ -250,7 +250,7 @@ public class ItemMiddle {
                                 pinStartTimes = pinStartAt.getTime();
                                 pinEndTimes = pinEndAt.getTime();
                             } catch (ParseException e) {
-                                e.printStackTrace();
+//                                e.printStackTrace();
                                 Logger.error(Throwables.getStackTraceAsString(e));
                             }
                             if ("Y".equals(originState)) {
@@ -365,7 +365,7 @@ public class ItemMiddle {
         try {
             endTimes = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(inventory.getEndAt()).getTime();
         } catch (ParseException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             Logger.error(Throwables.getStackTraceAsString(e));
         }
         if (!"D".equals(state)) {
@@ -377,7 +377,7 @@ public class ItemMiddle {
                     //等待上架schedule删除后创建下架schedule
                     Thread.sleep(7000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
                     Logger.error(Throwables.getStackTraceAsString(e));
                 }
                 newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes,TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());

@@ -94,4 +94,20 @@
         </if>
     </select>
 
+
+    <!--优惠券类别-->
+    <sql id="couponsCateColumns">
+        ${alias}.cate_id,
+        ${alias}.cate_nm
+    </sql>
+
+    <!-- 获取所有的优惠券类别             Added By Sunny Wu 2016.06.27-->
+    <select id="getAllCouponsCate" resultType="domain.CouponsCate">
+        select
+        <include refid="couponsCateColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_coupons_cate t where 1=1 and cate_id!=999 ORDER BY t.cate_id
+    </select>
+
 </mapper>

@@ -5,6 +5,7 @@ import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Throwables;
 import domain.Coupons;
+import domain.CouponsCate;
 import domain.MsgRec;
 import domain.PushMsg;
 import mapper.CouponsMapper;
@@ -62,7 +63,6 @@ public class CouponsServiceImpl implements CouponsService {
                 endAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(coupons.getEndAt());
                 endTimes = endAt.getTime();
             } catch (ParseException e) {
-                e.printStackTrace();
                 Logger.error(Throwables.getStackTraceAsString(e));
             }
             //优惠券发送成功
@@ -123,7 +123,7 @@ public class CouponsServiceImpl implements CouponsService {
 
     /**
      * 获取所有已使用的优惠券信息
-     * @return list of CouponsService
+     * @return list of Coupons
      */
     @Override
     public List<Coupons> getAllUsedCoupons() {
@@ -133,11 +133,20 @@ public class CouponsServiceImpl implements CouponsService {
     /**
      * 分页获取所有已使用优惠券信息
      * @param coupons 优惠券
-     * @return list of CouponsService
+     * @return list of Coupons
      */
     @Override
     public List<Coupons> getUsedCouponsPage(Coupons coupons) {
         return couponsMapper.getUsedCouponsPage(coupons);
+    }
+
+    /**
+     * 获取所有的优惠券类别       Added By Sunny Wu 2016.06.27
+     * @return list of CouponsCate
+     */
+    @Override
+    public List<CouponsCate> getAllCouponsCate() {
+        return couponsMapper.getAllCouponsCate();
     }
 
 }
