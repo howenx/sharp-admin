@@ -158,7 +158,7 @@ funcList.orderlist_data = function orderlist_data(data) {
         if($(this)[4] == "JD"){
             payMethod = "京东";
         }
-        if($(this)[4] == "APAY"){
+        if($(this)[4] == "ALIPAY"){
             payMethod = "支付宝";
         }
         if($(this)[4] == "WEIXIN"){

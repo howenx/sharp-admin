@@ -120,23 +120,24 @@
 
             console.log(object);
             if(isPost){
-                $.ajax({
-                    type :  "POST",
-                    url : "/comm/order/refundTemp/deal",
-                    contentType: "application/json; charset=utf-8",
-                    data : JSON.stringify(object),
-                    error : function(request) {
-                        alert("操作失败!");
-                    },
-                    success: function(data) {
-                        console.log(data);
-                        if(payMethod == "支付宝"){
-                             $("#refundForm").submit();
-                        }
-                        alert("处理成功!");
-                        setTimeout("location.href='/"+window.lang+"/comm/order/refundTemp/detail/"+ refundId +"'", 3000);
-                    }
-                 });
+                 if(payMethod == "支付宝"){
+                        $("#refundForm").submit();
+                 }else{
+                        $.ajax({
+                            type :  "POST",
+                            url : "/comm/order/refundTemp/deal",
+                            contentType: "application/json; charset=utf-8",
+                            data : JSON.stringify(object),
+                            error : function(request) {
+                                alert("操作失败!");
+                            },
+                            success: function(data) {
+                                console.log(data);
+                                alert("处理成功!");
+                                setTimeout("location.href='/"+window.lang+"/comm/order/refundTemp/detail/"+ refundId +"'", 3000);
+                            }
+                        });
+                 }
             }
         })
 

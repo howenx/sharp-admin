@@ -113,7 +113,7 @@ public class OrderCtrl extends Controller {
             if ("JD".equals(order.getPayMethod())) {
                 object[4] = "京东";
             }
-            if ("APAY".equals(order.getPayMethod())) {
+            if ("ALIPAY".equals(order.getPayMethod())) {
                 object[4] = "支付宝";
             }
             if ("WEIXIN".equals(order.getPayMethod())) {
@@ -302,7 +302,7 @@ public class OrderCtrl extends Controller {
         if ("JD".equals(order.getPayMethod())) {
             orderArray[5] = "京东";
         }
-        if ("APAY".equals(order.getPayMethod())) {
+        if ("ALIPAY".equals(order.getPayMethod())) {
             orderArray[5] = "支付宝";
         }
         if ("WEIXIN".equals(order.getPayMethod())) {
@@ -477,7 +477,7 @@ public class OrderCtrl extends Controller {
             if ("JD".equals(order.getPayMethod())) {
                 object[4] = "京东";
             }
-            if ("APAY".equals(order.getPayMethod())) {
+            if ("ALIPAY".equals(order.getPayMethod())) {
                 object[4] = "支付宝";
             }
             if ("WEIXIN".equals(order.getPayMethod())) {
@@ -679,7 +679,7 @@ public class OrderCtrl extends Controller {
     }
 
     /**
-     * 退货详情     Added by Tiffany Zhu 2016.04.14
+     * 退款详情     Added by Tiffany Zhu 2016.04.14
      *
      * @param lang
      * @return
@@ -691,7 +691,7 @@ public class OrderCtrl extends Controller {
         if ("JD".equals(order.getPayMethod())) {
             order.setPayMethod("京东");
         }
-        if ("APAY".equals(order.getPayMethod())) {
+        if ("ALIPAY".equals(order.getPayMethod())) {
             order.setPayMethod("支付宝");
         }
         if ("WEIXIN".equals(order.getPayMethod())) {
@@ -837,7 +837,7 @@ public class OrderCtrl extends Controller {
                 case "JD":
                     order.setPayMethod("京东");
                     break;
-                case "APAY":
+                case "ALIPAY":
                     order.setPayMethod("支付宝");
                     break;
                 case "WEIXIN":
