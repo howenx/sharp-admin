@@ -74,6 +74,9 @@ public class OrderCtrl extends Controller {
     @Inject
     private NewScheduler newScheduler;
 
+    @Inject
+    private AlipayCtrl alipayCtrl;
+
 
     public static final Timeout TIMEOUT = new Timeout(100, TimeUnit.MILLISECONDS);
 
@@ -762,9 +765,10 @@ public class OrderCtrl extends Controller {
             userInfo = idService.getID(Integer.parseInt(refundTemp.getUserId().toString()));
         }
 
-        Logger.error("支付公司返回码:" + refundTemp.getPgCode());
-        Logger.error("支付公司消息:" + refundTemp.getPgMessage());
-        return ok(views.html.order.refundDetail.render(lang, refundTemp, order, resultOrderLineList, userInfo, orderShip, SysParCom.IMAGE_URL, (User) ctx().args.get("user")));
+        //获取支付宝退款参数
+        Map<String,String> alipayParams = new HashMap<String,String>();
+        alipayParams = alipayCtrl.getRefundParams(refundTemp.getOrderId());
+        return ok(views.html.order.refundDetail.render(lang, refundTemp, order, resultOrderLineList, userInfo, orderShip, SysParCom.IMAGE_URL, alipayParams,(User) ctx().args.get("user")));
     }
 
 

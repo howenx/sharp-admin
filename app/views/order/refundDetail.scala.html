@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",refundTemp:domain.RefundTemp,order:domain.order.Order,orderLineList:List[Array[Object]],userInfo:domain.ID,orderShip:domain.order.OrderShip,url:String,user:domain.User)
+@(lang:String="cn",refundTemp:domain.RefundTemp,order:domain.order.Order,orderLineList:List[Array[Object]],userInfo:domain.ID,orderShip:domain.order.OrderShip,url:String,refundParams:java.util.Map[String,String],user:domain.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -7,6 +7,7 @@
 <script>
     $(function(){
         var state = "@refundTemp.getState()";
+        var payMethod = "@order.getPayMethod()";
         console.log(state);
         //非申请中状态
         if(state != "I"){
@@ -128,7 +129,10 @@
                         alert("操作失败!");
                     },
                     success: function(data) {
-                    console.log(data);
+                        console.log(data);
+                        if(payMethod == "支付宝"){
+                             $("#refundForm").submit();
+                        }
                         alert("处理成功!");
                         setTimeout("location.href='/"+window.lang+"/comm/order/refundTemp/detail/"+ refundId +"'", 3000);
                     }
@@ -345,14 +349,20 @@
                             <td>@orderLine(7)</td>
                         </tr>
                     }
-
-
                 </table>
             </div>
         </form>
 
     </div>
+    <div style="display:none;">
+        <form id="refundForm" action="https://mapi.alipay.com/gateway.do" method="POST">
+            @for((k,v) <- refundParams) {
+            <input type="hidden" name="@k" value="@v"/>
+            }
+        </form>
+    </div>
 </div>
+
 <!-- 点击图片预览-->
 <div class="goods-img-bg">
     <div class="goods-bg"></div>
