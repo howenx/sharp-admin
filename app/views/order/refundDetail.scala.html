@@ -96,7 +96,7 @@
             }
             if($(".response option:selected").val() == 'A' && parseFloat($("#refund-amount").val()) > parseFloat($("#apply-money").val())){
                 isPost = false;
-                $('#js-userinfo-error').text('退款金额须小于商品总价!').css('color', '#2fa900');
+                $('#js-userinfo-error').text('退款金额须小于支付总金额!').css('color', '#2fa900');
 			    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
 			    return false;
             }
@@ -120,7 +120,7 @@
 
             console.log(object);
             if(isPost){
-                 if(payMethod == "支付宝" && $(".response option:selected").val() == "A"){
+                 if(payMethod == "支付宝" && $(".response option:selected").val() == ""){
                         $("#refundForm").submit();
                  }else{
                         $.ajax({
@@ -296,7 +296,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-6">
-                    <span>商品总价:</span>
+                    <span>支付总金额:</span>
                     <input type="text" value="@order.getPayTotal()" disabled>
                 </div>
                 <div class="col-sm-6">
