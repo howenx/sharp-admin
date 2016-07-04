@@ -59,6 +59,8 @@ public class SysParCom {
     public static String LOGIN_NAME;
     public static String PASSWORD;
     public static String SECRET;
+    //ERP推送订单
+    public static String ERP_ORDER_PUSH;
 
     public static ConcurrentMap<String, JedisPubSub> JEDIS_SUB;
     public static List<Jedis> JEDIS_COLLECT;
@@ -124,6 +126,8 @@ public class SysParCom {
         LOGIN_NAME = configuration.getString("erp.login.name");
         PASSWORD = configuration.getString("erp.login.pwd");
         SECRET = configuration.getString("erp.secret");
+
+        ERP_ORDER_PUSH = configuration.getString("erp.order.push");
 
         EXECUTOR_SERVICE = new ArrayList<>();
 

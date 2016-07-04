@@ -1,25 +1,9 @@
 package middle;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.iwilley.b1ec2.api.ApiException;
-import com.iwilley.b1ec2.api.domain.ShopOrderCreateLine;
-import com.iwilley.b1ec2.api.domain.ShopOrderCreatePayment;
-import com.iwilley.b1ec2.api.request.ShopOrderCreateRequest;
-import domain.ID;
-import domain.Inventory;
-import domain.WeiShengExpress;
 import domain.erp.ShopOrderOperate;
-import domain.order.Order;
-import domain.order.OrderLine;
-import domain.order.OrderShip;
-import domain.order.OrderSplit;
-import play.Logger;
-import play.libs.Json;
-import service.*;
 
-import javax.inject.Inject;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,26 +12,26 @@ import java.util.List;
  */
 public class ShopOrderMiddle {
 
-    @Inject
-    private OrderService orderService;
-
-    @Inject
-    private OrderShipService orderShipService;
-
-    @Inject
-    private OrderSplitService orderSplitService;
-
-    @Inject
-    private OrderLineService orderLineService;
-
-    @Inject
-    private IDService idService;
-
-    @Inject
-    private InventoryService inventoryService;
-
-    @Inject
-    private WeiShengExpressService weiShengExpressService;
+//    @Inject
+//    private OrderService orderService;
+//
+//    @Inject
+//    private OrderShipService orderShipService;
+//
+//    @Inject
+//    private OrderSplitService orderSplitService;
+//
+//    @Inject
+//    private OrderLineService orderLineService;
+//
+//    @Inject
+//    private IDService idService;
+//
+//    @Inject
+//    private InventoryService inventoryService;
+//
+//    @Inject
+//    private WeiShengExpressService weiShengExpressService;
 
     /**
      * ERP 推送订单(子订单)
@@ -55,6 +39,7 @@ public class ShopOrderMiddle {
      * @return 平台订单编号
      * @throws ApiException
      */
+    /**
     public String shopOrderPush(Long orderId) throws ApiException {
         ShopOrderOperate shopOrderOperate = new ShopOrderOperate();
         ShopOrderCreateRequest request = new ShopOrderCreateRequest();
@@ -155,6 +140,7 @@ public class ShopOrderMiddle {
         return shopOrderOperate.ShopOrderPush(request);     //返回平台订单编号
     }
 
+     **/
 
     /**
      * 由平台订单编号查询ERP订单信息

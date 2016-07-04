@@ -186,20 +186,20 @@
                 },
                 success: function(data) {
                     console.log(data);
-                    for(var i=0;i<$.parseJSON(data).length;i++) {
-                        var ShopOrderNo = $.parseJSON(data)[i].ShopOrderNo;
-                        var ErrorCode = $(this).ErrorCode;
-                        if (!reg.test(ShopOrderNo)) {
-                            orResult = false;
-                        }
-                    }
-                   if (orResult) {
-                        alert("推送成功");
-                        window.location.href = "/"+window.lang+"/comm/order/search ";
-                    }
-                    else {
-                        alert("推送异常");
-                    }
+                    <!--for(var i=0;i<$.parseJSON(data).length;i++) {-->
+                        <!--var ShopOrderNo = $.parseJSON(data)[i].ShopOrderNo;-->
+                        <!--var ErrorCode = $(this).ErrorCode;-->
+                        <!--if (!reg.test(ShopOrderNo)) {-->
+                            <!--orResult = false;-->
+                        <!--}-->
+                    <!--}-->
+                   <!--if (orResult) {-->
+                        <!--alert("推送成功");-->
+                        <!--window.location.href = "/"+window.lang+"/comm/order/search ";-->
+                    <!--}-->
+                    <!--else {-->
+                        <!--alert("推送异常");-->
+                    <!--}-->
 
                 }
             });
