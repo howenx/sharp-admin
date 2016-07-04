@@ -3,7 +3,6 @@ package modules;
 import com.google.inject.AbstractModule;
 import middle.ItemMiddle;
 import middle.VersionMiddle;
-import redis.clients.jedis.JedisPool;
 import util.LeveldbLoad;
 import util.LogUtil;
 import util.RedisPool;
@@ -28,4 +27,5 @@ public class LevelDBModule extends AbstractModule {
         bind(LeveldbLoad.class).asEagerSingleton();
         bind(ExecSubscribe.class).asEagerSingleton();
     }
+
 }
