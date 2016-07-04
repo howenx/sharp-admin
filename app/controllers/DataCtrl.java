@@ -198,14 +198,18 @@ public class DataCtrl extends Controller {
                 BigDecimal expend = new BigDecimal(0.0);    //退款额
                 BigDecimal profit = new BigDecimal(0.0);    //收入
                 for(Order o : orderList) {
-                    if ("T".equals(order.getOrderStatus())) {
+
+                    if ("pin".equals(o.getOrderStatus()) || "receive".equals(o.getOrderStatus()) || "deliver".equals(o.getOrderStatus())) {
+                        Logger.error("订单:"+o.toString());
                         //退款单, 退款额增加, 收入减少
                         Refund refund = refundService.getRefundByOrderId(o.getOrderId());
+                        Logger.error("退款单:"+refund.toString());
                         BigDecimal payBackFee = refund.getPayBackFee();
                         expend = expend.add(payBackFee);
                         profit = profit.subtract(payBackFee);
                     }
-                    if (!"T".equals(order.getOrderStatus())) {
+                    if ("S".equals(o.getOrderStatus()) || "R".equals(o.getOrderStatus()) || "D".equals(o.getOrderStatus()) || "J".equals(o.getOrderStatus()) || "PS".equals(o.getOrderStatus())) {
+
                         //付款单, 收款额增加, 收入增加
                         BigDecimal payTotal = o.getPayTotal();
                         income = income.add(payTotal);

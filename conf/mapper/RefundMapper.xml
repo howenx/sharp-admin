@@ -101,7 +101,7 @@
         <include refid="refundColumns">
             <property name="alias" value="t"/>
         </include>
-        from sp_refund t t.order_id = #{orderId}
+        from sp_refund t where t.order_id = #{orderId}
     </select>
 
 </mapper>
