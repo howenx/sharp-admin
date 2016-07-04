@@ -112,6 +112,7 @@
             $("#topic-form-starttime").val(start);
             $("#topic-form-endtime").val(end);
             $("#topic-search-bt").trigger("click");
+            sales();
         }
 
         //昨日
@@ -145,7 +146,6 @@
         //本周
         $(".benzhou").click(function () {
             benzhou();
-            sales();
         })
 
         //本月
@@ -283,12 +283,12 @@
                         <table class="table table-striped table-hover">
                             <thead>
                             <tr>
-                                <th>排名</th>
-                                <th>商品名称+规格</th>
-                                <th>销售额</th>
-                                <th>销售量</th>
-                                <th>退换量</th>
-                                <th>商品编号</th>
+                                <th style="width: 5%;text-align: center;vertical-align: middle;">排名</th>
+                                <th style="width: 20%;text-align: center;vertical-align: middle;">商品名称+规格</th>
+                                <th style="width: 5%;text-align: center;vertical-align: middle;">销售额</th>
+                                <th style="width: 5%;text-align: center;vertical-align: middle;">销售量</th>
+                                <th style="width: 5%;text-align: center;vertical-align: middle;">退换量</th>
+                                <th style="width: 15%;text-align: center;vertical-align: middle;">商品编号</th>
                             </tr>
                             </thead>
                             <tbody>

@@ -98,7 +98,7 @@ public class VersionCtrl extends Controller {
 
                 versionVo.setAdminUserId(Long.valueOf(user.userId().get().toString()));
 
-                versionMiddle.publicRelease(versionVo, fileParts.get(0).getFile());
+                versionMiddle.apiPublicRelease(versionVo, fileParts.get(0).getFile());
 
                 return ok("success");
             }
