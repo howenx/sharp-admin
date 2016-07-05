@@ -184,12 +184,12 @@
 
     <!--每日订单交易额,交易量统计   Add By Sunny.Wu 2016.06.17-->
     <select id="countTradeOrder" parameterType="domain.order.Order" resultType="domain.order.Order">
-        select to_char(order_create_at, 'yyyy-mm-dd') as sort, sum((select amount from sp_order o, sp_order_line l where
-        o.order_id=l.order_id and order_status='T')) as order_type, sum(amount) as pay_method, sum(pay_total) as pay_total
-        from sp_order o, sp_order_line l
-        where
-        o.order_id=l.order_id and
-        (order_status='S' or order_status='R' or order_status='D' or order_status='J' or order_status='PS')
+        select to_char(order_create_at, 'yyyy-mm-dd') as sort, sum(ol1.succ_amount) as pay_method,
+        sum(pay_total) as pay_total, sum(ol2.return_amount) as order_type
+        from sp_order o
+        LEFT JOIN (select order_id, sum(amount) as succ_amount from sp_order_line group by order_id) ol1 on ol1.order_id=o.order_id and (o.order_status='S' or o.order_status='R' or o.order_status='D' or o.order_status='J' or o.order_status='PS')
+        LEFT JOIN (select order_id, sum(amount) as return_amount from sp_order_line group by order_id) ol2 on ol2.order_id=o.order_id and o.order_status='T'
+        where (o.order_status='S' or o.order_status='R' or o.order_status='D' or o.order_status='J' or o.order_status='PS' or o.order_status='T')
         <if test='startTime != null'>
             and order_create_at &gt;= #{startTime} ::timestamp
         </if>
@@ -219,7 +219,7 @@
         <if test='endTime != null'>
             and order_create_at &lt;= #{endTime} ::timestamp
         </if>
-        GROUP BY sku_id, sku_title, sku_color, sku_size
+        GROUP BY sku_id, sku_title, sku_color, sku_size ORDER BY amount DESC
         <if test="pageSize == -1 and offset >= -1">
             LIMIT ALL OFFSET 0
         </if>

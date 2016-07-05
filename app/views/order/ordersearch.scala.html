@@ -166,11 +166,11 @@
             //订单成功的才可以推送
             if (state!="S") {
                 isPost = false;
-                errOrders = errOrders + orderId + ",";
+                errOrders = errOrders + orderId + ", ";
             } else exportOrders.push(orderId);
         });
         if (!isPost) {
-            errOrders = errOrders.substring(1, errOrders.length-1);
+            errOrders = errOrders.substring(0, errOrders.length-2);
             alert("请检查订单: "+errOrders+" 的状态");
         }
         console.log(JSON.stringify(exportOrders));

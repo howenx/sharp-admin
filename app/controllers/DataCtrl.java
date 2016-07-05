@@ -247,7 +247,7 @@ public class DataCtrl extends Controller {
                 if (orderList.size()>0) {
                     orderList.get(0).setUserId((long) tradeNum);
                     orderList.get(0).setTotalFee(tradeMoney);
-                    orderList.get(0).setOrderType(retreatNum);
+                    orderList.get(0).setClientType(retreatNum);
                 }
                 returnMap.put("topic",orderList);
 //                Logger.error("trade:"+orderList);
