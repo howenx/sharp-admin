@@ -185,10 +185,11 @@
     <!--每日订单交易额,交易量统计   Add By Sunny.Wu 2016.06.17-->
     <select id="countTradeOrder" parameterType="domain.order.Order" resultType="domain.order.Order">
         select to_char(order_create_at, 'yyyy-mm-dd') as sort, sum(ol1.succ_amount) as pay_method,
-        sum(pay_total) as pay_total, sum(ol2.return_amount) as order_type
+        sum(o2.pay_total) as pay_total, sum(ol2.return_amount) as order_type
         from sp_order o
         LEFT JOIN (select order_id, sum(amount) as succ_amount from sp_order_line group by order_id) ol1 on ol1.order_id=o.order_id and (o.order_status='S' or o.order_status='R' or o.order_status='D' or o.order_status='J' or o.order_status='PS')
         LEFT JOIN (select order_id, sum(amount) as return_amount from sp_order_line group by order_id) ol2 on ol2.order_id=o.order_id and o.order_status='T'
+        LEFT JOIN (select order_id, pay_total from sp_order) o2 on o2.order_id=o.order_id and (o.order_status='S' or o.order_status='R' or o.order_status='D' or o.order_status='J' or o.order_status='PS')
         where (o.order_status='S' or o.order_status='R' or o.order_status='D' or o.order_status='J' or o.order_status='PS' or o.order_status='T')
         <if test='startTime != null'>
             and order_create_at &gt;= #{startTime} ::timestamp
@@ -207,19 +208,29 @@
 
     <!--商品的销量排行             Add By Sunny.Wu 2016.06.17-->
     <select id="countTradeGoods" parameterType="domain.order.Order" resultType="domain.order.OrderLine">
-        select ROW_NUMBER() OVER() as line_id, sku_id, sku_title, sku_color, sku_size, sum(pay_total) price, sum(amount)
-        amount, sum((select amount from sp_order o, sp_order_line l
-        where
-        o.order_id=l.order_id and order_status='T')) as item_id from sp_order_line l, sp_order o
-        where l.order_id=o.order_id and
-        (order_status='S' or order_status='R' or order_status='D' or order_status='J' or order_status='PS')
+        select ROW_NUMBER() OVER() as line_id, a.sku_id, a.sku_title, a.sku_color, a.sku_size, sum(a.amount*a.price) as price, sum(a.amount) as amount, sum(b.amount) as item_id
+        from
+        (select sum(amount) amount,sku_id,sku_title,sku_color,sku_size,price from sp_order o,sp_order_line l where o.order_id=l.order_id and
+        (o.order_status='S' or o.order_status='R' or o.order_status='D' or o.order_status='J' or o.order_status='PS')
         <if test='startTime != null'>
             and order_create_at &gt;= #{startTime} ::timestamp
         </if>
         <if test='endTime != null'>
             and order_create_at &lt;= #{endTime} ::timestamp
         </if>
-        GROUP BY sku_id, sku_title, sku_color, sku_size ORDER BY amount DESC
+        group by l.sku_id,sku_title,sku_color,sku_size,price) a
+        full join
+        (select sum(amount) amount,sku_id from sp_order o, sp_order_line l where o.order_id=l.order_id and o.order_status='T'
+        <if test='startTime != null'>
+            and order_create_at &gt;= #{startTime} ::timestamp
+        </if>
+        <if test='endTime != null'>
+            and order_create_at &lt;= #{endTime} ::timestamp
+        </if>
+        group by l.sku_id) b
+        on a.sku_id=b.sku_id
+        group by a.sku_id, a.sku_title, a.sku_color, a.sku_size
+        <!--ORDER BY amount DESC-->
         <if test="pageSize == -1 and offset >= -1">
             LIMIT ALL OFFSET 0
         </if>
