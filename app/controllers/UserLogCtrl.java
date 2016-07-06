@@ -37,7 +37,7 @@ public class UserLogCtrl extends Controller {
         userLog.setOffset(-1);
         int countNum = userLogService.getUserLogPage(userLog).size();
         int pageCount = countNum/pageSize;
-        if (countNum/pageSize !=0) {
+        if (countNum%pageSize !=0) {
             pageCount = countNum/pageSize + 1;
         }
         userLog.setPageSize(pageSize);

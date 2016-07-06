@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import domain.DataLog;
 import domain.User;
 import filters.UserAuth;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -38,7 +39,7 @@ public class DataLogCtrl extends Controller {
         dataLog.setOffset(-1);
         int countNum = dataLogService.getDataLogPage(dataLog).size();
         int pageCount = countNum/pageSize;
-        if (countNum/pageSize !=0) {
+        if (countNum%pageSize !=0) {
             pageCount = countNum/pageSize + 1;
         }
         dataLog.setPageSize(pageSize);
@@ -65,7 +66,6 @@ public class DataLogCtrl extends Controller {
             int countNum = dataLogService.getDataLogPage(dataLog).size();
             //共分几页
             int pageCount = countNum/pageSize;
-
             if(countNum%pageSize!=0){
                 pageCount = countNum/pageSize+1;
             }

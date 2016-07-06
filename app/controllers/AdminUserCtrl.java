@@ -1,6 +1,5 @@
 package controllers;
 
-import akka.util.Timeout;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.*;
@@ -27,7 +26,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -47,12 +45,12 @@ public class AdminUserCtrl extends Controller {
     private IDService idService;
 
     @Inject
-    Configuration configuration;
+    private Configuration configuration;
 
     @Inject
-    MailerClient mailerClient;
+    private MailerClient mailerClient;
 
-    public static final Timeout TIMEOUT = new Timeout(100, TimeUnit.MILLISECONDS);
+//    public static final Timeout TIMEOUT = new Timeout(100, TimeUnit.MILLISECONDS);
 
     public static final int pageSize = 10;
 
