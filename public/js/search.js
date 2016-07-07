@@ -1038,7 +1038,9 @@ $(function() {
                  }
              });
          }else{
-             $('#pagination').jqPaginator('destroy');
+             if($('#pagination').find(".page-num").length!=0){
+                 $('#pagination').jqPaginator('destroy');
+             }
          }
 	 })
 
