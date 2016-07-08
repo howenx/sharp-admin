@@ -444,8 +444,8 @@ funcList.appuserlist_search = function appuserlist_search(pageIndex) {
 funcList.appuserlist_data = function appuserlist_data(data) {
     //填充列表数据
     $(data).each(function(index, element) {
-        var activeYN = "";
-        var realYN = "";
+//        var orActive = "";
+//        var orReal = "";
         var status = "";
         var gender = "";
         var idType = "";
@@ -453,8 +453,8 @@ funcList.appuserlist_data = function appuserlist_data(data) {
         if($(this)[0].gender=="M"){gender="女"}
 //                if($(this)[0].orActive=="Y"){orActive="已激活"}
 //                if($(this)[0].orActive=="N"){orActive="未激活"}
-        if($(this)[0].orReal=="Y"){orReal="已认证"}
-        if($(this)[0].orReal=="N"){orReal="未认证"}
+//        if($(this)[0].orReal=="Y"){orReal="已认证"}
+//        if($(this)[0].orReal=="N"){orReal="未认证"}
         if($(this)[0].status=="Y"){status="正常"}
         if($(this)[0].status=="N"){status="阻止"}
         if($(this)[0].idType=="N"){idType="普通手机用户"}
@@ -476,7 +476,7 @@ funcList.appuserlist_data = function appuserlist_data(data) {
             '<td>' + $(this)[0].regIp + '</td>' +
             '<td>' + idType + '</td>' +
 //                    '<td>' + orActive + '</td>' +
-            '<td>' + orReal + '</td>' +
+//            '<td>' + orReal + '</td>' +
             '<td>' + status + '</td>' +
             '<td>' + $(this)[0].lastloginDt.substr(0, 16) + '</td>' +
             '<td>' + $(this)[0].lastloginIp + '</td>' +
