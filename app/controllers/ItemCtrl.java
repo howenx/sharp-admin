@@ -215,12 +215,13 @@ public class ItemCtrl extends Controller {
                 varyPrice.setInvId(inventory.getId());
                 String p_a = "";
                 List<VaryPrice> varyPriceList = varyPriceService.getVaryPriceBy(varyPrice);
-                for(int i=0; i<varyPriceList.size(); i++) {
-                    JsonNode jsonNode = Json.toJson(varyPriceList.get(i));
-                    VaryPrice vp = Json.fromJson(jsonNode, VaryPrice.class);
+                for(VaryPrice vp : varyPriceList) {
+//                    JsonNode jsonNode = Json.toJson(varyPriceList.get(i));
+//                    VaryPrice vp = Json.fromJson(jsonNode, VaryPrice.class);
+                    String status = vp.getStatus();
                     BigDecimal price = vp.getPrice();
                     Integer limitAmount = vp.getLimitAmount();
-                    p_a += price.toString() + "," + limitAmount.toString() + "_";
+                    p_a += status + "," + price.toString() + "," + limitAmount.toString() + "_";
                 }
                 p_a = p_a.substring(0, p_a.length()-1);
                 object[24] = p_a;

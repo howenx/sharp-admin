@@ -432,6 +432,13 @@ function saveCurr(saveFlag) {
             $("#warn-vary-amount").text("限制销售量之和不能大于剩余库存");
 //            alert("限制销售量之和不能大于剩余库存");
         } else $("#warn-vary-amount").text("");
+        for(i=0;i<status.length;i++) {
+            if (state=="预售"&&(status[i].value!="P"&&status[i].value!="D") || (state=="正常"&&(status[i].value!="Y"&&status[i].value!="D")) || (state=="下架"&&status[i].value!="D")) {
+               orSave = false;
+               $("#warn-vary-status").text("多样化价格状态不正确");
+               break;
+            } else $("#warn-vary-status").text("");
+        }
         trdobj.varyPrice = varyPrice.toString();
     }
     else {
