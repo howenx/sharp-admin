@@ -47,7 +47,7 @@
 
 @layout(lang=lang,title=title,user=user)(scripts) {
 <div style="width: 50%;margin: 10px auto;display:none;" class="alert alert-success" role="alert">
-    <strong>Well done!</strong>
+    <strong>Well done!</strong>n
     @if(flash.containsKey("success")) {
     @flash.get("success")
     }
@@ -120,6 +120,7 @@
                                 <th>规格编号</th>
                                 <th>上架时间</th>
                                 <th>下架时间</th>
+                                <th>状态</th>
                                 <th>重量(整数:毫克)</th>
                                 <th>库存总量</th>
                                 <th>剩余库存</th>
@@ -135,9 +136,7 @@
                                 <th>行邮税号</th>
                                 <th>报关单位</th>
                                 <th>海关商品备案号</th>
-                                <!--<th>主图(一张)</th>-->
                                 <th>详情页预览图(最多6张)</th>
-                                <th>状态</th>
                                 <th>是否存在多样化价格</th>
                             </tr>
                             @for(obj <-  invList) {
@@ -159,6 +158,11 @@
                                     <td>@obj(19)</td>
                                     <td>@(obj(20).toString().substring(0,19))</td>
                                     <td>@(obj(21).toString().substring(0,19))</td>
+                                    <td>
+                                        @if(obj(16)== "Y") {正常}
+                                        @if(obj(16)== "D") {下架}
+                                        @if(obj(16)== "P") {预售}
+                                    </td>
                                     <td>@obj(3)</td>
                                     <td>@obj(4)</td>
                                     <td>@obj(18)</td>
@@ -212,11 +216,6 @@
                                                 </div>
                                             }
                                         </div>
-                                    </td>
-                                    <td>
-                                        @if(obj(16)== "Y") {正常}
-                                        @if(obj(16)== "D") {下架}
-                                        @if(obj(16)== "P") {预售}
                                     </td>
                                     <td>
                                         @if(obj(23)== true) {<a class="vp" style="color:blue;cursor:pointer;" onmouseover="showVP()">是</a>}
@@ -283,26 +282,8 @@
                     </table>
                 </div>
             </div>
-            <!--<div class="form-group">-->
-                <!--<label class="col-sm-1 control-label" ><div class="r">商品状态</div></label>-->
-                <!--<div class="col-sm-3">-->
-                <!--@if(item.getState()=="Y"){<input class="form-control" type="text" name="state" value="正常" readonly/>}-->
-                <!--@if(item.getState()=="D"){<input class="form-control" type="text" name="state" value="下架" readonly/>}-->
-                <!--@if(item.getState()=="K"){<input class="form-control" type="text" name="state" value="售空" readonly/>}-->
-                <!--</div>-->
-            <!--</div>-->
             @if(item.getItemDetailImgs()!=null && item.getItemDetailImgs()!="") {
             <div class="form-group">
-                <!--<label class="col-sm-1 control-label"><div class="r" style="padding:3px;">*</div><div class="r">主题宣传图</div><div style="margin-top:20px;margin-right:30px;">(一张)</div></label>-->
-                <!--<div class="col-sm-2">-->
-                    <!--<div class="master-img" style="border:1px solid #ccc; height:80px;">-->
-                        <!--<div id="galleryT" style="margin-top:15px;margin-left:10px;">-->
-                            <!--<div>-->
-                                <!--<img class="main-img" src="@url@item.getItemMasterImg()" alt="">-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
                 <label class="col-sm-1 control-label"><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.detailImgs")</div></label>
                 <div class="col-sm-4">
                     <div class="detail-img" style="border:1px solid #ccc;">
