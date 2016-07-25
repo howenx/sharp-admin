@@ -166,6 +166,19 @@
             sales();
         });
 
+        //本年
+        $(".bennian").click(function () {
+            var now = new Date();
+            var start = now.getFullYear() + "-" + "01" + "-" + "01";
+            var end = now.getFullYear() + "-" + "12"+ "-" + "31";
+            $("#topic-form-starttime").val(start);
+            $("#topic-form-endtime").val(end);
+            $("#topic-search-bt").trigger("click");
+            sales();
+
+        });
+
+
         //没有数据时, 统计结果数据置为0
         function sales() {
             var trNum = $("#tb-topic tr").length;
@@ -227,6 +240,7 @@
                         <button type="button" class="btn btn-xs today">今日</button>
                         <button type="button" class="btn btn-xs benzhou">本周</button>
                         <button type="button" class="btn btn-xs benyue">本月</button>
+                        <button type="button" class="btn btn-xs bennian">本年</button>
                         <input type="hidden" id="topic-search-bt">
                     </div>
                 </div>
