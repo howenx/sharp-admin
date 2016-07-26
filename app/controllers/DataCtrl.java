@@ -233,8 +233,7 @@ public class DataCtrl extends Controller {
                     //每日成交量, 成交额, 退换量累加
                     tradeNum = tradeNum + Integer.valueOf(o.getPayMethod());
                     tradeMoney = tradeMoney.add(o.getPayTotal());
-                    if (null != o.getOrderType())
-                        retreatNum = retreatNum + o.getOrderType();
+                    retreatNum = retreatNum + o.getOrderType();
                 }
                 countNum = orderList.size();
                 order.setPageSize(ThemeCtrl.PAGE_SIZE);

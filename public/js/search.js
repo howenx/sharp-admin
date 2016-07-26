@@ -821,14 +821,12 @@ funcList.salesData_data = function salesData_data(data) {
         $("#money-2").html("<span>成交额:</span><i class='data'>" + data[0].totalFee + "</i>");
         $("#money-3").html("<span>退换量:</span><i class='data'>" + data[0].clientType + "</i>");
         $(data).each(function(index, element) {
-            var orderType = $(this)[0].orderType;//orderType字段存放商品退换量
-            if (orderType == null) orderType = 0;
             $('#tb-topic').find('tbody').append('' +
                 '<tr class="tb-list-data">' +
                 '<td>' + $(this)[0].sort + '</td>' +    //日期
                 '<td>' + $(this)[0].payMethod + '</td>' +//订单成交量
-                '<td>￥' + $(this)[0].payTotal.toFixed(2) + '</td>' +//订单成交额
-                '<td>' + orderType + '</td>' +           //商品退换量
+                '<td>￥' + $(this)[0].payTotal + '</td>' +//订单成交额
+                '<td>' + $(this)[0].orderType + '</td>' + //商品退换量
                 '</tr>'
             );
         });
@@ -837,14 +835,13 @@ funcList.salesData_data = function salesData_data(data) {
     if ('skuId' in data[0]) {
        $(data).each(function(index, element) {
            var itemId = $(this)[0].itemId;//itemId字段存放 商品退换量
-           if (itemId == null) itemId = 0;
            $('#tb-topic').find('tbody').append('' +
                '<tr class="tb-list-data">' +
                '<td>' + $(this)[0].lineId + '</td>' +    //排名
                '<td>' + $(this)[0].skuTitle + "&nbsp;" + $(this)[0].skuColor + "&nbsp;" + $(this)[0].skuSize +  '</td>' + //商品名称+规格
                '<td>￥' + $(this)[0].price + '</td>' +    //销售额
                '<td>' + $(this)[0].amount + '</td>' +    //销售量
-               '<td>' + itemId + '</td>' +               //商品退换量
+               '<td>' + $(this)[0].itemId + '</td>' +    //商品退换量
                '<td>' + $(this)[0].skuType + '</td>' +   //商品编码
                '</tr>'
            );
