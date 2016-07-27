@@ -27,6 +27,8 @@
 
 <script>
     function ShowModal() {
+        var button_id = $(this).id;
+        alert(button_id);
         var sharedObject = {};
         var user_arr = [];
         var users = $(".table tbody").find("tr");
@@ -131,7 +133,8 @@
                 <hr style="margin-top:50px;"/>
                 <h3>选择用户</h3>
                 <hr/>
-                <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModal()">添加用户</button>
+                <button type="button" class="btn btn-primary btn-xs add-goods" id="add-user" onclick="ShowModal()">添加用户</button>
+                <button type="button" class="btn btn-primary btn-xs add-goods" id="add-master" style="margin-left:20px;" onclick="ShowModal()">添加团长</button>
                 <div class="bgk">
                     <table class="table table-bordered table-hover grid" id="user-add" title="Kurt Vonnegut novels" style="margin-top:0px;">
                         <thead>

@@ -82,5 +82,10 @@ public interface PinActivityMapper {
      */
     List<PinActivity> getActivityByPinId(Long pinId);
 
+    /**
+     * 查询成功收货的拼团活动的团长   Added By Sunny.Wu 2016.07.27
+     * @return
+     */
+    List<PinActivity> getSuccActivityMaster();
 
 }

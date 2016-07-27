@@ -87,32 +87,32 @@ function Init () {
 //        $("#carriageModelCode").val(skuObj.carriageModelCode);
         $("#invArea").val(skuObj.invArea);
         $("#invCustoms").val(skuObj.invCustoms);
-        $("#rateSet").val(skuObj.rateSet);
+//        $("#rateSet").val(skuObj.rateSet);
         //海外直邮
         if ($("#invArea").val()=="K") {
             $(".K").css('display','none');
         }
         if ($("#invArea").val()!="K") {
-            if (skuObj.rateSet == "F") {
-                $("#postalTaxRate").val(0);
-                $("#postalTaxCode").val("");
-                $("#postalTaxRate").attr("readonly", true);
-                $("#postalTaxCode").attr("readonly", true);
-            }
-            if (skuObj.rateSet == "S") {
-                $("#postalTaxRate").val("");
-                $("#postalTaxCode").val("");
-                $("#postalTaxRate").attr("readonly", false);
-                $("#postalTaxCode").attr("readonly", false);
-            }
-            if (skuObj.rateSet == "D") {
-                $("#postalTaxRate").val("");
-                $("#postalTaxCode").val("");
-                $("#postalTaxRate").attr("readonly", false);
-                $("#postalTaxCode").attr("readonly", true);
-            }
-            $("#postalTaxRate").val(skuObj.postalTaxRate);
-            $("#postalTaxCode").val(skuObj.postalTaxCode);
+//            if (skuObj.rateSet == "F") {
+//                $("#postalTaxRate").val(0);
+//                $("#postalTaxCode").val("");
+//                $("#postalTaxRate").attr("readonly", true);
+//                $("#postalTaxCode").attr("readonly", true);
+//            }
+//            if (skuObj.rateSet == "S") {
+//                $("#postalTaxRate").val("");
+//                $("#postalTaxCode").val("");
+//                $("#postalTaxRate").attr("readonly", false);
+//                $("#postalTaxCode").attr("readonly", false);
+//            }
+//            if (skuObj.rateSet == "D") {
+//                $("#postalTaxRate").val("");
+//                $("#postalTaxCode").val("");
+//                $("#postalTaxRate").attr("readonly", false);
+//                $("#postalTaxCode").attr("readonly", true);
+//            }
+//            $("#postalTaxRate").val(skuObj.postalTaxRate);
+//            $("#postalTaxCode").val(skuObj.postalTaxCode);
 //            var recordCode = {};
             var recordCode = skuObj.recordCode;
 //            console.log(recordCode);
@@ -235,9 +235,9 @@ function saveCurr(saveFlag) {
 //    var carriageModelCode = $("#carriageModelCode").val();//运费设置
     var invArea = $("#invArea").val();//库存区域
     var invCustoms = $("#invCustoms").val();//报关单位
-    var rateSet = $("#rateSet").val();//税率设置
-    var postalTaxRate = $("#postalTaxRate").val();//税率
-    var postalTaxCode = $("#postalTaxCode").val();//行邮税号
+//    var rateSet = $("#rateSet").val();//税率设置
+//    var postalTaxRate = $("#postalTaxRate").val();//税率
+//    var postalTaxCode = $("#postalTaxCode").val();//行邮税号
     var recordCode = {};//海关商品备案号
     $("#recordCode").find(".record-code").each(function() {
         var recordValue = $(this).val();
@@ -294,7 +294,7 @@ function saveCurr(saveFlag) {
     //海外直邮模式
     if ($("#invArea").val()=="K") {
         invCustoms = "0";
-        postalTaxRate = "0";
+//        postalTaxRate = "0";
         recordCode = 0;
     }
     //跨境模式
@@ -304,24 +304,24 @@ function saveCurr(saveFlag) {
             $("#warn-cus").text("请选择报关单位");
         } else $("#warn-cus").text("");
         //行邮税率设置 F免税:税率为0,行邮税号不设置; S标准税率:税率不设置,输入行邮税号(数字); D自定义税率:设置税率,行邮税号不设置
-        if (rateSet == "") {
-            orSave = false;
-            $("#warn-rate").text("请设置税率");
-        }
-        else if (rateSet == "S") {
-            if (!numberReg1.test(postalTaxCode) || !numberReg2.test(postalTaxRate)) {
-                orSave = false;
-                $("#warn-rate").text("请输入正确的行邮税号和税率");
-            } else $("#warn-rate").text("");
-        }
-        else if (rateSet == "D") {
-            if (!numberReg2.test(postalTaxRate)) {
-                orSave = false;
-                $("#warn-rate").text("税率为整数或两位小数");
-            } else $("#warn-rate").text("");
-        }
-        else if (rateSet = "F") {$("#warn-rate").html("");}
-        else  $("#warn-rate").html("");
+//        if (rateSet == "") {
+//            orSave = false;
+//            $("#warn-rate").text("请设置税率");
+//        }
+//        else if (rateSet == "S") {
+//            if (!numberReg1.test(postalTaxCode) || !numberReg2.test(postalTaxRate)) {
+//                orSave = false;
+//                $("#warn-rate").text("请输入正确的行邮税号和税率");
+//            } else $("#warn-rate").text("");
+//        }
+//        else if (rateSet == "D") {
+//            if (!numberReg2.test(postalTaxRate)) {
+//                orSave = false;
+//                $("#warn-rate").text("税率为整数或两位小数");
+//            } else $("#warn-rate").text("");
+//        }
+//        else if (rateSet = "F") {$("#warn-rate").html("");}
+//        else  $("#warn-rate").html("");
     }
     //sku主图
     var invImg = {};
@@ -401,9 +401,9 @@ function saveCurr(saveFlag) {
 //    trdobj.carriageModelCode = carriageModelCode;
     trdobj.invArea = invArea;
     trdobj.invCustoms = invCustoms;
-    trdobj.rateSet = rateSet;
-    trdobj.postalTaxRate = postalTaxRate;
-    trdobj.postalTaxCode = postalTaxCode;
+//    trdobj.rateSet = rateSet;
+//    trdobj.postalTaxRate = postalTaxRate;
+//    trdobj.postalTaxCode = postalTaxCode;
     trdobj.recordCode = JSON.stringify(recordCode);
     trdobj.invImg = JSON.stringify(invImg);
     trdobj.itemPreviewImgs = JSON.stringify(itemPreviewImgs);
@@ -655,28 +655,28 @@ $(function(){
     });
 
      /** 税率设置 **/
-    $(document).on('change','.rateSet',function() {
-        var rateSet = $("#rateSet").val();
-        //行邮税率设置 F免税:税率为0,行邮税号不设置; S标准税率:税率不设置,选择行邮税号; D自定义税率:设置税率,行邮税号不设置
-        if (rateSet == "F") {
-            $("#postalTaxRate").val(0);
-            $("#postalTaxCode").val("");
-            $("#postalTaxRate").attr("readonly", true);
-            $("#postalTaxCode").attr("readonly", true);
-        }
-        if (rateSet == "S") {
-            $("#postalTaxRate").val("");
-            $("#postalTaxCode").val("");
-            $("#postalTaxRate").attr("readonly", false);
-            $("#postalTaxCode").attr("readonly", false);
-        }
-        if (rateSet == "D") {
-            $("#postalTaxRate").val("");
-            $("#postalTaxCode").val("");
-            $("#postalTaxRate").attr("readonly", false);
-            $("#postalTaxCode").attr("readonly", true);
-        }
-    });
+//    $(document).on('change','.rateSet',function() {
+//        var rateSet = $("#rateSet").val();
+//        //行邮税率设置 F免税:税率为0,行邮税号不设置; S标准税率:税率不设置,选择行邮税号; D自定义税率:设置税率,行邮税号不设置
+//        if (rateSet == "F") {
+//            $("#postalTaxRate").val(0);
+//            $("#postalTaxCode").val("");
+//            $("#postalTaxRate").attr("readonly", true);
+//            $("#postalTaxCode").attr("readonly", true);
+//        }
+//        if (rateSet == "S") {
+//            $("#postalTaxRate").val("");
+//            $("#postalTaxCode").val("");
+//            $("#postalTaxRate").attr("readonly", false);
+//            $("#postalTaxCode").attr("readonly", false);
+//        }
+//        if (rateSet == "D") {
+//            $("#postalTaxRate").val("");
+//            $("#postalTaxCode").val("");
+//            $("#postalTaxRate").attr("readonly", false);
+//            $("#postalTaxCode").attr("readonly", true);
+//        }
+//    });
 
     //海外直邮模式
     $(document).on('change','#invArea',function() {

@@ -397,12 +397,12 @@ $(function(){
            var restAmount = tds[14].innerHTML;
            var invArea = tds[15].innerHTML;
            var invCustoms = tds[16].innerHTML;
-           var postalTaxRate = tds[18].innerHTML;
-           var postalTaxCode = tds[19].innerHTML;
-           var recordCode = tds[20].innerHTML;
-           var invImg = tds[21].innerHTML;
-           var itemPreviewImgs = tds[22].innerHTML;
-           var orVaryPrice = tds[23].innerHTML;
+//           var postalTaxRate = tds[18].innerHTML;
+//           var postalTaxCode = tds[19].innerHTML;
+           var recordCode = tds[17].innerHTML;
+           var invImg = tds[18].innerHTML;
+           var itemPreviewImgs = tds[19].innerHTML;
+           var orVaryPrice = tds[20].innerHTML;
            //拼装成一条数据
            var invData = new Object();
            var inventory = new Object();
@@ -423,10 +423,10 @@ $(function(){
            inventory.restAmount = restAmount;
            inventory.invArea = invArea;
            inventory.invCustoms = invCustoms;
-           inventory.postalTaxRate = postalTaxRate;
-           inventory.postalTaxCode = postalTaxCode;
-           if(postalTaxRate=="") {inventory.postalTaxRate = null;}
-           if(postalTaxCode=="") {inventory.postalTaxCode = null;}
+//           inventory.postalTaxRate = postalTaxRate;
+//           inventory.postalTaxCode = postalTaxCode;
+//           if(postalTaxRate=="") {inventory.postalTaxRate = null;}
+//           if(postalTaxCode=="") {inventory.postalTaxCode = null;}
            inventory.recordCode = recordCode;
            inventory.invImg = invImg;
            inventory.itemPreviewImgs = itemPreviewImgs;
@@ -436,7 +436,7 @@ $(function(){
            }
            invData.inventory = inventory;
            if (orVaryPrice=="true") {
-               var vp_arr = tds[24].innerHTML.split(",");
+               var vp_arr = tds[21].innerHTML.split(",");
                for(v=0;v<vp_arr.length;v++) {
                    if (v%4==0) {
                        var varyPrice = new Object();
