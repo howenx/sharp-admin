@@ -250,7 +250,7 @@ $(function() {
            // alert(["图片大小是: width:"+image.width+", height:"+image.height]);
             var width = image.width;
             var height = image.height;
-			$('.slider-li-upload').before('<li class="slider-single-li">' +
+			$('.slider-li-upload').before('<li class="slider-single-li category">' +
 				'<span class="category-name" onclick="changeText(event,this)">单击编辑</span>'+
 				'<div class="slider-hover-div">' +
 				'<div class="slider-label">' +
