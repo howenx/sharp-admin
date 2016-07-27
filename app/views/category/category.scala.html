@@ -41,9 +41,9 @@
     </div>
     <form id="usercenter-info">
         <input style="display:none;" type="file" id="fileinput" name="displayImage" accept="image/gif, image/jpeg, image/webp, image/png" />
-        <ul>
+        <ul class="clearfix">
             @for(slider <- sliders) {
-            <li class="slider-single-li">
+            <li class="slider-single-li category">
                 <span class="category-name" onclick="changeText(event,this)">化妆品</span>
                 <div class="slider-hover-div">
                     <div class="slider-label">
@@ -54,7 +54,7 @@
                 </div>
             </li>
             }
-            <li class="slider-li-upload slider-single-li">
+            <li class="slider-li-upload slider-single-li category">
                 <a id="upbn">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.upload")</a>
             </li>
         </ul>
