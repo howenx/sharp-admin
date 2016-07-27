@@ -11,5 +11,12 @@
             ${alias}.category_text,
             ${alias}.theme_id
         </sql>
+    <select id="getAllCategory" resultType="domain.Category">
+        select
+        <include refid="categoryColumn">
+            <property name="alias" value="t"/>
+        </include>
+        from category ORDER BY t.category_num ASC
+    </select>
 
 </mapper>

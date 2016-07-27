@@ -77,7 +77,7 @@ public class CategoryCtrl extends Controller {
             }
         }
         if (themeList.size()>0 && skusList.size()>0) {
-            return ok(views.html.theme.sliderPop.render(tList,slist,SysParCom.IMAGE_URL));
+            return ok(views.html.category.categoryPop.render(tList,slist,SysParCom.IMAGE_URL));
         }
         else
             return ok("没有数据");
