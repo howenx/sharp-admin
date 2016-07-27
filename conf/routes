@@ -48,6 +48,7 @@ POST        /topic/sort/save                                                    
 POST        /$lang<(cn|en|kr)>/topic/sort/save                                      controllers.ThemeCtrl.sortNuSave(lang)
 GET         /topic/category                                                         controllers.ThemeCtrl.category(lang = "cn")
 GET         /$lang<(cn|en|kr)>/topic/category                                       controllers.ThemeCtrl.category(lang)
+GET         /topic/category/popup                                                   controllers.ThemeCtrl.categoryPop()
 
 
 
