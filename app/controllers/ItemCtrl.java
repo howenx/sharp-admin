@@ -195,8 +195,8 @@ public class ItemCtrl extends Controller {
 //            object[10] = inventory.getCarriageModelCode();
             //由库存表的carriageModelCode 得到 modelName
 //            object[11] = carriageService.getModelName(inventory.getCarriageModelCode());
-            object[10] = inventory.getPostalTaxRate();
-            object[11] = inventory.getPostalTaxCode();
+//            object[10] = inventory.getPostalTaxRate();
+//            object[11] = inventory.getPostalTaxCode();
             object[12] = inventory.getInvArea();
             object[13] = inventory.getInvCustoms();
             object[14] = Json.parse(inventory.getInvImg()).get("url").asText();
@@ -276,8 +276,8 @@ public class ItemCtrl extends Controller {
 //            object[23] = carriageService.getModelName(inventory.getCarriageModelCode());
             object[15] = inventory.getInvArea();
             object[16] = inventory.getInvCustoms();
-            object[17] = inventory.getPostalTaxRate();
-            object[18] = inventory.getPostalTaxCode();
+//            object[17] = inventory.getPostalTaxRate();
+//            object[18] = inventory.getPostalTaxCode();
             object[19] = inventory.getRecordCode();
             object[20] = inventory.getInvImg();
             object[21] = inventory.getItemPreviewImgs();

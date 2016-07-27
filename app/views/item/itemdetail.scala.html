@@ -132,8 +132,8 @@
                                 <th>限购数量</th>
                                 <!--<th>运费设置</th>-->
                                 <th>库存区域</th>
-                                <th>税率</th>
-                                <th>行邮税号</th>
+                                <!--<th>税率</th>-->
+                                <!--<th>行邮税号</th>-->
                                 <th>报关单位</th>
                                 <th>海关商品备案号</th>
                                 <th>详情页预览图(最多6张)</th>
@@ -156,8 +156,8 @@
                                     </td>
 
                                     <td>@obj(19)</td>
-                                    <td>@(obj(20).toString().substring(0,19))</td>
-                                    <td>@(obj(21).toString().substring(0,19))</td>
+                                    <td>@(obj(20).toString().substring(0,18))</td>
+                                    <td>@(obj(21).toString().substring(0,18))</td>
                                     <td>
                                         @if(obj(16)== "Y") {正常}
                                         @if(obj(16)== "D") {下架}
@@ -172,7 +172,6 @@
                                     <td>@obj(7)</td>
                                     <td>@obj(8)</td>
                                     <td>@obj(9)</td>
-                                    <!--<td>@obj(11)</td>-->
                                     <td>
                                         @for(a <- area) {
                                         @if(obj(12)==a.toString.substring(1,a.toString.length-1).split(",")(0)) {
@@ -181,8 +180,6 @@
                                         }
                                     </td>
                                     @if(obj(12)!="K") {
-                                        <td>@obj(10)</td>
-                                        <td>@obj(11)</td>
                                         <td>
                                             @for(c <- customs) {
                                             @if(obj(13)==c.toString.substring(1,c.toString.length-1).split(",")(0)) {
@@ -203,8 +200,6 @@
                                         </td>
                                     }
                                     @if(obj(12)=="K") {
-                                        <td>无</td>
-                                        <td>无</td>
                                         <td>无</td>
                                         <td>无</td>
                                     }
