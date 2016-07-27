@@ -364,10 +364,6 @@ GET         /$lang<(cn|en|kr)>/msg/push                                         
 POST        /msg/pushSave                                                           controllers.ItemCtrl.msgPushSave()
 
 
-#分类入口
-GET         /category/category                                                      controllers.CategoryCtrl.category(lang ="cn")
-GET         /$lang<(cn|en|kr)>/category/category                                    controllers.CategoryCtrl.category(lang)
-GET         /category/popup                                                         controllers.CategoryCtrl.categoryPop()
 
 
 
