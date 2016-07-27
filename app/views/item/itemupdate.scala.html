@@ -52,15 +52,15 @@
                 if (count==15) skuObj.invArea = $(this).text();
                 if (skuObj.invArea!="K") {
                     if (count==16) skuObj.invCustoms = $(this).text();
-                    if (count==17) skuObj.rateSet = $(this).text();
-                    if (count==18) skuObj.postalTaxRate = $(this).text();
-                    if (count==19) skuObj.postalTaxCode = $(this).text();
-                    if (count==20) skuObj.recordCode = $(this).text();
+                    <!--if (count==17) skuObj.rateSet = $(this).text();-->
+                    <!--if (count==18) skuObj.postalTaxRate = $(this).text();-->
+                    <!--if (count==19) skuObj.postalTaxCode = $(this).text();-->
+                    if (count==17) skuObj.recordCode = $(this).text();
                 }
-                if (count==21) skuObj.invImg = $(this).text();
-                if (count==22) skuObj.itemPreviewImgs = $(this).text();
-                if (count==23) skuObj.orVaryPrice = $(this).text();
-                if (count==24) skuObj.varyPrice = $(this).text();
+                if (count==18) skuObj.invImg = $(this).text();
+                if (count==19) skuObj.itemPreviewImgs = $(this).text();
+                if (count==10) skuObj.orVaryPrice = $(this).text();
+                if (count==21) skuObj.varyPrice = $(this).text();
                 count++;
             });
             sharedObject.skuObj = skuObj;
@@ -240,9 +240,9 @@
                                     <!--<th style='display:none;'>运费设置</th>-->
                                     <th style='display:none;'>库存区域</th>
                                     <th style='display:none;'>报关单位</th>
-                                    <th style='display:none;'>税率设置</th>
-                                    <th style='display:none;'>税率(整数)</th>
-                                    <th style='display:none;'>行邮税号</th>
+                                    <!--<th style='display:none;'>税率设置</th>-->
+                                    <!--<th style='display:none;'>税率(整数)</th>-->
+                                    <!--<th style='display:none;'>行邮税号</th>-->
                                     <th style='display:none;'>海关商品备案号</th>
                                     <th style='display:none;'>主图</th>
                                     <th style='display:none;'>预览图</th>
@@ -276,11 +276,11 @@
                                     <!--<td style='display:none;'>@obj(15)</td>-->
                                     <td style='display:none;'>@obj(15)</td>
                                     <td  style='display:none;'>@obj(16)</td>
-                                    @if(obj(17)==0) {<td style='display:none;'>F</td>}
-                                    @if(obj(18)!=null ) {<td style='display:none;'>S</td>}
-                                    @if(obj(18)==null && obj(17)!=0) {<td style='display:none;'>D</td>}
-                                    <td style='display:none;'>@obj(17)</td>
-                                    <td style='display:none;'>@obj(18)</td>
+                                    <!--@if(obj(17)==0) {<td style='display:none;'>F</td>}-->
+                                    <!--@if(obj(18)!=null ) {<td style='display:none;'>S</td>}-->
+                                    <!--@if(obj(18)==null && obj(17)!=0) {<td style='display:none;'>D</td>}-->
+                                    <!--<td style='display:none;'>@obj(17)</td>-->
+                                    <!--<td style='display:none;'>@obj(18)</td>-->
                                     <td style='display:none;'>@obj(19)</td>
                                     <td style='display:none;'>@obj(20)</td>
                                     <td style='display:none;'>@obj(21)</td>
