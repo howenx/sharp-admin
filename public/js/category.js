@@ -30,14 +30,14 @@ function ShowModal($obj) {
 	sharedObject.targetType = targetType;
 	sharedObject.itemTarget = itemTarget;
 	if (window.showModalDialog) {
-		var retValue = showModalDialog("/category/popup", sharedObject, "dialogWidth:1300px; dialogHeight:800px; dialogLeft:300px;");
+		var retValue = showModalDialog("/topic/category/popup", sharedObject, "dialogWidth:1300px; dialogHeight:800px; dialogLeft:300px;");
 		if (retValue) {
 			UpdateFields(retValue);
 		}
 	}
 	else {
 		// for similar functionality in Opera, but it's not modal!
-		var modal = window.open ("/category/popup", null, "width=1300,height=800,left=300,modal=yes,alwaysRaised=yes", null);
+		var modal = window.open ("/topic/category/popup", null, "width=1300,height=800,left=300,modal=yes,alwaysRaised=yes", null);
 		modal.dialogArguments = sharedObject;
 	}
 }
