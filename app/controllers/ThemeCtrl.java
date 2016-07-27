@@ -86,6 +86,31 @@ public class ThemeCtrl extends Controller {
         return ok(views.html.theme.slider.render(lang,sliderList, SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
+
+    /**
+     * 分类入口         Added by Tiffany Zhu 2016.07.27
+     * @param lang 语言
+     * @return view
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result category(String lang) {
+        List<Slider> sliderList = service.sliderAll();
+        for (Slider slider : sliderList) {
+            JsonNode img = Json.parse(slider.getImg());
+            String imgUrl = "0";
+            String width = "0";
+            String height = "0";
+            if (null!=img.get("url") && null!=img.get("width") && null!=img.get("height")) {
+                imgUrl = img.get("url").asText();
+                width = img.get("width").asText();
+                height = img.get("height").asText();
+            }
+            slider.setImg(imgUrl+","+width+","+height);
+        }
+        return ok(views.html.theme.category.render(lang,sliderList, SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+    }
+
+
     /**
      * 主题录入
      * @param lang 语言

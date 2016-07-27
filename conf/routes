@@ -46,6 +46,9 @@ GET         /topic/sort                                                         
 GET         /$lang<(cn|en|kr)>/topic/sort                                           controllers.ThemeCtrl.themeSort(lang)
 POST        /topic/sort/save                                                        controllers.ThemeCtrl.sortNuSave(lang = "cn")
 POST        /$lang<(cn|en|kr)>/topic/sort/save                                      controllers.ThemeCtrl.sortNuSave(lang)
+GET         /topic/category                                                         controllers.ThemeCtrl.category(lang = "cn")
+GET         /$lang<(cn|en|kr)>/topic/category                                       controllers.ThemeCtrl.category(lang)
+
 
 
 
