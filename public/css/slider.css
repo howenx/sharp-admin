@@ -229,3 +229,8 @@ ul,li {
 	height: 20px;
 	line-height: 20px;
 }
+.slider-single-li>.category-name{
+	position: absolute;
+	top: 50%;left: -100px;
+	font-size: 16px;
+}

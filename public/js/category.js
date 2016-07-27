@@ -1,3 +1,71 @@
+function UpdateFields(obj) {
+	var targetType = obj.targetType;
+	var $obj = obj;
+	var itemTarget = "";
+	if(targetType=="T" || targetType=="U") {
+		var id = obj.id;
+		if (targetType=="T")  itemTarget = "/topic/list/"+id;
+		if (targetType=="U")  itemTarget = obj.h5Link;
+	}
+	if (targetType=="D" || targetType=="P") {
+		var itemId = obj.itemId;
+		var skuTypeId = obj.skuTypeId;
+		if (targetType=="D") {
+			itemTarget = "/comm/detail/item/" + itemId + "/" + skuTypeId;
+		}
+		if (targetType=="P") {
+			itemTarget = "/comm/detail/pin/" + itemId + "/" + skuTypeId;
+		}
+	}
+	$obj.attr('data-target', itemTarget);
+	$obj.attr('data-type', targetType);
+}
+
+function ShowModal($obj) {
+	var sharedObject = {};
+	sharedObject = $obj;
+	//var a = $obj.hasOwnProperty('data-type');
+	var targetType =  $obj.attr('data-type');
+	var itemTarget =  $obj.attr('data-target');
+	sharedObject.targetType = targetType;
+	sharedObject.itemTarget = itemTarget;
+	if (window.showModalDialog) {
+		var retValue = showModalDialog("/category/popup", sharedObject, "dialogWidth:1300px; dialogHeight:800px; dialogLeft:300px;");
+		if (retValue) {
+			UpdateFields(retValue);
+		}
+	}
+	else {
+		// for similar functionality in Opera, but it's not modal!
+		var modal = window.open ("/category/popup", null, "width=1300,height=800,left=300,modal=yes,alwaysRaised=yes", null);
+		modal.dialogArguments = sharedObject;
+	}
+}
+function changeText(event,element){
+	var e = window.event||event;
+	var obj = e.target;
+	if(obj.tagName=="INPUT"){
+		return;
+	}
+	var oldHtml = $(element).html();
+	console.log(oldHtml);
+
+	if(element.childNodes.length==0
+		||(element.childNodes.length==1&&element.childNodes[0].nodeType==3)){
+		var addText = $("<input type='text'>").css({
+			"width":"100%"
+		}).val(oldHtml);
+		$(addText).blur(function(){
+			$(element).html(this.value?this.value:oldHtml);
+			if($(element).parent().find(":input")){
+				$(element).parent().find(":input").val($(element).html());
+			}
+		})
+	}
+	element.innerHTML = "";
+	$(addText).appendTo($(element));
+	addText.focus();
+}
 $(function() {
 	var del_array = []
 	var change_flag = false;
@@ -11,7 +79,7 @@ $(function() {
 			$(this).parent().parent().parent().prev().find('.slider-content-img').attr('data-sort', temp_sort);
 
 
-			$(this).parent().parent().parent().prev().before($(this).parent().parent().parent())
+			$(this).parents("li").prev().before($(this).parents("li"));
 
 			$('.usercenter-option > .user-state').css('background-position', '20px -73px');
 
@@ -69,6 +137,7 @@ $(function() {
 
 	/**	点击图片绑定主题或商品 **/
     $(document).on('click', '.slider-content-img', function() {
+		ShowModal($(this));
         $('.usercenter-option > .user-state').css('background-position', '20px -73px');
         if (window.lang === 'cn') {
             $('.usercenter-option > .user-state').text('已更改');
@@ -182,6 +251,7 @@ $(function() {
             var width = image.width;
             var height = image.height;
 			$('.slider-li-upload').before('<li class="slider-single-li">' +
+				'<span class="category-name" onclick="changeText(event,this)">单击编辑</span>'+
 				'<div class="slider-hover-div">' +
 				'<div class="slider-label">' +
 				'<div class="slider-label-image-up"></div>' +

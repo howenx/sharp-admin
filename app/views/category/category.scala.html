@@ -6,57 +6,6 @@
 <script src="/assets/js/category.js"></script>
 <script>window.url='@url'</script>
 <script>window.uploadUrl='@uploadUrl'</script>
-<script>
-        function UpdateFields(obj) {
-            var targetType = obj.targetType;
-            var $obj = obj;
-            var itemTarget = "";
-            if(targetType=="T" || targetType=="U") {
-                var id = obj.id;
-                if (targetType=="T")  itemTarget = "/topic/list/"+id;
-                if (targetType=="U")  itemTarget = obj.h5Link;
-            }
-            if (targetType=="D" || targetType=="P") {
-                var itemId = obj.itemId;
-                var skuTypeId = obj.skuTypeId;
-                if (targetType=="D") {
-                    itemTarget = "/comm/detail/item/" + itemId + "/" + skuTypeId;
-                }
-                if (targetType=="P") {
-                    itemTarget = "/comm/detail/pin/" + itemId + "/" + skuTypeId;
-                }
-            }
-            $obj.attr('data-target', itemTarget);
-            $obj.attr('data-type', targetType);
-        }
-
-        function ShowModal($obj) {
-            var sharedObject = {};
-            sharedObject = $obj;
-            //var a = $obj.hasOwnProperty('data-type');
-            var targetType =  $obj.attr('data-type');
-            var itemTarget =  $obj.attr('data-target');
-            sharedObject.targetType = targetType;
-            sharedObject.itemTarget = itemTarget;
-            if (window.showModalDialog) {
-                var retValue = showModalDialog("/category/popup", sharedObject, "dialogWidth:1300px; dialogHeight:800px; dialogLeft:300px;");
-                if (retValue) {
-                    UpdateFields(retValue);
-                }
-            }
-            else {
-                // for similar functionality in Opera, but it's not modal!
-                var modal = window.open ("/category/popup", null, "width=1300,height=800,left=300,modal=yes,alwaysRaised=yes", null);
-                modal.dialogArguments = sharedObject;
-            }
-        }
-        $(function(){
-            $(document).on("click",".slider-content-img",function(){
-                ShowModal($(this));
-            })
-        })
-    </script>
-
 }
 
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"分类入口管理")
@@ -95,6 +44,7 @@
         <ul>
             @for(slider <- sliders) {
             <li class="slider-single-li">
+                <span class="category-name" onclick="changeText(event,this)">化妆品</span>
                 <div class="slider-hover-div">
                     <div class="slider-label">
                         <div class="slider-label-image-up"></div>
