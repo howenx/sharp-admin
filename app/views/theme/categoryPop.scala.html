@@ -29,8 +29,7 @@
                     selectIndex = 1;
                     $(".goods-table").css("background","#ccc");
                     $(".theme-table").css("background","#fff");
-                    $(".table").eq(0).css("display","table");
-                    $(".table").eq(1).css("display","none");
+                    $(".table").css("display","table");
                     targetType = "D";
                 }
                 if (targetType=="T" || targetType=="U") {
@@ -38,8 +37,7 @@
                     selectIndex = 1;
                     $(".goods-table").css("background","#fff");
                     $(".theme-table").css("background","#ccc");
-                    $(".table").eq(0).css("display","none");
-                    $(".table").eq(1).css("display","table");
+                    $(".table").css("display","table");
                     targetType = "T";
                 }
                 var trs = $(".table").eq(tableIndex).find("tr");
@@ -50,26 +48,11 @@
                     }
                 }
             }
-            if (itemTarget=="" || itemTarget==null) {
+            if (itemTarget=="" || itemTarget==null||itemTarget=="undefined") {
                 targetType = "D"
             }
             /** 点击单选按钮选择主题或商品 **/
              $(".table input[type=radio]").click(function(){
-                //选择商品
-                if (targetType=="D") {
-                    var skuTypeId = $("input[type=radio]:checked").parent().next().html();
-                    var itemId = $("input[type=radio]:checked").parent().next().next().next().html();
-                    var itemType = $("input[type=radio]:checked").parent().next().next().next().next().find(".item-type").val();
-                    var skuTypeTitle = $("input[type=radio]:checked").parent().next().next().next().next().next().html();
-                    var skuTypeImg = $("input[type=radio]:checked").parent().next().next().next().next().next().next().children().attr("src");
-                    if (itemType=="item") {targetType = "D"}
-                    if (itemType=="pin") {targetType = "P"}
-                    sharedObject.itemId = itemId;
-                    sharedObject.skuTypeId = skuTypeId;
-                    sharedObject.skuTypeTitle = skuTypeTitle;
-                    sharedObject.skuTypeImg = skuTypeImg;
-                    sharedObject.targetType = targetType;
-                }
                 //选择主题
                 if (targetType=="T") {
                     var id = $("input[type=radio]:checked").parent().next().html();

@@ -28,6 +28,7 @@ function ShowModal($obj) {
 	var targetType =  $obj.attr('data-type');
 	var itemTarget =  $obj.attr('data-target');
 	sharedObject.targetType = targetType;
+	console.log(itemTarget);
 	sharedObject.itemTarget = itemTarget;
 	if (window.showModalDialog) {
 		var retValue = showModalDialog("/topic/category/popup", sharedObject, "dialogWidth:1300px; dialogHeight:800px; dialogLeft:300px;");
@@ -259,10 +260,10 @@ $(function() {
 				'<div class="slider-label-image-up"></div>' +
 				'<div class="slider-label-image-del"></div>' +
 				'</div>' +
-				'<img data-index="-1" data-sort="' + $("#usercenter-info > ul").children().length + '" class="slider-content-img" width="'+width+'"  height="'+height+'" src="' + this.result + '">' +
+				'<img data-index="6" data-sort="' + $("#usercenter-info > ul").children().length + '" class="slider-content-img" width="'+width+'"  height="'+height+'" src="' + this.result + '">' +
 				'</div>' +
 				'</li>');
-			upload($('.slider-single-li').last(), file);
+			upload($('.slider-single-li').last().prev(), file);
 		}
 	}
 
