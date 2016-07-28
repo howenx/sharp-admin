@@ -2,7 +2,10 @@
 @(lang:String="cn",sliders:List[domain.Slider],url:String,uploadUrl:String,user:domain.User)
 
 @scripts = {
+<link rel="stylesheet" href="/assets/css/jquery-ui.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
+<script src="/assets/js/jquery-ui.min.js"></script>
+<script src="/assets/js/Sortable.js"></script>
 <script src="/assets/js/category.js"></script>
 <script>window.url='@url'</script>
 <script>window.uploadUrl='@uploadUrl'</script>
@@ -44,7 +47,7 @@
             <a id="upbn">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.upload")</a>
         </div>
         <input style="display:none;" type="file" id="fileinput" name="displayImage" accept="image/gif, image/jpeg, image/webp, image/png" />
-        <ul class="clearfix">
+        <ul class="clearfix" id="categorySort">
             @for(slider <- sliders) {
             <li class="slider-single-li category">
                 <span class="category-name" onclick="changeText(event,this)">化妆品</span>

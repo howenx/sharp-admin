@@ -326,5 +326,6 @@ $(function() {
 			return false;
 		}
 	}
-
+	/*******拖拽*******/
+	new Sortable(document.getElementById("categorySort"));
 });
