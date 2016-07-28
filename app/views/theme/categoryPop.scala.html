@@ -24,10 +24,12 @@
             var sharedObject = window.dialogArguments;
             var itemTarget = sharedObject.itemTarget;
             var targetType = sharedObject.targetType;
+            console.log(targetType);
             var tableIndex = 0;
             var selectIndex = 0;
             if (itemTarget!="" && itemTarget!=null) {
                 var typeId = itemTarget.substring(itemTarget.lastIndexOf("/")+1,itemTarget.length);
+                console.log(typeId);
                 if ((targetType=="D" || targetType=="P" || targetType=="")) {
                     tableIndex = 0;
                     selectIndex = 1;

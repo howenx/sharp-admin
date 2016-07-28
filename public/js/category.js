@@ -5,7 +5,8 @@ function UpdateFields(obj) {
 	if(targetType=="T" || targetType=="U") {
 		var id = obj.id;
 		if (targetType=="T")  itemTarget = "/topic/list/"+id;
-		if (targetType=="U")  itemTarget = obj.h5Link;
+		//if (targetType=="U")  itemTarget = obj.h5Link;
+		if (targetType=="U")  itemTarget = "/topic/list/"+id;
 	}
 	if (targetType=="D" || targetType=="P") {
 		var itemId = obj.itemId;
