@@ -43,9 +43,6 @@
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
     </div>
     <form id="usercenter-info">
-        <div class="slider-li-upload">
-            <a id="upbn">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.upload")</a>
-        </div>
         <input style="display:none;" type="file" id="fileinput" name="displayImage" accept="image/gif, image/jpeg, image/webp, image/png" />
         <ul class="clearfix" id="categorySort">
             @for(slider <- sliders) {
@@ -60,6 +57,9 @@
                 </div>
             </li>
             }
+            <li class="slider-li-upload slider-single-li">
+                <a id="upbn">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.upload")</a>
+            </li>
         </ul>
     </form>
 </div>
