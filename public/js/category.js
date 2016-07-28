@@ -260,7 +260,7 @@ $(function() {
 				'<div class="slider-label-image-up"></div>' +
 				'<div class="slider-label-image-del"></div>' +
 				'</div>' +
-				'<img data-index="6" data-sort="' + $("#usercenter-info > ul").children().length + '" class="slider-content-img" width="'+width+'"  height="'+height+'" src="' + this.result + '">' +
+				'<img data-index="-1" data-sort="' + $("#usercenter-info > ul").children().length + '" class="slider-content-img" width="'+width+'"  height="'+height+'" src="' + this.result + '">' +
 				'</div>' +
 				'</li>');
 			upload($('.slider-li-upload').prev(), file);

@@ -173,6 +173,7 @@ public class ThemeCtrl extends Controller {
                 }
             }
         }
+        Logger.error("数据:" + json);
         service.sliderSave(json);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
