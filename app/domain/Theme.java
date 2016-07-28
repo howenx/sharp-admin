@@ -13,17 +13,17 @@ import java.sql.Timestamp;
  * Created by howen on 15/11/9.
  */
 
-public class Theme implements Serializable{
+public class Theme implements Serializable {
 
     private Long id;
     private Long masterItemId;
     private String title;
     private String themeDesc;
     @Constraints.Required
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String startAt;
     @Constraints.Required
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String endAt;
     private BigDecimal themeDiscountUp;
     private BigDecimal itemPriceTop;
@@ -37,19 +37,22 @@ public class Theme implements Serializable{
     private Integer sortNu;
     private Boolean orDestroy;
     private Long destoryUid;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp   destoryAt;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp   updateAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Timestamp destoryAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Timestamp updateAt;
     private Long updateUid;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Timestamp   createAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Timestamp createAt;
     private Long createUid;
     private String themeSrcImg;
     private String themeItem;
     private String themeMasterImg;
     private String masterItemTag;
     private String type;
+    private String themeConfigInfo;
+
+
     //@Constraints.Pattern(Regex.HTTP)
     private String h5Link;
 
@@ -67,7 +70,8 @@ public class Theme implements Serializable{
     public Theme() {
     }
 
-    public Theme(Long id, Long masterItemId, String title, String themeDesc, String startAt, String endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean orDestroy, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, String themeItem, String themeMasterImg, String masterItemTag, String type, String h5Link, Integer pageSize, Integer offset, String sort, String order) {
+
+    public Theme(Long id, Long masterItemId, String title, String themeDesc, String startAt, String endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean orDestroy, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, String themeItem, String themeMasterImg, String masterItemTag, String type, String themeConfigInfo, String h5Link, Integer pageSize, Integer offset, String sort, String order) {
         this.id = id;
         this.masterItemId = masterItemId;
         this.title = title;
@@ -95,6 +99,7 @@ public class Theme implements Serializable{
         this.themeMasterImg = themeMasterImg;
         this.masterItemTag = masterItemTag;
         this.type = type;
+        this.themeConfigInfo = themeConfigInfo;
         this.h5Link = h5Link;
         this.pageSize = pageSize;
         this.offset = offset;
@@ -132,6 +137,7 @@ public class Theme implements Serializable{
                 ", themeMasterImg='" + themeMasterImg + '\'' +
                 ", masterItemTag='" + masterItemTag + '\'' +
                 ", type='" + type + '\'' +
+                ", themeConfigInfo='" + themeConfigInfo + '\'' +
                 ", h5Link='" + h5Link + '\'' +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
@@ -356,6 +362,14 @@ public class Theme implements Serializable{
         this.type = type;
     }
 
+    public String getThemeConfigInfo() {
+        return themeConfigInfo;
+    }
+
+    public void setThemeConfigInfo(String themeConfigInfo) {
+        this.themeConfigInfo = themeConfigInfo;
+    }
+
     public String getH5Link() {
         return h5Link;
     }
@@ -396,3 +410,4 @@ public class Theme implements Serializable{
         this.order = order;
     }
 }
+

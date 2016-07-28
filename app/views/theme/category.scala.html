@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",sliders:List[domain.Slider],url:String,uploadUrl:String,user:domain.User)
+@(lang:String="cn",sliders:List[domain.Slider],categoryCount:Integer,url:String,uploadUrl:String,user:domain.User)
 
 @scripts = {
 <link rel="stylesheet" href="/assets/css/jquery-ui.css">
@@ -7,6 +7,7 @@
 <script src="/assets/js/jquery-ui.min.js"></script>
 <script src="/assets/js/Sortable.js"></script>
 <script src="/assets/js/category.js"></script>
+<script>window.categoryCount='@categoryCount'</script>
 <script>window.url='@url'</script>
 <script>window.uploadUrl='@uploadUrl'</script>
 }

@@ -97,6 +97,7 @@
   		$("#themeTitle").attr("disabled",false);
   		$("#onShelvesAt").attr("disabled",false);
   		$("#offShelvesAt").attr("disabled",false);
+  		$("#themeDescribe").attr("disabled",false);
   		//主宣传图
   		$("#getTemplate").css({"display":""});
         //商品
@@ -114,6 +115,7 @@
   		$(".form-group").eq(7).css({"display":""});
   		$(".form-group").eq(8).css({"display":""});
   		$(".form-group").eq(9).css({"display":""});
+  		$("#mark-bt").css({"display":""});
 
   		//启动tag拖拽功能
         $('div.dragon-contained').draggable({
@@ -186,7 +188,7 @@
                 <label class="col-sm-2 control-label">主题描述</label>
 
                 <div class="col-sm-8">
-                    <textarea name="" id="" cols="30" rows="3" class="form-control"></textarea>
+                    <textarea name="" id="themeDescribe" cols="30" rows="3" class="form-control"  disabled>@theme.getThemeConfigInfo()</textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -349,7 +351,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label"></label>
                 <div class="col-sm-9">
-                    <a class="large blue button" id='mark-bt'>创建</a>
+                    <a class="large blue button" id='mark-bt' style="display:none;">创建</a>
                 </div>
 
 

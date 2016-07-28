@@ -229,7 +229,12 @@ $(function() {
 
 	/**	上传 **/
 	$(document).on('click', '#upbn', function() {
-		$('#fileinput').click();
+	    var categoryCount = $(".category").size();
+	    if(categoryCount < window.categoryCount){
+	        $('#fileinput').click();
+	    }else{
+	     alert("最多只能上传" + window.categoryCount + "个");
+	    }
 	});
 
 	/**	预览 **/
@@ -264,7 +269,7 @@ $(function() {
 				'<div class="slider-label-image-up"></div>' +
 				'<div class="slider-label-image-del"></div>' +
 				'</div>' +
-				'<img data-index="6" data-sort="' + $("#usercenter-info > ul").children().length + '" class="slider-content-img" width="'+width+'"  height="'+height+'" src="' + this.result + '">' +
+				'<img data-index="-1" data-sort="' + $("#usercenter-info > ul").children().length + '" class="slider-content-img" width="'+width+'"  height="'+height+'" src="' + this.result + '">' +
 				'</div>' +
 				'</li>');
 			upload($('.slider-li-upload').prev(), file);
