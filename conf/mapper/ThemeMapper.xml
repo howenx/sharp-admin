@@ -17,7 +17,9 @@
                 ${alias}.create_at,
                 ${alias}.update_at,
                 ${alias}.item_target,
-                ${alias}.target_type
+                ${alias}.target_type,
+                ${alias}.or_nav,
+                ${alias}.nav_text
         </sql>
 
         <!---  滚动条    -->
