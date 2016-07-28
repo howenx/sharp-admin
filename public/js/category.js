@@ -30,14 +30,14 @@ function ShowModal($obj) {
 	sharedObject.targetType = targetType;
 	sharedObject.itemTarget = itemTarget;
 	if (window.showModalDialog) {
-		var retValue = showModalDialog("/category/popup", sharedObject, "dialogWidth:1300px; dialogHeight:800px; dialogLeft:300px;");
+		var retValue = showModalDialog("/topic/category/popup", sharedObject, "dialogWidth:1300px; dialogHeight:800px; dialogLeft:300px;");
 		if (retValue) {
 			UpdateFields(retValue);
 		}
 	}
 	else {
 		// for similar functionality in Opera, but it's not modal!
-		var modal = window.open ("/category/popup", null, "width=1300,height=800,left=300,modal=yes,alwaysRaised=yes", null);
+		var modal = window.open ("/topic/category/popup", null, "width=1300,height=800,left=300,modal=yes,alwaysRaised=yes", null);
 		modal.dialogArguments = sharedObject;
 	}
 }
@@ -250,7 +250,7 @@ $(function() {
            // alert(["图片大小是: width:"+image.width+", height:"+image.height]);
             var width = image.width;
             var height = image.height;
-			$('.slider-li-upload').before('<li class="slider-single-li">' +
+			$('.category').parent().append('<li class="slider-single-li category">' +
 				'<span class="category-name" onclick="changeText(event,this)">单击编辑</span>'+
 				'<div class="slider-hover-div">' +
 				'<div class="slider-label">' +
@@ -260,7 +260,7 @@ $(function() {
 				'<img data-index="-1" data-sort="' + $("#usercenter-info > ul").children().length + '" class="slider-content-img" width="'+width+'"  height="'+height+'" src="' + this.result + '">' +
 				'</div>' +
 				'</li>');
-			upload($('.slider-li-upload').prev(), file);
+			upload($('.slider-single-li').last(), file);
 		}
 	}
 

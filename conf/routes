@@ -46,6 +46,10 @@ GET         /topic/sort                                                         
 GET         /$lang<(cn|en|kr)>/topic/sort                                           controllers.ThemeCtrl.themeSort(lang)
 POST        /topic/sort/save                                                        controllers.ThemeCtrl.sortNuSave(lang = "cn")
 POST        /$lang<(cn|en|kr)>/topic/sort/save                                      controllers.ThemeCtrl.sortNuSave(lang)
+GET         /topic/category                                                         controllers.ThemeCtrl.category(lang = "cn")
+GET         /$lang<(cn|en|kr)>/topic/category                                       controllers.ThemeCtrl.category(lang)
+GET         /topic/category/popup                                                   controllers.ThemeCtrl.categoryPop()
+
 
 
 
@@ -365,10 +369,6 @@ GET         /$lang<(cn|en|kr)>/msg/push                                         
 POST        /msg/pushSave                                                           controllers.ItemCtrl.msgPushSave()
 
 
-#分类入口
-GET         /category/category                                                      controllers.CategoryCtrl.category(lang ="cn")
-GET         /$lang<(cn|en|kr)>/category/category                                    controllers.CategoryCtrl.category(lang)
-GET         /category/popup                                                         controllers.CategoryCtrl.categoryPop()
 
 
 

@@ -15,15 +15,17 @@ ul,li {
 	cursor: pointer;
 }
 .slider-li-upload {
+	width: 200px;
 	text-align: right;
-	line-height: 50px;
+	line-height: 48px;
 	border: 1px solid #ccc;
 	font-size: 18px;
-	height: 50px;
+	height: 48px;
 	background: #35a6e8 url('/assets/images/add_img.png') no-repeat 140px 0px;
 	color: #fff;
 	border-radius: 3px;
 	background-size: contain;
+	margin:30px 10px 10px;
 }
 
 .slider-label-image-up {
@@ -229,8 +231,16 @@ ul,li {
 	height: 20px;
 	line-height: 20px;
 }
-.slider-single-li>.category-name{
+.category{
+	float: left;
+	width: 25%;
+	margin-bottom: 12%;
+}
+.category>.category-name{
 	position: absolute;
-	top: 50%;left: -100px;
+	top: 110%;left: 39%;
 	font-size: 16px;
+}
+.category>.slider-hover-div{
+	margin: 0 10px;
 }
