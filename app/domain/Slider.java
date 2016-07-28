@@ -24,6 +24,7 @@ public class Slider implements Serializable{
     private String itemTarget;  //商品目标地址
 //    @Constraints.Required
     private String targetType;  //目标类型(T主题, D详细页面)
+    @Constraints.Required
     private boolean orNav;      //是否导航图     Added by Tiffany Zhu 2016.07.27
     private String navText;     //导航文字显示    Added by Tiffany Zhu 2016.07.27
 
