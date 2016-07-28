@@ -5,7 +5,8 @@ function UpdateFields(obj) {
 	if(targetType=="T" || targetType=="U") {
 		var id = obj.id;
 		if (targetType=="T")  itemTarget = "/topic/list/"+id;
-		if (targetType=="U")  itemTarget = obj.h5Link;
+		//if (targetType=="U")  itemTarget = obj.h5Link;
+		if (targetType=="U")  itemTarget = "/topic/list/"+id;
 	}
 	if (targetType=="D" || targetType=="P") {
 		var itemId = obj.itemId;
@@ -57,6 +58,10 @@ function changeText(event,element){
 		}).val(oldHtml);
 		$(addText).blur(function(){
 			$(element).html(this.value?this.value:oldHtml);
+			if(this.value!==oldHtml){
+				$('.usercenter-option > .user-state').css('background-position', '20px -73px');
+				$(".user-state").text("已更改");
+			}
 			if($(element).parent().find(":input")){
 				$(element).parent().find(":input").val($(element).html());
 			}
@@ -170,6 +175,8 @@ $(function() {
 				var targetType = $(this).attr('data-type');
 				slider.itemTarget = itemTarget==""?null:itemTarget;
 				slider.targetType = targetType==""?null:targetType;
+				slider.orNav = true;
+				slider.navText = $(this).parent().parent().find('span').text();
 				slider_array.push(slider);
 			})
 
@@ -197,7 +204,7 @@ $(function() {
 							setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
 							change_flag=false;
 
-							setTimeout("location.href='/"+window.lang+"/topic/slider'", 3000);
+							setTimeout("location.href='/"+window.lang+"/topic/category'", 3000);
 
 			            },
 			            error : function(jqXHR) {
@@ -222,7 +229,12 @@ $(function() {
 
 	/**	上传 **/
 	$(document).on('click', '#upbn', function() {
-		$('#fileinput').click();
+	    var categoryCount = $(".category").size();
+	    if(categoryCount < window.categoryCount){
+	        $('#fileinput').click();
+	    }else{
+	     alert("最多只能上传" + window.categoryCount + "个");
+	    }
 	});
 
 	/**	预览 **/
@@ -250,7 +262,7 @@ $(function() {
            // alert(["图片大小是: width:"+image.width+", height:"+image.height]);
             var width = image.width;
             var height = image.height;
-			$('.category').parent().append('<li class="slider-single-li category">' +
+			$('.slider-li-upload').before('<li class="slider-single-li category">' +
 				'<span class="category-name" onclick="changeText(event,this)">单击编辑</span>'+
 				'<div class="slider-hover-div">' +
 				'<div class="slider-label">' +
@@ -260,7 +272,7 @@ $(function() {
 				'<img data-index="-1" data-sort="' + $("#usercenter-info > ul").children().length + '" class="slider-content-img" width="'+width+'"  height="'+height+'" src="' + this.result + '">' +
 				'</div>' +
 				'</li>');
-			upload($('.slider-single-li').last(), file);
+			upload($('.slider-li-upload').prev(), file);
 		}
 	}
 
@@ -326,5 +338,6 @@ $(function() {
 			return false;
 		}
 	}
-
+	/*******拖拽*******/
+	new Sortable(document.getElementById("categorySort"));
 });

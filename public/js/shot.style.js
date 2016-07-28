@@ -221,6 +221,7 @@ $(function() {
         //theme.sortNu = sortNu;
         theme.themeSrcImg = "";
         theme.themeDesc = themeConfig;
+        theme.themeConfigInfo = $("#themeDescribe").val();
         theme.themeItem = themeItems;
         if(JSON.stringify(masterItemTag) != "[]"){
         theme.themeTags = masterItemTag;
@@ -339,6 +340,7 @@ $(function() {
          theme.startAt = $("#onShelvesAt").val();
          theme.endAt = $("#offShelvesAt").val();
          theme.h5Link = $("#h5-link").val();
+         theme.themeConfigInfo = $("#themeDescribe").val();
 
          //主题主图片
          var themeImgContent = {};

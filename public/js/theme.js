@@ -280,6 +280,20 @@ $(function () {
     $(":input:not(:button)").focusout(function(){
         $(".user-state").text("已更改");
     })
+    /*************主题选择*************/
+    $(".h4-custom-hmm>input").click(function () {
+        $(this).parent().next().toggle()
+    })
+    $("input[name='theme']").click(function () {
+        if(this.id==="ordinary"){
+            $(".h4-custom-hmm").css("display","block").find("input").css("display","inline").prop("checked",true);
+            $(".good-change").css("display","block");
+            $(".thememainimg").css("display","block");
+        }else{
+            $(".thememainimg").css("display","none").prev().css("display","none");
+            $(".good-change").css("display","block").prev().css("display","block").find("input").css("display","none");
+        }
+    })
 })
 
 //返回模板中选中的图片 Added by Tiffany Zhu

@@ -232,9 +232,9 @@ ul,li {
 	line-height: 20px;
 }
 .category{
-	float: left;
-	width: 25%;
-	margin-bottom: 12%;
+	display: inline-block;
+	width: 24%;
+	margin-bottom: 8%;
 }
 .category>.category-name{
 	position: absolute;
@@ -243,4 +243,9 @@ ul,li {
 }
 .category>.slider-hover-div{
 	margin: 0 10px;
+}
+/******主题选择******/
+.theme-change>label{
+	margin-top: 5px;
+	margin-right: 10px;
 }

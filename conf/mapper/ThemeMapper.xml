@@ -17,7 +17,9 @@
                 ${alias}.create_at,
                 ${alias}.update_at,
                 ${alias}.item_target,
-                ${alias}.target_type
+                ${alias}.target_type,
+                ${alias}.or_nav,
+                ${alias}.nav_text
         </sql>
 
         <!---  滚动条    -->
@@ -31,13 +33,13 @@
         </select>
 
         <insert id="insertSlider" parameterType="domain.Slider" useGeneratedKeys="true" keyProperty="id">
-                insert into slider (img,sort_nu,create_at,item_target,target_type)
-                values (#{img},#{sortNu},CURRENT_TIMESTAMP(0),#{itemTarget}, #{targetType})
+                insert into slider (img,sort_nu,create_at,item_target,target_type,or_nav,nav_text)
+                values (#{img},#{sortNu},CURRENT_TIMESTAMP(0),#{itemTarget}, #{targetType},#{orNav},#{navText})
         </insert>
 
         <update id="updateSlider" parameterType="domain.Slider">
                 update slider set
-                img=#{img},sort_nu=#{sortNu},update_at=CURRENT_TIMESTAMP(0),item_target=#{itemTarget},target_type=#{targetType}
+                img=#{img},sort_nu=#{sortNu},update_at=CURRENT_TIMESTAMP(0),item_target=#{itemTarget},target_type=#{targetType},nav_text=#{navText}
                 where id = #{id}
         </update>
 
@@ -45,6 +47,14 @@
                 delete from slider
                 where id = #{value}
         </delete>
+        <!---  获取分类入口信息    -->
+        <select id="getCategoryAll" resultType="domain.Slider">
+                select
+                <include refid="sliderColumns">
+                        <property name="alias" value="t"/>
+                </include>
+                from slider t where t.or_nav = true order by t.sort_nu ASC
+        </select>
 
         <!---  主题    -->
 
@@ -132,15 +142,15 @@
 
         <insert id="insertTheme" parameterType="domain.Theme" useGeneratedKeys="true" keyProperty="id">
                 insert into themes
-                (master_item_id,title,start_at,end_at,theme_img,create_at,theme_item,master_item_tag,theme_master_img)
+                (master_item_id,title,start_at,end_at,theme_img,create_at,theme_item,master_item_tag,theme_master_img,theme_config_info)
                 values
-                (#{masterItemId},#{title},#{startAt}::timestamp,#{endAt}::timestamp,#{themeImg},CURRENT_TIMESTAMP(0),#{themeItem}::jsonb,#{themeTags}::jsonb,#{themeMasterImg})
+                (#{masterItemId},#{title},#{startAt}::timestamp,#{endAt}::timestamp,#{themeImg},CURRENT_TIMESTAMP(0),#{themeItem}::jsonb,#{themeTags}::jsonb,#{themeMasterImg},#{themeConfigInfo})
         </insert>
 
         <update id="updateTheme" parameterType="domain.Theme">
                 update themes
                 set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},
-                    update_at=CURRENT_TIMESTAMP(0),theme_item=#{themeItem}::jsonb,master_item_tag=#{themeTags}::jsonb,theme_master_img=#{themeMasterImg},or_destroy=false
+                    update_at=CURRENT_TIMESTAMP(0),theme_item=#{themeItem}::jsonb,master_item_tag=#{themeTags}::jsonb,theme_master_img=#{themeMasterImg},or_destroy=false,theme_config_info=#{themeConfigInfo}
                 where id = #{id}
         </update>
 
@@ -151,13 +161,13 @@
         </update>
 
         <insert id="addH5Theme" parameterType="domain.Theme">
-                insert into themes (title,create_at,start_at,end_at,type,h5_link,theme_img)
-                values(#{title},CURRENT_TIMESTAMP(0),#{startAt}::timestamp,#{endAt}::timestamp,#{type},#{h5Link},#{themeImg})
+                insert into themes (title,create_at,start_at,end_at,type,h5_link,theme_img,theme_config_info)
+                values(#{title},CURRENT_TIMESTAMP(0),#{startAt}::timestamp,#{endAt}::timestamp,#{type},#{h5Link},#{themeImg},#{themeConfigInfo})
         </insert>
         <update id="updH5Theme" parameterType="domain.Theme">
                 update themes
                 set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},
-                update_at=CURRENT_TIMESTAMP(0),h5_link = #{h5Link},or_destroy=false
+                update_at=CURRENT_TIMESTAMP(0),h5_link = #{h5Link},or_destroy=false,theme_config_info=#{themeConfigInfo}
                 where id = #{id}
         </update>
 
