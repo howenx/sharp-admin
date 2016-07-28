@@ -244,6 +244,7 @@ POST        /$lang<(cn|en|kr)>/inventory/data/$pageNum<[0-9]+>                  
 GET         /coup/add                                                               controllers.CoupCtrl.coupCreate(lang="cn")
 GET         /$lang<(cn|en|kr)>/coup/add                                             controllers.CoupCtrl.coupCreate(lang)
 GET         /coup/add/popup                                                         controllers.AdminUserCtrl.addIDUserPop()
+GET         /coup/addMaster/popup                                                   controllers.AdminUserCtrl.addMasterPop()
 POST        /coup/coupSave                                                          controllers.CoupCtrl.coupSave
 GET         /coup/search                                                            controllers.CoupCtrl.coupSearch(lang ="cn")
 GET         /$lang<(cn|en|kr)>/coup/search                                          controllers.CoupCtrl.coupSearch(lang)

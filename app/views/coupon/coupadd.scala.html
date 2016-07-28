@@ -26,9 +26,8 @@
 </script>
 
 <script>
-    function ShowModal() {
-        var button_id = $(this).id;
-        alert(button_id);
+    function ShowModal(obj) {
+        var button_id = $(obj).attr("id");
         var sharedObject = {};
         var user_arr = [];
         var users = $(".table tbody").find("tr");
@@ -38,16 +37,35 @@
         }
         sharedObject.user_arr = user_arr;
         <!--console.log(user_arr);-->
-        if (window.showModalDialog) {
-            var retValue = showModalDialog("/coup/add/popup", sharedObject, "dialogWidth:1300px; dialogHeight:600px; dialogLeft:300px;");
-            if (retValue) {
-                UpdateFields(retValue);
+        //添加用户
+        if (button_id=="add-user") {
+            alert("用户");
+            if (window.showModalDialog) {
+                var retValue = showModalDialog("/coup/add/popup", sharedObject, "dialogWidth:1300px; dialogHeight:600px; dialogLeft:300px;");
+                if (retValue) {
+                    UpdateFields(retValue);
+                }
+            }
+            else {
+                // for similar functionality in Opera, but it's not modal!
+                var modal = window.open("/coup/add/popup", null, "width=1300,height=600,left=300,modal=yes,alwaysRaised=yes", null);
+                modal.dialogArguments = sharedObject;
             }
         }
-        else {
-            // for similar functionality in Opera, but it's not modal!
-            var modal = window.open("/coup/add/popup", null, "width=1300,height=600,left=300,modal=yes,alwaysRaised=yes", null);
-            modal.dialogArguments = sharedObject;
+        //添加成功收获的团长用户
+        else if (button_id=="add-master") {
+            alert("团长");
+            if (window.showModalDialog) {
+                var retValue = showModalDialog("/coup/addMaster/popup", sharedObject, "dialogWidth:1300px; dialogHeight:600px; dialogLeft:300px;");
+                if (retValue) {
+                    UpdateFields(retValue);
+                }
+            }
+            else {
+                // for similar functionality in Opera, but it's not modal!
+                var modal = window.open("/coup/add/popup", null, "width=1300,height=600,left=300,modal=yes,alwaysRaised=yes", null);
+                modal.dialogArguments = sharedObject;
+            }
         }
     }
 
@@ -133,8 +151,8 @@
                 <hr style="margin-top:50px;"/>
                 <h3>选择用户</h3>
                 <hr/>
-                <button type="button" class="btn btn-primary btn-xs add-goods" id="add-user" onclick="ShowModal()">添加用户</button>
-                <button type="button" class="btn btn-primary btn-xs add-goods" id="add-master" style="margin-left:20px;" onclick="ShowModal()">添加团长</button>
+                <button type="button" class="btn btn-primary btn-xs add-goods" id="add-user" onclick="ShowModal(this)">添加用户</button>
+                <button type="button" class="btn btn-primary btn-xs add-goods" id="add-master" style="margin-right:20px;" onclick="ShowModal(this)">添加团长</button>
                 <div class="bgk">
                     <table class="table table-bordered table-hover grid" id="user-add" title="Kurt Vonnegut novels" style="margin-top:0px;">
                         <thead>

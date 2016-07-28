@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.*;
+import domain.pingou.PinActivity;
 import filters.UserAuth;
 import play.Configuration;
 import play.Logger;
@@ -18,14 +19,12 @@ import scala.Option;
 import service.AdminSupplierService;
 import service.AdminUserService;
 import service.IDService;
+import service.PingouService;
 import util.SysParCom;
 
 import javax.inject.Inject;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -43,6 +42,9 @@ public class AdminUserCtrl extends Controller {
 
     @Inject
     private IDService idService;
+
+    @Inject
+    private PingouService pingouService;
 
     @Inject
     private Configuration configuration;
@@ -407,6 +409,24 @@ public class AdminUserCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result addIDUserPop() {
         List<ID> idList = idService.getAllID();
+        return ok(views.html.coupon.coupaddPop.render(idList, SysParCom.IMAGE_URL));
+    }
+
+    /**
+     * 成功收获的团长用户列表弹窗      Added By Sunny.Wu 2016.07.27
+     * @return views
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result addMasterPop() {
+        List<PinActivity> pinActivityList = pingouService.getSuccActivityMaster();
+        Logger.error("拼团成功列表"+pinActivityList.toString());
+        List<ID> idList = new ArrayList<>();
+        for(PinActivity pinActivity : pinActivityList) {
+            Integer userId = pinActivity.getMasterUserId().intValue();
+            ID id = idService.getID(userId);
+            idList.add(id);
+        }
+        Logger.error("团长列表"+idList.toString());
         return ok(views.html.coupon.coupaddPop.render(idList, SysParCom.IMAGE_URL));
     }
 
