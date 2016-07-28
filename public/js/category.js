@@ -225,7 +225,12 @@ $(function() {
 
 	/**	上传 **/
 	$(document).on('click', '#upbn', function() {
-		$('#fileinput').click();
+	    var categoryCount = $(".category").size();
+	    if(categoryCount < window.categoryCount){
+	        $('#fileinput').click();
+	    }else{
+	     alert("最多只能上传" + window.categoryCount + "个");
+	    }
 	});
 
 	/**	预览 **/

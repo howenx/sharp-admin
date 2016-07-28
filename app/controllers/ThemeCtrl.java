@@ -107,7 +107,7 @@ public class ThemeCtrl extends Controller {
             }
             slider.setImg(imgUrl+","+width+","+height);
         }
-        return ok(views.html.theme.category.render(lang,sliderList, SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.category.render(lang,sliderList, SysParCom.CATEGORYCOUNT,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
     /**

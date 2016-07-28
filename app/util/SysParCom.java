@@ -101,6 +101,9 @@ public class SysParCom {
     public static int REFRESHTIME;
     public static int ACCESSTIME;
 
+    //分类入口数
+    public static int CATEGORYCOUNT;
+
 
     @Inject
     public SysParCom(Configuration configuration) {
@@ -160,6 +163,7 @@ public class SysParCom {
         ACCESSTOKEN = configuration.getString("coupon.ctrip.getAccessToken");
         REFRESHTIME = configuration.getInt("coupon.ctrip.refreshTokenTime");
         ACCESSTIME = configuration.getInt("coupon.ctrip.accessTokenTime");
+        CATEGORYCOUNT = configuration.getInt("category.count");
 
     }
 
