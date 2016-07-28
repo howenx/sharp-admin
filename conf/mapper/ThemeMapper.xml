@@ -29,7 +29,7 @@
                 <include refid="sliderColumns">
                         <property name="alias" value="t"/>
                 </include>
-                from slider t order by t.sort_nu
+                from slider t where t.or_nav=false order by t.sort_nu
         </select>
 
         <insert id="insertSlider" parameterType="domain.Slider" useGeneratedKeys="true" keyProperty="id">

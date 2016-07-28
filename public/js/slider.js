@@ -101,6 +101,7 @@ $(function() {
 				var targetType = $(this).attr('data-type');
 				slider.itemTarget = itemTarget==""?null:itemTarget;
 				slider.targetType = targetType==""?null:targetType;
+				slider.orNav = false;
 				slider_array.push(slider);
 			})
 
