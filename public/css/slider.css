@@ -244,3 +244,8 @@ ul,li {
 .category>.slider-hover-div{
 	margin: 0 10px;
 }
+/******主题选择******/
+.theme-change>label{
+	margin-top: 5px;
+	margin-right: 10px;
+}

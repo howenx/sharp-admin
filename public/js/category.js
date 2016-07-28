@@ -58,6 +58,10 @@ function changeText(event,element){
 		}).val(oldHtml);
 		$(addText).blur(function(){
 			$(element).html(this.value?this.value:oldHtml);
+			if(this.value!==oldHtml){
+				$('.usercenter-option > .user-state').css('background-position', '20px -73px');
+				$(".user-state").text("已更改");
+			}
 			if($(element).parent().find(":input")){
 				$(element).parent().find(":input").val($(element).html());
 			}
