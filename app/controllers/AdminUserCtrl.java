@@ -419,15 +419,13 @@ public class AdminUserCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result addMasterPop() {
         List<PinActivity> pinActivityList = pingouService.getSuccActivityMaster();
-        Logger.error("拼团成功列表"+pinActivityList.toString());
-//        List<ID> idList = new ArrayList<>();
-//        for(PinActivity pinActivity : pinActivityList) {
-//            Integer userId = pinActivity.getMasterUserId().intValue();
-//            ID id = idService.getID(userId);
-//            idList.add(id);
-//        }
-//        Logger.error("团长列表"+idList.toString());
-        List<ID> idList = idService.getAllID();
+        List<ID> idList = new ArrayList<>();
+        for(PinActivity pinActivity : pinActivityList) {
+            Integer userId = pinActivity.getMasterUserId().intValue();
+            ID id = idService.getID(userId);
+            idList.add(id);
+        }
+//        List<ID> idList = idService.getAllID();
         return ok(views.html.coupon.coupaddPop.render(idList, SysParCom.IMAGE_URL));
     }
 

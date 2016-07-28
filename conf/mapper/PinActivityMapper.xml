@@ -151,10 +151,11 @@
     <!--查询成功收货的拼团活动的团长 (发放优惠券)      Added By Sunny.Wu 2016.07.27-->
     <select id="getSuccActivityMaster" resultType="domain.pingou.PinActivity">
         select a.pin_active_id,o.order_id as pin_id, o.order_status as status, a.master_user_id from
-        dblink('host=127.0.0.1 port=3032 dbname=shopping user=style password=style_123'::text, 'SELECT pin_active_id,order_id,order_status FROM sp_order'::text)
+        <!--dblink('host=127.0.0.1 port=3032 dbname=shopping user=style password=style_123'::text, 'SELECT pin_active_id,order_id,order_status FROM sp_order'::text)-->
+        dblink('host=127.0.0.1 port=5432 dbname=shopping user=postgres password=postgres'::text, 'SELECT pin_active_id,order_id,order_status FROM sp_order'::text)
         as o(pin_active_id bigint,order_id bigint,order_status text)
         inner join
-        pin_activity a on a.pin_active_id=o.pin_active_id and o.order_status='T'
+        pin_activity a on a.pin_active_id=o.pin_active_id and o.order_status='R'
         inner join
         pin_user u on a.pin_active_id=u.pin_active_id and u.or_master=true
     </select>
