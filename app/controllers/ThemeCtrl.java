@@ -111,7 +111,7 @@ public class ThemeCtrl extends Controller {
     }
 
     /**
-     * 滚动条弹窗  主题列表和商品列表
+     * 分类入口  主题列表和商品列表  Added by Tiffany Zhu 2016.07.27
      * @return sliderPop.scala.html
      */
     @Security.Authenticated(UserAuth.class)
@@ -134,6 +134,7 @@ public class ThemeCtrl extends Controller {
                 slist.add(skus);
             }
         }
+        Logger.error("分类入口弹出框数据:" + tList);
         if (themeList.size()>0 && skusList.size()>0) {
             return ok(views.html.theme.categoryPop.render(tList,slist,SysParCom.IMAGE_URL));
         }
