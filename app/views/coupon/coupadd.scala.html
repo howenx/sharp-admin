@@ -39,7 +39,6 @@
         <!--console.log(user_arr);-->
         //添加用户
         if (button_id=="add-user") {
-            alert("用户");
             if (window.showModalDialog) {
                 var retValue = showModalDialog("/coup/add/popup", sharedObject, "dialogWidth:1300px; dialogHeight:600px; dialogLeft:300px;");
                 if (retValue) {
@@ -54,7 +53,6 @@
         }
         //添加成功收获的团长用户
         else if (button_id=="add-master") {
-            alert("团长");
             if (window.showModalDialog) {
                 var retValue = showModalDialog("/coup/addMaster/popup", sharedObject, "dialogWidth:1300px; dialogHeight:600px; dialogLeft:300px;");
                 if (retValue) {
@@ -63,7 +61,7 @@
             }
             else {
                 // for similar functionality in Opera, but it's not modal!
-                var modal = window.open("/coup/add/popup", null, "width=1300,height=600,left=300,modal=yes,alwaysRaised=yes", null);
+                var modal = window.open("/coup/addMaster/popup", null, "width=1300,height=600,left=300,modal=yes,alwaysRaised=yes", null);
                 modal.dialogArguments = sharedObject;
             }
         }
