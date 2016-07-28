@@ -33,13 +33,13 @@
         </select>
 
         <insert id="insertSlider" parameterType="domain.Slider" useGeneratedKeys="true" keyProperty="id">
-                insert into slider (img,sort_nu,create_at,item_target,target_type)
-                values (#{img},#{sortNu},CURRENT_TIMESTAMP(0),#{itemTarget}, #{targetType})
+                insert into slider (img,sort_nu,create_at,item_target,target_type,or_nav,nav_text)
+                values (#{img},#{sortNu},CURRENT_TIMESTAMP(0),#{itemTarget}, #{targetType},#{orNav},#{navText})
         </insert>
 
         <update id="updateSlider" parameterType="domain.Slider">
                 update slider set
-                img=#{img},sort_nu=#{sortNu},update_at=CURRENT_TIMESTAMP(0),item_target=#{itemTarget},target_type=#{targetType}
+                img=#{img},sort_nu=#{sortNu},update_at=CURRENT_TIMESTAMP(0),item_target=#{itemTarget},target_type=#{targetType},nav_text=#{navText}
                 where id = #{id}
         </update>
 
@@ -47,6 +47,14 @@
                 delete from slider
                 where id = #{value}
         </delete>
+        <!---  获取分类入口信息    -->
+        <select id="getCategoryAll" resultType="domain.Slider">
+                select
+                <include refid="sliderColumns">
+                        <property name="alias" value="t"/>
+                </include>
+                from slider t where t.or_nav = true order by t.sort_nu ASC
+        </select>
 
         <!---  主题    -->
 

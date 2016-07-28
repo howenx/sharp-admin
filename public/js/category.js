@@ -170,6 +170,8 @@ $(function() {
 				var targetType = $(this).attr('data-type');
 				slider.itemTarget = itemTarget==""?null:itemTarget;
 				slider.targetType = targetType==""?null:targetType;
+				slider.orNav = true;
+				slider.navText = $(this).parent().parent().find('span').text();
 				slider_array.push(slider);
 			})
 
@@ -197,7 +199,7 @@ $(function() {
 							setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
 							change_flag=false;
 
-							setTimeout("location.href='/"+window.lang+"/topic/slider'", 3000);
+							setTimeout("location.href='/"+window.lang+"/topic/category'", 3000);
 
 			            },
 			            error : function(jqXHR) {

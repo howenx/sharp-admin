@@ -192,4 +192,13 @@ public class ThemeServiceImpl implements ThemeService {
     public void updThemeSortNu(List<Theme> list) {
         themeMapper.updThemeSortNu(list);
     }
+
+    /**
+     * 获取全部的分类入口数据      Added by Tiffany Zhu 2016.07.28
+     * @return
+     */
+    @Override
+    public List<Slider> getCategoryAll() {
+        return themeMapper.getCategoryAll();
+    }
 }

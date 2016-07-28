@@ -94,7 +94,7 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result category(String lang) {
-        List<Slider> sliderList = service.sliderAll();
+        List<Slider> sliderList = service.getCategoryAll();
         for (Slider slider : sliderList) {
             JsonNode img = Json.parse(slider.getImg());
             String imgUrl = "0";

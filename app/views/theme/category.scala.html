@@ -47,7 +47,7 @@
         <ul class="clearfix">
             @for(slider <- sliders) {
             <li class="slider-single-li category">
-                <span class="category-name" onclick="changeText(event,this)">化妆品</span>
+                <span class="category-name" onclick="changeText(event,this)">@slider.getNavText()</span>
                 <div class="slider-hover-div">
                     <div class="slider-label">
                         <div class="slider-label-image-up"></div>

@@ -89,4 +89,10 @@ public interface ThemeMapper {
      */
     void updThemeSortNu(List<Theme> list);
 
+    /**
+     * 获取全部的分类入口数据      Added by Tiffany Zhu 2016.07.28
+     * @return
+     */
+    List<Slider> getCategoryAll();
+
 }
