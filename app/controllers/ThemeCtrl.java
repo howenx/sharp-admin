@@ -222,6 +222,12 @@ public class ThemeCtrl extends Controller {
             if(tempTheme.getType().equals("h5")){
                 tempTheme.setType("HTML5");
             }
+            if(tempTheme.getType().equals("detail")){
+                tempTheme.setType("普通商品");
+            }
+            if(tempTheme.getType().equals("pin")){
+                tempTheme.setType("拼购商品");
+            }
             resultList.add(tempTheme);
         }
         //Logger.error(resultList.toString());
@@ -275,6 +281,12 @@ public class ThemeCtrl extends Controller {
                 }
                 if(tempTheme.getType().equals("h5")){
                     tempTheme.setType("HTML5");
+                }
+                if(tempTheme.getType().equals("detail")){
+                    tempTheme.setType("普通商品");
+                }
+                if(tempTheme.getType().equals("pin")){
+                    tempTheme.setType("拼购商品");
                 }
                 resultList.add(tempTheme);
             }
@@ -457,6 +469,7 @@ public class ThemeCtrl extends Controller {
     public Result themeSave(String lang){
         JsonNode jsonRequest = request().body().asJson();
         JsonNode json = jsonRequest.findValue("theme");
+        Logger.error("主题数据~~~~:" + json);
         JsonNode ids = null;
         if(json.has("themeDesc")){
             ((ObjectNode)json).put("themeDesc",json.findValue("themeDesc").toString());
@@ -481,13 +494,19 @@ public class ThemeCtrl extends Controller {
         calendar.add(Calendar.MONTH,+6);
         String validDate = sdfDate.format(calendar.getTime());
         //基本样式不匹配;主图片,商品ID不是Json格式;首页主图不是Json格式;主图标签不是Json格式;开始日期大于结束日期;
-        if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || !(Regex.isJason(theme.getThemeItem())) || !(Regex.isJason(theme.getThemeMasterImg()))
-                || (theme.getMasterItemTag() != null && !(Regex.isJason(theme.getMasterItemTag()))) || (theme.getStartAt().compareTo(theme.getEndAt())>= 0) ||
+//        if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || !(Regex.isJason(theme.getThemeItem())) || !(Regex.isJason(theme.getThemeMasterImg()))
+//                || (theme.getMasterItemTag() != null && !(Regex.isJason(theme.getMasterItemTag()))) || (theme.getStartAt().compareTo(theme.getEndAt())>= 0) ||
+//                theme.getEndAt().compareTo(strNow) < 0 || theme.getStartAt().compareTo(validDate) > 0 || theme.getEndAt().compareTo(validDate) > 0 ){
+//            return badRequest();
+//        }
+
+        //基本样式不匹配;主图片,开始日期大于结束日期;       Modified by Tiffany Zhu 2016.07.29
+        if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || (theme.getStartAt().compareTo(theme.getEndAt())>= 0) ||
                 theme.getEndAt().compareTo(strNow) < 0 || theme.getStartAt().compareTo(validDate) > 0 || theme.getEndAt().compareTo(validDate) > 0 ){
             return badRequest();
         }
         //数据验证      ----end
-
+        Logger.error("通过后台验证~~~~~~~~");
         service.themeSave(theme);
 
         //创建Scheduled Actor         ---start
@@ -507,54 +526,57 @@ public class ThemeCtrl extends Controller {
         //创建Scheduled Actor         ---end
 
         //添加主题Id到商品中
-        for(JsonNode idBar : ids){
-            String type = idBar.findValue("type").toString();
-            type = type.substring(1,type.length()-1);
-            Long  id = idBar.get("id").asLong();
-            //普通商品
-            if("item".equals(type)){
-                Inventory inventory = inventoryService.getInventory(id);
-                String themeIds = inventory.getThemeId();
-                if (themeIds== null || "".equals(themeIds)){
-                    inventory.setThemeId(theme.getId().toString());
-                }else{
-                    if(!themeIds.contains(theme.getId().toString())){
-                        themeIds = themeIds + "," + theme.getId().toString();
-                        inventory.setThemeId(themeIds);
+        if (ids.size() > 0){
+            for(JsonNode idBar : ids){
+                String type = idBar.findValue("type").toString();
+                type = type.substring(1,type.length()-1);
+                Long  id = idBar.get("id").asLong();
+                //普通商品
+                if("item".equals(type)){
+                    Inventory inventory = inventoryService.getInventory(id);
+                    String themeIds = inventory.getThemeId();
+                    if (themeIds== null || "".equals(themeIds)){
+                        inventory.setThemeId(theme.getId().toString());
+                    }else{
+                        if(!themeIds.contains(theme.getId().toString())){
+                            themeIds = themeIds + "," + theme.getId().toString();
+                            inventory.setThemeId(themeIds);
+                        }
                     }
+                    inventoryService.updInventoryThemeId(inventory);
                 }
-                inventoryService.updInventoryThemeId(inventory);
-            }
-            //拼购商品
-            if("pin".equals(type)){
-                PinSku pinSku = pingouService.getPinSkuById(id);
-                String themeIds = pinSku.getThemeId();
-                if (themeIds== null || "".equals(themeIds)){
-                    pinSku.setThemeId(theme.getId().toString());
-                }else{
-                    if(!themeIds.contains(theme.getId().toString())){
-                        themeIds = themeIds + "," + theme.getId().toString();
-                        pinSku.setThemeId(themeIds);
+                //拼购商品
+                if("pin".equals(type)){
+                    PinSku pinSku = pingouService.getPinSkuById(id);
+                    String themeIds = pinSku.getThemeId();
+                    if (themeIds== null || "".equals(themeIds)){
+                        pinSku.setThemeId(theme.getId().toString());
+                    }else{
+                        if(!themeIds.contains(theme.getId().toString())){
+                            themeIds = themeIds + "," + theme.getId().toString();
+                            pinSku.setThemeId(themeIds);
+                        }
                     }
+                    pingouService.updPinThemeId(pinSku);
                 }
-                pingouService.updPinThemeId(pinSku);
-            }
-            //多样化商品
-            if("vary".equals(type)){
-                //Logger.error(id.toString());
-                VaryPrice varyPrice = varyPriceService.getVaryPriceById(id);
-                String themeIds = varyPrice.getThemeId();
-                if ( themeIds== null || "".equals(themeIds)){
-                    varyPrice.setThemeId(theme.getId().toString());
-                }else{
-                    if(!themeIds.contains(theme.getId().toString())){
-                        themeIds = themeIds + "," + theme.getId().toString();
-                        varyPrice.setThemeId(themeIds);
+                //多样化商品
+                if("vary".equals(type)){
+                    //Logger.error(id.toString());
+                    VaryPrice varyPrice = varyPriceService.getVaryPriceById(id);
+                    String themeIds = varyPrice.getThemeId();
+                    if ( themeIds== null || "".equals(themeIds)){
+                        varyPrice.setThemeId(theme.getId().toString());
+                    }else{
+                        if(!themeIds.contains(theme.getId().toString())){
+                            themeIds = themeIds + "," + theme.getId().toString();
+                            varyPrice.setThemeId(themeIds);
+                        }
                     }
+                    varyPriceService.updVaryThemeId(varyPrice);
                 }
-                varyPriceService.updVaryThemeId(varyPrice);
             }
         }
+
 
         //删除商品中主题ID
         JsonNode beforeUpdJson = jsonRequest.findValue("beforeUpdItems");
@@ -896,16 +918,17 @@ public class ThemeCtrl extends Controller {
             themeImgObject[2] = themeImg.get("height").asInt();
 
             //主题的首页主图
-            JsonNode themeMasterImg = Json.parse(theme.getThemeMasterImg());
             Object[] masterImgObject = new Object[3];
-            //url
-            String masterImgUrl = themeMasterImg.get("url").toString();
-            masterImgObject[0] = masterImgUrl.substring(1,masterImgUrl.length()-1);
-            //width
-            masterImgObject[1] = themeMasterImg.get("width").asInt();
-            //height
-            masterImgObject[2] = themeMasterImg.get("height").asInt();
-
+            if(theme.getThemeMasterImg() != null){
+                JsonNode themeMasterImg = Json.parse(theme.getThemeMasterImg());
+                //url
+                String masterImgUrl = themeMasterImg.get("url").toString();
+                masterImgObject[0] = masterImgUrl.substring(1,masterImgUrl.length()-1);
+                //width
+                masterImgObject[1] = themeMasterImg.get("width").asInt();
+                //height
+                masterImgObject[2] = themeMasterImg.get("height").asInt();
+            }
             //主题的首页主图的标签
             List<Object[]> tagList = new ArrayList<>();
             if(theme.getMasterItemTag() != null) {
@@ -1016,6 +1039,12 @@ public class ThemeCtrl extends Controller {
             }
             if("h5".equals(theme.getType())){
                 object[3] = "HTML5";
+            }
+            if("detail".equals(theme.getType())){
+                object[3] = "普通商品";
+            }
+            if("pin".equals(theme.getType())){
+                object[3] = "拼购商品";
             }
             JsonNode imgJson = Json.parse(theme.getThemeImg());
             String imgUrl = imgJson.get("url").toString();

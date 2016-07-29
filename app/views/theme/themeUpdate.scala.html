@@ -29,36 +29,48 @@
 
 <script>
     $(function(){
-        //主题列表主图
-        var img = document.createElement("img");
-        $(img).attr("src","@url@masterImgObject(0)");
-        $(img).css({"width":"100%","height":"100%","float":"left"});
-        $("#dragon-container").append(img);
-        $("#dragon-container").width(@masterImgObject(1));
-        $("#dragon-container").height(@masterImgObject(2));
-        //主题列表主图宽高
-        var input = document.createElement("input");
-        input.id = "@url@masterImgObject(0)";
-        input.type = "hidden";
-        $(input).width(@masterImgObject(1));
-        $(input).height(@masterImgObject(2));
-        $("#dragon-container").append(input);
-        $("#dragon-container").css({"margin":"0"});
+        var url = "@url@masterImgObject(0)";
+        //单一商品的情况下
+        if(url == "@url"){
+            $("#imgSel").click();
+        }
+        //有主题主图的情况下
+        else{
+            //主题列表主图
+            var img = document.createElement("img");
+            $(img).attr("src","@url@masterImgObject(0)");
+            $(img).css({"width":"100%","height":"100%","float":"left"});
+            $("#dragon-container").append(img);
+            $("#dragon-container").width(@masterImgObject(1));
+            $("#dragon-container").height(@masterImgObject(2));
+            //主题列表主图宽高
+            var input = document.createElement("input");
+            input.id = "@url@masterImgObject(0)";
+            input.type = "hidden";
+            $(input).width(@masterImgObject(1));
+            $(input).height(@masterImgObject(2));
+            $("#dragon-container").append(input);
+            $("#dragon-container").css({"margin":"0"});
 
-        //主题标签
-        $("#dragon-container").find(".dragon-contained").each(function(){
-            //角度180度
-            if($(this).find(".dragon-graph").css('transform').indexOf("-1")>=0){
-                $(this).css("left",parseInt($(this).css("left")) - $(this).width());
-            }
-        })
+            //主题标签
+            $("#dragon-container").find(".dragon-contained").each(function(){
+                //角度180度
+                if($(this).find(".dragon-graph").css('transform').indexOf("-1")>=0){
+                    $(this).css("left",parseInt($(this).css("left")) - $(this).width());
+                }
+            })
+        }
 
-  		//非编辑状态下冻结页面元素
+        //没有商品的情况
+        if("@itList" == "[]"){
+            $("#goodsSel").click();
+        }
+
+  		//非编辑状态下冻结页面元素-----------------------------------------start
   		//保存按钮
   		$("#js-usercenter-submit").css({"display":"none"});
   		$("#js-usercenter-cancel").css({"display":"none"});
   		$("#js-usercenter-delete").css({"display":"none"});
-
   		//基本信息
   		$("#themeTitle").attr("disabled",true);
   		$("#onShelvesAt").attr("disabled",true);
@@ -75,55 +87,59 @@
                 $(this).find("td:eq(11)").css({"display":"none"});
             }
         })
+        //标签功能域
+  		$(".master").css({"display":"none"});
+  		//商品选择
+  		$("#goodsSel").attr("disabled",true);
+  		//主题主图
+  		$("#imgSel").attr("disabled",true);
+  		//主题类型
+  		$("input[name='theme']").attr("disabled",true);
 
-        //主题主图
-  		$(".form-group").eq(5).css({"display":"none"});
-  		$(".form-group").eq(6).css({"display":"none"});
-  		$(".form-group").eq(7).css({"display":"none"});
-  		$(".form-group").eq(8).css({"display":"none"});
-  		$(".form-group").eq(9).css({"display":"none"});
-
+        //非编辑状态下冻结页面元素---------------------------------------------end
 
         //点击编辑
         $(document).on("click","#js-usercenter-edit",function(){
-        pageEditStatus = true;
-        //保存按钮
-  		$("#js-usercenter-submit").css({"display":""});
-  		$("#js-usercenter-edit").css({"display":"none"});
-  		$("#js-usercenter-back").css({"display":"none"});
-  		$("#js-usercenter-cancel").css({"display":""});
-  		$("#js-usercenter-delete").css({"display":""});
-        //基本信息
-  		$("#themeTitle").attr("disabled",false);
-  		$("#onShelvesAt").attr("disabled",false);
-  		$("#offShelvesAt").attr("disabled",false);
-  		$("#themeDescribe").attr("disabled",false);
-  		//主宣传图
-  		$("#getTemplate").css({"display":""});
-        //商品
-  		$(".add-goods").css({"display":""});
-        $("#sort").find("tr").each(function(){
-            if($(this).find("th").length != 0 ){
-                $(this).find("th:eq(11)").css({"display":""});
-            }else{
-                $(this).find("td:eq(11)").css({"display":""});
-            }
-        })
-        //主题主图
-  		$(".form-group").eq(5).css({"display":""});
-  		$(".form-group").eq(6).css({"display":""});
-  		$(".form-group").eq(7).css({"display":""});
-  		$(".form-group").eq(8).css({"display":""});
-  		$(".form-group").eq(9).css({"display":""});
-  		$("#mark-bt").css({"display":""});
+            pageEditStatus = true;
+            //保存按钮
+            $("#js-usercenter-submit").css({"display":""});
+            $("#js-usercenter-edit").css({"display":"none"});
+            $("#js-usercenter-back").css({"display":"none"});
+            $("#js-usercenter-cancel").css({"display":""});
+            $("#js-usercenter-delete").css({"display":""});
+            //基本信息
+            $("#themeTitle").attr("disabled",false);
+            $("#onShelvesAt").attr("disabled",false);
+            $("#offShelvesAt").attr("disabled",false);
+            $("#themeDescribe").attr("disabled",false);
+            //主宣传图
+            $("#getTemplate").css({"display":""});
+            //商品
+            $(".add-goods").css({"display":""});
+            $("#sort").find("tr").each(function(){
+                if($(this).find("th").length != 0 ){
+                    $(this).find("th:eq(11)").css({"display":""});
+                }else{
+                    $(this).find("td:eq(11)").css({"display":""});
+                }
+            })
+             //标签功能域
+  		    $(".master").css({"display":""});
+  		    //商品选择
+  		    $("#goodsSel").attr("disabled",false);
+  		    //主题主图
+  		    $("#imgSel").attr("disabled",false);
+  		    //主题类型
+  		    $("input[name='theme']").attr("disabled",false);
+  		    $("#mark-bt").css({"display":""});
 
-  		//启动tag拖拽功能
-        $('div.dragon-contained').draggable({
-  		    containment: "parent",
-            drag: function() {
-                $(".user-state").text("已更改");
-            },
-  		});
+  		    //启动tag拖拽功能
+            $('div.dragon-contained').draggable({
+  		        containment: "parent",
+                drag: function() {
+                    $(".user-state").text("已更改");
+                },
+  		    });
 
         })
 
@@ -243,7 +259,7 @@
             </div>
             <!--商品选择-->
 
-            <h4 class="h4-custom-hmm">商品选择 <input type="checkbox" checked></h4>
+            <h4 class="h4-custom-hmm">商品选择 <input type="checkbox" id="goodsSel" checked></h4>
             <div class="good-change">
 
                 <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModal()">添加商品</button>
@@ -320,10 +336,10 @@
             </div>
             <hr/>
             <!-- 创建mark-->
-            <h4 class="h4-custom-hmm">主题主图 <input type="checkbox" checked></h4>
+            <h4 class="h4-custom-hmm">主题主图 <input type="checkbox" id="imgSel" checked></h4>
             <div class="thememainimg">
 
-                <div class="form-group">
+                <div class="form-group master">
                     <label class="col-sm-2 control-label">上传图片:</label>
 
                     <div class="col-sm-9">
@@ -333,14 +349,14 @@
                         </a>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group master">
                     <label class="col-sm-2 control-label">标签名字:</label>
 
                     <div class="col-sm-9">
                         <input id='mark-nm' type='text' class="form-control">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group master">
                     <label class="col-sm-2 control-label">标签角度:</label>
 
                     <div class="col-sm-9">
@@ -350,7 +366,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group master">
 
                     <label class="col-sm-2 control-label">商品SkuID:</label>
 
@@ -363,7 +379,7 @@
                         <button type="button" class="btn btn-primary btn-xs label-id" onclick="ShowModal1()">选择</button>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group master">
                     <label class="col-sm-2 control-label"></label>
                     <div class="col-sm-9">
                         <a class="large blue button" id='mark-bt' style="display:none;">创建</a>

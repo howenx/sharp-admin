@@ -39,7 +39,7 @@ $(function() {
 
         var isPost = true;
 
-        if($("#themeTitle").val() == "" || $("#onShelvesAt").val() == "" || $("#offShelvesAt").val() == "")
+        if($("#themeTitle").val() == "" || $("#onShelvesAt").val() == "" || $("#offShelvesAt").val() == "" || $("#themeDescribe").val() == "")
         {
             isPost = false;
              $('#js-userinfo-error').text('基本信息不能为空!').css('color', '#c00');
@@ -76,16 +76,46 @@ $(function() {
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
-        if(document.getElementById("sort").rows.length == 1){
+
+        var themeType = $('input[name="theme"]:checked').attr("id");
+        //是否选择商品
+         var goodsSel = $("#goodsSel").prop("checked");
+
+        //选择普通商品---商品不能为空     Modified by Tiffany Zhu 016.07.29
+        if(goodsSel && themeType == 'ordinary' && document.getElementById("sort").rows.length == 1){
             isPost = false;
             $('#js-userinfo-error').text('请添加商品!').css('color', '#c00');
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
-        if(document.getElementById("dragon-container").innerHTML.indexOf("img")<0)
+        //选择单一商品---商品只能是一件      Modified by Tiffany Zhu 2016.07.29
+        if(goodsSel && themeType == 'detail' && document.getElementById("sort").rows.length != 2){
+            isPost = false;
+            $('#js-userinfo-error').text('只能添加一个商品!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+        }
+
+        //不选择商品 只上传图片 验证图片是否上传   Modified by Tiffany Zhu 2016.07.29
+        if(goodsSel == false && document.getElementById("dragon-container").innerHTML.indexOf("img")<0)
         {
             isPost = false;
             $('#js-userinfo-error').text('请上传主题的首页主图!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+        }
+        //不选择商品 只上传图片 验证必须添加标签    Modified by Tiffany Zhu 2016.07.29
+        if(goodsSel == false && $(".dragon-contained").size() == 0)
+        {
+            isPost = false;
+            $('#js-userinfo-error').text('请添加标签!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+        }
+        if($("#imgSel").prop("checked") == false && $("#goodsSel").prop("checked") == false)
+        {
+            isPost = false;
+            $('#js-userinfo-error').text('"商品选择"与"主题主图"至少选一个!').css('color', '#c00');
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
@@ -159,6 +189,21 @@ $(function() {
                 themeItems.push(object);
             }
         })
+        //主题类型和h5链接
+        var themeType;
+        var h5Link;
+        if($("#sort").find("tr").length == 2){
+            var itemTypeId = $("#sort").find("tr").eq(1).find("td:eq(3)").text();
+            var itemSkuId =  $("#sort").find("tr").eq(1).find("td:eq(1)").text();
+            if( $("#sort").find("tr").eq(1).find("td:eq(2)").text() == "拼购"){
+                    themeType = "pin";
+                    h5Link ="/comm/detail/pin/" + itemTypeId + "/" + itemSkuId;
+            }else{
+                    themeType = "ordinary";
+                    h5Link ="/comm/detail/item/" + itemTypeId + "/" + itemSkuId;
+            }
+        }
+
         //主题主宣传图上的标签
         var masterItemTag = [];
         var tagsContainer = $("#dragon-container");
@@ -195,8 +240,7 @@ $(function() {
         })
 
         //主题列表主宣传图
-        var imgUrl = document.getElementById("dragon-container").getElementsByTagName("img")[0].src;
-        var themeMasterImg = imgUrl.substring(imgUrl.indexOf('/',imgUrl.indexOf('/')+2) + 1);
+        var imgSel = $("#imgSel").prop("checked");
 
         //主题主图片
         var themeImgContent = {};
@@ -205,15 +249,22 @@ $(function() {
         themeImgContent.width = $("#themeImg").find("input").width().toString();
         themeImgContent.height = $("#themeImg").find("input").height().toString();
         //主题tag背景图
-        var themeMasterImgContent = {};
-        themeMasterImgContent.url = themeMasterImg;
-        if(jsFileShareContent.labelImgWidth != null && jsFileShareContent.labelImgHeight != null){
-            themeMasterImgContent.width = jsFileShareContent.labelImgWidth.toString();
-            themeMasterImgContent.height = jsFileShareContent.labelImgHeight.toString();
-        }else{
-            themeMasterImgContent.width = $("#dragon-container").find("input").width().toString();
-            themeMasterImgContent.height = $("#dragon-container").find("input").height().toString();
-        }
+         if(themeType != 'detail' && imgSel){
+             //var imgUrl = document.getElementById("dragon-container").getElementsByTagName("img")[0].src;
+             var imgUrl = $("#dragon-container").find("img").attr("src");
+             console.log("图片地址:" + imgUrl);
+             var themeMasterImg = imgUrl.substring(imgUrl.indexOf('/',imgUrl.indexOf('/')+2) + 1);
+             var themeMasterImgContent = {};
+             themeMasterImgContent.url = themeMasterImg;
+             if(jsFileShareContent.labelImgWidth != null && jsFileShareContent.labelImgHeight != null){
+                 themeMasterImgContent.width = jsFileShareContent.labelImgWidth.toString();
+                 themeMasterImgContent.height = jsFileShareContent.labelImgHeight.toString();
+             }else{
+                 themeMasterImgContent.width = $("#dragon-container").find("input").width().toString();
+                 themeMasterImgContent.height = $("#dragon-container").find("input").height().toString();
+             }
+         }
+
         theme.id = themeId;
         theme.title = title;
         theme.startAt = onShelvesAt;
@@ -223,6 +274,8 @@ $(function() {
         theme.themeSrcImg = "";
         theme.themeDesc = themeConfig;
         theme.themeConfigInfo = $("#themeDescribe").val();
+        theme.type = themeType;
+        theme.h5Link = h5Link;
         theme.themeItem = themeItems;
         if(JSON.stringify(masterItemTag) != "[]"){
         theme.themeTags = masterItemTag;
@@ -270,7 +323,7 @@ $(function() {
         var http = "^(http|https)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$";
         var httpRe = new RegExp(http);
         var isPost = true;
-        if($("#themeTitle").val()=="" || $("#onShelvesAt").val()=="" || $("#offShelvesAt").val()=="" || $("#h5-link").val()==""){
+        if($("#themeTitle").val()=="" || $("#onShelvesAt").val()=="" || $("#offShelvesAt").val()=="" || $("#h5-link").val()=="" || $("#themeDescribe").val() == ""){
             isPost = false;
             $('#js-userinfo-error').text('基本信息不能为空!').css('color', '#c00');
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);

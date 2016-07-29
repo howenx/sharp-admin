@@ -142,15 +142,16 @@
 
         <insert id="insertTheme" parameterType="domain.Theme" useGeneratedKeys="true" keyProperty="id">
                 insert into themes
-                (master_item_id,title,start_at,end_at,theme_img,create_at,theme_item,master_item_tag,theme_master_img,theme_config_info)
+                (master_item_id,title,start_at,end_at,theme_img,create_at,theme_item,master_item_tag,theme_master_img,theme_config_info,type,h5_link)
                 values
-                (#{masterItemId},#{title},#{startAt}::timestamp,#{endAt}::timestamp,#{themeImg},CURRENT_TIMESTAMP(0),#{themeItem}::jsonb,#{themeTags}::jsonb,#{themeMasterImg},#{themeConfigInfo})
+                (#{masterItemId},#{title},#{startAt}::timestamp,#{endAt}::timestamp,#{themeImg},CURRENT_TIMESTAMP(0),#{themeItem}::jsonb,#{themeTags}::jsonb,#{themeMasterImg},#{themeConfigInfo},#{type},#{h5Link})
         </insert>
 
         <update id="updateTheme" parameterType="domain.Theme">
                 update themes
                 set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},
                     update_at=CURRENT_TIMESTAMP(0),theme_item=#{themeItem}::jsonb,master_item_tag=#{themeTags}::jsonb,theme_master_img=#{themeMasterImg},or_destroy=false,theme_config_info=#{themeConfigInfo}
+                        ,type=#{type},h5_link = #{h5Link}
                 where id = #{id}
         </update>
 
