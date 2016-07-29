@@ -229,198 +229,214 @@
                 </div>
             </div>
             <hr/>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">主题类型</label>
+
+                <div class="col-sm-8 theme-change">
+                    <label>
+                        <input type="radio" name="theme" id="ordinary" checked> 普通主题
+                    </label>
+                    <label>
+                        <input type="radio" name="theme" id="detail"> 单一商品主题
+                    </label>
+                </div>
+            </div>
             <!--商品选择-->
 
-            <h4 class="h4-custom-hmm">商品选择</h4>
+            <h4 class="h4-custom-hmm">商品选择 <input type="checkbox" checked></h4>
+            <div class="good-change">
 
-            <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModal()">添加商品</button>
-            <div class="bgk">
-                <table class="table table-bordered table-hover grid" id="sort" title="Kurt Vonnegut novels">
-                    <thead>
-                    <tr>
-                        <th class="index">序号</th>
-                       <!-- <th>主商品</th> -->
-                        <th>
-                            SkuID
-                            <span class="glyphicon glyphicon-chevron-up"></span>
-                            <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
-                        </th>
-                       <th>
-                           商品类型
-                           <span class="glyphicon glyphicon-chevron-up"></span>
-                       </th>
-                        <th>
-                            类型ID
-                        </th>
-                        <th>
-                            商品标题
-                        </th>
-                        <th>
-                            主图
-                        </th>
-                        <th>
-                            下架时间
-                        </th>
-                        <th>
-                            商品状态
-                        </th>
-                        <th>
-                            价格
-                        </th>
-                        <th>
-                            原价
-                            <span class="glyphicon glyphicon-chevron-up"></span>
-                            <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
-                        </th>
-                        <th>
-                            折扣
-                            <span class="glyphicon glyphicon-chevron-up"></span>
-                            <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
-                        </th>
-                        <th>
-                            删除
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @for(item <- itList){
+                <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModal()">添加商品</button>
+                <div class="bgk">
+                    <table class="table table-bordered table-hover grid" id="sort" title="Kurt Vonnegut novels">
+                        <thead>
                         <tr>
-                            <td class="index">@item(8)</td>
-                            <td>@item(0)</td>
-                            <td>@item(9)</td>
-                            <td>@item(10)</td>
-                            <td>@item(1)</td>
-                            <td>
-                                <img class="main-img" src="@url@item(2)" alt="" width="50">
-                            </td>
-                            <td>@item(3)</td>
-                            <td>@item(4)</td>
-                            <td>@item(5)</td>
-                            <td>@item(6)</td>
-                            <td>@item(7)</td>
-                            <td class="th-del" style="background:#ccc;cursor:pointer;">删除</td>
+                            <th class="index">序号</th>
+                           <!-- <th>主商品</th> -->
+                            <th>
+                                SkuID
+                                <span class="glyphicon glyphicon-chevron-up"></span>
+                                <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                            </th>
+                           <th>
+                               商品类型
+                               <span class="glyphicon glyphicon-chevron-up"></span>
+                           </th>
+                            <th>
+                                类型ID
+                            </th>
+                            <th>
+                                商品标题
+                            </th>
+                            <th>
+                                主图
+                            </th>
+                            <th>
+                                下架时间
+                            </th>
+                            <th>
+                                商品状态
+                            </th>
+                            <th>
+                                价格
+                            </th>
+                            <th>
+                                原价
+                                <span class="glyphicon glyphicon-chevron-up"></span>
+                                <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                            </th>
+                            <th>
+                                折扣
+                                <span class="glyphicon glyphicon-chevron-up"></span>
+                                <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
+                            </th>
+                            <th>
+                                删除
+                            </th>
                         </tr>
-                    }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        @for(item <- itList){
+                            <tr>
+                                <td class="index">@item(8)</td>
+                                <td>@item(0)</td>
+                                <td>@item(9)</td>
+                                <td>@item(10)</td>
+                                <td>@item(1)</td>
+                                <td>
+                                    <img class="main-img" src="@url@item(2)" alt="" width="50">
+                                </td>
+                                <td>@item(3)</td>
+                                <td>@item(4)</td>
+                                <td>@item(5)</td>
+                                <td>@item(6)</td>
+                                <td>@item(7)</td>
+                                <td class="th-del" style="background:#ccc;cursor:pointer;">删除</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <hr/>
             <!-- 创建mark-->
-            <h4 class="h4-custom-hmm">主题主图</h4>
+            <h4 class="h4-custom-hmm">主题主图 <input type="checkbox" checked></h4>
+            <div class="thememainimg">
 
-            <div class="form-group">
-                <label class="col-sm-2 control-label">上传图片:</label>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">上传图片:</label>
 
-                <div class="col-sm-9">
-                    <a href="javascript:void(0)" class="upload-label btn-primary btn-xs">
-                        上传图片
-                        <input type="file" id="upload-label" accept="image/gif, image/jpeg, image/webp, image/png">
-                    </a>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">标签名字:</label>
-
-                <div class="col-sm-9">
-                    <input id='mark-nm' type='text' class="form-control">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">标签角度:</label>
-
-                <div class="col-sm-9">
-                    <div class="radbd" style="margin-top: 0">
-                        <input type="radio" name="mark-deg" value="0"/> <b>0度</b>
-                        <input type="radio" name="mark-deg" value="180"/> <b>180度</b>
+                    <div class="col-sm-9">
+                        <a href="javascript:void(0)" class="upload-label btn-primary btn-xs">
+                            上传图片
+                            <input type="file" id="upload-label" accept="image/gif, image/jpeg, image/webp, image/png">
+                        </a>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">标签名字:</label>
 
-                <label class="col-sm-2 control-label">商品SkuID:</label>
+                    <div class="col-sm-9">
+                        <input id='mark-nm' type='text' class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">标签角度:</label>
 
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" id="input_imgurl"  disabled>
-                    <input type="text" class="form-control" id="url-type" style="display:none;" disabled>
+                    <div class="col-sm-9">
+                        <div class="radbd" style="margin-top: 0">
+                            <input type="radio" name="mark-deg" value="0"/> <b>0度</b>
+                            <input type="radio" name="mark-deg" value="180"/> <b>180度</b>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <label class="col-sm-2 control-label">商品SkuID:</label>
+
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="input_imgurl"  disabled>
+                        <input type="text" class="form-control" id="url-type" style="display:none;" disabled>
+                    </div>
+
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-primary btn-xs label-id" onclick="ShowModal1()">选择</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-9">
+                        <a class="large blue button" id='mark-bt' style="display:none;">创建</a>
+                    </div>
+
+
                 </div>
 
-                <div class="col-sm-1">
-                    <button type="button" class="btn btn-primary btn-xs label-id" onclick="ShowModal1()">选择</button>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label"></label>
-                <div class="col-sm-9">
-                    <a class="large blue button" id='mark-bt' style="display:none;">创建</a>
-                </div>
+                <div class="form-group">
 
+                    <label class="col-sm-2 control-label"></label>
 
-            </div>
+                    <div class="col-sm-9 tag-container">
 
-            <div class="form-group">
+                        <div id='dragon-container'>
+                            <!-- Added by Tiffany Zhu -->
+                            @for(tag <- tagList){
+                                @if(tag(4).equals("0")){
+                                    <div class="dragon-contained ui-draggable ui-draggable-handle" style="left: @tag(2); top: @tag(0);">
 
-                <label class="col-sm-2 control-label"></label>
+                                        <div class="dragon-graph" style="transform: rotate(0deg);">
+                                            <div class="dragon-circle">
+                                                <div class="dragon-circle-inner">
+                                                </div>
+                                            </div>
+                                            <div class="dragon-rectangle">
+                                                <div class="dragon-trangle">
+                                                </div>
+                                                <div class="dragon-text">
+                                                    <p class="dragon-p">@tag(3)</p>
+                                                    <!--<input name = @tag(1) type="hidden">-->
+                                                </div>
 
-                <div class="col-sm-9 tag-container">
-
-                    <div id='dragon-container'>
-                        <!-- Added by Tiffany Zhu -->
-                        @for(tag <- tagList){
-                            @if(tag(4).equals("0")){
-                                <div class="dragon-contained ui-draggable ui-draggable-handle" style="left: @tag(2); top: @tag(0);">
-
-                                    <div class="dragon-graph" style="transform: rotate(0deg);">
-                                        <div class="dragon-circle">
-                                            <div class="dragon-circle-inner">
+                                            </div>
+                                            <div class="dragon-close">
                                             </div>
                                         </div>
-                                        <div class="dragon-rectangle">
-                                            <div class="dragon-trangle">
+                                        <div class = "item-id">@tag(1)</div>
+                                        <div class = "item-type">@tag(5)</div>
+                                    </div>
+                                }
+                                @if(tag(4).equals("180")){
+                                    <div class="dragon-contained ui-draggable ui-draggable-handle" style="left: @tag(2); top: @tag(0);">
+
+                                        <div class="dragon-graph" style="transform: rotate(180deg);">
+                                            <div class="dragon-circle"><div class="dragon-circle-inner">
+
                                             </div>
-                                            <div class="dragon-text">
+                                            </div>
+                                            <div class="dragon-rectangle">
+                                                <div class="dragon-trangle">
+                                                </div>
+                                                <div class="dragon-text" style="transform: rotate(180deg); left: 0px;">
                                                 <p class="dragon-p">@tag(3)</p>
-                                                <!--<input name = @tag(1) type="hidden">-->
+                                                <!--<input name=@tag(1) type="hidden">-->
+
                                             </div>
 
-                                        </div>
-                                        <div class="dragon-close">
-                                        </div>
-                                    </div>
-                                    <div class = "item-id">@tag(1)</div>
-                                    <div class = "item-type">@tag(5)</div>
-                                </div>
-                            }
-                            @if(tag(4).equals("180")){
-                                <div class="dragon-contained ui-draggable ui-draggable-handle" style="left: @tag(2); top: @tag(0);">
-
-                                    <div class="dragon-graph" style="transform: rotate(180deg);">
-                                        <div class="dragon-circle"><div class="dragon-circle-inner">
-
-                                        </div>
-                                        </div>
-                                        <div class="dragon-rectangle">
-                                            <div class="dragon-trangle">
                                             </div>
-                                            <div class="dragon-text" style="transform: rotate(180deg); left: 0px;">
-                                            <p class="dragon-p">@tag(3)</p>
-                                            <!--<input name=@tag(1) type="hidden">-->
-
+                                            <div class="dragon-close">
+                                            </div>
                                         </div>
-
-                                        </div>
-                                        <div class="dragon-close">
-                                        </div>
+                                        <div class="item-id">@tag(1)</div>
+                                        <div class = "item-type">@tag(5)</div>
                                     </div>
-                                    <div class="item-id">@tag(1)</div>
-                                    <div class = "item-type">@tag(5)</div>
-                                </div>
+                                }
                             }
-                        }
-                        <!-- Added by Tiffany Zhu -->
+                            <!-- Added by Tiffany Zhu -->
 
+                        </div>
+                        <div class="thumb"
+                             style='position: relative;margin-top: 10px;margin-bottom:50px;display:block;'></div>
                     </div>
-                    <div class="thumb"
-                         style='position: relative;margin-top: 10px;margin-bottom:50px;display:block;'></div>
                 </div>
             </div>
         </form>
