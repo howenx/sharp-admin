@@ -108,8 +108,12 @@
             start.setDate(now.getDate()-n+1);
             end.setDate(now.getDate()-n+7);
 
-            start = start.getFullYear() + "-" + (start.getMonth()+1) + "-" + start.getDate();
-            end = end.getFullYear() + "-" + (end.getMonth()+1) + "-" + end.getDate();
+            var s_month = start.getMonth()+1>=10?start.getMonth()+1:'0'+(start.getMonth()+1);
+            var s_day = start.getDate()>=10?start.getDate():'0'+(start.getDate());
+            var e_month = end.getMonth()+1>=10?end.getMonth()+1:'0'+(end.getMonth()+1);
+            var e_day = end.getDate()>=10?end.getDate():'0'+(end.getDate());
+            start = start.getFullYear() + "-" + s_month + "-" + s_day;
+            end = end.getFullYear() + "-" + e_month + "-" + e_day;
 
             $("#topic-form-starttime").val(start);
             $("#topic-form-endtime").val(end);
@@ -123,7 +127,9 @@
             var start=new Date();
             start.setDate(now.getDate()-1);
 
-            start = start.getFullYear() + "-" + (start.getMonth()+1) + "-" + start.getDate();
+            var month = start.getMonth()+1>=10?start.getMonth()+1:'0'+(start.getMonth()+1);
+            var day = start.getDate()>=10?start.getDate():'0'+(start.getDate());
+            start = start.getFullYear() + "-" + month + "-" + day;
 
             $("#topic-form-starttime").val(start);
             $("#topic-form-endtime").val(start);
@@ -136,7 +142,9 @@
         $(".today").click(function () {
             var start=new Date();
 
-            start = start.getFullYear() + "-" + (start.getMonth()+1) + "-" + start.getDate();
+            var month = start.getMonth()+1>=10?start.getMonth()+1:'0'+(start.getMonth()+1);
+            var day = start.getDate()>=10?start.getDate():'0'+(start.getDate());
+            start = start.getFullYear() + "-" + month + "-" + day;
 
             $("#topic-form-starttime").val(start);
             $("#topic-form-endtime").val(start);
@@ -156,8 +164,11 @@
             //获取天数：
             var day = new Date(now.getFullYear(),now.getMonth()+1,0);
             var daycount = day.getDate();
-            var start = now.getFullYear() + "-" + (now.getMonth()+1) + "-" + "01";
-            var end = now.getFullYear() + "-" + (now.getMonth()+1) + "-" + daycount;
+
+            var s_month = now.getMonth()+1>=10?now.getMonth()+1:'0'+(now.getMonth()+1);
+            var e_day = daycount>=10?daycount:'0'+daycount;
+            var start = now.getFullYear() + "-" + s_month + "-" + "01";
+            var end = now.getFullYear() + "-" + s_month + "-" + e_day;
 
             $("#topic-form-starttime").val(start);
             $("#topic-form-endtime").val(end);

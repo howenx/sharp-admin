@@ -1,4 +1,4 @@
-@(modelList:List[domain.Carriage], uploadURL:String, imageUrl:String, customs:Map[String,String], area:Map[String,String])
+@(uploadURL:String, imageUrl:String, customs:Map[String,String], area:Map[String,String])
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,6 +21,30 @@
     <style type="text/css">
         .start{color:red;}
     </style>
+    <script>
+        $(function () {
+
+            var now = new Date();
+            var e_year = now.getFullYear();
+            var s_month = now.getMonth()+1>=10?now.getMonth()+1:'0'+(now.getMonth()+1);
+            var e_month = now.getMonth()+7>=10?now.getMonth()+7:'0'+(now.getMonth()+7);
+            if (e_month>12) {
+                e_year = now.getFullYear()+1;
+                e_month = '0'+(e_month-12);
+            }
+
+            var day = now.getDate()>=10?now.getDate():'0'+(now.getDate());
+            var hour = now.getHours()>=10?now.getHours():'0'+(now.getHours());
+            var minute = now.getMinutes()>=10?now.getMinutes():'0'+(now.getMinutes());
+            var second = now.getSeconds()>=10?now.getSeconds():'0'+(now.getSeconds());
+            var startAt = now.getFullYear() + "-" + s_month + "-" + day + " " + hour + ":" + minute + ":" + second;
+            var endAt =  e_year + "-" + e_month + "-" + day + " " + hour + ":" + minute + ":" + second;
+
+            $("#startAt").val(startAt);
+            $("#endAt").val(endAt);
+
+        });
+</script>
 </head>
 <body onload="Init()">
 <div class="panel panel-primary">
@@ -40,46 +64,37 @@
                     <input type="text" class="form-control" id="invId" name="invId" value="">
                 </div>
             </div>
+            <!-- 颜色 -->
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">颜色</div></label>-->
+                <!--<div class="col-sm-10">-->
+                    <!--<div class="color">-->
+                        <!--<label class="radio-inline">-->
+                            <!--<input type="radio" name="itemColor" value="白色" checked> <span>白色</span>-->
+                        <!--</label>-->
+                        <!--<label class="radio-inline">-->
+                            <!--<input type="radio" name="itemColor" value="蓝色"> <span>蓝色</span>-->
+                        <!--</label>-->
+                        <!--<label class="radio-inline">-->
+                            <!--<input type="radio" name="itemColor" value="紫色"> <span>紫色</span>-->
+                        <!--</label>-->
+                        <!--<label class="radio-inline">-->
+                            <!--<input type="radio" name="itemColor" value="青色"> <span>青色</span>-->
+                        <!--</label>-->
+                        <!--<label class="radio-inline">-->
+                            <!--<input type="radio" name="itemColor" value="金色"> <span>金色</span>-->
+                        <!--</label>-->
+                    <!--</div>-->
+                    <!--<button type="button" class="btn btn-primary btn-xs add-color">添加</button>-->
+                <!--</div>-->
+            <!--</div>-->
             <div class="form-group">
-                <!-- 颜色 -->
-                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">颜色</div></label>
-                <div class="col-sm-10">
-                    <div class="color">
-                        <label class="radio-inline">
-                            <input type="radio" name="itemColor" value="白色" checked> <span>白色</span>
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="itemColor" value="蓝色"> <span>蓝色</span>
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="itemColor" value="紫色"> <span>紫色</span>
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="itemColor" value="青色"> <span>青色</span>
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="itemColor" value="金色"> <span>金色</span>
-                        </label>
-                    </div>
-                    <button type="button" class="btn btn-primary btn-xs add-color">添加</button>
-                </div>
-            </div>
-            <div class="form-group">
-                <!-- 尺寸 -->
-                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">尺寸</div></label>
+                <!-- 规格 -->
+                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">规格</div></label>
                 <div class="col-sm-10">
                     <div class="size">
                         <label class="radio-inline">
-                            <input type="radio" name="itemSize" value="100ml" checked> <span>100ml</span>
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="itemSize" value="200ml"> <span>200ml</span>
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="itemSize" value="300ml"> <span>300ml</span>
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="itemSize" value="均码"> <span>均码</span>
+                            <input type="radio" name="itemSize" value="均码" checked> <span>均码</span>
                         </label>
                     </div>
                     <button type="button" class="btn btn-primary btn-xs add-size">添加</button>
@@ -128,50 +143,52 @@
                 </div>
             </div>
             <div class="form-group">
-                <!-- 现价 -->
-                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">现价</div></label>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" id="itemPrice" name="itemPrice">
-                </div>
                 <!-- 原价 -->
                 <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">原价</div></label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" id="itemSrcPrice" name="itemSrcPrice">
+                    <input type="text" class="form-control price" id="itemSrcPrice" name="itemSrcPrice">
+                </div>
+                <!-- 现价 -->
+                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">现价</div></label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control price" id="itemPrice" name="itemPrice">
                 </div>
                 <div style="margin-top:5px;font-weight:500;">
                 (注意:价格为整数或两位小数)
                 </div>
             </div>
-            <div class="form-group">
+            <!--<div class="form-group">-->
                 <!-- 成本价 -->
-                <label class="col-sm-2 control-labell" ><div class="r start" style="padding:3px;"> *</div><div class="r thva">成本价</div></label>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" id="itemCostPrice" name="itemCostPrice">
-                </div>
+                <!--<label class="col-sm-2 control-labell" ><div class="r start" style="padding:3px;"> *</div><div class="r thva">成本价</div></label>-->
+                <!--<div class="col-sm-2">-->
+                    <!--<input type="text" class="form-control" id="itemCostPrice" name="itemCostPrice">-->
+                <!--</div>-->
                 <!-- 折扣 -->
-                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">折扣</div></label>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" id="itemDiscount" name="itemDiscount" placeholder="例:5.5表示5.5折">
-                </div>
-                <div style="margin-top:5px;font-weight:500;">
-                    折
-                </div>
-            </div>
-            <div class="form-group">
+                <!--<label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">折扣</div></label>-->
+                <!--<div class="col-sm-2">-->
+                    <!--<input type="text" class="form-control" id="itemDiscount" name="itemDiscount" placeholder="例:5.5表示5.5折">-->
+                <!--</div>-->
                 <!-- 重量 -->
-                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">重量(整数/小数:克)</div></label>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" id="invWeight" name="invWeight">
-                </div>
+            <!--</div>-->
+            <div class="form-group">
                 <!-- 限购数量 -->
                 <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">限购数量</div></label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" id="restrictAmount" name="restrictAmount">
+                    <input type="text" class="form-control" id="restrictAmount" name="restrictAmount" value="0">
                 </div>
-                <div style="margin-top:5px;font-weight:500;">
-                    (不限购请输入0)
+                <!-- 剩余库存量 -->
+                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">库存量</div></label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="restAmount" name="restAmount">
                 </div>
-                <div id="warn-amount" style="color:red;margin-left:900px;margin-top:-20px;"></div>
+                <div id="warn-amount" style="color:red;margin-left:500px;margin-top:10px;"></div>
+            </div>
+            <div class="form-group">
+                <!-- 重量 -->
+                <label class="col-sm-2 control-label"><div class="r thval">重量(整数/小数:克)</div></label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="invWeight" name="invWeight">
+                </div>
             </div>
             <div class="form-group">
                 <!-- 库存总量 -->
@@ -179,11 +196,6 @@
                 <!--<div class="col-sm-2">-->
                     <!--<input type="text" class="form-control" id="amount" name="amount">-->
                 <!--</div>-->
-                <!-- 剩余库存量 -->
-                <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">库存量</div></label>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" id="restAmount" name="restAmount">
-                </div>
                 <!-- 库存区域 -->
                 <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">库存区域</div></label>
                 <div class="col-sm-2">
@@ -194,7 +206,7 @@
                     </select>
                 </div>
                 <!-- 报关单位 -->
-                <label class="col-sm-1 control-label K"><div class="r start" style="padding:3px;"> *</div><div class="r thval ">报关单位</div></label>
+                <label class="col-sm-2 control-label K"><div class="r start" style="padding:3px;"> *</div><div class="r thval ">报关单位</div></label>
                 <div class="col-sm-2 K">
                     <select class="form-control" id="invCustoms" name="invCustoms">
                         @for(cus <- customs) {
@@ -262,6 +274,9 @@
                             <input type="file" id="P" name="itemPreviewImgs" class="hidden1" value="" accept="image/gif, image/jpeg, image/webp, image/png" multiple="multiple"/>
                         </span>
                     </div>
+                </div>
+                <div style="margin-top:20px;font-weight:500;">
+                    (预览图可拖动排序)
                 </div>
             </div>
             <!-- 多样化价格 -->

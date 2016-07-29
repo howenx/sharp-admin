@@ -169,7 +169,7 @@ public class ItemCtrl extends Controller {
     public Result findItemById(String lang,Long id) {
         Map<String,String> customs = new ObjectMapper().convertValue(configuration.getObject("customs"),HashMap.class);
         Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
-        List<AdminSupplier> adminSupplierList = adminSupplierService.getAllSuppliers();
+//        List<AdminSupplier> adminSupplierList = adminSupplierService.getAllSuppliers();
         Item item = itemService.getItem(id);
         Cates cates = itemService.getCate(item.getCateId());
         String pCateNm = "";
@@ -183,13 +183,13 @@ public class ItemCtrl extends Controller {
         for(Inventory inventory : inventories) {
             Object[] object = new Object[25];
             object[0] = inventory.getOrMasterInv();
-            object[1] = inventory.getItemColor();
+//            object[1] = inventory.getItemColor();
             object[2] = inventory.getItemSize();
             object[3] = inventory.getInvWeight();
             object[4] = inventory.getAmount();
             object[5] = inventory.getItemPrice();
             object[6] = inventory.getItemSrcPrice();
-            object[7] = inventory.getItemCostPrice();
+//            object[7] = inventory.getItemCostPrice();
             object[8] = inventory.getItemDiscount();
             object[9] = inventory.getRestrictAmount();
 //            object[10] = inventory.getCarriageModelCode();
@@ -228,7 +228,7 @@ public class ItemCtrl extends Controller {
             }
             invList.add(object);
         }
-        return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,SysParCom.IMAGE_URL,lang,(User) ctx().args.get("user"),customs,area,adminSupplierList));
+        return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,SysParCom.IMAGE_URL,lang,(User) ctx().args.get("user"),customs,area));
     }
 
     /**
@@ -259,14 +259,14 @@ public class ItemCtrl extends Controller {
             object[0] = inventory.getId();
             object[1] = inventory.getItemId();
             object[2] = inventory.getOrMasterInv();
-            object[3] = inventory.getItemColor();
+//            object[3] = inventory.getItemColor();
             object[4] = inventory.getItemSize();
             object[5] = inventory.getStartAt();
             object[6] = inventory.getEndAt();
-            object[7] = inventory.getItemPrice();
-            object[8] = inventory.getItemSrcPrice();
-            object[9] = inventory.getItemCostPrice();
-            object[10] = inventory.getItemDiscount();
+            object[7] = inventory.getItemSrcPrice();
+            object[8] = inventory.getItemPrice();
+//            object[9] = inventory.getItemCostPrice();
+//            object[10] = inventory.getItemDiscount();
             object[11] = inventory.getInvWeight();
             object[12] = inventory.getRestrictAmount();
             object[13] = inventory.getAmount();
@@ -323,7 +323,7 @@ public class ItemCtrl extends Controller {
         String maxDate = sdf.format(calendar.getTime());
         if (json.has("item")) {
             JsonNode jsonItem = json.findValue("item");
-            if (jsonItem.has("publicity")) {
+            if (jsonItem.has("publicity") && !"".equals(jsonItem.findValue("publicity"))) {
                 ((ObjectNode) jsonItem).put("publicity",jsonItem.findValue("publicity").toString());
             }
             if (jsonItem.has("itemFeatures")) {
@@ -335,8 +335,7 @@ public class ItemCtrl extends Controller {
             Form<Item> itemForm = Form.form(Item.class).bind(jsonItem);
             item = Json.fromJson(jsonItem,Item.class);
             //数据验证(若有详细则为json格式,商品参数为json格式,商品优惠信息为json格式)
-            if (itemForm.hasErrors() || (null!=item.getItemDetailImgs() && !"".equals(item.getItemDetail()) && !Regex.isJason(item.getItemDetailImgs()))
-                    || !(Regex.isJason(item.getItemFeatures())) || !(Regex.isJason(item.getPublicity()))) {
+            if (itemForm.hasErrors() || (null!=item.getItemDetailImgs() && !"".equals(item.getItemDetail()) && !Regex.isJason(item.getItemDetailImgs())) || !(Regex.isJason(item.getItemFeatures()))) {
                 Logger.error("item 表单数据有误.....");
                 return badRequest();
             }
@@ -352,8 +351,8 @@ public class ItemCtrl extends Controller {
                     String endAt = inventory.getEndAt();
                     //数据验证(商品价格,折扣,数量,重量等数据不能小于0, Y状态开始时间不能大于结束时间,结束时间不能小于现在时间,开始时间和结束时间不能超过当前时间6个月))
                     if (inventoryForm.hasErrors() || inventory.getItemPrice().compareTo(new BigDecimal(0.00))<0 || inventory.getItemSrcPrice().compareTo(new BigDecimal(0.00))<0
-                            || inventory.getItemCostPrice().compareTo(new BigDecimal(0.00))<0 || inventory.getItemDiscount().compareTo(new BigDecimal(0.00))<0
-                            || inventory.getRestrictAmount()<0 || inventory.getRestAmount()<0 || inventory.getInvWeight()<0 || !(Regex.isJason(inventory.getItemPreviewImgs()))
+//                            || inventory.getItemCostPrice().compareTo(new BigDecimal(0.00))<0 || inventory.getItemDiscount().compareTo(new BigDecimal(0.00))<0 || inventory.getInvWeight()<0
+                            || inventory.getRestrictAmount()<0 || inventory.getRestAmount()<0 || !(Regex.isJason(inventory.getItemPreviewImgs()))
                             || ("Y".equals(inventory.getState()) && (startAt.compareTo(endAt)>0 || endAt.compareTo(strNow)<0 || startAt.compareTo(maxDate)>0 || endAt.compareTo(maxDate)>0))) {
                         Logger.error("inventory 表单数据有误.....");
                         return badRequest();
@@ -387,7 +386,8 @@ public class ItemCtrl extends Controller {
         Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
 //        Logger.error(customs.toString());
 //        Logger.error(area.toString());
-        return ok(views.html.item.itemaddPop.render(carriageService.getModels(),SysParCom.IMG_UPLOAD_URL,SysParCom.IMAGE_URL,customs,area));
+//        return ok(views.html.item.itemaddPop.render(carriageService.getModels(),SysParCom.IMG_UPLOAD_URL,SysParCom.IMAGE_URL,customs,area));
+        return ok(views.html.item.itemaddPop.render(SysParCom.IMG_UPLOAD_URL,SysParCom.IMAGE_URL,customs,area));
     }
 
     /**

@@ -103,13 +103,15 @@ funcList.commlist_data = function commlist_data(data) {
         if($(this)[0].state=="P"){state="预售"}
         if($(this)[0].orMasterInv==true){orMasterInv="是"}
         if($(this)[0].orMasterInv==false){orMasterInv="否"}
-        if($(this)[0].invArea=="H"){invArea="杭州保税仓备案"}
-        if($(this)[0].invArea=="HZ"){invArea="杭州保税仓直邮"}
-        if($(this)[0].invArea=="G"){invArea="广州保税仓备案"}
-        if($(this)[0].invArea=="GZ"){invArea="广州保税仓直邮"}
-        if($(this)[0].invArea=="S"){invArea="上海保税仓备案"}
-        if($(this)[0].invArea=="SZ"){invArea="上海保税仓直邮"}
-        if($(this)[0].invArea=="K"){invArea="海外直邮"}
+        var area = window.area.substring(1,window.area.length-1);
+        var areaArr = area.split(", ");
+        for(i=0;i<areaArr.length;i++) {
+            var areaCode = areaArr[i].split("=")[0];
+            var areaName = areaArr[i].split("=")[1];
+            if ($(this)[0].invArea==areaCode) {
+                invArea = areaName;
+            }
+        }
         $('#tb-topic').find('tbody').append('' +
             '<tr class="tb-list-data">' +
             '<td><input type="checkbox" name="selectItem"></td>' +

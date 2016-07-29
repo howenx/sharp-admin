@@ -34,31 +34,29 @@
             var count = 0;
             var skuObj = new Object();
             trData.find("td").each(function(){
-                if (count==2) skuObj.itemColor = $(this).text();
-                if (count==3) skuObj.itemSize = $(this).text();
-                if (count==4) skuObj.invCode = $(this).text();
-                if (count==5) skuObj.state = $(this).text();
-                if (count==6) skuObj.startAt = $(this).text();
-                if (count==7) skuObj.endAt = $(this).text();
+                if (count==2) skuObj.itemSize = $(this).text();
+                if (count==3) skuObj.invCode = $(this).text();
+                if (count==4) skuObj.state = $(this).text();
+                if (count==5) skuObj.startAt = $(this).text();
+                if (count==6) skuObj.endAt = $(this).text();
+                if (count==7) skuObj.itemSrcPrice = $(this).text();
                 if (count==8) skuObj.itemPrice = $(this).text();
-                if (count==9) skuObj.itemSrcPrice = $(this).text();
-                if (count==10) skuObj.itemCostPrice = $(this).text();
-                if (count==11) skuObj.itemDiscount = $(this).text();
-                if (count==12) skuObj.invWeight = $(this).text();
-                if (count==13) skuObj.restrictAmount = $(this).text();
-                if (count==14) skuObj.restAmount = $(this).text();
-                if (count==15) skuObj.invArea = $(this).text();
-                if (skuObj.invArea!="K") {
-                    if (count==16) skuObj.invCustoms = $(this).text();
-                    <!--if (count==17) skuObj.rateSet = $(this).text();-->
-                    <!--if (count==18) skuObj.postalTaxRate = $(this).text();-->
-                    <!--if (count==19) skuObj.postalTaxCode = $(this).text();-->
-                    if (count==17) skuObj.recordCode = $(this).text();
+                if (count==9) skuObj.restrictAmount = $(this).text();
+                if (count==10) skuObj.restAmount = $(this).text();
+                if (count==11) skuObj.invWeight = $(this).text();
+                var invArea = "";
+                if (count==12) {
+                    skuObj.invArea = $(this).text();
+                    invArea = skuObj.invArea;
                 }
-                if (count==18) skuObj.invImg = $(this).text();
-                if (count==19) skuObj.itemPreviewImgs = $(this).text();
-                if (count==10) skuObj.orVaryPrice = $(this).text();
-                if (count==21) skuObj.varyPrice = $(this).text();
+                if (invArea.indexOf("K")<0) {
+                    if (count==13) skuObj.invCustoms = $(this).text();
+                    if (count==14) skuObj.recordCode = $(this).text();
+                }
+                if (count==15) skuObj.invImg = $(this).text();
+                if (count==16) skuObj.itemPreviewImgs = $(this).text();
+                if (count==17) skuObj.orVaryPrice = $(this).text();
+                if (count==18) skuObj.varyPrice = $(this).text();
                 count++;
             });
             sharedObject.skuObj = skuObj;
@@ -185,18 +183,18 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label" ><div class="r start" style="padding:3px;"> *</div><div class="r">商品标题</div></label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-7">
                         <input type="text" class="form-control form-data-area" id="itemTitle" name="itemTitle">
                     </div>
-                    <label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r">供应商</div></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" id="supplyMerch" name="supplyMerch">
-                            <option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>
-                            @for(as <- adminSupplierList) {
-                            <option value='@as.getSupplyMerch()'>@as.getSupplyName()</option>
-                            }
-                        </select>
-                    </div>
+                    <!--<label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r">供应商</div></label>-->
+                    <!--<div class="col-sm-2">-->
+                        <!--<select class="form-control" id="supplyMerch" name="supplyMerch">-->
+                            <!--<option value="">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.pleaseSelect")</option>-->
+                            <!--@for(as <- adminSupplierList) {-->
+                            <!--<option value='@as.getSupplyMerch()'>@as.getSupplyName()</option>-->
+                            <!--}-->
+                        <!--</select>-->
+                    <!--</div>-->
                 </div>
                 <!-- 商品库存信息-->
                 <h4 class="h4-custom-hmm">商品库存信息</h4>
@@ -230,7 +228,7 @@
                     <div id="warn-attr" style="color:red; margin-left:0px;margin-top:20px;"></div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div>优惠信息</label>
+                    <label class="col-sm-1 control-label">优惠信息</label>
                     <div class="col-sm-7">
                         <table class="table table-bordered pub" id="publicityTab">
                             <tr>

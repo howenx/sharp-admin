@@ -36,19 +36,19 @@ function Init () {
     if(option.tagName=="SPAN"){
         var skuObj = sharedObject.skuObj;
         $("#index").val(sharedObject.index);
-        var colorCount = 1;
-        //itemColor值在现有值中,选中该值
-        $(".color").find("input").each(function() {
-            if ($(this).val()==skuObj.itemColor) {
-                $("input[name=itemColor][value='"+skuObj.itemColor+"']").attr("checked",true);
-                return false;
-            }
-            colorCount++;
-        });
-        //itemColor值不在现有值中,创建新选项
-        if (colorCount>$(".color").find("input").size()) {
-            $("<label class='radio-inline'>").html('<input type="radio" name="itemColor" checked="checked" value="'+skuObj.itemColor+'" /> <span>'+skuObj.itemColor+'</span>').appendTo($(".color"));
-        }
+//        var colorCount = 1;
+//        //itemColor值在现有值中,选中该值
+//        $(".color").find("input").each(function() {
+//            if ($(this).val()==skuObj.itemColor) {
+//                $("input[name=itemColor][value='"+skuObj.itemColor+"']").attr("checked",true);
+//                return false;
+//            }
+//            colorCount++;
+//        });
+//        //itemColor值不在现有值中,创建新选项
+//        if (colorCount>$(".color").find("input").size()) {
+//            $("<label class='radio-inline'>").html('<input type="radio" name="itemColor" checked="checked" value="'+skuObj.itemColor+'" /> <span>'+skuObj.itemColor+'</span>').appendTo($(".color"));
+//        }
         var sizeCount = 1;
         //itemSize值在现有值中,选中该值
         $(".size").find("input").each(function() {
@@ -73,26 +73,24 @@ function Init () {
                 stateObj[i].checked = 'checked';
             }
         }
-//        $("#state").val(skuObj.state);
         $("#startAt").val(skuObj.startAt);
         $("#endAt").val(skuObj.endAt);
-        $("#itemPrice").val(skuObj.itemPrice);
         $("#itemSrcPrice").val(skuObj.itemSrcPrice);
-        $("#itemCostPrice").val(skuObj.itemCostPrice);
-        $("#itemDiscount").val(skuObj.itemDiscount);
-        $("#invWeight").val((skuObj.invWeight)/1000.0);
+        $("#itemPrice").val(skuObj.itemPrice);
+//        $("#itemCostPrice").val(skuObj.itemCostPrice);
+//        $("#itemDiscount").val(skuObj.itemDiscount);
         $("#restrictAmount").val(skuObj.restrictAmount);
-        $("#amount").val(skuObj.amount);
         $("#restAmount").val(skuObj.restAmount);
+//        $("#amount").val(skuObj.amount);
+        $("#invWeight").val((skuObj.invWeight)/1000.0);
 //        $("#carriageModelCode").val(skuObj.carriageModelCode);
         $("#invArea").val(skuObj.invArea);
-        $("#invCustoms").val(skuObj.invCustoms);
 //        $("#rateSet").val(skuObj.rateSet);
         //海外直邮
-        if ($("#invArea").val()=="K") {
+        if ($("#invArea").val().indexOf("K")>=0) {
             $(".K").css('display','none');
         }
-        if ($("#invArea").val()!="K") {
+        if ($("#invArea").val().indexOf("K")<0) {
 //            if (skuObj.rateSet == "F") {
 //                $("#postalTaxRate").val(0);
 //                $("#postalTaxCode").val("");
@@ -113,6 +111,7 @@ function Init () {
 //            }
 //            $("#postalTaxRate").val(skuObj.postalTaxRate);
 //            $("#postalTaxCode").val(skuObj.postalTaxCode);
+            $("#invCustoms").val(skuObj.invCustoms);
 //            var recordCode = {};
             var recordCode = skuObj.recordCode;
 //            console.log(recordCode);
@@ -125,20 +124,22 @@ function Init () {
 //                console.log(r);
 //                console.log(recordCode[r]);
 //            });
-
-            var inputArr = document.getElementById("recordCode").getElementsByTagName("input");
-            var recordArr = skuObj.recordCode.substring(1,skuObj.recordCode.length-1).split(",");
-            for(var r=0;r<recordArr.length;r++) {
-                var kv = [];
-                if (recordArr[r].indexOf(": ")>0) {
-                    kv = recordArr[r].split(": ");
-                }else kv = recordArr[r].split(":");
-                for(var i=0;i<inputArr.length;i++) {
-                    if (kv[0].indexOf(inputArr[i].id)>0) {
-                        inputArr[i].value = kv[1].substring(1,kv[1].length-1);
+            if (skuObj.recordCode.length>2) {
+                var inputArr = document.getElementById("recordCode").getElementsByTagName("input");
+                var recordArr = skuObj.recordCode.substring(1,skuObj.recordCode.length-1).split(",");
+                for(var r=0;r<recordArr.length;r++) {
+                    var kv = [];
+                    if (recordArr[r].indexOf(": ")>0) {
+                        kv = recordArr[r].split(": ");
+                    }else kv = recordArr[r].split(":");
+                    for(var i=0;i<inputArr.length;i++) {
+                        if (kv[0].indexOf(inputArr[i].id)>0) {
+                            inputArr[i].value = kv[1].substring(1,kv[1].length-1);
+                        }
                     }
                 }
             }
+
         }
 
         if (skuObj.invId!="") {
@@ -217,17 +218,16 @@ function saveCurr(saveFlag) {
     var trdobj = {};
     var itemId = $("#itemId").val(); //item id
     var invId = $("#invId").val();//sku id
-    var itemColor = $("input[name=itemColor]:checked").val();//颜色
+//    var itemColor = $("input[name=itemColor]:checked").val();//颜色
     var itemSize = $("input[name=itemSize]:checked").val();//尺寸
     var invCode = $("#invCode").val();//规格编号
     var state = $("input[name=state]:checked").val();//状态
-//    var state = $("#state").val();//状态
     var startAt = $("#startAt").val();//开始时间
     var endAt =  $("#endAt").val();//结束时间;
     var itemPrice = $("#itemPrice").val();//现价;
     var itemSrcPrice = $("#itemSrcPrice").val();//原价
-    var itemCostPrice = $("#itemCostPrice").val();//成本价
-    var itemDiscount = $("#itemDiscount").val();//折扣
+//    var itemCostPrice = $("#itemCostPrice").val();//成本价
+//    var itemDiscount = $("#itemDiscount").val();//折扣
     var invWeight = Number($("#invWeight").val())*1000;//重量
     var restrictAmount = $("#restrictAmount").val();//限购数量
 //    var amount = $("#amount").val();//库存总量
@@ -246,8 +246,7 @@ function saveCurr(saveFlag) {
         }
     });
     //验证输入数据合法性
-    if (!numberReg2.test(itemPrice) || !numberReg2.test(itemSrcPrice) || !numberReg2.test(itemCostPrice)|| !numberReg2.test(itemDiscount) || !numberReg2.test(invWeight)
-        || !numberReg1.test(restrictAmount) || !numberReg1.test(restAmount) || invCode=="") {
+    if (!numberReg2.test(itemPrice) || !numberReg2.test(itemSrcPrice) || !numberReg1.test(restrictAmount) || !numberReg1.test(restAmount) || invCode=="") {
         orSave = false;
 //        alert("输入数据不合法!");
     }
@@ -292,13 +291,13 @@ function saveCurr(saveFlag) {
     } else $("#warn-amount").text("");
 
     //海外直邮模式
-    if ($("#invArea").val()=="K") {
+    if ($("#invArea").val().indexOf("K")>=0) {
         invCustoms = "0";
 //        postalTaxRate = "0";
         recordCode = 0;
     }
     //跨境模式
-    if ($("#invArea").val()!="K") {
+    if ($("#invArea").val().indexOf("K")<0) {
         if (invCustoms=="" || invCustoms==null) {
             orSave = false;
             $("#warn-cus").text("请选择报关单位");
@@ -381,7 +380,7 @@ function saveCurr(saveFlag) {
 //        state = "D"
 //    }
     trdobj.invId = invId;
-    trdobj.itemColor = itemColor;
+//    trdobj.itemColor = itemColor;
     trdobj.itemSize = itemSize;
     trdobj.invCode = invCode;
     if (state=="Y") state = "正常";
@@ -390,14 +389,15 @@ function saveCurr(saveFlag) {
     trdobj.state = state;
     trdobj.startAt = startAt;
     trdobj.endAt = endAt;
-    trdobj.itemPrice = itemPrice;
     trdobj.itemSrcPrice = itemSrcPrice;
-    trdobj.itemCostPrice = itemCostPrice;
-    trdobj.itemDiscount = itemDiscount;
-    trdobj.invWeight = invWeight;
+    trdobj.itemPrice = itemPrice;
+//    trdobj.itemCostPrice = itemCostPrice;
+//    trdobj.itemDiscount = itemDiscount;
     trdobj.restrictAmount = restrictAmount;
-//    trdobj.amount = amount;
     trdobj.restAmount = restAmount;
+    if (invWeight=="") invWeight = 0;
+    trdobj.invWeight = invWeight;
+//    trdobj.amount = amount;
 //    trdobj.carriageModelCode = carriageModelCode;
     trdobj.invArea = invArea;
     trdobj.invCustoms = invCustoms;
@@ -450,7 +450,7 @@ function saveCurr(saveFlag) {
     var count = 0;
     //行数据,其余的隐藏
     for(var item in trdobj){
-        if ((count==0 && itemId>0) || count==1 || count==2 || count==4 || count==7 || count==13)
+        if ((count==0 && itemId>0) || count==1 || count==2 || count==3 || count==7 || count==9)
         $("<td>").html(trdobj[item]).appendTo(trd);
         else $("<td style='display:none;'>").html(trdobj[item]).appendTo(trd);
         count++;
@@ -467,7 +467,7 @@ function saveCurr(saveFlag) {
         //表头,其余的表头项隐藏
         $(".thval").each(function(){
             var thName = $(this).html();
-            if ((thName=="SKU ID" && itemId>0) || thName=="颜色"||thName=="尺寸"||thName=="状态" || thName=="现价" || thName=="库存量")
+            if ((thName=="SKU ID" && itemId>0) || thName=="规格" || thName=="规格编号" || thName=="状态" || thName=="现价" || thName=="库存量")
             $("<th>").html(thName).appendTo(trh);
             else $("<th style='display:none;'>").html(thName).appendTo(trh);
         });
@@ -680,12 +680,10 @@ $(function(){
 
     //海外直邮模式
     $(document).on('change','#invArea',function() {
-        if ($("#invArea").val()=="K") {
+        if ($("#invArea").val().indexOf("K")>=0)
             $(".K").css('display','none');
-        }
-        if ($("#invArea").val()!="K") {
+        else
             $(".K").css('display','block');
-        }
     });
 
     /*********切换显示/隐藏table 多样化价格*********/

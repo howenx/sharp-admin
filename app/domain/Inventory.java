@@ -17,17 +17,17 @@ public class Inventory implements Serializable{
 
     private Long id;                //主键id
     private Long itemId;            //商品id
-    @Constraints.Required
+//    @Constraints.Required
     private String itemColor;       //商品颜色
     @Constraints.Required
     private String itemSize;        //商品尺寸
     @Constraints.Required
-    private BigDecimal itemPrice;   //成本价
+    private BigDecimal itemPrice;   //现价
     @Constraints.Required
     private BigDecimal itemSrcPrice;//原价
-    @Constraints.Required
-    private BigDecimal itemCostPrice;//售价
-    @Constraints.Required
+//    @Constraints.Required
+    private BigDecimal itemCostPrice;//成本价
+//    @Constraints.Required
     private BigDecimal itemDiscount;//折扣价
 //    @Constraints.Required
     private Integer amount;         //库存总量
@@ -63,7 +63,7 @@ public class Inventory implements Serializable{
     @Constraints.Pattern(Regex.DECIMAL)
     private String postalTaxRate;   //行邮税率
     private String postalTaxCode;   //行邮税号
-    @Constraints.Required
+//    @Constraints.Required
     private  Integer invWeight;     //单个sku重量 单位克
     private String carriageModelCode;//邮费模板code
     private String recordCode;       //备案号

@@ -13,6 +13,7 @@ import service.*;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -83,6 +84,7 @@ public class ItemMiddle {
         if (json.has("item")) {
             JsonNode jsonItem = json.findValue("item");
             item = Json.fromJson(jsonItem,Item.class);
+            item.setSupplyMerch("Crystalshop");//供应商字段暂不使用。默认值为Crystalshop
             //更新商品信息
             if (jsonItem.has("id")) {
                 Item originItem = itemService.getItem(item.getId());
@@ -126,6 +128,9 @@ public class ItemMiddle {
                     JsonNode jsonInv = jsonNode.findValue("inventory");
                     inventory = Json.fromJson(jsonInv, Inventory.class);
                     inventory.setItemId(item.getId());
+                    inventory.setPostalTaxRate("0");
+                    inventory.setItemDiscount(new BigDecimal(inventory.getItemPrice().divide(inventory.getItemSrcPrice(),2,BigDecimal.ROUND_HALF_UP).doubleValue()*10));
+                    Logger.error("折扣是::::::::::::"+inventory.getItemDiscount());
                     String startAt = inventory.getStartAt();//现上架时间
                     String endAt = inventory.getEndAt();//现下架时间
                     Long startTimes = null;//现上架时间毫秒数
@@ -156,7 +161,7 @@ public class ItemMiddle {
                         String originState = originInv.getState();  //原sku状态
                         inventory.setSoldAmount(originInv.getSoldAmount());
                         inventory.setOrDestroy(originInv.getOrDestroy());
-                        inventory.setInvTitle(originInv.getInvTitle());
+                        inventory.setInvTitle(item.getItemTitle());
                         inventory.setShareCount(originInv.getShareCount());
                         inventory.setCollectCount(originInv.getCollectCount());
                         inventory.setBrowseCount(originInv.getBrowseCount());
@@ -308,6 +313,7 @@ public class ItemMiddle {
                         }
                         inventory.setAmount(inventory.getRestAmount());
                         inventory.setInvTitle(item.getItemTitle());
+                        Logger.error("sku信息:::::::"+inventory.toString());
                         inventoryService.insertInventory(inventory);
                         String createDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
                         itemStatis.setCreateDate(createDate);

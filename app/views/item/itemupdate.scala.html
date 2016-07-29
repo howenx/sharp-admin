@@ -36,35 +36,34 @@
             var skuObj = new Object();
             trData.find("td").each(function(){
                 if (count==1) skuObj.invId = $(this).text();
-                if (count==2) skuObj.itemColor = $(this).text();
-                if (count==3) skuObj.itemSize = $(this).text();
-                if (count==4) skuObj.invCode = $(this).text();
-                if (count==5) skuObj.state = $(this).text();
-                if (count==6) skuObj.startAt = $(this).text().substring(0,19);
-                if (count==7) skuObj.endAt = $(this).text().substring(0,19);
+                if (count==2) skuObj.itemSize = $(this).text();
+                if (count==3) skuObj.invCode = $(this).text();
+                if (count==4) skuObj.state = $(this).text();
+                if (count==5) skuObj.startAt = $(this).text();
+                if (count==6) skuObj.endAt = $(this).text();
+                if (count==7) skuObj.itemSrcPrice = $(this).text();
                 if (count==8) skuObj.itemPrice = $(this).text();
-                if (count==9) skuObj.itemSrcPrice = $(this).text();
-                if (count==10) skuObj.itemCostPrice = $(this).text();
-                if (count==11) skuObj.itemDiscount = $(this).text();
-                if (count==12) skuObj.invWeight = $(this).text();
-                if (count==13) skuObj.restrictAmount = $(this).text();
-                if (count==14) skuObj.restAmount = $(this).text();
-                if (count==15) skuObj.invArea = $(this).text();
-                if (skuObj.invArea!="K") {
-                    if (count==16) skuObj.invCustoms = $(this).text();
-                    <!--if (count==17) skuObj.rateSet = $(this).text();-->
-                    <!--if (count==18) skuObj.postalTaxRate = $(this).text();-->
-                    <!--if (count==19) skuObj.postalTaxCode = $(this).text();-->
-                    if (count==17) skuObj.recordCode = $(this).text();
+                if (count==9) skuObj.restrictAmount = $(this).text();
+                if (count==10) skuObj.restAmount = $(this).text();
+                if (count==11) skuObj.invWeight = $(this).text();
+                var invArea = "";
+                if (count==12) {
+                    skuObj.invArea = $(this).text();
+                    invArea = skuObj.invArea;
                 }
-                if (count==18) skuObj.invImg = $(this).text();
-                if (count==19) skuObj.itemPreviewImgs = $(this).text();
-                if (count==10) skuObj.orVaryPrice = $(this).text();
-                if (count==21) skuObj.varyPrice = $(this).text();
+                if (invArea.indexOf("K")<0) {
+                    if (count==13) skuObj.invCustoms = $(this).text();
+                    if (count==14) skuObj.recordCode = $(this).text();
+                }
+                if (count==15) skuObj.invImg = $(this).text();
+                if (count==16) skuObj.itemPreviewImgs = $(this).text();
+                if (count==17) skuObj.orVaryPrice = $(this).text();
+                if (count==18) skuObj.varyPrice = $(this).text();
                 count++;
             });
             sharedObject.skuObj = skuObj;
             sharedObject.index = index;
+            <!--console.log(skuObj);-->
         }
         if (window.showModalDialog) {
             var retValue = showModalDialog("/comm/pop", sharedObject, "dialogWidth:1200px; dialogHeight:8900px; dialogLeft:300px;");
@@ -190,27 +189,22 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label" ><div class="r start" style="padding:3px;"> *</div><div class="r">商品标题</div></label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-7">
                         <input type="text" class="form-control form-data-area" id="itemTitle" name="itemTitle" value="@item.getItemTitle()">
                     </div>
-                    <label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r">供应商</div></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" id="supplyMerch" name="supplyMerch">
-                            <option></option>
-                            @for(as <- adminSupplierList) {
-                            @if(item.getSupplyMerch()==as.getSupplyMerch()) {
-                            <option selected value='@as.getSupplyMerch()'>@as.getSupplyName()</option>
-                            }
-                            @if(item.getSupplyMerch()!=as.getSupplyMerch()) {
-                            <option  value='@as.getSupplyMerch()'>@as.getSupplyName()</option>
-                            }
-                            }
-                        </select>
-                    </div>
-
-                    <!--<label class="col-sm-1 control-label" ><div class="r" style="padding:3px;"> *</div><div class="r">@Messages.get(new Lang(Lang.forCode(lang)),"item.add.merchName")</div></label>-->
+                    <!--<label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r">供应商</div></label>-->
                     <!--<div class="col-sm-2">-->
-                        <!--<input type="text" class="form-control form-data-area" id="supplyMerch" name="supplyMerch" value="@item.getSupplyMerch()">-->
+                        <!--<select class="form-control" id="supplyMerch" name="supplyMerch">-->
+                            <!--<option></option>-->
+                            <!--@for(as <- adminSupplierList) {-->
+                            <!--@if(item.getSupplyMerch()==as.getSupplyMerch()) {-->
+                            <!--<option selected value='@as.getSupplyMerch()'>@as.getSupplyName()</option>-->
+                            <!--}-->
+                            <!--@if(item.getSupplyMerch()!=as.getSupplyMerch()) {-->
+                            <!--<option  value='@as.getSupplyMerch()'>@as.getSupplyName()</option>-->
+                            <!--}-->
+                            <!--}-->
+                        <!--</select>-->
                     <!--</div>-->
                 </div>
                 <!-- 商品库存信息-->
@@ -223,69 +217,67 @@
                                 <tr>
                                     <th>设为主商品</th>
                                     <th>SKU ID</th>
-                                    <th>颜色</th>
-                                    <th>尺寸</th>
-                                    <th style='display:none;'>规格编号</th>
+                                    <th>规格</th>
+                                    <th>规格编号</th>
                                     <th>状态</th>
-                                    <th style='display:none;'>上架时间</th>
-                                    <th style='display:none;'>下架时间</th>
+                                    <th style="display:none;">上架时间</th>
+                                    <th style="display:none;">下架时间</th>
+                                    <th style="display:none;">原价</th>
                                     <th>现价</th>
-                                    <th style='display:none;'>原价</th>
-                                    <th style='display:none;'>成本价</th>
-                                    <th style='display:none;'>折扣</th>
-                                    <th style='display:none;'>重量(整数:克)</th>
-                                    <th style='display:none;'>限购数量</th>
-                                    <!--<th style='display:none;'>库存总量</th>-->
+                                    <th style="display:none;">限购数量</th>
                                     <th>剩余库存</th>
+                                    <th style="display:none;">重量(整数/小数:克)</th>
+                                    <th style="display:none;">库存区域</th>
+                                    <th style="display:none;">报关单位</th>
+                                    <th style="display:none;">海关商品备案号</th>
+                                    <th style="display:none;">主图</th>
+                                    <th style="display:none;">预览图</th>
+                                    <th style="display:none;">开启多样化价格</th>
+                                    <th style="display:none;">多样化价格</th>
+                                    <th>修改</th>
+                                    <!--<th style='display:none;'>成本价</th>-->
+                                    <!--<th style='display:none;'>折扣</th>-->
+                                    <!--<th style='display:none;'>库存总量</th>-->
                                     <!--<th style='display:none;'>运费设置</th>-->
-                                    <th style='display:none;'>库存区域</th>
-                                    <th style='display:none;'>报关单位</th>
                                     <!--<th style='display:none;'>税率设置</th>-->
                                     <!--<th style='display:none;'>税率(整数)</th>-->
                                     <!--<th style='display:none;'>行邮税号</th>-->
-                                    <th style='display:none;'>海关商品备案号</th>
-                                    <th style='display:none;'>主图</th>
-                                    <th style='display:none;'>预览图</th>
-                                    <th style='display:none;'>开启多样化价格</th>
-                                    <th style='display:none;'>多样化价格</th>
                                     <!--<th style='display:none;'>skuId</th>-->
-                                    <th>修改</th>
                                 </tr>
                                 @for(obj <-  invList) {
                                 <tr>
                                     <td><input type="radio" name="orMasterInv" class="master-radio" checked="checked" value="@obj(2)"/></td>
                                     <td>@obj(0)</td>
-                                    <td>@obj(3)</td>
                                     <td>@obj(4)</td>
-                                    <td style='display:none;'>@obj(24)</td>
+                                    <td>@obj(24)</td>
                                     <td>
                                         @if(obj(25)=="Y"){正常}
                                         @if(obj(25)=="P"){预售}
                                         @if(obj(25)=="D"){下架}
                                     </td>
-                                    <td style='display:none;'>@obj(5)</td>
-                                    <td style='display:none;'>@obj(6)</td>
-                                    <td>@obj(7)</td>
-                                    <td style='display:none;'>@obj(8)</td>
-                                    <td style='display:none;'>@obj(9)</td>
-                                    <td style='display:none;'>@obj(10)</td>
-                                    <td style='display:none;'>@obj(11)</td>
-                                    <td style='display:none;'>@obj(12)</td>
-                                    <!--<td style='display:none;'>@obj(13)</td>-->
+                                    <td style="display:none;">@obj(5)</td>
+                                    <td style="display:none;">@obj(6)</td>
+                                    <td style="display:none;">@obj(7)</td>
+                                    <td>@obj(8)</td>
+                                    <td style="display:none;">@obj(12)</td>
                                     <td>@obj(14)</td>
+                                    <td style="display:none;">@obj(11)</td>
+                                    <td style="display:none;">@obj(15)</td>
+                                    <td style="display:none;">@obj(16)</td>
+                                    <td style="display:none;">@obj(19)</td>
+                                    <td style="display:none;">@obj(20)</td>
+                                    <td style="display:none;">@obj(21)</td>
+                                    <td style="display:none;">@obj(22)</td>
+                                    <td style="display:none;">@obj(23)</td>
+                                    <!--<td >@obj(9)</td>-->
+                                    <!--<td >@obj(10)</td>-->
+                                    <!--<td style='display:none;'>@obj(13)</td>-->
                                     <!--<td style='display:none;'>@obj(15)</td>-->
-                                    <td style='display:none;'>@obj(15)</td>
-                                    <td  style='display:none;'>@obj(16)</td>
                                     <!--@if(obj(17)==0) {<td style='display:none;'>F</td>}-->
                                     <!--@if(obj(18)!=null ) {<td style='display:none;'>S</td>}-->
                                     <!--@if(obj(18)==null && obj(17)!=0) {<td style='display:none;'>D</td>}-->
                                     <!--<td style='display:none;'>@obj(17)</td>-->
                                     <!--<td style='display:none;'>@obj(18)</td>-->
-                                    <td style='display:none;'>@obj(19)</td>
-                                    <td style='display:none;'>@obj(20)</td>
-                                    <td style='display:none;'>@obj(21)</td>
-                                    <td style='display:none;'>@obj(22)</td>
-                                    <td style='display:none;'>@obj(23)</td>
                                     <td class="trEdit">
                                         <span onclick="ShowModal(this)">编辑</span>
                                     </td>
@@ -319,18 +311,20 @@
                     <div id="warn-attr" style="color:red; margin-left:0px;margin-top:15px;"></div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div>优惠信息</label>
+                    <label class="col-sm-1 control-label">优惠信息</label>
                     <div class="col-sm-7">
                         <table class="table table-bordered pub" id="publicityTab">
                             <tr>
                                 <td><input type="text" id="publicity" class="form-data-area"/></td>
                                 <td class="add1">添加</td>
                             </tr>
+                            @if(item.getPublicity().toString()!="[]") {
                             @for(pub <- item.getPublicity().substring(1,item.getPublicity().length()-1).split(", ")) {
                             <tr>
                                 <td>@(pub.substring(1,pub.length()-1))</td>
                                 <td class="del">删除</td>
                             </tr>
+                            }
                             }
                         </table>
                     </div>

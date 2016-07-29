@@ -282,14 +282,15 @@ $(function(){
        else cateId=$("#categorySubSelect").val();
        var brandId = $("#bandSelect").val();
        var itemTitle = $("#itemTitle").val();
-       var supplyMerch = $("#supplyMerch").val();
+//       var supplyMerch = $("#supplyMerch").val();
        var itemFeatures = {};
        var publicity = [];
        var itemDetailImgs = [];
        var itemNotice = $("#itemNotice").val();
        var itemDetail = UE.getEditor('editor').getContent();
        //必填项不能有空值
-       if ( cateId=="" || brandId=="" || itemTitle=="" || supplyMerch=="") {
+//       if ( cateId=="" || brandId=="" || itemTitle=="" || supplyMerch=="") {
+       if ( cateId=="" || brandId=="" || itemTitle=="") {
            isPost=false;
            $('#js-userinfo-error').text('必填项不能为空');
            setTimeout("$('#js-userinfo-error').text('')", 3000);
@@ -313,12 +314,14 @@ $(function(){
        //优惠信息
        var publicityTab = document.getElementById("publicityTab");
        var pubtr = publicityTab.getElementsByTagName("tr");
-       if (pubtr.length==1) {
-           isPost = false;
-           $("#warn-pub").text("请录入优惠信息!");
-       } else $("#warn-pub").text("");
-       for(i=1;i<pubtr.length;i++) {
-           publicity.push(pubtr[i].getElementsByTagName("td")[0].innerText);
+//       if (pubtr.length==1) {
+//           isPost = false;
+//           $("#warn-pub").text("请录入优惠信息!");
+//       } else $("#warn-pub").text("");
+       if (pubtr.length>=1) {
+          for(i=1;i<pubtr.length;i++) {
+             publicity.push(pubtr[i].getElementsByTagName("td")[0].innerText);
+          }
        }
        //商品详细图
        var galleryD = document.getElementById("galleryD");
@@ -379,48 +382,48 @@ $(function(){
            var orMasterInv = false;
            if (tds[0].getElementsByTagName("input")[0].checked==true)    orMasterInv = true;
            var invId = tds[1].innerHTML;
-           var itemColor = tds[2].innerHTML;
-           var itemSize = tds[3].innerHTML;
-           var invCode = tds[4].innerHTML;
+//           var itemColor = tds[2].innerHTML;
+           var itemSize = tds[2].innerHTML;
+           var invCode = tds[3].innerHTML;
            var state = "";
-           if (tds[5].innerHTML.replace(/(^\s+)|(\s+$)/g,"")=="正常") state = "Y";
-           if (tds[5].innerHTML.replace(/(^\s+)|(\s+$)/g,"")=="预售") state = "P";
-           if (tds[5].innerHTML.replace(/(^\s+)|(\s+$)/g,"")=="下架") state = "D";
-           var startAt = tds[6].innerHTML;
-           var endAt = tds[7].innerHTML;
+           if (tds[4].innerHTML.replace(/(^\s+)|(\s+$)/g,"")=="正常") state = "Y";
+           if (tds[4].innerHTML.replace(/(^\s+)|(\s+$)/g,"")=="预售") state = "P";
+           if (tds[4].innerHTML.replace(/(^\s+)|(\s+$)/g,"")=="下架") state = "D";
+           var startAt = tds[5].innerHTML;
+           var endAt = tds[6].innerHTML;
+           var itemSrcPrice = tds[7].innerHTML;
            var itemPrice = tds[8].innerHTML;
-           var itemSrcPrice = tds[9].innerHTML;
-           var itemCostPrice = tds[10].innerHTML;
-           var itemDiscount = tds[11].innerHTML;
-           var invWeight = tds[12].innerHTML;
-           var restrictAmount = tds[13].innerHTML;
-           var restAmount = tds[14].innerHTML;
-           var invArea = tds[15].innerHTML;
-           var invCustoms = tds[16].innerHTML;
+//           var itemCostPrice = tds[10].innerHTML;
+//           var itemDiscount = tds[11].innerHTML;
+           var restrictAmount = tds[9].innerHTML;
+           var restAmount = tds[10].innerHTML;
+           var invWeight = tds[11].innerHTML;
+           var invArea = tds[12].innerHTML;
+           var invCustoms = tds[13].innerHTML;
 //           var postalTaxRate = tds[18].innerHTML;
 //           var postalTaxCode = tds[19].innerHTML;
-           var recordCode = tds[17].innerHTML;
-           var invImg = tds[18].innerHTML;
-           var itemPreviewImgs = tds[19].innerHTML;
-           var orVaryPrice = tds[20].innerHTML;
+           var recordCode = tds[14].innerHTML;
+           var invImg = tds[15].innerHTML;
+           var itemPreviewImgs = tds[16].innerHTML;
+           var orVaryPrice = tds[17].innerHTML;
            //拼装成一条数据
            var invData = new Object();
            var inventory = new Object();
            var varyPrices = [];
            inventory.orMasterInv = orMasterInv;
-           inventory.itemColor = itemColor;
+           inventory.itemColor = "";
            inventory.itemSize = itemSize;
            inventory.invCode = invCode;
            inventory.state = state;
            inventory.startAt = startAt;
            inventory.endAt = endAt;
-           inventory.itemPrice = itemPrice;
            inventory.itemSrcPrice = itemSrcPrice;
-           inventory.itemCostPrice = itemCostPrice;
-           inventory.itemDiscount = itemDiscount;
-           inventory.invWeight = invWeight;
+           inventory.itemPrice = itemPrice;
+//           inventory.itemCostPrice = itemCostPrice;
+//           inventory.itemDiscount = itemDiscount;
            inventory.restrictAmount = restrictAmount;
            inventory.restAmount = restAmount;
+           inventory.invWeight = invWeight;
            inventory.invArea = invArea;
            inventory.invCustoms = invCustoms;
 //           inventory.postalTaxRate = postalTaxRate;
@@ -436,7 +439,7 @@ $(function(){
            }
            invData.inventory = inventory;
            if (orVaryPrice=="true") {
-               var vp_arr = tds[21].innerHTML.split(",");
+               var vp_arr = tds[18].innerHTML.split(",");
                for(v=0;v<vp_arr.length;v++) {
                    if (v%4==0) {
                        var varyPrice = new Object();
@@ -455,10 +458,10 @@ $(function(){
        }
        item.cateId = cateId;
        item.brandId = brandId;
-       item.supplyMerch = supplyMerch;
+//       item.supplyMerch = supplyMerch;
        item.itemTitle = itemTitle;
-       item.publicity = publicity;
        item.itemFeatures = itemFeatures;
+       item.publicity = publicity;
        if ($(".pic").is(":checked")) {
            item.itemDetailImgs = itemDetailImgs;
            item.itemNotice = itemNotice;

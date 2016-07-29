@@ -19,7 +19,7 @@ public class Item implements Serializable{
     private Long brandId;   //品牌ID
     @Constraints.Required
     private String itemTitle;//商品标题
-    @Constraints.Required
+//    @Constraints.Required
     private String supplyMerch;//供应商名称
 //    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp onShelvesAt;//上架时间
@@ -44,7 +44,7 @@ public class Item implements Serializable{
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp createAt;     //创建时间
     private Long masterInvId;       //主SKU ID
-    @Constraints.Required
+//    @Constraints.Required
     private String publicity;       //优惠信息
     private String itemDetail;      //详情页HTML
 
