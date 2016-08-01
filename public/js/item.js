@@ -282,7 +282,7 @@ $(function(){
        else cateId=$("#categorySubSelect").val();
        var brandId = $("#bandSelect").val();
        var itemTitle = $("#itemTitle").val();
-//       var supplyMerch = $("#supplyMerch").val();
+       var supplyMerch = $("#supplyMerch").val();
        var itemFeatures = {};
        var publicity = [];
        var itemDetailImgs = [];
@@ -458,9 +458,10 @@ $(function(){
        }
        item.cateId = cateId;
        item.brandId = brandId;
-//       item.supplyMerch = supplyMerch;
+       item.supplyMerch = supplyMerch;
        item.itemTitle = itemTitle;
        item.itemFeatures = itemFeatures;
+       if (publicity.length>0)
        item.publicity = publicity;
        if ($(".pic").is(":checked")) {
            item.itemDetailImgs = itemDetailImgs;

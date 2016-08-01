@@ -84,7 +84,6 @@ public class ItemMiddle {
         if (json.has("item")) {
             JsonNode jsonItem = json.findValue("item");
             item = Json.fromJson(jsonItem,Item.class);
-            item.setSupplyMerch("Crystalshop");//供应商字段暂不使用。默认值为Crystalshop
             //更新商品信息
             if (jsonItem.has("id")) {
                 Item originItem = itemService.getItem(item.getId());
@@ -129,8 +128,7 @@ public class ItemMiddle {
                     inventory = Json.fromJson(jsonInv, Inventory.class);
                     inventory.setItemId(item.getId());
                     inventory.setPostalTaxRate("0");
-                    inventory.setItemDiscount(new BigDecimal(inventory.getItemPrice().divide(inventory.getItemSrcPrice(),2,BigDecimal.ROUND_HALF_UP).doubleValue()*10));
-                    Logger.error("折扣是::::::::::::"+inventory.getItemDiscount());
+                    inventory.setItemDiscount(inventory.getItemPrice().divide(inventory.getItemSrcPrice(),2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(10)));
                     String startAt = inventory.getStartAt();//现上架时间
                     String endAt = inventory.getEndAt();//现下架时间
                     Long startTimes = null;//现上架时间毫秒数

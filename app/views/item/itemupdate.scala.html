@@ -189,23 +189,23 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label" ><div class="r start" style="padding:3px;"> *</div><div class="r">商品标题</div></label>
-                    <div class="col-sm-7">
+                    <div class="col-sm-4">
                         <input type="text" class="form-control form-data-area" id="itemTitle" name="itemTitle" value="@item.getItemTitle()">
                     </div>
-                    <!--<label class="col-sm-1 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r">供应商</div></label>-->
-                    <!--<div class="col-sm-2">-->
-                        <!--<select class="form-control" id="supplyMerch" name="supplyMerch">-->
-                            <!--<option></option>-->
-                            <!--@for(as <- adminSupplierList) {-->
-                            <!--@if(item.getSupplyMerch()==as.getSupplyMerch()) {-->
-                            <!--<option selected value='@as.getSupplyMerch()'>@as.getSupplyName()</option>-->
-                            <!--}-->
-                            <!--@if(item.getSupplyMerch()!=as.getSupplyMerch()) {-->
-                            <!--<option  value='@as.getSupplyMerch()'>@as.getSupplyName()</option>-->
-                            <!--}-->
-                            <!--}-->
-                        <!--</select>-->
-                    <!--</div>-->
+                    <label class="col-sm-1 control-label"><div class="r">供应商</div></label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="supplyMerch" name="supplyMerch">
+                            <option></option>
+                            @for(as <- adminSupplierList) {
+                            @if(item.getSupplyMerch()==as.getSupplyMerch()) {
+                            <option selected value='@as.getSupplyMerch()'>@as.getSupplyName()</option>
+                            }
+                            @if(item.getSupplyMerch()!=as.getSupplyMerch()) {
+                            <option  value='@as.getSupplyMerch()'>@as.getSupplyName()</option>
+                            }
+                            }
+                        </select>
+                    </div>
                 </div>
                 <!-- 商品库存信息-->
                 <h4 class="h4-custom-hmm">商品库存信息</h4>
@@ -318,7 +318,7 @@
                                 <td><input type="text" id="publicity" class="form-data-area"/></td>
                                 <td class="add1">添加</td>
                             </tr>
-                            @if(item.getPublicity().toString()!="[]") {
+                            @if(item.getPublicity()!=null) {
                             @for(pub <- item.getPublicity().substring(1,item.getPublicity().length()-1).split(", ")) {
                             <tr>
                                 <td>@(pub.substring(1,pub.length()-1))</td>

@@ -169,7 +169,7 @@ public class ItemCtrl extends Controller {
     public Result findItemById(String lang,Long id) {
         Map<String,String> customs = new ObjectMapper().convertValue(configuration.getObject("customs"),HashMap.class);
         Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
-//        List<AdminSupplier> adminSupplierList = adminSupplierService.getAllSuppliers();
+        List<AdminSupplier> adminSupplierList = adminSupplierService.getAllSuppliers();
         Item item = itemService.getItem(id);
         Cates cates = itemService.getCate(item.getCateId());
         String pCateNm = "";
@@ -228,7 +228,7 @@ public class ItemCtrl extends Controller {
             }
             invList.add(object);
         }
-        return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,SysParCom.IMAGE_URL,lang,(User) ctx().args.get("user"),customs,area));
+        return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,SysParCom.IMAGE_URL,lang,(User) ctx().args.get("user"),customs,area,adminSupplierList));
     }
 
     /**
