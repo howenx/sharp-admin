@@ -330,6 +330,8 @@ $(function(){
           if (detailImg.length<1) {
               isPost = false;
               $("#warn-detailImg").text("请上传商品详细图!");
+              $('#js-userinfo-error').text('必填项不能为空');
+              setTimeout("$('#js-userinfo-error').text('')", 3000);
           } else {
               $("#warn-detailImg").text("");
           }
@@ -361,6 +363,8 @@ $(function(){
            if (itemDetail=="") {
                isPost = false;
                $("#warn-edit").text("请输入商品详情!");
+               $('#js-userinfo-error').text('必填项不能为空');
+               setTimeout("$('#js-userinfo-error').text('')", 3000);
            } else $("#warn-edit").text("");
        }
 
@@ -373,6 +377,8 @@ $(function(){
                isPost = false;
                if (window.lang=="cn") $("#warn-attr").text("属性名或值不能有空");
                else $("#warn-attr").text("attribute or attribute value can't be value");
+               $('#js-userinfo-error').text('必填项不能为空');
+               setTimeout("$('#js-userinfo-error').text('')", 3000);
            } else $("#warn-attr").text("");
            itemFeatures[attrN[i].value] = attrV[i].value;
        }
@@ -389,6 +395,7 @@ $(function(){
            if (tds[4].innerHTML.replace(/(^\s+)|(\s+$)/g,"")=="正常") state = "Y";
            if (tds[4].innerHTML.replace(/(^\s+)|(\s+$)/g,"")=="预售") state = "P";
            if (tds[4].innerHTML.replace(/(^\s+)|(\s+$)/g,"")=="下架") state = "D";
+           if (tds[4].innerHTML.replace(/(^\s+)|(\s+$)/g,"")=="售空") state = "K";
            var startAt = tds[5].innerHTML;
            var endAt = tds[6].innerHTML;
            var itemSrcPrice = tds[7].innerHTML;

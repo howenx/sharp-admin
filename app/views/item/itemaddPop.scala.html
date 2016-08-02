@@ -111,8 +111,9 @@
                     <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">状态</div></label>
                     <div style="margin-top:5px;" class="col-sm-3" >
                         <input type="radio" checked="checked" name="state" class="master-radio" value="Y" style="margin-right:5px;"/>正常
-                        <input type="radio" name="state" class="master-radio" value="P" style="margin-left:20px;margin-right:5px;"/>预售
-                        <input type="radio" name="state" class="master-radio" value="D" style="margin-left:20px;margin-right:5px;"/>下架
+                        <input type="radio" name="state" class="master-radio" value="P" style="margin-left:5px;margin-right:5px;"/>预售
+                        <input type="radio" name="state" class="master-radio" value="D" style="margin-left:5px;margin-right:5px;"/>下架
+                        <input type="radio" name="state" class="master-radio" value="K" style="margin-left:5px;margin-right:5px;"/>售空
                         <!--<select class="form-control" id="state" name="state">-->
                             <!--<option value="Y">正常</option>-->
                             <!--<option value="D">下架</option>-->
@@ -181,7 +182,7 @@
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="restAmount" name="restAmount">
                 </div>
-                <div id="warn-amount" style="color:red;margin-left:500px;margin-top:10px;"></div>
+                <div id="warn-amount" style="color:red;margin-left:500px;margin-top:10px;">限购数量不能大于库存量</div>
             </div>
             <div class="form-group">
                 <!-- 重量 -->

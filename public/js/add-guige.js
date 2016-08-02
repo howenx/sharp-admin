@@ -67,6 +67,7 @@ function Init () {
         if ($.trim(skuObj.state)=="正常") skuObj.state = "Y";
         if ($.trim(skuObj.state)=="预售") skuObj.state = "P";
         if ($.trim(skuObj.state)=="下架") skuObj.state = "D";
+        if ($.trim(skuObj.state)=="售空") skuObj.state = "K";
         var stateObj = document.getElementsByName("state");
         for(var i=0; i<stateObj.length; i++) {
             if (stateObj[i].value == skuObj.state) {
@@ -142,12 +143,12 @@ function Init () {
 
         }
 
-        if (skuObj.invId!="") {
+//        if (skuObj.invId!="") {
             //sku 状态
 //            $("#skuState").css('display','block');
-            if (skuObj.state=="Y")  $("#state option[value='Y']").attr("selected", true);
-            if (skuObj.state=="D")  $("#state option[value='D']").attr("selected", true);
-        }
+//            if (skuObj.state=="Y")  $("#state option[value='Y']").attr("selected", true);
+//            if (skuObj.state=="D")  $("#state option[value='D']").attr("selected", true);
+//        }
         //填充sku主图
         var invImg = JSON.parse(skuObj.invImg);
         $("<div>").html('<img class="main-img" width="'+invImg.width+'" height="'+invImg.height+'" src="'+window.imageUrl+invImg.url+'" ><button class="close"><span>&times;</span></button>').appendTo($("#galleryM"));
@@ -285,9 +286,9 @@ function saveCurr(saveFlag) {
         setTimeout("$('#warn-date').text('')", 3000);
     }
     //库存
-    if (Number(restrictAmount) > Number(restAmount)) {
+    if ((Number(restrictAmount) > Number(restAmount)) || ((state=="Y" || state=="P") && restAmount<=0)) {
         orSave = false;
-        $("#warn-amount").text("限购数量不能大于库存量");
+        $("#warn-amount").text("请检查库存量或状态");
     } else $("#warn-amount").text("");
 
     //海外直邮模式
@@ -386,6 +387,7 @@ function saveCurr(saveFlag) {
     if (state=="Y") state = "正常";
     if (state=="P") state = "预售";
     if (state=="D") state = "下架";
+    if (state=="K") state = "售空";
     trdobj.state = state;
     trdobj.startAt = startAt;
     trdobj.endAt = endAt;
