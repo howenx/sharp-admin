@@ -124,7 +124,7 @@ function Init () {
 //                console.log(r);
 //                console.log(recordCode[r]);
 //            });
-            if (skuObj.recordCode.length>2) {
+            if (skuObj.recordCode.length>1) {
                 var inputArr = document.getElementById("recordCode").getElementsByTagName("input");
                 var recordArr = skuObj.recordCode.substring(1,skuObj.recordCode.length-1).split(",");
                 for(var r=0;r<recordArr.length;r++) {
@@ -404,7 +404,9 @@ function saveCurr(saveFlag) {
 //    trdobj.rateSet = rateSet;
 //    trdobj.postalTaxRate = postalTaxRate;
 //    trdobj.postalTaxCode = postalTaxCode;
+    if (JSON.stringify(recordCode).length>2)
     trdobj.recordCode = JSON.stringify(recordCode);
+    else trdobj.recordCode = 0;
     trdobj.invImg = JSON.stringify(invImg);
     trdobj.itemPreviewImgs = JSON.stringify(itemPreviewImgs);
     //多样化价格

@@ -186,7 +186,7 @@
                                             }
                                         </td>
                                         <td>
-                                            @if(obj(17)!="{}") {
+                                            @if(obj(17)!="0") {
                                                 @for(recordCode <- obj(17).toString().substring(1,obj(17).toString().length-1).split(", ")) {
                                                 @for(c <- customs) {
                                                 @if(recordCode.substring(1,recordCode.indexOf(":")-1)==c.toString.substring(1,c.toString.length-1).split(",")(0)) {
