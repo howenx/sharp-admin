@@ -78,5 +78,11 @@ public interface ThemeService {
      */
     List<Slider> getCategoryAll();
 
+    /**
+     * 保存分类入口数据         Added by Tiffany Zhu 2016.08.02
+     * @param json
+     */
+    void categorySave(JsonNode json);
+
 
 }

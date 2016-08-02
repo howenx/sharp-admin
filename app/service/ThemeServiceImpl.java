@@ -201,4 +201,34 @@ public class ThemeServiceImpl implements ThemeService {
     public List<Slider> getCategoryAll() {
         return themeMapper.getCategoryAll();
     }
+
+    /**
+     * 保存分类入口数据      Added by Tiffany Zhu 2016.08.02
+     * @param json JsonNode
+     */
+    @Override
+    public void categorySave(JsonNode json) {
+
+        //取删除ID
+        if (json.findValue("del").isArray()) {
+            for (final JsonNode objNode : json.findValue("del")) {
+                themeMapper.deleteSlider(objNode.asLong());
+            }
+        }
+
+        //取变更的Slider
+        if (json.findValue("update").isArray()) {
+            for (final JsonNode objNode : json.findValue("update")) {
+
+                Slider slider  = play.libs.Json.fromJson(objNode,Slider.class);
+
+                if (slider.getId()==-1){
+                    themeMapper.insertSlider(slider);
+                }
+                else{
+                    themeMapper.updateSlider(slider);
+                }
+            }
+        }
+    }
 }

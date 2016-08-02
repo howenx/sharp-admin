@@ -211,7 +211,7 @@ $(function() {
 			 console.log(JSON.stringify(sliderdto));
 			$.ajax({
 			            type : 'POST',
-			            url : "/"+window.lang+"/topic/slider/update",
+			            url : "/"+window.lang+"/topic/category/update",
 			            data : JSON.stringify(sliderdto),
 			            dataType: 'json',
 						contentType: "application/json; charset=utf-8",

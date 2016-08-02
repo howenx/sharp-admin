@@ -43,6 +43,18 @@
                 where id = #{id}
         </update>
 
+        <insert id="insertCategory" parameterType="domain.Slider" useGeneratedKeys="true" keyProperty="id">
+                insert into slider (img,sort_nu,create_at,item_target,target_type,or_nav,nav_text)
+                values (#{img},#{sortNu},CURRENT_TIMESTAMP(0),#{itemTarget}, #{targetType},#{orNav},#{navText})
+        </insert>
+
+        <update id="updateCategory" parameterType="domain.Slider">
+                update slider set
+                img=#{img},sort_nu=#{sortNu},update_at=CURRENT_TIMESTAMP(0),item_target=#{itemTarget},target_type=#{targetType},nav_text=#{navText}
+                where id = #{id}
+        </update>
+
+
         <delete id="deleteSlider" parameterType="java.lang.Long">
                 delete from slider
                 where id = #{value}
