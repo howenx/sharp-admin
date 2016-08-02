@@ -95,4 +95,16 @@ public interface ThemeMapper {
      */
     List<Slider> getCategoryAll();
 
+    /**
+     * 添加分类入口数据      Added by Tiffany Zhu 2016.08.02
+     * @param slider
+     */
+    void insertCategory(Slider slider);
+
+    /**
+     * 修改分类入口数据      Added by Tiffany Zhu 2016.08.02
+     * @param slider
+     */
+    Long updateCategory(Slider slider);
+
 }

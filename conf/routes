@@ -49,6 +49,8 @@ POST        /$lang<(cn|en|kr)>/topic/sort/save                                  
 GET         /topic/category                                                         controllers.ThemeCtrl.category(lang = "cn")
 GET         /$lang<(cn|en|kr)>/topic/category                                       controllers.ThemeCtrl.category(lang)
 GET         /topic/category/popup                                                   controllers.ThemeCtrl.categoryPop()
+POST        /topic/category/update                                                  controllers.ThemeCtrl.categorySave(lang ="cn")
+POST        /$lang<(cn|en|kr)>/topic/category/update                                controllers.ThemeCtrl.categorySave(lang)
 
 
 

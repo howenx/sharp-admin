@@ -93,6 +93,8 @@ $(function() {
         var themeTypeCheck = $('input[name="theme"]:checked').attr("id");
         //是否选择商品
          var goodsSel = $("#goodsSel").prop("checked");
+         //主题列表主宣传图
+         var imgSel = $("#imgSel").prop("checked");
 
         //选择普通商品---商品不能为空     Modified by Tiffany Zhu 016.07.29
         if(goodsSel && themeTypeCheck == 'ordinary' && document.getElementById("sort").rows.length == 1){
@@ -119,7 +121,7 @@ $(function() {
         }
 
         //不选择商品 只上传图片 验证图片是否上传   Modified by Tiffany Zhu 2016.07.29
-        if((goodsSel == false && document.getElementById("dragon-container").innerHTML.indexOf("img")<0) || (themeTypeCheck == 'ordinary' && $("#imgSel").prop("checked") == true && document.getElementById("dragon-container").innerHTML.indexOf("img")<0))
+        if(( themeTypeCheck == 'ordinary' && goodsSel == false && document.getElementById("dragon-container").innerHTML.indexOf("img")<0) || (themeTypeCheck == 'ordinary' && $("#imgSel").prop("checked") == true && document.getElementById("dragon-container").innerHTML.indexOf("img")<0))
         {
             isPost = false;
             $('#js-userinfo-error').text('请上传主题的首页主图!').css('color', '#c00');
@@ -128,7 +130,7 @@ $(function() {
         }
 
         //不选择商品 只上传图片 验证必须添加标签    Modified by Tiffany Zhu 2016.07.29
-        if(goodsSel == false && $(".dragon-contained").size() == 0)
+        if(themeTypeCheck == 'ordinary' && goodsSel == false && $(".dragon-contained").size() == 0)
         {
             isPost = false;
             $('#js-userinfo-error').text('请添加标签!').css('color', '#c00');
@@ -175,7 +177,7 @@ $(function() {
         var customizeItems = [];
         //主题包含的商品信息
         var themeItems;
-        if(goodsSel){
+        if(goodsSel || themeTypeCheck == 'detail'){
           themeItems = [];
           $("#sort").find("tr").each(function(){
               var itemId = $(this).find("td:eq(3)").text();
@@ -212,24 +214,20 @@ $(function() {
         //主题类型和h5链接
         var themeType = "ordinary";
         var h5Link;
-        if($("#sort").find("tr").length == 2){
-            //var itemTypeId = $("#sort").find("tr").eq(1).find("td:eq(3)").text();
+        if(themeTypeCheck == "detail"){
             var itemId =$("#sort").find("tr").eq(1).find("td:eq(11)").text();
             var skuTypeId =  $("#sort").find("tr").eq(1).find("td:eq(1)").text();
             if( $("#sort").find("tr").eq(1).find("td:eq(2)").text() == "拼购"){
-                    themeType = "pin";
-                    //h5Link ="/comm/detail/pin/" + itemTypeId + "/" + itemSkuId;
                     h5Link ="/comm/detail/pin/" + itemId + "/" + skuTypeId;
+                    themeType = "pin";
             }else{
-                    themeType = "detail";
-                    //h5Link ="/comm/detail/item/" + itemTypeId + "/" + itemSkuId;
                     h5Link ="/comm/detail/item/" + itemId + "/" + skuTypeId;
+                    themeType = "detail";
             }
         }
-
         //主题主宣传图上的标签
          var masterItemTag;
-        if(themeType != 'detail' && imgSel){
+        if(themeTypeCheck != 'detail' && imgSel){
             masterItemTag = [];
             var tagsContainer = $("#dragon-container");
             $("#dragon-container").find(".dragon-contained").each(function(){
@@ -265,9 +263,6 @@ $(function() {
             })
         }
 
-
-        //主题列表主宣传图
-        var imgSel = $("#imgSel").prop("checked");
 
         //主题主图片
         var themeImgContent = {};

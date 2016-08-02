@@ -67,7 +67,8 @@
         }
         //只有一个商品         Added by Tiffany Zhu 2016.08.01
         if("@theme.getType" == "pin" || "@theme.getType" == "detail"){
-            $('input[name="theme"][id="detail"]').attr("checked",true);
+            //$('input[name="theme"][id="detail"]').attr("checked",true);
+            $('input[name="theme"][id="detail"]').click();
         }
 
   		//非编辑状态下冻结页面元素-----------------------------------------start

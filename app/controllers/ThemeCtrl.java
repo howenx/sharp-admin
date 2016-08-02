@@ -111,6 +111,30 @@ public class ThemeCtrl extends Controller {
     }
 
     /**
+     * 分类入口保存         Added by Tiffany Zhu 2016.08.02
+     * @param lang  语言
+     * @return  view
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result categorySave(String lang){
+        JsonNode json = request().body().asJson();
+        if (json.findValue("update").isArray()) {
+            for (final JsonNode jsonNode : json.findValue("update")) {
+                Form<Slider> sliderForm = Form.form(Slider.class).bind(jsonNode);
+                Slider slider = Json.fromJson(jsonNode, Slider.class);
+                //数据验证
+                if (sliderForm.hasErrors() || !Regex.isJason(slider.getImg())) {
+                    Logger.error("slider 表单数据有误.....");
+                    return badRequest();
+                }
+            }
+        }
+        Logger.error("数据:" + json);
+        service.categorySave(json);
+        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
+    }
+
+    /**
      * 分类入口  主题列表和商品列表  Added by Tiffany Zhu 2016.07.27
      * @return sliderPop.scala.html
      */
