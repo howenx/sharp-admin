@@ -190,6 +190,7 @@
                 </include>
                 from themes t where or_destroy = 'N' order by sort_nu DESC
         </select>
+
         <update id="updThemeSortNu" parameterType="java.util.List">
                 <foreach collection="list" item="item" index="index" close="" open="" separator=";">
                         update themes

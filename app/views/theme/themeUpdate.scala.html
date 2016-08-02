@@ -61,9 +61,13 @@
             })
         }
 
-        //没有商品的情况
+        //没有商品的情况       Added by Tiffany Zhu 2016.08.01
         if("@itList" == "[]"){
             $("#goodsSel").click();
+        }
+        //只有一个商品         Added by Tiffany Zhu 2016.08.01
+        if("@theme.getType" == "pin" || "@theme.getType" == "detail"){
+            $('input[name="theme"][id="detail"]').attr("checked",true);
         }
 
   		//非编辑状态下冻结页面元素-----------------------------------------start
@@ -82,9 +86,9 @@
 
         $("#sort").find("tr").each(function(){
             if($(this).find("th").length != 0 ){
-                $(this).find("th:eq(11)").css({"display":"none"});
+                $(this).find("th:eq(12)").css({"display":"none"});
             }else{
-                $(this).find("td:eq(11)").css({"display":"none"});
+                $(this).find("td:eq(12)").css({"display":"none"});
             }
         })
         //标签功能域
@@ -101,11 +105,15 @@
         //点击编辑
         $(document).on("click","#js-usercenter-edit",function(){
             pageEditStatus = true;
-            //保存按钮
+            //保存按钮 可见
             $("#js-usercenter-submit").css({"display":""});
+            //编辑按钮 隐藏
             $("#js-usercenter-edit").css({"display":"none"});
+            //返回按钮 隐藏
             $("#js-usercenter-back").css({"display":"none"});
+            //取消按钮 可见
             $("#js-usercenter-cancel").css({"display":""});
+            //下架按钮 隐藏
             $("#js-usercenter-delete").css({"display":""});
             //基本信息
             $("#themeTitle").attr("disabled",false);
@@ -118,9 +126,9 @@
             $(".add-goods").css({"display":""});
             $("#sort").find("tr").each(function(){
                 if($(this).find("th").length != 0 ){
-                    $(this).find("th:eq(11)").css({"display":""});
+                    $(this).find("th:eq(12)").css({"display":""});
                 }else{
-                    $(this).find("td:eq(11)").css({"display":""});
+                    $(this).find("td:eq(12)").css({"display":""});
                 }
             })
              //标签功能域
@@ -146,11 +154,6 @@
         //点击取消
         $(document).on("click","#js-usercenter-cancel",function(){
          setTimeout("location.href='/"+window.lang+"/topic/updateById/"+ $("#themeId").val() +"'", 300);
-        })
-
-        //返回列表
-        $(document).on("click","#js-usercenter-back",function(){
-          setTimeout("location.href='/"+window.lang+"/topic/search'", 300);
         })
     })
 </script>
@@ -306,6 +309,9 @@
                                 <span class="glyphicon glyphicon-chevron-up"></span>
                                 <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
                             </th>
+                            <th style="display:none">
+                                ItemId
+                            </th>
                             <th>
                                 删除
                             </th>
@@ -327,6 +333,7 @@
                                 <td>@item(5)</td>
                                 <td>@item(6)</td>
                                 <td>@item(7)</td>
+                                <td style="display:none">@item(11)</td>
                                 <td class="th-del" style="background:#ccc;cursor:pointer;">删除</td>
                             </tr>
                         }

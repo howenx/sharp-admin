@@ -34,6 +34,12 @@ $(function() {
             beforeUpdItems.push(object);
         }
     })
+
+    //返回列表
+    $(document).on("click","#js-usercenter-back",function(){
+      setTimeout("location.href='/"+window.lang+"/topic/search'", 300);
+    })
+
   	//保存--普通主题
   	$("#js-usercenter-submit").click(function(){
 
@@ -45,6 +51,13 @@ $(function() {
              $('#js-userinfo-error').text('基本信息不能为空!').css('color', '#c00');
              setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
              return false;
+        }
+        //主题描述长度检查
+        if($("#themeDescribe").val().length > 40){
+            isPost = false;
+            $('#js-userinfo-error').text('主题描述的长度不能超过40个字!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
         }
         //当前系统时间
         var dateTime = new Date();
@@ -58,7 +71,7 @@ $(function() {
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
-        if($("#onShelvesAt").val()>$("#offShelvesAt").val()){
+        if(!themeOffShelf && $("#onShelvesAt").val()>$("#offShelvesAt").val()){
             isPost = false;
             $('#js-userinfo-error').text('日期不正确!').css('color', '#c00');
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
@@ -77,21 +90,30 @@ $(function() {
             return false;
         }
 
-        var themeType = $('input[name="theme"]:checked').attr("id");
+        var themeTypeCheck = $('input[name="theme"]:checked').attr("id");
         //是否选择商品
          var goodsSel = $("#goodsSel").prop("checked");
 
         //选择普通商品---商品不能为空     Modified by Tiffany Zhu 016.07.29
-        if(goodsSel && themeType == 'ordinary' && document.getElementById("sort").rows.length == 1){
+        if(goodsSel && themeTypeCheck == 'ordinary' && document.getElementById("sort").rows.length == 1){
             isPost = false;
             $('#js-userinfo-error').text('请添加商品!').css('color', '#c00');
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
         //选择单一商品---商品只能是一件      Modified by Tiffany Zhu 2016.07.29
-        if(goodsSel && themeType == 'detail' && document.getElementById("sort").rows.length != 2){
+        //if(goodsSel && themeTypeCheck == 'detail' && document.getElementById("sort").rows.length != 2){
+        if(themeTypeCheck == 'detail' && document.getElementById("sort").rows.length != 2){
             isPost = false;
-            $('#js-userinfo-error').text('只能添加一个商品!').css('color', '#c00');
+            $('#js-userinfo-error').text('必须添加一个商品!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+        }
+
+        if(themeTypeCheck == 'ordinary' && $("#imgSel").prop("checked") == false && $("#goodsSel").prop("checked") == false)
+        {
+            isPost = false;
+            $('#js-userinfo-error').text('"商品选择"与"主题主图"至少选一个!').css('color', '#c00');
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
@@ -104,6 +126,7 @@ $(function() {
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
+
         //不选择商品 只上传图片 验证必须添加标签    Modified by Tiffany Zhu 2016.07.29
         if(goodsSel == false && $(".dragon-contained").size() == 0)
         {
@@ -112,13 +135,7 @@ $(function() {
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
-        if($("#imgSel").prop("checked") == false && $("#goodsSel").prop("checked") == false)
-        {
-            isPost = false;
-            $('#js-userinfo-error').text('"商品选择"与"主题主图"至少选一个!').css('color', '#c00');
-            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-            return false;
-        }
+
 
          var confirm_text = "确定保存吗?";
          if(themeOffShelf == true){
@@ -157,87 +174,97 @@ $(function() {
         //自定义价格
         var customizeItems = [];
         //主题包含的商品信息
-        var themeItems = [];
-        $("#sort").find("tr").each(function(){
+        var themeItems;
+        if(goodsSel){
+          themeItems = [];
+          $("#sort").find("tr").each(function(){
+              var itemId = $(this).find("td:eq(3)").text();
+              var type = $(this).find("td:eq(2)").text();
+              if( itemId!= null && itemId != ""){
+                  var object = new Object();
+                  if(type == "普通"){
+                      object.type = "item";
+                  }
+                  if(type == "拼购"){
+                      object.type = "pin";
+                  }
+                  if(type == "多样化"){
+                      object.type = "vary";
+                  }
+                  if(type == "自定义"){
+                      object.type = "customize";
+                      var customizeObject = new Object();
+                      if($(this).find("td:eq(1)").text() != $(this).find("td:eq(3)").text()){
+                          customizeObject.id =  $(this).find("td:eq(3)").text();
+                      }
+                      customizeObject.invId = $(this).find("td:eq(1)").text();
+                      customizeObject.state = $(this).find("td:eq(7)").text();
+                      customizeObject.price = $(this).find("td:eq(8)").text();
+                      customizeObject.discount = $(this).find("td:eq(10)").text();
+                      customizeItems.push(customizeObject);
+                  }
+                  object.id =  itemId.toString();
+                  themeItems.push(object);
+              }
+          })
+        }
 
-            var itemId = $(this).find("td:eq(3)").text();
-            var type = $(this).find("td:eq(2)").text();
-            if( itemId!= null && itemId != ""){
-                var object = new Object();
-                if(type == "普通"){
-                    object.type = "item";
-                }
-                if(type == "拼购"){
-                    object.type = "pin";
-                }
-                if(type == "多样化"){
-                    object.type = "vary";
-                }
-                if(type == "自定义"){
-                    object.type = "customize";
-                    var customizeObject = new Object();
-                    if($(this).find("td:eq(1)").text() != $(this).find("td:eq(3)").text()){
-                        customizeObject.id =  $(this).find("td:eq(3)").text();
-                    }
-                    customizeObject.invId = $(this).find("td:eq(1)").text();
-                    customizeObject.state = $(this).find("td:eq(7)").text();
-                    customizeObject.price = $(this).find("td:eq(8)").text();
-                    customizeObject.discount = $(this).find("td:eq(10)").text();
-                    customizeItems.push(customizeObject);
-                }
-                object.id =  itemId.toString();
-                themeItems.push(object);
-            }
-        })
         //主题类型和h5链接
-        var themeType;
+        var themeType = "ordinary";
         var h5Link;
         if($("#sort").find("tr").length == 2){
-            var itemTypeId = $("#sort").find("tr").eq(1).find("td:eq(3)").text();
-            var itemSkuId =  $("#sort").find("tr").eq(1).find("td:eq(1)").text();
+            //var itemTypeId = $("#sort").find("tr").eq(1).find("td:eq(3)").text();
+            var itemId =$("#sort").find("tr").eq(1).find("td:eq(11)").text();
+            var skuTypeId =  $("#sort").find("tr").eq(1).find("td:eq(1)").text();
             if( $("#sort").find("tr").eq(1).find("td:eq(2)").text() == "拼购"){
                     themeType = "pin";
-                    h5Link ="/comm/detail/pin/" + itemTypeId + "/" + itemSkuId;
+                    //h5Link ="/comm/detail/pin/" + itemTypeId + "/" + itemSkuId;
+                    h5Link ="/comm/detail/pin/" + itemId + "/" + skuTypeId;
             }else{
-                    themeType = "ordinary";
-                    h5Link ="/comm/detail/item/" + itemTypeId + "/" + itemSkuId;
+                    themeType = "detail";
+                    //h5Link ="/comm/detail/item/" + itemTypeId + "/" + itemSkuId;
+                    h5Link ="/comm/detail/item/" + itemId + "/" + skuTypeId;
             }
         }
 
         //主题主宣传图上的标签
-        var masterItemTag = [];
-        var tagsContainer = $("#dragon-container");
-        $("#dragon-container").find(".dragon-contained").each(function(){
-            var tag = {};
-            if($(this).find(".dragon-graph").css('transform').indexOf("-1")>=0){
-                tag.angle = 180;
-                var container_width = parseInt($(this).parent().width());
-                var container_height = parseInt($(this).parent().height());
-                var left = parseInt($(this).css("left").replace("px","")) + $(this).width();
-                var top = parseInt($(this).css("top").replace("px",""));
-                tag.left = parseFloat((left/container_width).toFixed(2));
-                tag.top = parseFloat((top/container_height).toFixed(2));
-                tag.name = $(this).find("p").text();
-                var url = {};
-                url.type = $(this).find(".item-type").text();
-                url.id = $(this).find(".item-id").text();
-                tag.url = url;
-            }else{
-                tag.angle = 0;
-                var container_width = parseInt($(this).parent().width());
-                var container_height = parseInt($(this).parent().height());
-                var left = parseInt($(this).css("left").replace("px",""));
-                var top = parseInt($(this).css("top").replace("px",""));
-                tag.left = parseFloat((left/container_width).toFixed(2));
-                tag.top = parseFloat((top/container_height).toFixed(2));
-                tag.name = $(this).find("p").text();
-                var url = {};
-                url.type = $(this).find(".item-type").text();
-                url.id = $(this).find(".item-id").text();
-                tag.url = url;
-            }
-            masterItemTag.push(tag);
-        })
+         var masterItemTag;
+        if(themeType != 'detail' && imgSel){
+            masterItemTag = [];
+            var tagsContainer = $("#dragon-container");
+            $("#dragon-container").find(".dragon-contained").each(function(){
+                var tag = {};
+                if($(this).find(".dragon-graph").css('transform').indexOf("-1")>=0){
+                    tag.angle = 180;
+                    var container_width = parseInt($(this).parent().width());
+                    var container_height = parseInt($(this).parent().height());
+                    var left = parseInt($(this).css("left").replace("px","")) + $(this).width();
+                    var top = parseInt($(this).css("top").replace("px",""));
+                    tag.left = parseFloat((left/container_width).toFixed(2));
+                    tag.top = parseFloat((top/container_height).toFixed(2));
+                    tag.name = $(this).find("p").text();
+                    var url = {};
+                    url.type = $(this).find(".item-type").text();
+                    url.id = $(this).find(".item-id").text();
+                    tag.url = url;
+                }else{
+                    tag.angle = 0;
+                    var container_width = parseInt($(this).parent().width());
+                    var container_height = parseInt($(this).parent().height());
+                    var left = parseInt($(this).css("left").replace("px",""));
+                    var top = parseInt($(this).css("top").replace("px",""));
+                    tag.left = parseFloat((left/container_width).toFixed(2));
+                    tag.top = parseFloat((top/container_height).toFixed(2));
+                    tag.name = $(this).find("p").text();
+                    var url = {};
+                    url.type = $(this).find(".item-type").text();
+                    url.id = $(this).find(".item-id").text();
+                    tag.url = url;
+                }
+                masterItemTag.push(tag);
+            })
+        }
+
 
         //主题列表主宣传图
         var imgSel = $("#imgSel").prop("checked");
@@ -249,7 +276,7 @@ $(function() {
         themeImgContent.width = $("#themeImg").find("input").width().toString();
         themeImgContent.height = $("#themeImg").find("input").height().toString();
         //主题tag背景图
-         if(themeType != 'detail' && imgSel){
+         if(themeTypeCheck != 'detail' && imgSel){
              //var imgUrl = document.getElementById("dragon-container").getElementsByTagName("img")[0].src;
              var imgUrl = $("#dragon-container").find("img").attr("src");
              console.log("图片地址:" + imgUrl);
@@ -277,9 +304,9 @@ $(function() {
         theme.type = themeType;
         theme.h5Link = h5Link;
         theme.themeItem = themeItems;
-        if(JSON.stringify(masterItemTag) != "[]"){
+        //if(JSON.stringify(masterItemTag) != "[]"){
         theme.themeTags = masterItemTag;
-        }
+        //}
         theme.themeMasterImg = JSON.stringify(themeMasterImgContent);
         var data = {};
         data.theme = theme;
@@ -341,7 +368,7 @@ $(function() {
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
-         if($("#onShelvesAt").val()>$("#offShelvesAt").val()){
+         if(!themeOffShelf && $("#onShelvesAt").val()>$("#offShelvesAt").val()){
             isPost = false;
             $('#js-userinfo-error').text('日期不正确!').css('color', '#c00');
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
@@ -439,27 +466,12 @@ $(function() {
 
     //主题下架-----普通
     $(document).on("click","#js-usercenter-delete",function(){
-        //当前系统时间
-//        var dateTime = new Date();
-//        var currentTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-//        dateTime.setSeconds(dateTime.getSeconds() + 15);
-//        var deleteDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-//        //设置主题结束时间
-//        $("#offShelvesAt").val(deleteDate);
-        //点击保存
         themeOffShelf = true;
         $("#js-usercenter-submit").click();
     })
 
     //主题下架-----HTML5
     $(document).on("click","#js-usercenter-delete-h5",function(){
-//        //当前系统时间
-//        var dateTime = new Date();
-//        var currentTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-//        dateTime.setSeconds(dateTime.getSeconds() + 15);
-//        var deleteDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-//        //设置主题结束时间
-//        $("#offShelvesAt").val(deleteDate);
         //点击保存
         themeOffShelf = true;
         $("#js-usercenter-submit-h5").click();

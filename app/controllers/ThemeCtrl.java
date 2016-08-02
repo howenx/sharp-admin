@@ -346,7 +346,7 @@ public class ThemeCtrl extends Controller {
         List<Object[]> inList = new ArrayList<>();
         for(Inventory inventory : inventoryList){
             Item item = itemService.getItem(inventory.getItemId());
-            Object[] object = new Object[8];
+            Object[] object = new Object[9];
             object[0] = inventory.getId();
             object[1] = inventory.getInvTitle();
             if(Regex.isJason(inventory.getInvImg())){
@@ -374,6 +374,7 @@ public class ThemeCtrl extends Controller {
             object[5] = inventory.getItemPrice();
             object[6] = inventory.getItemSrcPrice();
             object[7] = inventory.getItemDiscount();
+            object[8] = item.getId();
             inList.add(object);
         }
 
@@ -381,7 +382,7 @@ public class ThemeCtrl extends Controller {
         List<PinSku> pinSkuList = pingouService.getAvailablePingou();
         List<Object[]> pinList = new ArrayList<>();
         for(PinSku pinSku : pinSkuList){
-            Object[] object = new Object[9];
+            Object[] object = new Object[10];
             object[0] = pinSku.getPinId();
             object[1] = pinSku.getPinTitle();
             if(Regex.isJason(pinSku.getPinImg())){
@@ -416,6 +417,8 @@ public class ThemeCtrl extends Controller {
 
             object[7] = pinSku.getPinDiscount();
             object[8] = pinSku.getInvId();
+            Inventory inventory = inventoryService.getInventory(pinSku.getInvId());
+            object[9] = inventory.getItemId();
             pinList.add(object);
         }
 
@@ -427,7 +430,7 @@ public class ThemeCtrl extends Controller {
 
             Item item = itemService.getItem(inventory.getItemId());
 
-            Object[] object = new Object[9];
+            Object[] object = new Object[10];
             object[0] = varyPrice.getId();
             object[1] = item.getItemTitle();
             if(Regex.isJason(inventory.getInvImg())){
@@ -455,6 +458,7 @@ public class ThemeCtrl extends Controller {
             object[7] = varyPrice.getPrice().divide(inventory.getItemSrcPrice(),2);
             object[5] = varyPrice.getPrice();
             object[8] = varyPrice.getInvId();
+            object[9] = inventory.getItemId();
             varyList.add(object);
         }
         return ok(views.html.theme.thaddPop.render(inList,pinList,varyList,SysParCom.IMAGE_URL));
@@ -500,9 +504,8 @@ public class ThemeCtrl extends Controller {
 //            return badRequest();
 //        }
 
-        //基本样式不匹配;主图片,开始日期大于结束日期;       Modified by Tiffany Zhu 2016.07.29
-        if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || (theme.getStartAt().compareTo(theme.getEndAt())>= 0) ||
-                theme.getEndAt().compareTo(strNow) < 0 || theme.getStartAt().compareTo(validDate) > 0 || theme.getEndAt().compareTo(validDate) > 0 ){
+        //基本样式不匹配;主图片,日期验证;       Modified by Tiffany Zhu 2016.07.29
+        if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || theme.getEndAt().compareTo(strNow) < 0 || theme.getStartAt().compareTo(validDate) > 0 || theme.getEndAt().compareTo(validDate) > 0 ){
             return badRequest();
         }
         //数据验证      ----end
@@ -526,7 +529,7 @@ public class ThemeCtrl extends Controller {
         //创建Scheduled Actor         ---end
 
         //添加主题Id到商品中
-        if (ids.size() > 0){
+        if (ids != null && ids.size() > 0){
             for(JsonNode idBar : ids){
                 String type = idBar.findValue("type").toString();
                 type = type.substring(1,type.length()-1);
@@ -584,7 +587,7 @@ public class ThemeCtrl extends Controller {
             for(JsonNode beforeItem : beforeUpdJson){
                 String beforeId = beforeItem.get("id").toString();
                 //最新的商品中不包含变更前的商品
-                if(!theme.getThemeItem().contains(beforeId)){
+                if(theme.getThemeItem() != null && !theme.getThemeItem().contains(beforeId)){
                     String type = beforeItem.get("type").toString();
                     type = type.substring(1,type.length()-1);
                     Long id = beforeItem.get("id").asLong();
@@ -751,7 +754,7 @@ public class ThemeCtrl extends Controller {
                     String type = tempId.get("type").toString();
                     String resultType = type.substring(1,type.length()-1);
                     if("item".equals(resultType)){
-                        Object[] object = new Object[11];
+                        Object[] object = new Object[12];
                         Inventory inventory = inventoryService.getInventory(tempId.get("id").asLong());
                         if(inventory != null){
                             object[0] = inventory.getId();
@@ -786,12 +789,13 @@ public class ThemeCtrl extends Controller {
                             object[8] = itemNum;
                             object[9] = "普通";
                             object[10] = inventory.getId();
+                            object[11] = inventory.getItemId();
                             itemList.add(object);
                         }
                     }
 
                     if("pin".equals(resultType)){
-                        Object[] object = new Object[11];
+                        Object[] object = new Object[12];
                         PinSku pinSku = pingouService.getPinSkuById(tempId.get("id").asLong());
                         if(pinSku != null){
                             Inventory inventory = inventoryService.getInventory(pinSku.getInvId());
@@ -828,12 +832,13 @@ public class ThemeCtrl extends Controller {
                             object[8] = itemNum;
                             object[9] = "拼购";
                             object[10] = pinSku.getPinId();
+                            object[11] = inventory.getItemId();
                             itemList.add(object);
                         }
                     }
 
                     if("vary".equals(resultType)){
-                        Object[] object = new Object[11];
+                        Object[] object = new Object[12];
                         VaryPrice varyPrice = varyPriceService.getVaryPriceById(tempId.get("id").asLong());
                         if(varyPrice != null){
                             Inventory inventory = inventoryService.getInventory(varyPrice.getInvId());
@@ -858,12 +863,13 @@ public class ThemeCtrl extends Controller {
                             object[8] = itemNum;
                             object[9] = "多样化";
                             object[10] = varyPrice.getId();
+                            object[11] = inventory.getItemId();
                             itemList.add(object);
                         }
 
                     }
                     if("customize".equals(resultType)){
-                        Object[] object = new Object[11];
+                        Object[] object = new Object[12];
                         SubjectPrice subjectPrice = subjectPriceService.getSbjPriceById(tempId.get("id").asLong());
                         if(subjectPrice != null){
                             Inventory inventory = inventoryService.getInventory(subjectPrice.getInvId());
@@ -900,6 +906,7 @@ public class ThemeCtrl extends Controller {
                             object[8] = itemNum;
                             object[9] = "自定义";
                             object[10] = subjectPrice.getId();
+                            object[11] = inventory.getItemId();
                             itemList.add(object);
                         }
                     }

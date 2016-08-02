@@ -41,10 +41,15 @@
              $("#themeDescribe").attr("disabled",false);
              $("#h5-link").attr("disabled",false);
              $("#getTemplate").css("display","");
+             //保存按钮 可见
              $("#js-usercenter-submit-h5").css("display","");
+             //取消按钮 可见
              $("#js-usercenter-cancel-h5").css("display","");
+             //下架按钮 可见
              $("#js-usercenter-delete-h5").css("display","");
              $("#js-usercenter-edit-h5").css("display","none");
+             //返回按钮 隐藏
+            $("#js-usercenter-back").css({"display":"none"});
         })
 
         //点击取消按钮
@@ -91,6 +96,7 @@
             Lang(Lang.forCode(lang)),"themes.slider.save")
         </div>
         <div  id="js-usercenter-edit-h5" class="btn-blue btn-form fr ml15">编辑</div>
+        <div  id="js-usercenter-back" class="btn-blue btn-form fr ml15">返回</div>
         <div id="js-usercenter-cancel-h5" class="btn-white btn-form fr ml20">@Messages.get(new
             Lang(Lang.forCode(lang)),"themes.slider.cancel")
         </div>

@@ -118,5 +118,4 @@
         </include>
         from items t where supply_merch = #{value} ORDER BY t.id
     </select>
-
 </mapper>

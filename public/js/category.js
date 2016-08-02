@@ -1,3 +1,6 @@
+//修改标记
+var change_flag = false;
+
 function UpdateFields(obj) {
 	var targetType = obj.targetType;
 	var $obj = obj;
@@ -70,11 +73,10 @@ function changeText(event,element){
 	element.innerHTML = "";
 	$(addText).appendTo($(element));
 	addText.focus();
+	change_flag = true;
 }
 $(function() {
 	var del_array = []
-	var change_flag = false;
-
 	/**	上移 **/
 	$(document).on('click', '.slider-label-image-up', function() {
 		var temp_sort = $(this).parent().next().attr('data-sort');
@@ -155,6 +157,30 @@ $(function() {
 	/**	保存 **/
 	$(document).on('click', '#js-usercenter-submit', function() {
 		if (change_flag) {
+		    //分类入口个数验证
+	        var categoryCount = $(".category").size();
+            if(categoryCount < window.categoryCount){
+                $('#js-userinfo-error').text("必须上传" + window.categoryCount + "个").css('color', '#c00');
+                setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+                return false;
+            }
+
+            //文字长度验证
+            var loopBreak = false;
+            $(".category").find(".category-name").each(function(){
+                var index =  $(this).index() + 1;
+                if($(this).text().length > 4){
+                    $('#js-userinfo-error').text("文本不能超过4个字,第" + index + "个分类入口超过4个字").css('color', '#c00');
+                    setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+                    loopBreak = true;
+                    return false;
+                }
+            })
+
+            if(loopBreak){
+            return false;
+            }
+
 			var sliderdto = new Object();
 			var slider_array = [];
 			//取现有图片ID和排序

@@ -157,6 +157,9 @@
             <span class="glyphicon glyphicon-chevron-up"></span>
             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
         </th>
+        <th style="display:none">
+            ItemId
+        </th>
     </tr>
     </thead>
     @for(item <- itList){
@@ -174,6 +177,7 @@
         <td>@item(5)</td>
         <td>@item(6)</td>
         <td>@item(7)</td>
+        <td style="display:none">@item(8)</td>
     </tr>
     }
 </table>
@@ -219,6 +223,9 @@
             <span class="glyphicon glyphicon-chevron-up"></span>
             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
         </th>
+        <th style="display:none">
+            ItemId
+        </th>
     </tr>
     @for(pin <- pinList){
     <tr>
@@ -235,6 +242,7 @@
         <td>@pin(5)</td>
         <td>@pin(6)</td>
         <td>@pin(7)</td>
+        <td style="display:none">@pin(9)</td>
     </tr>
     }
 </table>
@@ -280,6 +288,9 @@
             <span class="glyphicon glyphicon-chevron-up"></span>
             <!--<span class="glyphicon glyphicon-chevron-down"></span>-->
         </th>
+        <th style="display:none">
+            ItemId
+        </th>
     </tr>
     @for(varyPrice <- varyList){
     <tr>
@@ -296,6 +307,7 @@
         <td>@varyPrice(5)</td>
         <td>@varyPrice(6)</td>
         <td>@varyPrice(7)</td>
+        <td style="display:none">@varyPrice(9)</td>
     </tr>
     }
 </table>

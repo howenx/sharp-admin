@@ -202,6 +202,7 @@ $(function () {
     var editRow;
     var beforePrice;
     var beforeDiscount;
+    //双击普通商品
     $("table.grid tbody").on("dblclick","tr",function(e){
         if(pageEditStatus){
             var obj = e.target;
@@ -214,7 +215,7 @@ $(function () {
                 trindex = $(".grid tbody tr").index($(this));
                 editRow = $(this).prop("outerHTML");
                 $(".tableBlock").show();
-                $(this).find("td").eq(11).remove();
+                $(this).find("td").eq(12).remove();
                 $(this).appendTo(".tableBlock tbody");
             }
         }
@@ -222,6 +223,7 @@ $(function () {
     $(".tableBlock tbody").on("click","td:nth-of-type(9),td:nth-of-type(11)",function(e){
         changeText(e,this);
     })
+
     $(".tableok").click(function(){
         var positive_float = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;       //金钱校验
 
