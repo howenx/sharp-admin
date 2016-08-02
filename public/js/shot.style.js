@@ -119,7 +119,7 @@ $(function() {
         }
 
         //不选择商品 只上传图片 验证图片是否上传   Modified by Tiffany Zhu 2016.07.29
-        if(goodsSel == false && document.getElementById("dragon-container").innerHTML.indexOf("img")<0)
+        if((goodsSel == false && document.getElementById("dragon-container").innerHTML.indexOf("img")<0) || (themeTypeCheck == 'ordinary' && $("#imgSel").prop("checked") == true && document.getElementById("dragon-container").innerHTML.indexOf("img")<0))
         {
             isPost = false;
             $('#js-userinfo-error').text('请上传主题的首页主图!').css('color', '#c00');
