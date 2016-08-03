@@ -119,7 +119,7 @@ public class AdminUserCtrl extends Controller {
                     .setFrom("developer@hanmimei.com")
                     .addTo(adminUser.getEmail())
                     .setBodyText("A text message")
-                    .setBodyHtml("<html><body><p>韩秘美后台, 用户名:"+adminUser.getEnNm()+", 请用密码登录:"+defPwd+"</p></body></html>");
+                    .setBodyHtml("<html><body><p>KakaoGift后台, 用户名:"+adminUser.getEnNm()+", 请用密码登录:"+defPwd+"</p></body></html>");
             mailerClient.send(email);
             Logger.debug("邮件发送成功!");
 
