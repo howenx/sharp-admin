@@ -99,12 +99,13 @@ public class ItemCtrl extends Controller {
         }
         inventory.setPageSize(ThemeCtrl.PAGE_SIZE);
         inventory.setOffset(0);
-        inventoryList = inventoryService.invSearch(inventory);
-        for(Inventory inv : inventoryList) {
-            inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
-        }
+//        inventoryList = inventoryService.invSearch(inventory);
+//        for(Inventory inv : inventoryList) {
+//            String url = Json.parse(inv.getInvImg()).get("url")==null?"":Json.parse(inv.getInvImg()).get("url").asText();
+//            inv.setInvImg(url);
+//        }
         Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
-        return ok(views.html.item.itemsearch.render(lang, SysParCom.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount,inventoryList, (User) ctx().args.get("user"), area));
+        return ok(views.html.item.itemsearch.render(lang, SysParCom.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount, (User) ctx().args.get("user"), area));
     }
 
     /**
@@ -132,7 +133,8 @@ public class ItemCtrl extends Controller {
             inventory.setOffset(offset);
             inventoryList = inventoryService.invSearch(inventory);
             for(Inventory inv : inventoryList) {
-                inv.setInvImg(Json.parse(inv.getInvImg()).get("url").asText());
+                String url = Json.parse(inv.getInvImg()).get("url")==null?"":Json.parse(inv.getInvImg()).get("url").asText();
+                inv.setInvImg(url);
             }
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
@@ -199,7 +201,7 @@ public class ItemCtrl extends Controller {
 //            object[11] = inventory.getPostalTaxCode();
             object[12] = inventory.getInvArea();
             object[13] = inventory.getInvCustoms();
-            object[14] = Json.parse(inventory.getInvImg()).get("url").asText();
+            object[14] = Json.parse(inventory.getInvImg()).get("url")==null?"":Json.parse(inventory.getInvImg()).get("url").asText();
             object[15] = inventory.getItemPreviewImgs();
             object[16] = inventory.getState();
             object[17] = inventory.getRecordCode();
