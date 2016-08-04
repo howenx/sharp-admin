@@ -311,7 +311,7 @@ public class ItemMiddle {
                         }
                         inventory.setAmount(inventory.getRestAmount());
                         inventory.setInvTitle(item.getItemTitle());
-                        Logger.error("sku信息:::::::"+inventory.toString());
+//                        Logger.error("sku信息:::::::"+inventory.toString());
                         inventoryService.insertInventory(inventory);
                         String createDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
                         itemStatis.setCreateDate(createDate);
