@@ -153,11 +153,19 @@
                     <div class="col-sm-2">
                         <select class="form-control form-data-area" id="categorySelect">
                             @for(cate <- catesParentList) {
+                                @if(cates.getPcateId()==null && cates.getCateId()==cate.getCateId()) {
+                                <option value="@cate.getCateId()" selected>@cate.getCateNm()
+                                </option>
+                                }
+                                @if(cates.getPcateId()==null && cates.getCateId()!=cate.getCateId()) {
+                                <option value="@cate.getCateId()">@cate.getCateNm()
+                                </option>
+                                }
                                 @if(cates.getPcateId()==cate.getCateId()) {
                                 <option value="@cate.getCateId()" selected>@cate.getCateNm()
                                 </option>
                                 }
-                                @if(cates.getPcateId()!=cate.getCateId()) {
+                                @if(cates.getPcateId()!=null && cates.getPcateId()!=cate.getCateId()) {
                                 <option value="@cate.getCateId()">@cate.getCateNm()
                                 </option>
                                 }
