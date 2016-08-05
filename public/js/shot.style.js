@@ -216,7 +216,7 @@ $(function() {
         var h5Link;
         if(themeTypeCheck == "detail"){
             var itemId =$("#sort").find("tr").eq(1).find("td:eq(11)").text();
-            var skuTypeId =  $("#sort").find("tr").eq(1).find("td:eq(1)").text();
+            var skuTypeId =  $("#sort").find("tr").eq(1).find("td:eq(3)").text();
             if( $("#sort").find("tr").eq(1).find("td:eq(2)").text() == "拼购"){
                     h5Link ="/comm/detail/pin/" + itemId + "/" + skuTypeId;
                     themeType = "pin";
