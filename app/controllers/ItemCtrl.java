@@ -178,6 +178,11 @@ public class ItemCtrl extends Controller {
         if(null != cates.getPcateId()) {
             pCateNm = itemService.getCate(cates.getPcateId()).getCateNm();
         } else pCateNm = cates.getCateNm();
+        HashMap<String, Long> hashMap = new HashMap<String, Long>();
+        hashMap.put("parentCateId", cates.getCateId());
+        if (null == cates.getPcateId() && itemService.getSubCates(hashMap).size()==0) {
+            cates.setCateNm("");
+        }
         Brands brands = itemService.getBrands(item.getBrandId());
         List<Inventory> inventories = inventoryService.getInventoriesByItemId(id);
         //包含modelName的库存列表
