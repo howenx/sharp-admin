@@ -200,7 +200,9 @@ $(function() {
                           customizeObject.id =  $(this).find("td:eq(3)").text();
                       }
                       customizeObject.invId = $(this).find("td:eq(1)").text();
-                      customizeObject.state = $(this).find("td:eq(7)").text();
+                      if($(this).find("td:eq(7)").text() == "正常"){
+                             customizeObject.state = "Y";
+                      }
                       customizeObject.price = $(this).find("td:eq(8)").text();
                       customizeObject.discount = $(this).find("td:eq(10)").text();
                       customizeItems.push(customizeObject);
