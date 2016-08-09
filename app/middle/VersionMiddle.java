@@ -86,7 +86,7 @@ public class VersionMiddle {
         encoder.flush();
         encoder.close();
 
-        String xmlFileName = "kakogift.xml";
+        String xmlFileName = "kakaogift.xml";
         objMetadata.setContentLength(baos.toByteArray().length);
         objMetadata.setContentType("application/xml");
 
