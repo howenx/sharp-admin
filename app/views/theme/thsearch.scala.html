@@ -97,7 +97,8 @@
             <label class="col-sm-2 control-label">主题状态</label>
             <div class="col-sm-3">
                 <select class="form-control" id="topic-form-status">
-                    <option value="false">正常</option>
+                    <option value=""></option>
+                    <option value="false" selected="selected">正常</option>
                     <option value="true">下架</option>
                 </select>
             </div>
@@ -158,7 +159,7 @@
                     </tr>
                 }
                 <!---公用模块,id不能改变,只需要改变合并行数-->
-                <tr id="nodata-td" style="display:none;"><td colspan="6">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+                <tr id="nodata-td" style="display:none;"><td colspan="7">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
 
