@@ -60,7 +60,7 @@ public class VersionMiddle {
         ObjectMetadata objMetadata = new ObjectMetadata();
         objMetadata.setContentLength(file.length());
 
-        String fileName = "HMM-" + versionVo.getReleaseName().toUpperCase() + ".";
+        String fileName = "KakaoGift-" + versionVo.getReleaseName().toUpperCase() + ".";
 
 
         if (versionVo.getProductType().equals("ios")) {
@@ -86,7 +86,7 @@ public class VersionMiddle {
         encoder.flush();
         encoder.close();
 
-        String xmlFileName = "hmm.xml";
+        String xmlFileName = "kakogift.xml";
         objMetadata.setContentLength(baos.toByteArray().length);
         objMetadata.setContentType("application/xml");
 
