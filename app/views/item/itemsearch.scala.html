@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",url:String,pageSize:Integer,countNum:Integer,pageCount:Integer,invs:List[domain.Inventory],user:domain.User, area:Map[String,String])
+@(lang:String="cn",url:String,pageSize:Integer,countNum:Integer,pageCount:Integer,user:domain.User, area:Map[String,String])
 @scripts = {
 <link rel="stylesheet" href="/assets/css/bootstrap-datetimepicker1.css"/>
 <link rel="stylesheet" href="/assets/css/search.css">
@@ -140,44 +140,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!--@for(inv <- invs){-->
-					<!--&lt;!&ndash;必须使用tb-list-data类名，公用&ndash;&gt;-->
-                    <!--<tr class = "tb-list-data">-->
-                        <!--<td><input type="checkbox" name="selectItem"></td>-->
-                        <!--<td><a href="/@lang/comm/findById/@inv.getItemId()" class="item-info">@inv.getItemId()</a></td>-->
-                        <!--<td>@inv.getId()</a></td>-->
-                        <!--<td style="width: 20%;">@inv.getInvTitle()</td>-->
-                        <!--<td>-->
-                            <!--<img class="main-img" src='@url@inv.getInvImg()' alt="" width="50">-->
-                        <!--</td>-->
-                        <!--<td>@inv.getItemColor()&nbsp;&nbsp;@inv.getItemSize()</td>-->
-                        <!--<td>@inv.getInvCode()</td>-->
-                        <!--<td>-->
-                            <!--@if(inv.getInvArea()=="H"){杭州保税仓备案}-->
-                            <!--@if(inv.getInvArea()=="HZ"){杭州保税仓直邮}-->
-                            <!--@if(inv.getInvArea()=="G"){广州保税仓备案}-->
-                            <!--@if(inv.getInvArea()=="GZ"){广州保税仓直邮}-->
-                            <!--@if(inv.getInvArea()=="S"){上海保税仓备案}-->
-                            <!--@if(inv.getInvArea()=="SZ"){上海保税仓直邮}-->
-                            <!--@if(inv.getInvArea()=="K"){海外直邮}-->
-                        <!--</td>-->
-                        <!--<td>@if(inv.getStartAt()!=null){@(inv.getStartAt().toString().substring(0,19))}</td>-->
-                        <!--<td>@if(inv.getEndAt()!=null){@(inv.getEndAt().toString().substring(0,19))}</td>-->
-                        <!--<td>@inv.getRestAmount()</td>-->
-                        <!--&lt;!&ndash;<td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;@if(inv.getOrMasterInv()==true){是}&ndash;&gt;-->
-                            <!--&lt;!&ndash;@if(inv.getOrMasterInv()==false){否}&ndash;&gt;-->
-                        <!--&lt;!&ndash;</td>&ndash;&gt;-->
-                        <!--<td>-->
-                            <!--<input type="hidden" value="@inv.getState()">-->
-                            <!--@if(inv.getState()=="Y"){正常}-->
-                            <!--@if(inv.getState()=="D"){下架}-->
-                            <!--@if(inv.getState()=="N"){删除}-->
-                            <!--@if(inv.getState()=="K"){售空}-->
-                            <!--@if(inv.getState()=="P"){预售}-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                <!--}-->
                 <tr id="nodata-td" style="display:none;"><td colspan="13">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>

@@ -667,6 +667,7 @@ public class ThemeCtrl extends Controller {
             //JsonNode themeItem = json.findValue("themeItem");
             for(JsonNode customizeItem : customizeItems){
                 SubjectPrice subjectPrice = Json.fromJson(customizeItem,SubjectPrice.class);
+                Logger.error("保存自定义价格:" + subjectPrice);
                 subjectPrice.setThemeId(theme.getId());
                 subjectPriceService.sbjPriceSave(subjectPrice);
                 for(int i=0;i<ids.size();i++){
@@ -689,6 +690,7 @@ public class ThemeCtrl extends Controller {
         List<SubjectPrice> subjectPriceList = subjectPriceService.getSbjPriceByThemeId(theme.getId());
         if(customizeItems.size() > 0){
             for(SubjectPrice sbjPrice : subjectPriceList){
+                Logger.error("删除自定义价格:" + sbjPrice);
                 if(customizeItems.toString().indexOf(sbjPrice.getInvId().toString())<0){
                     subjectPriceService.updStateById(sbjPrice.getId());
                 }
