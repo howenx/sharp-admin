@@ -224,20 +224,22 @@
         </tr>
         </thead>
         @for(theme <- themeList) {
-        <tr>
-            <td><input type="radio" name="selectTheme"></td>
-            <td>@theme.getId()</td>
-            <td>
-                @if(theme.getType()=="ordinary"){普通主题}
-                @if(theme.getType()=="h5"){H5主题}
-                <input class="topic-type" type="hidden" value="@theme.getType()">
-                <input class="h5Link" type="hidden" value="@theme.getH5Link()">
-            </td>
-            <td>@theme.getTitle()</td>
-            <td><img class="main-img" src='@url@theme.getThemeImg()' alt="" width="50"></td>
-            <td>@theme.getStartAt()</td>
-            <td>@theme.getEndAt()</td>
-        </tr>
+        @if(theme.getType()!="pin" && theme.getType()!="detail") {
+            <tr>
+                <td><input type="radio" name="selectTheme"></td>
+                <td>@theme.getId()</td>
+                <td>
+                    @if(theme.getType()=="ordinary"){普通主题}
+                    @if(theme.getType()=="h5"){H5主题}
+                    <input class="topic-type" type="hidden" value="@theme.getType()">
+                    <input class="h5Link" type="hidden" value="@theme.getH5Link()">
+                </td>
+                <td>@theme.getTitle()</td>
+                <td><img class="main-img" src='@url@theme.getThemeImg()' alt="" width="50"></td>
+                <td>@theme.getStartAt()</td>
+                <td>@theme.getEndAt()</td>
+            </tr>
+        }
         }
     </table>
 </div>
