@@ -120,7 +120,7 @@
 
             console.log(object);
             if(isPost){
-                 if(payMethod == "支付宝" && $(".response option:selected").val() == ""){
+                 if(payMethod == "支付宝" && $(".response option:selected").val() == "A"){
                         $("#refundForm").submit();
                  }else{
                         $.ajax({
