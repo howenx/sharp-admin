@@ -5,6 +5,13 @@ var longDateFormat = 'yyyy-MM-dd HH:mm:ss';
 //将当前时间设置为结束时间
 // $('#topic-form-endtime').val($.format.date(new Date(), longDateFormat));
 
+    /** 回车键登录 **/
+    $(document).keydown(function(e) {
+        if (e.keyCode==13) {
+            $("#topic-search-bt").trigger("click");
+        }
+    });
+
 //每个查询页面对应一个相应的组装函数  主题查询页面 ,只更改前缀,不要更改下划线后面的名称
 funcList.thmlist_search = function thmlist_search(pageIndex) {
     var topicDto = new Object();
@@ -1081,7 +1088,6 @@ $(function() {
         $(".order-admin table").eq(index).show();
         $(".btn-submit").eq(index).show();
     })
-    /**2016-7-4**/
 
 
 })
