@@ -129,7 +129,7 @@ public class ThemeCtrl extends Controller {
                 }
             }
         }
-        Logger.error("数据:" + json);
+//        Logger.error("数据:" + json);
         service.categorySave(json);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
@@ -158,7 +158,7 @@ public class ThemeCtrl extends Controller {
                 slist.add(skus);
             }
         }
-        Logger.error("分类入口弹出框数据:" + tList);
+//        Logger.error("分类入口弹出框数据:" + tList);
         if (themeList.size()>0 && skusList.size()>0) {
             return ok(views.html.theme.categoryPop.render(tList,slist,SysParCom.IMAGE_URL));
         }
@@ -197,7 +197,7 @@ public class ThemeCtrl extends Controller {
                 }
             }
         }
-        Logger.error("数据:" + json);
+//        Logger.error("数据:" + json);
         service.sliderSave(json);
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
