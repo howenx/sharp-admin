@@ -108,7 +108,7 @@
             and t.inv_title like '%${invTitle}%'
         </if>
         <if test='invCode != null and invCode != "null" and invCode != "" '>
-            and t.inv_code = #{invCode}
+            and t.inv_code like '%${invCode}%'
         </if>
         <if test='invArea != null and invArea != "null" and invArea != "" '>
             and t.inv_area = #{invArea}
