@@ -116,6 +116,7 @@ public class VersionCtrl extends Controller {
 
     @Security.Authenticated(UserAuth.class)
     public Result logview() {
+        Logger.error("是否安全链接---->"+request().secure());
         String socketUrl = null;
         if (configuration.getString("websocket.url") != null) {
             socketUrl = configuration.getString("websocket.url");
