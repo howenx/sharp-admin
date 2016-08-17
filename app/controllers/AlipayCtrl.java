@@ -45,7 +45,7 @@ public class AlipayCtrl extends Controller {
         sParaTemp.put("service", "refund_fastpay_by_platform_pwd");
         sParaTemp.put("partner", SysParCom.ALIPAY_PARTNER);
         sParaTemp.put("_input_charset", "utf-8");
-        sParaTemp.put("notify_url", SysParCom.SHOPPING_URL + "/client/alipay/pay/refund");
+        sParaTemp.put("notify_url", SysParCom.PAY_URL + "/client/alipay/pay/refund");
         sParaTemp.put("seller_user_id", SysParCom.ALIPAY_PARTNER);
         sParaTemp.put("refund_date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         sParaTemp.put("batch_no", new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + orderId);

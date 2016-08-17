@@ -103,6 +103,8 @@ public class SysParCom {
 
     //分类入口数
     public static int CATEGORYCOUNT;
+    //pay服务器url
+    public static String PAY_URL;
 
 
     @Inject
@@ -164,6 +166,8 @@ public class SysParCom {
         REFRESHTIME = configuration.getInt("coupon.ctrip.refreshTokenTime");
         ACCESSTIME = configuration.getInt("coupon.ctrip.accessTokenTime");
         CATEGORYCOUNT = configuration.getInt("category.count");
+
+        PAY_URL = configuration.getString("pay.server.url");
 
     }
 
