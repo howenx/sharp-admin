@@ -3,7 +3,7 @@ package domain;
 import java.io.Serializable;
 
 /**
- * 优惠券发放调用
+ * 优惠券发放调用actor参数对象
  * Created by Sunny Wu on 16/8/18.
  * kakao china.
  */

@@ -1,7 +1,6 @@
 package controllers;
 
 import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import domain.CouponRec;
 import domain.Coupons;
@@ -38,9 +37,6 @@ public class CoupCtrl extends Controller {
 
     @Inject
     private OrderService orderService;
-
-    @Inject
-    private ActorSystem system;
 
     @Inject
     @Named("couponSendActor")
