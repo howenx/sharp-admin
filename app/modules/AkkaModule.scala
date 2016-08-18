@@ -24,5 +24,6 @@ class AkkaModule extends AbstractModule with AkkaGuiceSupport {
     bindActor[AdminRunActor]("adminRunActor")
     bindActor[AutoDeployActor]("autoDeployActor")
     bindActor[MnsActor]("mnsActor")
+    bindActor[CouponSendActor]("couponSendActor")
   }
 }

@@ -2,7 +2,6 @@ package service;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Throwables;
 import domain.Coupons;
 import domain.CouponsCate;
@@ -11,7 +10,6 @@ import domain.PushMsg;
 import mapper.CouponsMapper;
 import modules.NewScheduler;
 import play.Logger;
-import play.libs.Json;
 import scala.concurrent.duration.Duration;
 import util.MsgTypeEnum;
 import util.SysParCom;
@@ -45,16 +43,17 @@ public class CouponsServiceImpl implements CouponsService {
 
     /**
      * 优惠券保存
-     * @param json
+     * @param coupons
      */
     @Override
-    public void couponsSave(JsonNode json) {
-        for(JsonNode jsonNode : json) {
-            Coupons coupons = Json.fromJson(jsonNode, Coupons.class);
-            Long cateId = coupons.getCateId();
-            String coupId = Coupons.GetCode(cateId, 8);
+    public void couponsSave(Coupons coupons) {
+//        for(JsonNode jsonNode : json) {
+//            Coupons coupons = Json.fromJson(jsonNode, Coupons.class);
+//            Long cateId = coupons.getCoupCateId();
+//            String coupId = Coupons.GetCode(cateId, 8);
+            String coupId = Coupons.CreateCouponCode(11);
             coupons.setCoupId(coupId);
-            coupons.setState("N");
+//            coupons.setState("N");
             Date now = new Date();
             Long nowTimes = now.getTime();
             Date endAt = new Date();
@@ -99,7 +98,7 @@ public class CouponsServiceImpl implements CouponsService {
                 Logger.debug("coupon "+coupId+" auto invalid start...");
                 newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), couponInvalidActor, coupId);
             }
-        }
+//        }
     }
 
     /**

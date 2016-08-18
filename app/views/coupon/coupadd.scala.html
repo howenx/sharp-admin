@@ -10,19 +10,37 @@
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script>window.couponsCateList = "@couponsCateList"</script>
 <script>
     $(function(){
         $(function () {
-            $('#datetimepicker1').datetimepicker({
-                locale: 'zh-cn',
-                format:'YYYY-MM-DD 00:00:00'
-            });
-            $('#datetimepicker2').datetimepicker({
-                locale: 'zh-cn',
-                format:'YYYY-MM-DD 23:59:59'
+            <!--$('#datetimepicker1').datetimepicker({-->
+                <!--locale: 'zh-cn',-->
+                <!--format:'YYYY-MM-DD 00:00:00'-->
+            <!--});-->
+            <!--$('#datetimepicker2').datetimepicker({-->
+                <!--locale: 'zh-cn',-->
+                <!--format:'YYYY-MM-DD 23:59:59'-->
+            <!--});-->
+
+            //选取类别后,显示对应的金额时间信息
+            $('#coupCateId').change(function() {
+                var couponsCateList = $("#couponsCateList").val();
+                var result = couponsCateList.substring(1,couponsCateList.length-1).split("CouponsCate");
+                for(var i=1; i<result.length; i++) {
+                    var couponCate = result[i].substring(1,result[1].length-1);
+                    couponCate = couponCate.split(", ");
+                    if($("#coupCateId").val()==couponCate[0].split("=")[1]) {
+                        $("#limitQuota").val(couponCate[3].split("=")[1]);
+                        $("#denomination").val(couponCate[4].split("=")[1]);
+                        $("#startAt").val(couponCate[5].split("=")[1].substring(1,20));
+                        $("#endAt").val(couponCate[6].split("=")[1].substring(1,20));
+                    }
+                }
             });
         });
-    })
+
+    });
 </script>
 
 <script>
@@ -76,11 +94,8 @@
             $(obj1).eq(i).prepend($("<td class='index'>" + (Number(index) + i) + "</td>")).appendTo($(".table"));
         }
     }
+
 </script>
-<style type="text/css">
-    .start{color:red;padding-top:3px;padding-left:3px;}
-    .r{float:right;}
-</style>
 }
 
 @import java.lang.String; var title="发放优惠券"
@@ -112,36 +127,37 @@
         <form class="form-horizontal" method="post" enctype="multipart/form-data">
             <div class="upinfo">
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" ><div class="r start"> *</div><div class="r">类别</div></label>
+                    <label class="col-sm-1 control-label" style="width:95px;"><div class="r">优惠券类别</div></label>
+                    <input type="hidden" value="@couponsCateList" id="couponsCateList">
                     <div class="col-sm-3">
-                        <select class="form-control form-data-area" id="cateId" name="cateId">
+                        <select class="form-control form-data-area" id="coupCateId" name="coupCateId">
                             <option value="">请选择</option>
                             @for(cc <- couponsCateList) {
-                                <option value="@cc.getCateId()">@cc.getCateNm()</option>
+                                <option value="@cc.getCoupCateId()">@cc.getCoupCateNm()</option>
                             }
                         </select>
                     </div>
-                    <label class="col-sm-1 control-label" style="width:115px;"><div class="r start"> *</div><div class="r">满减金额(￥)</div></label>
+                    <label class="col-sm-1 control-label" style="width:115px;"><div class="r">满减金额(￥)</div></label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control form-data-area" id="limitQuota" name="limitQuota">
+                        <input type="text" class="form-control form-data-area" id="limitQuota" name="limitQuota" readonly>
                     </div>
-                    <label class="col-sm-1 control-label" ><div class="r start"> *</div><div class="r">面值(￥)</div></label>
+                    <label class="col-sm-1 control-label" ><div class="r">面值(￥)</div></label>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control form-data-area" id="denomination" name="denomination">
+                        <input type="text" class="form-control form-data-area" id="denomination" name="denomination" readonly>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" ><div class="r start" style="padding-left:0;"> *</div><div class="r">使用期限</div></label>
+                    <label class="col-sm-1 control-label" style="width:95px;"><div class="r">使用期限</div></label>
                     <div class="col-sm-3">
                         <div class="input-group date" id='datetimepicker1'>
-                            <input class="form-control col-sm-2 form-data-area" type="text"  id="startAt" name="startAt"/>
+                            <input class="form-control col-sm-2 form-data-area" type="text"  id="startAt" name="startAt" readonly/>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
                     <div class="col-sm-1" style="font-size: 24px;width:30px;margin-left:42px;margin-right:42px;">~</div>
                     <div class="col-sm-3">
                         <div class="input-group date" id='datetimepicker2'>
-                            <input class="form-control col-sm-2 form-data-area" type="text"  id="endAt" name="endAt"/>
+                            <input class="form-control col-sm-2 form-data-area" type="text"  id="endAt" name="endAt" readonly/>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
@@ -216,8 +232,8 @@
         var isPost = true;
         var numberReg1 = /^-?\d+\.?\d{0,2}$/;   //整数或小数
         var coupon_list = [];
-        var cateId = $("#cateId").val();
-        var cateNm = $("#cateId  option:selected").text();
+        var coupCateId = $("#coupCateId").val();
+        var coupCateNm = $("#coupCateId  option:selected").text();
         var limitQuota = $("#limitQuota").val();
         var startAt = $("#startAt").val();
         var endAt = $("#endAt").val();
@@ -232,7 +248,7 @@
         var d2 = new Date(Date.parse(endAt.replace(/-/g,"/")));//结束时间
 
         //验证必填项及数据正确性
-        if (cateId=="" || !numberReg1.test(limitQuota) || !numberReg1.test(denomination)) {
+        if (coupCateId=="" || !numberReg1.test(limitQuota) || !numberReg1.test(denomination)) {
             isPost=false;
             $('#js-userinfo-error').text('必填项有误');
         } else if (startAt=="" || endAt=="" || startAt >= endAt ) {
@@ -250,16 +266,12 @@
         } else $('#js-userinfo-error').text('');
 
         for(i=0;i<users.length;i++) {
-            var coupon = new Object();
+            var CouponRec = new Object();
             var userId = users[i].getElementsByTagName("td")[1].innerText;
-            coupon.cateId = cateId;
-            coupon.cateNm = cateNm;
-            coupon.limitQuota = limitQuota;
-            coupon.startAt = startAt;
-            coupon.endAt = endAt;
-            coupon.denomination = denomination;
-            coupon.userId = userId;
-            coupon_list.push(coupon);
+            CouponRec.coupCateId = coupCateId;
+            CouponRec.userId = userId;
+            CouponRec.couponType = 2;
+            coupon_list.push(CouponRec);
         }
         console.log(isPost);
         console.log(JSON.stringify(coupon_list));
@@ -282,7 +294,7 @@
                         $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
                         $('.usercenter-option > .user-state').css('background-position', '20px -174px');
                         $('.usercenter-option > .user-state').text('未更改');
-                        setTimeout("location.href='/"+window.lang+"/coup/add'", 3000);
+                        <!--setTimeout("location.href='/"+window.lang+"/coup/add'", 3000);-->
                     }
                     else {
                         $('#js-userinfo-error').text('保存失败');

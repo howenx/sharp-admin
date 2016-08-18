@@ -190,7 +190,7 @@ public class ItemCtrl extends Controller {
         for(Inventory inventory : inventories) {
             Object[] object = new Object[25];
             object[0] = inventory.getOrMasterInv();
-//            object[1] = inventory.getItemColor();
+            object[1] = inventory.getId();
             object[2] = inventory.getItemSize();
             object[3] = inventory.getInvWeight();
             object[4] = inventory.getAmount();

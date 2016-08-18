@@ -10,7 +10,7 @@
     <sql id="couponsColumns">
         ${alias}.coup_id,
         ${alias}.user_id,
-        ${alias}.cate_id,
+        ${alias}.coup_cate_id,
         ${alias}.denomination,
         ${alias}.start_at,
         ${alias}.end_at,
@@ -18,22 +18,22 @@
         ${alias}.order_id,
         ${alias}.use_at,
         ${alias}.limit_quota,
-        ${alias}.cate_nm
+        ${alias}.coup_cate_nm
     </sql>
 
     <!-- 录入一条优惠券信息 -->
     <insert id="insertCoupons" parameterType="domain.Coupons">
         insert into sp_coupons
-        (coup_id,user_id,cate_id,denomination,start_at,end_at,state,order_id,use_at,limit_quota,cate_nm)
+        (coup_id,user_id,coup_cate_id,denomination,start_at,end_at,state,order_id,use_at,limit_quota,coup_cate_nm)
         values
-        (#{coupId},#{userId},#{cateId},#{denomination},#{startAt}::timestamp,#{endAt}::timestamp,#{state},#{orderId},#{useAt},#{limitQuota},#{cateNm})
+        (#{coupId},#{userId},#{coupCateId},#{denomination},#{startAt}::timestamp,#{endAt}::timestamp,#{state},#{orderId},#{useAt},#{limitQuota},#{coupCateNm})
     </insert>
 
     <!-- 更新一条优惠券信息  Added by Sunny Wu 2016.04.05 -->
     <update id="updateCoupons" parameterType="domain.Coupons">
         update sp_coupons
         set
-        user_id=#{userId},cate_id=#{cateId},denomination=#{denomination},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,state=#{state},order_id=#{orderId},use_at=#{useAt},limit_quota=#{limitQuota},cate_nm=#{cateNm}
+        user_id=#{userId},coup_cate_id=#{coupCateId},denomination=#{denomination},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,state=#{state},order_id=#{orderId},use_at=#{useAt},limit_quota=#{limitQuota},coup_cate_nm=#{coupCateNm}
         where coup_id = #{coupId}
     </update>
 
@@ -65,8 +65,8 @@
         <if test='coupId != null and coupId != "null" and coupId != "" '>
             and t.coup_id = #{coupId}
         </if>
-        <if test='cateNm != null and cateNm != "null" and cateNm != "" '>
-            and t.cate_nm like '%${cateNm}%'
+        <if test='coupCateNm != null and coupCateNm != "null" and coupCateNm != "" '>
+            and t.coup_cate_nm like '%${coupCateNm}%'
         </if>
         <if test='orderId != null and orderId != "" '>
             and t.order_id = #{orderId}
@@ -97,8 +97,13 @@
 
     <!--优惠券类别-->
     <sql id="couponsCateColumns">
-        ${alias}.cate_id,
-        ${alias}.cate_nm
+        ${alias}.coup_cate_id,
+        ${alias}.coup_cate_nm,
+        ${alias}.coupon_type,
+        ${alias}.denomination,
+        ${alias}.limit_quota,
+        ${alias}.start_at,
+        ${alias}.end_at
     </sql>
 
     <!-- 获取所有的优惠券类别             Added By Sunny Wu 2016.06.27-->
@@ -107,16 +112,16 @@
         <include refid="couponsCateColumns">
             <property name="alias" value="t"/>
         </include>
-        from sp_coupons_cate t where 1=1 and cate_id!=999 ORDER BY t.cate_id
+        from sp_coupons_cate t where 1=1 and coupon_type=2  ORDER BY t.coup_cate_id
     </select>
 
-    <!--由cateId查询一条优惠券类别信息      Added By Sunny Wu 2016.06.27-->
+    <!--由coupCateId查询一条优惠券类别信息      Added By Sunny Wu 2016.06.27-->
     <select id="getCouponsCate" resultType="domain.CouponsCate" parameterType="java.lang.Long">
         select
         <include refid="couponsCateColumns">
             <property name="alias" value="t"/>
         </include>
-        from sp_coupons_cate t where cate_id=#{value}
+        from sp_coupons_cate t where coup_cate_id=#{value}
     </select>
 
 </mapper>

@@ -1,6 +1,5 @@
 package service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import domain.Coupons;
 import domain.CouponsCate;
 
@@ -13,9 +12,9 @@ public interface CouponsService {
 
     /**
      * 优惠券保存
-     * @param json
+     * @param coupons
      */
-    void couponsSave(JsonNode json);
+    void couponsSave(Coupons coupons);
 
     /**
      * 更新优惠券

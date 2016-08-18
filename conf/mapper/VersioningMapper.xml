@@ -28,7 +28,7 @@
         (#{releaseNumber},#{productType},#{downloadLink},#{adminUserId},#{releaseDesc},CURRENT_TIMESTAMP(0),#{fileName},#{updateReqXml},#{appStoreDownloadLink},#{releaseName})
     </insert>
 
-    <!-- -->
+    <!-- 版本列表-->
     <select id="getVersioning" resultType="domain.VersionVo" parameterType="domain.VersionVo">
         select
         <include refid="versioningColumns">
@@ -41,7 +41,7 @@
         <if test="id!=null and id!=''">
             and id=#{id}
         </if>
-        order by current_version DESC,release_number DESC
+        order by current_version DESC,release_number DESC,release_at DESC
     </select>
 
     <update id="updateVersioning" parameterType="domain.VersionVo">

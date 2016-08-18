@@ -498,7 +498,7 @@ funcList.appuserlist_data = function appuserlist_data(data) {
 funcList.couponlist_search = function couponlist_search(pageIndex) {
     var CoupDto = new Object();
     CoupDto.coupId = $("#coupon-id").val();
-    CoupDto.cateNm = $("#coupon-catenm").val();
+    CoupDto.coupCateNm = $("#coupon-catenm").val();
     CoupDto.useStartAt = $("#coup-form-useStarAt").val();
     CoupDto.useEndAt = $("#coup-form-useEndAt").val();
     CoupDto.orderId = $("#order-id").val();
@@ -523,7 +523,7 @@ funcList.couponlist_data = function couponlist_data(data) {
         $('#tb-topic').find('tbody').append('' +
             '<tr class="tb-list-data">' +
             '<td><a href="javascript:void(0)">' + $(this)[0].coupId + '</a></td>' +
-            '<td>' + ($(this)[0].cateNm!=null && $(this)[0].cateNm!=''? $(this)[0].cateNm : '') + '</td>' +
+            '<td>' + ($(this)[0].coupCateNm!=null && $(this)[0].coupCateNm!=''? $(this)[0].coupCateNm : '') + '</td>' +
             '<td>' + $(this)[0].userId+ '</td>' +
             '<td>' + $(this)[0].orderId+ '</td>' +
             '<td>' + useAt + '</td>' +

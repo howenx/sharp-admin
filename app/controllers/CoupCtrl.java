@@ -1,13 +1,15 @@
 package controllers;
 
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
+import domain.CouponRec;
 import domain.Coupons;
 import domain.CouponsCate;
 import domain.User;
 import domain.order.Order;
 import filters.UserAuth;
 import play.Logger;
-import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -17,9 +19,11 @@ import service.IDService;
 import service.OrderService;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Sunny Wu on 15/12/30.
@@ -34,6 +38,13 @@ public class CoupCtrl extends Controller {
 
     @Inject
     private OrderService orderService;
+
+    @Inject
+    private ActorSystem system;
+
+    @Inject
+    @Named("couponSendActor")
+    private ActorRef couponSendActor;
 
     public static final int pageSize = 10;
 
@@ -56,27 +67,27 @@ public class CoupCtrl extends Controller {
     public Result coupSave() {
         JsonNode json = request().body().asJson();
         //--------------------数据验证------------------start
-        Date now = new Date();
-        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String strNow = sdfDate.format(now);//现在时间
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(now);
-        calendar.add(Calendar.MONTH,+6);
-        String maxDate = sdfDate.format(calendar.getTime());
+//        Date now = new Date();
+//        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        String strNow = sdfDate.format(now);//现在时间
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(now);
+//        calendar.add(Calendar.MONTH,+6);
+//        String maxDate = sdfDate.format(calendar.getTime());
         for(final JsonNode jsonNode : json) {
-            Form<Coupons> couponsForm = Form.form(Coupons.class).bind(jsonNode);
-            Coupons coupons  = Json.fromJson(jsonNode, Coupons.class);
-            String startAt = coupons.getStartAt();
-            String endAt = coupons.getEndAt();
-            //数据验证(限额不能小于0,面值不能小于0,开始时间不能大于结束时间,结束时间不能小于现在时间,开始时间和结束时间不能超过当前时间6个月)
-            if (couponsForm.hasErrors() || coupons.getLimitQuota().compareTo(new BigDecimal(0.00))<0  || coupons.getDenomination().compareTo(new BigDecimal(0.00))<0
-                   || startAt.compareTo(endAt)>0 || endAt.compareTo(strNow)<0 || startAt.compareTo(maxDate)>0 || endAt.compareTo(maxDate)>0) {
-                Logger.error("coupon 表单数据有误.....");
-                return badRequest();
-            }
+            CouponRec couponRec  = Json.fromJson(jsonNode, CouponRec.class);
+//            Form<Coupons> couponsForm = Form.form(Coupons.class).bind(jsonNode);
+//            String startAt = coupons.getStartAt();
+//            String endAt = coupons.getEndAt();
+//            //数据验证(限额不能小于0,面值不能小于0,开始时间不能大于结束时间,结束时间不能小于现在时间,开始时间和结束时间不能超过当前时间6个月)
+//            if (couponsForm.hasErrors() || coupons.getLimitQuota().compareTo(new BigDecimal(0.00))<0  || coupons.getDenomination().compareTo(new BigDecimal(0.00))<0
+//                   || startAt.compareTo(endAt)>0 || endAt.compareTo(strNow)<0 || startAt.compareTo(maxDate)>0 || endAt.compareTo(maxDate)>0) {
+//                Logger.error("coupon 表单数据有误.....");
+//                return badRequest();
+//            }
+            couponSendActor.tell(couponRec, null);
         }
         //--------------------数据验证------------------start
-        couponsService.couponsSave(json);
         return ok("保存成功");
     }
 
@@ -122,7 +133,7 @@ public class CoupCtrl extends Controller {
             coupons.setOffset(offset);
             List<Coupons> couponsList = couponsService.getUsedCouponsPage(coupons);
             for(Coupons coup : couponsList) {
-                coup.setCateNm(couponsService.getCouponsCate(coup.getCateId()).getCateNm());
+                coup.setCoupCateNm(couponsService.getCouponsCate(coup.getCoupCateId()).getCoupCateNm());
                 String phoneNum = idService.getID(coup.getUserId().intValue()).getPhoneNum();
                 coup.setUserId(Long.parseLong(phoneNum));//用户id字段保存用户的手机号
                 Order order = orderService.getOrderById(coup.getOrderId());
@@ -137,6 +148,7 @@ public class CoupCtrl extends Controller {
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
             returnMap.put("pageSize",pageSize);
+            Logger.error(Json.toJson(returnMap).toString());
             return ok(Json.toJson(returnMap));
         }
         else{
