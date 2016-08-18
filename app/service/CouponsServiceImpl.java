@@ -81,6 +81,7 @@ public class CouponsServiceImpl implements CouponsService {
                 tags[0] = coupons.getUserId().toString();
                 pushMsg.setAliasOrTag(tags);
                 pushMsg.setTargetType("C");//跳转的类型.优惠券
+                Logger.error("推送的优惠券消息:"+pushMsg.toString());
                 system.actorSelection(SysParCom.MSG_PUSH).tell(pushMsg, ActorRef.noSender());
                 //给用户发送消息(消息盒子)
                 MsgRec msgRec = new MsgRec();
@@ -92,6 +93,7 @@ public class CouponsServiceImpl implements CouponsService {
                 msgRec.setTargetType("C");//消息类型
                 msgRec.setReadStatus(1);//1-未读 2-已读
                 msgRec.setDelStatus(1);//1-未删 2-已删
+                Logger.error("消息盒子优惠券消息:"+msgRec.toString());
                 system.actorSelection(SysParCom.MSG_SEND).tell(msgRec, ActorRef.noSender());
                 //-- 创建Actor --//
                 //截止时间大于现在时间 启动自动失效scheduler
