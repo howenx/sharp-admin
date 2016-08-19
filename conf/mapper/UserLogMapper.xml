@@ -17,7 +17,7 @@
     </sql>
 
     <!-- 录入一条用户日志 -->
-    <insert id="insertUserLog" parameterType="domain.UserLog" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertUserLog" parameterType="domain.UserLog" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into user_log
         (operate_user,operate_ip,operate_type,content,operate_time)
         values

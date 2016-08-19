@@ -40,7 +40,7 @@
 
     </sql>
     <!-- 录入一条销售产品信息 -->
-    <insert id="insertSaleProduct" parameterType="domain.sale.SaleProduct" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertSaleProduct" parameterType="domain.sale.SaleProduct" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into sale_product
         (name,category_id,sku_code,product_code,spec,sale_count,inventory,product_cost,stock_value,purchase_count,
         no_card,damage,less_delivery,less_product,empty_box,create_at,update_at,inv_area,storage_at,custom_sku_id,damage_other,remark,create_user_id,update_user_id,back_count,jd_sku_id,sale_finish_status)
@@ -197,7 +197,7 @@
 
     </sql>
     <!-- 录入一条销售订单信息 -->
-    <insert id="insertSaleOrder" parameterType="domain.sale.SaleOrder" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertSaleOrder" parameterType="domain.sale.SaleOrder" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into sale_order
         (sale_at,order_id,discount_amount,sale_total,product_cost_sum,
         jd_fee_sum,ship_fee,pack_fee,storage_fee,postal_fee,profit,inte_logistics,
@@ -386,7 +386,7 @@
         ${alias}.line_postal_fee
     </sql>
     <!-- 录入一条销售子订单信息 -->
-    <insert id="insertSaleOrderLine" parameterType="domain.sale.SaleOrderLine" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertSaleOrderLine" parameterType="domain.sale.SaleOrderLine" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into sale_order_line
         (sale_order_id,sale_product_id,sale_count,jd_order_id,jd_sku_id,jd_price,sale_product_name,sale_product_cost,category_id,sale_at,jd_rate,jd_fee,
         order_status,discount_amount,postal_tax_rate,seq,line_sale_total,shop,line_postal_fee)

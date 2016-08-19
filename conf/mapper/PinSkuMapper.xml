@@ -22,7 +22,7 @@
         (select count(*) from pin_activity pa where pa.pin_id = t.pin_id) as activity_count
     </sql>
 
-    <insert id="insertPinSku" parameterType="domain.pingou.PinSku" useGeneratedKeys="true" keyProperty="pinId">
+    <insert id="insertPinSku" parameterType="domain.pingou.PinSku" useGeneratedKeys="true" keyProperty="pinId" keyColumn="pin_id">
         insert into pin_sku(pin_img,status,create_at,pin_title,start_at,end_at,restrict_amount,floor_price,inv_id,pin_discount)
         values(#{pinImg},#{status},CURRENT_TIMESTAMP(0),#{pinTitle},#{startAt}::timestamp,#{endAt}::timestamp,#{restrictAmount},#{floorPrice},#{invId},#{pinDiscount})
     </insert>

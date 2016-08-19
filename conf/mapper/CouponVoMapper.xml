@@ -32,7 +32,7 @@
     </sql>
 
     <!-- 录入一条优惠券信息 -->
-    <insert id="insertCoupon" parameterType="domain.CouponVo" useGeneratedKeys="true" keyColumn="coupon_number">
+    <insert id="insertCoupon" parameterType="domain.CouponVo" useGeneratedKeys="true" keyColumn="coupon_number" keyProperty="couponNumber">
         insert into coupon
         (coupon_number,coupon_name,coupon_type,brand_code,brand_name,event,event_id,code,price,standard_price,issued_at,expired_at,max_expired_at,status)
         values

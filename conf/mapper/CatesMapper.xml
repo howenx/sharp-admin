@@ -61,7 +61,7 @@
     </select>
 
     <!-- 录入一条类别信息 -->
-    <insert id="insertCates" parameterType="domain.Cates" useGeneratedKeys="true" keyProperty="cate_id">
+    <insert id="insertCates" parameterType="domain.Cates" useGeneratedKeys="true" keyProperty="cateId" keyColumn="cate_id">
         insert into cates
         (pcate_id,cate_nm,cate_desc,cate_code)
         values(#{pcateId},#{cateNm},#{cateDesc},#{cateCode})

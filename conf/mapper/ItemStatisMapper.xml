@@ -15,7 +15,7 @@
         ${alias}.size
     </sql>
 
-    <insert id="insertItemStatis" parameterType="domain.ItemStatis" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertItemStatis" parameterType="domain.ItemStatis" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into item_statis
         (create_date, sku_id, color, size)
         values

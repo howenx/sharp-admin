@@ -21,7 +21,7 @@
     </sql>
 
     <!-- 录入一条 -->
-    <insert id="insertVersioning" parameterType="domain.VersionVo" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertVersioning" parameterType="domain.VersionVo" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into versioning
         (release_number,product_type,download_link,admin_user_id,release_desc,release_at,file_name,update_req_xml,app_store_download_link,release_name)
         values

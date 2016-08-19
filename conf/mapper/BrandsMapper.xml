@@ -50,7 +50,7 @@
     </select>
 
     <!-- 录入一条品牌信息 -->
-    <insert id="insertBrands" parameterType="domain.Brands" useGeneratedKeys="true" keyColumn="brand_id">
+    <insert id="insertBrands" parameterType="domain.Brands" useGeneratedKeys="true" keyColumn="brand_id" keyProperty="brandId">
         insert into brands
         (brand_desc,logo,create_date,brand_nm)
         values

@@ -20,7 +20,7 @@
     </sql>
 
     <!-- 录入一条运费信息 -->
-    <insert id="insertCarriage" parameterType="domain.Carriage" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCarriage" parameterType="domain.Carriage" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into carriage
         (model_code,model_name,first_num,first_fee,add_num,add_fee,city_code,delivery_code,delivery_name,store_area)
         values

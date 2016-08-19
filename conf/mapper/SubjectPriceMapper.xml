@@ -39,7 +39,7 @@
         from subject_price t where id = #{value}
     </select>
 
-    <insert id="sbjPriceAdd" parameterType="domain.SubjectPrice" useGeneratedKeys="true" keyProperty="id">
+    <insert id="sbjPriceAdd" parameterType="domain.SubjectPrice" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into subject_price(theme_id,inv_id,price,discount,create_at)
         values(#{themeId},#{invId},#{price},#{discount},CURRENT_TIMESTAMP(0))
     </insert>

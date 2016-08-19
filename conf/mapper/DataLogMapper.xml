@@ -19,7 +19,7 @@
     </sql>
 
     <!-- 录入一条日志信息 -->
-    <insert id="insertDataLog" parameterType="domain.DataLog" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertDataLog" parameterType="domain.DataLog" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into data_log
         (operate_user,operate_ip,operate_type,log_content,origin_data,new_data,operate_time)
         values

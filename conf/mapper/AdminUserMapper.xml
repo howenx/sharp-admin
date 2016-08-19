@@ -26,7 +26,7 @@
     </sql>
 
     <!-- 录入一条用户信息 -->
-    <insert id="insertUser" parameterType="domain.AdminUser" useGeneratedKeys="true" keyColumn="user_id">
+    <insert id="insertUser" parameterType="domain.AdminUser" useGeneratedKeys="true" keyColumn="user_id" keyProperty="userId">
         insert into "ADMIN_USER"
         (en_nm,ch_nm,user_type,email,passwd,reg_ip,reg_dt,"active_YN",alter_dt,last_login_dt,last_login_ip,last_pwd_chg_dt,status)
         values

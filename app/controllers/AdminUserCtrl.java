@@ -115,7 +115,7 @@ public class AdminUserCtrl extends Controller {
             adminUser.setLastLoginIp(regIp);
 
             Email email = new Email()
-                    .setSubject("密码查收")
+                    .setSubject("KakaoGift后台密码查收")
                     .setFrom("developer@hanmimei.com")
                     .addTo(adminUser.getEmail())
                     .setBodyText("A text message")
