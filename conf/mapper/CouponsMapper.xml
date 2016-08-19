@@ -46,6 +46,16 @@
         from sp_coupons t where coup_id=#{value}
     </select>
 
+    <!-- 由coupCateId获取该类别的优惠券信息 -->
+    <select id="getCouponsByCateId" resultType="domain.Coupons" parameterType="java.lang.Long">
+        select
+        <include refid="couponsColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_coupons t where coup_id=#{value}
+    </select>
+
+
     <!-- 获取所有已使用的优惠券信息 -->
     <select id="getAllUsedCoupons" resultType="domain.Coupons">
         select
@@ -107,7 +117,7 @@
     </sql>
 
     <!-- 录入一条优惠券类别信息    Added by Sunny Wu 2016.08.18-->
-    <insert id="insertCouponsCate" parameterType="domain.CouponsCate" useGeneratedKeys="true" keyColumn="coup_cate_id">
+    <insert id="insertCouponsCate" parameterType="domain.CouponsCate" useGeneratedKeys="true" keyProperty="coupCateId">
         insert into sp_coupons_cate
         (coup_cate_nm,coupon_type,denomination,limit_quota,start_at,end_at)
         values
@@ -122,15 +132,6 @@
         where coup_cate_id = #{coupCateId}
     </update>
 
-    <!-- 获取所有的优惠券类别             Added By Sunny Wu 2016.06.27-->
-    <select id="getAllCouponsCate" resultType="domain.CouponsCate">
-        select
-        <include refid="couponsCateColumns">
-            <property name="alias" value="t"/>
-        </include>
-        from sp_coupons_cate t where 1=1 and coupon_type=2  ORDER BY t.coup_cate_id
-    </select>
-
     <!--由coupCateId查询一条优惠券类别信息      Added By Sunny Wu 2016.06.27-->
     <select id="getCouponsCate" resultType="domain.CouponsCate" parameterType="java.lang.Long">
         select
@@ -138,6 +139,24 @@
             <property name="alias" value="t"/>
         </include>
         from sp_coupons_cate t where coup_cate_id=#{value}
+    </select>
+
+    <!-- 获取所有后台发放的优惠券类别             Added By Sunny Wu 2016.06.27-->
+    <select id="getSendCouponsCate" resultType="domain.CouponsCate">
+        select
+        <include refid="couponsCateColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_coupons_cate t where 1=1 and coupon_type=2  ORDER BY t.coup_cate_id
+    </select>
+
+    <!-- 获取所有的优惠券类别             Added By Sunny Wu 2016.08.19-->
+    <select id="getAllCouponsCate" resultType="domain.CouponsCate">
+        select
+        <include refid="couponsCateColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_coupons_cate t where 1=1  ORDER BY t.coup_cate_id
     </select>
 
 </mapper>

@@ -1,0 +1,63 @@
+@import play.i18n._
+@(lang:String="cn", couponsCateList:List[domain.CouponsCate], user:domain.User)
+@scripts = {
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
+<script src="/assets/js/search.js"></script>
+
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/rili.js"></script>
+}
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"优惠券类别管理")
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
+        <span class="icon-path">&gt;</span>
+        <span>优惠券类别管理</span>
+    </div>
+</div>
+<div class="content-1">
+    <input type="button" value="新增优惠券类别" onclick="javascript:window.location.href='/@lang/coupCate/add'"  style="background:#0076C5;color:#fff;border:0;padding:6px 8px;"/>
+    <div class="table-content">
+        <div class="param">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>优惠券类别ID</th>
+                    <th>优惠券类别名称</th>
+                    <th>优惠券类型</th>
+                    <th>满减金额(￥)</th>
+                    <th>面值(￥)</th>
+                    <th>可用开始时间</th>
+                    <th>可用截止时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                @for(cc <- couponsCateList){
+                <tr>
+                    <td>@cc.getCoupCateId()</td>
+                    <td>@cc.getCoupCateNm()</td>
+                    <td>
+                        @if(cc.getCouponType()==1) {用户主动领取}
+                        @if(cc.getCouponType()==2) {后台手动发放}
+                        @if(cc.getCouponType()==3) {不可用}
+                    </td>
+                    <td>@cc.getLimitQuota()</td>
+                    <td>@cc.getDenomination()</td>
+                    <td>@(cc.getStartAt().toString().substring(0,16))</td>
+                    <td>@(cc.getEndAt().toString().substring(0,16))</td>
+                </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>
+}

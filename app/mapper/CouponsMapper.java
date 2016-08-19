@@ -30,6 +30,13 @@ public interface CouponsMapper {
     Coupons getCoupons(String coupId);
 
     /**
+     * 由coupCateId获取该类别的优惠券信息       Added By Sunny Wu 2016.08.19
+     * @param coupCateId 优惠券类别id
+     * @return
+     */
+    List<Coupons> getCouponsByCateId(Long coupCateId);
+
+    /**
      * 获取所有已使用的优惠券信息
      * @return list of Coupons
      */
@@ -43,7 +50,13 @@ public interface CouponsMapper {
     List<Coupons> getUsedCouponsPage(Coupons coupons);
 
     /**
-     * 获取所有的优惠券类别       Added By Sunny Wu 2016.06.27
+     * 获取所有后台可发放的优惠券类别       Added By Sunny Wu 2016.06.27
+     * @return list of CouponsCate
+     */
+    List<CouponsCate> getSendCouponsCate();
+
+    /**
+     * 获取所有的优惠券类别       Added By Sunny Wu 2016.08.19
      * @return list of CouponsCate
      */
     List<CouponsCate> getAllCouponsCate();
