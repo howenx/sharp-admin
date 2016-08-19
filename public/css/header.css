@@ -61,13 +61,12 @@ li {
 .header-dropdown-list {
 	display: none;
 	position: absolute;
-	width: 100%;
-	min-width: 64px;
+	white-space:nowrap;
 	right: 0;
 	z-index: 10;
 	color: #fff;
 	background: rgba(51, 34, 11, 0.9);
-	padding: 11px 0;
+	padding: 11px 6px;
 	top: 69px;
 }
 .fs13 {
