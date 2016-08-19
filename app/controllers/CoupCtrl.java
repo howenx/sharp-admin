@@ -9,6 +9,7 @@ import domain.User;
 import domain.order.Order;
 import filters.UserAuth;
 import play.Logger;
+import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -20,9 +21,8 @@ import service.OrderService;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by Sunny Wu on 15/12/30.
@@ -54,6 +54,50 @@ public class CoupCtrl extends Controller {
         List<CouponsCate> couponsCateList = couponsService.getAllCouponsCate();
         return ok(views.html.coupon.coupadd.render(lang, couponsCateList, (User) ctx().args.get("user")));
     }
+
+    /**
+     * 新增优惠券类别
+     * @param lang 语言       Added By Sunny Wu 2016.08.18
+     * @return Result
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result coupCateCreate(String lang) {
+        return ok(views.html.coupon.coupcateadd.render(lang, (User) ctx().args.get("user")));
+    }
+
+    /**
+     * 保存优惠券类别
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result coupCateSave() {
+        JsonNode json = request().body().asJson();
+        //--------------------数据验证------------------start
+        Date now = new Date();
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strNow = sdfDate.format(now);//现在时间
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        calendar.add(Calendar.MONTH,+6);
+        String maxDate = sdfDate.format(calendar.getTime());
+        CouponsCate couponsCate  = Json.fromJson(json, CouponsCate.class);
+        couponsCate.setCouponType(2);
+        Form<CouponsCate> couponsForm = Form.form(CouponsCate.class).bind(json);
+        String startAt = couponsCate.getStartAt();
+        String endAt = couponsCate.getEndAt();
+        Logger.error("优惠券类别信息:"+couponsCate.toString());
+        //数据验证(限额不能小于0,面值不能小于0,开始时间不能大于结束时间,结束时间不能小于现在时间,开始时间和结束时间不能超过当前时间6个月)
+        if (couponsForm.hasErrors() || couponsCate.getLimitQuota().compareTo(new BigDecimal(0.00))<0  || couponsCate.getDenomination().compareTo(new BigDecimal(0.00))<0
+               || startAt.compareTo(endAt)>0 || endAt.compareTo(strNow)<0 || startAt.compareTo(maxDate)>0 || endAt.compareTo(maxDate)>0) {
+            Logger.error("coupon 表单数据有误.....");
+            return badRequest();
+        }
+            couponsService.couponsCateSave(couponsCate);
+        //--------------------数据验证------------------start
+        return ok("保存成功");
+    }
+
+
 
     /**
      * 保存优惠券

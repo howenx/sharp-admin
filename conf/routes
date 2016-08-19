@@ -247,6 +247,9 @@ POST        /$lang<(cn|en|kr)>/inventory/data/$pageNum<[0-9]+>                  
 
 
 #Coupons -->coup 优惠券
+GET         /coupCate/add                                                           controllers.CoupCtrl.coupCateCreate(lang="cn")
+GET         /$lang<(cn|en|kr)>/coupCate/add                                         controllers.CoupCtrl.coupCateCreate(lang)
+POST        /coup/coupCateSave                                                      controllers.CoupCtrl.coupCateSave
 GET         /coup/add                                                               controllers.CoupCtrl.coupCreate(lang="cn")
 GET         /$lang<(cn|en|kr)>/coup/add                                             controllers.CoupCtrl.coupCreate(lang)
 GET         /coup/add/popup                                                         controllers.AdminUserCtrl.addIDUserPop()

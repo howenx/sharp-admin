@@ -106,6 +106,22 @@
         ${alias}.end_at
     </sql>
 
+    <!-- 录入一条优惠券类别信息    Added by Sunny Wu 2016.08.18-->
+    <insert id="insertCouponsCate" parameterType="domain.CouponsCate" useGeneratedKeys="true" keyColumn="coup_cate_id">
+        insert into sp_coupons_cate
+        (coup_cate_nm,coupon_type,denomination,limit_quota,start_at,end_at)
+        values
+        (#{coupCateNm},#{couponType},#{denomination},#{limitQuota},#{startAt}::timestamp,#{endAt}::timestamp)
+    </insert>
+
+    <!-- 更新一条优惠券类别信息    Added by Sunny Wu 2016.08.18 -->
+    <update id="updateCouponsCate" parameterType="domain.CouponsCate">
+        update sp_coupons_cate
+        set
+        coup_cate_nm=#{coupCateNm},coupon_type=#{couponType},denomination=#{denomination},limit_quota=#{limitQuota},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp
+        where coup_cate_id = #{coupCateId}
+    </update>
+
     <!-- 获取所有的优惠券类别             Added By Sunny Wu 2016.06.27-->
     <select id="getAllCouponsCate" resultType="domain.CouponsCate">
         select

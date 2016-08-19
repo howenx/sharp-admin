@@ -1,0 +1,181 @@
+@import play.i18n._
+@(lang:String="cn", user:domain.User)
+
+@scripts = {
+<link rel="stylesheet" href="/assets/css/search.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/screenshot.css">
+<link rel="stylesheet" href="/assets/css/button.css">
+<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script>
+    $(function(){
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD 00:00:00'
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'zh-cn',
+                format:'YYYY-MM-DD 23:59:59'
+            });
+
+        });
+
+    });
+</script>
+<style type="text/css">
+    .start{color:red;padding-top:3px;padding-left:3px;}
+    .r{float:right;}
+</style>
+}
+
+@import java.lang.String; var title="新增优惠券类别"
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.products")</span>
+        <span class="icon-path">&gt;</span>
+        <span>新增优惠券类别</span>
+    </div>
+</div>
+
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">新增优惠券类别</span>
+    </div>
+    <div class="usercenter-option">
+        <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
+        <div id="submit" class="btn-blue btn-form fr ml15">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.save")</div>
+        <div id="cancel" class="btn-white btn-form fr ml20">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.cancel")</div>
+        <span id="js-userinfo-error" class="mt20 alt fr"></span>
+    </div>
+    <div class="row">
+        <form class="form-horizontal" method="post" enctype="multipart/form-data">
+            <div class="upinfo">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><div class="r start"> *</div><div class="r">类别名称</div></label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control form-data-area" id="coupCateNm" name="coupCateNm">
+                    </div>
+                    </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><div class="r start"> *</div><div class="r">满减金额(￥)</div></label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control form-data-area" id="limitQuota" name="limitQuota">
+                    </div>
+                    <label class="col-sm-1 control-label" style="width:115px;"><div class="r start"> *</div><div class="r">面值(￥)</div></label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control form-data-area" id="denomination" name="denomination">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><div class="r start"> *</div><div class="r">使用期限</div></label>
+                    <div class="col-sm-3">
+                        <div class="input-group date" id='datetimepicker1'>
+                            <input class="form-control col-sm-2 form-data-area" type="text"  id="startAt" name="startAt"/>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-1" style="font-size: 24px;width:30px;margin-left:42px;margin-right:42px;">~</div>
+                    <div class="col-sm-3">
+                        <div class="input-group date" id='datetimepicker2'>
+                            <input class="form-control col-sm-2 form-data-area" type="text"  id="endAt" name="endAt"/>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+}
+
+<script>
+    /** 数据改变的提示 **/
+    $(document).on('change', '.form-data-area', function() {
+		$('.usercenter-option > .user-state').css('background-position', '20px -73px');
+		$('.usercenter-option > .user-state').text('已更改');
+	});
+
+	/** 数据提交 **/
+    $("#submit").click(function(){
+        var isPost = true;
+        var numberReg1 = /^-?\d+\.?\d{0,2}$/;   //整数或小数
+        var coupCateNm = $("#coupCateNm").val();
+        var limitQuota = $("#limitQuota").val();
+        var denomination = $("#denomination").val();
+        var startAt = $("#startAt").val();
+        var endAt = $("#endAt").val();
+
+        //验证使用期限
+        var now = new Date();
+        var nowTime = now.getFullYear()+"-"+(now.getMonth()+1>=10?now.getMonth()+1:'0'+(now.getMonth()+1))+"-"+(now.getDate()>=10?now.getDate():'0'+now.getDate())+" "+(now.getHours()>=10?now.getHours():'0'+now.getHours())+":"+(now.getMinutes()>=10?now.getMinutes():'0'+now.getMinutes())+":"+(now.getSeconds()>=10?now.getSeconds():'0'+now.getSeconds());
+        var maxDate = now.setMonth(now.getMonth()+6);
+        var d1 = new Date(Date.parse(startAt.replace(/-/g,"/")));//开始时间
+        var d2 = new Date(Date.parse(endAt.replace(/-/g,"/")));//结束时间
+
+        //验证必填项及数据正确性
+        if (coupCateNm=="" || !numberReg1.test(limitQuota) || !numberReg1.test(denomination)) {
+            isPost=false;
+            $('#js-userinfo-error').text('必填项有误');
+        } else if (startAt=="" || endAt=="" || startAt >= endAt ) {
+           isPost = false;
+           $('#js-userinfo-error').text('请检查时间设置');
+        } else if (endAt<nowTime) {
+           isPost = false;
+           $('#js-userinfo-error').text('截止时间不能小于当前时间');
+        } else if (d1>=maxDate || d2>=maxDate) {
+            isPost = false;
+            $('#js-userinfo-error').text('开始时间和结束时间不能超过当前时间6个月');
+        } else $('#js-userinfo-error').text('');
+
+        var CouponsCate = new Object();
+        CouponsCate.coupCateNm = coupCateNm;
+        CouponsCate.limitQuota = limitQuota;
+        CouponsCate.denomination = denomination;
+        CouponsCate.startAt = startAt;
+        CouponsCate.endAt = endAt;
+
+        console.log(isPost);
+        console.log(JSON.stringify(CouponsCate));
+        if (isPost) {
+            $.ajax({
+                type :  "POST",
+                url : "/coup/coupCateSave",
+                contentType: "application/json; charset=utf-8",
+                data : JSON.stringify(CouponsCate),
+                error : function(request) {
+                    if (window.lang = 'cn') {
+                        $('#js-userinfo-error').text('保存失败');
+                    } else {
+                        $('#js-userinfo-error').text('Save error');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('')", 2000);
+                },
+                success: function(data) {
+                    if (data=="保存成功") {
+                        $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
+                        $('.usercenter-option > .user-state').css('background-position', '20px -174px');
+                        $('.usercenter-option > .user-state').text('未更改');
+                        <!--setTimeout("location.href='/"+window.lang+"/coupCate/add'", 3000);-->
+                    }
+                    else {
+                        $('#js-userinfo-error').text('保存失败');
+                    }
+                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
+                }
+            });
+        }
+
+    });
+
+
+</script>

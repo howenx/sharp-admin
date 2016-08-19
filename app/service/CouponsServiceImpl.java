@@ -68,9 +68,10 @@ public class CouponsServiceImpl implements CouponsService {
             if (couponsMapper.insertCoupons(coupons) >0 ) {
                 String title = "您有一张新的优惠券";
                 String content = "";
-                if (coupons.getLimitQuota().equals(new BigDecimal(0.0)))
+                Logger.error(coupons.getLimitQuota().toString());
+                if (coupons.getLimitQuota().compareTo(new BigDecimal(0.00)) == 0)
                     content = "优惠券金额"+coupons.getDenomination()+"元,无限额使用,快去用掉吧!";
-                else if (coupons.getLimitQuota().compareTo(new BigDecimal(0.0)) > 0)
+                else if (coupons.getLimitQuota().compareTo(new BigDecimal(0.00)) > 0)
                     content = "优惠券金额"+coupons.getDenomination()+"元,满"+coupons.getLimitQuota()+"元可用,快去用掉吧!";
                 //给用户推送消息
                 PushMsg pushMsg = new PushMsg();
@@ -158,6 +159,24 @@ public class CouponsServiceImpl implements CouponsService {
     @Override
     public CouponsCate getCouponsCate(Long cateId) {
         return couponsMapper.getCouponsCate(cateId);
+    }
+
+    /**
+     * 新增优惠券类别                  Added by Sunny Wu 2016.08.18
+     * @param couponsCate 优惠券类别
+     */
+    @Override
+    public void couponsCateSave(CouponsCate couponsCate) {
+        couponsMapper.insertCouponsCate(couponsCate);
+    }
+
+    /**
+     * 更新优惠券类别
+     * @param couponsCate 优惠券类别  Added by Sunny Wu 2016.08.18
+     */
+    @Override
+    public void updateCouponsCate(CouponsCate couponsCate) {
+        couponsMapper.updateCouponsCate(couponsCate);
     }
 
 }

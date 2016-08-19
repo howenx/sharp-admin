@@ -55,4 +55,16 @@ public interface CouponsService {
      */
     CouponsCate getCouponsCate(Long cateId);
 
+    /**
+     * 新增优惠券类别                  Added by Sunny Wu 2016.08.18
+     * @param couponsCate 优惠券类别
+     */
+    void couponsCateSave(CouponsCate couponsCate);
+
+    /**
+     * 更新优惠券类别
+     * @param couponsCate 优惠券类别  Added by Sunny Wu 2016.08.18
+     */
+    void updateCouponsCate(CouponsCate couponsCate);
+
 }

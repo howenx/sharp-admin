@@ -16,8 +16,7 @@ public class CouponsCate implements Serializable {
     private Long coupCateId;        //主键id
     @Constraints.Required
     private String coupCateNm;  //优惠券类别名称
-    @Constraints.Required
-    private Integer couponType;   //优惠券类别
+    private Integer couponType;   //优惠券类型
     @Constraints.Required
     private BigDecimal limitQuota;//限制满多少才能使用
     @Constraints.Required
