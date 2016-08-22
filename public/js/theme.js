@@ -358,38 +358,23 @@ $(function () {
         $(this).parent().next().toggle()
     })
     $("input[name='theme']").click(function () {
-        if($(".theme-state").find("input[name='themestate']").eq(1).prop("checked")===true){
-            $(".h4-custom-hmm").css("display","none");
-            $(".h4-custom-hmm.adduser").css("display","block");
-            $(".good-change").css("display","none");
-            $(".thememainimg").css("display","none");
+        if(this.id==="ordinary"){
+            $(".h4-custom-hmm:not('.adduser')").css("display","block").find("input").css("display","inline").prop("checked",true);
+            $(".good-change").css("display","block");
+            $(".thememainimg").css("display","block");
         }else{
-            $(".h4-custom-hmm.adduser").css("display","none");
-            if(this.id==="ordinary"){
-                $(".h4-custom-hmm").css("display","block").find("input").css("display","inline").prop("checked",true);
-                $(".h4-custom-hmm.adduser").css("display","none");
-                $(".good-change").css("display","block");
-                $(".thememainimg").css("display","block");
-            }else{
-                $(".thememainimg").css("display","none").prev().css("display","none");
-                $(".good-change").css("display","block").prev().css("display","block").find("input").css("display","none");
-            }
+            $(".thememainimg").css("display","none").prev().css("display","none");
+            $(".good-change").css("display","block").prev().css("display","block").find("input").css("display","none");
         }
     })
     /*************主题状态选择*************/
     $("input[name='themestate']").click(function () {
         var index = $("input[name='themestate']").index(this);
         if(index === 1){
-            $(".h4-custom-hmm").css("display","none");
             $(".h4-custom-hmm.adduser").css("display","block");
-            $(".good-change").css("display","none");
-            $(".thememainimg").css("display","none");
             $(".user-change").css("display","block");
         }else{
-            $(".h4-custom-hmm").css("display","block");
             $(".h4-custom-hmm.adduser").css("display","none");
-            $(".good-change").css("display","block");
-            $(".thememainimg").css("display","block");
             $(".user-change").css("display","none");
         }
     })
