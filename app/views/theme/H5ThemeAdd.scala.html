@@ -109,7 +109,55 @@
                         <input type="text" class="form-control" id="h5-link"/>
                     </div>
                 </div>
+                <!-- 主题状态 -->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">主题状态</label>
+
+                    <div class="col-sm-8 theme-state">
+                        <label>
+                            <input type="radio" name="themestate"> 隐藏
+                        </label>
+                        <label>
+                            <input type="radio" name="themestate"> 专用
+                        </label>
+                        <label>
+                            <input type="radio" name="themestate" checked> 正常
+                        </label>
+                    </div>
+                </div>
                 <hr/>
+                <!-- 添加专用用户 -->
+                <h4 class="h4-custom-hmm adduser">选择用户</h4>
+                <div class="user-change">
+                    <button type="button" class="btn btn-primary btn-xs add-goods" id="add-user" onclick="ShowModalAdduser(this)">添加用户</button>
+                    <div class="bgk">
+                        <table class="table table-bordered table-hover grid" id="user-add" title="Kurt Vonnegut novels" style="margin-top:0px;">
+                            <thead>
+                            <tr>
+                                <th class="index">序号</th>
+                                <th>用户ID</th>
+                                <th>用户名称</th>
+                                <th>头像</th>
+                                <th>性别</th>
+                                <!--<th>邮箱</th>-->
+                                <th>电话号码</th>
+                                <th>生日</th>
+                                <!--<th>真实姓名</th>-->
+                                <!--<th>证件类型</th>-->
+                                <!--<th>证件号码</th>-->
+                                <th>注册时间</th>
+                                <!--<th>是否激活</th>-->
+                                <th>用户类型</th>
+                                <th>是否实名认证</th>
+                                <th>删除</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <!-- 上传图片-->
                 <h4 class="h4-custom-hmm">主宣传图</h4>
 

@@ -80,6 +80,7 @@
   		$("#themeTitle").attr("disabled",true);
   		$("#onShelvesAt").attr("disabled",true);
   		$("#offShelvesAt").attr("disabled",true);
+        $("#theme-state").find("input").attr("disabled",true);
   		//主宣传图
   		$("#getTemplate").css({"display":"none"});
         //商品
@@ -121,6 +122,7 @@
             $("#onShelvesAt").attr("disabled",false);
             $("#offShelvesAt").attr("disabled",false);
             $("#themeDescribe").attr("disabled",false);
+            $("#theme-state").find("input").attr("disabled",false);
             //主宣传图
             $("#getTemplate").css({"display":""});
             //商品
@@ -266,7 +268,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">主题状态</label>
 
-                <div class="col-sm-8 theme-state">
+                <div id="theme-state" class="col-sm-8 theme-state">
                     <label>
                         <input type="radio" name="themestate"> 隐藏
                     </label>
