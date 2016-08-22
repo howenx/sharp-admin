@@ -52,7 +52,7 @@
                     // if not modal, we cannot use the returnValue property, we need to update the opener window
                     var sharedObject = {};
                     sharedObject.id = id;
-                    window.opener.UpdateFields (sharedObject);
+                    window.opener.UpdateFieldsAdduser (sharedObject);
                 }
                 window.close ();
             })

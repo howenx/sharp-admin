@@ -59,7 +59,7 @@
             if (window.showModalDialog) {
                 var retValue = showModalDialog("/coup/add/popup", sharedObject, "dialogWidth:1300px; dialogHeight:600px; dialogLeft:300px;");
                 if (retValue) {
-                    UpdateFields(retValue);
+                    UpdateFieldsAdduser(retValue);
                 }
             }
             else {
@@ -73,7 +73,7 @@
             if (window.showModalDialog) {
                 var retValue = showModalDialog("/coup/addMaster/popup", sharedObject, "dialogWidth:1300px; dialogHeight:600px; dialogLeft:300px;");
                 if (retValue) {
-                    UpdateFields(retValue);
+                    UpdateFieldsAdduser(retValue);
                 }
             }
             else {
@@ -84,7 +84,7 @@
         }
     }
 
-    function UpdateFields(obj) {
+    function UpdateFieldsAdduser(obj) {
         var obj1 = obj.id;
         var index1 = $(".table tbody").find("tr").length,
             index2 = $(".table thead").find("tr").length;

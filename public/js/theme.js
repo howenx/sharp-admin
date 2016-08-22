@@ -1,5 +1,76 @@
 var jsFileShareContent = {};
  var pageEditStatus = false;
+/******************** 添加用户 show 开始*********************/
+function ShowModalAdduser(obj) {
+    var button_id = $(obj).attr("id");
+    var sharedObject = {};
+    var user_arr = [];
+    var users = $(".table tbody").find("tr");
+    for(i=0;i<users.length;i++) {
+        var user_id = users[i].getElementsByTagName("td")[1].innerText;
+        user_arr.push(user_id);
+    }
+    sharedObject.user_arr = user_arr;
+    <!--console.log(user_arr);-->
+    //添加用户
+    if (button_id=="add-user") {
+        if (window.showModalDialog) {
+            var retValue = showModalDialog("/coup/add/popup", sharedObject, "dialogWidth:1300px; dialogHeight:600px; dialogLeft:300px;");
+            if (retValue) {
+                UpdateFieldsAdduser(retValue);
+            }
+        }
+        else {
+            // for similar functionality in Opera, but it's not modal!
+            var modal = window.open("/coup/add/popup", null, "width=1300,height=600,left=300,modal=yes,alwaysRaised=yes", null);
+            modal.dialogArguments = sharedObject;
+        }
+    }
+    //添加成功收获的团长用户
+    else if (button_id=="add-master") {
+        if (window.showModalDialog) {
+            var retValue = showModalDialog("/coup/addMaster/popup", sharedObject, "dialogWidth:1300px; dialogHeight:600px; dialogLeft:300px;");
+            if (retValue) {
+                UpdateFieldsAdduser(retValue);
+            }
+        }
+        else {
+            // for similar functionality in Opera, but it's not modal!
+            var modal = window.open("/coup/addMaster/popup", null, "width=1300,height=600,left=300,modal=yes,alwaysRaised=yes", null);
+            modal.dialogArguments = sharedObject;
+        }
+    }
+}
+
+function UpdateFieldsAdduser(obj) {
+    var obj1 = obj.id;
+    var index1 = $("#user-add tbody").find("tr").length,
+        index2 = $("#user-add thead").find("tr").length;
+    var index = index1 + index2;
+    for (var i = 0; i < $(obj1).length; i++) {
+        $(obj1).eq(i).prepend($("<td class='index'>" + (Number(index) + i) + "</td>")).appendTo($("#user-add"));
+    }
+}
+/******************** 添加用户 show 结束*********************/
+
+/** 删除一条用户 **/
+$(document).on("click",".cou-del",function(){
+    if (window.confirm("确定删除吗?")) {
+        //用户总数
+        var userCount = $("#user-add").find("tr").length - 1;
+        //console.log("用户总数userCount:" + userCount);
+        //被删除行的编号
+        var delColNum = $(this).parents("tr").find("td:eq(0)").text();
+        //console.log("被删除行编号delColNum:" + delColNum);
+        if(userCount > delColNum){
+            for(i=parseInt(delColNum);i<userCount;i++){
+                var j = i + 1;
+                $("#user-add").find("tr:eq("+j+")").find("td:eq(0)").text(i);
+            }
+        }
+        $(this).parents("tr").remove();
+    }
+});
 function ShowModal() {
     var sharedObject = {};
 
@@ -39,11 +110,11 @@ function ShowModal1() {
 }
 function UpdateFields(obj) {
     var obj1 = obj.id;
-    var index1 = $(".grid tbody").find("tr").length,
-        index2 = $(".grid thead").find("tr").length;
+    var index1 = $("#sort tbody").find("tr").length,
+        index2 = $("#sort thead").find("tr").length;
     var index = index1 + index2;
     for (var i = 0; i < $(obj1).length; i++) {
-        $(obj1).eq(i).prepend($("<td class='index'>" + (Number(index) + i) + "</td>")).appendTo($(".grid"));
+        $(obj1).eq(i).prepend($("<td class='index'>" + (Number(index) + i) + "</td>")).appendTo($("#sort"));
     }
 
     $('#input_imgurl').val(obj.lable_id);
@@ -282,18 +353,44 @@ $(function () {
     $(":input:not(:button)").focusout(function(){
         $(".user-state").text("已更改");
     })
-    /*************主题选择*************/
+    /*************主题类型选择*************/
     $(".h4-custom-hmm>input").click(function () {
         $(this).parent().next().toggle()
     })
     $("input[name='theme']").click(function () {
-        if(this.id==="ordinary"){
-            $(".h4-custom-hmm").css("display","block").find("input").css("display","inline").prop("checked",true);
+        if($(".theme-state").find("input[name='themestate']").eq(1).prop("checked")===true){
+            $(".h4-custom-hmm").css("display","none");
+            $(".h4-custom-hmm.adduser").css("display","block");
+            $(".good-change").css("display","none");
+            $(".thememainimg").css("display","none");
+        }else{
+            $(".h4-custom-hmm.adduser").css("display","none");
+            if(this.id==="ordinary"){
+                $(".h4-custom-hmm").css("display","block").find("input").css("display","inline").prop("checked",true);
+                $(".h4-custom-hmm.adduser").css("display","none");
+                $(".good-change").css("display","block");
+                $(".thememainimg").css("display","block");
+            }else{
+                $(".thememainimg").css("display","none").prev().css("display","none");
+                $(".good-change").css("display","block").prev().css("display","block").find("input").css("display","none");
+            }
+        }
+    })
+    /*************主题状态选择*************/
+    $("input[name='themestate']").click(function () {
+        var index = $("input[name='themestate']").index(this);
+        if(index === 1){
+            $(".h4-custom-hmm").css("display","none");
+            $(".h4-custom-hmm.adduser").css("display","block");
+            $(".good-change").css("display","none");
+            $(".thememainimg").css("display","none");
+            $(".user-change").css("display","block");
+        }else{
+            $(".h4-custom-hmm").css("display","block");
+            $(".h4-custom-hmm.adduser").css("display","none");
             $(".good-change").css("display","block");
             $(".thememainimg").css("display","block");
-        }else{
-            $(".thememainimg").css("display","none").prev().css("display","none");
-            $(".good-change").css("display","block").prev().css("display","block").find("input").css("display","none");
+            $(".user-change").css("display","none");
         }
     })
 })
