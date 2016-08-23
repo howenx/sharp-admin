@@ -24,7 +24,7 @@ public class DataLogCtrl extends Controller {
     @Inject
     private DataLogService dataLogService;
 
-    private int pageSize =10;
+    private static final int PAGE_SIZE = 50;
 
     /**
      * 日志查询列表
@@ -38,13 +38,13 @@ public class DataLogCtrl extends Controller {
         dataLog.setPageSize(-1);
         dataLog.setOffset(-1);
         int countNum = dataLogService.getDataLogPage(dataLog).size();
-        int pageCount = countNum/pageSize;
-        if (countNum%pageSize !=0) {
-            pageCount = countNum/pageSize + 1;
+        int pageCount = countNum/PAGE_SIZE;
+        if (countNum%PAGE_SIZE !=0) {
+            pageCount = countNum/PAGE_SIZE + 1;
         }
-        dataLog.setPageSize(pageSize);
+        dataLog.setPageSize(PAGE_SIZE);
         dataLog.setOffset(0);
-        return ok(views.html.datalog.datalogserarch.render(lang, pageSize, countNum, pageCount, dataLogService.getDataLogPage(dataLog), (User) ctx().args.get("user")));
+        return ok(views.html.datalog.datalogserarch.render(lang, PAGE_SIZE, countNum, pageCount, dataLogService.getDataLogPage(dataLog), (User) ctx().args.get("user")));
     }
 
     /**
@@ -59,17 +59,17 @@ public class DataLogCtrl extends Controller {
         DataLog dataLog = Json.fromJson(json,DataLog.class);
         if(pageNum>=1){
             //计算从第几条开始取数据
-            int offset = (pageNum-1)*pageSize;
+            int offset = (pageNum-1)*PAGE_SIZE;
             dataLog.setPageSize(-1);
             dataLog.setOffset(-1);
             //取总数
             int countNum = dataLogService.getDataLogPage(dataLog).size();
             //共分几页
-            int pageCount = countNum/pageSize;
-            if(countNum%pageSize!=0){
-                pageCount = countNum/pageSize+1;
+            int pageCount = countNum/PAGE_SIZE;
+            if(countNum%PAGE_SIZE!=0){
+                pageCount = countNum/PAGE_SIZE+1;
             }
-            dataLog.setPageSize(pageSize);
+            dataLog.setPageSize(PAGE_SIZE);
             dataLog.setOffset(offset);
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
@@ -77,7 +77,7 @@ public class DataLogCtrl extends Controller {
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
-            returnMap.put("pageSize",pageSize);
+            returnMap.put("pageSize",PAGE_SIZE);
             return ok(Json.toJson(returnMap));
         }
         else{

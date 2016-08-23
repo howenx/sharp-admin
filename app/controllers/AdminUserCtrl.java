@@ -54,7 +54,7 @@ public class AdminUserCtrl extends Controller {
 
 //    public static final Timeout TIMEOUT = new Timeout(100, TimeUnit.MILLISECONDS);
 
-    public static final int pageSize = 10;
+    private static final int PAGE_SIZE = 10;
 
     /**
      * 添加管理员用户
@@ -440,13 +440,13 @@ public class AdminUserCtrl extends Controller {
         id.setPageSize(-1);
         id.setOffset(-1);
         int countNum = idService.getAllID().size();//取总数
-        int pageCount = countNum/pageSize;//共分几页
-        if (countNum%pageSize!=0) {
-            pageCount = countNum/pageSize+1;
+        int pageCount = countNum/PAGE_SIZE;//共分几页
+        if (countNum%PAGE_SIZE!=0) {
+            pageCount = countNum/PAGE_SIZE+1;
         }
-        id.setPageSize(pageSize);
+        id.setPageSize(PAGE_SIZE);
         id.setOffset(0);
-        return ok(views.html.adminuser.appusersearch.render(lang, pageSize, countNum, pageCount, idService.getIDPage(id),SysParCom.IMAGE_URL, (User) ctx().args.get("user")));
+        return ok(views.html.adminuser.appusersearch.render(lang, PAGE_SIZE, countNum, pageCount, idService.getIDPage(id),SysParCom.IMAGE_URL, (User) ctx().args.get("user")));
     }
 
     /**
@@ -461,18 +461,18 @@ public class AdminUserCtrl extends Controller {
         ID id = Json.fromJson(json,ID.class);
         if(pageNum>=1){
             //计算从第几条开始取数据
-            int offset = (pageNum-1)*pageSize;
+            int offset = (pageNum-1)*PAGE_SIZE;
             id.setPageSize(-1);
             id.setOffset(-1);
             //取总数
             int countNum = idService.getIDPage(id).size();
             //共分几页
-            int pageCount = countNum/pageSize;
+            int pageCount = countNum/PAGE_SIZE;
 
-            if(countNum%pageSize!=0){
-                pageCount = countNum/pageSize+1;
+            if(countNum%PAGE_SIZE!=0){
+                pageCount = countNum/PAGE_SIZE+1;
             }
-            id.setPageSize(pageSize);
+            id.setPageSize(PAGE_SIZE);
             id.setOffset(offset);
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
@@ -480,7 +480,7 @@ public class AdminUserCtrl extends Controller {
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
-            returnMap.put("pageSize",pageSize);
+            returnMap.put("pageSize",PAGE_SIZE);
             return ok(Json.toJson(returnMap));
         }
         else{

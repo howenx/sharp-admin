@@ -62,6 +62,8 @@ public class DataCtrl extends Controller {
     @Inject
     private ActorSystem system;
 
+    private static final int PAGE_SIZE = 50;
+
     /**
      * 系统参数列表
      * @return
@@ -165,11 +167,11 @@ public class DataCtrl extends Controller {
             inventoryList = inventoryService.invSearch(inventory);
             countNum = inventoryList.size();
         }
-        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
-        if (countNum%ThemeCtrl.PAGE_SIZE!=0) {
-            pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
+        int pageCount = countNum/PAGE_SIZE;//共分几页
+        if (countNum%PAGE_SIZE!=0) {
+            pageCount = countNum/PAGE_SIZE+1;
         }
-        return ok(views.html.data.salesdata.render(lang, ThemeCtrl.PAGE_SIZE, countNum, pageCount, (User) ctx().args.get("user")));
+        return ok(views.html.data.salesdata.render(lang, PAGE_SIZE, countNum, pageCount, (User) ctx().args.get("user")));
     }
 
     /**
@@ -191,7 +193,7 @@ public class DataCtrl extends Controller {
         Map<String,Object> returnMap=new HashMap<>();
         if(pageNum>=1){
             //计算从第几条开始取数据
-            int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
+            int offset = (pageNum-1)*PAGE_SIZE;
             if ("sales".equals(param)) {
                 orderList = orderService.getTradeOrder(order);
                 BigDecimal income = new BigDecimal(0.0);    //收款额
@@ -213,7 +215,7 @@ public class DataCtrl extends Controller {
                     }
                 }
                 countNum = orderList.size();
-                order.setPageSize(ThemeCtrl.PAGE_SIZE);
+                order.setPageSize(PAGE_SIZE);
                 order.setOffset(offset);
                 orderList = orderService.getTradeOrder(order);
                 if (orderList.size()>0) {
@@ -236,7 +238,7 @@ public class DataCtrl extends Controller {
                     retreatNum = retreatNum + o.getOrderType();
                 }
                 countNum = orderList.size();
-                order.setPageSize(ThemeCtrl.PAGE_SIZE);
+                order.setPageSize(PAGE_SIZE);
                 order.setOffset(offset);
                 orderList = orderService.countTradeOrder(order);
                 if (orderList.size()>0) {
@@ -250,7 +252,7 @@ public class DataCtrl extends Controller {
             if ("goods".equals(param)) {
                 orderLineList = orderService.countTradeGoods(order);
                 countNum = orderLineList.size();
-                order.setPageSize(ThemeCtrl.PAGE_SIZE);
+                order.setPageSize(PAGE_SIZE);
                 order.setOffset(offset);
                 orderLineList = orderService.countTradeGoods(order);
                 for(OrderLine orderLine : orderLineList) {
@@ -261,14 +263,14 @@ public class DataCtrl extends Controller {
                 returnMap.put("topic",orderLineList);
 //                Logger.error("goods:"+orderLineList);
             }
-            int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
-            if(countNum%ThemeCtrl.PAGE_SIZE!=0){
-                pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
+            int pageCount = countNum/PAGE_SIZE;//共分几页
+            if(countNum%PAGE_SIZE!=0){
+                pageCount = countNum/PAGE_SIZE+1;
             }
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
-            returnMap.put("pageSize",ThemeCtrl.PAGE_SIZE);
+            returnMap.put("pageSize",PAGE_SIZE);
             return ok(Json.toJson(returnMap));
         }
         else{
@@ -427,11 +429,11 @@ public class DataCtrl extends Controller {
         inventory.setOffset(-1);
         List<Inventory> inventoryList = inventoryService.invSearch(inventory);
         int countNum = inventoryList.size();//取总数
-        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
-        if (countNum%ThemeCtrl.PAGE_SIZE!=0) {
-            pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
+        int pageCount = countNum/PAGE_SIZE;//共分几页
+        if (countNum%PAGE_SIZE!=0) {
+            pageCount = countNum/PAGE_SIZE+1;
         }
-        return ok(views.html.data.inventorydata.render(lang, ThemeCtrl.PAGE_SIZE, countNum, pageCount,(User) ctx().args.get("user")));
+        return ok(views.html.data.inventorydata.render(lang, PAGE_SIZE, countNum, pageCount,(User) ctx().args.get("user")));
     }
 
     /**
@@ -445,16 +447,16 @@ public class DataCtrl extends Controller {
         Inventory inventory = Json.fromJson(json,Inventory.class);
         if(pageNum>=1){
             //计算从第几条开始取数据
-            int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
+            int offset = (pageNum-1)*PAGE_SIZE;
             inventory.setPageSize(-1);
             inventory.setOffset(-1);
             List<Inventory> inventoryList = inventoryService.invSearch(inventory);
             int countNum = inventoryList.size();//取总数
-            int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
-            if(countNum%ThemeCtrl.PAGE_SIZE!=0){
-                pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
+            int pageCount = countNum/PAGE_SIZE;//共分几页
+            if(countNum%PAGE_SIZE!=0){
+                pageCount = countNum/PAGE_SIZE+1;
             }
-            inventory.setPageSize(ThemeCtrl.PAGE_SIZE);
+            inventory.setPageSize(PAGE_SIZE);
             inventory.setOffset(offset);
             inventory.setSort("rest_amount");
             inventoryList = inventoryService.invSearch(inventory);
@@ -464,7 +466,7 @@ public class DataCtrl extends Controller {
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
-            returnMap.put("pageSize",ThemeCtrl.PAGE_SIZE);
+            returnMap.put("pageSize",PAGE_SIZE);
             return ok(Json.toJson(returnMap));
         }
         else{

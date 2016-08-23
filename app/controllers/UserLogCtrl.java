@@ -23,7 +23,7 @@ public class UserLogCtrl extends Controller {
     @Inject
     private UserLogService userLogService;
 
-    public static final int pageSize = 10;
+    private static final int PAGE_SIZE = 50;
 
     /**
      * 日志查询列表
@@ -36,13 +36,13 @@ public class UserLogCtrl extends Controller {
         userLog.setPageSize(-1);
         userLog.setOffset(-1);
         int countNum = userLogService.getUserLogPage(userLog).size();
-        int pageCount = countNum/pageSize;
-        if (countNum%pageSize !=0) {
-            pageCount = countNum/pageSize + 1;
+        int pageCount = countNum/PAGE_SIZE;
+        if (countNum%PAGE_SIZE !=0) {
+            pageCount = countNum/PAGE_SIZE + 1;
         }
-        userLog.setPageSize(pageSize);
+        userLog.setPageSize(PAGE_SIZE);
         userLog.setOffset(0);
-        return ok(views.html.datalog.userlogsearch.render(lang, pageSize, countNum, pageCount, userLogService.getUserLogPage(userLog), (User) ctx().args.get("user")));
+        return ok(views.html.datalog.userlogsearch.render(lang, PAGE_SIZE, countNum, pageCount, userLogService.getUserLogPage(userLog), (User) ctx().args.get("user")));
     }
 
     /**
@@ -57,18 +57,18 @@ public class UserLogCtrl extends Controller {
         UserLog userLog = Json.fromJson(json,UserLog.class);
         if(pageNum>=1){
             //计算从第几条开始取数据
-            int offset = (pageNum-1)*pageSize;
+            int offset = (pageNum-1)*PAGE_SIZE;
             userLog.setPageSize(-1);
             userLog.setOffset(-1);
             //取总数
             int countNum = userLogService.getUserLogPage(userLog).size();
             //共分几页
-            int pageCount = countNum/pageSize;
+            int pageCount = countNum/PAGE_SIZE;
 
-            if(countNum%pageSize!=0){
-                pageCount = countNum/pageSize+1;
+            if(countNum%PAGE_SIZE!=0){
+                pageCount = countNum/PAGE_SIZE+1;
             }
-            userLog.setPageSize(pageSize);
+            userLog.setPageSize(PAGE_SIZE);
             userLog.setOffset(offset);
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
@@ -76,7 +76,7 @@ public class UserLogCtrl extends Controller {
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
-            returnMap.put("pageSize",pageSize);
+            returnMap.put("pageSize",PAGE_SIZE);
             return ok(Json.toJson(returnMap));
         }
         else{
