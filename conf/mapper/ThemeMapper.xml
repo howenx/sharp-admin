@@ -88,7 +88,8 @@
                 ${alias}.start_at,
                 ${alias}.end_at,
                 ${alias}.type,
-                ${alias}.h5_link
+                ${alias}.h5_link,
+                ${alias}.theme_state
         </sql>
 
         <select id="getThemePage" parameterType="domain.Theme" resultType="domain.Theme">
@@ -108,6 +109,9 @@
                 </if>
                 <if test="orDestroy != null">
                         and t.or_destroy = #{orDestroy}
+                </if>
+                <if test="themeState != null">
+                        and t.theme_state = #{themeState}
                 </if>
                 <if test="startAt != null">
                         and t.start_at &gt;= #{startAt} ::timestamp
@@ -154,33 +158,33 @@
 
         <insert id="insertTheme" parameterType="domain.Theme" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
                 insert into themes
-                (master_item_id,title,start_at,end_at,theme_img,create_at,theme_item,master_item_tag,theme_master_img,theme_config_info,type,h5_link)
+                (master_item_id,title,start_at,end_at,theme_img,create_at,theme_item,master_item_tag,theme_master_img,theme_config_info,type,h5_link,theme_state)
                 values
-                (#{masterItemId},#{title},#{startAt}::timestamp,#{endAt}::timestamp,#{themeImg},CURRENT_TIMESTAMP(0),#{themeItem}::jsonb,#{themeTags}::jsonb,#{themeMasterImg},#{themeConfigInfo},#{type},#{h5Link})
+                (#{masterItemId},#{title},#{startAt}::timestamp,#{endAt}::timestamp,#{themeImg},CURRENT_TIMESTAMP(0),#{themeItem}::jsonb,#{themeTags}::jsonb,#{themeMasterImg},#{themeConfigInfo},#{type},#{h5Link},#{themeState})
         </insert>
 
         <update id="updateTheme" parameterType="domain.Theme">
                 update themes
                 set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},
                     update_at=CURRENT_TIMESTAMP(0),theme_item=#{themeItem}::jsonb,master_item_tag=#{themeTags}::jsonb,theme_master_img=#{themeMasterImg},or_destroy=false,theme_config_info=#{themeConfigInfo}
-                        ,type=#{type},h5_link = #{h5Link}
+                        ,type=#{type},h5_link = #{h5Link},theme_state = #{themeState}
                 where id = #{id}
         </update>
 
         <update id="updThemeItems" parameterType="domain.Theme">
                 update themes
-                set theme_item=#{themeItem}
+                set theme_item=#{themeItem}S
                 where id = #{id}
         </update>
 
         <insert id="addH5Theme" parameterType="domain.Theme">
-                insert into themes (title,create_at,start_at,end_at,type,h5_link,theme_img,theme_config_info)
-                values(#{title},CURRENT_TIMESTAMP(0),#{startAt}::timestamp,#{endAt}::timestamp,#{type},#{h5Link},#{themeImg},#{themeConfigInfo})
+                insert into themes (title,create_at,start_at,end_at,type,h5_link,theme_img,theme_config_info,theme_state)
+                values(#{title},CURRENT_TIMESTAMP(0),#{startAt}::timestamp,#{endAt}::timestamp,#{type},#{h5Link},#{themeImg},#{themeConfigInfo},#{themeState})
         </insert>
         <update id="updH5Theme" parameterType="domain.Theme">
                 update themes
                 set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},
-                update_at=CURRENT_TIMESTAMP(0),h5_link = #{h5Link},or_destroy=false,theme_config_info=#{themeConfigInfo}
+                update_at=CURRENT_TIMESTAMP(0),h5_link = #{h5Link},or_destroy=false,theme_config_info=#{themeConfigInfo},theme_state = #{themeState}
                 where id = #{id}
         </update>
 

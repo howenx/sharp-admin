@@ -23,6 +23,14 @@
 <script>window.uploadUrl = "@uploadUrl" + "/upload"</script>
 <script>
     $(function(){
+         //主题状态
+        if("@theme.getThemeState" == "1"){
+             $('input[name="themestate"][id="1"]').click();
+        }else if("@theme.getThemeState" == "2"){
+             $('input[name="themestate"][id="2"]').click();
+        }else{
+             $('input[name="themestate"][id="3"]').click();
+        }
         //页面打开冻结项
         $("#themeTitle").attr("disabled",true);
         $("#onShelvesAt").attr("disabled",true);
@@ -165,13 +173,13 @@
 
                     <div id="theme-state" class="col-sm-8 theme-state">
                         <label>
-                            <input type="radio" name="themestate" disabled> 隐藏
+                            <input type="radio" name="themestate"  id="1"> 隐藏
                         </label>
                         <label>
-                            <input type="radio" name="themestate"> 专用
+                            <input type="radio" name="themestate" id="2"> 专用
                         </label>
                         <label>
-                            <input type="radio" name="themestate" checked> 正常
+                            <input type="radio" name="themestate" id="3" checked> 正常
                         </label>
                     </div>
                 </div>

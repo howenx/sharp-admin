@@ -201,7 +201,7 @@ $(function() {
                       }
                       customizeObject.invId = $(this).find("td:eq(1)").text();
                       if($(this).find("td:eq(7)").text() == "正常"){
-                             customizeObject.state = "Y";
+                             customizeObject.state = "";
                       }else{
                              customizeObject.state = "D";
                       }
@@ -291,6 +291,9 @@ $(function() {
              }
          }
 
+        //主题状态
+        var themeState = parseInt($("input[name='themestate']:checked").attr("id"));
+
         theme.id = themeId;
         theme.title = title;
         theme.startAt = onShelvesAt;
@@ -306,6 +309,8 @@ $(function() {
         //if(JSON.stringify(masterItemTag) != "[]"){
         theme.themeTags = masterItemTag;
         //}
+        theme.themeState = themeState;
+
         theme.themeMasterImg = JSON.stringify(themeMasterImgContent);
         var data = {};
         data.theme = theme;
@@ -413,6 +418,9 @@ $(function() {
              }
          }
 
+         //主题状态
+         var themeState = parseInt($("input[name='themestate']:checked").attr("id"));
+
          var theme = {};
          var themeId = $("#themeId").val();
          theme.id = $("#themeId").val();
@@ -421,6 +429,7 @@ $(function() {
          theme.endAt = $("#offShelvesAt").val();
          theme.h5Link = $("#h5-link").val();
          theme.themeConfigInfo = $("#themeDescribe").val();
+         theme.themeState = themeState;
 
          //主题主图片
          var themeImgContent = {};
