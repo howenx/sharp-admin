@@ -31,6 +31,7 @@ funcList.thmlist_search = function thmlist_search(pageIndex) {
     }
     topicDto.title = $("#topic-form-thName").val();
     topicDto.orDestroy = $("#topic-form-status").val();
+    topicDto.themeState = $("#topic-form-state").val();
 
     //调用共用ajax,url从根目录开始不需要加上语言
     search("/topic/search/" + pageIndex, topicDto);
@@ -47,6 +48,17 @@ funcList.thmlist_data = function thmlist_data(data) {
         if($(this)[0].orDestroy == true){
             status = "下架";
         }
+        var state;
+        if($(this)[0].themeState == 3){
+            state = "正常";
+        }
+        if($(this)[0].themeState == 2){
+            state = "专用";
+        }
+        if($(this)[0].themeState == 1){
+            state = "隐藏";
+        }
+
         $('#tb-topic').find('tbody').append('' +
             '<tr class="tb-list-data">' +
             '<td><a href="/' + window.lang +'/topic/updateById/' + $(this)[0].id + '">' + $(this)[0].id + '</a></td>' +
@@ -58,6 +70,7 @@ funcList.thmlist_data = function thmlist_data(data) {
             '<td>' + ($(this)[0].startAt != null && $(this)[0].startAt != '' ? $(this)[0].startAt.substr(0, 16) : '') + '</td>' +
             '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 16) : '') + '</td>' +
             '<td>' + status + '</td>' +
+            '<td>' + state + '</td>' +
             '</tr>'
         );
     })

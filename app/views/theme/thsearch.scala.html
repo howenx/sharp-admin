@@ -104,6 +104,19 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <!--主题状态-->
+            <label class="col-sm-2 control-label">主题状态</label>
+            <div class="col-sm-3">
+                <select class="form-control" id="topic-form-state">
+                    <option value=""></option>
+                    <option value="3" selected="selected">正常</option>
+                    <option value="2">专用</option>
+                    <option value="1">隐藏</option>
+                </select>
+            </div>
+        </div>
+
         <div class="btn-s">
 			<input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
             <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
@@ -137,6 +150,9 @@
                 <th>
                     状态
                 </th>
+                <th>
+                    主题状态
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -156,6 +172,17 @@
                         @if(theme.getOrDestroy() == false){
                         <td>正常</td>
                         }
+
+                        @if(theme.getThemeState() == 1){
+                        <td>隐藏</td>
+                        }
+                        @if(theme.getThemeState() == 2){
+                        <td>专用</td>
+                        }
+                        @if(theme.getThemeState() == 3){
+                        <td>正常</td>
+                        }
+
                     </tr>
                 }
                 <!---公用模块,id不能改变,只需要改变合并行数-->

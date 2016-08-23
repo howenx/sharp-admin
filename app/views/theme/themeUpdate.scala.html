@@ -71,6 +71,15 @@
             $('input[name="theme"][id="detail"]').click();
         }
 
+        //主题状态
+        if("@theme.getThemeState" == "1"){
+             $('input[name="themestate"][id="1"]').click();
+        }else if("@theme.getThemeState" == "2"){
+             $('input[name="themestate"][id="2"]').click();
+        }else{
+             $('input[name="themestate"][id="3"]').click();
+        }
+
   		//非编辑状态下冻结页面元素-----------------------------------------start
   		//保存按钮
   		$("#js-usercenter-submit").css({"display":"none"});
@@ -278,13 +287,13 @@
 
                 <div id="theme-state" class="col-sm-8 theme-state">
                     <label>
-                        <input type="radio" name="themestate"> 隐藏
+                        <input type="radio" name="themestate" id="1"> 隐藏
                     </label>
                     <label>
-                        <input type="radio" name="themestate"> 专用
+                        <input type="radio" name="themestate" id="2"> 专用
                     </label>
                     <label>
-                        <input type="radio" name="themestate" checked> 正常
+                        <input type="radio" name="themestate" id="3" checked> 正常
                     </label>
                 </div>
             </div>
