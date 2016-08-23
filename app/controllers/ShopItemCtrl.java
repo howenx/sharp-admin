@@ -14,6 +14,7 @@ import domain.Item;
 import domain.User;
 import domain.erp.ShopItemOperate;
 import filters.UserAuth;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -190,6 +191,7 @@ public class ShopItemCtrl extends Controller {
         JsonNode json = request().body().asJson();
         Long skuIds[] = new Long[json.size()];
         List<String> shopItemCodeList = new ArrayList<>();
+        Logger.error("推送的SKU:"+json.toString());
         for(int i=0;i<json.size();i++){
             skuIds[i] = (json.get(i)).asLong();
             Inventory inventory = inventoryService.getInventory(skuIds[i]);
@@ -200,16 +202,17 @@ public class ShopItemCtrl extends Controller {
             if ("Y".equals(state)) {
                 request.status = "在售中";
             }
-            if ("P".equals(state)) {
+            if (!"Y".equals(state)) {
                 request.status = "在库中";
             }
             request.createdTime = inventory.getCreateAt();//创建时间
             request.updateTime = (null==inventory.getUpdateAt()?inventory.getCreateAt():inventory.getUpdateAt());//修改时间
             request.shopItemName = inventory.getInvTitle();   //宝贝名称
+//            request.isVirtual = false;
             request.pictureUrl = SysParCom.IMAGE_URL+Json.parse(inventory.getInvImg()).get("url").asText();//主图url
             request.outerId = inventory.getInvCode();//商家编码
-            request.quantity = inventory.getAmount();//数量
-            request.price = inventory.getItemSrcPrice().doubleValue();//价格
+            request.quantity = inventory.getRestAmount();//数量
+            request.price = inventory.getItemPrice().doubleValue();//价格
             request.weight = inventory.getInvWeight()/1000.0;//重量
             List<ShopSkuPushLine> lineList = new ArrayList<ShopSkuPushLine>();//sku信息
             ShopSkuPushLine shopSkuPushLine = new ShopSkuPushLine();
@@ -219,9 +222,10 @@ public class ShopItemCtrl extends Controller {
             shopSkuPushLine.property2 = inventory.getItemSize();       //平台属性2(尺寸)
             shopSkuPushLine.price = inventory.getItemPrice().doubleValue();//价格
             shopSkuPushLine.weight = inventory.getInvWeight()/1000.0;      //重量(千克)
-            shopSkuPushLine.quantity = inventory.getAmount();              //数量
+            shopSkuPushLine.quantity = inventory.getRestAmount();              //数量
             lineList.add(shopSkuPushLine);
             request.setSkusInfo(lineList);
+            Logger.error("推送商品数据:"+Json.toJson(request));
             String shopItemCode = shopItemOperate.ShopItemPush(request);
             shopItemCodeList.add(shopItemCode);
         }

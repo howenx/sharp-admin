@@ -339,7 +339,7 @@ public class ThemeCtrl extends Controller {
         List<Theme> tList = new ArrayList<>();
         String strNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());//现在时间
         for(Theme theme : themeList) {
-            if (theme.getEndAt().compareTo(strNow)>0) {
+            if (theme.getEndAt().compareTo(strNow)>0 && (theme.getThemeState()==1 || theme.getThemeState()==3)) {
                 theme.setThemeImg(Json.parse(theme.getThemeImg()).get("url").asText());
                 tList.add(theme);
             }
