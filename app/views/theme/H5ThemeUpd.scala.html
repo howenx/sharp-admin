@@ -50,7 +50,16 @@
              $("#themeDescribe").attr("disabled",false);
              $("#h5-link").attr("disabled",false);
              $("#getTemplate").css("display","");
-             $("#theme-state").find("input").attr("disabled",false);
+            //转换状态
+            $("#theme-state").find("input").each(function () {
+                var index = $("#theme-state").find("input").index($("#theme-state").find("input:checked"));
+                if(index===1){
+                    $("#theme-state").find("input").attr("disabled",false);
+                }else{
+                    $("#theme-state").find("input").attr("disabled",false);
+                    $("#theme-state").find("input").eq(1).attr("disabled",true);
+                }
+            })
              //保存按钮 可见
              $("#js-usercenter-submit-h5").css("display","");
              //取消按钮 可见
