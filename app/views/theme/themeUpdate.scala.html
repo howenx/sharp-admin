@@ -122,7 +122,16 @@
             $("#onShelvesAt").attr("disabled",false);
             $("#offShelvesAt").attr("disabled",false);
             $("#themeDescribe").attr("disabled",false);
-            $("#theme-state").find("input").attr("disabled",false);
+            //转换状态
+            $("#theme-state").find("input").each(function () {
+                var index = $("#theme-state").find("input").index($("#theme-state").find("input:checked"));
+                if(index===1){
+                    $("#theme-state").find("input").attr("disabled",false);
+                }else{
+                    $("#theme-state").find("input").attr("disabled",false);
+                    $("#theme-state").find("input").eq(1).attr("disabled",true);
+                }
+            })
             //主宣传图
             $("#getTemplate").css({"display":""});
             //商品
@@ -151,7 +160,6 @@
                     $(".user-state").text("已更改");
                 },
   		    });
-
         })
 
         //点击取消
