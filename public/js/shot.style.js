@@ -467,6 +467,20 @@ $(function() {
                })
           }
 
+          //主题显示位置
+          var themeCates = [];
+          //首页
+          if($("input[name='themearea1']").prop("checked") == true){
+              themeCates.push(1);
+          }
+          //拼购
+          if($("input[name='themearea2']").prop("checked") == true){
+              themeCates.push(2);
+          }
+          //礼物
+          if($("input[name='themearea3']").prop("checked") == true){
+              themeCates.push(3);
+          }
 
          var data = {};
          var theme = new Object();
@@ -491,6 +505,7 @@ $(function() {
 
          data.theme = theme;
          data.users = users;
+         data.themeCates = themeCates;
 
          if(isPost){
             $.ajax({
