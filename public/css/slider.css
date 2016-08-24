@@ -245,7 +245,7 @@ ul,li {
 	margin: 0 10px;
 }
 /******主题选择******/
-.theme-change>label,.theme-state>label{
+.theme-change>label,.theme-state>label,.theme-area>label{
 	margin-top: 5px;
 	margin-right: 10px;
 }

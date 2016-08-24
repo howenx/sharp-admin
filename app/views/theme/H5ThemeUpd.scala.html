@@ -42,6 +42,7 @@
         $("#js-usercenter-delete-h5").css("display","none");
         $("#add-user").css("display","none");
         $("#theme-state").find("input").attr("disabled",true);
+        $("#theme-area").find("input").attr("disabled",true);
         //用户列表的删除列
   		$(".del-orShow").css("display","none");
 
@@ -64,6 +65,8 @@
                     $("#theme-state").find("input").eq(1).attr("disabled",true);
                 }
             })
+            //主题显示位置radio
+            $("#theme-area").find("input").attr("disabled",false);
              //保存按钮 可见
              $("#js-usercenter-submit-h5").css("display","");
              //取消按钮 可见
@@ -195,6 +198,22 @@
                         </label>
                         <label>
                             <input type="radio" name="themestate" id="3" checked> 正常
+                        </label>
+                    </div>
+                </div>
+                <!-- 主题显示位置 -->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">显示位置</label>
+
+                    <div id="theme-area" class="col-sm-8 theme-area">
+                        <label>
+                            <input type="radio" name="themearea" id="" checked> 主页显示
+                        </label>
+                        <label>
+                            <input type="radio" name="themearea" id=""> 拼购显示
+                        </label>
+                        <label>
+                            <input type="radio" name="themearea" id=""> 礼物显示
                         </label>
                     </div>
                 </div>

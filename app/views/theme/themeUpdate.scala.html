@@ -90,6 +90,7 @@
   		$("#onShelvesAt").attr("disabled",true);
   		$("#offShelvesAt").attr("disabled",true);
         $("#theme-state").find("input").attr("disabled",true);
+        $("#theme-area").find("input").attr("disabled",true);
   		//主宣传图
   		$("#getTemplate").css({"display":"none"});
         //商品
@@ -145,6 +146,8 @@
                     $("#theme-state").find("input").eq(1).attr("disabled",true);
                 }
             })
+            //主题显示位置radio
+            $("#theme-area").find("input").attr("disabled",false);
             //主宣传图
             $("#getTemplate").css({"display":""});
             //商品
@@ -298,6 +301,22 @@
                     </label>
                     <label>
                         <input type="radio" name="themestate" id="3" checked> 正常
+                    </label>
+                </div>
+            </div>
+            <!-- 主题显示位置 -->
+            <div class="form-group">
+                <label class="col-sm-2 control-label">显示位置</label>
+
+                <div id="theme-area" class="col-sm-8 theme-area">
+                    <label>
+                        <input type="radio" name="themearea" id="" checked> 主页显示
+                    </label>
+                    <label>
+                        <input type="radio" name="themearea" id=""> 拼购显示
+                    </label>
+                    <label>
+                        <input type="radio" name="themearea" id=""> 礼物显示
                     </label>
                 </div>
             </div>
