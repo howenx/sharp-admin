@@ -3,6 +3,7 @@ package service;
 import com.fasterxml.jackson.databind.JsonNode;
 import domain.Slider;
 import domain.Theme;
+import domain.ThemeCate;
 import domain.ThemeTemplate;
 import mapper.InventoryMapper;
 import mapper.ThemeMapper;
@@ -23,7 +24,6 @@ public class ThemeServiceImpl implements ThemeService {
     private InventoryMapper inventoryMapper;
     @Inject
     private SubjectPriceService subjectPriceService;
-
 
 
     /**
@@ -239,5 +239,34 @@ public class ThemeServiceImpl implements ThemeService {
     @Override
     public List<Theme> getCategoryThemes() {
         return themeMapper.getCategoryThemes();
+    }
+
+    /**
+     * 获取主题显示的位置        Added by Tiffany Zhu 2016.08.24
+     * @return
+     */
+    @Override
+    public List<ThemeCate> getThemeCate(Long  themeId) {
+        return themeMapper.getThemeCate(themeId);
+    }
+
+    /**
+     * 添加主题存放位置         Added by Tiffany Zhu 2016.08.24
+     * @param themeCateList
+     * @return
+     */
+    @Override
+    public int addThemeCate(List<ThemeCate> themeCateList) {
+        return themeMapper.addThemeCate(themeCateList);
+    }
+
+    /**
+     * 删除主题存放位置         Added by Tiffany Zhu 2016.08.24
+     * @param themeId
+     * @return
+     */
+    @Override
+    public void delThemeCateByThemeId(Long themeId) {
+         themeMapper.delThemeCateByThemeId(themeId);
     }
 }

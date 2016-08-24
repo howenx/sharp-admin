@@ -759,6 +759,28 @@ public class ThemeCtrl extends Controller {
             }
         }
 
+        //主题显示位置
+        JsonNode themeCateJson = jsonRequest.get("themeCates");
+        List<ThemeCate> themeCateList = new ArrayList<>();
+        service.delThemeCateByThemeId(theme.getId());
+        for (JsonNode node:themeCateJson){
+            ThemeCate themeCate = new ThemeCate();
+            themeCate.setThemeId(theme.getId());
+            themeCate.setThemeCateCode(node.asInt());
+            if(node.asInt() == 1){
+                themeCate.setThemeCateNm("首页");
+            }
+            if(node.asInt() == 2){
+                themeCate.setThemeCateNm("拼购");
+            }
+            if(node.asInt() == 3){
+                themeCate.setThemeCateNm("礼物");
+            }
+            themeCateList.add(themeCate);
+        }
+        Logger.error("位置数据:" + themeCateList.toString());
+        service.addThemeCate(themeCateList);
+
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
@@ -1094,7 +1116,23 @@ public class ThemeCtrl extends Controller {
                 }
             }
 
-            return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,idList,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+            //主题显示位置
+            List<ThemeCate> themeCateList = service.getThemeCate(id);
+            boolean indexPage = false;
+            boolean pinPage = false;
+            boolean giftPage = false;
+            for (ThemeCate themeCate : themeCateList){
+                if(themeCate.getThemeCateCode() == 1){
+                    indexPage = true;
+                }else if (themeCate.getThemeCateCode() == 2){
+                    pinPage = true;
+                }else {
+                    giftPage = true;
+                }
+
+            }
+
+            return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,idList,indexPage,pinPage,giftPage,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
         }
         return null;
     }

@@ -52,6 +52,7 @@ public class Theme implements Serializable {
     private String type;
     private String themeConfigInfo;
     private Integer themeState;
+    private Integer showType;
 
     //@Constraints.Pattern(Regex.HTTP)
     private String h5Link;
@@ -70,7 +71,7 @@ public class Theme implements Serializable {
     public Theme() {
     }
 
-    public Theme(Long id, Long masterItemId, String title, String themeDesc, String startAt, String endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean orDestroy, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, String themeItem, String themeMasterImg, String masterItemTag, String type, String themeConfigInfo, Integer themeState, String h5Link, Integer pageSize, Integer offset, String sort, String order) {
+    public Theme(Long id, Long masterItemId, String title, String themeDesc, String startAt, String endAt, BigDecimal themeDiscountUp, BigDecimal itemPriceTop, BigDecimal itemPriceLow, String themeImg, String themeUrl, String themeTags, Integer itemCount, Integer themeTagCount, Integer sortNu, Boolean orDestroy, Long destoryUid, Timestamp destoryAt, Timestamp updateAt, Long updateUid, Timestamp createAt, Long createUid, String themeSrcImg, String themeItem, String themeMasterImg, String masterItemTag, String type, String themeConfigInfo, Integer themeState, Integer showType, String h5Link, Integer pageSize, Integer offset, String sort, String order) {
         this.id = id;
         this.masterItemId = masterItemId;
         this.title = title;
@@ -100,6 +101,7 @@ public class Theme implements Serializable {
         this.type = type;
         this.themeConfigInfo = themeConfigInfo;
         this.themeState = themeState;
+        this.showType = showType;
         this.h5Link = h5Link;
         this.pageSize = pageSize;
         this.offset = offset;
@@ -139,6 +141,7 @@ public class Theme implements Serializable {
                 ", type='" + type + '\'' +
                 ", themeConfigInfo='" + themeConfigInfo + '\'' +
                 ", themeState=" + themeState +
+                ", showType=" + showType +
                 ", h5Link='" + h5Link + '\'' +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
@@ -377,6 +380,14 @@ public class Theme implements Serializable {
 
     public void setThemeState(Integer themeState) {
         this.themeState = themeState;
+    }
+
+    public Integer getShowType() {
+        return showType;
+    }
+
+    public void setShowType(Integer showType) {
+        this.showType = showType;
     }
 
     public String getH5Link() {
