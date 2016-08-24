@@ -84,5 +84,11 @@ public interface ThemeService {
      */
     void categorySave(JsonNode json);
 
+    /**
+     * 获取用于分类入口的主题 Added by Tiffany Zhu 2016.08.24
+     * @return
+     */
+    List<Theme> getCategoryThemes();
+
 
 }
