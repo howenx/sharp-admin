@@ -294,6 +294,21 @@ $(function() {
         //主题状态
         var themeState = parseInt($("input[name='themestate']:checked").attr("id"));
 
+        //专用主题用户
+        var users = [];
+        if(themeState == 2){
+             $("#user-add").find("tr").each(function(){
+                 var userId = $(this).find("td").eq(1).text();
+                 var phoneNum = $(this).find("td").eq(5).text()
+                 if(userId != "" && phoneNum != ""){
+                     var object = new Object();
+                     object.userId = userId;
+                     object.phoneNum = phoneNum;
+                     users.push(object);
+                 }
+             })
+        }
+
         theme.id = themeId;
         theme.title = title;
         theme.startAt = onShelvesAt;
@@ -316,6 +331,7 @@ $(function() {
         data.theme = theme;
         data.beforeUpdItems = beforeUpdItems;
         data.customizeItems = customizeItems;
+        data.users = users;
         if (isPost) {
                     $.ajax({
                         type :  "POST",
@@ -420,8 +436,23 @@ $(function() {
 
          //主题状态
          var themeState = parseInt($("input[name='themestate']:checked").attr("id"));
+          //专用主题用户
+          var users = [];
+          if(themeState == 2){
+               $("#user-add").find("tr").each(function(){
+                   var userId = $(this).find("td").eq(1).text();
+                   var phoneNum = $(this).find("td").eq(5).text()
+                   if(userId != "" && phoneNum != ""){
+                       var object = new Object();
+                       object.userId = userId;
+                       object.phoneNum = phoneNum;
+                       users.push(object);
+                   }
+               })
+          }
 
-         var theme = {};
+         var data = {};
+         var theme = new Object();
          var themeId = $("#themeId").val();
          theme.id = $("#themeId").val();
          theme.title = $("#themeTitle").val();
@@ -440,12 +471,15 @@ $(function() {
          theme.themeImg = JSON.stringify(themeImgContent);
          theme.sortNu = 1;
 
+         data.theme = theme;
+         data.users = users;
+
          if(isPost){
             $.ajax({
                 type :  "POST",
                 url : "/topic/add/h5ThemeSave",
                 contentType: "application/json; charset=utf-8",
-                data : JSON.stringify(theme),
+                data : JSON.stringify(data),
                 error : function(request) {
                     if (window.lang = 'cn') {
                          alert("保存失败!");

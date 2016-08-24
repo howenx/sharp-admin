@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",theme:domain.Theme,themeImgObject:Array[Object],url:String,uploadUrl:String,user:domain.User)
+@(lang:String="cn",theme:domain.Theme,themeImgObject:Array[Object],idList:List[Array[Object]],url:String,uploadUrl:String,user:domain.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/jquery-ui.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -40,7 +40,10 @@
         $("#js-usercenter-submit-h5").css("display","none");
         $("#js-usercenter-cancel-h5").css("display","none");
         $("#js-usercenter-delete-h5").css("display","none");
+        $("#add-user").css("display","none");
         $("#theme-state").find("input").attr("disabled",true);
+        //用户列表的删除列
+  		$(".del-orShow").css("display","none");
 
         //点击编辑按钮
         $(document).on("click","#js-usercenter-edit-h5",function(){
@@ -50,6 +53,7 @@
              $("#themeDescribe").attr("disabled",false);
              $("#h5-link").attr("disabled",false);
              $("#getTemplate").css("display","");
+              $("#add-user").css("display","");
             //转换状态
             $("#theme-state").find("input").each(function () {
                 var index = $("#theme-state").find("input").index($("#theme-state").find("input:checked"));
@@ -69,6 +73,8 @@
              $("#js-usercenter-edit-h5").css("display","none");
              //返回按钮 隐藏
             $("#js-usercenter-back").css({"display":"none"});
+            //用户列表的删除列
+  		    $(".del-orShow").css("display","");
         })
 
         //点击取消按钮
@@ -206,21 +212,30 @@
                                 <th>用户名称</th>
                                 <th>头像</th>
                                 <th>性别</th>
-                                <!--<th>邮箱</th>-->
                                 <th>电话号码</th>
                                 <th>生日</th>
-                                <!--<th>真实姓名</th>-->
-                                <!--<th>证件类型</th>-->
-                                <!--<th>证件号码</th>-->
                                 <th>注册时间</th>
-                                <!--<th>是否激活</th>-->
                                 <th>用户类型</th>
                                 <th>是否实名认证</th>
-                                <th>删除</th>
+                                <th class="del-orShow">删除</th>
                             </tr>
                             </thead>
                             <tbody>
-
+                                @for(user <- idList){
+                                <tr>
+                                    <td class="index">@user(0)</td>
+                                    <td>@user(1)</td>
+                                    <td>@user(2)</td>
+                                    <td> <img class="main-img" src="@url@user(3)" alt="" width="50"></td>
+                                    <td>@user(4)</td>
+                                    <td>@user(5)</td>
+                                    <td>@user(6)</td>
+                                    <td>@user(7)</td>
+                                    <td>@user(8)</td>
+                                    <td>@user(9)</td>
+                                    <td class="cou-del del-orShow" style="background:#ccc;cursor:pointer;">删除</td>
+                                </tr>
+                                }
                             </tbody>
                         </table>
                     </div>

@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",theme:domain.Theme,itList:List[Array[Object]],themeImgObject:Array[Object],masterImgObject:Array[Object],tagList:List[Array[Object]],url:String,uploadUrl:String,user:domain.User)
+@(lang:String="cn",theme:domain.Theme,itList:List[Array[Object]],themeImgObject:Array[Object],masterImgObject:Array[Object],tagList:List[Array[Object]],idList:List[Array[Object]],url:String,uploadUrl:String,user:domain.User)
 @import play.api.libs.json.Json
 @scripts = {
 
@@ -110,6 +110,8 @@
   		$("#imgSel").attr("disabled",true);
   		//主题类型
   		$("input[name='theme']").attr("disabled",true);
+  		//用户列表的删除列
+  		$(".del-orShow").css("display","none");
 
         //非编辑状态下冻结页面元素---------------------------------------------end
 
@@ -126,6 +128,8 @@
             $("#js-usercenter-cancel").css({"display":""});
             //下架按钮 隐藏
             $("#js-usercenter-delete").css({"display":""});
+            //用户列表的删除列
+  		    $(".del-orShow").css("display","");
             //基本信息
             $("#themeTitle").attr("disabled",false);
             $("#onShelvesAt").attr("disabled",false);
@@ -310,20 +314,31 @@
                             <th>用户名称</th>
                             <th>头像</th>
                             <th>性别</th>
-                            <!--<th>邮箱</th>-->
                             <th>电话号码</th>
                             <th>生日</th>
-                            <!--<th>真实姓名</th>-->
-                            <!--<th>证件类型</th>-->
-                            <!--<th>证件号码</th>-->
                             <th>注册时间</th>
-                            <!--<th>是否激活</th>-->
                             <th>用户类型</th>
                             <th>是否实名认证</th>
-                            <th>删除</th>
+                            <th class="del-orShow">删除</th>
                         </tr>
                         </thead>
                         <tbody>
+                        @for(user <- idList){
+                        <tr>
+                            <td class="index">@user(0)</td>
+                            <td>@user(1)</td>
+                            <td>@user(2)</td>
+                            <td> <img class="main-img" src="@url@user(3)" alt="" width="50"></td>
+                            <td>@user(4)</td>
+                            <td>@user(5)</td>
+                            <td>@user(6)</td>
+                            <td>@user(7)</td>
+                            <td>@user(8)</td>
+                            <td>@user(9)</td>
+                            <td class="cou-del del-orShow" style="background:#ccc;cursor:pointer;">删除</td>
+                        </tr>
+
+                        }
 
                         </tbody>
                     </table>

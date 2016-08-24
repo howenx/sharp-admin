@@ -19,9 +19,12 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 import scala.concurrent.duration.Duration;
 import scala.concurrent.duration.FiniteDuration;
 import service.*;
+import util.RedisPool;
 import util.Regex;
 import util.SysParCom;
 
@@ -61,6 +64,10 @@ public class ThemeCtrl extends Controller {
 
     @Inject
     private NewScheduler newScheduler;
+
+    @Inject
+    private IDService idService;
+
 
 
     /**
@@ -713,6 +720,45 @@ public class ThemeCtrl extends Controller {
             subjectPriceService.updStateOnShelf(subjectPriceList1);
         }
 
+        //专用用户处理    Added by Tiffany Zhu 2016.08.23
+        JsonNode usersJson = jsonRequest.findValue("users");
+        JedisPool jedisPool = null;
+        Jedis jedis = null;
+        try {
+            //存入redis
+            jedisPool = RedisPool.createPool();
+            //验证 JedisPool
+            if (jedisPool != null){
+                jedis = jedisPool.getResource();
+                //验证Jedis
+                if (jedis != null){
+                    //用户专用主题
+                    if (theme.getThemeState() == 2 && usersJson.size() > 0){
+                        if (jedis.exists(theme.getId().toString())){
+                            jedis.del(theme.getId().toString());
+                        }
+                        for (JsonNode node :usersJson){
+                            ID id = Json.fromJson(node,ID.class);
+                            jedis.sadd(theme.getId().toString(),id.getUserId().toString());
+                        }
+                        jedis.persist(theme.getId().toString());
+                        //其他主题
+                    }else {
+                        if (jedis.exists(theme.getId().toString())){
+                            jedis.del(theme.getId().toString());
+                        }
+                    }
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            Logger.error(Throwables.getStackTraceAsString(e));
+        }finally {
+            if (jedisPool != null && jedis != null){
+                jedisPool.returnBrokenResource(jedis);
+            }
+        }
+
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
@@ -755,6 +801,64 @@ public class ThemeCtrl extends Controller {
         Theme theme = service.getThemeById(id);
         //H5主题
         if(theme != null){
+            //专用主题      Added by Tiffany Zhu 2016.08.23
+            List<Object[]> idList = new ArrayList<>();
+            if (theme.getThemeState() == 2){
+                JedisPool jedisPool = null;
+                Jedis jedis = null;
+                try {
+                    //存入redis
+                    jedisPool = RedisPool.createPool();
+                    //验证 JedisPool
+                    if (jedisPool != null){
+                        jedis = jedisPool.getResource();
+                        //验证Jedis
+                        if (jedis != null){
+                            Set<String> setValues = jedis.smembers(id.toString());
+                            int index = 1;
+                            for(String userId : setValues){
+                                ID user = idService.getID(Integer.valueOf(userId));
+                                Object[] userObject = new Object[10];
+                                userObject[0] = index;              //序号
+                                userObject[1] = user.getUserId();   //用户ID
+                                userObject[2] = user.getNickname(); //用户名
+                                userObject[3] = user.getPhotoUrl(); //头像
+                                if(user.getGender().equals("F")){   //性别
+                                    userObject[4] = "女";
+                                }else {
+                                    userObject[4] = "男";
+                                }
+                                userObject[5] = user.getPhoneNum(); //电话号码
+                                userObject[6] = user.getBirthday(); //生日
+                                userObject[7] = user.getRegDt().toString().substring(0,19);    //注册日期
+                                if (user.getIdType().equals("N")){          //用户类型
+                                    userObject[8] = "普通手机用户";
+                                }
+                                if (user.getIdType().equals("W")){
+                                    userObject[8] = "微信注册用户";
+                                }
+                                if (user.getIdType().equals("Q")){
+                                    userObject[8] = "腾讯QQ用户";
+                                }
+                                if (user.getOrReal().equals("N")){  //是否实名
+                                    userObject[9] = "否";
+                                }else {
+                                    userObject[9] = "是";
+                                }
+                                index++;
+                                idList.add(userObject);
+                            }
+                        }
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Logger.error(Throwables.getStackTraceAsString(e));
+                }finally {
+                    if (jedisPool != null && jedis != null){
+                        jedisPool.returnBrokenResource(jedis);
+                    }
+                }
+            }
             if(theme.getType().equals("h5")){
                 //主题的主宣传图
                 JsonNode themeImg = Json.parse(theme.getThemeImg());
@@ -766,7 +870,7 @@ public class ThemeCtrl extends Controller {
                 themeImgObject[1] = themeImg.get("width").asInt();
                 //height
                 themeImgObject[2] = themeImg.get("height").asInt();
-                return ok(views.html.theme.H5ThemeUpd.render(lang,theme,themeImgObject,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+                return ok(views.html.theme.H5ThemeUpd.render(lang,theme,themeImgObject,idList,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
 
             }
             //主题的商品
@@ -989,7 +1093,8 @@ public class ThemeCtrl extends Controller {
                     tagList.add(tagObject);
                 }
             }
-            return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+
+            return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,idList,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
         }
         return null;
     }
@@ -1012,9 +1117,11 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result h5ThemeSave(String lang){
         JsonNode json = request().body().asJson();
-        Theme theme = Json.fromJson(json,Theme.class);
+        JsonNode themeJson = json.get("theme");
+        Logger.error(themeJson.toString());
+        Theme theme = Json.fromJson(themeJson,Theme.class);
         //数据验证      ----start
-        Form<Theme> themeForm = Form.form(Theme.class).bind(json);
+        Form<Theme> themeForm = Form.form(Theme.class).bind(themeJson);
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //当前时间
         Date now = new Date();
@@ -1047,6 +1154,45 @@ public class ThemeCtrl extends Controller {
             newScheduler.scheduleOnce(duration,themeOffShelf,theme.getId());
         }
         //创建Scheduled Actor         ---end
+
+        //专用用户处理    Added by Tiffany Zhu 2016.08.23
+        JsonNode usersJson = json.findValue("users");
+        JedisPool jedisPool = null;
+        Jedis jedis = null;
+        try {
+            //存入redis
+            jedisPool = RedisPool.createPool();
+            //验证 JedisPool
+            if (jedisPool != null){
+                jedis = jedisPool.getResource();
+                //验证Jedis
+                if (jedis != null){
+                    //用户专用主题
+                    if (theme.getThemeState() == 2 && usersJson.size() > 0){
+                        if (jedis.exists(theme.getId().toString())){
+                            jedis.del(theme.getId().toString());
+                        }
+                        for (JsonNode node :usersJson){
+                            ID id = Json.fromJson(node,ID.class);
+                            jedis.sadd(theme.getId().toString(),id.getUserId().toString());
+                        }
+                        jedis.persist(theme.getId().toString());
+                        //其他主题
+                    }else {
+                        if (jedis.exists(theme.getId().toString())){
+                            jedis.del(theme.getId().toString());
+                        }
+                    }
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            Logger.error(Throwables.getStackTraceAsString(e));
+        }finally {
+            if (jedisPool != null && jedis != null){
+                jedisPool.returnBrokenResource(jedis);
+            }
+        }
 
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
