@@ -42,7 +42,7 @@ public class CoupCtrl extends Controller {
     @Named("couponSendActor")
     private ActorRef couponSendActor;
 
-    public static final int pageSize = 10;
+    private static final int PAGE_SIZE = 30;
 
     /**
      * 发放优惠券
@@ -98,11 +98,11 @@ public class CoupCtrl extends Controller {
         coupons.setPageSize(-1);
         coupons.setOffset(-1);
         int countNum = couponsService.getUsedCouponsPage(coupons).size();//取总数
-        int pageCount = countNum/pageSize;//共分几页
-        if (countNum%pageSize!=0) {
-            pageCount = countNum/pageSize+1;
+        int pageCount = countNum/PAGE_SIZE;//共分几页
+        if (countNum%PAGE_SIZE!=0) {
+            pageCount = countNum/PAGE_SIZE+1;
         }
-        return ok(views.html.coupon.coupsearch.render(lang, pageSize, countNum, pageCount, (User) ctx().args.get("user")));
+        return ok(views.html.coupon.coupsearch.render(lang, PAGE_SIZE, countNum, pageCount, (User) ctx().args.get("user")));
     }
 
     /**
@@ -117,15 +117,15 @@ public class CoupCtrl extends Controller {
         Coupons coupons = Json.fromJson(json,Coupons.class);
         if(pageNum>=1){
             //计算从第几条开始取数据
-            int offset = (pageNum-1)*pageSize;
+            int offset = (pageNum-1)*PAGE_SIZE;
             coupons.setPageSize(-1);
             coupons.setOffset(-1);
             int countNum = couponsService.getUsedCouponsPage(coupons).size();//取总数
-            int pageCount = countNum/pageSize;//共分几页
-            if (countNum%pageSize!=0) {
-                pageCount = countNum/pageSize+1;
+            int pageCount = countNum/PAGE_SIZE;//共分几页
+            if (countNum%PAGE_SIZE!=0) {
+                pageCount = countNum/PAGE_SIZE+1;
             }
-            coupons.setPageSize(pageSize);
+            coupons.setPageSize(PAGE_SIZE);
             coupons.setOffset(offset);
             List<Coupons> couponsList = couponsService.getUsedCouponsPage(coupons);
             for(Coupons coup : couponsList) {
@@ -143,7 +143,7 @@ public class CoupCtrl extends Controller {
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
-            returnMap.put("pageSize",pageSize);
+            returnMap.put("pageSize",PAGE_SIZE);
             Logger.error(Json.toJson(returnMap).toString());
             return ok(Json.toJson(returnMap));
         }

@@ -221,6 +221,7 @@
                     <th>主题图片</th>
                     <th>开始时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
                     <th>结束时间<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+                    <th>主题状态<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
                 </tr>
             </thead>
                 @for(theme <- themeList) {
@@ -238,6 +239,10 @@
                         <td><img class="main-img" src='@url@theme.getThemeImg()' alt="" width="50"></td>
                         <td>@theme.getStartAt()</td>
                         <td>@theme.getEndAt()</td>
+                        <td>
+                            @if(theme.getThemeState()==1){隐藏}
+                            @if(theme.getThemeState()==3){正常}
+                        </td>
                     </tr>
                 }
                 }

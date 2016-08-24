@@ -116,7 +116,7 @@
 	    <div class="btn-s">
 			<input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
 	        <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
-            <!--<a id="item-export" href="javascript:void(0)" class="btn btn-primary btn-s-2">推送ERP</a>-->
+            <a id="item-export" href="javascript:void(0)" class="btn btn-primary btn-s-2">推送ERP</a>
 	    </div>
 	</form>
 	<div class="table-content">
@@ -187,8 +187,8 @@
         var exportItems = [];
         var errItems = "";
         $("input[name='selectItem']:checked").each(function(){
-            var invId = $(this).parents("tr").find("td:eq(1)").find("input:eq(0)").val();
-            var state = $(this).parents("tr").find("td:eq(12)").find("input:eq(0)").val();
+            var invId = $(this).parents("tr").find("td:eq(2)").html();
+            var state = $(this).parents("tr").find("td:eq(11)").find("input:eq(0)").val();
             if (state!="Y" && state!="P") {
                 isPost = false;
                 errItems = errItems + invId + ",";
@@ -197,7 +197,7 @@
         });
         if (!isPost) {
             errItems = errItems.substring(1, errItems.length-1);
-            alert("请检查商品: "+errItems+" 的状态");
+            alert("请检查SKU: "+errItems+" 的状态");
         }
         console.log(JSON.stringify(exportItems));
         if(isPost){

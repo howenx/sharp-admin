@@ -571,7 +571,9 @@ $(function(){
         var id=window.event.srcElement.id;
         var files = this.files;
         for (var i = 0; i < files.length; i++) {
-            previewImage(this.files[i], id);
+            if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==6) {
+                $("#"+id).parent().css("display","none");
+            } else previewImage(this.files[i], id);
         }
         //图片拖动
         var el = document.getElementById('galleryP');

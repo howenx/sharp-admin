@@ -54,6 +54,8 @@ public class ItemCtrl extends Controller {
     @Inject
     private ActorSystem system;
 
+    private static final int PAGE_SIZE = 50;
+
     @Inject
     public ItemCtrl(ItemService itemService, InventoryService inventoryService, CarriageService carriageService, VaryPriceService varyPriceService, AdminSupplierService adminSupplierService) {
         this.itemService = itemService;
@@ -93,11 +95,11 @@ public class ItemCtrl extends Controller {
         inventory.setState("Y");
         List<Inventory> inventoryList = inventoryService.invSearch(inventory);
         int countNum = inventoryList.size();//取总数
-        int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
-        if (countNum%ThemeCtrl.PAGE_SIZE!=0) {
-            pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
+        int pageCount = countNum/PAGE_SIZE;//共分几页
+        if (countNum%PAGE_SIZE!=0) {
+            pageCount = countNum/PAGE_SIZE+1;
         }
-        inventory.setPageSize(ThemeCtrl.PAGE_SIZE);
+        inventory.setPageSize(PAGE_SIZE);
         inventory.setOffset(0);
 //        inventoryList = inventoryService.invSearch(inventory);
 //        for(Inventory inv : inventoryList) {
@@ -105,7 +107,7 @@ public class ItemCtrl extends Controller {
 //            inv.setInvImg(url);
 //        }
         Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
-        return ok(views.html.item.itemsearch.render(lang, SysParCom.IMAGE_URL,ThemeCtrl.PAGE_SIZE,countNum,pageCount, (User) ctx().args.get("user"), area));
+        return ok(views.html.item.itemsearch.render(lang, SysParCom.IMAGE_URL,PAGE_SIZE,countNum,pageCount, (User) ctx().args.get("user"), area));
     }
 
     /**
@@ -120,16 +122,16 @@ public class ItemCtrl extends Controller {
         Inventory inventory = Json.fromJson(json,Inventory.class);
         if(pageNum>=1){
             //计算从第几条开始取数据
-            int offset = (pageNum-1)*ThemeCtrl.PAGE_SIZE;
+            int offset = (pageNum-1)*PAGE_SIZE;
             inventory.setPageSize(-1);
             inventory.setOffset(-1);
             List<Inventory> inventoryList = inventoryService.invSearch(inventory);
             int countNum = inventoryList.size();//取总数
-            int pageCount = countNum/ThemeCtrl.PAGE_SIZE;//共分几页
-            if(countNum%ThemeCtrl.PAGE_SIZE!=0){
-                pageCount = countNum/ThemeCtrl.PAGE_SIZE+1;
+            int pageCount = countNum/PAGE_SIZE;//共分几页
+            if(countNum%PAGE_SIZE!=0){
+                pageCount = countNum/PAGE_SIZE+1;
             }
-            inventory.setPageSize(ThemeCtrl.PAGE_SIZE);
+            inventory.setPageSize(PAGE_SIZE);
             inventory.setOffset(offset);
             inventoryList = inventoryService.invSearch(inventory);
             for(Inventory inv : inventoryList) {
@@ -142,7 +144,7 @@ public class ItemCtrl extends Controller {
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
-            returnMap.put("pageSize",ThemeCtrl.PAGE_SIZE);
+            returnMap.put("pageSize",PAGE_SIZE);
             return ok(Json.toJson(returnMap));
         }
         else{

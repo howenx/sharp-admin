@@ -48,7 +48,7 @@ public class CouponCtrl extends Controller {
     @Inject
     private ImageService imageService;
 
-    private int pageSize = 10;
+    private static final int PAGE_SIZE = 10;
 
     /**
      * 优惠券导入
@@ -154,14 +154,14 @@ public class CouponCtrl extends Controller {
         couponVo.setPageSize(-1);
         couponVo.setOffset(-1);
         int countNum = couponVoService.getCouponsPage(couponVo).size();//取总数
-        int pageCount = countNum/pageSize;//共分几页
-        if (countNum%pageSize!=0) {
-            pageCount = countNum/pageSize+1;
+        int pageCount = countNum/PAGE_SIZE;//共分几页
+        if (countNum%PAGE_SIZE!=0) {
+            pageCount = countNum/PAGE_SIZE+1;
         }
-        couponVo.setPageSize(pageSize);
+        couponVo.setPageSize(PAGE_SIZE);
         couponVo.setOffset(0);
         List<CouponVo> couponVoList = couponVoService.getCouponsPage(couponVo);
-        return ok(views.html.couponSystem.couponSearch.render(lang, pageSize, countNum, pageCount, couponVoList, (User) ctx().args.get("user")));
+        return ok(views.html.couponSystem.couponSearch.render(lang, PAGE_SIZE, countNum, pageCount, couponVoList, (User) ctx().args.get("user")));
     }
 
     /**
@@ -175,15 +175,15 @@ public class CouponCtrl extends Controller {
         CouponVo couponVo = Json.fromJson(json,CouponVo.class);
         if(pageNum>=1){
             //计算从第几条开始取数据
-            int offset = (pageNum-1)*pageSize;
+            int offset = (pageNum-1)*PAGE_SIZE;
             couponVo.setPageSize(-1);
             couponVo.setOffset(-1);
             int countNum = couponVoService.getCouponsPage(couponVo).size();//取总数
-            int pageCount = countNum/pageSize;//共分几页
-            if (countNum%pageSize!=0) {
-                pageCount = countNum/pageSize+1;
+            int pageCount = countNum/PAGE_SIZE;//共分几页
+            if (countNum%PAGE_SIZE!=0) {
+                pageCount = countNum/PAGE_SIZE+1;
             }
-            couponVo.setPageSize(pageSize);
+            couponVo.setPageSize(PAGE_SIZE);
             couponVo.setOffset(offset);
             List<CouponVo> couponVoList = couponVoService.getCouponsPage(couponVo);
             //组装返回数据
@@ -192,7 +192,7 @@ public class CouponCtrl extends Controller {
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
-            returnMap.put("pageSize",pageSize);
+            returnMap.put("pageSize",PAGE_SIZE);
             return ok(Json.toJson(returnMap));
         }
         else{
