@@ -1036,7 +1036,7 @@ $(function() {
 	// })
 
 	 //主题查询页面,点击查询事件
-	 $(document).on('click', "#topic-search-bt", function() {
+	 $("#topic-search-bt").click(function() {
 	 	if (window.search_args + "_search" in funcList) {
 	 		funcList[window.search_args + "_search"](1);
 	 	}
@@ -1061,7 +1061,7 @@ $(function() {
                  $('#pagination').jqPaginator('destroy');
              }
          }
-	 })
+	 }).trigger("click");
 
 
 
