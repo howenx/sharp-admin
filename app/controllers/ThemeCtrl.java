@@ -148,7 +148,7 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result categoryPop(){
         //主题列表
-        List<Theme> themeList = service.getThemesAll();
+        List<Theme> themeList = service.getCategoryThemes();
         List<Theme> tList = new ArrayList<>();
         String strNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());//现在时间
         for(Theme theme : themeList) {

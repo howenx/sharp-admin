@@ -231,4 +231,13 @@ public class ThemeServiceImpl implements ThemeService {
             }
         }
     }
+
+    /**
+     * 获取用于分类入口的主题 Added by Tiffany Zhu 2016.08.24
+     * @return
+     */
+    @Override
+    public List<Theme> getCategoryThemes() {
+        return themeMapper.getCategoryThemes();
+    }
 }
