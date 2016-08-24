@@ -405,14 +405,15 @@ $(function(){
            var restrictAmount = tds[9].innerHTML;
            var restAmount = tds[10].innerHTML;
            var invWeight = tds[11].innerHTML;
-           var invArea = tds[12].innerHTML;
-           var invCustoms = tds[13].innerHTML;
+           var postalTaxCode = tds[12].innerHTML;
+           var invArea = tds[13].innerHTML;
+           var invCustoms = tds[14].innerHTML;
 //           var postalTaxRate = tds[18].innerHTML;
 //           var postalTaxCode = tds[19].innerHTML;
-           var recordCode = tds[14].innerHTML;
-           var invImg = tds[15].innerHTML;
-           var itemPreviewImgs = tds[16].innerHTML;
-           var orVaryPrice = tds[17].innerHTML;
+           var recordCode = tds[15].innerHTML;
+           var invImg = tds[16].innerHTML;
+           var itemPreviewImgs = tds[17].innerHTML;
+           var orVaryPrice = tds[18].innerHTML;
            //拼装成一条数据
            var invData = new Object();
            var inventory = new Object();
@@ -431,6 +432,7 @@ $(function(){
            inventory.restrictAmount = restrictAmount;
            inventory.restAmount = restAmount;
            inventory.invWeight = invWeight;
+           inventory.postalTaxCode = postalTaxCode;
            inventory.invArea = invArea;
            inventory.invCustoms = invCustoms;
 //           inventory.postalTaxRate = postalTaxRate;
@@ -446,7 +448,7 @@ $(function(){
            }
            invData.inventory = inventory;
            if (orVaryPrice=="true") {
-               var vp_arr = tds[18].innerHTML.split(",");
+               var vp_arr = tds[19].innerHTML.split(",");
                for(v=0;v<vp_arr.length;v++) {
                    if (v%4==0) {
                        var varyPrice = new Object();

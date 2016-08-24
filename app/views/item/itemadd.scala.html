@@ -44,19 +44,20 @@
                 if (count==9) skuObj.restrictAmount = $(this).text();
                 if (count==10) skuObj.restAmount = $(this).text();
                 if (count==11) skuObj.invWeight = $(this).text();
+                if (count==12) skuObj.postalTaxCode = $(this).text();
                 var invArea = "";
-                if (count==12) {
+                if (count==13) {
                     skuObj.invArea = $(this).text();
                     invArea = skuObj.invArea;
                 }
                 if (invArea.indexOf("K")<0) {
-                    if (count==13) skuObj.invCustoms = $(this).text();
-                    if (count==14) skuObj.recordCode = $(this).text();
+                    if (count==14) skuObj.invCustoms = $(this).text();
+                    if (count==15) skuObj.recordCode = $(this).text();
                 }
-                if (count==15) skuObj.invImg = $(this).text();
-                if (count==16) skuObj.itemPreviewImgs = $(this).text();
-                if (count==17) skuObj.orVaryPrice = $(this).text();
-                if (count==18) skuObj.varyPrice = $(this).text();
+                if (count==16) skuObj.invImg = $(this).text();
+                if (count==17) skuObj.itemPreviewImgs = $(this).text();
+                if (count==18) skuObj.orVaryPrice = $(this).text();
+                if (count==19) skuObj.varyPrice = $(this).text();
                 count++;
             });
             sharedObject.skuObj = skuObj;
