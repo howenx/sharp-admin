@@ -10,22 +10,7 @@
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/moment-with-locales.js"></script>
 <script src="/assets/js/bootstrap-datetimepicker1.js"></script>
-<script>
-    $(function(){
-        $(function () {
-            $('#datetimepicker1').datetimepicker({
-                locale: 'zh-cn',
-                format:'YYYY-MM-DD 00:00:00'
-            });
-            $('#datetimepicker2').datetimepicker({
-                locale: 'zh-cn',
-                format:'YYYY-MM-DD 23:59:59'
-            });
-
-        });
-
-    });
-</script>
+<script src="/assets/js/couponCate.js"></script>
 <style type="text/css">
     .start{color:red;padding-top:3px;padding-left:3px;}
     .r{float:right;}
@@ -60,6 +45,8 @@
     <div class="row">
         <form class="form-horizontal" method="post" enctype="multipart/form-data">
             <div class="upinfo">
+                <!-- 基本信息-->
+                <h4 class="h4-custom-hmm">基本信息</h4>
                 <div class="form-group">
                     <label class="col-sm-2 control-label"><div class="r start"> *</div><div class="r">类别名称</div></label>
                     <div class="col-sm-3">
@@ -72,7 +59,7 @@
                         <input type="text" class="form-control form-data-area" id="limitQuota" name="limitQuota">
                     </div>
                     <label class="col-sm-1 control-label" style="width:115px;"><div class="r start"> *</div><div class="r">面值(￥)</div></label>
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <input type="text" class="form-control form-data-area" id="denomination" name="denomination">
                     </div>
                 </div>
@@ -92,6 +79,92 @@
                         </div>
                     </div>
                 </div>
+                <hr/>
+                <!-- 指定类型 -->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">指定类型</label>
+                    <div class="col-sm-3 theme-state">
+                        <label>
+                            <input type="radio" name="assignType" checked> 任意商品
+                        </label>
+                        <label>
+                            <input type="radio" name="assignType"> 指定商品
+                        </label>
+                    </div>
+                </div>
+                <!--商品选择-->
+                <h4 class="h4-custom-hmm">商品选择 <input type="checkbox" id="goodsSel" checked></h4>
+                <div class="goods-change">
+                    <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModalGoods()">添加商品</button>
+                    <div class="bgk">
+                        <table class="table table-bordered table-hover grid" id="goods">
+                            <thead>
+                            <tr>
+                                <th class="index">序号</th>
+                                <th>kuID</th>
+                                <th>商品类型</th>
+                                <th>类型ID</th>
+                                <th>商品标题</th>
+                                <th>主图</th>
+                                <th>下架时间</th>
+                                <th>商品状态</th>
+                                <th>价格</th>
+                                <th>原价=</th>
+                                <th>折扣</th>
+                                <th>删除</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--商品类别选择-->
+                <h4 class="h4-custom-hmm">商品类别选择 <input type="checkbox" id="catesSel"></h4>
+                <div class="cates-change" style="display:none;">
+                    <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModalCates()">添加商品类别</button>
+                    <div class="bgk">
+                        <table class="table table-bordered table-hover grid" id="cates">
+                            <thead>
+                            <tr>
+                                <th class="index">序号</th>
+                                <th>ID</th>
+                                <th>标题</th>
+                                <th>删除</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!--主题选择-->
+                <h4 class="h4-custom-hmm">主题选择 <input type="checkbox" id="themeSel"></h4>
+                <div class="theme-change" style="display:none;">
+                    <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModalTheme(this)">添加主题</button>
+                    <div class="bgk">
+                        <table class="table table-bordered table-hover grid" id="theme">
+                            <thead>
+                            <tr>
+                                <th class="index">序号</th>
+                                <th>选择主题</th>
+                                <th>主题ID</th>
+                                <th>类型</th>
+                                <th>标题</th>
+                                <th>主题图片</th>
+                                <th>开始时间</th>
+                                <th>结束时间</th>
+                                <th>删除</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
             </div>
         </form>
     </div>

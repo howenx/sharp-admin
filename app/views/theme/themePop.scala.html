@@ -1,0 +1,103 @@
+@(themeList:List[domain.Theme],url:String)
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选择主题</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" >
+    <link href="/assets/css/jquery-ui.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/xlstablefilter.css" rel="stylesheet" type="text/css">
+    <script src="/assets/js/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="/assets/css/search.css" >
+    <script src="/assets/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.xlstablefilter.js"></script>
+    <script>
+        $(function(){
+            $("#searchitem").xlsTableFilter({
+                checkStyle: "custom",
+                ignoreColumns:[0,6]   //不需要检索的列
+            });
+            $("#searchtheme").xlsTableFilter({
+                checkStyle: "custom",
+            });
+
+
+            /**	图片放大和关闭 **/
+            $(document).on("click", ".main-img", function(e) {
+                $(".goods-img-bg").css({
+                    "height": $(window).height(),
+                    "display": "block"
+                });
+                $(".goods-img").css("left", ($(window).width() - 1200) / 2);
+                $(this).clone().appendTo($(".goods-img")).css({
+                    "width": "50%",
+                    "height": "500px",
+                    "margin-left": "300px",
+                    "z-index": 1000
+                });
+            })
+            $(document).on("click", ".goods-img-bg .close", function(e) {
+                $(".goods-img-bg img").remove();
+                $(".goods-img-bg").css({
+                    "display": "none"
+                });
+            })
+            $(document).on("click", ".goods-bg", function(e) {
+                $(".goods-img-bg img").remove();
+                $(".goods-img-bg").css({
+                    "display": "none"
+                });
+            })
+        })
+
+    </script>
+</head>
+<body>
+<div class="table-two clearfix">
+    <h3 style="padding-left: 10px">选择主题</h3>
+
+    <!--主题-->
+    <table class="table table-bordered table-hover table-theme" id="searchtheme" style="display: table">
+        <thead>
+        <tr>
+            <th>选择主题</th>
+            <th>主题ID</th>
+            <th>类型</th>
+            <th>标题</th>
+            <th>主题图片</th>
+            <th>开始时间</th>
+            <th>结束时间</th>
+        </tr>
+        </thead>
+        @for(theme <- themeList) {
+        @if(theme.getThemeState==3) {
+        <tr>
+            <td><input type="checkbox" name="selectTheme"></td>
+            <td>@theme.getId()</td>
+            <td>
+                @if(theme.getType()=="ordinary"){普通主题}
+                @if(theme.getType()=="h5"){H5主题}
+                @if(theme.getType()=="detail"){普通商品主题}
+                @if(theme.getType()=="pin"){拼购商品主题}
+                <input class="topic-type" type="hidden" value="@theme.getType()">
+                <input class="h5Link" type="hidden" value="@theme.getH5Link()">
+            </td>
+            <td>@theme.getTitle()</td>
+            <td><img class="main-img" src='@url@theme.getThemeImg()' alt="" width="50"></td>
+            <td>@theme.getStartAt()</td>
+            <td>@theme.getEndAt()</td>
+        </tr>
+        }
+        }
+    </table>
+</div>
+
+<div class="goods-img-bg">
+    <div class="goods-bg"></div>
+    <div class="goods-img">
+        <button type="button" class="close" aria-label="Close" style="position: absolute;right: 283px;top: -18px;"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>
+
+</body>
+</html>

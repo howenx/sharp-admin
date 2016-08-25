@@ -1316,4 +1316,31 @@ public class ThemeCtrl extends Controller {
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
+
+
+
+
+    /**
+     * 主题弹窗选择  主题列表     Added by Sunny.Wu 2016.08.25
+     * @return views
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result themePop(){
+        //主题列表
+        List<Theme> themeList = service.getCategoryThemes();
+        List<Theme> tList = new ArrayList<>();
+        String strNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());//现在时间
+        for(Theme theme : themeList) {
+            if (theme.getEndAt().compareTo(strNow)>0) {
+                theme.setThemeImg(Json.parse(theme.getThemeImg()).get("url").asText());
+                tList.add(theme);
+            }
+        }
+        if (themeList.size()>0) {
+            return ok(views.html.theme.themePop.render(tList,SysParCom.IMAGE_URL));
+        }
+        else
+            return ok("没有数据");
+    }
+
 }
