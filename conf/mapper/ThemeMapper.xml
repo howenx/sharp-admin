@@ -68,6 +68,39 @@
                 from slider t where t.or_nav = true order by t.sort_nu ASC
         </select>
 
+        <!--     分类入口关联表        Added by Tiffany Zhu 2016.08.25  -->
+        <sql id="navItemCateColumns">
+                ${alias}.id,
+                ${alias}.nav_id,
+                ${alias}.cate_type,
+                ${alias}.cate_type_id,
+                ${alias}.or_destroy
+        </sql>
+
+        <!--     添加入口关联数据        Added by Tiffany Zhu 2016.08.25  -->
+        <insert id="addNavItemCate" parameterType="java.util.List">
+                insert into nav_item_cate(nav_id,cate_type,cate_type_id,or_destroy)
+                values
+                <foreach collection="list" item="item" index="index" separator=",">
+                      (#{item.navId},#{item.cateType},#{item.cateTypeId},#{item.orDestroy})
+                </foreach>
+        </insert>
+        <!--     更新入口关联数据        Added by Tiffany Zhu 2016.08.25  -->
+        <update id="updNavItemCate" parameterType="java.util.List">
+                <foreach  collection="list" item="item" separator=";">
+                        update nav_item_cate  set cate_type=#{item.cateType},cate_type_id=#{item.cateTypeId}
+                        where nav_id = #{item.navId} and or_destroy = false
+                </foreach>
+        </update>
+        <!--     入口关联数据设置删除     Added by Tiffany Zhu 2016.08.25  -->
+        <update id="updNavItemCateToDestroy" parameterType="java.util.List">
+                update nav_item_cate  set or_destroy = true
+                where nav_id not in
+                <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+                        #{item.navId}
+                </foreach>
+        </update>
+
         <!---  主题    -->
 
         <sql id="themeColumns">

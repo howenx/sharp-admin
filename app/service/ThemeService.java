@@ -1,10 +1,7 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import domain.Slider;
-import domain.Theme;
-import domain.ThemeCate;
-import domain.ThemeTemplate;
+import domain.*;
 
 import java.util.List;
 
@@ -104,7 +101,29 @@ public interface ThemeService {
      */
     int addThemeCate(List<ThemeCate> themeCateList);
 
+    /**
+     * 根据主题ID删除主题存在位置       Added by Tiffany Zhu 2016.08.24
+     * @param themeId
+     */
     void delThemeCateByThemeId(Long themeId);
+
+    /**
+     * 添加分类入口关联商品二级分类       Added by Tiffany Zhu 2016.08.25
+     * @param navItemCateList
+     */
+    void addNavItemCate(List<NavItemCate> navItemCateList);
+
+    /**
+     * 更新入口关联数据        Added by Tiffany Zhu 2016.08.25
+     * @param navItemCateList
+     */
+    void updNavItemCate(List<NavItemCate> navItemCateList);
+
+    /**
+     *  入口关联数据设置删除     Added by Tiffany Zhu 2016.08.25
+     * @param navItemCateList
+     */
+    void updNavItemCateToDestroy(List<NavItemCate> navItemCateList);
 
 
 }

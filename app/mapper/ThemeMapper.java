@@ -1,9 +1,6 @@
 package mapper;
 
-import domain.Slider;
-import domain.Theme;
-import domain.ThemeCate;
-import domain.ThemeTemplate;
+import domain.*;
 
 import java.util.List;
 
@@ -133,4 +130,22 @@ public interface ThemeMapper {
      * @return
      */
     void delThemeCateByThemeId(Long themeId);
+
+    /**
+     * 添加分类入口关联商品二级分类       Added by Tiffany Zhu 2016.08.25
+     * @param navItemCateList
+     */
+    void addNavItemCate(List<NavItemCate> navItemCateList);
+
+    /**
+     * 更新入口关联数据        Added by Tiffany Zhu 2016.08.25
+     * @param navItemCateList
+     */
+    void updNavItemCate(List<NavItemCate> navItemCateList);
+
+    /**
+     *  入口关联数据设置删除     Added by Tiffany Zhu 2016.08.25
+     * @param navItemCateList
+     */
+    void updNavItemCateToDestroy(List<NavItemCate> navItemCateList);
 }

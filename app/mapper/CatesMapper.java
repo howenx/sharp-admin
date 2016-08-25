@@ -58,4 +58,10 @@ public interface CatesMapper {
      */
     Long updateCateNm(Cates cates);
 
+    /**
+     * 获取全部的二级商品类别 Added by Tiffany Zhu 2016.08.25
+     * @return
+     */
+    List<Cates> getSecDirectCates();
+
 }

@@ -1,10 +1,7 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import domain.Slider;
-import domain.Theme;
-import domain.ThemeCate;
-import domain.ThemeTemplate;
+import domain.*;
 import mapper.InventoryMapper;
 import mapper.ThemeMapper;
 import play.Logger;
@@ -209,7 +206,7 @@ public class ThemeServiceImpl implements ThemeService {
     @Override
     public void categorySave(JsonNode json) {
 
-        //取删除ID
+        //删除ID
         if (json.findValue("del").isArray()) {
             for (final JsonNode objNode : json.findValue("del")) {
                 themeMapper.deleteSlider(objNode.asLong());
@@ -268,5 +265,32 @@ public class ThemeServiceImpl implements ThemeService {
     @Override
     public void delThemeCateByThemeId(Long themeId) {
          themeMapper.delThemeCateByThemeId(themeId);
+    }
+
+    /**
+     * 添加分类入口关联商品二级分类       Added by Tiffany Zhu 2016.08.25
+     * @param navItemCateList
+     */
+    @Override
+    public void addNavItemCate(List<NavItemCate> navItemCateList) {
+        themeMapper.addNavItemCate(navItemCateList);
+    }
+
+    /**
+     * 更新入口关联数据        Added by Tiffany Zhu 2016.08.25
+     * @param navItemCateList
+     */
+    @Override
+    public void updNavItemCate(List<NavItemCate> navItemCateList) {
+
+    }
+
+    /**
+     *  入口关联数据设置删除     Added by Tiffany Zhu 2016.08.25
+     * @param navItemCateList
+     */
+    @Override
+    public void updNavItemCateToDestroy(List<NavItemCate> navItemCateList) {
+
     }
 }
