@@ -379,3 +379,4 @@ POST        /msg/pushSave                                                       
 
 
 
+GET         /topic/popup                                                            controllers.ThemeCtrl.themePop()

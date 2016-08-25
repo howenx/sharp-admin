@@ -197,7 +197,7 @@ public class ShopItemCtrl extends Controller {
             Inventory inventory = inventoryService.getInventory(skuIds[i]);
             ShopItemPushRequest request = new ShopItemPushRequest();
             request.shopItemCode = inventory.getId().toString();//宝贝编码
-            request.shopId = 4;                           //店铺Id
+            request.shopId = 5;                           //店铺Id
             String state = inventory.getState();
             if ("Y".equals(state)) {
                 request.status = "在售中";
