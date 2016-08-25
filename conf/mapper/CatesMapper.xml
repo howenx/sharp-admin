@@ -75,5 +75,14 @@
         where cate_id = #{cateId}
     </update>
 
+    <!--获取全部的二级商品类别 Added by Tiffany Zhu 2016.08.25-->
+    <select id="getSecDirectCates" resultType="domain.Cates">
+        select
+        <include refid="catesColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from cates t where 1=1 and t.pcate_id IS NOT NULL
+    </select>
+
 
 </mapper>

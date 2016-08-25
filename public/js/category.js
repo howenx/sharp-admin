@@ -21,6 +21,11 @@ function UpdateFields(obj) {
 			itemTarget = "/comm/detail/pin/" + itemId + "/" + skuTypeId;
 		}
 	}
+
+	if(targetType == "M"){
+
+	}
+
 	$obj.attr('data-target', itemTarget);
 	$obj.attr('data-type', targetType);
 }

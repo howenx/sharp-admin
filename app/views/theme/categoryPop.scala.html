@@ -1,4 +1,4 @@
-@(themeList:List[domain.Theme], skusList:List[domain.Skus], url:String)
+@(themeList:List[domain.Theme], skusList:List[domain.Skus],catesList:List[domain.Cates],url:String)
 <!doctype html>
 <html lang="en">
 <head>
@@ -44,7 +44,6 @@
                     $(".theme-table").css("background","#ccc");
                     targetType = "T";
                 }
-                $(".table").eq(1).css("display","table");
                 var trs = $(".table").eq(tableIndex).find("tr");
                 for(j=1;j<trs.length;j++) {
                     if (typeId==trs[j].getElementsByTagName("td")[selectIndex].innerText) {
@@ -162,7 +161,7 @@
 <div class="table-two clearfix">
     <!--<div class="goods-table pull-left switch" style="display: none;width: 100%"><span>商品选择</span></div>-->
     <!--<div class="theme-table pull-left switch"><span>主题选择</span></div>-->
-    <h3 style="padding-left: 10px">选择主题</h3>
+    <h3 style="padding-left: 10px">选择商品类别</h3>
     <!--SKU-->
     <table class="table table-bordered table-hover table-goods" id="searchitem" style="display: none">
         <thead>
@@ -210,8 +209,7 @@
         </tr>
         }
     </table>
-    <!--主题-->
-    <table class="table table-bordered table-hover table-theme" id="searchtheme" style="display: table">
+    <table class="table table-bordered table-hover table-theme" id="searchtheme" style="display: none">
         <thead>
         <tr>
             <th>选择主题</th>
@@ -240,6 +238,29 @@
                 <td>@theme.getEndAt()</td>
             </tr>
         }
+        }
+    </table>
+
+    <!--商品类别二级目录-->
+    <table class="table table-bordered table-hover table-theme" id="searchCates" style="display: table">
+        <thead>
+        <tr>
+            <th>选择类别</th>
+            <th>类别ID<span class="sort-topic glyphicon glyphicon-chevron-up"></span></th>
+            <th>类别名</th>
+            <th>类别描述</th>
+            <th>类别Code</th>
+        </tr>
+        </thead>
+        @for(cates <- catesList){
+        <tr>
+            <td><input type="radio" name="selectCates"></td>
+            <td>@cates.getCateId()</td>
+            <td>@cates.getCateNm()</td>
+            <td>@cates.getCateDesc()</td>
+            <td>@cates.getCateCode()</td>
+        </tr>
+
         }
     </table>
 </div>

@@ -165,9 +165,10 @@ public class ThemeCtrl extends Controller {
                 slist.add(skus);
             }
         }
-//        Logger.error("分类入口弹出框数据:" + tList);
-        if (themeList.size()>0 && skusList.size()>0) {
-            return ok(views.html.theme.categoryPop.render(tList,slist,SysParCom.IMAGE_URL));
+
+        List<Cates> catesList = itemService.getSecDirectCates();
+        if (themeList.size()>0 && skusList.size()>0 && catesList.size() > 0 ) {
+            return ok(views.html.theme.categoryPop.render(tList,slist,catesList,SysParCom.IMAGE_URL));
         }
         else
             return ok("没有数据");

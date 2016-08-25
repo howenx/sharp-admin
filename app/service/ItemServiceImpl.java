@@ -209,4 +209,13 @@ public class ItemServiceImpl implements ItemService{
     public boolean updateCateNm(Cates cates) {
         return catesMapper.updateCateNm(cates) > 0;
     }
+
+    /**
+     * 获取全部的二级商品类别 Added by Tiffany Zhu 2016.08.25
+     * @return
+     */
+    @Override
+    public List<Cates> getSecDirectCates() {
+        return catesMapper.getSecDirectCates();
+    }
 }
