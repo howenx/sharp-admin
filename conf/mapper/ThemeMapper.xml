@@ -89,7 +89,8 @@
                 ${alias}.end_at,
                 ${alias}.type,
                 ${alias}.h5_link,
-                ${alias}.theme_state
+                ${alias}.theme_state,
+                ${alias}.show_type
         </sql>
 
         <select id="getThemePage" parameterType="domain.Theme" resultType="domain.Theme">
@@ -160,7 +161,8 @@
                 insert into themes
                 (master_item_id,title,start_at,end_at,theme_img,create_at,theme_item,master_item_tag,theme_master_img,theme_config_info,type,h5_link,theme_state)
                 values
-                (#{masterItemId},#{title},#{startAt}::timestamp,#{endAt}::timestamp,#{themeImg},CURRENT_TIMESTAMP(0),#{themeItem}::jsonb,#{themeTags}::jsonb,#{themeMasterImg},#{themeConfigInfo},#{type},#{h5Link},#{themeState})
+                (#{masterItemId},#{title},#{startAt}::timestamp,#{endAt}::timestamp,#{themeImg},CURRENT_TIMESTAMP(0),#{themeItem}::jsonb,#{themeTags}::jsonb,
+                #{themeMasterImg},#{themeConfigInfo},#{type},#{h5Link},#{themeState})
         </insert>
 
         <update id="updateTheme" parameterType="domain.Theme">
@@ -173,7 +175,7 @@
 
         <update id="updThemeItems" parameterType="domain.Theme">
                 update themes
-                set theme_item=#{themeItem}S
+                set theme_item=#{themeItem}
                 where id = #{id}
         </update>
 
@@ -253,4 +255,33 @@
                 set url = #{url},navigator_html = #{navigatorHtml}::text,content_html = #{contentHtml}::text
                 where id = #{id}
         </update>
+
+
+        <!--   主题显示位置   Added by Tiffany Zhu 2016.08.24   -->
+        <sql id="themeCateColumns">
+                ${alias}.theme_cate_id,
+                ${alias}.theme_cate_code,
+                ${alias}.theme_cate_nm,
+                ${alias}.theme_id
+        </sql>
+
+        <select id="getThemeCate" parameterType="java.lang.Long" resultType="domain.ThemeCate">
+                select
+                <include refid="themeCateColumns">
+                        <property name="alias" value="t"/>
+                </include>
+                from theme_cate t where  1=1 and t.theme_id = #{value}
+        </select>
+
+        <insert id="addThemeCate" parameterType="java.util.List">
+                insert into theme_cate(theme_cate_code,theme_cate_nm,theme_id)
+                values
+                <foreach collection="list" item="item" index="index" separator=",">
+                        (#{item.themeCateCode},#{item.themeCateNm},#{item.themeId})
+                </foreach>
+        </insert>
+
+        <delete id="delThemeCateByThemeId" parameterType="java.lang.Long">
+                delete from theme_cate where 1=1 and theme_id = #{value}
+        </delete>
 </mapper>

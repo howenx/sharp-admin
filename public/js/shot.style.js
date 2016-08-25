@@ -309,6 +309,21 @@ $(function() {
              })
         }
 
+        //主题显示位置
+        var themeCates = [];
+        //首页
+        if($("input[name='themearea1']").prop("checked") == true){
+            themeCates.push(1);
+        }
+        //拼购
+        if($("input[name='themearea2']").prop("checked") == true){
+            themeCates.push(2);
+        }
+        //礼物
+        if($("input[name='themearea3']").prop("checked") == true){
+            themeCates.push(3);
+        }
+
         theme.id = themeId;
         theme.title = title;
         theme.startAt = onShelvesAt;
@@ -332,6 +347,7 @@ $(function() {
         data.beforeUpdItems = beforeUpdItems;
         data.customizeItems = customizeItems;
         data.users = users;
+        data.themeCates = themeCates;
         if (isPost) {
                     $.ajax({
                         type :  "POST",
@@ -451,6 +467,21 @@ $(function() {
                })
           }
 
+          //主题显示位置
+          var themeCates = [];
+          //首页
+          if($("input[name='themearea1']").prop("checked") == true){
+              themeCates.push(1);
+          }
+          //拼购
+          if($("input[name='themearea2']").prop("checked") == true){
+              themeCates.push(2);
+          }
+          //礼物
+          if($("input[name='themearea3']").prop("checked") == true){
+              themeCates.push(3);
+          }
+
          var data = {};
          var theme = new Object();
          var themeId = $("#themeId").val();
@@ -461,6 +492,7 @@ $(function() {
          theme.h5Link = $("#h5-link").val();
          theme.themeConfigInfo = $("#themeDescribe").val();
          theme.themeState = themeState;
+
 
          //主题主图片
          var themeImgContent = {};
@@ -473,6 +505,7 @@ $(function() {
 
          data.theme = theme;
          data.users = users;
+         data.themeCates = themeCates;
 
          if(isPost){
             $.ajax({

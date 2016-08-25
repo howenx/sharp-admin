@@ -2,6 +2,7 @@ package mapper;
 
 import domain.Slider;
 import domain.Theme;
+import domain.ThemeCate;
 import domain.ThemeTemplate;
 
 import java.util.List;
@@ -108,8 +109,28 @@ public interface ThemeMapper {
     Long updateCategory(Slider slider);
 
     /**
-     * 获取用于分类入口的主题 Added by Tiffany Zhu 2016.08.24
+     * 获取用于分类入口的主题      Added by Tiffany Zhu 2016.08.24
      * @return
      */
     List<Theme> getCategoryThemes();
+
+    /**
+     * 获取主题显示的位置        Added by Tiffany Zhu 2016.08.24
+     * @return
+     */
+    List<ThemeCate> getThemeCate(Long themeId);
+
+    /**
+     * 添加主题存放位置         Added by Tiffany Zhu 2016.08.24
+     * @param themeCateList
+     * @return
+     */
+    int addThemeCate(List<ThemeCate> themeCateList);
+
+    /**
+     * 删除主题位置       Added by Tiffany Zhu 2016.08.24
+     * @param themeId
+     * @return
+     */
+    void delThemeCateByThemeId(Long themeId);
 }

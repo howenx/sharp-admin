@@ -144,7 +144,7 @@ public class CoupCtrl extends Controller {
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);
             returnMap.put("pageSize",PAGE_SIZE);
-            Logger.error(Json.toJson(returnMap).toString());
+//            Logger.error(Json.toJson(returnMap).toString());
             return ok(Json.toJson(returnMap));
         }
         else{

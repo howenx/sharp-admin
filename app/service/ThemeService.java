@@ -3,6 +3,7 @@ package service;
 import com.fasterxml.jackson.databind.JsonNode;
 import domain.Slider;
 import domain.Theme;
+import domain.ThemeCate;
 import domain.ThemeTemplate;
 
 import java.util.List;
@@ -89,6 +90,21 @@ public interface ThemeService {
      * @return
      */
     List<Theme> getCategoryThemes();
+
+    /**
+     * 获取主题显示的位置        Added by Tiffany Zhu 2016.08.24
+     * @return
+     */
+    List<ThemeCate> getThemeCate(Long  themeId);
+
+    /**
+     * 添加主题存放位置         Added by Tiffany Zhu 2016.08.24
+     * @param themeCateList
+     * @return
+     */
+    int addThemeCate(List<ThemeCate> themeCateList);
+
+    void delThemeCateByThemeId(Long themeId);
 
 
 }
