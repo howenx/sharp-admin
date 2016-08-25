@@ -84,6 +84,7 @@ function Init () {
         $("#restAmount").val(skuObj.restAmount);
 //        $("#amount").val(skuObj.amount);
         $("#invWeight").val((skuObj.invWeight)/1000.0);
+        $("#postalTaxCode").val(skuObj.postalTaxCode);
 //        $("#carriageModelCode").val(skuObj.carriageModelCode);
         $("#invArea").val(skuObj.invArea);
 //        $("#rateSet").val(skuObj.rateSet);
@@ -230,6 +231,7 @@ function saveCurr(saveFlag) {
 //    var itemCostPrice = $("#itemCostPrice").val();//成本价
 //    var itemDiscount = $("#itemDiscount").val();//折扣
     var invWeight = Number($("#invWeight").val())*1000;//重量
+    var postalTaxCode = $("#postalTaxCode").val();//商品海关编码
     var restrictAmount = $("#restrictAmount").val();//限购数量
 //    var amount = $("#amount").val();//库存总量
     var restAmount = $("#restAmount").val();//剩余库存
@@ -399,6 +401,7 @@ function saveCurr(saveFlag) {
     trdobj.restAmount = restAmount;
     if (invWeight=="") invWeight = 0;
     trdobj.invWeight = invWeight;
+    trdobj.postalTaxCode = postalTaxCode;
 //    trdobj.amount = amount;
 //    trdobj.carriageModelCode = carriageModelCode;
     trdobj.invArea = invArea;
@@ -571,9 +574,9 @@ $(function(){
         var id=window.event.srcElement.id;
         var files = this.files;
         for (var i = 0; i < files.length; i++) {
-        if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==6) {
-            $("#"+id).parent().css("display","none");
-        } else previewImage(this.files[i], id);
+            if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==6) {
+                $("#"+id).parent().css("display","none");
+            } else previewImage(this.files[i], id);
         }
         //图片拖动
         var el = document.getElementById('galleryP');
@@ -608,9 +611,9 @@ $(function(){
          }
 
          //商品预览图最多为6张
-//         if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==6) {
-//            $("#"+id).parent().css("display","none");
-//         }
+         if (id.indexOf("P")>=0 && document.getElementById("gallery"+id).getElementsByTagName("div").length==6) {
+            $("#"+id).parent().css("display","none");
+         }
 
          upload(thumb, file, id);
 
