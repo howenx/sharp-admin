@@ -7,6 +7,7 @@ import mapper.ThemeMapper;
 import play.Logger;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -214,18 +215,40 @@ public class ThemeServiceImpl implements ThemeService {
         }
 
         //取变更的Slider
+        List<NavItemCate> newNavItemCates = new ArrayList<>();
+        List<NavItemCate> updNavItemCates = new ArrayList<>();
+        List<NavItemCate> allNavItemCates = new ArrayList<>();
         if (json.findValue("update").isArray()) {
             for (final JsonNode objNode : json.findValue("update")) {
 
                 Slider slider  = play.libs.Json.fromJson(objNode,Slider.class);
-
                 if (slider.getId()==-1){
                     themeMapper.insertSlider(slider);
+                    NavItemCate  newNavItemCate = new NavItemCate();
+                    newNavItemCate.setId(slider.getId());
+                    newNavItemCate.setCateType(4);
+                    newNavItemCate.setCateTypeId(Long.parseLong(slider.getItemTarget()));
+                    newNavItemCate.setOrDestroy(false);
+                    newNavItemCates.add(newNavItemCate);
                 }
                 else{
                     themeMapper.updateSlider(slider);
+                    NavItemCate  updNavItemCate = new NavItemCate();
+                    updNavItemCate.setId(slider.getId());
+                    updNavItemCate.setCateType(4);
+                    updNavItemCate.setCateTypeId(Long.parseLong(slider.getItemTarget()));
+                    updNavItemCate.setOrDestroy(false);
+                    updNavItemCates.add(updNavItemCate);
                 }
             }
+            allNavItemCates.addAll(newNavItemCates);
+            allNavItemCates.addAll(updNavItemCates);
+            //添加分类入口关联商品二级分类
+            themeMapper.addNavItemCate(newNavItemCates);
+            //更新入口关联数据
+            themeMapper.updNavItemCate(updNavItemCates);
+            //入口关联数据设置删除
+            themeMapper.updNavItemCateToDestroy(allNavItemCates);
         }
     }
 

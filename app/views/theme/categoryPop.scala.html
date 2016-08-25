@@ -44,6 +44,14 @@
                     $(".theme-table").css("background","#ccc");
                     targetType = "T";
                 }
+                if (targetType=="M") {
+                    tableIndex = 2;
+                    selectIndex = 1;
+                    $(".goods-table").css("background","#fff");
+                    $(".theme-table").css("background","#ccc");
+                    targetType = "M";
+                }
+
                 var trs = $(".table").eq(tableIndex).find("tr");
                 for(j=1;j<trs.length;j++) {
                     if (typeId==trs[j].getElementsByTagName("td")[selectIndex].innerText) {
@@ -53,7 +61,7 @@
                 }
             }
             if (itemTarget=="" || itemTarget==null) {
-                targetType = "T"
+                targetType = "M"
             }
 
 //            /**	变换选择显示主题列表或商品列表 **/
@@ -99,6 +107,13 @@
                     sharedObject.targetType = targetType;
                     sharedObject.title = title;
                     sharedObject.themeImg = themeImg;
+                }
+
+                //主题分类
+                if(targetType=="M"){
+                    var cateId = $("input[type=radio]:checked").parent().next().html();
+                    sharedObject.targetType = targetType;
+                    sharedObject.cateId = cateId;
                 }
 
                 <!--var itemId=$("input[type=radio]:checked").parent().next().html();-->
