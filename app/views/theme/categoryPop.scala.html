@@ -44,7 +44,6 @@
                     $(".theme-table").css("background","#ccc");
                     targetType = "T";
                 }
-                $(".table").eq(1).css("display","table");
                 var trs = $(".table").eq(tableIndex).find("tr");
                 for(j=1;j<trs.length;j++) {
                     if (typeId==trs[j].getElementsByTagName("td")[selectIndex].innerText) {
@@ -210,7 +209,7 @@
         </tr>
         }
     </table>
-    <table class="table table-bordered table-hover table-theme" id="searchtheme" style="display: table">
+    <table class="table table-bordered table-hover table-theme" id="searchtheme" style="display: none">
         <thead>
         <tr>
             <th>选择主题</th>
