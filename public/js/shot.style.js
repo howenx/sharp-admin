@@ -83,6 +83,12 @@ $(function() {
             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
             return false;
         }
+        if($("input[name='themearea1']").prop("checked") == false  && $("input[name='themearea2']").prop("checked") == false && $("input[name='themearea3']").prop("checked") == false){
+            isPost = false;
+            $('#js-userinfo-error').text('请选择显示位置!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+        }
         if($("#themeImg").find("img").attr("src") == ""){
             isPost = false;
             $('#js-userinfo-error').text('请选择主题图片!').css('color', '#c00');
@@ -413,6 +419,12 @@ $(function() {
          if($("#offShelvesAt").val() <= currentTime){
              isPost = false;
              $('#js-userinfo-error').text('结束时间须大于当前时间!').css('color', '#c00');
+             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+             return false;
+         }
+         if($("input[name='themearea1']").prop("checked") == false  && $("input[name='themearea2']").prop("checked") == false && $("input[name='themearea3']").prop("checked") == false){
+             isPost = false;
+             $('#js-userinfo-error').text('请选择显示位置!').css('color', '#c00');
              setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
              return false;
          }
