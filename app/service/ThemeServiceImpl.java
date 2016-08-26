@@ -224,6 +224,7 @@ public class ThemeServiceImpl implements ThemeService {
                 Slider slider  = play.libs.Json.fromJson(objNode,Slider.class);
                 if (slider.getId()==-1){
                     themeMapper.insertSlider(slider);
+                    Logger.error("slider数据" + slider);
                     NavItemCate  newNavItemCate = new NavItemCate();
                     newNavItemCate.setId(slider.getId());
                     newNavItemCate.setCateType(4);
@@ -243,12 +244,19 @@ public class ThemeServiceImpl implements ThemeService {
             }
             allNavItemCates.addAll(newNavItemCates);
             allNavItemCates.addAll(updNavItemCates);
+            Logger.error("添加的新数据" + newNavItemCates);
             //添加分类入口关联商品二级分类
-            themeMapper.addNavItemCate(newNavItemCates);
+            if (newNavItemCates.size() > 0){
+                themeMapper.addNavItemCate(newNavItemCates);
+            }
             //更新入口关联数据
-            themeMapper.updNavItemCate(updNavItemCates);
+            if (updNavItemCates.size() > 0){
+                themeMapper.updNavItemCate(updNavItemCates);
+            }
             //入口关联数据设置删除
-            themeMapper.updNavItemCateToDestroy(allNavItemCates);
+            if (allNavItemCates.size() > 0){
+                themeMapper.updNavItemCateToDestroy(allNavItemCates);
+            }
         }
     }
 
