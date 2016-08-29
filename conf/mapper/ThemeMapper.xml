@@ -212,7 +212,7 @@
                 where id = #{id}
         </update>
 
-        <insert id="addH5Theme" parameterType="domain.Theme">
+        <insert id="addH5Theme" parameterType="domain.Theme"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
                 insert into themes (title,create_at,start_at,end_at,type,h5_link,theme_img,theme_config_info,theme_state)
                 values(#{title},CURRENT_TIMESTAMP(0),#{startAt}::timestamp,#{endAt}::timestamp,#{type},#{h5Link},#{themeImg},#{themeConfigInfo},#{themeState})
         </insert>
