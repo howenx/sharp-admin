@@ -725,42 +725,45 @@ public class ThemeCtrl extends Controller {
 
         //专用用户处理    Added by Tiffany Zhu 2016.08.23
         JsonNode usersJson = jsonRequest.findValue("users");
-        JedisPool jedisPool = null;
-        Jedis jedis = null;
-        try {
-            //存入redis
-            jedisPool = RedisPool.createPool();
-            //验证 JedisPool
-            if (jedisPool != null){
-                jedis = jedisPool.getResource();
-                //验证Jedis
-                if (jedis != null){
-                    //用户专用主题
-                    if (theme.getThemeState() == 2 && usersJson.size() > 0){
-                        if (jedis.exists(theme.getId().toString())){
-                            jedis.del(theme.getId().toString());
-                        }
-                        for (JsonNode node :usersJson){
-                            ID id = Json.fromJson(node,ID.class);
-                            jedis.sadd(theme.getId().toString(),id.getUserId().toString());
-                        }
-                        jedis.persist(theme.getId().toString());
-                        //其他主题
-                    }else {
-                        if (jedis.exists(theme.getId().toString())){
-                            jedis.del(theme.getId().toString());
+        if (usersJson != null && usersJson.size() >0){
+            JedisPool jedisPool = null;
+            Jedis jedis = null;
+            try {
+                //存入redis
+                jedisPool = RedisPool.createPool();
+                //验证 JedisPool
+                if (jedisPool != null){
+                    jedis = jedisPool.getResource();
+                    //验证Jedis
+                    if (jedis != null){
+                        //用户专用主题
+                        if (theme.getThemeState() == 2 && usersJson.size() > 0){
+                            if (jedis.exists(theme.getId().toString())){
+                                jedis.del(theme.getId().toString());
+                            }
+                            for (JsonNode node :usersJson){
+                                ID id = Json.fromJson(node,ID.class);
+                                jedis.sadd(theme.getId().toString(),id.getUserId().toString());
+                            }
+                            jedis.persist(theme.getId().toString());
+                            //其他主题
+                        }else {
+                            if (jedis.exists(theme.getId().toString())){
+                                jedis.del(theme.getId().toString());
+                            }
                         }
                     }
                 }
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            Logger.error(Throwables.getStackTraceAsString(e));
-        }finally {
-            if (jedisPool != null && jedis != null){
-                jedisPool.returnBrokenResource(jedis);
+            }catch (Exception e){
+                e.printStackTrace();
+                Logger.error(Throwables.getStackTraceAsString(e));
+            }finally {
+//                if (jedisPool != null && jedis != null){
+//                    jedisPool.returnBrokenResource(jedis);
+//                }
             }
         }
+
 
         //主题显示位置
         JsonNode themeCateJson = jsonRequest.get("themeCates");
@@ -1179,6 +1182,7 @@ public class ThemeCtrl extends Controller {
         //数据验证      ----end
         theme.setType("h5");
         service.h5ThemeSave(theme);
+        Logger.error("已保存的h5主题:" + theme);
         //创建Scheduled Actor         ---start
         ActorRef themeOffShelf = Akka.system().actorOf(Props.create(ThemeDestroyActor.class,service));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -1197,42 +1201,45 @@ public class ThemeCtrl extends Controller {
 
         //专用用户处理    Added by Tiffany Zhu 2016.08.23
         JsonNode usersJson = json.findValue("users");
-        JedisPool jedisPool = null;
-        Jedis jedis = null;
-        try {
-            //存入redis
-            jedisPool = RedisPool.createPool();
-            //验证 JedisPool
-            if (jedisPool != null){
-                jedis = jedisPool.getResource();
-                //验证Jedis
-                if (jedis != null){
-                    //用户专用主题
-                    if (theme.getThemeState() == 2 && usersJson.size() > 0){
-                        if (jedis.exists(theme.getId().toString())){
-                            jedis.del(theme.getId().toString());
-                        }
-                        for (JsonNode node :usersJson){
-                            ID id = Json.fromJson(node,ID.class);
-                            jedis.sadd(theme.getId().toString(),id.getUserId().toString());
-                        }
-                        jedis.persist(theme.getId().toString());
-                        //其他主题
-                    }else {
-                        if (jedis.exists(theme.getId().toString())){
-                            jedis.del(theme.getId().toString());
+        if (usersJson != null && usersJson.size() >0){
+            JedisPool jedisPool = null;
+            Jedis jedis = null;
+            try {
+                //存入redis
+                jedisPool = RedisPool.createPool();
+                //验证 JedisPool
+                if (jedisPool != null){
+                    jedis = jedisPool.getResource();
+                    //验证Jedis
+                    if (jedis != null){
+                        //用户专用主题
+                        if (theme.getThemeState() == 2 && usersJson.size() > 0){
+                            if (jedis.exists(theme.getId().toString())){
+                                jedis.del(theme.getId().toString());
+                            }
+                            for (JsonNode node :usersJson){
+                                ID id = Json.fromJson(node,ID.class);
+                                jedis.sadd(theme.getId().toString(),id.getUserId().toString());
+                            }
+                            jedis.persist(theme.getId().toString());
+                            //其他主题
+                        }else {
+                            if (jedis.exists(theme.getId().toString())){
+                                jedis.del(theme.getId().toString());
+                            }
                         }
                     }
                 }
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            Logger.error(Throwables.getStackTraceAsString(e));
-        }finally {
-            if (jedisPool != null && jedis != null){
-                jedisPool.returnBrokenResource(jedis);
+            }catch (Exception e){
+                e.printStackTrace();
+                Logger.error(Throwables.getStackTraceAsString(e));
+            }finally {
+//                if (jedisPool != null && jedis != null){
+//                    jedisPool.returnBrokenResource(jedis);
+//                }
             }
         }
+
 
         //主题显示位置
         JsonNode themeCateJson = json.get("themeCates");
