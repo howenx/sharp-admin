@@ -75,13 +75,9 @@
         where cate_id = #{cateId}
     </update>
 
-    <!--获取全部的二级商品类别 Added by Tiffany Zhu 2016.08.25-->
+    <!--获取全部的二级商品类别 Added by Tiffany Zhu 2016.08.25  Modified By Sunny Wu 2016.08.29-->
     <select id="getSecDirectCates" resultType="domain.Cates">
-        select
-        <include refid="catesColumns">
-            <property name="alias" value="t"/>
-        </include>
-        from cates t where 1=1 and t.pcate_id IS NOT NULL
+        select COALESCE(csub.cate_id,cs.cate_id) as cid,COALESCE(csub.cate_nm,cs.cate_nm) cname,csub.pcate_id as pid from cates cs left join cates csub on cs.cate_id = csub.pcate_id where cs.pcate_id is null;
     </select>
 
 
