@@ -75,62 +75,80 @@
 //            });
 
             /** 点击单选按钮选择主题或商品 **/
-            $(".table input[type=radio]").click(function(){
-                //选择商品
-                if (targetType=="D") {
-                    var skuTypeId = $("input[type=radio]:checked").parent().next().html();
-                    var itemId = $("input[type=radio]:checked").parent().next().next().next().html();
-                    var itemType = $("input[type=radio]:checked").parent().next().next().next().next().find(".item-type").val();
-                    var skuTypeTitle = $("input[type=radio]:checked").parent().next().next().next().next().next().html();
-                    var skuTypeImg = $("input[type=radio]:checked").parent().next().next().next().next().next().next().children().attr("src");
-                    if (itemType=="item") {targetType = "D"}
-                    if (itemType=="pin") {targetType = "P"}
-                    sharedObject.itemId = itemId;
-                    sharedObject.skuTypeId = skuTypeId;
-                    sharedObject.skuTypeTitle = skuTypeTitle;
-                    sharedObject.skuTypeImg = skuTypeImg;
-                    sharedObject.targetType = targetType;
-                }
-                //选择主题
-                if (targetType=="T") {
-                    var id = $("input[type=radio]:checked").parent().next().html();
-                    var thType = $("input[type=radio]:checked").parent().next().next().find(".topic-type").val();
-                    if (thType=="ordinary") {targetType = "T"}
-                    if (thType=="h5") {
-                        targetType = "U";
-                        var h5Link = $("input[type=radio]:checked").parent().next().next().find(".h5Link").val();
-                        sharedObject.h5Link = h5Link;
-                    }
-                    var title = $("input[type=radio]:checked").parent().next().next().next().html();
-                    var themeImg = $("input[type=radio]:checked").parent().next().next().next().next().children().attr("src");
-                    sharedObject.id = id;
-                    sharedObject.targetType = targetType;
-                    sharedObject.title = title;
-                    sharedObject.themeImg = themeImg;
-                }
-
-                //主题分类
-                if(targetType=="M"){
-                    var cateId = $("input[type=radio]:checked").parent().next().html();
+//            $(".table input[type=radio]").click(function(){
+//                //选择商品
+//                if (targetType=="D") {
+//                    var skuTypeId = $("input[type=radio]:checked").parent().next().html();
+//                    var itemId = $("input[type=radio]:checked").parent().next().next().next().html();
+//                    var itemType = $("input[type=radio]:checked").parent().next().next().next().next().find(".item-type").val();
+//                    var skuTypeTitle = $("input[type=radio]:checked").parent().next().next().next().next().next().html();
+//                    var skuTypeImg = $("input[type=radio]:checked").parent().next().next().next().next().next().next().children().attr("src");
+//                    if (itemType=="item") {targetType = "D"}
+//                    if (itemType=="pin") {targetType = "P"}
+//                    sharedObject.itemId = itemId;
+//                    sharedObject.skuTypeId = skuTypeId;
+//                    sharedObject.skuTypeTitle = skuTypeTitle;
+//                    sharedObject.skuTypeImg = skuTypeImg;
+//                    sharedObject.targetType = targetType;
+//                }
+//                //选择主题
+//                if (targetType=="T") {
+//                    var id = $("input[type=radio]:checked").parent().next().html();
+//                    var thType = $("input[type=radio]:checked").parent().next().next().find(".topic-type").val();
+//                    if (thType=="ordinary") {targetType = "T"}
+//                    if (thType=="h5") {
+//                        targetType = "U";
+//                        var h5Link = $("input[type=radio]:checked").parent().next().next().find(".h5Link").val();
+//                        sharedObject.h5Link = h5Link;
+//                    }
+//                    var title = $("input[type=radio]:checked").parent().next().next().next().html();
+//                    var themeImg = $("input[type=radio]:checked").parent().next().next().next().next().children().attr("src");
+//                    sharedObject.id = id;
+//                    sharedObject.targetType = targetType;
+//                    sharedObject.title = title;
+//                    sharedObject.themeImg = themeImg;
+//                }
+//
+//                //主题分类
+//                if(targetType=="M"){
+//                    var cateId = $("input[type=radio]:checked").parent().next().html();
+//                    sharedObject.targetType = targetType;
+//                    sharedObject.cateId = cateId;
+//                }
+//
+//                <!--var itemId=$("input[type=radio]:checked").parent().next().html();-->
+//                <!--var skuId=$("input[type=radio]:checked").parent().next().next().html();-->
+//                <!--sharedObject.itemId = itemId;-->
+//                <!--sharedObject.skuId = skuId;-->
+//                <!--sharedObject.targetType = targetType;-->
+//                if (window.showModalDialog) {
+//                    window.returnValue = sharedObject;
+//                }
+//                else {
+//                    // if not modal, we cannot use the returnValue property, we need to update the opener window
+//                    window.opener.UpdateFields (sharedObject);
+//                }
+//                window.close ();
+//            });
+            $(".CatesBtn").click(function () {
+                if(targetType=="M") {
+                    var cateId = [];
+                    $("input[name='selectCates']:checked").parent().next().html(function (index, html) {
+                        cateId.push(html);
+                    })
+                    cateId = cateId.join(",");
                     sharedObject.targetType = targetType;
                     sharedObject.cateId = cateId;
+                    if (window.showModalDialog) {
+                        window.returnValue = sharedObject;
+                    }
+                    else {
+                        // if not modal, we cannot use the returnValue property, we need to update the opener window
+                        window.opener.UpdateFields(sharedObject);
+                    }
+                    window.close();
                 }
-
-                <!--var itemId=$("input[type=radio]:checked").parent().next().html();-->
-                <!--var skuId=$("input[type=radio]:checked").parent().next().next().html();-->
-                <!--sharedObject.itemId = itemId;-->
-                <!--sharedObject.skuId = skuId;-->
-                <!--sharedObject.targetType = targetType;-->
-                if (window.showModalDialog) {
-                    window.returnValue = sharedObject;
-                }
-                else {
-                    // if not modal, we cannot use the returnValue property, we need to update the opener window
-                    window.opener.UpdateFields (sharedObject);
-                }
-                window.close ();
-            });
-
+            })
             /**	点击排序方式 **/
             $(".sort-topic").click(function(e) {
                 if ($(this).hasClass("glyphicon-chevron-up")) {
@@ -176,7 +194,7 @@
 <div class="table-two clearfix">
     <!--<div class="goods-table pull-left switch" style="display: none;width: 100%"><span>商品选择</span></div>-->
     <!--<div class="theme-table pull-left switch"><span>主题选择</span></div>-->
-    <h3 style="padding-left: 10px">选择商品类别</h3>
+    <h3 style="padding-left: 10px">选择商品类别  <button class="CatesBtn">确定</button></h3>
     <!--SKU-->
     <table class="table table-bordered table-hover table-goods" id="searchitem" style="display: none">
         <thead>
@@ -269,7 +287,7 @@
         </thead>
         @for(cates <- catesList){
         <tr>
-            <td><input type="radio" name="selectCates"></td>
+            <td><input type="checkbox" name="selectCates"></td>
             <td>@cates.getCateId()</td>
             <td>@cates.getCateNm()</td>
             <td>@cates.getCateDesc()</td>

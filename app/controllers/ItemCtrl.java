@@ -634,6 +634,56 @@ public class ItemCtrl extends Controller {
         return ok("推送成功");
     }
 
+    /**
+     * 类目选择弹窗        Added By Sunny Wu  2016.08.29
+     * @return views
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result catesPop() {
+        //类别列表
+        List<Cates> catesList = itemService.getSecDirectCates();
+        if (catesList.size()>0) {
+            Logger.error(catesList.toString());
+            return ok(views.html.item.catesPop.render(catesList));
+        }
+        else
+            return ok("没有数据");
+    }
+
+    /**
+     * 商品选择弹窗(选择item(主sku列表),sku,pin)       Added By Sunny Wu 2016.08.29
+     * @return views
+     */
+    public Result goodsPop() {
+        List<Skus> goodsList = inventoryService.getAllSkus();
+        List<Skus> itemList = new ArrayList<>();
+        List<Skus> skuList = new ArrayList<>();
+        List<Skus> pinList = new ArrayList<>();
+        for(Skus skus : goodsList) {
+            //商品列表为(除自定义价格和多样化价格的预售和正常商品)
+            if (!skus.getSkuType().equals("customize")&&!skus.getSkuType().equals("vary")&&(skus.getSkuTypeStatus().equals("P")||skus.getSkuTypeStatus().equals("Y"))) {
+                skus.setSkuTypeImg(Json.parse(skus.getSkuTypeImg()).get("url").asText());
+//                //item列表(主sku列表)
+//                if (skus.getSkuType().equals("item") && skus.getOrMasterInv()) {
+//                    itemList.add(skus);
+//                }
+//                //sku列表
+//                if (skus.getSkuType().equals("item")) {
+//                    skuList.add(skus);
+//                }
+//                //pin列表(拼购商品列表)
+//                if (skus.getSkuType().equals("pin")) {
+//                    pinList.add(skus);
+//                }
+            }
+        }
+        if (goodsList.size()>0) {
+            return ok(views.html.item.itemPop.render(goodsList,SysParCom.IMAGE_URL));
+        }
+        else
+            return ok("没有数据");
+    }
+
 
 }
 
