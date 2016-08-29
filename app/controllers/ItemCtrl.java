@@ -332,7 +332,7 @@ public class ItemCtrl extends Controller {
         String maxDate = sdf.format(calendar.getTime());
         if (json.has("item")) {
             JsonNode jsonItem = json.findValue("item");
-            if (jsonItem.has("publicity") && !"".equals(jsonItem.findValue("publicity"))) {
+            if (jsonItem.has("publicity") && !"".equals(jsonItem.findValue("publicity").toString())) {
                 ((ObjectNode) jsonItem).put("publicity",jsonItem.findValue("publicity").toString());
             }
             if (jsonItem.has("itemFeatures")) {

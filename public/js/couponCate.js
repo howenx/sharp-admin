@@ -36,9 +36,17 @@ $(function() {
 
 });
 
+//选择主题弹窗
 function ShowModalTheme($obj) {
     var sharedObject = {};
-    sharedObject = $obj;
+    var theme_arr = [];
+    var themes = $(".table tbody").find("tr");
+    for(i=0;i<themes.length;i++) {
+        var theme_id = themes[i].getElementsByTagName("td")[1].innerText;
+        theme_arr.push(theme_id);
+    }
+    sharedObject.theme_arr = theme_arr;
+    console.log(theme_arr);
     if (window.showModalDialog) {
         var retValue = showModalDialog("/topic/popup", sharedObject, "dialogWidth:1300px; dialogHeight:800px; dialogLeft:300px;");
         if (retValue) {
@@ -51,3 +59,14 @@ function ShowModalTheme($obj) {
         modal.dialogArguments = sharedObject;
     }
 }
+
+//选中的主题数据
+function UpdateFieldsTheme(obj) {
+        var obj1 = obj.id;
+        var index1 = $(".table tbody").find("tr").length,
+            index2 = $(".table thead").find("tr").length;
+        var index = index1 + index2;
+        for (var i = 0; i < $(obj1).length; i++) {
+            $(obj1).eq(i).prepend($("<td class='index'>" + (Number(index) + i) + "</td>")).appendTo($(".table"));
+        }
+    }
