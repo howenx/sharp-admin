@@ -50,15 +50,23 @@
                     $(".goods-table").css("background","#fff");
                     $(".theme-table").css("background","#ccc");
                     targetType = "M";
-                }
-
-                var trs = $(".table").eq(tableIndex).find("tr");
-                for(j=1;j<trs.length;j++) {
-                    if (typeId==trs[j].getElementsByTagName("td")[selectIndex].innerText) {
-                        $(trs[j].getElementsByTagName("td")[0].getElementsByTagName("input")[0]).attr("checked",true);
-                        $(trs[j]).css("background","#f5f5f5");
+                    typeId = typeId.split(",");
+                    for(var i=0;i<typeId.length;i++){
+                        $(".table").eq(tableIndex).find("tr").each(function () {
+                            if($(this).find("td").eq(selectIndex).html() === typeId[i]){
+                                $(this).find("input[name='selectCates']").prop("checked",true);
+                            }
+                        })
                     }
                 }
+
+//                var trs = $(".table").eq(tableIndex).find("tr");
+//                for(j=1;j<trs.length;j++) {
+//                    if (typeId==trs[j].getElementsByTagName("td")[selectIndex].innerText) {
+//                        $(trs[j].getElementsByTagName("td")[0].getElementsByTagName("input")[0]).attr("checked",true);
+//                        $(trs[j]).css("background","#f5f5f5");
+//                    }
+//                }
             }
             if (itemTarget=="" || itemTarget==null) {
                 targetType = "M"
