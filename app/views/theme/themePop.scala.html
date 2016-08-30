@@ -65,7 +65,7 @@
             //确认添加
             $(".return").click(function(){
                 var id=$("input[name='selectTheme']:checked").parents("tr");
-                $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("the-del").appendTo(id);
+                $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("theme-del").appendTo(id);
                 $(id).find("input[type=checkbox]:checked").parent().remove();
                 if (window.showModalDialog) {
                     var sharedObject = {};
@@ -86,10 +86,6 @@
                 window.close ();
             });
 
-
-
-
-
         })
 
     </script>
@@ -97,7 +93,6 @@
 <body>
 <div class="table-two clearfix">
     <h3 style="padding-left: 10px">选择主题</h3>
-
     <!--主题-->
     <table class="table table-bordered table-hover table-theme" id="searchtheme" style="display: table">
         <thead>

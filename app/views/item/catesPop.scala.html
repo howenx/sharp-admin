@@ -1,0 +1,88 @@
+@(catesList:List[domain.Cates])
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选择类别</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" >
+    <link href="/assets/css/jquery-ui.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/xlstablefilter.css" rel="stylesheet" type="text/css">
+    <script src="/assets/js/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="/assets/css/search.css" >
+    <script src="/assets/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.xlstablefilter.js"></script>
+    <script>
+        $(function(){
+            var sharedObject = window.dialogArguments;
+            var cates_arr = sharedObject.cates_arr;
+            for(i=0;i<cates_arr.length;i++) {
+                var trs = $(".table tbody").find("tr");
+                for(j=0;j<trs.length;j++) {
+                    if (cates_arr[i]==trs[j].getElementsByTagName("td")[1].innerText) {
+                        $(trs[j].getElementsByTagName("td")[0].getElementsByTagName("input")[0]).attr("disabled",'true');
+                        $(trs[j]).css("background","#f5f5f5");
+                    }
+                }
+            }
+
+            /** 全选/取消全选 **/
+            $("input[name='selAll']").click(function(){
+                $("input[name='selectCates']").prop('checked',$(this).prop("checked"));
+            });
+
+            //确认添加
+            $(".return").click(function(){
+                var id=$("input[name='selectCates']:checked").parents("tr");
+                $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("cates-del").appendTo(id);
+                $(id).find("input[type=checkbox]:checked").parent().remove();
+                if (window.showModalDialog) {
+                    var sharedObject = {};
+                    sharedObject.id = id;
+                    window.returnValue = sharedObject;
+                }
+                else {
+                    // if not modal, we cannot use the returnValue property, we need to update the opener window
+                    var sharedObject = {};
+                    sharedObject.id = id;
+                    window.opener.UpdateFieldsCates(sharedObject);
+                }
+                window.close ();
+            })
+
+            //返回
+            $(".cancel").click(function(){
+                window.close ();
+            });
+        })
+
+    </script>
+</head>
+<body>
+<div class="table-two clearfix">
+    <h3 style="padding-left: 10px">选择类别</h3>
+    <!--类别-->
+    <table class="table table-bordered table-hover table-cates" id="searchCates" style="display: table">
+        <thead>
+        <tr>
+            <th><input type="checkbox" name="selAll">全选</th>
+            <th>类别ID</th>
+            <th>类别名称</th>
+            <th>父类ID</th>
+        </tr>
+        </thead>
+        @for(cates <- catesList) {
+        <tr>
+            <td><input type="checkbox" name="selectCates" enable="true"></td>
+            <td>@cates.getCateId()</td>
+            <td>@cates.getCateNm()</td>
+            <td>@cates.getPcateId()</td>
+        </tr>
+        }
+    </table>
+
+</div>
+
+<button class="return btn btn-primary" style="margin-left: 50px;margin-bottom: 10px">确认添加</button>
+<button class="cancel btn btn-primary" style="margin-left: 10px;margin-bottom: 10px">返回</button>
+</body>
+</html>

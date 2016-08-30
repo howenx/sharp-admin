@@ -380,3 +380,5 @@ POST        /msg/pushSave                                                       
 
 
 GET         /topic/popup                                                            controllers.ThemeCtrl.themePop()
+GET         /comm/cate/popup                                                        controllers.ItemCtrl.catesPop()
+GET         /comm/poup                                                              controllers.ItemCtrl.goodsPop()
