@@ -40,7 +40,7 @@
                 });
             })
 
-            $("#theme").xlsTableFilter({
+            $("#searchTheme").xlsTableFilter({
                 checkStyle: "custom",
                 ignoreColumns:[0,4]   //不需要检索的列
             });
@@ -94,7 +94,7 @@
 <div class="table-two clearfix">
     <h3 style="padding-left: 10px">选择主题</h3>
     <!--主题-->
-    <table class="table table-bordered table-hover table-theme" id="searchtheme" style="display: table">
+    <table class="table table-bordered table-hover table-theme" id="searchTheme" style="display: table">
         <thead>
         <tr>
             <th><input type="checkbox" name="selAll">全选</th>
@@ -127,16 +127,14 @@
         }
         }
     </table>
-
 </div>
-
+<button class="return btn btn-primary" style="margin-left: 50px;margin-bottom: 10px; margin-top:20px;">确认添加</button>
+<button class="cancel btn btn-primary" style="margin-left: 10px;margin-bottom: 10px; margin-top:20px;">返回</button>
 <div class="goods-img-bg">
     <div class="goods-bg"></div>
     <div class="goods-img">
         <button type="button" class="close" aria-label="Close" style="position: absolute;right: 283px;top: -18px;"><span aria-hidden="true">&times;</span></button>
     </div>
 </div>
-<button class="return btn btn-primary" style="margin-left: 50px;margin-bottom: 10px">确认添加</button>
-<button class="cancel btn btn-primary" style="margin-left: 10px;margin-bottom: 10px">返回</button>
 </body>
 </html>
