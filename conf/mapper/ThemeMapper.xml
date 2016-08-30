@@ -76,6 +76,13 @@
                 ${alias}.cate_type_id,
                 ${alias}.or_destroy
         </sql>
+        <select id="getNavItemCate" parameterType="domain.NavItemCate" resultType="domain.NavItemCate">
+            select
+            <include refid="navItemCateColumns">
+                <property name="alias" value="t"/>
+            </include>
+            from nav_item_cate t where  t.nav_id = #{navId} and t.cate_type_id=#{cateTypeId} and or_destroy = false
+        </select>
 
         <!--     添加入口关联数据        Added by Tiffany Zhu 2016.08.25  -->
         <insert id="addNavItemCate" parameterType="java.util.List">
@@ -85,19 +92,21 @@
                       (#{item.navId},#{item.cateType},#{item.cateTypeId},#{item.orDestroy})
                 </foreach>
         </insert>
+
         <!--     更新入口关联数据        Added by Tiffany Zhu 2016.08.25  -->
         <update id="updNavItemCate" parameterType="java.util.List">
                 <foreach  collection="list" item="item" separator=";">
-                        update nav_item_cate  set cate_type=#{item.cateType},cate_type_id=#{item.cateTypeId}
-                        where nav_id = #{item.navId} and or_destroy = false
+                        update nav_item_cate t set cate_type=#{item.cateType},cate_type_id=#{item.cateTypeId}
+                        where nav_id = #{item.navId} and t.cate_type_id=#{item.cateTypeId} and  or_destroy = false
                 </foreach>
         </update>
+
         <!--     入口关联数据设置删除     Added by Tiffany Zhu 2016.08.25  -->
         <update id="updNavItemCateToDestroy" parameterType="java.util.List">
                 update nav_item_cate  set or_destroy = true
-                where nav_id not in
+                where (nav_id,cate_type_id) not in
                 <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
-                        #{item.navId}
+                        (#{item.navId},#{item.cateTypeId})
                 </foreach>
         </update>
 
