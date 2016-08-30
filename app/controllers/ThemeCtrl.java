@@ -168,7 +168,8 @@ public class ThemeCtrl extends Controller {
             }
         }
 
-        List<Cates> catesList = itemService.getSecDirectCates();
+        //List<Cates> catesList = itemService.getSecDirectCates();
+        List<Cates> catesList = itemService.getCatesAll();
         Logger.error("商品分类数据:" + catesList);
         if (themeList.size()>0 && skusList.size()>0 && catesList.size() > 0 ) {
             return ok(views.html.theme.categoryPop.render(tList,slist,catesList,SysParCom.IMAGE_URL));
