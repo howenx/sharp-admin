@@ -25,6 +25,11 @@
                 }
             }
 
+            $("#searchCates").xlsTableFilter({
+                checkStyle: "custom",
+                ignoreColumns:[0]   //不需要检索的列
+            });
+
             /** 全选/取消全选 **/
             $("input[name='selAll']").click(function(){
                 $("input[name='selectCates']").prop('checked',$(this).prop("checked"));
@@ -79,9 +84,7 @@
         </tr>
         }
     </table>
-
 </div>
-
 <button class="return btn btn-primary" style="margin-left: 50px;margin-bottom: 10px">确认添加</button>
 <button class="cancel btn btn-primary" style="margin-left: 10px;margin-bottom: 10px">返回</button>
 </body>

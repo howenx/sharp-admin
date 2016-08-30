@@ -11,6 +11,33 @@
 <script type="text/javascript" src="/assets/js/jquery.xlstablefilter.js"></script>
 <script type="text/javascript">
     $(function(){
+        /**	图片放大和关闭 **/
+        $(document).on("click", ".main-img", function(e) {
+            $(".goods-img-bg").css({
+                "height": $(window).height(),
+                "display": "block"
+            });
+            $(".goods-img").css("left", ($(window).width() - 1200) / 2);
+            $(this).clone().appendTo($(".goods-img")).css({
+                "width": "50%",
+                "height": "500px",
+                "margin-left": "300px",
+                "z-index": 1000
+            });
+        })
+        $(document).on("click", ".goods-img-bg .close", function(e) {
+            $(".goods-img-bg img").remove();
+            $(".goods-img-bg").css({
+                "display": "none"
+            });
+        })
+        $(document).on("click", ".goods-bg", function(e) {
+            $(".goods-img-bg img").remove();
+            $(".goods-img-bg").css({
+                "display": "none"
+            });
+        })
+
         var sharedObject = window.dialogArguments;
         var goods_arr = sharedObject.goods_arr;
         for(i=0;i<goods_arr.length;i++) {
@@ -36,7 +63,7 @@
 
         //确认添加
         $(".return").click(function(){
-            var id=$("input[name='selectGoods']:checked").parents("tr");
+            var id=$("input[class='selectGoods']:checked").parents("tr");
             $("<td>").css({"background":"#ccc","cursor":"pointer"}).html("删除").addClass("goods-del").appendTo(id);
             $(id).find("input[type=checkbox]:checked").parent().remove();
             if (window.showModalDialog) {
@@ -74,7 +101,7 @@
 <table class="table table-bordered table-hover" id="searchItem">
     <thead>
     <tr>
-        <th>选择商品<input type="checkbox" name="selAllItem">全选</th>
+        <th><input type="checkbox" name="selAllItem">全选</th>
         <th>类型ID</th>
         <th>SKU ID</th>
         <th>商品ID</th>
@@ -84,19 +111,19 @@
         <th>上架时间</th>
         <th>下架时间</th>
         <th>商品状态</th>
-        <th>现价</th>
-        <th>原价</th>
+        <th>现价(￥)</th>
+        <th>原价(￥)</th>
         <th>折扣</th>
     </tr>
     </thead>
     @for(item <- goodsList){
         @if(item.getSkuType()=="item" && item.getOrMasterInv()==true) {
             <tr>
-                <td><input type="checkbox" name="selectItem" enable="true"></td>
+                <td><input class="selectGoods" type="checkbox" name="selectItem" enable="true"></td>
                 <td>@item.getSkuTypeId()</td>
                 <td>@item.getInvId()</td>
                 <td>@item.getItemId()</td>
-                <td>@item.getSkuType()</td>
+                <td>@if(item.getSkuType()=="item"){普通商品}<input type="hidden" name="type" value="item"></td>
                 <td>@item.getSkuTypeTitle()</td>
                 <td><img class="main-img" src='@url@item.getSkuTypeImg()' alt="" width="50"></td>
                 <td>@(item.getSkuTypeStartAt().toString().substring(0,16))</td>
@@ -119,7 +146,7 @@
 <table class="table table-bordered table-hover" id="searchSku" style="display:none">
     <thead>
     <tr>
-        <th>选择SKU<input type="checkbox" name="selAllSku">全选</th>
+        <th><input type="checkbox" name="selAllSku">全选</th>
         <th>类型ID</th>
         <th>SKU ID</th>
         <th>商品ID</th>
@@ -129,19 +156,19 @@
         <th>上架时间</th>
         <th>下架时间</th>
         <th>商品状态</th>
-        <th>现价</th>
-        <th>原价</th>
+        <th>现价(￥)</th>
+        <th>原价(￥)</th>
         <th>折扣</th>
     </tr>
     </thead>
     @for(sku <- goodsList){
         @if(sku.getSkuType()=="item") {
         <tr>
-            <td><input type="checkbox" name="selectSku" enable="true"></td>
+            <td><input class="selectGoods" type="checkbox" name="selectSku" enable="true"></td>
             <td>@sku.getSkuTypeId()</td>
             <td>@sku.getInvId()</td>
             <td>@sku.getItemId()</td>
-            <td>@sku.getSkuType()</td>
+            <td>@if(sku.getSkuType()=="item"){普通商品}<input type="hidden" name="type" value="sku"></td>
             <td>@sku.getSkuTypeTitle()</td>
             <td><img class="main-img" src='@url@sku.getSkuTypeImg()' alt="" width="50"></td>
             <td>@(sku.getSkuTypeStartAt().toString().substring(0,16))</td>
@@ -164,7 +191,7 @@
 <table class="table table-bordered table-hover" id="searchPin" style="display:none">
     <thead>
     <tr>
-        <th>选择拼购商品<input type="checkbox" name="selAllPin">全选</th>
+        <th><input type="checkbox" name="selAllPin">全选</th>
         <th>类型ID</th>
         <th>SKU ID</th>
         <th>商品ID</th>
@@ -174,19 +201,19 @@
         <th>上架时间</th>
         <th>下架时间</th>
         <th>商品状态</th>
-        <th>现价</th>
-        <th>原价</th>
+        <th>现价(￥)</th>
+        <th>原价(￥)</th>
         <th>折扣</th>
     </tr>
     </thead>
     @for(pin <- goodsList){
         @if(pin.getSkuType()=="pin") {
         <tr>
-            <td><input type="checkbox" name="selectPin" enable="true"></td>
+            <td><input class="selectGoods" type="checkbox" name="selectPin" enable="true"></td>
             <td>@pin.getSkuTypeId()</td>
             <td>@pin.getInvId()</td>
             <td>@pin.getItemId()</td>
-            <td>@pin.getSkuType()</td>
+            <td>@if(pin.getSkuType()=="pin"){拼购商品}<input type="hidden" name="type" value="pin"></td>
             <td>@pin.getSkuTypeTitle()</td>
             <td><img class="main-img" src='@url@pin.getSkuTypeImg()' alt="" width="50"></td>
             <td>@(pin.getSkuTypeStartAt().toString().substring(0,16))</td>
@@ -207,6 +234,12 @@
 </table>
 <button class="return btn btn-primary" style="margin-left: 50px;margin-bottom: 10px">确认添加</button>
 <button class="cancel btn btn-primary" style="margin-left: 10px;margin-bottom: 10px">返回</button>
+<div class="goods-img-bg">
+    <div class="goods-bg"></div>
+    <div class="goods-img">
+        <button type="button" class="close" aria-label="Close" style="position: absolute;right: 283px;top: -18px;"><span aria-hidden="true">&times;</span></button>
+    </div>
+</div>
 </body>
 <script>
     $(function() {

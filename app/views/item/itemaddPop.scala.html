@@ -42,7 +42,7 @@
             var minute = now.getMinutes()>=10?now.getMinutes():'0'+(now.getMinutes());
             var second = now.getSeconds()>=10?now.getSeconds():'0'+(now.getSeconds());
             var startAt = now.getFullYear() + "-" + s_month + "-" + day + " " + hour + ":" + minute + ":" + second;
-            var endAt =  e_year + "-" + e_month + "-" + e_day + " " + hour + ":" + minute + ":" + second;
+            var endAt =  e_year + "-" + e_month + "-" + e_day + " 00:00:00";
 
             $("#startAt").val(startAt);
             $("#endAt").val(endAt);
