@@ -37,11 +37,11 @@ div.xlsFilterRow input {
 	margin: 0px 5px 0px -30px;
 }
 #xlsFilterRows div.xlsFilterCheckOn {
-	background: url(../images/checkbox-on.png) center center no-repeat;
+	background: url(/assets/images/checkbox-on.png) center center no-repeat;
 }
 
 #xlsFilterRows div.xlsFilterCheckOff {
-	background: url(../images/checkbox-off.png) center center no-repeat;
+	background: url(/assets/images/checkbox-off.png) center center no-repeat;
 }
 
 .xlsFilterHeader {
