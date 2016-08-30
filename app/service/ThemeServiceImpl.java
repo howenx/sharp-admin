@@ -2,6 +2,7 @@ package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import domain.*;
+import mapper.CatesMapper;
 import mapper.InventoryMapper;
 import mapper.ThemeMapper;
 import play.Logger;
@@ -22,6 +23,8 @@ public class ThemeServiceImpl implements ThemeService {
     private InventoryMapper inventoryMapper;
     @Inject
     private SubjectPriceService subjectPriceService;
+    @Inject
+    private CatesMapper catesMapper;
 
 
     /**
@@ -224,27 +227,51 @@ public class ThemeServiceImpl implements ThemeService {
                 Slider slider  = play.libs.Json.fromJson(objNode,Slider.class);
                 if (slider.getId()==-1){
                     themeMapper.insertSlider(slider);
-                    Logger.error("slider数据" + slider);
-                    NavItemCate  newNavItemCate = new NavItemCate();
-                    newNavItemCate.setId(slider.getId());
-                    newNavItemCate.setCateType(4);
-                    newNavItemCate.setCateTypeId(Long.parseLong(slider.getItemTarget()));
-                    newNavItemCate.setOrDestroy(false);
-                    newNavItemCates.add(newNavItemCate);
+                    String[] itemTarget = slider.getItemTarget().split(",");
+                    for (int i=0;i<itemTarget.length;i++){
+                        NavItemCate  newNavItemCate = new NavItemCate();
+                        newNavItemCate.setNavId(slider.getId());
+                        newNavItemCate.setOrDestroy(false);
+                        newNavItemCate.setCateTypeId(Long.parseLong(itemTarget[i]));
+                        Cates tempCates = catesMapper.getCate(Long.parseLong(itemTarget[i]));
+                        if(tempCates.getPcateId() == null){
+                            newNavItemCate.setCateType(4);
+                        }else {
+                            newNavItemCate.setCateType(6);
+                        }
+                        newNavItemCates.add(newNavItemCate);
+                    }
                 }
                 else{
                     themeMapper.updateSlider(slider);
-                    NavItemCate  updNavItemCate = new NavItemCate();
-                    updNavItemCate.setId(slider.getId());
-                    updNavItemCate.setCateType(4);
-                    updNavItemCate.setCateTypeId(Long.parseLong(slider.getItemTarget()));
-                    updNavItemCate.setOrDestroy(false);
-                    updNavItemCates.add(updNavItemCate);
+                    String[] itemTarget = slider.getItemTarget().split(",");
+                    for (int i=0;i<itemTarget.length;i++){
+                        NavItemCate  updNavItemCate = new NavItemCate();
+                        updNavItemCate.setNavId(slider.getId());
+                        updNavItemCate.setOrDestroy(false);
+                        updNavItemCate.setCateTypeId(Long.parseLong(itemTarget[i]));
+                        Cates tempCates = catesMapper.getCate(Long.parseLong(itemTarget[i]));
+                        if(tempCates.getPcateId() == null){
+                            updNavItemCate.setCateType(4);
+                        }else {
+                            updNavItemCate.setCateType(6);
+                        }
+                        NavItemCate tempNav = themeMapper.getNavItemCate(updNavItemCate);
+                        Logger.error("是否存在的数据:" + tempNav);
+                        if(tempNav == null){
+                            newNavItemCates.add(updNavItemCate);
+                        }else {
+                            updNavItemCates.add(updNavItemCate);
+                        }
+                    }
                 }
             }
             allNavItemCates.addAll(newNavItemCates);
             allNavItemCates.addAll(updNavItemCates);
             Logger.error("添加的新数据" + newNavItemCates);
+            Logger.error("更新的数据" + updNavItemCates);
+            Logger.error("全部数据" + allNavItemCates);
+
             //添加分类入口关联商品二级分类
             if (newNavItemCates.size() > 0){
                 themeMapper.addNavItemCate(newNavItemCates);
@@ -323,5 +350,15 @@ public class ThemeServiceImpl implements ThemeService {
     @Override
     public void updNavItemCateToDestroy(List<NavItemCate> navItemCateList) {
 
+    }
+
+    /**
+     * 查询关联数据     Added by Tiffany Zhu 2016.08.29
+     * @param navItemCate
+     * @return
+     */
+    @Override
+    public NavItemCate getNavItemCate(NavItemCate navItemCate) {
+        return themeMapper.getNavItemCate(navItemCate);
     }
 }

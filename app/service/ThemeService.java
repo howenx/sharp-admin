@@ -125,5 +125,12 @@ public interface ThemeService {
      */
     void updNavItemCateToDestroy(List<NavItemCate> navItemCateList);
 
+    /**
+     * 查询关联数据     Added by Tiffany Zhu 2016.08.29
+     * @param navItemCate
+     * @return
+     */
+    NavItemCate getNavItemCate(NavItemCate navItemCate);
+
 
 }
