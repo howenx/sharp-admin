@@ -23,6 +23,7 @@ GET         /$lang<(cn|en|kr)>/topic/slider                                     
 GET         /topic/slider/popup                                                     controllers.ThemeCtrl.sliderPop()
 POST        /topic/slider/update                                                    controllers.ThemeCtrl.sliderSave(lang ="cn")
 POST        /$lang<(cn|en|kr)>/topic/slider/update                                  controllers.ThemeCtrl.sliderSave(lang)
+GET         /topic/popup                                                            controllers.ThemeCtrl.themePop()
 GET         /topic/add                                                              controllers.ThemeCtrl.thadd(lang = "cn")
 GET         /$lang<(cn|en|kr)>/topic/add                                            controllers.ThemeCtrl.thadd(lang)
 GET         /topic/add/popup                                                        controllers.ThemeCtrl.thaddPop()
@@ -51,6 +52,8 @@ GET         /$lang<(cn|en|kr)>/topic/category                                   
 GET         /topic/category/popup                                                   controllers.ThemeCtrl.categoryPop()
 POST        /topic/category/update                                                  controllers.ThemeCtrl.categorySave(lang ="cn")
 POST        /$lang<(cn|en|kr)>/topic/category/update                                controllers.ThemeCtrl.categorySave(lang)
+GET         /topic/h5Builder                                                        controllers.ThemeCtrl.h5Builder(lang = "cn")
+GET         /$lang<(cn|en|kr)>/topic/h5Builder                                      controllers.ThemeCtrl.h5Builder(lang)
 
 
 
@@ -75,6 +78,7 @@ GET         /comm/findById/:id                                                  
 GET         /$lang<(cn|en|kr)>/comm/findById/:id                                    controllers.ItemCtrl.findItemById(lang,id:Long)
 GET         /comm/updateById/:id                                                    controllers.ItemCtrl.updateItemById(lang = "cn",id:Long)
 GET         /$lang<(cn|en|kr)>/comm/updateById/:id                                  controllers.ItemCtrl.updateItemById(lang,id:Long)
+GET         /comm/poup                                                              controllers.ItemCtrl.goodsPop()
 
 
 
@@ -153,6 +157,7 @@ GET         /comm/cate/add                                                      
 GET         /$lang<(cn|en|kr)>/comm/cate/add                                        controllers.ItemCtrl.cateAdd(lang)
 POST        /comm/cate/cateSave                                                     controllers.ItemCtrl.cateSave(lang = "cn")
 POST        /comm/cate/updateNm                                                     controllers.ItemCtrl.cateNmUpdate()
+GET         /comm/cate/popup                                                        controllers.ItemCtrl.catesPop()
 
 
 
@@ -379,6 +384,3 @@ POST        /msg/pushSave                                                       
 
 
 
-GET         /topic/popup                                                            controllers.ThemeCtrl.themePop()
-GET         /comm/cate/popup                                                        controllers.ItemCtrl.catesPop()
-GET         /comm/poup                                                              controllers.ItemCtrl.goodsPop()

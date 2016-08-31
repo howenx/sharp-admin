@@ -2,23 +2,18 @@ package service;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
-import com.google.common.base.Throwables;
+import com.fasterxml.jackson.databind.JsonNode;
 import domain.*;
 import mapper.CouponsMapper;
 import modules.NewScheduler;
 import play.Logger;
-import scala.concurrent.duration.Duration;
 import util.MsgTypeEnum;
 import util.SysParCom;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Sunny Wu on 15/12/30.
@@ -177,27 +172,27 @@ public class CouponsServiceImpl implements CouponsService {
 
     /**
      * 新增优惠券类别                  Added by Sunny Wu 2016.08.18
-     * @param couponsCate 优惠券类别
+     * @param jsonNode 优惠券类别及优惠券类别映射信息
      */
     @Override
-    public void couponsCateSave(CouponsCate couponsCate) {
-        if (couponsMapper.insertCouponsCate(couponsCate) > 0) {
-            Date now = new Date();
-            Long nowTimes = now.getTime();
-            Date endAt = new Date();
-            Long endTimes = 0l;
-            try {
-                endAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(couponsCate.getEndAt());
-                endTimes = endAt.getTime();
-            } catch (ParseException e) {
-                Logger.error(Throwables.getStackTraceAsString(e));
-            }
-            Long coupCateId = couponsCate.getCoupCateId();
-            //-- 创建Actor --//
-            //截止时间大于现在时间 启动优惠券类别自动失效scheduler
-            Logger.debug("CouponsCate "+coupCateId+" auto invalid start...");
-            newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), couponsCateInvalidActor, coupCateId);
-        }
+    public void couponsCateSave(JsonNode jsonNode) {
+//        if (couponsMapper.insertCouponsCate(couponsCate) > 0) {
+//            Date now = new Date();
+//            Long nowTimes = now.getTime();
+//            Date endAt = new Date();
+//            Long endTimes = 0l;
+//            try {
+//                endAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(couponsCate.getEndAt());
+//                endTimes = endAt.getTime();
+//            } catch (ParseException e) {
+//                Logger.error(Throwables.getStackTraceAsString(e));
+//            }
+//            Long coupCateId = couponsCate.getCoupCateId();
+//            //-- 创建Actor --//
+//            //截止时间大于现在时间 启动优惠券类别自动失效scheduler
+//            Logger.debug("CouponsCate "+coupCateId+" auto invalid start...");
+//            newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), couponsCateInvalidActor, coupCateId);
+//        }
     }
 
     /**

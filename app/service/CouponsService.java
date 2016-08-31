@@ -1,5 +1,6 @@
 package service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import domain.Coupons;
 import domain.CouponsCate;
 import domain.CouponsMap;
@@ -71,9 +72,9 @@ public interface CouponsService {
 
     /**
      * 新增优惠券类别                  Added by Sunny Wu 2016.08.18
-     * @param couponsCate 优惠券类别
+     * @param jsonNode 优惠券类别及优惠券类别映射信息
      */
-    void couponsCateSave(CouponsCate couponsCate);
+    void couponsCateSave(JsonNode jsonNode);
 
     /**
      * 更新优惠券类别
