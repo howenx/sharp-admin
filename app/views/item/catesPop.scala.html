@@ -58,6 +58,14 @@
             $(".cancel").click(function(){
                 window.close ();
             });
+
+            /** 回车键确认添加 **/
+            $(document).keydown(function(e) {
+                if (e.keyCode==13) {
+                    $(".return").trigger("click");
+                }
+            });
+
         })
 
     </script>
@@ -80,7 +88,10 @@
             <td><input type="checkbox" name="selectCates" enable="true"></td>
             <td>@cates.getCateId()</td>
             <td>@cates.getCateNm()</td>
-            <td>@cates.getPcateId()</td>
+            <td>@cates.getPcateId()
+                @if(cates.getPcateId()==null){<input type="hidden" name="grade" value="first">}
+                @if(cates.getPcateId()!=null){<input type="hidden" name="grade" value="second">}
+            </td>
         </tr>
         }
     </table>

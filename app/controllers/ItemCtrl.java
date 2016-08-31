@@ -330,7 +330,7 @@ public class ItemCtrl extends Controller {
         calendar.setTime(now);
         calendar.add(Calendar.MONTH,+6);
         String maxDate = sdf.format(calendar.getTime());
-        Logger.error("最大时间:"+maxDate);
+//        Logger.error("最大时间:"+maxDate);
         if (json.has("item")) {
             JsonNode jsonItem = json.findValue("item");
             if (jsonItem.has("publicity") && !"".equals(jsonItem.findValue("publicity").toString())) {
@@ -364,7 +364,7 @@ public class ItemCtrl extends Controller {
 //                            || inventory.getItemCostPrice().compareTo(new BigDecimal(0.00))<0 || inventory.getItemDiscount().compareTo(new BigDecimal(0.00))<0 || inventory.getInvWeight()<0
                             || inventory.getRestrictAmount()<0 || inventory.getRestAmount()<0 || !(Regex.isJason(inventory.getItemPreviewImgs()))
                             || ("Y".equals(inventory.getState()) && (startAt.compareTo(endAt)>0 || endAt.compareTo(strNow)<0 || startAt.compareTo(maxDate)>0 || endAt.compareTo(maxDate)>0))) {
-                        Logger.error("inventory 表单数据有误.....");
+                        Logger.error(inventory.getInvCode() + " inventory 表单数据有误.....");
                         return badRequest();
                     }
                 }
@@ -642,7 +642,7 @@ public class ItemCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result catesPop() {
         //类别列表
-        List<Cates> catesList = itemService.getSecDirectCates();
+        List<Cates> catesList = itemService.getCatesAll();
         if (catesList.size()>0) {
             return ok(views.html.item.catesPop.render(catesList));
         }

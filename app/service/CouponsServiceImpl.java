@@ -2,26 +2,18 @@ package service;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
-import com.google.common.base.Throwables;
-import domain.Coupons;
-import domain.CouponsCate;
-import domain.MsgRec;
-import domain.PushMsg;
+import com.fasterxml.jackson.databind.JsonNode;
+import domain.*;
 import mapper.CouponsMapper;
 import modules.NewScheduler;
 import play.Logger;
-import scala.concurrent.duration.Duration;
 import util.MsgTypeEnum;
 import util.SysParCom;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Sunny Wu on 15/12/30.
@@ -66,7 +58,6 @@ public class CouponsServiceImpl implements CouponsService {
 //            }
             //优惠券发送成功
             if (couponsMapper.insertCoupons(coupons) >0 ) {
-                String title = "您有一张新的优惠券";
                 String content = "";
                 if (coupons.getLimitQuota().compareTo(new BigDecimal(0.00)) == 0)
                     content = "优惠券金额"+coupons.getDenomination()+"元,无限额使用,快去用掉吧!";
@@ -74,7 +65,7 @@ public class CouponsServiceImpl implements CouponsService {
                     content = "优惠券金额"+coupons.getDenomination()+"元,满"+coupons.getLimitQuota()+"元可用,快去用掉吧!";
                 //给用户推送消息
                 PushMsg pushMsg = new PushMsg();
-                pushMsg.setTitle(title);    //标题
+                pushMsg.setTitle(SysParCom.COUPON_MSG);    //标题
                 pushMsg.setAlert(content);  //内容
                 pushMsg.setAudience("alias");//给指定用户推送
                 String[] tags = new String[1];
@@ -86,7 +77,7 @@ public class CouponsServiceImpl implements CouponsService {
                 //给用户发送消息(消息盒子)
                 MsgRec msgRec = new MsgRec();
                 msgRec.setUserId(coupons.getUserId());
-                msgRec.setMsgTitle(title);  //标题
+                msgRec.setMsgTitle(SysParCom.COUPON_MSG);  //标题
                 msgRec.setMsgContent(content);//内容
                 msgRec.setMsgRecType(1);
                 msgRec.setMsgType(MsgTypeEnum.System.getMsgType());
@@ -152,7 +143,7 @@ public class CouponsServiceImpl implements CouponsService {
     }
 
     /**
-     * 获取所有后台可发放的优惠券类别       Added By Sunny Wu 2016.06.27
+     * 获取所有可后台可发放的优惠券类别       Added By Sunny Wu 2016.06.27
      * @return list of CouponsCate
      */
     @Override
@@ -181,27 +172,27 @@ public class CouponsServiceImpl implements CouponsService {
 
     /**
      * 新增优惠券类别                  Added by Sunny Wu 2016.08.18
-     * @param couponsCate 优惠券类别
+     * @param jsonNode 优惠券类别及优惠券类别映射信息
      */
     @Override
-    public void couponsCateSave(CouponsCate couponsCate) {
-        if (couponsMapper.insertCouponsCate(couponsCate) > 0) {
-            Date now = new Date();
-            Long nowTimes = now.getTime();
-            Date endAt = new Date();
-            Long endTimes = 0l;
-            try {
-                endAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(couponsCate.getEndAt());
-                endTimes = endAt.getTime();
-            } catch (ParseException e) {
-                Logger.error(Throwables.getStackTraceAsString(e));
-            }
-            Long coupCateId = couponsCate.getCoupCateId();
-            //-- 创建Actor --//
-            //截止时间大于现在时间 启动优惠券类别自动失效scheduler
-            Logger.debug("CouponsCate "+coupCateId+" auto invalid start...");
-            newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), couponsCateInvalidActor, coupCateId);
-        }
+    public void couponsCateSave(JsonNode jsonNode) {
+//        if (couponsMapper.insertCouponsCate(couponsCate) > 0) {
+//            Date now = new Date();
+//            Long nowTimes = now.getTime();
+//            Date endAt = new Date();
+//            Long endTimes = 0l;
+//            try {
+//                endAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(couponsCate.getEndAt());
+//                endTimes = endAt.getTime();
+//            } catch (ParseException e) {
+//                Logger.error(Throwables.getStackTraceAsString(e));
+//            }
+//            Long coupCateId = couponsCate.getCoupCateId();
+//            //-- 创建Actor --//
+//            //截止时间大于现在时间 启动优惠券类别自动失效scheduler
+//            Logger.debug("CouponsCate "+coupCateId+" auto invalid start...");
+//            newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), couponsCateInvalidActor, coupCateId);
+//        }
     }
 
     /**
@@ -211,6 +202,37 @@ public class CouponsServiceImpl implements CouponsService {
     @Override
     public void updateCouponsCate(CouponsCate couponsCate) {
         couponsMapper.updateCouponsCate(couponsCate);
+    }
+
+    /**
+     * 录入一条优惠券类别映射信息        Added by Sunny Wu 2016.08.31
+     * @param couponsMap 优惠券类别映射
+     * @return
+     *
+     */
+    @Override
+    public boolean insertCouponsMap(CouponsMap couponsMap) {
+        return couponsMapper.insertCouponsMap(couponsMap) > 0;
+    }
+
+    /**
+     * 更新一条优惠券类别映射信息        Added by Sunny Wu 2016.08.31
+     * @param couponsMap 优惠券类别映射
+     * @return
+     */
+    @Override
+    public boolean updateCouponsMap(CouponsMap couponsMap) {
+        return couponsMapper.updateCouponsMap(couponsMap) > 0;
+    }
+
+    /**
+     * 根据优惠券类别获取所有的优惠券类别映射信息    Added by Sunny Wu 2016.08.31
+     * @param couponCateId 优惠券类别ID
+     * @return list of couponsMap
+     */
+    @Override
+    public List<CouponsMap> getCouponsMapByCateId(Long couponCateId) {
+        return couponsMapper.getCouponsMapByCateId(couponCateId);
     }
 
 }

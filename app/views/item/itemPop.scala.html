@@ -38,6 +38,11 @@
             });
         })
 
+        $(".table-hover").xlsTableFilter({
+            checkStyle: "custom",
+            ignoreColumns:[0,6]   //不需要检索的列
+        });
+
         var sharedObject = window.dialogArguments;
         var goods_arr = sharedObject.goods_arr;
         for(i=0;i<goods_arr.length;i++) {
@@ -84,6 +89,14 @@
         $(".cancel").click(function(){
             window.close ();
         });
+
+        /** 回车键确认添加 **/
+        $(document).keydown(function(e) {
+            if (e.keyCode==13) {
+                $(".return").trigger("click");
+            }
+        });
+
     })
 </script>
 <style>
@@ -123,7 +136,7 @@
                 <td>@item.getSkuTypeId()</td>
                 <td>@item.getInvId()</td>
                 <td>@item.getItemId()</td>
-                <td>@if(item.getSkuType()=="item"){普通商品}<input type="hidden" name="type" value="item"></td>
+                <td>商品</td>
                 <td>@item.getSkuTypeTitle()</td>
                 <td><img class="main-img" src='@url@item.getSkuTypeImg()' alt="" width="50"></td>
                 <td>@(item.getSkuTypeStartAt().toString().substring(0,16))</td>
@@ -168,7 +181,7 @@
             <td>@sku.getSkuTypeId()</td>
             <td>@sku.getInvId()</td>
             <td>@sku.getItemId()</td>
-            <td>@if(sku.getSkuType()=="item"){普通商品}<input type="hidden" name="type" value="sku"></td>
+            <td>SKU</td>
             <td>@sku.getSkuTypeTitle()</td>
             <td><img class="main-img" src='@url@sku.getSkuTypeImg()' alt="" width="50"></td>
             <td>@(sku.getSkuTypeStartAt().toString().substring(0,16))</td>
@@ -213,7 +226,7 @@
             <td>@pin.getSkuTypeId()</td>
             <td>@pin.getInvId()</td>
             <td>@pin.getItemId()</td>
-            <td>@if(pin.getSkuType()=="pin"){拼购商品}<input type="hidden" name="type" value="pin"></td>
+            <td>拼购商品</td>
             <td>@pin.getSkuTypeTitle()</td>
             <td><img class="main-img" src='@url@pin.getSkuTypeImg()' alt="" width="50"></td>
             <td>@(pin.getSkuTypeStartAt().toString().substring(0,16))</td>

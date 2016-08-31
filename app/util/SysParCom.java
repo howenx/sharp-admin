@@ -106,6 +106,12 @@ public class SysParCom {
     //pay服务器url
     public static String PAY_URL;
 
+    //拼购通知消息
+    public static String PIN_SUCCESS_MSG;
+    public static String PIN_ADD_MSG;
+    //优惠券通知消息
+    public static String COUPON_MSG;
+
 
     @Inject
     public SysParCom(Configuration configuration) {
@@ -168,6 +174,14 @@ public class SysParCom {
         CATEGORYCOUNT = configuration.getInt("category.count");
 
         PAY_URL = configuration.getString("pay.server.url");
+
+        //拼购通知消息
+        PIN_SUCCESS_MSG = configuration.getString("pin.success.msg");
+        PIN_ADD_MSG = configuration.getString("pin.add.msg");
+        //优惠券通知消息
+        COUPON_MSG = configuration.getString("coupon.msg");
+
+
 
     }
 
