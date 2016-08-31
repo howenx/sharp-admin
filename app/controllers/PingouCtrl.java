@@ -1,11 +1,10 @@
 package controllers;
 
 import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Throwables;
-import domain.ID;
-import domain.Inventory;
-import domain.User;
+import domain.*;
 import domain.order.Order;
 import domain.pingou.*;
 import filters.UserAuth;
@@ -24,6 +23,7 @@ import service.IDService;
 import service.InventoryService;
 import service.OrderService;
 import service.PingouService;
+import util.MsgTypeEnum;
 import util.Regex;
 import util.SysParCom;
 
@@ -60,6 +60,9 @@ public class PingouCtrl extends Controller {
 
     @Inject
     private OrderService orderService;
+
+    @Inject
+    private ActorSystem system;
 
 
 
@@ -885,6 +888,61 @@ public class PingouCtrl extends Controller {
             List<Order> orderList = orderService.getOrderByPinAtvId(pinActiveId);
             orderService.updPinOrderToSuccess(orderList);
         }
+
+        //消息推送      Added by Tiffany Zhu 2016.08.31 ----------------------------------------start
+        //获取拼团中的真实用户
+        List<PinUser> pinRealUsers = pingouService.getRealUserByActId(pinActiveId);
+        //有真实用户
+        if (pinRealUsers != null){
+            //所有真用户
+            String[] realUsers = new String[pinRealUsers.size()];
+            int index = 0;
+            for (PinUser user : pinRealUsers){
+                realUsers[index] = user.getUserId().toString();
+                index++;
+            }
+            String msgTitle = "";
+            String msgContent = "";
+            //拼购完成
+            if (isComplete){
+                msgTitle = SysParCom.PIN_SUCCESS_MSG;
+                msgContent = SysParCom.PIN_SUCCESS_MSG;
+            }
+            //添加机器人
+            else {
+                msgTitle = SysParCom.PIN_ADD_MSG;
+                msgContent = SysParCom.PIN_ADD_MSG;
+            }
+            //跳转链接
+            String redirectUrl = SysParCom.PROMOTION_SERVER_URL + "/promotion/pin/activity/" + pinActiveId;
+
+            //给用户推送消息
+            PushMsg pushMsg = new PushMsg();
+            pushMsg.setTitle(msgTitle);             //标题
+            pushMsg.setAlert(msgContent);           //内容
+            pushMsg.setAudience("alias");           //给指定用户推送
+            pushMsg.setAliasOrTag(realUsers);       //拼购团中的用户
+            pushMsg.setTargetType("V");             //链接类型
+            pushMsg.setUrl(redirectUrl);            //跳转链接
+            system.actorSelection(SysParCom.MSG_PUSH).tell(pushMsg, ActorRef.noSender());
+
+            //给用户发送消息(消息盒子)   循环调用Actor
+            for (PinUser user : pinRealUsers){
+                MsgRec msgRec = new MsgRec();
+                msgRec.setUserId(user.getUserId());
+                msgRec.setMsgTitle(msgTitle);                       //标题
+                msgRec.setMsgContent(msgContent);                   //内容
+                msgRec.setMsgRecType(1);
+                msgRec.setMsgType(MsgTypeEnum.System.getMsgType());
+                msgRec.setTargetType("V");                          //消息类型
+                msgRec.setReadStatus(1);                            //1-未读 2-已读
+                msgRec.setDelStatus(1);                             //1-未删 2-已删
+                msgRec.setMsgUrl(redirectUrl);                      //跳转链接
+                system.actorSelection(SysParCom.MSG_SEND).tell(msgRec, ActorRef.noSender());
+            }
+        }
+        //消息推送      Added by Tiffany Zhu 2016.08.31 ----------------------------------------end
+
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 

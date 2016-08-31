@@ -88,4 +88,11 @@ public interface PinActivityMapper {
      */
     List<PinActivity> getSuccActivityMaster();
 
+    /**
+     * 获取团中的真实用户    Added by Tiffany Zhu 2016.08.31
+     * @param pinId
+     * @return
+     */
+    List<PinUser> getRealUserByActId(Long pinId);
+
 }

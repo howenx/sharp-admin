@@ -147,6 +147,15 @@
         from pin_user t where pin_active_id = #{value}
     </select>
 
+    <!--获取团中的真实用户   Added by Tiffany Zhu 2016.08.31-->
+    <select id="getRealUserByActId" parameterType="java.lang.Long" resultType="domain.pingou.PinUser">
+        select
+        <include refid="pinUserColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from pin_user t where pin_active_id = #{value} and or_robot=true
+    </select>
+
 
     <!--查询成功收货的拼团活动的团长 (发放优惠券)      Added By Sunny.Wu 2016.07.27-->
     <select id="getSuccActivityMaster" resultType="domain.pingou.PinActivity">
