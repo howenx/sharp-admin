@@ -10,20 +10,24 @@ $(function() {
     });
 
     //默认不指定商品
-    $(".h4-custom-hmm").css("display","none");
-    $(".goods-change").css("display","none");
-    $(".cates-change").css("display","none");
-    $(".theme-change").css("display","none");
+    $(".assign").css("display","none");
+//    $(".h4-custom-hmm").css("display","none");
+//    $(".goods-change").css("display","none");
+//    $(".cates-change").css("display","none");
+//    $(".theme-change").css("display","none");
 
     /*************指定类型选择*************/
     $("input[name='assignType']").click(function () {
         var index = $("input[name='assignType']").index(this);
-        if(index === 1){
-            $(".h4-custom-hmm").css("display","block");
-            $(".goods-change").css("display","block");
-        }else{
-            $(".h4-custom-hmm").css("display","none");
-            $(".goods-change").css("display","none");
+        if(index === 1){//指定
+            $(".assign").css("display","block");
+//            $(".h4-custom-hmm").css("display","block");
+//            $(".goods-change").css("display","block");
+//            $("#goodsSel").attr("checked",'true');
+        }else{//不指定
+            $(".assign").css("display","none");
+//            $(".h4-custom-hmm").css("display","none");
+//            $(".goods-change").css("display","none");
         }
     })
 
@@ -31,6 +35,7 @@ $(function() {
     $(".h4-custom-hmm>input").click(function () {
         $(this).parent().next().toggle()
     })
+
 
     /** 数据提交 **/
     $("#submit").click(function(){
@@ -98,7 +103,7 @@ $(function() {
         CouponsCate.endAt = endAt;
 
         var couponsMapList = [];
-        if (goodsLen > 0) {
+        if (assignType=="assign" && orGoodsSel && goodsLen > 0) {
             var goods = $("#goods tbody").find("tr");
             for(var i=0;i<goods.length;i++) {
                 var CouponsMap = new Object();
@@ -121,7 +126,7 @@ $(function() {
                 couponsMapList.push(CouponsMap);
             }
         }
-        if (catesLen > 0) {
+        if (assignType=="assign" && orCatesSel && catesLen > 0) {
             var cates = $("#cates tbody").find("tr");
             for(var j=0;j<cates.length;j++) {
                 var CouponsMap = new Object();
@@ -140,7 +145,7 @@ $(function() {
                 couponsMapList.push(CouponsMap);
             }
         }
-        if (themeLen > 0) {
+        if (assignType=="assign" && orThemeSel && themeLen > 0) {
             var theme = $("#theme tbody").find("tr");
             for(var k=0;k<theme.length;k++) {
                 var CouponsMap = new Object();
@@ -151,6 +156,12 @@ $(function() {
                 couponsMapList.push(CouponsMap);
             }
         }
+        if (assignType=="none") {
+            var CouponsMap = new Object();
+            CouponsMap.cateType = 1;
+            CouponsMap.cateTypeId = 0;
+            couponsMapList.push(CouponsMap);
+        }
 
         var couponsCateData = new Object();
         couponsCateData.couponsCate = CouponsCate;
@@ -158,7 +169,7 @@ $(function() {
 
         console.log(isPost);
         console.log(JSON.stringify(couponsCateData));
-        if (false) {
+        if (isPost) {
             $.ajax({
                 type :  "POST",
                 url : "/coup/coupCateSave",
@@ -177,7 +188,7 @@ $(function() {
                         $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
                         $('.usercenter-option > .user-state').css('background-position', '20px -174px');
                         $('.usercenter-option > .user-state').text('未更改');
-                        setTimeout("location.href='/"+window.lang+"/coupCate/add'", 3000);
+//                        setTimeout("location.href='/"+window.lang+"/coupCate/add'", 3000);
                     }
                     else {
                         $('#js-userinfo-error').text('保存失败');
@@ -186,12 +197,13 @@ $(function() {
                 }
             });
         }
-
     });
+});
 
-
-
-
+/** 数据改变的提示 **/
+$(document).on('change', '.form-data-area', function() {
+    $('.usercenter-option > .user-state').css('background-position', '20px -73px');
+    $('.usercenter-option > .user-state').text('已更改');
 });
 
 //选择主题弹窗
@@ -353,9 +365,3 @@ function UpdateFieldsGoods(obj) {
         $(this).parents("tr").remove();
      }
  });
-
-/** 数据改变的提示 **/
-$(document).on('change', '.form-data-area', function() {
-    $('.usercenter-option > .user-state').css('background-position', '20px -73px');
-    $('.usercenter-option > .user-state').text('已更改');
-});

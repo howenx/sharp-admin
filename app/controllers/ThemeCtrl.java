@@ -1328,10 +1328,6 @@ public class ThemeCtrl extends Controller {
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 
-
-
-
-
     /**
      * 主题弹窗选择  主题列表     Added by Sunny.Wu 2016.08.25
      * @return views
@@ -1353,6 +1349,15 @@ public class ThemeCtrl extends Controller {
         }
         else
             return ok("没有数据");
+    }
+
+    /**
+     * h5主题生成器      Added by Sunny.Wu 2016.08.31
+     * @return views
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result h5Builder(String lang) {
+        return ok(views.html.theme.h5Builder.render(lang,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
 }

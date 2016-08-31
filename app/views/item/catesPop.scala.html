@@ -58,6 +58,14 @@
             $(".cancel").click(function(){
                 window.close ();
             });
+
+            /** 回车键确认添加 **/
+            $(document).keydown(function(e) {
+                if (e.keyCode==13) {
+                    $(".return").trigger("click");
+                }
+            });
+
         })
 
     </script>
