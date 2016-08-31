@@ -106,8 +106,10 @@ function UpdateFields(obj) {
 /*
  * function 结束
  */
-// 上传图片
+
 $(function () {
+
+    // 上传图片 开始
     $('#upload-label').change(function () {
         if ($(this).val()) {
             var files = this.files;
@@ -120,73 +122,65 @@ $(function () {
             previewImage(label_img, this.files[i]);
         }
     });
-    $('#mark-bt').click(function() {
-        var radio_flag = false;
-        var rotate = '';
-        $(':radio[name=mark-deg]').each(function(index, element) {
-            if ($(this).prop('checked')) {
-                radio_flag = true;
-                rotate = $(this).val();
-            }
-        });
-        //check length
-        if ($('#mark-nm').val() != '' && $('#mark-nm').val().length != 0 && $('#mark-nm').val().replace(/[^\x00-\xff]/ig, "aa").length < 24) {
-            //check rotate degree just for number
-            // if ($('#mark-rotate').val != '' && $('#mark-rotate').val().match(/[\d]/ig)) {
-            if($("#input_imgurl").val() != ""){
-                if (radio_flag && rotate != '') {
-                    var ch_drag = $(drag).find('p').eq(0).text($('#mark-nm').val());
-                    //if the rotate for 180 or 135,first rotate the p tag text 180.
-                    if (rotate === '180' || rotate === '135') {
-                        var ch_drag_p = ch_drag.parent().css({
-                            'transform': 'rotate(180deg)',
-                            '-ms-transform': 'rotate(180deg)',
-                            '-webkit-transform': 'rotate(180deg)',
-                            '-o-transform': 'rotate(180deg)',
-                            '-moz-transform': 'rotate(180deg)',
-                            'left': '0px'
-                        });
-                        var ch_graph = ch_drag_p.parent().parent().css({
-                            'transform': 'rotate(' + rotate + 'deg)',
-                            '-ms-transform': 'rotate(' + rotate + 'deg)',
-                            '-webkit-transform': 'rotate(' + rotate + 'deg)',
-                            '-o-transform': 'rotate(' + rotate + 'deg)',
-                            '-moz-transform': 'rotate(' + rotate + 'deg)'
-                        });
-                        $('#dragon-container').append(ch_graph.parent());
-                        $('div.dragon-contained').draggable({
-                            containment: "parent",
-                        });
-                        var itemId =  $("#input_imgurl").val();
-                        var itemType = $("#url-type").val();
-                        ch_drag.parent().parent().parent().parent().find(".item-id").html(itemId);
-                        ch_drag.parent().parent().parent().parent().find(".item-type").html(itemType);
-                    } else if (rotate === '0' || rotate === '45') {
-                        var ch_graph = ch_drag.parent().parent().parent().css({
-                            'transform': 'rotate(' + rotate + 'deg)',
-                            '-ms-transform': 'rotate(' + rotate + 'deg)',
-                            '-webkit-transform': 'rotate(' + rotate + 'deg)',
-                            '-o-transform': 'rotate(' + rotate + 'deg)',
-                            '-moz-transform': 'rotate(' + rotate + 'deg)'
-                        });
-                        $('#dragon-container').append(ch_graph.parent());
-                        $('div.dragon-contained').draggable({
-                            containment: "parent"
-                        });
-                        var itemId =  $("#input_imgurl").val();
-                        var itemType = $("#url-type").val();
-                        ch_drag.parent().parent().parent().parent().find(".item-id").html(itemId);
-                        ch_drag.parent().parent().parent().parent().find(".item-type").html(itemType);
+    // 上传图片 开始
 
-                    } else {
-                        alert('Please do not modify rotate degree.');
-                    }
-                } else {
-                    alert('Please choose correct rotate degree.');
-                }
-            }else{
-                alert('Please choose the item ID.');
-            }
-        } else alert('Please input the length less than 24 characters and more than 1 character.');
+    // 建立标记 开始
+    var numW,numH;
+    var drag = '<a class="ui-widget-content draggable" style="width: 50%;height: 20%;position: absolute;top: 0;left: 0;background: #ccc">' +
+        '<p>qwer</p>' +
+        '</a>';
+    $('#mark-bt').click(function() {
+        $(drag).find("p").eq(0).text($("#input_imgurl").val());
+        $('#dragon-container').append(drag);
+        $('a.draggable').draggable({
+            containment: "parent",
+        });
+        numW =parseInt($('a.draggable')[0].style.width);
+        numH =parseInt($('a.draggable')[0].style.height);
     });
+    // 获取 第几个 标签
+    var _self;
+    $(document).on("click",'a.draggable',function () {
+        $("a.draggable").css("background","#ccc");
+        $(this).css("background","#fff");
+        _self = this ;
+        numW =parseInt(this.style.width);
+        numH =parseInt(this.style.height);
+    })
+
+
+    $(window).keydown(function (e) {
+        e.preventDefault();
+        switch(e.keyCode){
+            case 37: //左键
+                console.log(numW,_self);
+                numW = numW - 1;
+                $(_self).css({
+                    width : numW + "%"
+                });
+                break;
+            case 38: //向上键
+                numH = numH - 1;
+                $(_self).css({
+                    height : numH + "%"
+                });
+                break;
+            case 39: //右键
+                numW = numW + 1;
+                $(_self).css({
+                    width : numW + "%"
+                });
+                break;
+            case 40: //向下键
+                numH = numH + 1;
+                $(_self).css({
+                    height : numH + "%"
+                });
+                break;
+            default:
+                break;
+        }
+    })
+    // 建立标记 开始
+
 })
