@@ -12,6 +12,7 @@ import play.Configuration;
 import play.Logger;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * 用于处理自动上传
@@ -24,12 +25,16 @@ public class AutoDeployActor extends AbstractActor {
         receive(ReceiveBuilder.match(Object.class, message -> {
 
             if (message instanceof VersionVo){
-                String actorPath = configuration.getString("style."+((VersionVo) message).getProductType());
+                List<String> actorPath = configuration.getStringList("style."+((VersionVo) message).getProductType());
                 if (actorPath!=null && !actorPath.isEmpty()){
                     if(((VersionVo) message).getProductType().equals("id") || ((VersionVo) message).getProductType().equals("web")){
-                        system.actorSelection(actorPath).tell(message, ActorRef.noSender());
+                        for (String ap:actorPath) {
+                            system.actorSelection(ap).tell(message, ActorRef.noSender());
+                        }
                     }else{
-                        system.actorSelection(actorPath).tell(((VersionVo) message).getId(), ActorRef.noSender());
+                        for (String ap:actorPath) {
+                            system.actorSelection(ap).tell(((VersionVo) message).getId(), ActorRef.noSender());
+                        }
                     }
                 }else{
                     Logger.error("Configuration is not found,{}","style."+((VersionVo) message).getProductType());

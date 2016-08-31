@@ -112,6 +112,9 @@ public class SysParCom {
     //优惠券通知消息
     public static String COUPON_MSG;
 
+    //Promotion服务器
+    public static String PROMOTION_SERVER_URL;
+
 
     @Inject
     public SysParCom(Configuration configuration) {
@@ -180,6 +183,9 @@ public class SysParCom {
         PIN_ADD_MSG = configuration.getString("pin.add.msg");
         //优惠券通知消息
         COUPON_MSG = configuration.getString("coupon.msg");
+
+        //Promotion服务器
+        PROMOTION_SERVER_URL = configuration.getString("promotion.server.url");
 
 
 
