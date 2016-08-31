@@ -9,6 +9,7 @@
 <script src="/assets/js/search.js"></script>
 <script src="/assets/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/assets/js/jquery.xlstablefilter.js"></script>
+<script type="text/javascript" src="/assets/js/pop-return.js"></script>
 <script type="text/javascript">
     $(function(){
         /**	图片放大和关闭 **/
@@ -88,13 +89,6 @@
         //返回
         $(".cancel").click(function(){
             window.close ();
-        });
-
-        /** 回车键确认添加 **/
-        $(document).keydown(function(e) {
-            if (e.keyCode==13) {
-                $(".return").trigger("click");
-            }
         });
 
     })

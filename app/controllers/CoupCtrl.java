@@ -179,11 +179,11 @@ public class CoupCtrl extends Controller {
         if (json.has("couponsCate")) {
             JsonNode jsonCouponsCate = json.findValue("couponsCate");
             couponsCate = Json.fromJson(jsonCouponsCate,CouponsCate.class);
-            couponsCate.setCouponType(2);
+//            couponsCate.setCouponType(2);
             Form<CouponsCate> couponsCateForm = Form.form(CouponsCate.class).bind(jsonCouponsCate);
             String startAt = couponsCate.getStartAt();
             String endAt = couponsCate.getEndAt();
-            Logger.error("优惠券类别信息:"+couponsCate.toString());
+//            Logger.error("优惠券类别信息:"+couponsCate.toString());
             //数据验证(限额不能小于0,面值不能小于0,开始时间不能大于结束时间,结束时间不能小于现在时间,开始时间和结束时间不能超过当前时间6个月)
             if (couponsCateForm.hasErrors() || couponsCate.getLimitQuota().compareTo(new BigDecimal(0.00))<0  || couponsCate.getDenomination().compareTo(new BigDecimal(0.00))<0
                     || startAt.compareTo(endAt)>0 || endAt.compareTo(strNow)<0 || startAt.compareTo(maxDate)>0 || endAt.compareTo(maxDate)>0) {
@@ -195,7 +195,7 @@ public class CoupCtrl extends Controller {
             for (final JsonNode jsonNode : json.findValue("couponsMapList")) {
                 CouponsMap couponsMap = Json.fromJson(jsonNode,CouponsMap.class);
                 Form<CouponsMap> couponsMapForm = Form.form(CouponsMap.class).bind(jsonNode);
-                Logger.error("优惠券类别映射信息:"+couponsMap.toString());
+//                Logger.error("优惠券类别映射信息:"+couponsMap.toString());
                 //数据验证
                 if (couponsMapForm.hasErrors()) {
                     Logger.error("cateType: " + couponsMap.getCateType() + ", cateTypeId: " + couponsMap.getCateTypeId() + ", CouponsMap 表单数据有误.....");
