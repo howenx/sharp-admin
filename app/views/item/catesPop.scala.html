@@ -80,7 +80,10 @@
             <td><input type="checkbox" name="selectCates" enable="true"></td>
             <td>@cates.getCateId()</td>
             <td>@cates.getCateNm()</td>
-            <td>@cates.getPcateId()</td>
+            <td>@cates.getPcateId()
+                @if(cates.getPcateId()==null){<input type="hidden" name="grade" value="first">}
+                @if(cates.getPcateId()!=null){<input type="hidden" name="grade" value="second">}
+            </td>
         </tr>
         }
     </table>

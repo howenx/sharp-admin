@@ -85,10 +85,10 @@
                     <label class="col-sm-2 control-label">指定类型</label>
                     <div class="col-sm-3 theme-state">
                         <label>
-                            <input type="radio" name="assignType" checked> 任意商品
+                            <input type="radio" name="assignType" checked value="none"> 任意商品
                         </label>
                         <label>
-                            <input type="radio" name="assignType"> 指定商品
+                            <input type="radio" name="assignType" value="assign"> 指定商品
                         </label>
                     </div>
                 </div>
@@ -170,85 +170,3 @@
     </div>
 </div>
 }
-
-<script>
-    /** 数据改变的提示 **/
-    $(document).on('change', '.form-data-area', function() {
-		$('.usercenter-option > .user-state').css('background-position', '20px -73px');
-		$('.usercenter-option > .user-state').text('已更改');
-	});
-
-	/** 数据提交 **/
-    $("#submit").click(function(){
-        var isPost = true;
-        var numberReg1 = /^-?\d+\.?\d{0,2}$/;   //整数或小数
-        var coupCateNm = $("#coupCateNm").val();
-        var limitQuota = $("#limitQuota").val();
-        var denomination = $("#denomination").val();
-        var startAt = $("#startAt").val();
-        var endAt = $("#endAt").val();
-
-        //验证使用期限
-        var now = new Date();
-        var nowTime = now.getFullYear()+"-"+(now.getMonth()+1>=10?now.getMonth()+1:'0'+(now.getMonth()+1))+"-"+(now.getDate()>=10?now.getDate():'0'+now.getDate())+" "+(now.getHours()>=10?now.getHours():'0'+now.getHours())+":"+(now.getMinutes()>=10?now.getMinutes():'0'+now.getMinutes())+":"+(now.getSeconds()>=10?now.getSeconds():'0'+now.getSeconds());
-        var maxDate = now.setMonth(now.getMonth()+6);
-        var d1 = new Date(Date.parse(startAt.replace(/-/g,"/")));//开始时间
-        var d2 = new Date(Date.parse(endAt.replace(/-/g,"/")));//结束时间
-
-        //验证必填项及数据正确性
-        if (coupCateNm=="" || !numberReg1.test(limitQuota) || !numberReg1.test(denomination)) {
-            isPost=false;
-            $('#js-userinfo-error').text('必填项有误');
-        } else if (startAt=="" || endAt=="" || startAt >= endAt ) {
-           isPost = false;
-           $('#js-userinfo-error').text('请检查时间设置');
-        } else if (endAt<nowTime) {
-           isPost = false;
-           $('#js-userinfo-error').text('截止时间不能小于当前时间');
-        } else if (d1>=maxDate || d2>=maxDate) {
-            isPost = false;
-            $('#js-userinfo-error').text('开始时间和结束时间不能超过当前时间6个月');
-        } else $('#js-userinfo-error').text('');
-
-        var CouponsCate = new Object();
-        CouponsCate.coupCateNm = coupCateNm;
-        CouponsCate.limitQuota = limitQuota;
-        CouponsCate.denomination = denomination;
-        CouponsCate.startAt = startAt;
-        CouponsCate.endAt = endAt;
-
-        console.log(isPost);
-        console.log(JSON.stringify(CouponsCate));
-        if (isPost) {
-            $.ajax({
-                type :  "POST",
-                url : "/coup/coupCateSave",
-                contentType: "application/json; charset=utf-8",
-                data : JSON.stringify(CouponsCate),
-                error : function(request) {
-                    if (window.lang = 'cn') {
-                        $('#js-userinfo-error').text('保存失败');
-                    } else {
-                        $('#js-userinfo-error').text('Save error');
-                    }
-                    setTimeout("$('#js-userinfo-error').text('')", 2000);
-                },
-                success: function(data) {
-                    if (data=="保存成功") {
-                        $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
-                        $('.usercenter-option > .user-state').css('background-position', '20px -174px');
-                        $('.usercenter-option > .user-state').text('未更改');
-                        setTimeout("location.href='/"+window.lang+"/coupCate/add'", 3000);
-                    }
-                    else {
-                        $('#js-userinfo-error').text('保存失败');
-                    }
-                    setTimeout("$('#js-userinfo-error').text('').css('color','#c00')", 2000);
-                }
-            });
-        }
-
-    });
-
-
-</script>

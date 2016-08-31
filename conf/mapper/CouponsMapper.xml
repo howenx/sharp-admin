@@ -141,7 +141,7 @@
         from sp_coupons_cate t where coup_cate_id=#{value}
     </select>
 
-    <!-- 获取所有后台发放的优惠券类别             Added By Sunny Wu 2016.06.27-->
+    <!-- 获取所有可后台发放的优惠券类别             Added By Sunny Wu 2016.06.27-->
     <select id="getSendCouponsCate" resultType="domain.CouponsCate">
         select
         <include refid="couponsCateColumns">
@@ -157,6 +157,40 @@
             <property name="alias" value="t"/>
         </include>
         from sp_coupons_cate t where 1=1  ORDER BY t.coup_cate_id
+    </select>
+
+    <!--优惠券类别映射表        Added By Sunny Wu 2016.08.31-->
+    <sql id="couponsMapColumns">
+        ${alias}.id,
+        ${alias}.coupon_cate_id,
+        ${alias}.cate_type,
+        ${alias}.cate_type_id,
+        ${alias}.or_destroy
+    </sql>
+
+    <!-- 录入一条优惠券类别映射信息    Added by Sunny Wu 2016.08.31-->
+    <insert id="insertCouponsMap" parameterType="domain.CouponsMap" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into sp_coupons_map
+        (coupon_cate_id,cate_type,cate_type_id,or_destroy)
+        values
+        (#{couponCateId},#{cateType},#{cateTypeId},#{orDestroy})
+    </insert>
+
+    <!-- 更新一条优惠券类别映射信息    Added by Sunny Wu 2016.08.31-->
+    <update id="updateCouponsMap" parameterType="domain.CouponsMap">
+        update sp_coupons_map
+        set
+        coupon_cate_id=#{couponCateId},cate_type=#{cateType},cate_type_id=#{cateTypeId},or_destroy=#{orDestroy}
+        where coup_cate_id = #{coupCateId}
+    </update>
+
+    <!-- 根据优惠券类别获取所有的优惠券类别映射信息      Added By Sunny Wu 2016.08.31-->
+    <select id="getCouponsMapByCateId" resultType="domain.CouponsMap" parameterType="java.lang.Long">
+        select
+        <include refid="couponsMapColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_coupons_map t where 1=1 and coupon_cate_id=#{value}
     </select>
 
 </mapper>
