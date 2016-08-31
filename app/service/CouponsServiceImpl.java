@@ -76,7 +76,7 @@ public class CouponsServiceImpl implements CouponsService {
                 String[] tags = new String[1];
                 tags[0] = coupons.getUserId().toString();
                 pushMsg.setAliasOrTag(tags);
-                pushMsg.setTargetType("C");//跳转的类型.优惠券
+                pushMsg.setTargetType("V");//跳转的类型.优惠券
                 Logger.error("推送的优惠券消息:"+pushMsg.toString());
                 system.actorSelection(SysParCom.MSG_PUSH).tell(pushMsg, ActorRef.noSender());
                 //给用户发送消息(消息盒子)

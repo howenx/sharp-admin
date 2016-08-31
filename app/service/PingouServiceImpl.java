@@ -371,4 +371,13 @@ public class PingouServiceImpl implements PingouService {
         return pinActivityMapper.getSuccActivityMaster();
     }
 
+    /**
+     * 获取团中的真实用户    Added by Tiffany Zhu 2016.08.31
+     * @param pinId
+     * @return
+     */
+    @Override
+    public List<PinUser> getRealUserByActId(Long pinId) {
+        return pinActivityMapper.getRealUserByActId(pinId);
+    }
 }
