@@ -72,9 +72,9 @@ public interface CouponsService {
 
     /**
      * 新增优惠券类别                  Added by Sunny Wu 2016.08.18
-     * @param jsonNode 优惠券类别及优惠券类别映射信息
+     * @param json 优惠券类别及优惠券类别映射信息
      */
-    void couponsCateSave(JsonNode jsonNode);
+    void couponsCateSave(JsonNode json);
 
     /**
      * 更新优惠券类别
