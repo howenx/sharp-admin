@@ -266,8 +266,8 @@ GET         /coup/search                                                        
 GET         /$lang<(cn|en|kr)>/coup/search                                          controllers.CoupCtrl.coupSearch(lang)
 POST        /coup/search/$pageNum<[0-9]+>                                           controllers.CoupCtrl.coupSearchAjax(lang = "cn", pageNum:Int)
 POST        /$lang<(cn|en|kr)>/coup/search/$pageNum<[0-9]+>                         controllers.CoupCtrl.coupSearchAjax(lang, pageNum:Int)
-GET         /coupCate/update/:coupCateId                                            controllers.CoupCtrl.coupCateUpdate(lang="cn",coupCateId:Long)
-GET         /$lang<(cn|en|kr)>/coupCate/update/:coupCateId                          controllers.CoupCtrl.coupCateCreate(lang,coupCateId:Long)
+#GET         /coupCate/update/:coupCateId                                            controllers.CoupCtrl.coupCateUpdate(lang="cn",coupCateId:Long)
+#GET         /$lang<(cn|en|kr)>/coupCate/update/:coupCateId                          controllers.CoupCtrl.coupCateCreate(lang,coupCateId:Long)
 
 
 
