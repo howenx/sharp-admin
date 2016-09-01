@@ -113,10 +113,10 @@ $(function () {
     $('#upload-label').change(function () {
         if ($(this).val()) {
             var files = this.files;
-            var label_img = $('#dragon-container');
+            var label_img = $('#draga');
             $(label_img).find("img").remove();
         } else {
-            var label_img = $('#dragon-container');
+            var label_img = $('#draga');
         }
         for (var i = 0; i < files.length; i++) {
             previewImage(label_img, this.files[i]);
@@ -125,7 +125,15 @@ $(function () {
     // 上传图片 开始
 
     // 建立标记 开始
-    var numW,numH,numT,numL,widthimg,heightimg,indexA = 0,itemID;
+    var numW,
+        numH,
+        numT,
+        numL,
+        widthimg,
+        heightimg,
+        indexA = -1,
+        itemID,
+        _self;
     $('#mark-bt').click(function() {
         if($(".a-container").find("img").length!=0){
             // img 高度
@@ -136,21 +144,37 @@ $(function () {
                 if($("#input_imgurl").val() != itemID){
                     itemID = $("#input_imgurl").val();
                     console.log(itemID);
-                    var drag = '<a class="ui-widget-content draggable" style="width: 50%;height: 20%;position: absolute;top: 0;left: 0;background: #000;opacity: 0.4">' +
-                        '<P style="font-size: 20px;color: #fff">第' + (indexA+=1) + '个<br>'+ itemID +'</P>'+
+                    var drag = '<a class="ui-widget-content draggable" style="width: 50%;height: 6%;position: absolute;top: 0;left: 0;background: #000;opacity: 0.4">' +
+                        '<P style="font-size: 20px;color: #fff">'+ itemID +'</P>'+
                         '</a>';
-                    $('#dragon-container').append(drag);
-                    $('a.draggable').draggable({
+                    $('#draga').append(drag);
+                    _self = $("a.draggable").eq(indexA+=1);
+                    console.log(_self);
+                    $("a.draggable").eq(indexA).draggable({
+                        cursor: "move",
                         containment: "parent",
+                        stop:function (event, ui) {
+                            $(ui.helper).css({
+                                top : parseInt(parseFloat(this.style.top) / heightimg * 100)+'%',
+                                left : parseInt(parseFloat(this.style.left) / widthimg * 100)+'%'
+                            })
+                            _self = ui.helper;
+                            numW =parseInt($(ui.helper)[0].style.width);
+                            numH =parseInt($(ui.helper)[0].style.height);
+                            // numT = parseInt(parseFloat(this.style.top) / heightimg * 100);
+                            // numL = parseInt(parseFloat(this.style.left) / widthimg * 100);
+                            numT = parseInt($(ui.helper)[0].style.top);
+                            numL = parseInt($(ui.helper)[0].style.left);
+                        }
                     });
-                    numW =parseInt($('a.draggable')[0].style.width);
-                    numH =parseInt($('a.draggable')[0].style.height);
+                    numW =parseInt($('a.draggable').eq(indexA)[0].style.width);
+                    numH =parseInt($('a.draggable').eq(indexA)[0].style.height);
                     // numT = parseInt(parseFloat(this.style.top) / heightimg * 100);
                     // numL = parseInt(parseFloat(this.style.left) / widthimg * 100);
-                    numT = 0;
-                    numL = 0;
+                    numT = parseInt($('a.draggable').eq(indexA)[0].style.top);
+                    numL = parseInt($('a.draggable').eq(indexA)[0].style.left);
                 }else{
-                    alert("请选择第"+ (indexA+1) +"个商品ID");
+                    alert("请选择不同商品ID");
                 }
             }else{
                 alert("请选择商品ID");
@@ -161,23 +185,12 @@ $(function () {
 
     });
     // 获取 第几个 标签
-    var _self;
     $(document).on("click",'a.draggable',function () {
         _self = this ;
         numW =parseInt(this.style.width);
         numH =parseInt(this.style.height);
         numT = parseInt(this.style.top);
         numL = parseInt(this.style.left);
-        $(this).draggable({
-            cursor: "move",
-            containment: "parent",
-            stop:function () {
-                $(this).css({
-                    top : parseInt(parseFloat(this.style.top) / heightimg * 100)+'%',
-                    left : parseInt(parseFloat(this.style.left) / widthimg * 100)+'%'
-                })
-            }
-        });
     })
 
 
@@ -191,7 +204,7 @@ $(function () {
                 });
                 break;
             case 38: //向上键
-                numH = numH - 1;
+                numH = numH - 0.5;
                 $(_self).css({
                     height : numH + "%"
                 });
@@ -203,7 +216,7 @@ $(function () {
                 });
                 break;
             case 40: //向下键
-                numH = numH + 1;
+                numH = numH + 0.5;
                 $(_self).css({
                     height : numH + "%"
                 });
