@@ -275,7 +275,7 @@ public class CoupCtrl extends Controller {
         Logger.error("skusList:"+skusList.toString());
         Logger.error("catesList:"+catesList.toString());
         Logger.error("themeList:"+themeList.toString());
-        return ok(views.html.coupon.couponcateupdate.render(lang, couponsCate, itemList, skusList, catesList, themeList, assignType, SysParCom.IMAGE_URL, (User) ctx().args.get("user")));
+        return ok(views.html.coupon.coupcateupdate.render(lang, couponsCate, itemList, skusList, catesList, themeList, assignType, SysParCom.IMAGE_URL, (User) ctx().args.get("user")));
     }
 
 

@@ -128,7 +128,8 @@
     <update id="updateCouponsCate" parameterType="domain.CouponsCate">
         update sp_coupons_cate
         set
-        coup_cate_nm=#{coupCateNm},coupon_type=#{couponType},denomination=#{denomination},limit_quota=#{limitQuota},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp
+        coupon_type=#{couponType}
+        <!--,coup_cate_nm=#{coupCateNm},denomination=#{denomination},limit_quota=#{limitQuota},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp-->
         where coup_cate_id = #{coupCateId}
     </update>
 
@@ -192,5 +193,24 @@
         </include>
         from sp_coupons_map t where 1=1 and coupon_cate_id=#{value} and or_destroy = false;
     </select>
+
+    <!--查询一条优惠券类别映射信息       Added By Sunny Wu 2016.09.01-->
+    <select id="getCouponsMap" resultType="domain.CouponsMap" parameterMap="domain.CouponsMap">
+        select
+        <include refid="couponsMapColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_coupons_map t where 1=1
+        <if test="couponCateId!=null and couponCateId!='' and couponCateId!='null'">
+            and couponCateId = #{coupon_cate_id}
+         </if>
+        <if test="cateType!=null and cateType!='' and cateType!='null'">
+            and cateType = #{cate_type}
+         </if>
+        <if test="cateTypeId!=null and cateTypeId!='' and cateTypeId!='null'">
+            and cateTypeId = #{coupon_cate_id}
+         </if>
+    </select>
+
 
 </mapper>

@@ -104,4 +104,11 @@ public interface CouponsService {
      */
     List<CouponsMap> getCouponsMapByCateId(Long couponCateId);
 
+    /**
+     * 查询一条优惠券类别映射信息   Added By Sunny Wu 2016.09.01
+     * @param couponsMap 优惠券类别信息
+     * @return CouponsMap
+     */
+    List<CouponsMap> getCouponsMap(CouponsMap couponsMap);
+
 }
