@@ -1,7 +1,6 @@
 package mapper;
 
 import domain.Inventory;
-import domain.Item;
 import domain.Skus;
 
 import java.util.List;
@@ -65,5 +64,12 @@ public interface InventoryMapper {
      * @return List of Skus
      */
     List<Skus> getAllSkus();
+
+    /**
+     * 由skuTypeId获取一条skus信息      Added By Sunny Wu 2016.09.01
+     * @param skuTypeId 类型Id
+     * @return
+     */
+    Skus getByTypeId(Long skuTypeId);
 
 }

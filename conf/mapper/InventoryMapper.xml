@@ -233,4 +233,13 @@
         ORDER BY id
     </select>
 
+    <!--由skuTypeId获取一条skus信息        Added By Sunny Wu 2016.09.01-->
+    <select id="getByTypeId" resultType="domain.Skus" parameterType="java.lang.Long">
+        select
+        <include refid="skusColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from skus t where sku_type_id=#{skuTypeId}
+    </select>
+
 </mapper>

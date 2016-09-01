@@ -42,8 +42,7 @@
                 <tbody>
                 @for(cc <- couponsCateList){
                 <tr>
-                    <td></td>
-                    <td>@cc.getCoupCateId()</td>
+                    <td><a href="/@lang/coupCate/update/@cc.getCoupCateId()">@cc.getCoupCateId()</a></td>
                     <td>@cc.getCoupCateNm()</td>
                     <td>
                         @if(cc.getCouponType()==1) {用户主动领取}

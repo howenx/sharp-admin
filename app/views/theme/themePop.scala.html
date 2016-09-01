@@ -117,8 +117,6 @@
                 @if(theme.getType()=="h5"){H5主题}
                 @if(theme.getType()=="detail"){普通商品主题}
                 @if(theme.getType()=="pin"){拼购商品主题}
-                <input class="topic-type" type="hidden" value="@theme.getType()">
-                <input class="h5Link" type="hidden" value="@theme.getH5Link()">
             </td>
             <td>@theme.getTitle()</td>
             <td><img class="main-img" src='@url@theme.getThemeImg()' alt="" width="50"></td>

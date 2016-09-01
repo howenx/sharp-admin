@@ -9,25 +9,44 @@ $(function() {
         format:'YYYY-MM-DD 23:59:59'
     });
 
-    //默认不指定商品
-    $(".assign").css("display","none");
-//    $(".h4-custom-hmm").css("display","none");
-//    $(".goods-change").css("display","none");
-//    $(".cates-change").css("display","none");
-//    $(".theme-change").css("display","none");
+    if ($("#assignType").val()=="assign")  $("input[name='assignType']:eq(1)").attr("checked",true);
+    if ($("#assignType").val()=="none")  $("input[name='assignType']:eq(0)").attr("checked",true);
+
+    if ($("#couponType").val()==1)  $("input[name='couponType']:eq(0)").attr("checked",true);
+    if ($("#couponType").val()==2)  $("input[name='couponType']:eq(1)").attr("checked",true);
+    if ($("#couponType").val()==3)  $("input[name='couponType']:eq(2)").attr("checked",true);
+
+    //根据指定类型显示商品选择块
+    var orAssign = $("input[name='assignType']:checked").val();
+    if (orAssign=="assign")  $(".assign").css("display","block");
+    else if (orAssign=="none") $(".assign").css("display","none");
+
+
+    //修改页面根据是否有数据判断显示/隐藏
+    var itemSize = $("#itemSize").val();
+    var skusSize = $("#skusSize").val();
+    var catesSize = $("#catesSize").val();
+    var themeSize = $("#themeSize").val();
+    if (itemSize + skusSize > 0)  {
+        $("#goodsSel").attr("checked",'true');
+        $(".goods-change").css("display","block");
+    }
+    if (catesSize > 0) {
+         $("#catesSel").attr("checked",'true');
+         $(".cates-change").css("display","block");
+    }
+    if (themeSize > 0) {
+        $("#themeSel").attr("checked",'true');
+        $(".theme-change").css("display","block");
+    }
 
     /*************指定类型选择*************/
     $("input[name='assignType']").click(function () {
         var index = $("input[name='assignType']").index(this);
         if(index === 1){//指定
             $(".assign").css("display","block");
-//            $(".h4-custom-hmm").css("display","block");
-//            $(".goods-change").css("display","block");
-//            $("#goodsSel").attr("checked",'true');
-        }else{//不指定
+        } else {//不指定
             $(".assign").css("display","none");
-//            $(".h4-custom-hmm").css("display","none");
-//            $(".goods-change").css("display","none");
         }
     })
 
@@ -35,7 +54,6 @@ $(function() {
     $(".h4-custom-hmm>input").click(function () {
         $(this).parent().next().toggle()
     })
-
 
     /** 数据提交 **/
     $("#submit").click(function(){
@@ -54,6 +72,9 @@ $(function() {
         var d1 = new Date(Date.parse(startAt.replace(/-/g,"/")));//开始时间
         var d2 = new Date(Date.parse(endAt.replace(/-/g,"/")));//结束时间
 
+        //优惠券类型
+        var couponType = $("input[name='couponType']:checked").val();
+
         //商品选择
         var assignType = $("input[name='assignType']:checked").val();
         var orGoodsSel = $("input[id='goodsSel']").is(':checked');
@@ -64,7 +85,7 @@ $(function() {
         var themeLen = $("#theme tbody").find("tr").length;
 
         //验证必填项及数据正确性
-        if (coupCateNm=="" || !numberReg1.test(limitQuota) || !numberReg1.test(denomination)) {
+        if (coupCateNm=="" || !numberReg1.test(limitQuota) || !numberReg1.test(denomination) || couponType=="") {
             isPost=false;
             $('#js-userinfo-error').text('必填项有误');
         } else if (startAt=="" || endAt=="" || startAt >= endAt ) {
@@ -101,6 +122,7 @@ $(function() {
         CouponsCate.denomination = denomination;
         CouponsCate.startAt = startAt;
         CouponsCate.endAt = endAt;
+        CouponsCate.couponType = couponType;
 
         var couponsMapList = [];
         if (assignType=="assign" && orGoodsSel && goodsLen > 0) {
@@ -169,7 +191,7 @@ $(function() {
 
         console.log(isPost);
         console.log(JSON.stringify(couponsCateData));
-        if (isPost) {
+        if (false) {
             $.ajax({
                 type :  "POST",
                 url : "/coup/coupCateSave",
@@ -188,7 +210,7 @@ $(function() {
                         $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
                         $('.usercenter-option > .user-state').css('background-position', '20px -174px');
                         $('.usercenter-option > .user-state').text('未更改');
-//                        setTimeout("location.href='/"+window.lang+"/coupCate/add'", 3000);
+//                        setTimeout("location.href='/"+window.lang+"/coupCate/search'", 3000);
                     }
                     else {
                         $('#js-userinfo-error').text('保存失败');

@@ -1,7 +1,6 @@
 package service;
 
 import domain.Inventory;
-import domain.Item;
 import domain.Skus;
 import mapper.InventoryMapper;
 
@@ -122,5 +121,14 @@ public class InventoryServiceImpl implements InventoryService {
         return inventoryMapper.getAllSkus();
     }
 
+    /**
+     * 由skuTypeId获取一条skus信息      Added By Sunny Wu 2016.09.01
+     * @param skuTypeId 类型Id
+     * @return
+     */
+    @Override
+    public Skus getByTypeId(Long skuTypeId) {
+        return inventoryMapper.getByTypeId(skuTypeId);
+    }
 
 }

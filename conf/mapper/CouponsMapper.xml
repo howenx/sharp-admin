@@ -184,13 +184,13 @@
         where coup_cate_id = #{coupCateId}
     </update>
 
-    <!-- 根据优惠券类别获取所有的优惠券类别映射信息      Added By Sunny Wu 2016.08.31-->
+    <!-- 根据优惠券类别获取所有未删除的优惠券类别映射信息      Added By Sunny Wu 2016.08.31-->
     <select id="getCouponsMapByCateId" resultType="domain.CouponsMap" parameterType="java.lang.Long">
         select
         <include refid="couponsMapColumns">
             <property name="alias" value="t"/>
         </include>
-        from sp_coupons_map t where 1=1 and coupon_cate_id=#{value}
+        from sp_coupons_map t where 1=1 and coupon_cate_id=#{value} and or_destroy = false;
     </select>
 
 </mapper>

@@ -145,7 +145,7 @@ public class ThemeCtrl extends Controller {
 
     /**
      * 分类入口  主题列表和商品列表  Added by Tiffany Zhu 2016.07.27
-     * @return sliderPop.scala.html
+     * @return categoryPop.scala.html
      */
     @Security.Authenticated(UserAuth.class)
     public Result categoryPop(){
@@ -1340,7 +1340,8 @@ public class ThemeCtrl extends Controller {
         String strNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());//现在时间
         for(Theme theme : themeList) {
             if (theme.getEndAt().compareTo(strNow)>0) {
-                theme.setThemeImg(Json.parse(theme.getThemeImg()).get("url").asText());
+                String url = Json.parse(theme.getThemeImg()).get("url")==null?"":Json.parse(theme.getThemeImg()).get("url").asText();
+                theme.setThemeImg(url);
                 tList.add(theme);
             }
         }

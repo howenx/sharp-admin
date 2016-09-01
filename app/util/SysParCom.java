@@ -115,6 +115,9 @@ public class SysParCom {
     //Promotion服务器
     public static String PROMOTION_SERVER_URL;
 
+    //WEB服务器
+    public static String WEB_SERVER_URL;
+
 
     @Inject
     public SysParCom(Configuration configuration) {
@@ -186,6 +189,9 @@ public class SysParCom {
 
         //Promotion服务器
         PROMOTION_SERVER_URL = configuration.getString("promotion.server.url");
+
+        //WEB服务器
+        WEB_SERVER_URL = configuration.getString("web.server.url");
 
 
 

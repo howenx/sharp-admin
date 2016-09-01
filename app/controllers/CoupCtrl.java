@@ -11,15 +11,15 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-import service.CouponsService;
-import service.IDService;
-import service.OrderService;
+import service.*;
+import util.SysParCom;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Created by Sunny Wu on 15/12/30.
@@ -34,6 +34,15 @@ public class CoupCtrl extends Controller {
 
     @Inject
     private OrderService orderService;
+
+    @Inject
+    private InventoryService inventoryService;
+
+    @Inject
+    private ItemService itemService;
+
+    @Inject
+    private ThemeService themeService;
 
     @Inject
     @Named("couponSendActor")
@@ -216,6 +225,57 @@ public class CoupCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result coupCateSearch(String lang) {
         return ok(views.html.coupon.coupcatesearch.render(lang, couponsService.getAllCouponsCate(), (User) ctx().args.get("user")));
+    }
+
+    /**
+     * 修改优惠券指定的商品   Added By Sunny.Wu 2016.08.31
+     * @param lang 语言
+     * @param coupCateId 优惠券类别ID
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result coupCateUpdate(String lang, Long coupCateId) {
+        CouponsCate couponsCate = couponsService.getCouponsCate(coupCateId);
+        List<CouponsMap> couponsMapList = couponsService.getCouponsMapByCateId(coupCateId);
+        Logger.error(couponsCate.toString());
+//        Logger.error(couponsMapList.toString());
+        String assignType = "";
+        if ((couponsMapList.size()==1 && couponsMapList.get(0).getCateType()==1) || couponsMapList.size()==0)
+            assignType = "none";
+        else
+            assignType = "assign";
+        List<Inventory> itemList = new ArrayList<>();
+        List<Skus> skusList = new ArrayList<>();
+        List<Cates> catesList = new ArrayList<>();
+        List<Theme> themeList = new ArrayList<>();
+        for(CouponsMap couponsMap : couponsMapList) {
+            Integer cateType = couponsMap.getCateType();
+            Long cateTypeId = couponsMap.getCateTypeId();
+            if (cateType == 2) {
+                Inventory inventory = inventoryService.getMasterInventory(cateTypeId);
+                String url = Json.parse(inventory.getInvImg()).get("url")==null?"":Json.parse(inventory.getInvImg()).get("url").asText();
+                inventory.setInvImg(url);
+                itemList.add(inventory);
+            } else if (cateType==3 || cateType==4) {
+                Skus skus = inventoryService.getByTypeId(cateTypeId);
+                String url = Json.parse(skus.getSkuTypeImg()).get("url")==null?"":Json.parse(skus.getSkuTypeImg()).get("url").asText();
+                skus.setSkuTypeImg(url);
+                skusList.add(skus);
+            } else if (cateType==5 || cateType==7) {
+                Cates cates = itemService.getCate(cateTypeId);
+                catesList.add(cates);
+            } else if (cateType == 6) {
+                Theme theme = themeService.getThemeById(cateTypeId);
+                String url = Json.parse(theme.getThemeImg()).get("url")==null?"":Json.parse(theme.getThemeImg()).get("url").asText();
+                theme.setThemeImg(url);
+                themeList.add(theme);
+            }
+        }
+        Logger.error("itemList:"+itemList.toString());
+        Logger.error("skusList:"+skusList.toString());
+        Logger.error("catesList:"+catesList.toString());
+        Logger.error("themeList:"+themeList.toString());
+        return ok(views.html.coupon.couponcateupdate.render(lang, couponsCate, itemList, skusList, catesList, themeList, assignType, SysParCom.IMAGE_URL, (User) ctx().args.get("user")));
     }
 
 

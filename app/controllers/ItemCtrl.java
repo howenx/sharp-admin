@@ -660,7 +660,8 @@ public class ItemCtrl extends Controller {
         for(Skus skus : skusList) {
             //商品列表为(除自定义价格和多样化价格的预售和正常商品)
             if (!skus.getSkuType().equals("customize")&&!skus.getSkuType().equals("vary")&&(skus.getSkuTypeStatus().equals("P")||skus.getSkuTypeStatus().equals("Y"))) {
-                skus.setSkuTypeImg(Json.parse(skus.getSkuTypeImg()).get("url").asText());
+                String url = Json.parse(skus.getSkuTypeImg()).get("url")==null?"":Json.parse(skus.getSkuTypeImg()).get("url").asText();
+                skus.setSkuTypeImg(url);
                 goodsList.add(skus);
             }
         }
