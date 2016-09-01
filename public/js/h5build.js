@@ -125,27 +125,59 @@ $(function () {
     // 上传图片 开始
 
     // 建立标记 开始
-    var numW,numH;
-    var drag = '<a class="ui-widget-content draggable" style="width: 50%;height: 20%;position: absolute;top: 0;left: 0;background: #ccc">' +
-        '<p>qwer</p>' +
-        '</a>';
+    var numW,numH,numT,numL,widthimg,heightimg,indexA = 0,itemID;
     $('#mark-bt').click(function() {
-        $(drag).find("p").eq(0).text($("#input_imgurl").val());
-        $('#dragon-container').append(drag);
-        $('a.draggable').draggable({
-            containment: "parent",
-        });
-        numW =parseInt($('a.draggable')[0].style.width);
-        numH =parseInt($('a.draggable')[0].style.height);
+        if($(".a-container").find("img").length!=0){
+            // img 高度
+            heightimg = $(".a-container").find("img").height();
+            widthimg = $(".a-container").find("img").width();
+            console.log(heightimg);
+            if($("#input_imgurl").val() != ''){
+                if($("#input_imgurl").val() != itemID){
+                    itemID = $("#input_imgurl").val();
+                    console.log(itemID);
+                    var drag = '<a class="ui-widget-content draggable" style="width: 50%;height: 20%;position: absolute;top: 0;left: 0;background: #000;opacity: 0.4">' +
+                        '<P style="font-size: 20px;color: #fff">第' + (indexA+=1) + '个<br>'+ itemID +'</P>'+
+                        '</a>';
+                    $('#dragon-container').append(drag);
+                    $('a.draggable').draggable({
+                        containment: "parent",
+                    });
+                    numW =parseInt($('a.draggable')[0].style.width);
+                    numH =parseInt($('a.draggable')[0].style.height);
+                    // numT = parseInt(parseFloat(this.style.top) / heightimg * 100);
+                    // numL = parseInt(parseFloat(this.style.left) / widthimg * 100);
+                    numT = 0;
+                    numL = 0;
+                }else{
+                    alert("请选择第"+ (indexA+1) +"个商品ID");
+                }
+            }else{
+                alert("请选择商品ID");
+            }
+        }else{
+            alert("请先上传图片");
+        }
+
     });
     // 获取 第几个 标签
     var _self;
     $(document).on("click",'a.draggable',function () {
-        $("a.draggable").css("background","#ccc");
-        $(this).css("background","#fff");
         _self = this ;
         numW =parseInt(this.style.width);
         numH =parseInt(this.style.height);
+        numT = parseInt(this.style.top);
+        numL = parseInt(this.style.left);
+        $(this).draggable({
+            cursor: "move",
+            containment: "parent",
+            stop:function () {
+                $(this).css({
+                    top : parseInt(parseFloat(this.style.top) / heightimg * 100)+'%',
+                    left : parseInt(parseFloat(this.style.left) / widthimg * 100)+'%'
+                })
+            }
+        });
     })
 
 
@@ -153,7 +185,6 @@ $(function () {
         e.preventDefault();
         switch(e.keyCode){
             case 37: //左键
-                console.log(numW,_self);
                 numW = numW - 1;
                 $(_self).css({
                     width : numW + "%"
@@ -168,7 +199,7 @@ $(function () {
             case 39: //右键
                 numW = numW + 1;
                 $(_self).css({
-                    width : numW + "%"
+                    width: numW + "%",
                 });
                 break;
             case 40: //向下键
