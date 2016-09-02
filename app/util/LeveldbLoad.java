@@ -42,6 +42,12 @@ public class LeveldbLoad {
                 ExecutorService executorService = Executors.newFixedThreadPool(3);
 
                 for (Persist p : persists) {
+                    //----已经启动的schedule中不存在的actor --> 删除   Modified By Sunny.Wu 2016.09.02
+                    if ("akka://application/user/couponInvalidActor".equals(p.getActorPath())) {
+                        levelFactory.delete(p.getMessage());
+                    }
+                    //----已经启动的schedule中不存在的actor --> 删除
+
                     executorService.submit(() -> dealPersist(p, system, newScheduler, levelFactory));
                 }
                 executorService.shutdown();
