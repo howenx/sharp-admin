@@ -45,6 +45,7 @@
     <div class="row">
         <form class="form-horizontal" method="post" enctype="multipart/form-data">
             <div class="upinfo">
+                <input type="hidden" id="coupCateId" name="coupCateId" value="@couponsCate.getCoupCateId()"/>
                 <!-- 基本信息-->
                 <div class="form-group">
                     <label class="col-sm-2 control-label"><div class="r">类别名称</div></label>
@@ -95,7 +96,7 @@
                 </div>
                 <hr/>
                 <!-- 指定类型 -->
-                <div class="form-group">
+                <div class="form-group usable">
                     <label class="col-sm-2 control-label">指定类型</label>
                     <input type="hidden" id="assignType" value="@assignType">
                     <div class="col-sm-3 theme-state">
@@ -114,7 +115,7 @@
                     <input type="hidden" id="catesSize" value="@catesList.size()">
                     <input type="hidden" id="themeSize" value="@themeList.size()">
                     <h4 class="h4-custom-hmm">商品选择 <input type="checkbox" id="goodsSel"></h4>
-                    <div class="goods-change">
+                    <div class="goods-change" style="display:none;">
                         <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModalGoods()">添加商品</button>
                         <div class="bgk">
                             <table class="table table-bordered table-hover grid" id="goods">
@@ -192,7 +193,7 @@
                     </div>
                     <!--商品类别选择-->
                     <h4 class="h4-custom-hmm">商品类别选择 <input type="checkbox" id="catesSel"></h4>
-                    <div class="cates-change">
+                    <div class="cates-change" style="display:none;">
                         <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModalCates(this)">添加商品类别</button>
                         <div class="bgk">
                             <table class="table table-bordered table-hover grid" id="cates">
@@ -224,7 +225,7 @@
                     </div>
                     <!--主题选择-->
                     <h4 class="h4-custom-hmm">主题选择 <input type="checkbox" id="themeSel"></h4>
-                    <div class="theme-change">
+                    <div class="theme-change" style="display:none;">
                         <button type="button" class="btn btn-primary btn-xs add-goods" onclick="ShowModalTheme(this)">添加主题</button>
                         <div class="bgk">
                             <table class="table table-bordered table-hover grid" id="theme">

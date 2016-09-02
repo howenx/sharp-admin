@@ -237,7 +237,7 @@ public class CoupCtrl extends Controller {
     public Result coupCateUpdate(String lang, Long coupCateId) {
         CouponsCate couponsCate = couponsService.getCouponsCate(coupCateId);
         List<CouponsMap> couponsMapList = couponsService.getCouponsMapByCateId(coupCateId);
-        Logger.error(couponsCate.toString());
+//        Logger.error(couponsCate.toString());
 //        Logger.error(couponsMapList.toString());
         String assignType = "";
         if ((couponsMapList.size()==1 && couponsMapList.get(0).getCateType()==1) || couponsMapList.size()==0)
@@ -271,11 +271,11 @@ public class CoupCtrl extends Controller {
                 themeList.add(theme);
             }
         }
-        Logger.error("itemList:"+itemList.toString());
-        Logger.error("skusList:"+skusList.toString());
-        Logger.error("catesList:"+catesList.toString());
-        Logger.error("themeList:"+themeList.toString());
-        return ok(views.html.coupon.couponcateupdate.render(lang, couponsCate, itemList, skusList, catesList, themeList, assignType, SysParCom.IMAGE_URL, (User) ctx().args.get("user")));
+//        Logger.error("itemList:"+itemList.toString());
+//        Logger.error("skusList:"+skusList.toString());
+//        Logger.error("catesList:"+catesList.toString());
+//        Logger.error("themeList:"+themeList.toString());
+        return ok(views.html.coupon.coupcateupdate.render(lang, couponsCate, itemList, skusList, catesList, themeList, assignType, SysParCom.IMAGE_URL, (User) ctx().args.get("user")));
     }
 
 

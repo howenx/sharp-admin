@@ -9,12 +9,29 @@ $(function() {
         format:'YYYY-MM-DD 23:59:59'
     });
 
-    if ($("#assignType").val()=="assign")  $("input[name='assignType']:eq(1)").attr("checked",true);
-    if ($("#assignType").val()=="none")  $("input[name='assignType']:eq(0)").attr("checked",true);
+    //修改页面根据优惠券类型判断显示/隐藏
+    if ($("#couponType").val()==1) {
+        $("input[name='couponType']:eq(0)").attr("checked",true);
+        $(".usable").css("display","block");
+        $(".assign").css("display","block");
+    }
+    if ($("#couponType").val()==2) {
+        $("input[name='couponType']:eq(1)").attr("checked",true);
+        $(".usable").css("display","block");
+        $(".assign").css("display","block");
+    }
+    if ($("#couponType").val()==3) {
+        $("input[name='couponType']:eq(2)").attr("checked",true);
+        $(".usable").css("display","none");
+        $(".assign").css("display","none");
+    }
 
-    if ($("#couponType").val()==1)  $("input[name='couponType']:eq(0)").attr("checked",true);
-    if ($("#couponType").val()==2)  $("input[name='couponType']:eq(1)").attr("checked",true);
-    if ($("#couponType").val()==3)  $("input[name='couponType']:eq(2)").attr("checked",true);
+    if ($("#assignType").val()=="assign") {
+        $("input[name='assignType']:eq(1)").attr("checked",true);
+    }
+    if ($("#assignType").val()=="none") {
+        $("input[name='assignType']:eq(0)").attr("checked",true);
+    }
 
     //根据指定类型显示商品选择块
     var orAssign = $("input[name='assignType']:checked").val();
@@ -39,6 +56,18 @@ $(function() {
         $("#themeSel").attr("checked",'true');
         $(".theme-change").css("display","block");
     }
+
+     /*************优惠券类型选择*************/
+    $("input[name='couponType']").click(function () {
+        var index = $("input[name='couponType']").index(this);
+        if(index === 2){//不可用
+            $(".usable").css("display","none");
+            $(".assign").css("display","none");
+        } else {//可用
+            $(".usable").css("display","block");
+            $(".assign").css("display","block");
+        }
+    })
 
     /*************指定类型选择*************/
     $("input[name='assignType']").click(function () {
@@ -116,7 +145,11 @@ $(function() {
         }
         else $('#js-userinfo-error').text('');
 
+        var couponsCateData = new Object();
         var CouponsCate = new Object();
+        if ($("#coupCateId").val()!="" && $("#coupCateId").val()!=null) {
+           CouponsCate.coupCateId = $("#coupCateId").val();
+        }
         CouponsCate.coupCateNm = coupCateNm;
         CouponsCate.limitQuota = limitQuota;
         CouponsCate.denomination = denomination;
@@ -124,70 +157,71 @@ $(function() {
         CouponsCate.endAt = endAt;
         CouponsCate.couponType = couponType;
 
-        var couponsMapList = [];
-        if (assignType=="assign" && orGoodsSel && goodsLen > 0) {
-            var goods = $("#goods tbody").find("tr");
-            for(var i=0;i<goods.length;i++) {
-                var CouponsMap = new Object();
-                var cateType = goods[i].getElementsByTagName("td")[4].innerText;
-                var cateTypeId = "";
-                if (cateType=="商品") {
-                    cateType = 2;
-                    cateTypeId = goods[i].getElementsByTagName("td")[3].innerText;
-                }
-                if (cateType=="SKU") {
-                    cateType = 3;
-                    cateTypeId = goods[i].getElementsByTagName("td")[1].innerText;
-                }
-                if (cateType=="拼购商品") {
-                    cateType = 4;
-                    cateTypeId = goods[i].getElementsByTagName("td")[1].innerText;
-                }
-                CouponsMap.cateType = cateType;
-                CouponsMap.cateTypeId = cateTypeId;
-                couponsMapList.push(CouponsMap);
-            }
-        }
-        if (assignType=="assign" && orCatesSel && catesLen > 0) {
-            var cates = $("#cates tbody").find("tr");
-            for(var j=0;j<cates.length;j++) {
-                var CouponsMap = new Object();
-                var cateType = cates[j].getElementsByTagName("td")[3].getElementsByTagName("input")[0].value;
-                var cateTypeId = "";
-                if (cateType=="first") {
-                    cateType = 7;
-                    cateTypeId = cates[j].getElementsByTagName("td")[1].innerText;
-                }
-                if (cateType=="second") {
-                    cateType = 5;
-                    cateTypeId = cates[j].getElementsByTagName("td")[1].innerText;
-                }
-                CouponsMap.cateType = cateType;
-                CouponsMap.cateTypeId = cateTypeId;
-                couponsMapList.push(CouponsMap);
-            }
-        }
-        if (assignType=="assign" && orThemeSel && themeLen > 0) {
-            var theme = $("#theme tbody").find("tr");
-            for(var k=0;k<theme.length;k++) {
-                var CouponsMap = new Object();
-                var cateType = 6;
-                var cateTypeId = theme[k].getElementsByTagName("td")[1].innerText;
-                CouponsMap.cateType = cateType;
-                CouponsMap.cateTypeId = cateTypeId;
-                couponsMapList.push(CouponsMap);
-            }
-        }
-        if (assignType=="none") {
-            var CouponsMap = new Object();
-            CouponsMap.cateType = 1;
-            CouponsMap.cateTypeId = 0;
-            couponsMapList.push(CouponsMap);
-        }
-
-        var couponsCateData = new Object();
         couponsCateData.couponsCate = CouponsCate;
-        couponsCateData.couponsMapList = couponsMapList;
+
+        if ($("input[name='couponType']:checked").val()!=3) {
+            var couponsMapList = [];
+            if (assignType=="assign" && orGoodsSel && goodsLen > 0) {
+                var goods = $("#goods tbody").find("tr");
+                for(var i=0;i<goods.length;i++) {
+                    var CouponsMap = new Object();
+                    var cateType = goods[i].getElementsByTagName("td")[4].innerText;
+                    var cateTypeId = "";
+                    if (cateType=="商品") {
+                        cateType = 2;
+                        cateTypeId = goods[i].getElementsByTagName("td")[3].innerText;
+                    }
+                    if (cateType=="SKU") {
+                        cateType = 3;
+                        cateTypeId = goods[i].getElementsByTagName("td")[1].innerText;
+                    }
+                    if (cateType=="拼购商品") {
+                        cateType = 4;
+                        cateTypeId = goods[i].getElementsByTagName("td")[1].innerText;
+                    }
+                    CouponsMap.cateType = cateType;
+                    CouponsMap.cateTypeId = cateTypeId;
+                    couponsMapList.push(CouponsMap);
+                }
+            }
+            if (assignType=="assign" && orCatesSel && catesLen > 0) {
+                var cates = $("#cates tbody").find("tr");
+                for(var j=0;j<cates.length;j++) {
+                    var CouponsMap = new Object();
+                    var cateType = cates[j].getElementsByTagName("td")[3].getElementsByTagName("input")[0].value;
+                    var cateTypeId = "";
+                    if (cateType=="first") {
+                        cateType = 7;
+                        cateTypeId = cates[j].getElementsByTagName("td")[1].innerText;
+                    }
+                    if (cateType=="second") {
+                        cateType = 5;
+                        cateTypeId = cates[j].getElementsByTagName("td")[1].innerText;
+                    }
+                    CouponsMap.cateType = cateType;
+                    CouponsMap.cateTypeId = cateTypeId;
+                    couponsMapList.push(CouponsMap);
+                }
+            }
+            if (assignType=="assign" && orThemeSel && themeLen > 0) {
+                var theme = $("#theme tbody").find("tr");
+                for(var k=0;k<theme.length;k++) {
+                    var CouponsMap = new Object();
+                    var cateType = 6;
+                    var cateTypeId = theme[k].getElementsByTagName("td")[1].innerText;
+                    CouponsMap.cateType = cateType;
+                    CouponsMap.cateTypeId = cateTypeId;
+                    couponsMapList.push(CouponsMap);
+                }
+            }
+            if (assignType=="none") {
+                var CouponsMap = new Object();
+                CouponsMap.cateType = 1;
+                CouponsMap.cateTypeId = 0;
+                couponsMapList.push(CouponsMap);
+            }
+            couponsCateData.couponsMapList = couponsMapList;
+        }
 
         console.log(isPost);
         console.log(JSON.stringify(couponsCateData));

@@ -169,12 +169,12 @@ public class CouponsServiceImpl implements CouponsService {
 
     /**
      * 由cateId查询一条优惠券类别信息      Added By Sunny Wu 2016.06.27
-     * @param cateId 优惠券类别id
+     * @param coupCateId 优惠券类别id
      * @return CouponsCate
      */
     @Override
-    public CouponsCate getCouponsCate(Long cateId) {
-        return couponsMapper.getCouponsCate(cateId);
+    public CouponsCate getCouponsCate(Long coupCateId) {
+        return couponsMapper.getCouponsCate(coupCateId);
     }
 
     /**
@@ -185,43 +185,66 @@ public class CouponsServiceImpl implements CouponsService {
     public void couponsCateSave(JsonNode json) {
         CouponsCate couponsCate = new CouponsCate();
         if (json.has("couponsCate")) {
+            Logger.error("优惠券类别信息:"+couponsCate.toString());
             JsonNode jsonCouponsCate = json.findValue("couponsCate");
             couponsCate = Json.fromJson(jsonCouponsCate,CouponsCate.class);
-            couponsCate.setCouponType(2);
-            Logger.error("优惠券类别信息:"+couponsCate.toString());
-            if (couponsMapper.insertCouponsCate(couponsCate) > 0) {
-                Date now = new Date();
-                Long nowTimes = now.getTime();
-                Date endAt = new Date();
-                Long endTimes = 0l;
-                try {
-                    endAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(couponsCate.getEndAt());
-                    endTimes = endAt.getTime();
-                } catch (ParseException e) {
-                    Logger.error(Throwables.getStackTraceAsString(e));
-                }
-                Long coupCateId = couponsCate.getCoupCateId();
-                //-- 创建Actor --//
-                //截止时间大于现在时间 启动优惠券类别自动失效scheduler
-                Logger.debug("CouponsCate "+coupCateId+" auto invalid start...");
-                newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), couponsCateInvalidActor, coupCateId);
-                if (json.has("couponsMapList")) {
-                    for (final JsonNode jsonNode : json.findValue("couponsMapList")) {
-                        CouponsMap couponsMap = Json.fromJson(jsonNode,CouponsMap.class);
-                        couponsMap.setCouponCateId(couponsCate.getCoupCateId());
-                        couponsMap.setOrDestroy(false);
-                        Logger.error("优惠券类别映射信息:"+couponsMap.toString());
-                        couponsMapper.insertCouponsMap(couponsMap);
+            //修改优惠券类别(只能修改优惠券类型)和映射信息
+            if (jsonCouponsCate.has("coupCateId")) {
+                Logger.error("修改couponsCate");
+//                couponsMapper.updateCouponsCate(couponsCate);
+//                //获取该优惠券类别的映射信息 置orDestroy为true
+//                List<CouponsMap> couponsMapList = couponsMapper.getCouponsMapByCateId(couponsCate.getCoupCateId());
+//                for(CouponsMap couponsMap : couponsMapList) {
+//                    couponsMap.setOrDestroy(true);
+//                    couponsMapper.updateCouponsMap(couponsMap);
+//                }
+//                if (couponsCate.getCouponType() != 3) {
+//                    if (json.has("couponsMapList")) {
+//                        for (final JsonNode jsonNode : json.findValue("couponsMapList")) {
+//                            CouponsMap couponsMap = Json.fromJson(jsonNode,CouponsMap.class);
+//                            couponsMap.setCouponCateId(couponsCate.getCoupCateId());
+//                            //现优惠券类别映射信息在表中存在 更新orDestroy为false
+//                            if (couponsMapper.getCouponsMap(couponsMap).size()>0) {
+//                                couponsMap.setOrDestroy(false);
+//                                couponsMapper.updateCouponsMap(couponsMap);
+//                            } else {//不存在新录入一条
+//                                couponsMapper.insertCouponsMap(couponsMap);
+//                            }
+//                        }
+//                    }
+//                }
+            }
+            //新增优惠券类别和映射信息
+            else {
+                Logger.error("新增couponsCate");
+                if (couponsMapper.insertCouponsCate(couponsCate) > 0) {
+                    Date now = new Date();
+                    Long nowTimes = now.getTime();
+                    Date endAt = new Date();
+                    Long endTimes = 0l;
+                    try {
+                        endAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(couponsCate.getEndAt());
+                        endTimes = endAt.getTime();
+                    } catch (ParseException e) {
+                        Logger.error(Throwables.getStackTraceAsString(e));
+                    }
+                    Long coupCateId = couponsCate.getCoupCateId();
+                    //-- 创建Actor --//
+                    //截止时间大于现在时间 启动优惠券类别自动失效scheduler
+                    Logger.debug("CouponsCate "+coupCateId+" auto invalid start...");
+                    newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), couponsCateInvalidActor, coupCateId);
+                    if (json.has("couponsMapList")) {
+                        for (final JsonNode jsonNode : json.findValue("couponsMapList")) {
+                            CouponsMap couponsMap = Json.fromJson(jsonNode,CouponsMap.class);
+                            couponsMap.setCouponCateId(couponsCate.getCoupCateId());
+                            couponsMap.setOrDestroy(false);
+                            Logger.error("优惠券类别映射信息:"+couponsMap.toString());
+                            couponsMapper.insertCouponsMap(couponsMap);
+                        }
                     }
                 }
             }
         }
-
-
-
-
-
-
     }
 
     /**
@@ -263,5 +286,15 @@ public class CouponsServiceImpl implements CouponsService {
     public List<CouponsMap> getCouponsMapByCateId(Long couponCateId) {
         return couponsMapper.getCouponsMapByCateId(couponCateId);
     }
+
+    /**
+     * 查询一条优惠券类别映射信息   Added By Sunny Wu 2016.09.01
+     * @param couponsMap 优惠券类别信息
+     * @return CouponsMap
+     */
+//    @Override
+//    public List<CouponsMap> getCouponsMap(CouponsMap couponsMap) {
+//        return couponsMapper.getCouponsMap(couponsMap);
+//    }
 
 }

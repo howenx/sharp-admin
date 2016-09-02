@@ -40,8 +40,8 @@ function upload(thumb, file) {
     http.onreadystatechange = function () {
         if (http.readyState == 4 && http.status == 200) {
             var data = JSON.parse(http.responseText);
-            console.log(data.minify_url);
-            var input = document.createElement("input");
+//            console.log(data.minify_url);
+//            var input = document.createElement("input");
             var img = new Image;
             img.onload = function(){
                 jsFileShareContent.labelImgWidth = img.width;
@@ -51,13 +51,31 @@ function upload(thumb, file) {
             }
             img.src = data.oss_prefix+data.oss_url;
             imgName = data.imgid;
-            input.id = imgName.substr(0, imgName.lastIndexOf("."));
-            input.type = "hidden";
-            input.name = data.imgid;
-            input.value = data.path;
+//            input.id = imgName.substr(0, imgName.lastIndexOf("."));
+//            input.type = "hidden";
+//            input.name = data.imgid;
+//            input.value = data.path;
             $(thumb).find("img").attr('src', data.oss_prefix+data.oss_url);
-            $(thumb).append(input);
-            alert(data.message);
+//            $(thumb).append(input);
+//            alert(data.message);
+            $.ajax({
+                url: window.uploadUrl2 + "/split/file",
+                data: {
+                    filename: '' + data.oss_url,
+                    prefix:'themes/photo/themeImg/'+ dateStr + '/'
+                },
+                type: 'post',
+                success: function(data2) {
+                    var array_oss_url = JSON.parse(data2.oss_url);
+                    var path = data2.oss_prefix.split(window.url)[1];
+                    var inpV = path + array_oss_url[0] + "," + path + array_oss_url[1] + "," + path + array_oss_url[2];
+                    var input = document.createElement("input");
+                    input.type="hidden";
+                    input.value = inpV;
+                    $(thumb).append(input);
+                    document.getElementById("mask").style.display = 'none';
+                }
+            });
         }
     }
     http.send(formdata);
