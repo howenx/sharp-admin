@@ -1361,4 +1361,14 @@ public class ThemeCtrl extends Controller {
         return ok(views.html.theme.h5Builder.render(lang,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
+    /**
+     * h5主题生成器-保存       Added by Tiffany Zhu 2016.09.02
+     * @param lang
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result h5BuilderSave(String lang){
+        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
+    }
+
 }

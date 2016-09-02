@@ -54,6 +54,8 @@ POST        /topic/category/update                                              
 POST        /$lang<(cn|en|kr)>/topic/category/update                                controllers.ThemeCtrl.categorySave(lang)
 GET         /topic/h5Builder                                                        controllers.ThemeCtrl.h5Builder(lang = "cn")
 GET         /$lang<(cn|en|kr)>/topic/h5Builder                                      controllers.ThemeCtrl.h5Builder(lang)
+POST        /topic/h5Builder/h5BuilderSave                                          controllers.ThemeCtrl.h5BuilderSave(lang = "cn")
+POST        /$lang<(cn|en|kr)>/topic/h5Builder/h5BuilderSave                        controllers.ThemeCtrl.h5BuilderSave(lang)
 
 
 
