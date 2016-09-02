@@ -200,14 +200,14 @@ public class ItemMiddle {
                         }
                         //状态由预售到预售, 修改上架时间  ==> 修改上架schedule
                         if ("P".equals(originState) && "P".equals(state) && !originStartTimes.equals(startTimes)) {
-                            Logger.debug(inventory.getId()+" auto on shelves start...");
+                            Logger.info(inventory.getId()+" auto on shelves start...");
                             newScheduler.scheduleOnce(Duration.create(startTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
                         }
                         //状态由预售到正常, 修改上架时间  ==> 修改下架schedule
                         if ("P".equals(originState) && "Y".equals(state) && !originStartTimes.equals(startTimes)) {
                             orUpdate = 1;
                             inventoryService.updateInventory(inventory);
-                            Logger.debug(inventory.getId()+" auto off shelves start...");
+                            Logger.info(inventory.getId()+" auto off shelves start...");
                             newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
                         }
                         //状态由预售/正常 到下架, 修改下架时间 ==> 停止schedule
@@ -220,19 +220,19 @@ public class ItemMiddle {
                         if (("Y".equals(originState) || "D".equals(originState)) && "P".equals(state) && !originStartTimes.equals(startTimes)) {
                             orUpdate = 1;
                             inventoryService.updateInventory(inventory);
-                            Logger.debug(inventory.getId()+" auto on shelves start...");
+                            Logger.info(inventory.getId()+" auto on shelves start...");
                             newScheduler.scheduleOnce(Duration.create(startTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
                         }
                         //状态由正常到正常, 修改下架时间 ==> 修改下架schedule
                         if ("Y".equals(originState) && "Y".equals(state) && !originEndTimes.equals(endTimes)) {
-                            Logger.debug(inventory.getId()+" auto off shelves start...");
+                            Logger.info(inventory.getId()+" auto off shelves start...");
                             newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
                         }
                         //状态由下架到正常, 修改下架时间  ==> 修改下架schedule
                         if ("D".equals(originState) && "Y".equals(state) && !originEndTimes.equals(endTimes)) {
                             orUpdate = 1;
                             inventoryService.updateInventory(inventory);
-                            Logger.debug(inventory.getId()+" auto off shelves start...");
+                            Logger.info(inventory.getId()+" auto off shelves start...");
                             newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
                         }
                         if (orUpdate.equals(0)) {
@@ -326,12 +326,12 @@ public class ItemMiddle {
                     if (null==inventory.getId()) {
                         if (startTimes>nowTimes) {
                             //上架时间大于现在时间 启动上架schedule
-                            Logger.debug(inventory.getId()+" auto on shelves start...");
+                            Logger.info(inventory.getId()+" auto on shelves start...");
                             newScheduler.scheduleOnce(Duration.create(startTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
                         }
                         if (startTimes<nowTimes && endTimes>nowTimes ) {
                             //上架时间小于现在时间小于下架时间 启动下架scheduler
-                            Logger.debug(inventory.getId()+" auto off shelves start...");
+                            Logger.info(inventory.getId()+" auto off shelves start...");
                             newScheduler.scheduleOnce(Duration.create(endTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
                         }
                     }
@@ -393,7 +393,7 @@ public class ItemMiddle {
             if ("P".equals(state)) {
                 inventory.setState("Y");
                 //启动下架schedule
-                Logger.debug("sku "+inventory.getId()+"auto off shelves start...");
+                Logger.info("sku "+inventory.getId()+"auto off shelves start...");
                 try {
                     //等待上架schedule删除后创建下架schedule
                     Thread.sleep(7000);

@@ -9,6 +9,33 @@ $(function() {
         format:'YYYY-MM-DD 23:59:59'
     });
 
+    /**	图片放大和关闭 **/
+    $(document).on("click", ".main-img", function(e) {
+        $(".goods-img-bg").css({
+            "height": $(window).height(),
+            "display": "block"
+        });
+        $(".goods-img").css("left", ($(window).width() - 1200) / 2);
+        $(this).clone().appendTo($(".goods-img")).css({
+            "width": "50%",
+            "height": "500px",
+            "margin-left": "300px",
+            "z-index": 1000
+        });
+    })
+    $(document).on("click", ".goods-img-bg .close", function(e) {
+        $(".goods-img-bg img").remove();
+        $(".goods-img-bg").css({
+            "display": "none"
+        });
+    })
+    $(document).on("click", ".goods-bg", function(e) {
+        $(".goods-img-bg img").remove();
+        $(".goods-img-bg").css({
+            "display": "none"
+        });
+    })
+
     //修改页面根据优惠券类型判断显示/隐藏
     if ($("#couponType").val()==1) {
         $("input[name='couponType']:eq(0)").attr("checked",true);
@@ -83,6 +110,41 @@ $(function() {
     $(".h4-custom-hmm>input").click(function () {
         $(this).parent().next().toggle()
     })
+
+    //修改 页面的序号
+    /** 删除一条商品 **/
+     $(document).on("click",".goods-del",function(){
+         if (window.confirm("确定删除吗?")) {
+            //用户总数
+            var goodsCount = $("#goods").find("tr").length - 1;
+            //被删除行的编号
+            var delColNum = $(this).parents("tr").find("td:eq(0)").text();
+            //console.log("被删除行编号delColNum:" + delColNum);
+            if(goodsCount > delColNum){
+                for(i=parseInt(delColNum);i<goodsCount;i++){
+                    var j = i + 1;
+                    $("#goods").find("tr:eq("+j+")").find("td:eq(0)").text(i);
+                }
+            }
+            $(this).parents("tr").remove();
+         }
+     });
+
+    var goodsNum = $("#goods").find("tr").length - 1;
+    var catesNum = $("#cates").find("tr").length - 1;
+    var themeNum = $("#theme").find("tr").length - 1;
+    for(i=1;i<goodsNum+1;i++){
+        $("#goods").find("tr:eq("+i+")").find("td:eq(0)").text(i);
+    }
+    for(i=1;i<catesNum+1;i++){
+        $("#cates").find("tr:eq("+i+")").find("td:eq(0)").text(i);
+    }
+    for(i=1;i<themeNum+1;i++){
+        $("#theme").find("tr:eq("+i+")").find("td:eq(0)").text(i);
+    }
+
+
+
 
     /** 数据提交 **/
     $("#submit").click(function(){
@@ -225,7 +287,7 @@ $(function() {
 
         console.log(isPost);
         console.log(JSON.stringify(couponsCateData));
-        if (false) {
+        if (isPost) {
             $.ajax({
                 type :  "POST",
                 url : "/coup/coupCateSave",
@@ -244,7 +306,7 @@ $(function() {
                         $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
                         $('.usercenter-option > .user-state').css('background-position', '20px -174px');
                         $('.usercenter-option > .user-state').text('未更改');
-//                        setTimeout("location.href='/"+window.lang+"/coupCate/search'", 3000);
+                        setTimeout("location.href='/"+window.lang+"/coupCate/search'", 3000);
                     }
                     else {
                         $('#js-userinfo-error').text('保存失败');
