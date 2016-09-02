@@ -155,4 +155,10 @@ public interface ThemeMapper {
      * @return
      */
     NavItemCate getNavItemCate(NavItemCate navItemCate);
+
+    /**
+     * 添加主题生成器      Added by Tiffany Zhu 2016.09.02
+     * @param theme
+     */
+    void addThemeGenerator(Theme theme);
 }

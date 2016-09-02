@@ -361,4 +361,13 @@ public class ThemeServiceImpl implements ThemeService {
     public NavItemCate getNavItemCate(NavItemCate navItemCate) {
         return themeMapper.getNavItemCate(navItemCate);
     }
+
+    /**
+     * 添加主题生成器      Added by Tiffany Zhu 2016.09.02
+     * @param theme
+     */
+    @Override
+    public void addThemeGenerator(Theme theme) {
+        themeMapper.addThemeGenerator(theme);
+    }
 }

@@ -915,8 +915,12 @@ public class ThemeCtrl extends Controller {
                 themeImgObject[1] = themeImg.get("width").asInt();
                 //height
                 themeImgObject[2] = themeImg.get("height").asInt();
-                return ok(views.html.theme.H5ThemeUpd.render(lang,theme,themeImgObject,idList,indexPage,pinPage,giftPage,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
 
+                if(theme.getThemeTags() != null && theme.getThemeMasterImg() != null){
+                    return ok(views.html.theme.h5BuilderUpd.render(lang,theme,themeImgObject,idList,indexPage,pinPage,giftPage,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+                }else {
+                    return ok(views.html.theme.H5ThemeUpd.render(lang,theme,themeImgObject,idList,indexPage,pinPage,giftPage,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+                }
             }
             //主题的商品
             List<Object[]> itemList = new ArrayList<>();
@@ -1368,6 +1372,108 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result h5BuilderSave(String lang){
+        JsonNode json = request().body().asJson();
+        JsonNode themeJson = json.get("theme");
+        Logger.error(themeJson.toString());
+        Theme theme = Json.fromJson(themeJson,Theme.class);
+        //数据验证      ----start
+        Form<Theme> themeForm = Form.form(Theme.class).bind(themeJson);
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //当前时间
+        Date now = new Date();
+        String strNow = sdfDate.format(now);
+        //当前时间 + 6个月
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        calendar.add(Calendar.MONTH,+6);
+        String validDate = sdfDate.format(calendar.getTime());
+        //基本样式不匹配;主图片,商品ID,首页主图,主图标签     不是Json格式
+        if(themeForm.hasErrors() || !(Regex.isJason(theme.getThemeImg())) || (theme.getStartAt().compareTo(theme.getEndAt())>=0) ||
+                theme.getEndAt().compareTo(strNow) < 0 || theme.getStartAt().compareTo(validDate) > 0 || theme.getEndAt().compareTo(validDate) > 0  ){
+            return badRequest();
+        }
+        //数据验证      ----end
+        theme.setType("h5");
+        service.addThemeGenerator(theme);
+        Logger.error("已保存的h5主题:" + theme);
+        //创建Scheduled Actor         ---start
+        ActorRef themeOffShelf = Akka.system().actorOf(Props.create(ThemeDestroyActor.class,service));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date endAt = null;
+        try{
+            endAt = sdf.parse(theme.getEndAt());
+        }catch(Exception e){
+            e.printStackTrace();
+            Logger.error(Throwables.getStackTraceAsString(e));
+        }
+        if(endAt != null){
+            FiniteDuration duration = Duration.create(endAt.getTime() - now.getTime(), TimeUnit.MILLISECONDS);
+            newScheduler.scheduleOnce(duration,themeOffShelf,theme.getId());
+        }
+        //创建Scheduled Actor         ---end
+
+        //专用用户处理    Added by Tiffany Zhu 2016.08.23
+        JsonNode usersJson = json.findValue("users");
+        if (usersJson != null && usersJson.size() >0){
+            JedisPool jedisPool = null;
+            Jedis jedis = null;
+            try {
+                //存入redis
+                jedisPool = RedisPool.createPool();
+                //验证 JedisPool
+                if (jedisPool != null){
+                    jedis = jedisPool.getResource();
+                    //验证Jedis
+                    if (jedis != null){
+                        //用户专用主题
+                        if (theme.getThemeState() == 2 && usersJson.size() > 0){
+                            if (jedis.exists(theme.getId().toString())){
+                                jedis.del(theme.getId().toString());
+                            }
+                            for (JsonNode node :usersJson){
+                                ID id = Json.fromJson(node,ID.class);
+                                jedis.sadd(theme.getId().toString(),id.getUserId().toString());
+                            }
+                            jedis.persist(theme.getId().toString());
+                            //其他主题
+                        }else {
+                            if (jedis.exists(theme.getId().toString())){
+                                jedis.del(theme.getId().toString());
+                            }
+                        }
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                Logger.error(Throwables.getStackTraceAsString(e));
+            }finally {
+//                if (jedisPool != null && jedis != null){
+//                    jedisPool.returnBrokenResource(jedis);
+//                }
+            }
+        }
+
+        //主题显示位置
+        JsonNode themeCateJson = json.get("themeCates");
+        List<ThemeCate> themeCateList = new ArrayList<>();
+        service.delThemeCateByThemeId(theme.getId());
+        for (JsonNode node:themeCateJson){
+            ThemeCate themeCate = new ThemeCate();
+            themeCate.setThemeId(theme.getId());
+            themeCate.setThemeCateCode(node.asInt());
+            if(node.asInt() == 1){
+                themeCate.setThemeCateNm("首页");
+            }
+            if(node.asInt() == 2){
+                themeCate.setThemeCateNm("拼购");
+            }
+            if(node.asInt() == 3){
+                themeCate.setThemeCateNm("礼物");
+            }
+            themeCateList.add(themeCate);
+        }
+        service.addThemeCate(themeCateList);
+
         return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
     }
 

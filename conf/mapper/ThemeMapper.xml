@@ -269,6 +269,11 @@
                 from themes t where 1=1 and (theme_state=1 or theme_state=3)
         </select>
 
+        <insert id="addThemeGenerator" parameterType="domain.Theme" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+                insert into themes (title,create_at,start_at,end_at,type,h5_link,theme_img,theme_config_info,theme_state,master_item_tag,theme_master_img)
+                values(#{title},CURRENT_TIMESTAMP(0),#{startAt}::timestamp,#{endAt}::timestamp,#{type},#{h5Link},#{themeImg},#{themeConfigInfo},#{themeState},#{themeTags}::jsonb,#{themeMasterImg})
+        </insert>
+
 
         <!---  主题模板    -->
         <sql id="templateColumns">

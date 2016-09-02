@@ -164,6 +164,7 @@ $(function () {
                     console.log(itemID);
                     var drag = '<a class="ui-widget-content draggable" style="width: 50%;height: 6%;position: absolute;top: 0;left: 0;background: #000;opacity: 0.4">' +
                         '<P style="font-size: 20px;color: #fff">'+ itemID +'</P>'+
+                        '<input type= "hidden" value="'+ $("#url-type").val() +'"/>'+
                         '</a>';
                     $('#draga').append(drag);
                     _self = $("a.draggable").eq(indexA+=1);
@@ -250,191 +251,205 @@ $(function () {
     var themeOffShelf = false;
     $(document).on("click","#js-usercenter-submit-h5",function(){
         var http = "^(http|https)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$";
-                var httpRe = new RegExp(http);
-                var isPost = true;
-                if($("#themeTitle").val()=="" || $("#onShelvesAt").val()=="" || $("#offShelvesAt").val()=="" || $("#h5-link").val()=="" || $("#themeDescribe").val() == ""){
+        var httpRe = new RegExp(http);
+        var isPost = true;
+//        if($("#themeTitle").val()=="" || $("#onShelvesAt").val()=="" || $("#offShelvesAt").val()=="" || $("#h5-link").val()=="" || $("#themeDescribe").val() == ""){
+//            isPost = false;
+//            $('#js-userinfo-error').text('基本信息不能为空!').css('color', '#c00');
+//            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+//            return false;
+//        }
+
+        if($("#onShelvesAt").val()=="" || $("#offShelvesAt").val()=="" || $("#h5-link").val()==""){
                     isPost = false;
                     $('#js-userinfo-error').text('基本信息不能为空!').css('color', '#c00');
                     setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
                     return false;
                 }
-                //当前系统时间
-                var dateTime = new Date();
-                var currentTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-                //限制时间 当前时间 + 6个月
-                dateTime.setMonth(dateTime.getMonth() + 6);
-                var validDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-                if($("#offShelvesAt").val() > validDate || $("#onShelvesAt").val() > 0){
-                    isPost = false;
-                    $('#js-userinfo-error').text('开始时间和结束时间均不能大于当前时间 + 6个月!').css('color', '#c00');
-                    setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-                    return false;
-                }
-                 if(!themeOffShelf && $("#onShelvesAt").val()>$("#offShelvesAt").val()){
-                    isPost = false;
-                    $('#js-userinfo-error').text('日期不正确!').css('color', '#c00');
-                    setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-                    return false;
-                 }
-                 if($("#offShelvesAt").val() <= currentTime){
-                     isPost = false;
-                     $('#js-userinfo-error').text('结束时间须大于当前时间!').css('color', '#c00');
-                     setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-                     return false;
-                 }
-                 if($("input[name='themearea1']").prop("checked") == false  && $("input[name='themearea2']").prop("checked") == false && $("input[name='themearea3']").prop("checked") == false){
-                     isPost = false;
-                     $('#js-userinfo-error').text('请选择显示位置!').css('color', '#c00');
-                     setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-                     return false;
-                 }
-                 if($("#themeImg").find("img").attr("src") == ""){
-                     isPost = false;
-                     $('#js-userinfo-error').text('请选择主题图片!').css('color', '#c00');
-                     setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-                     return false;
-                 }
-                 //主题列表主宣传图
-                 var imgSel = $("#imgSel").prop("checked");
-                 if(imgSel && $(".a-container").find("img").length == 0){
-                    isPost = false;
-                    $('#js-userinfo-error').text('请上传主题的主图!').css('color', '#c00');
-                    setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
-                    return false;
-                 }
+        //当前系统时间
+        var dateTime = new Date();
+        var currentTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+        //限制时间 当前时间 + 6个月
+        dateTime.setMonth(dateTime.getMonth() + 6);
+        var validDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+        if($("#offShelvesAt").val() > validDate || $("#onShelvesAt").val() > 0){
+            isPost = false;
+            $('#js-userinfo-error').text('开始时间和结束时间均不能大于当前时间 + 6个月!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+        }
+         if(!themeOffShelf && $("#onShelvesAt").val()>$("#offShelvesAt").val()){
+            isPost = false;
+            $('#js-userinfo-error').text('日期不正确!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+         }
+         if($("#offShelvesAt").val() <= currentTime){
+             isPost = false;
+             $('#js-userinfo-error').text('结束时间须大于当前时间!').css('color', '#c00');
+             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+             return false;
+         }
+         if($("input[name='themearea1']").prop("checked") == false  && $("input[name='themearea2']").prop("checked") == false && $("input[name='themearea3']").prop("checked") == false){
+             isPost = false;
+             $('#js-userinfo-error').text('请选择显示位置!').css('color', '#c00');
+             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+             return false;
+         }
+         if($("#themeImg").find("img").attr("src") == ""){
+             isPost = false;
+             $('#js-userinfo-error').text('请选择主题图片!').css('color', '#c00');
+             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+             return false;
+         }
+         //主题列表主宣传图
+         var imgSel = $("#imgSel").prop("checked");
+         if(imgSel && $(".a-container").find("img").length == 0){
+            isPost = false;
+            $('#js-userinfo-error').text('请上传主题的主图!').css('color', '#c00');
+            setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+            return false;
+         }
+
+         var confirm_text = "确定保存吗?";
+         if(themeOffShelf == true){
+            confirm_text = "确定下架吗?";
+         }
+         var a = confirm(confirm_text);
+         if(!a){
+             $("#offShelvesAt").val(themeOffShelfTime);
+             isPost = false;
+             return false;
+         }else{
+             if(confirm_text == "确定下架吗?"){
+                    //当前系统时间
+                    var dateTime = new Date();
+                    var currentTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+                    dateTime.setSeconds(dateTime.getSeconds() + 15);
+                    var deleteDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+                    //设置主题结束时间
+                    $("#offShelvesAt").val(deleteDate);
+             }
+         }
+
+         //主题状态
+         var themeState = parseInt($("input[name='themestate']:checked").attr("id"));
+          //专用主题用户
+          var users = [];
+          if(themeState == 2){
+               $("#user-add").find("tr").each(function(){
+                   var userId = $(this).find("td").eq(1).text();
+                   var phoneNum = $(this).find("td").eq(5).text()
+                   if(userId != "" && phoneNum != ""){
+                       var object = new Object();
+                       object.userId = userId;
+                       object.phoneNum = phoneNum;
+                       users.push(object);
+                   }
+               })
+          }
+
+          //主题显示位置
+          var themeCates = [];
+          //首页
+          if($("input[name='themearea1']").prop("checked") == true){
+              themeCates.push(1);
+          }
+          //拼购
+          if($("input[name='themearea2']").prop("checked") == true){
+              themeCates.push(2);
+          }
+          //礼物
+          if($("input[name='themearea3']").prop("checked") == true){
+              themeCates.push(3);
+          }
+
+          //分割后的图片
+          var themeMasterImg = [];
+          var img = $("#draga").find("input").val().split(",");
+          themeMasterImg.push(img[0]);
+          themeMasterImg.push(img[1]);
+          themeMasterImg.push(img[2]);
+
+          //标签功能
+          var tags = [];
+          $(".ui-draggable").each(function(){
+                var object = new Object();
+                var tag = $(this).attr("style").split(";");
+                var top = tag[3].split(":")[1];
+                var left = tag[4].split(":")[1];
+                var width = tag[0].split(":")[1];
+                var height = tag[1].split(":")[1];
+                var urlObject = new Object();
+                urlObject.id = $(this).find("p").text();
+                urlObject.type = $(this).find("input").val();
+                object.top = top;
+                object.left = left;
+                object.width = width;
+                object.height = height;
+                object.url = urlObject;
+                tags.push(object);
+          })
+
+          var data = {};
+          var theme = new Object();
+          var themeId = $("#themeId").val();
+          theme.id = $("#themeId").val();
+          theme.title = $("#themeTitle").val();
+          theme.startAt = $("#onShelvesAt").val();
+          theme.endAt = $("#offShelvesAt").val();
+          theme.h5Link = $("#h5-link").val();
+          theme.themeConfigInfo = $("#themeDescribe").val();
+          theme.themeState = themeState;
 
 
+          //主题主图片
+          var themeImgContent = {};
+          var url = $("#themeImg").find("img").attr("src");
+          themeImgContent.url = url.substring(url.indexOf('/',url.indexOf('/')+2) + 1);
+          themeImgContent.width = $("#themeImg").find("input").width().toString();
+          themeImgContent.height = $("#themeImg").find("input").height().toString();
+          theme.themeImg = JSON.stringify(themeImgContent);
+          theme.themeTags = JSON.stringify(tags);
+           console.log("标签数据:" + tags);
+          theme.themeMasterImg = JSON.stringify(themeMasterImg);
+          theme.type = "h5";
+          theme.sortNu = 1;
+
+          data.theme = theme;
+          data.users = users;
+          data.themeCates = themeCates;
 
 
+          if(isPost){
+             $.ajax({
+                 type :  "POST",
+                 url : "/topic/h5Builder/h5BuilderSave",
+                 contentType: "application/json; charset=utf-8",
+                 data : JSON.stringify(data),
+                 error : function(request) {
+                     if (window.lang = 'cn') {
+                          alert("保存失败!");
+                     } else {
+                         alert("Save error!");
+                     }
+                 },
+                 success: function(data) {
+                     if (window.lang = 'cn') {
+                         alert("保存成功!");
+                     } else {
+                         alert("Save Success!");
+                     }
+                     if(themeId != null){
+                         //主题修改, 成功后返回到主题修改页面
+                         setTimeout("location.href='/"+window.lang+"/topic/updateById/"+ themeId +"'", 2000);
+                     }else{
 
-
-                 var confirm_text = "确定保存吗?";
-                 if(themeOffShelf == true){
-                    confirm_text = "确定下架吗?";
-                 }
-                 var a = confirm(confirm_text);
-                 if(!a){
-                     $("#offShelvesAt").val(themeOffShelfTime);
-                     isPost = false;
-                     return false;
-                 }else{
-                     if(confirm_text == "确定下架吗?"){
-                            //当前系统时间
-                            var dateTime = new Date();
-                            var currentTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-                            dateTime.setSeconds(dateTime.getSeconds() + 15);
-                            var deleteDate = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-                            //设置主题结束时间
-                            $("#offShelvesAt").val(deleteDate);
+                          //主题录入, 成功后返回到主题录入页面
+                          setTimeout("location.href='/"+window.lang+"/topic/h5Add'", 2000);
                      }
                  }
-
-                 //主题状态
-                 var themeState = parseInt($("input[name='themestate']:checked").attr("id"));
-                  //专用主题用户
-                  var users = [];
-                  if(themeState == 2){
-                       $("#user-add").find("tr").each(function(){
-                           var userId = $(this).find("td").eq(1).text();
-                           var phoneNum = $(this).find("td").eq(5).text()
-                           if(userId != "" && phoneNum != ""){
-                               var object = new Object();
-                               object.userId = userId;
-                               object.phoneNum = phoneNum;
-                               users.push(object);
-                           }
-                       })
-                  }
-
-                  //主题显示位置
-                  var themeCates = [];
-                  //首页
-                  if($("input[name='themearea1']").prop("checked") == true){
-                      themeCates.push(1);
-                  }
-                  //拼购
-                  if($("input[name='themearea2']").prop("checked") == true){
-                      themeCates.push(2);
-                  }
-                  //礼物
-                  if($("input[name='themearea3']").prop("checked") == true){
-                      themeCates.push(3);
-                  }
-
-                 var data = {};
-                 var theme = new Object();
-                 var themeId = $("#themeId").val();
-                 theme.id = $("#themeId").val();
-                 theme.title = $("#themeTitle").val();
-                 theme.startAt = $("#onShelvesAt").val();
-                 theme.endAt = $("#offShelvesAt").val();
-                 theme.h5Link = $("#h5-link").val();
-                 theme.themeConfigInfo = $("#themeDescribe").val();
-                 theme.themeState = themeState;
-
-
-                 //主题主图片
-                 var themeImgContent = {};
-                 var url = $("#themeImg").find("img").attr("src");
-                 themeImgContent.url = url.substring(url.indexOf('/',url.indexOf('/')+2) + 1);
-                 themeImgContent.width = $("#themeImg").find("input").width().toString();
-                 themeImgContent.height = $("#themeImg").find("input").height().toString();
-                 theme.themeImg = JSON.stringify(themeImgContent);
-                 theme.type = "h5";
-                 theme.sortNu = 1;
-
-                 data.theme = theme;
-                 data.users = users;
-                 data.themeCates = themeCates;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//                 if(isPost){
-//                    $.ajax({
-//                        type :  "POST",
-//                        url : "/topic/add/h5ThemeSave",
-//                        contentType: "application/json; charset=utf-8",
-//                        data : JSON.stringify(data),
-//                        error : function(request) {
-//                            if (window.lang = 'cn') {
-//                                 alert("保存失败!");
-//                            } else {
-//                                alert("Save error!");
-//                            }
-//                        },
-//                        success: function(data) {
-//                            if (window.lang = 'cn') {
-//                                alert("保存成功!");
-//                            } else {
-//                                alert("Save Success!");
-//                            }
-//                            if(themeId != null){
-//                                //主题修改, 成功后返回到主题修改页面
-//                                setTimeout("location.href='/"+window.lang+"/topic/updateById/"+ themeId +"'", 2000);
-//                            }else{
-//
-//                                 //主题录入, 成功后返回到主题录入页面
-//                                 setTimeout("location.href='/"+window.lang+"/topic/h5Add'", 2000);
-//                            }
-//                        }
-//                    })
-//                 }
-
+             })
+          }
     })
-
-
-
-
-
 })
