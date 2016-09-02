@@ -65,10 +65,10 @@ public interface CouponsService {
 
     /**
      * 由cateId查询一条优惠券类别信息      Added By Sunny Wu 2016.06.27
-     * @param cateId 优惠券类别id
+     * @param coupCateId 优惠券类别id
      * @return CouponsCate
      */
-    CouponsCate getCouponsCate(Long cateId);
+    CouponsCate getCouponsCate(Long coupCateId);
 
     /**
      * 新增优惠券类别                  Added by Sunny Wu 2016.08.18

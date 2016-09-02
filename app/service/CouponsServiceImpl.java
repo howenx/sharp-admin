@@ -169,12 +169,12 @@ public class CouponsServiceImpl implements CouponsService {
 
     /**
      * 由cateId查询一条优惠券类别信息      Added By Sunny Wu 2016.06.27
-     * @param cateId 优惠券类别id
+     * @param coupCateId 优惠券类别id
      * @return CouponsCate
      */
     @Override
-    public CouponsCate getCouponsCate(Long couponCateId) {
-        return couponsMapper.getCouponsCate(couponCateId);
+    public CouponsCate getCouponsCate(Long coupCateId) {
+        return couponsMapper.getCouponsCate(coupCateId);
     }
 
     /**

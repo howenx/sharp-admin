@@ -201,13 +201,13 @@
             <!--<property name="alias" value="t"/>-->
         <!--</include>-->
         <!--from sp_coupons_map t where 1=1-->
-        <!--<if test="couponCateId!=null and couponCateId!='' and couponCateId!='null'">-->
+        <!--<if test="couponCateId!=null">-->
             <!--and t.coupon_cate_id = #{couponCateId}-->
          <!--</if>-->
-        <!--<if test="cateType!=null and cateType!='' and cateType!='null'">-->
+        <!--<if test="cateType!=null">-->
             <!--and t.cate_type = #{cateType}-->
          <!--</if>-->
-        <!--<if test="cateTypeId!=null and cateTypeId!='' and cateTypeId!='null'">-->
+        <!--<if test="cateTypeId!=null">-->
             <!--and t.cate_type_id = #{cateTypeId}-->
          <!--</if>-->
     <!--</select>-->
