@@ -18,6 +18,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import scala.concurrent.duration.Duration;
 import service.*;
 import util.Regex;
 import util.SysParCom;
@@ -26,6 +27,7 @@ import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 商品管理
@@ -672,6 +674,16 @@ public class ItemCtrl extends Controller {
             return ok("没有数据");
     }
 
+
+    /**
+     * 仅处理一次所有商品统一改为预售  谨慎操作!   Added By Sunny.Wu 2016.09.02
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result operateAllGoods() {
+        itemMiddle.operateAllGoods();
+        return ok("处理为预售完成");
+    }
 
 }
 

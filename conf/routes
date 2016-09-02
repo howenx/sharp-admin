@@ -219,6 +219,9 @@ GET         /appUser/search                                                     
 GET         /$lang<(cn|en|kr)>/appUser/search                                       controllers.AdminUserCtrl.appUserSearch(lang)
 POST        /appUser/search/$pageNum<[0-9]+>                                        controllers.AdminUserCtrl.appUserSearchAjax(lang ="cn", pageNum:Int)
 POST        /$lang<(cn|en|kr)>/appUser/search/$pageNum<[0-9]+>                      controllers.AdminUserCtrl.appUserSearchAjax(lang, pageNum:Int)
+#仅处理一次所有商品统一改为预售Added By Sunny Wu 2016.09.02
+GET         /comm/operateAllGoods                                                   controllers.ItemCtrl.operateAllGoods()
+
 
 
 

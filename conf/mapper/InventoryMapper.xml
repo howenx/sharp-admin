@@ -81,6 +81,17 @@
         ORDER BY t.id
     </select>
 
+    <!-- 获取所有的除下架外的库存信息     Added By Sunny Wu 2016.09.02-->
+    <select id="getAllNorInventories" resultType="domain.Inventory">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where 1=1 and state='Y'
+        <!--and id between 111637 and 111651-->
+        ORDER BY t.id
+    </select>
+
     <!-- 获取所有的库存信息 -->
     <select id="getAllInventories" resultType="domain.Inventory">
         select
@@ -123,7 +134,7 @@
             and t.end_at &lt;= #{endAt} ::timestamp
         </if>
         <if test="sort == null or sort == '' ">
-            ORDER BY t.id DESC
+            ORDER BY t.id
         </if>
         <if test="sort != null">
             ORDER BY t.${sort}

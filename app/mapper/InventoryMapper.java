@@ -72,4 +72,10 @@ public interface InventoryMapper {
      */
     Skus getByTypeId(Long skuTypeId);
 
+    /**
+     * 获取所有的除下架外的库存信息
+     * @return list of Inventory
+     */
+    List<Inventory> getAllNorInventories();
+
 }
