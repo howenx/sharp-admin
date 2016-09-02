@@ -6,7 +6,6 @@
 <script src="/assets/js/bootstrap.min.js"></script>
 <!--self-->
 <link rel="stylesheet" href="/assets/css/search.css">
-<script src="/assets/js/search.js"></script>
 <script src="/assets/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/assets/js/jquery.xlstablefilter.js"></script>
 <script type="text/javascript" src="/assets/js/pop-return.js"></script>
@@ -37,6 +36,15 @@
             $(".goods-img-bg").css({
                 "display": "none"
             });
+        })
+
+        /******选择商品*******/
+        $(".chooseGood li").click(function(){
+            $(".chooseGood li").css("background","none");
+            $(this).css("background","#337ab7");
+            var index = $(this).index(".chooseGood li");
+            $("table.table").css("display","none");
+            $("table.table").eq(index).css("display","table");
         })
 
         $(".table-hover").xlsTableFilter({

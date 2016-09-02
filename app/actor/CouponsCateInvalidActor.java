@@ -32,7 +32,7 @@ public class CouponsCateInvalidActor extends AbstractActor {
                 c.setState("S");
                 couponsService.updateCoupons(c);//更新优惠券状态为失效
             }
-            Logger.debug("CouponsCate "+coupCateId+" auto invalid");
+            Logger.info("CouponsCate "+coupCateId+" auto invalid");
         }).matchAny(s -> {
             unhandled(s);
             Logger.error("" + s.toString());

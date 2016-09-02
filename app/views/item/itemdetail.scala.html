@@ -145,7 +145,12 @@
                             @for(obj <-  invList) {
                                 <tr>
                                     <td>
-                                        <input type="radio" name="orMasterInv" checked="checked" class="master-radio" value="@obj(0)" disabled/>
+                                        @if(obj(0).toString()=="true") {
+                                        <input type="radio" name="orMasterInv" class="master-radio" value="@obj(0)" checked disabled/>
+                                        }
+                                        @if(obj(0).toString()=="false") {
+                                        <input type="radio" name="orMasterInv" class="master-radio" value="@obj(0)" disabled/>
+                                        }
                                     </td>
                                     <td>@obj(1)</td>
                                     <td>@obj(2)</td>

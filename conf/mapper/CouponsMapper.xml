@@ -182,7 +182,7 @@
         update sp_coupons_map
         set
         coupon_cate_id=#{couponCateId},cate_type=#{cateType},cate_type_id=#{cateTypeId},or_destroy=#{orDestroy}
-        where coup_cate_id = #{coupCateId}
+        where coupon_cate_id = #{couponCateId} and cate_type=#{cateType} and cate_type_id=#{cateTypeId}
     </update>
 
     <!-- 根据优惠券类别获取所有未删除的优惠券类别映射信息      Added By Sunny Wu 2016.08.31-->
@@ -195,22 +195,21 @@
     </select>
 
     <!--查询一条优惠券类别映射信息       Added By Sunny Wu 2016.09.01-->
-    <!--<select id="getCouponsMap" resultType="domain.CouponsMap" parameterMap="domain.CouponsMap">-->
-        <!--select-->
-        <!--<include refid="couponsMapColumns">-->
-            <!--<property name="alias" value="t"/>-->
-        <!--</include>-->
-        <!--from sp_coupons_map t where 1=1-->
-        <!--<if test="couponCateId!=null">-->
-            <!--and t.coupon_cate_id = #{couponCateId}-->
-         <!--</if>-->
-        <!--<if test="cateType!=null">-->
-            <!--and t.cate_type = #{cateType}-->
-         <!--</if>-->
-        <!--<if test="cateTypeId!=null">-->
-            <!--and t.cate_type_id = #{cateTypeId}-->
-         <!--</if>-->
-    <!--</select>-->
-
+    <select id="getCouponsMap" parameterType="domain.CouponsMap" resultType="domain.CouponsMap">
+        select
+        <include refid="couponsMapColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_coupons_map t where 1=1
+        <if test="couponCateId!=null">
+            and t.coupon_cate_id = #{couponCateId}
+        </if>
+        <if test="cateType!=null">
+            and t.cate_type = #{cateType}
+         </if>
+        <if test="cateTypeId!=null"  >
+            and t.cate_type_id = #{cateTypeId}
+         </if>
+    </select>
 
 </mapper>
