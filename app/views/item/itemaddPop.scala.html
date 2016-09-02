@@ -37,7 +37,9 @@
             //获取结束日期所在月份的最大天数
             var max_day = new Date(e_year,e_month,0).getDate();
             //结束日期不能大于该月的最大天数
-            if (day > max_day) var e_day = max_day;
+            if (day > max_day)
+                var e_day = max_day;
+            else  e_day = day;
             var hour = now.getHours()>=10?now.getHours():'0'+(now.getHours());
             var minute = now.getMinutes()>=10?now.getMinutes():'0'+(now.getMinutes());
             var second = now.getSeconds()>=10?now.getSeconds():'0'+(now.getSeconds());

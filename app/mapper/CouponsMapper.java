@@ -109,6 +109,6 @@ public interface CouponsMapper {
      * @param couponsMap 优惠券类别信息
      * @return CouponsMap
      */
-//    List<CouponsMap> getCouponsMap(CouponsMap couponsMap);
+    List<CouponsMap> getCouponsMap(CouponsMap couponsMap);
 
 }

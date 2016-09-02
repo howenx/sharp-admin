@@ -175,7 +175,7 @@ public class CoupCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result coupCateSave() {
         JsonNode json = request().body().asJson();
-        Logger.error("json数据:"+json);
+        Logger.error("CouponsCate json数据:"+json);
         //--------------------数据验证------------------start
         Date now = new Date();
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

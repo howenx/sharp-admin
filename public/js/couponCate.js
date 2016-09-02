@@ -225,7 +225,7 @@ $(function() {
 
         console.log(isPost);
         console.log(JSON.stringify(couponsCateData));
-        if (false) {
+        if (isPost) {
             $.ajax({
                 type :  "POST",
                 url : "/coup/coupCateSave",
@@ -244,7 +244,7 @@ $(function() {
                         $('#js-userinfo-error').text('保存成功').css('color', '#2fa900');
                         $('.usercenter-option > .user-state').css('background-position', '20px -174px');
                         $('.usercenter-option > .user-state').text('未更改');
-//                        setTimeout("location.href='/"+window.lang+"/coupCate/search'", 3000);
+                        setTimeout("location.href='/"+window.lang+"/coupCate/search'", 3000);
                     }
                     else {
                         $('#js-userinfo-error').text('保存失败');
