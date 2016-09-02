@@ -195,22 +195,22 @@
     </select>
 
     <!--查询一条优惠券类别映射信息       Added By Sunny Wu 2016.09.01-->
-    <select id="getCouponsMap" resultType="domain.CouponsMap" parameterMap="domain.CouponsMap">
-        select
-        <include refid="couponsMapColumns">
-            <property name="alias" value="t"/>
-        </include>
-        from sp_coupons_map t where 1=1
-        <if test="couponCateId!=null and couponCateId!='' and couponCateId!='null'">
-            and couponCateId = #{coupon_cate_id}
-         </if>
-        <if test="cateType!=null and cateType!='' and cateType!='null'">
-            and cateType = #{cate_type}
-         </if>
-        <if test="cateTypeId!=null and cateTypeId!='' and cateTypeId!='null'">
-            and cateTypeId = #{coupon_cate_id}
-         </if>
-    </select>
+    <!--<select id="getCouponsMap" resultType="domain.CouponsMap" parameterMap="domain.CouponsMap">-->
+        <!--select-->
+        <!--<include refid="couponsMapColumns">-->
+            <!--<property name="alias" value="t"/>-->
+        <!--</include>-->
+        <!--from sp_coupons_map t where 1=1-->
+        <!--<if test="couponCateId!=null and couponCateId!='' and couponCateId!='null'">-->
+            <!--and t.coupon_cate_id = #{couponCateId}-->
+         <!--</if>-->
+        <!--<if test="cateType!=null and cateType!='' and cateType!='null'">-->
+            <!--and t.cate_type = #{cateType}-->
+         <!--</if>-->
+        <!--<if test="cateTypeId!=null and cateTypeId!='' and cateTypeId!='null'">-->
+            <!--and t.cate_type_id = #{cateTypeId}-->
+         <!--</if>-->
+    <!--</select>-->
 
 
 </mapper>

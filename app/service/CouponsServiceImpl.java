@@ -173,8 +173,8 @@ public class CouponsServiceImpl implements CouponsService {
      * @return CouponsCate
      */
     @Override
-    public CouponsCate getCouponsCate(Long cateId) {
-        return couponsMapper.getCouponsCate(cateId);
+    public CouponsCate getCouponsCate(Long couponCateId) {
+        return couponsMapper.getCouponsCate(couponCateId);
     }
 
     /**
@@ -190,31 +190,33 @@ public class CouponsServiceImpl implements CouponsService {
             couponsCate = Json.fromJson(jsonCouponsCate,CouponsCate.class);
             //修改优惠券类别(只能修改优惠券类型)和映射信息
             if (jsonCouponsCate.has("coupCateId")) {
-                couponsMapper.updateCouponsCate(couponsCate);
-                //获取该优惠券类别的映射信息 置orDestroy为true
-                List<CouponsMap> couponsMapList = couponsMapper.getCouponsMapByCateId(couponsCate.getCoupCateId());
-                for(CouponsMap couponsMap : couponsMapList) {
-                    couponsMap.setOrDestroy(true);
-                    couponsMapper.updateCouponsMap(couponsMap);
-                }
-                if (couponsCate.getCouponType() != 3) {
-                    if (json.has("couponsMapList")) {
-                        for (final JsonNode jsonNode : json.findValue("couponsMapList")) {
-                            CouponsMap couponsMap = Json.fromJson(jsonNode,CouponsMap.class);
-                            couponsMap.setCouponCateId(couponsCate.getCoupCateId());
-                            //现优惠券类别映射信息在表中存在 更新orDestroy为false
-                            if (couponsMapper.getCouponsMap(couponsMap).size()>0) {
-                                couponsMap.setOrDestroy(false);
-                                couponsMapper.updateCouponsMap(couponsMap);
-                            } else {//不存在新录入一条
-                                couponsMapper.insertCouponsMap(couponsMap);
-                            }
-                        }
-                    }
-                }
+                Logger.error("修改couponsCate");
+//                couponsMapper.updateCouponsCate(couponsCate);
+//                //获取该优惠券类别的映射信息 置orDestroy为true
+//                List<CouponsMap> couponsMapList = couponsMapper.getCouponsMapByCateId(couponsCate.getCoupCateId());
+//                for(CouponsMap couponsMap : couponsMapList) {
+//                    couponsMap.setOrDestroy(true);
+//                    couponsMapper.updateCouponsMap(couponsMap);
+//                }
+//                if (couponsCate.getCouponType() != 3) {
+//                    if (json.has("couponsMapList")) {
+//                        for (final JsonNode jsonNode : json.findValue("couponsMapList")) {
+//                            CouponsMap couponsMap = Json.fromJson(jsonNode,CouponsMap.class);
+//                            couponsMap.setCouponCateId(couponsCate.getCoupCateId());
+//                            //现优惠券类别映射信息在表中存在 更新orDestroy为false
+//                            if (couponsMapper.getCouponsMap(couponsMap).size()>0) {
+//                                couponsMap.setOrDestroy(false);
+//                                couponsMapper.updateCouponsMap(couponsMap);
+//                            } else {//不存在新录入一条
+//                                couponsMapper.insertCouponsMap(couponsMap);
+//                            }
+//                        }
+//                    }
+//                }
             }
             //新增优惠券类别和映射信息
             else {
+                Logger.error("新增couponsCate");
                 if (couponsMapper.insertCouponsCate(couponsCate) > 0) {
                     Date now = new Date();
                     Long nowTimes = now.getTime();
@@ -290,9 +292,9 @@ public class CouponsServiceImpl implements CouponsService {
      * @param couponsMap 优惠券类别信息
      * @return CouponsMap
      */
-    @Override
-    public List<CouponsMap> getCouponsMap(CouponsMap couponsMap) {
-        return couponsMapper.getCouponsMap(couponsMap);
-    }
+//    @Override
+//    public List<CouponsMap> getCouponsMap(CouponsMap couponsMap) {
+//        return couponsMapper.getCouponsMap(couponsMap);
+//    }
 
 }

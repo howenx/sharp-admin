@@ -68,7 +68,7 @@ public interface CouponsMapper {
      * @param cateId 优惠券类别id
      * @return CouponsCate
      */
-    CouponsCate getCouponsCate(Long cateId);
+    CouponsCate getCouponsCate(Long couponCateId);
 
     /**
      * 新增优惠券类别                  Added by Sunny Wu 2016.08.18
@@ -109,6 +109,6 @@ public interface CouponsMapper {
      * @param couponsMap 优惠券类别信息
      * @return CouponsMap
      */
-    List<CouponsMap> getCouponsMap(CouponsMap couponsMap);
+//    List<CouponsMap> getCouponsMap(CouponsMap couponsMap);
 
 }
