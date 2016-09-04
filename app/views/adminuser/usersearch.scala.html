@@ -23,11 +23,6 @@
     <div class="page-title">
         <span class="title-name">用户管理</span>
     </div>
-
-    <!--统一处理商品为预售的按钮        Added By Sunny Wu 2016.09.02-->
-    <button id="operateAllGoods" class="btn btn-primary" style="margin-left: 50px;margin-top:10px;margin-bottom: 10px">全部商品预售处理</button>
-
-
     <div class="table-content">
         <table id="tb-adu" class="table table-bordered table-hover">
             <thead>
@@ -96,10 +91,4 @@
             });
         }
     });
-
-    //统一处理商品为预售的操作        Added By Sunny Wu 2016.09.02
-    $(document).on('click','#operateAllGoods',function(){
-        window.location.href = '/comm/operateAllGoods'
-    });
-
 </script>

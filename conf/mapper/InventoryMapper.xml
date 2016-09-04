@@ -88,7 +88,6 @@
             <property name="alias" value="t"/>
         </include>
         from inventories t where 1=1 and state='Y'
-        and id between 111637 and 111651
         ORDER BY t.id
     </select>
 
@@ -134,7 +133,7 @@
             and t.end_at &lt;= #{endAt} ::timestamp
         </if>
         <if test="sort == null or sort == '' ">
-            ORDER BY t.id
+            ORDER BY t.id DESC
         </if>
         <if test="sort != null">
             ORDER BY t.${sort}

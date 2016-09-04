@@ -445,8 +445,8 @@ public class ItemMiddle {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         Long nowTimes = now.getTime();
-        String startAt = "2016-09-04 11:18:00";
-        String endAt = "2016-09-04 11:20:00";
+        String startAt = "2016-09-08 10:00:00";
+        String endAt = "2017-03-01 00:00:00";
         for(Inventory inventory : inventoryList) {
             inventory.setState("P");
             inventory.setStartAt(startAt);
