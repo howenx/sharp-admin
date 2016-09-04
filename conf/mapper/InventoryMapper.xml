@@ -88,7 +88,7 @@
             <property name="alias" value="t"/>
         </include>
         from inventories t where 1=1 and state='Y'
-        between 111000 and 111008
+        and id between 111637 and 111651
         ORDER BY t.id
     </select>
 
@@ -99,7 +99,7 @@
             <property name="alias" value="t"/>
         </include>
         from inventories t where 1=1
-        ORDER BY t.id
+        ORDER BY t.id DESC
     </select>
 
     <!-- 分页获取SKU信息 -->
