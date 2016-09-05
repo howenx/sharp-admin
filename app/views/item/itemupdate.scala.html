@@ -359,10 +359,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @for(itemFeature <- item.getItemFeatures.substring(1,item.getItemFeatures.length-1).split(", ")) {
+                            @for(itemFeature <- item.getItemFeatures.substring(1,item.getItemFeatures.length-1).split(",")) {
                             <tr>
                                 <td onclick="changeText(event,this)">@itemFeature.substring(1,itemFeature.indexOf(":")-1)</td>
-                                <td onclick="changeText(event,this)">@itemFeature.substring(1,itemFeature.indexOf(":")-1)</td>
+                                <td onclick="changeText(event,this)">@itemFeature.substring(itemFeature.indexOf(":")+2,itemFeature.length-1)</td>
                                 <td class="del" >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")</td>
                             </tr>
                             }

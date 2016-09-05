@@ -260,13 +260,13 @@
                     <input type="hidden" id="del" value='@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")'>
                     <table class="table table-bordered qubian feature" id="tabFea">
                         <tr>
-                            <td>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureName")</td>
-                            <td width=500px>@Messages.get(new Lang(Lang.forCode(lang)),"item.add.featureValue")</td>
+                            <th width="30%">参数名</th>
+                            <th width="60%">参数值</th>
                         </tr>
-                        @for(itemFeature <- item.getItemFeatures.substring(1,item.getItemFeatures.length-1).split(", ")) {
+                        @for(itemFeature <- item.getItemFeatures.substring(1,item.getItemFeatures.length-1).split(",")) {
                         <tr>
                             <td><input type="text" name="attrN" value='@itemFeature.substring(1,itemFeature.indexOf(":")-1)' disabled/></td>
-                            <td><input type="text" name="attrV" value='@itemFeature.substring(itemFeature.indexOf(":")+3,itemFeature.length-1)' disabled/></td>
+                            <td><input type="text" name="attrV" value='@itemFeature.substring(itemFeature.indexOf(":")+2,itemFeature.length-1)' disabled/></td>
                         </tr>
                         }
                     </table>
