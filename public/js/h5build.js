@@ -153,11 +153,11 @@ $(function () {
         itemID,
         _self;
     $('#mark-bt').click(function() {
+        console.log(itemID);
         if($(".a-container").find("img").length!=0){
             // img 高度
             heightimg = $(".a-container").find("#draga").height();
             widthimg = $(".a-container").find("#draga").width();
-            console.log(heightimg);
             if($("#input_imgurl").val() != ''){
                 if($("#input_imgurl").val() != itemID){
                     itemID = $("#input_imgurl").val();
@@ -214,7 +214,6 @@ $(function () {
 
 
     $(window).keydown(function (e) {
-        console.log(numH,numL,_self);
         e.preventDefault();
         switch(e.keyCode){
             case 37: //左键
