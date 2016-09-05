@@ -1101,6 +1101,8 @@ $(function() {
         $(".order-admin table").eq(index).show();
         $(".btn-submit").eq(index).show();
     })
-
-
+    /*********** 是否显示推送ERP ***********/
+    $("input[name='itemsearch']").click(function () {
+        $("#item-export").toggle($("#goodSearch").prop("checked"));
+    });
 })
