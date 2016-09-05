@@ -204,7 +204,7 @@ $(function () {
     },
     updateIndex = function (e, ui) {
         $(".user-state").text("已更改");
-        if ($(".grid thead").find('tr').length == 2) {
+        if ($(".good-change thead").find('tr').length == 2) {
             $('td.index', ui.item.parent()).each(function (i) {
                 $(this).html(i + 2);
             });

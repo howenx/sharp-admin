@@ -265,8 +265,8 @@
                         </tr>
                         @for(itemFeature <- item.getItemFeatures.substring(1,item.getItemFeatures.length-1).split(", ")) {
                         <tr>
-                            <td><input type="text" name="attrN" value='@itemFeature.substring(1,itemFeature.indexOf(":")-1)'/></td>
-                            <td><input type="text" name="attrV" value='@itemFeature.substring(itemFeature.indexOf(":")+3,itemFeature.length-1)'/></td>
+                            <td><input type="text" name="attrN" value='@itemFeature.substring(1,itemFeature.indexOf(":")-1)' disabled/></td>
+                            <td><input type="text" name="attrV" value='@itemFeature.substring(itemFeature.indexOf(":")+3,itemFeature.length-1)' disabled/></td>
                         </tr>
                         }
                     </table>
