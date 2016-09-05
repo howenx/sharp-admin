@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",theme:domain.Theme,themeImgObject:Array[Object],idList:List[Array[Object]],indexPage:Boolean,pinPage:Boolean,giftPage:Boolean,url:String,uploadUrl:String,user:domain.User)
+@(lang:String="cn",theme:domain.Theme,themeImgObject:Array[Object],masterImgObject:Array[Object],idList:List[Array[Object]],indexPage:Boolean,pinPage:Boolean,giftPage:Boolean,tagsList:List[Array[Object]],url:String,uploadUrl:String,user:domain.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/jquery-ui.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -21,6 +21,92 @@
 <script>window.url = "@url"</script>
 <script>window.uploadUrl = "@uploadUrl" + "/upload"</script>
 <script>window.uploadUrl2 = "@uploadUrl"</script>
+<script>
+     $(function(){
+         //主题状态
+        if("@theme.getThemeState" == "1"){
+             $('input[name="themestate"][id="1"]').click();
+        }else if("@theme.getThemeState" == "2"){
+             $('input[name="themestate"][id="2"]').click();
+        }else{
+             $('input[name="themestate"][id="3"]').click();
+        }
+
+        //主题显示位置        Added by Tiffany Zhu 2016.08.24
+        if(@indexPage == false){
+            $("input[name='themearea1']").click();
+        }
+        if(@pinPage == true){
+            $("input[name='themearea2']").click();
+        }
+        if(@giftPage == true){
+            $("input[name='themearea3']").click();
+        }
+
+        //页面打开冻结项
+        $("#themeTitle").attr("disabled",true);
+        $("#onShelvesAt").attr("disabled",true);
+        $("#offShelvesAt").attr("disabled",true);
+        $("#h5-link").attr("disabled",true);
+        $("#getTemplate").css("display","none");
+        $("#js-usercenter-submit-h5").css("display","none");
+        $("#js-usercenter-cancel-h5").css("display","none");
+        $("#js-usercenter-delete-h5").css("display","none");
+        $("#add-user").css("display","none");
+        $(".theme-state").find("input").attr("disabled",true);
+        $(".theme-area").find("input").attr("disabled",true);
+        //用户列表的删除列
+  		$(".del-orShow").css("display","none");
+  		//主图    图片分割
+  		$(".masterImg").css("display","none");
+  		//是否上传主图
+  		$("#imgSel").attr("disabled",true);
+
+        //点击编辑按钮
+        $(document).on("click","#js-usercenter-edit-h5",function(){
+             $("#themeTitle").attr("disabled",false);
+             $("#onShelvesAt").attr("disabled",false);
+             $("#offShelvesAt").attr("disabled",false);
+             $("#themeDescribe").attr("disabled",false);
+             //$("#h5-link").attr("disabled",false);
+             $("#getTemplate").css("display","");
+              $("#add-user").css("display","");
+            //转换状态
+            $(".theme-state").find("input").each(function () {
+                var index = $(".theme-state").find("input").index($(".theme-state").find("input:checked"));
+                if(index===1){
+                    $(".theme-state").find("input").attr("disabled",false);
+                }else{
+                    $(".theme-state").find("input").attr("disabled",false);
+                    $(".theme-state").find("input").eq(1).attr("disabled",true);
+                }
+            })
+            //主题显示位置radio
+            $(".theme-area").find("input").attr("disabled",false);
+             //保存按钮 可见
+             $("#js-usercenter-submit-h5").css("display","");
+             //取消按钮 可见
+             $("#js-usercenter-cancel-h5").css("display","");
+             //下架按钮 可见
+             $("#js-usercenter-delete-h5").css("display","");
+             $("#js-usercenter-edit-h5").css("display","none");
+             //返回按钮 隐藏
+            $("#js-usercenter-back").css({"display":"none"});
+            //用户列表的删除列
+  		    $(".del-orShow").css("display","");
+  		    //主图    图片分割
+  		    $(".masterImg").css("display","");
+  		    //是否上传主图
+  		    $("#imgSel").attr("disabled",false);
+        })
+
+        //点击取消按钮
+        $(document).on("click","#js-usercenter-cancel-h5",function(){
+             setTimeout("location.href='/"+window.lang+"/topic/updateById/"+ $("#themeId").val() +"'", 300);
+        })
+
+    })
+</script>
 
 
 }
@@ -52,11 +138,14 @@
         <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"H5主题生成器")</span>
     </div>
     <div class="usercenter-option">
-        <div class="user-state fl"></div>
+        <div class="user-state fl">@Messages.get(new Lang(Lang.forCode(lang)),"themes.slider.state1")</div>
+        <div  id="js-usercenter-delete-h5" class="btn-blue btn-form fr ml15">下架</div>
         <div id="js-usercenter-submit-h5" class="btn-blue btn-form fr ml15">@Messages.get(new
             Lang(Lang.forCode(lang)),"themes.slider.save")
         </div>
-        <div id="js-usercenter-cancel" class="btn-white btn-form fr ml20">@Messages.get(new
+        <div  id="js-usercenter-edit-h5" class="btn-blue btn-form fr ml15">编辑</div>
+        <div  id="js-usercenter-back" class="btn-blue btn-form fr ml15">返回</div>
+        <div id="js-usercenter-cancel-h5" class="btn-white btn-form fr ml20">@Messages.get(new
             Lang(Lang.forCode(lang)),"themes.slider.cancel")
         </div>
         <span id="js-userinfo-error" class="mt20 alt fr"></span>
@@ -69,17 +158,25 @@
                 <h4 class="h4-custom-hmm">基本信息</h4>
 
                 <div class="form-group">
+                    <label class="col-sm-2 control-label">主题ID</label>
+
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="themeId" value="@theme.getId()" disabled/>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="col-sm-2 control-label">主题标题</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="themeTitle"/>
+                        <input type="text" class="form-control" id="themeTitle" value="@theme.getTitle()"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">主题描述</label>
 
                     <div class="col-sm-8">
-                        <textarea name="" id="themeDescribe" cols="30" rows="3" class="form-control"></textarea>
+                        <textarea name="" id="themeDescribe" cols="30" rows="3" class="form-control">@theme.getThemeConfigInfo()</textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -87,7 +184,7 @@
 
                     <div class="col-sm-8">
                         <div class="input-group date" id='datetimepicker1'>
-                            <input class="form-control col-sm-2" type="text" id="onShelvesAt" name="onShelvesAt">
+                            <input class="form-control col-sm-2" type="text" id="onShelvesAt" value="@theme.getStartAt()" name="onShelvesAt">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
@@ -97,7 +194,7 @@
 
                     <div class="col-sm-8">
                         <div class="input-group date" id='datetimepicker2'>
-                            <input class="form-control col-sm-2" type="text" id="offShelvesAt" name="offShelvesAt">
+                            <input class="form-control col-sm-2" type="text" id="offShelvesAt" value="@theme.getEndAt()" name="offShelvesAt">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
@@ -106,7 +203,7 @@
                     <label class="col-sm-2 control-label">H5链接</label>
 
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="h5-link" value="/h5page/" disabled/>
+                        <input type="text" class="form-control" id="h5-link" value="@theme.getH5Link()" disabled/>
                     </div>
                 </div>
                 <!-- 主题状态 -->
@@ -180,15 +277,15 @@
                     </div>
                     <div class="col-sm-9">
                         <div id="themeImg" style="width: 100%;height: 300px;border: 1px solid #ccc">
-                            <img src="" width="100%" height="100%"/>
-                            <input id="" type="hidden">
+                            <img src="@url@themeImgObject(0)" width="100%" height="100%"/>
+                            <input id="@url@themeImgObject(0)" type="hidden" width="@themeImgObject(1)" height="@themeImgObject(2)">
                         </div>
                     </div>
                 </div>
                 <!-- 上传图片-->
                 <h4 class="h4-custom-hmm">主题主图 <input type="checkbox" id="imgSel" checked></h4>
                 <div class="thememainimg">
-                    <div class="form-group">
+                    <div class="form-group masterImg">
                         <label class="col-sm-2 control-label">上传图片:</label>
 
                         <div class="col-sm-9">
@@ -198,7 +295,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group masterImg">
                         <label class="col-sm-2 control-label">商品SkuID:</label>
 
                         <div class="col-sm-8">
@@ -209,7 +306,7 @@
                             <button type="button" class="btn btn-primary btn-xs label-id" onclick="ShowModal1()">选择</button>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group masterImg">
                         <label class="col-sm-2 control-label"></label>
                         <div class="col-sm-9">
                             <a class="large blue button" id='mark-bt'>创建</a>
@@ -218,7 +315,21 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-9">
                             <div class="a-container">
-                                <div id='draga' style="height: auto"></div>
+                                <div id='draga' style="height: auto">
+                                    @for(img <- masterImgObject){
+                                        <img src="@url@img" style="width: 100%;">
+                                    }
+                                    <input type="hidden" value="@theme.getThemeMasterImg()">
+
+                                    @for(tag <- tagsList){
+                                    <a class="ui-widget-content draggable ui-draggable" style="width: @tag(2); height: @tag(3); position: absolute; top: @tag(0); left: @tag(1); opacity: 0.4; background: rgb(0, 0, 0);">
+                                        <p style="font-size: 20px;color: #fff">@tag(4)</p>
+                                        <input type="hidden" value="@tag(5)">
+                                    </a>
+                                    }
+
+
+                                </div>
                             </div>
                         </div>
                     </div>

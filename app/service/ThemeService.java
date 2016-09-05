@@ -138,5 +138,17 @@ public interface ThemeService {
      */
     void addThemeGenerator(Theme theme);
 
+    /**
+     * 更新主题生成器      Added by Tiffany Zhu 2016.09.05
+     * @param theme
+     */
+    void updThemeGeneratorLink(Theme theme);
+
+    /**
+     * 更新主题生成器      Added by Tiffany Zhu 2016.09.05
+     * @param theme
+     */
+    void updThemeGenerator(Theme theme);
+
 
 }

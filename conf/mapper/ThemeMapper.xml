@@ -271,9 +271,22 @@
 
         <insert id="addThemeGenerator" parameterType="domain.Theme" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
                 insert into themes (title,create_at,start_at,end_at,type,h5_link,theme_img,theme_config_info,theme_state,master_item_tag,theme_master_img)
-                values(#{title},CURRENT_TIMESTAMP(0),#{startAt}::timestamp,#{endAt}::timestamp,#{type},#{h5Link},#{themeImg},#{themeConfigInfo},#{themeState},#{themeTags}::jsonb,#{themeMasterImg})
+                values(#{title},CURRENT_TIMESTAMP(0),#{startAt}::timestamp,#{endAt}::timestamp,#{type},#{h5Link},#{themeImg},#{themeConfigInfo},#{themeState},#{masterItemTag}::jsonb,#{themeMasterImg})
         </insert>
 
+        <update id="updThemeGenerator" parameterType="domain.Theme">
+                update themes
+                set title=#{title},start_at=#{startAt}::timestamp,end_at=#{endAt}::timestamp,theme_img=#{themeImg},
+                update_at=CURRENT_TIMESTAMP(0),h5_link = #{h5Link},or_destroy=false,theme_config_info=#{themeConfigInfo},theme_state = #{themeState},
+                master_item_tag = #{masterItemTag}::jsonb,theme_master_img=#{themeMasterImg}
+                where id = #{id}
+        </update>
+
+        <update id="updThemeGeneratorLink" parameterType="domain.Theme">
+                update themes
+                set h5_link = #{h5Link}
+                where id = #{id}
+        </update>
 
         <!---  主题模板    -->
         <sql id="templateColumns">

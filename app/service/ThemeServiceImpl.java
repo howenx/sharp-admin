@@ -370,4 +370,22 @@ public class ThemeServiceImpl implements ThemeService {
     public void addThemeGenerator(Theme theme) {
         themeMapper.addThemeGenerator(theme);
     }
+
+    /**
+     * 更新主题生成器      Added by Tiffany Zhu 2016.09.05
+     * @param theme
+     */
+    @Override
+    public void updThemeGeneratorLink(Theme theme) {
+        themeMapper.updThemeGeneratorLink(theme);
+    }
+
+    /**
+     * 更新主题生成器      Added by Tiffany Zhu 2016.09.05
+     * @param theme
+     */
+    @Override
+    public void updThemeGenerator(Theme theme) {
+        themeMapper.updThemeGenerator(theme);
+    }
 }
