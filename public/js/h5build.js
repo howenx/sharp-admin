@@ -410,7 +410,7 @@ $(function () {
           themeImgContent.width = $("#themeImg").find("input").width().toString();
           themeImgContent.height = $("#themeImg").find("input").height().toString();
           theme.themeImg = JSON.stringify(themeImgContent);
-          theme.themeTags = JSON.stringify(tags);
+          theme.masterItemTag = JSON.stringify(tags);
            console.log("标签数据:" + tags);
           theme.themeMasterImg = JSON.stringify(themeMasterImg);
           theme.type = "h5";

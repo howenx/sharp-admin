@@ -883,9 +883,9 @@ public class ThemeCtrl extends Controller {
                     e.printStackTrace();
                     Logger.error(Throwables.getStackTraceAsString(e));
                 }finally {
-                    if (jedisPool != null && jedis != null){
-                        jedisPool.returnBrokenResource(jedis);
-                    }
+//                    if (jedisPool != null && jedis != null){
+//                        jedisPool.returnBrokenResource(jedis);
+//                    }
                 }
             }
 
@@ -916,9 +916,44 @@ public class ThemeCtrl extends Controller {
                 //height
                 themeImgObject[2] = themeImg.get("height").asInt();
 
-                if(theme.getThemeTags() != null && theme.getThemeMasterImg() != null){
-                    return ok(views.html.theme.h5BuilderUpd.render(lang,theme,themeImgObject,idList,indexPage,pinPage,giftPage,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
-                }else {
+                //主题生成器的更新页面        Modified by Tiffany Zhu 2016.09.02
+                if(theme.getMasterItemTag() != null && theme.getThemeMasterImg() != null){
+                    //获取被截取图片的url
+                    JsonNode imgJson = Json.parse(theme.getThemeMasterImg());
+                    String imgUrl = "";
+                    Object[] masterImgObject = new Object[imgJson.size()];
+                    int index = 0;
+                    for(JsonNode node : imgJson){
+                        String url = node.toString().replace("\"","");
+                        if (imgUrl.equals("")){
+                            imgUrl = url;
+                        }else {
+                            imgUrl = imgUrl + "," + url;
+                        }
+                        masterImgObject[index] = url;
+                        index++;
+                    }
+                    theme.setThemeMasterImg(imgUrl);
+                    //获取设置的标签
+                    JsonNode tagsJson = Json.parse(theme.getMasterItemTag());
+                    List<Object[]> tagsList = new ArrayList<>();
+                    for (JsonNode node : tagsJson){
+                        Object[] object = new Object[6];
+                        object[0] = node.get("top").toString().replace("\"","");     //top的值
+                        object[1] = node.get("left").toString().replace("\"","");    //left的值
+                        object[2] = node.get("width").toString().replace("\"","");   //width的值
+                        object[3] = node.get("height").toString().replace("\"","");  //height的值
+                        JsonNode urlJson = node.get("url");
+                        object[4] = urlJson.get("id").toString().replace("\"","");   //id的值
+                        object[5] = urlJson.get("type").toString().replace("\"",""); //类型
+                        tagsList.add(object);
+                    }
+                    //主题生成器页面
+                    return ok(views.html.theme.h5BuilderUpd.render(lang,theme,themeImgObject,masterImgObject,idList,indexPage,pinPage,giftPage,tagsList,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+                }
+                //H5主题更新页面     Modified by Tiffany Zhu 2016.09.02
+                else {
+                    Logger.error("H5主题:" + theme);
                     return ok(views.html.theme.H5ThemeUpd.render(lang,theme,themeImgObject,idList,indexPage,pinPage,giftPage,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
                 }
             }
@@ -1394,8 +1429,17 @@ public class ThemeCtrl extends Controller {
         }
         //数据验证      ----end
         theme.setType("h5");
-        service.addThemeGenerator(theme);
-        Logger.error("已保存的h5主题:" + theme);
+        if (theme.getId() == null || theme.getId().equals("")){
+            service.addThemeGenerator(theme);
+        }else {
+            service.updThemeGenerator(theme);
+        }
+        //设置h5链接
+        String h5_link = SysParCom.WEB_SERVER_URL + "/h5page/" + theme.getId();
+        theme.setH5Link(h5_link);
+        //更新h5链接到数据库
+        service.updThemeGeneratorLink(theme);
+
         //创建Scheduled Actor         ---start
         ActorRef themeOffShelf = Akka.system().actorOf(Props.create(ThemeDestroyActor.class,service));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
