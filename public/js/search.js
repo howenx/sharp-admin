@@ -1101,6 +1101,38 @@ $(function() {
         $(".order-admin table").eq(index).show();
         $(".btn-submit").eq(index).show();
     })
+    /*********** 是否显示推送ERP ***********/
+    $("input[name='itemsearch']").click(function () {
+        $("#item-export").toggle($("#goodSearch").prop("checked"));
+        var thhtml;
+        if(this.id == "goodSearch"){
+            // 按商品查询
+            thhtml = '<tr>' +
+                '<th style="width: 6%;text-align: center;vertical-align: middle;"><input type="checkbox" name="selAll">全选</th>' +
+                '<th style="width: 5%;text-align: center;vertical-align: middle;">商品ID</th>' +
+                '<th style="width: 6%;text-align: center;vertical-align: middle;">SKU ID</th>' +
+                '<th style="width: 8%;text-align: center;vertical-align: middle;">SKU 标题</th>' +
+                '<th style="width: 5%;text-align: center;vertical-align: middle;">主图</th>' +
+                '<th style="width: 8%;text-align: center;vertical-align: middle;">规格</th>' +
+                '<th style="width: 6%;text-align: center;vertical-align: middle;">规格编号</th>' +
+                '<th style="width: 8%;text-align: center;vertical-align: middle;">库存区域</th>' +
+                '<th style="width: 9%;text-align: center;vertical-align: middle;">上架时间</th>' +
+                '<th style="width: 9%;text-align: center;vertical-align: middle;">下架时间</th>' +
+                '<th style="width: 7%;text-align: center;vertical-align: middle;">剩余库存</th>' +
+                '<!--<th>是否主SKU</th>-->' +
+                '<th style="width: 7%;text-align: center;vertical-align: middle;">SKU状态</th>' +
+                '</tr>';
+            $("#tb-topic thead").html(thhtml);
+        }else{
+            // 按SKU查询
+            thhtml = '<tr>' +
+                '<th style="width: 6%;text-align: center;vertical-align: middle;"><input type="checkbox" name="selAll">全选</th>' +
+                '<th style="width: 5%;text-align: center;vertical-align: middle;">商品ID</th>' +
+                '<th style="width: 6%;text-align: center;vertical-align: middle;">SKU ID</th>' +
+                '<th style="width: 8%;text-align: center;vertical-align: middle;">SKU 标题</th>' +
+                '</tr>';
+            $("#tb-topic thead").html(thhtml);
+        }
 
-
+    });
 })

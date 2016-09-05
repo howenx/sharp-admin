@@ -49,69 +49,82 @@
     </div>
     <form class="form-horizontal">
         <div class="form-group">
-            <!--商品 id-->
-            <label class="col-sm-1 control-label">商品ID</label>
-            <div class="col-sm-3">
-                <input id = "item-id" type="number" min="10000" max="99999999" class="form-control"/>
-            </div>
-            <!--sku id-->
-            <label class="col-sm-1 control-label">SKU ID</label>
-            <div class="col-sm-3">
-                <input id = "sku-id" type="number" min="10000" max="99999999" class="form-control"/>
-            </div>
-            <!--sku 标题-->
-            <label class="col-sm-1 control-label">SKU 标题</label>
-            <div class="col-sm-3">
-                <input id = "sku-title" type="text" class="form-control"/>
+            <label class="col-sm-2 control-label">商品查询方式</label>
+            <div class="col-sm-10">
+                <label class="radio-inline">
+                    <input id="goodSearch" type="radio" name="itemsearch" checked> 按商品
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="itemsearch"> 按SKU
+                </label>
             </div>
         </div>
-        <div class="form-group">
-            <!--规格编号-->
-            <label class="col-sm-1 control-label">规格编号</label>
-            <div class="col-sm-3">
-                <input id = "inv-code" type="text" class="form-control"/>
-            </div>
-            <!--上架-->
-            <label class="col-sm-1 control-label">上架时间</label>
-            <div class="col-sm-3">
-                <div id="datetimepicker-starttime" class="input-group date">
-                    <input id="item-form-starttime" class="form-control col-sm-2"  type="text">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+        <div style="border: 2px dotted #ccc;padding: 10px 8px 6px 8px">
+            <div class="form-group">
+                <!--商品 id-->
+                <label class="col-sm-1 control-label">商品ID</label>
+                <div class="col-sm-3">
+                    <input id = "item-id" type="number" min="10000" max="99999999" class="form-control"/>
+                </div>
+                <!--sku id-->
+                <label class="col-sm-1 control-label">SKU ID</label>
+                <div class="col-sm-3">
+                    <input id = "sku-id" type="number" min="10000" max="99999999" class="form-control"/>
+                </div>
+                <!--sku 标题-->
+                <label class="col-sm-1 control-label">SKU 标题</label>
+                <div class="col-sm-3">
+                    <input id = "sku-title" type="text" class="form-control"/>
                 </div>
             </div>
-            <!--下架-->
-            <label class="col-sm-1 control-label">下架时间</label>
-            <div class="col-sm-3">
-                <div id="datetimepicker-endtime" class="input-group date">
-                    <input id="item-form-endtime" class="form-control col-sm-2"  type="text">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            <div class="form-group">
+                <!--规格编号-->
+                <label class="col-sm-1 control-label">规格编号</label>
+                <div class="col-sm-3">
+                    <input id = "inv-code" type="text" class="form-control"/>
+                </div>
+                <!--上架-->
+                <label class="col-sm-1 control-label">上架时间</label>
+                <div class="col-sm-3">
+                    <div id="datetimepicker-starttime" class="input-group date">
+                        <input id="item-form-starttime" class="form-control col-sm-2"  type="text">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+                <!--下架-->
+                <label class="col-sm-1 control-label">下架时间</label>
+                <div class="col-sm-3">
+                    <div id="datetimepicker-endtime" class="input-group date">
+                        <input id="item-form-endtime" class="form-control col-sm-2"  type="text">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <!--库存区域-->
+                <label class="col-sm-1 control-label">库存区域</label>
+                <div class="col-sm-3">
+                    <select class="form-control" id="inv-area">
+                        <option value=""></option>
+                        @for(a <- area) {
+                        <option value='@a.toString.substring(1,a.toString.length-1).split(",")(0)'>@a.toString.substring(1,a.toString.length-1).split(",")(1)</option>
+                        }
+                    </select>
+                </div>
+                <!--状态-->
+                <label class="col-sm-1 control-label">状态</label>
+                <div class="col-sm-3">
+                    <select class="form-control" id="state">
+                        <option value=""></option>
+                        <option value="P">预售</option>
+                        <option value="Y">正常</option>
+                        <option value="D">下架</option>
+                        <option value="K">售空</option>
+                    </select>
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <!--库存区域-->
-            <label class="col-sm-1 control-label">库存区域</label>
-            <div class="col-sm-3">
-                <select class="form-control" id="inv-area">
-                    <option value=""></option>
-                    @for(a <- area) {
-                    <option value='@a.toString.substring(1,a.toString.length-1).split(",")(0)'>@a.toString.substring(1,a.toString.length-1).split(",")(1)</option>
-                    }
-                </select>
-            </div>
-            <!--状态-->
-            <label class="col-sm-1 control-label">状态</label>
-            <div class="col-sm-3">
-                <select class="form-control" id="state">
-                    <option value=""></option>
-                    <option value="P">预售</option>
-                    <option value="Y">正常</option>
-                    <option value="D">下架</option>
-                    <option value="K">售空</option>
-                </select>
-            </div>
-        </div>
-
+        <!-- 按钮 -->
 	    <div class="btn-s">
 			<input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
 	        <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
