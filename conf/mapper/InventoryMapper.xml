@@ -164,6 +164,15 @@
         where id = #{id}
     </update>
 
+    <!-- 查询所有主SKU        Added By Sunny Wu 2016.09.05 -->
+    <select id="getAllMasterSKU" resultType="domain.Inventory" parameterType="java.lang.Long">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where or_master_inv = true
+    </select>
+
 
     <!--视图skus的操作-->
     <sql id="skusColumns">

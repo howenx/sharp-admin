@@ -177,6 +177,7 @@ public class ItemCtrl extends Controller {
         Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
         List<AdminSupplier> adminSupplierList = adminSupplierService.getAllSuppliers();
         Item item = itemService.getItem(id);
+        item.setItemFeatures(item.getItemFeatures().replace(" ", ""));
         Cates cates = itemService.getCate(item.getCateId());
         String pCateNm = "";
         if(null != cates.getPcateId()) {
@@ -252,6 +253,7 @@ public class ItemCtrl extends Controller {
     public Result updateItemById(String lang,Long id) {
         List<AdminSupplier> adminSupplierList = adminSupplierService.getAllSuppliers();
         Item item = itemService.getItem(id);
+        item.setItemFeatures(item.getItemFeatures().replace(" ", ""));
         //由商品类别id获取类别
         Cates cates = itemService.getCate(item.getCateId());
         //父类别名称

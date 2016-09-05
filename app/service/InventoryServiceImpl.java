@@ -140,4 +140,13 @@ public class InventoryServiceImpl implements InventoryService {
         return inventoryMapper.getAllNorInventories();
     }
 
+    /**
+     * 查询所有主SKU        Added By Sunny Wu 2016.09.05
+     * @return list of Inventory
+     */
+    @Override
+    public List<Inventory> getAllMasterSKU() {
+        return inventoryMapper.getAllMasterSKU();
+    }
+
 }
