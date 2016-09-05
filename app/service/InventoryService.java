@@ -61,4 +61,10 @@ public interface InventoryService {
      */
     Skus getByTypeId(Long skuTypeId);
 
+    /**
+     * 获取所有的除下架外的库存信息       Added By Sunny Wu 2016.09.02
+     * @return list of Inventory
+     */
+    List<Inventory> getAllNorInventories();
+
 }

@@ -131,4 +131,13 @@ public class InventoryServiceImpl implements InventoryService {
         return inventoryMapper.getByTypeId(skuTypeId);
     }
 
+    /**
+     * 获取所有的除下架外的库存信息       Added By Sunny Wu 2016.09.02
+     * @return list of Inventory
+     */
+    @Override
+    public List<Inventory> getAllNorInventories() {
+        return inventoryMapper.getAllNorInventories();
+    }
+
 }

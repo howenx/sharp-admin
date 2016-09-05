@@ -396,7 +396,7 @@ public class ItemMiddle {
                 Logger.info("sku "+inventory.getId()+"auto off shelves start...");
                 try {
                     //等待上架schedule删除后创建下架schedule
-                    Thread.sleep(7000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException e) {
 //                    e.printStackTrace();
                     Logger.error(Throwables.getStackTraceAsString(e));
@@ -432,6 +432,48 @@ public class ItemMiddle {
                 });
             }
         }
+
+    }
+
+
+    /**
+     * 仅处理一次所有商品统一改为预售  谨慎操作!   Added By Sunny.Wu 2016.09.02
+     */
+    public void operateAllGoods() {
+        //查询所有非下架状态的SKU
+        List<Inventory> inventoryList = inventoryService.getAllNorInventories();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        Long nowTimes = now.getTime();
+        String startAt = "2016-09-08 10:00:00";
+        String endAt = "2017-03-01 00:00:00";
+        for(Inventory inventory : inventoryList) {
+            inventory.setState("P");
+            inventory.setStartAt(startAt);
+            inventory.setEndAt(endAt);
+            inventoryService.updateInventory(inventory);
+            Logger.error("每次上架时间 不同:"+startAt +"   下架时间:"+endAt);
+            Logger.error("更新后库存信息:"+inventory.toString());
+            Long startTimes = null;//现上架时间毫秒数
+            Long endTimes = null;//现下架时间毫秒数
+            try {
+                startTimes = sdf.parse(startAt).getTime();
+                endTimes = sdf.parse(endAt).getTime();
+                //状态由正常 到预售, 修改上架时间 ==> 修改上架schedule
+                Logger.info(inventory.getId()+" auto on shelves start...");
+                newScheduler.scheduleOnce(Duration.create(startTimes-nowTimes, TimeUnit.MILLISECONDS), inventoryAutoShelvesActor, inventory.getId());
+
+                //每条SKU 上架时间和下架时间 间隔15s
+                startTimes = startTimes + 15000;
+                endTimes = endTimes + 15000;
+                startAt = sdf.format(startTimes);
+                endAt = sdf.format(endTimes);
+            } catch (ParseException e) {
+//                        e.printStackTrace();
+                Logger.error(Throwables.getStackTraceAsString(e));
+            }
+        }
+
 
     }
 
