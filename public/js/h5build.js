@@ -457,10 +457,10 @@ $(function () {
                 var urlObject = new Object();
                 urlObject.id = $(this).find("p").text();
                 urlObject.type = $(this).find("input").val();
-                object.top = top;
-                object.left = left;
-                object.width = width;
-                object.height = height;
+                object.top = parseFloat(top.replace("%",""))/100;
+                object.left = parseFloat(left.replace("%",""))/100;
+                object.width = parseFloat(width.replace("%",""))/100;
+                object.height = parseFloat(height.replace("%",""))/100;
                 object.url = urlObject;
                 tags.push(object);
           })
@@ -493,6 +493,7 @@ $(function () {
           data.theme = theme;
           data.users = users;
           data.themeCates = themeCates;
+
 
 
           if(isPost){

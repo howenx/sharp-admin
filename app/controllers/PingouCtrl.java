@@ -671,7 +671,12 @@ public class PingouCtrl extends Controller {
             object[5] = pinActivityTemp.getJoinPersons();
             object[6] = pinActivityTemp.getCreateAt();
             object[7] = pinActivityTemp.getEndAt();
-            object[8] = pinSku.getPinTitle();
+            if (pinSku != null){
+                object[8] = pinSku.getPinTitle();
+            }else {
+                object[8] = "";
+            }
+
             if("Y".equals(pinActivityTemp.getStatus())){
                 object[9] = "正常";
             }
