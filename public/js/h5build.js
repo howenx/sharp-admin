@@ -151,8 +151,7 @@ $(function () {
         heightimg,
         indexA = $(".a-container").find("a.draggable").length - 1,
         itemID,
-        _self,
-        dragflag;
+        _self;
     var drag;
     $('#mark-bt').click(function() {
         if($(".a-container").find("img").length!=0){
@@ -161,20 +160,26 @@ $(function () {
             widthimg = $(".a-container").find("#draga").width();
             if($("#input_imgurl").val() != ''){
                 itemID = $("#input_imgurl").val();
-                if($("a.draggable").length == 0){
-                    dragflag = true;
-                }else{
                     for (var i=0;i<$("a.draggable").length;i++){
                         if($("a.draggable").find("p").eq(i).html() == itemID){
-                            dragflag = false;
                             alert("请选择不同的商品ID");
-                            break;
-                        }else {
-                            dragflag = true;
+                            return false;
                         }
                     }
-                }
-                if(dragflag){
+                // if($("a.draggable").length == 0){
+                //     dragflag = true;
+                // }else{
+                //     for (var i=0;i<$("a.draggable").length;i++){
+                //         if($("a.draggable").find("p").eq(i).html() == itemID){
+                //             dragflag = false;
+                //             alert("请选择不同的商品ID");
+                //             break;
+                //         }else {
+                //             dragflag = true;
+                //         }
+                //     }
+                // }
+                // if(dragflag){
                     drag = '<a class="ui-widget-content draggable" style="width: 50%;height: 6%;position: absolute;top: 0;left: 0;background: #000;opacity: 0.4">' +
                         '<P style="font-size: 20px;color: #fff">'+ itemID +'</P>'+
                         '<input type= "hidden" value="'+ $("#url-type").val() +'"/>'+
@@ -204,7 +209,7 @@ $(function () {
                     // numL = parseInt(parseFloat(this.style.left) / widthimg * 100);
                     numT = parseInt($('a.draggable').eq(indexA)[0].style.top);
                     numL = parseInt($('a.draggable').eq(indexA)[0].style.left);
-                }
+                // }
 
             }else{
                 alert("请选择商品ID");
