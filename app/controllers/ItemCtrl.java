@@ -108,8 +108,10 @@ public class ItemCtrl extends Controller {
 //            String url = Json.parse(inv.getInvImg()).get("url")==null?"":Json.parse(inv.getInvImg()).get("url").asText();
 //            inv.setInvImg(url);
 //        }
+        List<Brands> brandsList = itemService.getAllBrands();
+        List<Cates> catesList = itemService.getCatesAll();
         Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
-        return ok(views.html.item.itemsearch.render(lang, SysParCom.IMAGE_URL,PAGE_SIZE,countNum,pageCount, (User) ctx().args.get("user"), area));
+        return ok(views.html.item.itemsearch.render(lang, SysParCom.IMAGE_URL,PAGE_SIZE,countNum,pageCount,brandsList,catesList,(User) ctx().args.get("user"), area));
     }
 
     /**
@@ -143,6 +145,54 @@ public class ItemCtrl extends Controller {
             //组装返回数据
             Map<String,Object> returnMap=new HashMap<>();
             returnMap.put("topic",inventoryList);
+            returnMap.put("pageNum",pageNum);
+            returnMap.put("countNum",countNum);
+            returnMap.put("pageCount",pageCount);
+            returnMap.put("pageSize",PAGE_SIZE);
+            return ok(Json.toJson(returnMap));
+        }
+        else{
+            return badRequest();
+        }
+    }
+
+    /**
+     * ajax商品分页查询           Added By Sunny Wu 2016.09.05
+     * @param lang 语言
+     * @param pageNum 当前页
+     * @return json
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result commSearchAjax(String lang,int pageNum) {
+        JsonNode json = request().body().asJson();
+        Item item = Json.fromJson(json,Item.class);
+        if(pageNum>=1){
+            //计算从第几条开始取数据
+            int offset = (pageNum-1)*PAGE_SIZE;
+            item.setPageSize(-1);
+            item.setOffset(-1);
+            List<Item> itemList = itemService.itemSearch(item);
+            int countNum = itemList.size();//取总数
+            int pageCount = countNum/PAGE_SIZE;//共分几页
+            if(countNum%PAGE_SIZE!=0){
+                pageCount = countNum/PAGE_SIZE+1;
+            }
+            item.setPageSize(PAGE_SIZE);
+            item.setOffset(offset);
+            itemList = itemService.itemSearch(item);
+            List<Object[]> itList = new ArrayList<>();
+            for(Item it : itemList) {
+                Object[] object = new Object[4];
+                object[0] = it.getId();//商品id
+                object[1] = it.getItemTitle();//商品标题
+                object[2] = itemService.getBrands(it.getBrandId()).getBrandNm();//品牌名称
+                object[3] = itemService.getCate(it.getCateId()).getCateNm();//类别名称
+                itList.add(object);
+
+            }
+                //组装返回数据
+            Map<String,Object> returnMap=new HashMap<>();
+            returnMap.put("topic",itList);
             returnMap.put("pageNum",pageNum);
             returnMap.put("countNum",countNum);
             returnMap.put("pageCount",pageCount);

@@ -58,9 +58,15 @@
         <if test='itemTitle != null and itemTitle != "null" and itemTitle != "" '>
             and t.item_title like '%${itemTitle}%'
         </if>
-        <if test="themeId != null">
-            and t.theme_id = #{themeId}
+        <if test="cateId != null">
+            and t.cate_id = #{cateId}
         </if>
+        <if test="brandId != null">
+            and t.brand_id = #{brandId}
+        </if>
+        <!--<if test="themeId != null">-->
+            <!--and t.theme_id = #{themeId}-->
+        <!--</if>-->
         <!--<if test="onShelvesAt != null">-->
             <!--and t.on_shelves_at &gt;= #{onShelvesAt} ::timestamp-->
         <!--</if>-->
