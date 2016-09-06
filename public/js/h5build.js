@@ -521,4 +521,12 @@ $(function () {
              })
           }
     })
+
+    //主题下架-----HTML5
+        $(document).on("click","#js-usercenter-delete-h5",function(){
+            //点击保存
+            themeOffShelf = true;
+            $("#js-usercenter-submit-h5").click();
+
+        })
 })
