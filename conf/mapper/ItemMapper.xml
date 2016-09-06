@@ -74,7 +74,7 @@
             <!--and t.off_shelves_at &lt;= #{offShelvesAt} ::timestamp-->
         <!--</if>-->
         <if test="sort == null or sort == '' ">
-            ORDER BY t.create_at DESC
+            ORDER BY t.id DESC
         </if>
         <if test="sort != null">
             ORDER BY t.${sort}
