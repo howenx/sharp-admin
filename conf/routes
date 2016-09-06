@@ -73,6 +73,8 @@ GET         /comm/search                                                        
 GET         /$lang<(cn|en|kr)>/comm/search                                          controllers.ItemCtrl.itemSearch(lang)
 POST        /comm/search/$pageNum<[0-9]+>                                           controllers.ItemCtrl.itemSearchAjax(lang ="cn",pageNum:Int)
 POST        /$lang<(cn|en|kr)>/comm/search/$pageNum<[0-9]+>                         controllers.ItemCtrl.itemSearchAjax(lang,pageNum:Int)
+POST        /comm/commSearch/$pageNum<[0-9]+>                                       controllers.ItemCtrl.commSearchAjax(lang ="cn",pageNum:Int)
+POST        /$lang<(cn|en|kr)>/comm/commSearch/$pageNum<[0-9]+>                     controllers.ItemCtrl.commSearchAjax(lang,pageNum:Int)
 GET         /comm/add                                                               controllers.ItemCtrl.itemCreate(lang="cn")
 GET         /$lang<cn|en|kr>/comm/add                                               controllers.ItemCtrl.itemCreate(lang)
 POST        /comm/itemSave                                                          controllers.ItemCtrl.itemSave
@@ -81,6 +83,7 @@ GET         /$lang<(cn|en|kr)>/comm/findById/:id                                
 GET         /comm/updateById/:id                                                    controllers.ItemCtrl.updateItemById(lang = "cn",id:Long)
 GET         /$lang<(cn|en|kr)>/comm/updateById/:id                                  controllers.ItemCtrl.updateItemById(lang,id:Long)
 GET         /comm/poup                                                              controllers.ItemCtrl.goodsPop()
+
 
 
 

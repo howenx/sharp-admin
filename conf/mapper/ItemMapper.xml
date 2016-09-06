@@ -58,9 +58,15 @@
         <if test='itemTitle != null and itemTitle != "null" and itemTitle != "" '>
             and t.item_title like '%${itemTitle}%'
         </if>
-        <if test="themeId != null">
-            and t.theme_id = #{themeId}
+        <if test="cateId != null">
+            and t.cate_id = #{cateId}
         </if>
+        <if test="brandId != null">
+            and t.brand_id = #{brandId}
+        </if>
+        <!--<if test="themeId != null">-->
+            <!--and t.theme_id = #{themeId}-->
+        <!--</if>-->
         <!--<if test="onShelvesAt != null">-->
             <!--and t.on_shelves_at &gt;= #{onShelvesAt} ::timestamp-->
         <!--</if>-->
@@ -68,7 +74,7 @@
             <!--and t.off_shelves_at &lt;= #{offShelvesAt} ::timestamp-->
         <!--</if>-->
         <if test="sort == null or sort == '' ">
-            ORDER BY t.create_at DESC
+            ORDER BY t.id DESC
         </if>
         <if test="sort != null">
             ORDER BY t.${sort}
@@ -89,14 +95,14 @@
         insert into items
         (cate_id,brand_id,item_title,supply_merch,on_shelves_at,off_shelves_at,item_master_img,item_detail_imgs,item_features,theme_id,state,share_url,share_count,collect_count,browse_count,item_notice,or_destroy,destroy_at,update_at,create_at,master_inv_id,item_detail,publicity)
         values
-        (#{cateId},#{brandId},#{itemTitle},#{supplyMerch},#{onShelvesAt},#{offShelvesAt},#{itemMasterImg},#{itemDetailImgs}::jsonb,#{itemFeatures}::jsonb,#{themeId},#{state},#{shareUrl},#{shareCount},#{collectCount},#{browseCount},#{itemNotice},false,#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{masterInvId},#{itemDetail},#{publicity}::jsonb)
+        (#{cateId},#{brandId},#{itemTitle},#{supplyMerch},#{onShelvesAt},#{offShelvesAt},#{itemMasterImg},#{itemDetailImgs}::jsonb,#{itemFeatures},#{themeId},#{state},#{shareUrl},#{shareCount},#{collectCount},#{browseCount},#{itemNotice},false,#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{masterInvId},#{itemDetail},#{publicity}::jsonb)
     </insert>
 
     <!-- 更新一条商品信息 -->
     <update id="itemUpdate" parameterType="domain.Item">
         update items
         set
-        cate_id=#{cateId},brand_id=#{brandId},item_title=#{itemTitle},supply_merch=#{supplyMerch},on_shelves_at=#{onShelvesAt},off_shelves_at=#{offShelvesAt},item_master_img=#{itemMasterImg},item_detail_imgs=#{itemDetailImgs}::jsonb,item_features=#{itemFeatures}::jsonb,theme_id=#{themeId},state=#{state},share_url=#{shareUrl},share_count=#{shareCount},collect_count=#{collectCount},browse_count=#{browseCount},item_notice=#{itemNotice},or_destroy=#{orDestroy},destroy_at=#{destroyAt},update_at=CURRENT_TIMESTAMP(0),master_inv_id=#{masterInvId},item_detail=#{itemDetail},publicity=#{publicity}::jsonb
+        cate_id=#{cateId},brand_id=#{brandId},item_title=#{itemTitle},supply_merch=#{supplyMerch},on_shelves_at=#{onShelvesAt},off_shelves_at=#{offShelvesAt},item_master_img=#{itemMasterImg},item_detail_imgs=#{itemDetailImgs}::jsonb,item_features=#{itemFeatures},theme_id=#{themeId},state=#{state},share_url=#{shareUrl},share_count=#{shareCount},collect_count=#{collectCount},browse_count=#{browseCount},item_notice=#{itemNotice},or_destroy=#{orDestroy},destroy_at=#{destroyAt},update_at=CURRENT_TIMESTAMP(0),master_inv_id=#{masterInvId},item_detail=#{itemDetail},publicity=#{publicity}::jsonb
         where id = #{id}
     </update>
 

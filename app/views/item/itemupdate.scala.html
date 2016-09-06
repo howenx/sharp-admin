@@ -32,7 +32,7 @@
             return;
         }
         var oldHtml = $(element).html();
-        console.log(oldHtml);
+        <!--console.log(oldHtml);-->
 
         if(element.childNodes.length==0
             ||(element.childNodes.length==1&&element.childNodes[0].nodeType==3)){
@@ -359,10 +359,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @for(itemFeature <- item.getItemFeatures.substring(1,item.getItemFeatures.length-1).split(", ")) {
+                            @for(itemFeature <- item.getItemFeatures.substring(1,item.getItemFeatures.length-1).split(",")) {
                             <tr>
-                                <td onclick="changeText(event,this)">@itemFeature.substring(1,itemFeature.indexOf(":")-1)</td>
-                                <td onclick="changeText(event,this)">@itemFeature.substring(1,itemFeature.indexOf(":")-1)</td>
+                                <td><input type="text" name="attrN" value='@itemFeature.substring(1,itemFeature.indexOf(":")-1)'/></td>
+                                <td><input type="text" name="attrV" value='@itemFeature.substring(itemFeature.indexOf(":")+2,itemFeature.length-1)'/></td>
                                 <td class="del" >@Messages.get(new Lang(Lang.forCode(lang)),"item.add.delete")</td>
                             </tr>
                             }

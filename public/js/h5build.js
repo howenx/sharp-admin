@@ -149,15 +149,15 @@ $(function () {
         numL,
         widthimg,
         heightimg,
-        indexA = -1,
+        indexA = $(".a-container").find("a.draggable").length - 1,
         itemID,
         _self;
     $('#mark-bt').click(function() {
+        console.log(itemID);
         if($(".a-container").find("img").length!=0){
             // img 高度
-            heightimg = $(".a-container").find("img").height();
-            widthimg = $(".a-container").find("img").width();
-            console.log(heightimg);
+            heightimg = $(".a-container").find("#draga").height();
+            widthimg = $(".a-container").find("#draga").width();
             if($("#input_imgurl").val() != ''){
                 if($("#input_imgurl").val() != itemID){
                     itemID = $("#input_imgurl").val();
@@ -169,7 +169,7 @@ $(function () {
                     $('#draga').append(drag);
                     _self = $("a.draggable").eq(indexA+=1);
                     console.log(_self);
-                    $("a.draggable").eq(indexA).draggable({
+                    $("a.draggable").draggable({
                         cursor: "move",
                         containment: "parent",
                         stop:function (event, ui) {
@@ -244,7 +244,65 @@ $(function () {
                 break;
         }
     })
-    // 建立标记 开始
+    // 建立标记 结束
+
+
+
+    //点击编辑按钮
+    $(document).on("click","#js-usercenter-edit-h5",function(){
+        $("#themeTitle").attr("disabled",false);
+        $("#onShelvesAt").attr("disabled",false);
+        $("#offShelvesAt").attr("disabled",false);
+        $("#themeDescribe").attr("disabled",false);
+        //$("#h5-link").attr("disabled",false);
+        $("#getTemplate").css("display","");
+        $("#add-user").css("display","");
+        //转换状态
+        $(".theme-state").find("input").each(function () {
+            var index = $(".theme-state").find("input").index($(".theme-state").find("input:checked"));
+            if(index===1){
+                $(".theme-state").find("input").attr("disabled",false);
+            }else{
+                $(".theme-state").find("input").attr("disabled",false);
+                $(".theme-state").find("input").eq(1).attr("disabled",true);
+            }
+        })
+        //启动 拖拽
+        $("a.draggable").draggable({
+            cursor: "move",
+            containment: "parent",
+            stop:function (event, ui) {
+                $(ui.helper).css({
+                    top : parseInt(parseFloat(this.style.top) / heightimg * 100)+'%',
+                    left : parseInt(parseFloat(this.style.left) / widthimg * 100)+'%'
+                })
+                _self = ui.helper;
+                numW =parseInt($(ui.helper)[0].style.width);
+                numH =parseInt($(ui.helper)[0].style.height);
+                // numT = parseInt(parseFloat(this.style.top) / heightimg * 100);
+                // numL = parseInt(parseFloat(this.style.left) / widthimg * 100);
+                numT = parseInt($(ui.helper)[0].style.top);
+                numL = parseInt($(ui.helper)[0].style.left);
+            }
+        });
+        //主题显示位置radio
+        $(".theme-area").find("input").attr("disabled",false);
+        //保存按钮 可见
+        $("#js-usercenter-submit-h5").css("display","");
+        //取消按钮 可见
+        $("#js-usercenter-cancel-h5").css("display","");
+        //下架按钮 可见
+        $("#js-usercenter-delete-h5").css("display","");
+        $("#js-usercenter-edit-h5").css("display","none");
+        //返回按钮 隐藏
+        $("#js-usercenter-back").css({"display":"none"});
+        //用户列表的删除列
+        $(".del-orShow").css("display","");
+        //主图    图片分割
+        $(".masterImg").css("display","");
+        //是否上传主图
+        $("#imgSel").attr("disabled",false);
+    })
 
 
     //保存        Added by Tiffany Zhu 2016.09.01

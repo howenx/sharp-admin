@@ -78,24 +78,36 @@ funcList.thmlist_data = function thmlist_data(data) {
 
 //每个查询页面对应一个相应的组装函数 商品查询页面
 funcList.commlist_search = function commlist_search(pageIndex) {
+    var itemsearch = $("input[name='itemsearch']:checked").val();
     var commDto = new Object();
-    commDto.itemId = $("#item-id").val();
-    commDto.id = $("#sku-id").val();
-    commDto.invTitle = $("#sku-title").val();
-    commDto.invCode = $("#inv-code").val();
-    commDto.invArea = $("#inv-area").val();
-    commDto.state = $("#state").val();
-    commDto.startAt = $("#item-form-starttime").val();
-    commDto.endAt = $("#item-form-endtime").val();
-    //起止时间如果为空
-    if ($("#item-form-starttime").val() == '' || $("#item-form-starttime").val() == null) {
-        commDto.startAt = "2000-01-01 00:00:00";
+    if (itemsearch=="SKUSearch") {
+        commDto.itemId = $("#item-id").val();
+        commDto.id = $("#sku-id").val();
+        commDto.invTitle = $("#sku-title").val();
+        commDto.invCode = $("#inv-code").val();
+        commDto.invArea = $("#inv-area").val();
+        commDto.state = $("#state").val();
+        commDto.startAt = $("#item-form-starttime").val();
+        commDto.endAt = $("#item-form-endtime").val();
+        //起止时间如果为空
+        if ($("#item-form-starttime").val() == '' || $("#item-form-starttime").val() == null) {
+            commDto.startAt = "2000-01-01 00:00:00";
+        }
+        if ($("#item-form-endtime").val() == '' || $("#item-form-endtime").val() == null) {
+            commDto.endAt = "2999-12-31 23:59:59";
+        }
+        //调用共用ajax
+        search("/comm/search/" + pageIndex, commDto);
+    } else if (itemsearch=="goodSearch") {
+        commDto.id = $("#itemId").val();
+        commDto.itemTitle = $("#itemTitle").val();
+        commDto.cateId = $("#cateId").val();
+        commDto.brandId = $("#brandId").val();
+        //调用共用ajax
+        search("/comm/commSearch/" + pageIndex, commDto);
     }
-    if ($("#item-form-endtime").val() == '' || $("#item-form-endtime").val() == null) {
-        commDto.endAt = "2999-12-31 23:59:59";
-    }
-    //调用共用ajax
-    search("/comm/search/" + pageIndex, commDto);
+
+
 }
 
 //每个查询页面对应一个相应的返回时填充函数 商品查询页面
@@ -110,49 +122,70 @@ funcList.commlist_data = function commlist_data(data) {
 //			join = 'Had Join';
 //			willjoin = 'Will Join';
 //		}
-
-    //填充列表数据
-    $(data).each(function(index, element) {
-        var state = "";
-        var invArea = "";
-        var orMasterInv = "";
-        if($(this)[0].state=="Y"){state="正常"}
-        if($(this)[0].state=="D"){state="下架"}
-        if($(this)[0].state=="N"){state="删除"}
-        if($(this)[0].state=="K"){state="售空"}
-        if($(this)[0].state=="P"){state="预售"}
-        if($(this)[0].orMasterInv==true){orMasterInv="是"}
-        if($(this)[0].orMasterInv==false){orMasterInv="否"}
-        var area = window.area.substring(1,window.area.length-1);
-        var areaArr = area.split(", ");
-        for(i=0;i<areaArr.length;i++) {
-            var areaCode = areaArr[i].split("=")[0];
-            var areaName = areaArr[i].split("=")[1];
-            if ($(this)[0].invArea==areaCode) {
-                invArea = areaName;
+    var itemsearch = $("input[name='itemsearch']:checked").val();
+    var commDto = new Object();
+    if (itemsearch=="SKUSearch") {
+        //清空数据
+        $('#tb-topic').find('tbody').find(".tb-list-data").remove();
+        //填充列表数据
+        $(data).each(function(index, element) {
+            var state = "";
+            var invArea = "";
+            var orMasterInv = "";
+            if($(this)[0].state=="Y"){state="正常"}
+            if($(this)[0].state=="D"){state="下架"}
+            if($(this)[0].state=="N"){state="删除"}
+            if($(this)[0].state=="K"){state="售空"}
+            if($(this)[0].state=="P"){state="预售"}
+            if($(this)[0].orMasterInv==true){orMasterInv="是"}
+            if($(this)[0].orMasterInv==false){orMasterInv="否"}
+            var area = window.area.substring(1,window.area.length-1);
+            var areaArr = area.split(", ");
+            for(i=0;i<areaArr.length;i++) {
+                var areaCode = areaArr[i].split("=")[0];
+                var areaName = areaArr[i].split("=")[1];
+                if ($(this)[0].invArea==areaCode) {
+                    invArea = areaName;
+                }
             }
-        }
-        $('#tb-topic').find('tbody').append('' +
-            '<tr class="tb-list-data">' +
-            '<td><input type="checkbox" name="selectItem"></td>' +
-            '<td><a href="/'+window.lang+'/comm/findById/'+$(this)[0].itemId+'" class="item-info">' + $(this)[0].itemId + '</a></td>' +
-            '<td>' + $(this)[0].id + '</td>' +
-            '<td style="width: 20%;">' + $(this)[0].invTitle + '</td>' +
-            '<td>' +
-            '<img class="main-img" src="' + window.url + $(this)[0].invImg + '" alt="" width="50">' +
-            '</td>' +
-            '<td>' + $(this)[0].itemColor + '&nbsp;&nbsp;'+ $(this)[0].itemSize +'</td>' +
-            '<td>' + $(this)[0].invCode + '</td>' +
-            '<td>' + invArea + '</td>' +
-            '<td>' + ($(this)[0].startAt != null && $(this)[0].startAt != '' ? $(this)[0].startAt.substr(0, 19) : '') + '</td>}' +
-            '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 19) : '') + '</td>}' +
-            '<td>' + $(this)[0].restAmount + '</td>' +
-//                '<td>' + orMasterInv + '</td>' +
-            '<td><input type="hidden" value="'+$(this)[0].state+'">' + state + '</td>' +
-            '</tr>'
-        );
-    })
+            $('#tb-topic').find('tbody').append('' +
+                '<tr class="tb-list-data">' +
+                '<td><input type="checkbox" name="selectItem"></td>' +
+                '<td><a href="/'+window.lang+'/comm/findById/'+$(this)[0].itemId+'" class="item-info">' + $(this)[0].itemId + '</a></td>' +
+                '<td>' + $(this)[0].id + '</td>' +
+                '<td style="width: 20%;">' + $(this)[0].invTitle + '</td>' +
+                '<td>' +
+                '<img class="main-img" src="' + window.url + $(this)[0].invImg + '" alt="" width="50">' +
+                '</td>' +
+                '<td>' + $(this)[0].itemColor + '&nbsp;&nbsp;'+ $(this)[0].itemSize +'</td>' +
+                '<td>' + $(this)[0].invCode + '</td>' +
+                '<td>' + invArea + '</td>' +
+                '<td>' + ($(this)[0].startAt != null && $(this)[0].startAt != '' ? $(this)[0].startAt.substr(0, 19) : '') + '</td>}' +
+                '<td>' + ($(this)[0].endAt != null && $(this)[0].endAt != '' ? $(this)[0].endAt.substr(0, 19) : '') + '</td>}' +
+                '<td>' + $(this)[0].restAmount + '</td>' +
+    //                '<td>' + orMasterInv + '</td>' +
+                '<td><input type="hidden" value="'+$(this)[0].state+'">' + state + '</td>' +
+                '</tr>'
+            );
+        })
+    } else if (itemsearch=="goodSearch") {
+        //清空数据
+        $('#tb-topic').find('tbody').find(".tb-list-data").remove();
+        //填充列表数据
+//        console.log($(this)[0][0]);
+        $(data).each(function(index, element) {
+            $('#tb-topic').find('tbody').append('' +
+                '<tr class="tb-list-data">' +
+                '<td><a href="/'+window.lang+'/comm/findById/'+$(this)[0]+'" class="item-info">' + $(this)[0] + '</a></td>' +
+                '<td style="width: 20%;">' + $(this)[1] + '</td>' +
+                '<td style="width: 20%;">' + $(this)[2] + '</td>' +
+                '<td style="width: 20%;">' + $(this)[3] + '</td>' +
+                '</tr>'
+            );
+        })
+    }
 }
+
 //每个查询页面对应一个相应的组装函数  订单查询页面 ,只更改前缀,不要更改下划线后面的名称     Added By Tiffany Zhu
 funcList.orderlist_search = function orderlist_search(pageIndex) {
     var orderDto = new Object();
@@ -1101,6 +1134,42 @@ $(function() {
         $(".order-admin table").eq(index).show();
         $(".btn-submit").eq(index).show();
     })
-
-
+    /*********** 是否显示推送ERP ***********/
+    $("input[name='itemsearch']").click(function () {
+        $("#item-export").toggle($("#SKUSearch").prop("checked"));
+        var thhtml;
+        if(this.id == "goodSearch"){
+            // 按商品查询
+            thhtml = '<tr>' +
+                '<th style="width: 5%;text-align: center;vertical-align: middle;">商品ID</th>' +
+                '<th style="width: 5%;text-align: center;vertical-align: middle;">商品标题</th>' +
+                '<th style="width: 5%;text-align: center;vertical-align: middle;">类别名称</th>' +
+                '<th style="width: 5%;text-align: center;vertical-align: middle;">品牌名称</th>' +
+                '</tr>';
+            $("#tb-topic thead").html(thhtml);
+            $("#item-search").css("display","block");
+            $("#sku-search").css("display","none");
+        }else{
+            // 按SKU查询
+            thhtml = '<tr>' +
+                    '<th style="width: 6%;text-align: center;vertical-align: middle;"><input type="checkbox" name="selAll">全选</th>' +
+                    '<th style="width: 5%;text-align: center;vertical-align: middle;">商品ID</th>' +
+                    '<th style="width: 6%;text-align: center;vertical-align: middle;">SKU ID</th>' +
+                    '<th style="width: 8%;text-align: center;vertical-align: middle;">SKU 标题</th>' +
+                    '<th style="width: 5%;text-align: center;vertical-align: middle;">主图</th>' +
+                    '<th style="width: 8%;text-align: center;vertical-align: middle;">规格</th>' +
+                    '<th style="width: 6%;text-align: center;vertical-align: middle;">规格编号</th>' +
+                    '<th style="width: 8%;text-align: center;vertical-align: middle;">库存区域</th>' +
+                    '<th style="width: 9%;text-align: center;vertical-align: middle;">上架时间</th>' +
+                    '<th style="width: 9%;text-align: center;vertical-align: middle;">下架时间</th>' +
+                    '<th style="width: 7%;text-align: center;vertical-align: middle;">剩余库存</th>' +
+                    '<!--<th>是否主SKU</th>-->' +
+                    '<th style="width: 7%;text-align: center;vertical-align: middle;">SKU状态</th>' +
+                    '</tr>';
+            $("#tb-topic thead").html(thhtml);
+            $("#item-search").css("display","none");
+            $("#sku-search").css("display","block");
+        }
+        $("#topic-search-bt").trigger("click");
+    });
 })
