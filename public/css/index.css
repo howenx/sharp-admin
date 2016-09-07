@@ -9,7 +9,7 @@ a:hover{text-decoration:none;}
 *{box-sizing:border-box;}
 .box{
     width:1190px;
-    margin:20px auto;
+    margin:30px auto;
 
 }
 
@@ -31,13 +31,16 @@ a:hover{text-decoration:none;}
     background: url("../images/off.png") no-repeat;
 }
 .box-top ul li{
-    width: 257px;
+    width: 25%;
     height:70px;
     float: left;
     text-align: center;
     background-color:#F06C83;
-    margin-right:40px;
+    margin-left:5%;
     padding:10px 0 0 0;
+}
+.box-top ul li.sales{
+    margin-left: 7.5%;
 }
 .box-top ul .sales{
     background-color: #B1A1C6;
@@ -58,29 +61,38 @@ a:hover{text-decoration:none;}
     margin: 0 0 10px 0;
 }
 .box-left{
-    width:700px;
-    float:left;
-    margin:30px 0 0 0;
-
+    padding-top: 40px;
 }
 .box-t{
+    width: 33.33333333%;
     border: 1px solid #ccc;
     border-top:2px solid #8299CB;
-    padding:0 20px 30px ;
+    padding:10px 20px;
+    float: left;
+    margin-top: 30px;
 }
 .box-t ul{
     padding:0 20px;
 }
-
-.box-t ul li{
-    height:52px;
-    border-bottom: 1px solid #ccc;
+.box-t li{
+    float: left;
 }
 
 .box-t a{
-    float: left;
+    display: inline-block;
     width: 120px;
     text-align: center;
+    color: #666;
+    line-height: 34px;
+}
+.box-t a:link{
+    text-decoration: none;
+}
+.box-t a:hover{
+    text-decoration: underline;
+}
+.box-t a:active{
+    color: #00a0e9;
 }
 .box-t .box-t-left{
     padding:10px 0 0 0;
@@ -89,10 +101,6 @@ a:hover{text-decoration:none;}
     float: right;
     height:50px;
     padding:20px 0 0 0;
-}
-.box-t a span{
-    width: 120px;
-    display: block;
 }
 .box-t-right i{
     float: left;
@@ -111,9 +119,6 @@ a:hover{text-decoration:none;}
 
 .f6{
     color:#8299CB;
-}
-.f7{
-    color:#666;
 }
 
 .box-right{
