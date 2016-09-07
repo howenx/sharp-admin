@@ -88,12 +88,12 @@ a:hover{text-decoration:none;}
 .box-t a:link{
     text-decoration: none;
 }
-.box-t a:hover{
-    text-decoration: underline;
-}
-.box-t a:active{
-    color: #00a0e9;
-}
+/*.box-t a:hover{*/
+    /*text-decoration: underline;*/
+/*}*/
+/*.box-t a:active{*/
+    /*color: #00a0e9;*/
+/*}*/
 .box-t .box-t-left{
     padding:10px 0 0 0;
 }
