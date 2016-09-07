@@ -939,10 +939,18 @@ public class ThemeCtrl extends Controller {
                     List<Object[]> tagsList = new ArrayList<>();
                     for (JsonNode node : tagsJson){
                         Object[] object = new Object[6];
-                        object[0] = node.get("top").toString().replace("\"","");     //top的值
-                        object[1] = node.get("left").toString().replace("\"","");    //left的值
-                        object[2] = node.get("width").toString().replace("\"","");   //width的值
-                        object[3] = node.get("height").toString().replace("\"","");  //height的值
+//                        object[0] = node.get("top").toString().replace("\"","");     //top的值
+//                        object[1] = node.get("left").toString().replace("\"","");    //left的值
+//                        object[2] = node.get("width").toString().replace("\"","");   //width的值
+//                        object[3] = node.get("height").toString().replace("\"","");  //height的值
+//                        JsonNode urlJson = node.get("url");
+//                        object[4] = urlJson.get("id").toString().replace("\"","");   //id的值
+//                        object[5] = urlJson.get("type").toString().replace("\"",""); //类型
+
+                        object[0] = node.get("top").asDouble()*100 + "%";     //top的值
+                        object[1] = node.get("left").asDouble()*100 + "%";      //left的值
+                        object[2] = node.get("width").asDouble()*100 + "%";     //width的值
+                        object[3] = node.get("height").asDouble()*100 + "%";    //height的值
                         JsonNode urlJson = node.get("url");
                         object[4] = urlJson.get("id").toString().replace("\"","");   //id的值
                         object[5] = urlJson.get("type").toString().replace("\"",""); //类型
