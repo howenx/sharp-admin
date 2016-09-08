@@ -73,4 +73,11 @@ public interface InventoryService {
      */
     List<Inventory> getAllMasterSKU();
 
+    /**
+     * 根据库存地获取商品集合       Added by Tiffany Zhu 2016.09.08
+     * @param inventory
+     * @return
+     */
+    List<Inventory> getInventoryList(Inventory inventory);
+
 }

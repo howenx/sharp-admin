@@ -197,6 +197,8 @@ funcList.orderlist_search = function orderlist_search(pageIndex) {
     order.orderStatus = $("#order-form-status option:selected").val();
     orderDto.order = order;
     orderDto.userPhone = $("#user_phone_num").val();
+    orderDto.invArea = $("#order-form-invArea").val();
+
     //创建时间如果为空
     if ($("#onShelvesAt").val() == '' || $("#onShelvesAt").val() == null) {
         orderDto.orderCreateAt = "0000-01-01 00:00:00";

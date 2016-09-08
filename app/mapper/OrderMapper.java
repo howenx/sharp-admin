@@ -4,6 +4,7 @@ import domain.order.Order;
 import domain.order.OrderLine;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订单
@@ -18,10 +19,10 @@ public interface OrderMapper {
 
     /**
      * ajax分页查询     Added by Tiffany Zhu
-     * @param order
+     * @param orderMap
      * @return
      */
-    List<Order> getOrderPage(Order order);
+    List<Order> getOrderPage(Map orderMap);
 
     /**
      * 由订单ID获取订单详情      Added by Tiffany Zhu

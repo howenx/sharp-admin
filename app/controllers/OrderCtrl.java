@@ -4,10 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.util.Timeout;
 import com.fasterxml.jackson.databind.JsonNode;
-import domain.ID;
-import domain.Refund;
-import domain.RefundTemp;
-import domain.User;
+import domain.*;
 import domain.order.Order;
 import domain.order.OrderLine;
 import domain.order.OrderShip;
@@ -18,7 +15,6 @@ import play.Configuration;
 import play.Logger;
 import play.i18n.Lang;
 import play.i18n.Messages;
-import play.libs.F;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -77,11 +73,14 @@ public class OrderCtrl extends Controller {
     @Inject
     private AlipayCtrl alipayCtrl;
 
+    @Inject
+    private InventoryService inventoryService;
+
 
     public static final Timeout TIMEOUT = new Timeout(100, TimeUnit.MILLISECONDS);
 
     /**
-     * 订单列表     Added by Tiffany Zhu
+     * 订单列表     Added by Tiffany Zhu            已废弃
      *
      * @param lang
      * @return
@@ -102,7 +101,11 @@ public class OrderCtrl extends Controller {
 
         //订单列表
         List<Object[]> orList = new ArrayList<>();
-        List<Order> orderList = orderService.getOrderPage(order_temp);
+        Map<String,Object> orderMap = new HashMap();
+        List<OrderLine> orderLineList = new ArrayList<>();
+        orderMap.put("order",order_temp);
+        orderMap.put("orderLineList",orderLineList);
+        List<Order> orderList = orderService.getOrderPage(orderMap);
         for (Order order : orderList) {
             Object[] object = new Object[10];
             object[0] = order.getOrderId();
@@ -218,13 +221,33 @@ public class OrderCtrl extends Controller {
                 }
             }
         }
+        //库存地处理         Added by Tiffany Zhu 2016.09.08
+        List<OrderLine> orderLineList = new ArrayList<>();
+        if(json.has("invArea")){
+            //获取库存地商品
+            Inventory inventoryParam = new Inventory();
+            inventoryParam.setInvArea(json.get("invArea").asText());
+            List<Inventory> inventoryList = inventoryService.getInventoryList(inventoryParam);
+            //获取库存地商品的子订单
+            if (inventoryList != null && inventoryList.size() > 0){
+                orderLineList = orderLineService.getOrderLineBySku(inventoryList);
+            }
+        }
+
         if (pageNum >= 1) {
             //计算从第几条开始取数据
             int offset = (pageNum - 1) * ThemeCtrl.PAGE_SIZE;
             order.setPageSize(-1);
             order.setOffset(-1);
+
+            //配置参数
+            Map<String,Object> orderMap = new HashMap();
+            orderMap.put("order",order);
+            if (orderLineList != null && orderLineList.size() > 0){
+                orderMap.put("orderLineList",orderLineList);
+            }
             //取总数
-            int countNum = orderService.getOrderPage(order).size();
+            int countNum = orderService.getOrderPage(orderMap).size();
             //共分几页
             int pageCount = countNum / ThemeCtrl.PAGE_SIZE;
 
@@ -233,7 +256,9 @@ public class OrderCtrl extends Controller {
             }
             order.setPageSize(ThemeCtrl.PAGE_SIZE);
             order.setOffset(offset);
-            List<Order> orderList = orderService.getOrderPage(order);
+            orderMap.put("order",order);
+            List<Order> orderList = orderService.getOrderPage(orderMap);
+
             List<Object> resultList = new ArrayList<>();
             for (Order orderTemp : orderList) {
                 Object[] object = new Object[10];

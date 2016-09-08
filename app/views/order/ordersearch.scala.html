@@ -69,6 +69,23 @@
                 <input  id="user_phone_num" type="number" min="10000" max="99999999" class="form-control"/>
             </div>
         </div>
+        <div class="form-group">
+            <label class=" col-sm-offset-2 col-sm-1 control-label">库存地</label>
+            <div class="col-sm-3">
+                <select id="order-form-invArea" class="form-control">
+                    <option value=""></option>
+                    <option value="S">上海保税仓备货</option>
+                    <option value="G">广州保税仓备货</option>
+                    <option value="H">杭州保税仓备货</option>
+                    <option value="SZ">上海保税区直邮</option>
+                    <option value="GZ">广州保税仓直邮</option>
+                    <option value="HZ">杭州保税仓直邮</option>
+                    <option value="K">海外直邮</option>
+                    <option value="NK">国内仓直邮</option>
+                    <option value="SELF">自营商品</option>
+                </select>
+            </div>
+        </div>
 
         <div class="btn-s">
             <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>

@@ -173,6 +173,17 @@
         from inventories t where or_master_inv = true
     </select>
 
+    <!--根据库存地获取商品集合       Added by Tiffany Zhu 2016.09.08 -->
+    <select id="getInventoryList" parameterType="domain.Inventory" resultType="domain.Inventory">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where  t.inv_area = #{invArea}
+    </select>
+
+
+
 
     <!--视图skus的操作-->
     <sql id="skusColumns">

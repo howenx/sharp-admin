@@ -38,10 +38,22 @@
     <select id="getLineByItems" parameterType="java.util.List" resultType="domain.order.OrderLine">
         select
         <include refid="orderLineColumns">
-        <property name="alias" value="t"/>
+            <property name="alias" value="t"/>
         </include>
         from sp_order_line t where t.item_id in
         <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+    </select>
+
+    <!-- 通过SkuId 获取子订单信息 Added by Tiffany Zhu 2016.09.08 -->
+    <select id="getOrderLineBySku" parameterType="java.util.List" resultType="domain.order.OrderLine">
+        select
+        <include refid="orderLineColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_order_line t where sku_id in 
+        <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
             #{item.id}
         </foreach>
     </select>

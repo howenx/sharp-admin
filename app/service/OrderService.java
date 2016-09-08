@@ -4,6 +4,7 @@ import domain.order.Order;
 import domain.order.OrderLine;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tiffany on 15/12/10.
@@ -16,10 +17,10 @@ public interface OrderService {
     List<Order> getOrdersAll();
     /**
      * 订单ajax查询     Added by Tiffany Zhu
-     * @param order
+     * @param orderMap
      * @return
      */
-    List<Order> getOrderPage(Order order);
+    List<Order> getOrderPage(Map orderMap);
     /**
      * 由订单ID订单详情   Added by Tiffany Zhu
      * @param orderId

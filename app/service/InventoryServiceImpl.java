@@ -149,4 +149,13 @@ public class InventoryServiceImpl implements InventoryService {
         return inventoryMapper.getAllMasterSKU();
     }
 
+    /**
+     * 根据库存地获取商品集合       Added by Tiffany Zhu 2016.09.08
+     * @param inventory
+     * @return
+     */
+    @Override
+    public List<Inventory> getInventoryList(Inventory inventory) {
+        return inventoryMapper.getInventoryList(inventory);
+    }
 }

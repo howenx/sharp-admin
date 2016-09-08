@@ -35,35 +35,75 @@
         from sp_order t where 1=1 order by t.order_create_at DESC
     </select>
 
-    <select id="getOrderPage" parameterType="domain.order.Order" resultType="domain.order.Order">
+    <!--<select id="getOrderPage" parameterType="domain.order.Order" resultType="domain.order.Order">-->
+        <!--select-->
+        <!--<include refid="orderColumns">-->
+            <!--<property name="alias" value="t"/>-->
+        <!--</include>-->
+        <!--from sp_order t where 1=1-->
+        <!--<if test="orderId != null">-->
+            <!--and t.order_id = #{orderId}-->
+        <!--</if>-->
+        <!--<if test="userId != null">-->
+            <!--and t.user_id = #{userId}-->
+        <!--</if>-->
+        <!--<if test="orderStatus != null and orderStatus != ''">-->
+            <!--<if test="orderStatus != 'TO'">-->
+                <!--and t.order_status = #{orderStatus}-->
+            <!--</if>-->
+
+            <!--<if test="orderStatus == 'TO'">-->
+                <!--and t.order_status = 'I' and t.order_create_at &lt;= CURRENT_TIMESTAMP - interval '1 day'-->
+            <!--</if>-->
+        <!--</if>-->
+        <!--order by t.order_create_at DESC-->
+        <!--<if test="pageSize == -1 and offset >= -1">-->
+            <!--LIMIT ALL OFFSET 0-->
+        <!--</if>-->
+        <!--<if test="pageSize >= 1 and offset >= 0">-->
+            <!--LIMIT #{pageSize} OFFSET #{offset}-->
+        <!--</if>-->
+    <!--</select>-->
+
+    <select id="getOrderPage" parameterType="java.util.Map" resultType="domain.order.Order">
         select
         <include refid="orderColumns">
             <property name="alias" value="t"/>
         </include>
         from sp_order t where 1=1
-        <if test="orderId != null">
-            and t.order_id = #{orderId}
+        <if test="order.orderId != null">
+            and t.order_id = #{order.orderId}
         </if>
-        <if test="userId != null">
-            and t.user_id = #{userId}
+        <if test="order.userId != null">
+            and t.user_id = #{order.userId}
         </if>
-        <if test="orderStatus != null and orderStatus != ''">
-            <if test="orderStatus != 'TO'">
-                and t.order_status = #{orderStatus}
+        <if test="order.orderStatus != null and order.orderStatus != ''">
+            <if test="order.orderStatus != 'TO'">
+                and t.order_status = #{order.orderStatus}
             </if>
 
-            <if test="orderStatus == 'TO'">
+            <if test="order.orderStatus == 'TO'">
                 and t.order_status = 'I' and t.order_create_at &lt;= CURRENT_TIMESTAMP - interval '1 day'
             </if>
         </if>
+        <if test="orderLineList != null and orderLineList.size > 0">
+                and t.order_id in
+            <foreach collection="orderLineList" item="item" index="index" open="(" close=")" separator=",">
+                #{item.orderId}
+            </foreach>
+
+        </if>
         order by t.order_create_at DESC
-        <if test="pageSize == -1 and offset >= -1">
+        <if test="order.pageSize == -1 and order.offset >= -1">
             LIMIT ALL OFFSET 0
         </if>
-        <if test="pageSize >= 1 and offset >= 0">
-            LIMIT #{pageSize} OFFSET #{offset}
+        <if test="order.pageSize >= 1 and order.offset >= 0">
+            LIMIT #{order.pageSize} OFFSET #{order.offset}
         </if>
+
+
     </select>
+
 
     <select id="getOrderById" resultType="domain.order.Order" parameterType="java.lang.Long">
         select

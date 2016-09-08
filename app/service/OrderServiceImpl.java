@@ -6,6 +6,7 @@ import mapper.OrderMapper;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -24,12 +25,12 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 订单ajax查询     Added by Tiffany Zhu
-     * @param order
+     * @param orderMap
      * @return
      */
     @Override
-    public List<Order> getOrderPage(Order order) {
-        return orderMapper.getOrderPage(order);
+    public List<Order> getOrderPage(Map orderMap) {
+        return orderMapper.getOrderPage(orderMap);
     }
 
     /**
