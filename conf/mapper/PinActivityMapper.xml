@@ -56,6 +56,10 @@
         <if test="endAt != null">
             and t.end_at &lt;= #{endAt} ::timestamp
         </if>
+        <if test="status != null and status != ''">
+            and t.status = #{status}
+        </if>
+
         ORDER BY t.create_at DESC
 
         <if test="pageSize == -1 and offset >= -1">

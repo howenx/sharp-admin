@@ -292,9 +292,13 @@ public class OrderCtrl extends Controller {
                 object[9] = orderTemp.getOrderStatus();
                 //库存地
                 List<OrderLine> orderLine = orderLineService.getLineByOrderId(orderTemp.getOrderId());
-                Inventory inventory = inventoryService.getInventory(orderLine.get(0).getSkuId());
-                Logger.error("库存地：" + inventory.getInvArea());
-                object[10] = inventory.getInvArea();
+                if (orderLine != null && orderLine.size() > 0){
+                    Inventory inventory = inventoryService.getInventory(orderLine.get(0).getSkuId());
+                    object[10] = inventory.getInvArea();
+                }else {
+                    object[10] = "";
+                }
+
                 resultList.add(object);
             }
             //组装返回数据

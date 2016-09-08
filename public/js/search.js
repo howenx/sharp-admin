@@ -195,9 +195,11 @@ funcList.orderlist_search = function orderlist_search(pageIndex) {
 
     order.orderCreateAt = $("#onShelvesAt").val();
     order.orderStatus = $("#order-form-status option:selected").val();
+    order.orderType = parseInt($("#order-form-type").val());
     orderDto.order = order;
     orderDto.userPhone = $("#user_phone_num").val();
     orderDto.invArea = $("#order-form-invArea").val();
+
 
     //创建时间如果为空
     if ($("#onShelvesAt").val() == '' || $("#onShelvesAt").val() == null) {
@@ -357,6 +359,8 @@ funcList.activitylist_search = function activitylist_search(pageIndex) {
     if ($("#topic-form-endtime").val() == '' || $("#topic-form-endtime").val() == null) {
         activityDto.endAt = "99999-12-31 23:59:59";
     }
+    activityDto.status = $("#pinAct-form-status").val();
+
     //调用共用ajax,url从根目录开始不需要加上语言
     search("/pin/activity/search/" + pageIndex, activityDto);
 }

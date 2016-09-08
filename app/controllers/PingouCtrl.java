@@ -724,7 +724,12 @@ public class PingouCtrl extends Controller {
             List<PinActivity> rtnList = new ArrayList<>();
             for(PinActivity pinActivityTemp : activityList){
                 PinSku pinSku = pingouService.getPinSkuById(pinActivityTemp.getPinId());
-                pinActivityTemp.setPinTitle(pinSku.getPinTitle());
+                if (pinSku != null){
+                    pinActivityTemp.setPinTitle(pinSku.getPinTitle());
+                }else {
+                    pinActivityTemp.setPinTitle("");
+                }
+
                 if("Y".equals(pinActivityTemp.getStatus())){
                     pinActivityTemp.setStatus("正常");
                 }
