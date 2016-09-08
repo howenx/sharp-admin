@@ -86,6 +86,9 @@
                 and t.order_status = 'I' and t.order_create_at &lt;= CURRENT_TIMESTAMP - interval '1 day'
             </if>
         </if>
+        <if test="order.orderType != null and order.orderType != ''">
+            and t.order_type = #{order.orderType}
+        </if>
         <if test="orderLineList != null and orderLineList.size > 0">
                 and t.order_id in
             <foreach collection="orderLineList" item="item" index="index" open="(" close=")" separator=",">

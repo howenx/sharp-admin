@@ -4,6 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.util.Timeout;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.*;
 import domain.order.Order;
 import domain.order.OrderLine;
@@ -81,7 +82,7 @@ public class OrderCtrl extends Controller {
     public static final Timeout TIMEOUT = new Timeout(100, TimeUnit.MILLISECONDS);
 
     /**
-     * 订单列表     Added by Tiffany Zhu            已废弃
+     * 订单列表     Added by Tiffany Zhu
      *
      * @param lang
      * @return
@@ -102,7 +103,7 @@ public class OrderCtrl extends Controller {
 
         //订单列表
         List<Object[]> orList = new ArrayList<>();
-        Map<String,Object> orderMap = new HashMap();
+        Map<String,Object> orderMap = new HashMap<String,Object>();
         List<OrderLine> orderLineList = new ArrayList<>();
         orderMap.put("order",order_temp);
         orderMap.put("orderLineList",orderLineList);
@@ -189,7 +190,8 @@ public class OrderCtrl extends Controller {
             orList.add(object);
 
         }
-        return ok(views.html.order.ordersearch.render(lang, ThemeCtrl.PAGE_SIZE, countNum, pageCount, orList, (User) ctx().args.get("user")));
+        Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
+        return ok(views.html.order.ordersearch.render(lang, ThemeCtrl.PAGE_SIZE, countNum, pageCount, orList,area, (User) ctx().args.get("user")));
 
     }
 
@@ -242,7 +244,7 @@ public class OrderCtrl extends Controller {
             order.setOffset(-1);
 
             //配置参数
-            Map<String,Object> orderMap = new HashMap();
+            Map<String,Object> orderMap = new HashMap<String,Object>();
             orderMap.put("order",order);
             if (orderLineList != null && orderLineList.size() > 0){
                 orderMap.put("orderLineList",orderLineList);
@@ -262,7 +264,7 @@ public class OrderCtrl extends Controller {
 
             List<Object> resultList = new ArrayList<>();
             for (Order orderTemp : orderList) {
-                Object[] object = new Object[10];
+                Object[] object = new Object[11];
                 object[0] = orderTemp.getOrderId();
                 object[1] = orderTemp.getUserId();
                 DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -289,6 +291,14 @@ public class OrderCtrl extends Controller {
                 }
                 //订单状态
                 object[9] = orderTemp.getOrderStatus();
+                //库存地
+                List<OrderLine> orderLine = orderLineService.getLineByOrderId(orderTemp.getOrderId());
+                if (orderLine != null && orderLine.size() > 0){
+                    Inventory inventory = inventoryService.getInventory(orderLine.get(0).getSkuId());
+                    object[10] = inventory.getInvArea();
+                }else {
+                    object[10] = "";
+                }
 
                 resultList.add(object);
             }

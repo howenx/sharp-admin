@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",pageSize:Integer,countNum:Integer,pageCount:Integer,orList:List[Array[Object]],user:domain.User)
+@(lang:String="cn",pageSize:Integer,countNum:Integer,pageCount:Integer,orList:List[Array[Object]],area:Map[String,String],user:domain.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -13,6 +13,7 @@
 <script src="/assets/js/search.js"></script>
 <!-- 此为调用分页所提供的函数名前缀 -->
 <script>window.search_args = 'orderlist'</script>
+<script>window.area = "@area"</script>
 }
 @import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"订单查询")
 
@@ -74,15 +75,18 @@
             <div class="col-sm-3">
                 <select id="order-form-invArea" class="form-control">
                     <option value=""></option>
-                    <option value="S">上海保税仓备货</option>
-                    <option value="G">广州保税仓备货</option>
-                    <option value="H">杭州保税仓备货</option>
-                    <option value="SZ">上海保税区直邮</option>
-                    <option value="GZ">广州保税仓直邮</option>
-                    <option value="HZ">杭州保税仓直邮</option>
-                    <option value="K">海外直邮</option>
-                    <option value="NK">国内仓直邮</option>
-                    <option value="SELF">自营商品</option>
+                    @for((key,value) <- area){
+                        <option value="@key">@value</option>
+                    }
+                </select>
+            </div>
+
+            <label class="col-sm-1 control-label">订单类型</label>
+            <div class="col-sm-3">
+                <select id="order-form-type" class="form-control">
+                    <option value=""></option>
+                    <option value="1">正常订单</option>
+                    <option value="2">拼购订单</option>
                 </select>
             </div>
         </div>
@@ -108,6 +112,7 @@
                 <th>订单总价(元)</th>
                 <th>支付渠道</th>
                 <th>订单状态</th>
+                <th>库存地</th>
                 <!--<th>操作</th>-->
             </tr>
             </thead>
@@ -131,7 +136,7 @@
             </tr>
             }
             <!---公用模块,id不能改变,只需要改变合并行数-->
-            <tr id="nodata-td" style="display:none;"><td colspan="10">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            <tr id="nodata-td" style="display:none;"><td colspan="11">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
         <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->

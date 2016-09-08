@@ -195,9 +195,11 @@ funcList.orderlist_search = function orderlist_search(pageIndex) {
 
     order.orderCreateAt = $("#onShelvesAt").val();
     order.orderStatus = $("#order-form-status option:selected").val();
+    order.orderType = parseInt($("#order-form-type").val());
     orderDto.order = order;
     orderDto.userPhone = $("#user_phone_num").val();
     orderDto.invArea = $("#order-form-invArea").val();
+
 
     //创建时间如果为空
     if ($("#onShelvesAt").val() == '' || $("#onShelvesAt").val() == null) {
@@ -265,6 +267,18 @@ funcList.orderlist_data = function orderlist_data(data) {
                 orderStatus =  "拼团失败未退款";
             }
         }
+        //库存地
+        var invArea = "";
+        var area = window.area.substring(1,window.area.length-1);
+        var areaArr = area.split(", ");
+        for(i=0;i<areaArr.length;i++) {
+            var areaCode = areaArr[i].split("=")[0];
+            var areaName = areaArr[i].split("=")[1];
+            if ($(this)[10] == areaCode) {
+                invArea = areaName;
+            }
+        }
+
         $('#tb-topic').find('tbody').append('' +
             '<tr class="tb-list-data">' +
             '<td><input type="checkbox" name="selectOrder"></td>'+
@@ -277,6 +291,7 @@ funcList.orderlist_data = function orderlist_data(data) {
             '<td>' + $(this)[3] + '</td>' +
             '<td>' + payMethod + '</td>' +
             '<td><input type="hidden" value="'+$(this)[5]+'">' + orderStatus + '</td>' +
+             '<td>' + invArea + '</td>' +
             '</tr>'
         );
     })
@@ -344,6 +359,8 @@ funcList.activitylist_search = function activitylist_search(pageIndex) {
     if ($("#topic-form-endtime").val() == '' || $("#topic-form-endtime").val() == null) {
         activityDto.endAt = "99999-12-31 23:59:59";
     }
+    activityDto.status = $("#pinAct-form-status").val();
+
     //调用共用ajax,url从根目录开始不需要加上语言
     search("/pin/activity/search/" + pageIndex, activityDto);
 }
