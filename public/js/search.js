@@ -265,6 +265,18 @@ funcList.orderlist_data = function orderlist_data(data) {
                 orderStatus =  "拼团失败未退款";
             }
         }
+        //库存地
+        var invArea = "";
+        var area = window.area.substring(1,window.area.length-1);
+        var areaArr = area.split(", ");
+        for(i=0;i<areaArr.length;i++) {
+            var areaCode = areaArr[i].split("=")[0];
+            var areaName = areaArr[i].split("=")[1];
+            if ($(this)[10] == areaCode) {
+                invArea = areaName;
+            }
+        }
+
         $('#tb-topic').find('tbody').append('' +
             '<tr class="tb-list-data">' +
             '<td><input type="checkbox" name="selectOrder"></td>'+
@@ -277,6 +289,7 @@ funcList.orderlist_data = function orderlist_data(data) {
             '<td>' + $(this)[3] + '</td>' +
             '<td>' + payMethod + '</td>' +
             '<td><input type="hidden" value="'+$(this)[5]+'">' + orderStatus + '</td>' +
+             '<td>' + invArea + '</td>' +
             '</tr>'
         );
     })
