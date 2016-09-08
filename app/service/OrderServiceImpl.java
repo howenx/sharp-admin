@@ -154,4 +154,15 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getOrder(Order order) {
         return orderMapper.getOrder(order);
     }
+
+    /**
+     * 查询某个日期以前的订单       Added By Sunny Wu 2016.09.08
+     * @param order 订单
+     * @return
+     */
+    @Override
+    public List<Order> getFormerOrder(Order order) {
+        return orderMapper.getFormerOrder(order);
+    }
+
 }

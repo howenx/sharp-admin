@@ -1,7 +1,7 @@
 @import play.i18n._
 @import domain.User
 
-@(lang:String="cn", user:domain.User, userNum:Integer, orderNum:Integer, yes_order:Integer, unPaidOrder:Integer,deliverOrder:Integer, soldNum:Integer)
+@(lang:String="cn",user:domain.User, returnMap:Map[String,Object])
 @scripts = {
 <!--<link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>-->
 <!--<link rel="shortcut icon" type="image/png" href="/assets/images/favicon.ico">-->
@@ -15,21 +15,17 @@
         <div class="box">
             <div class="box-top">
                 <ul class="clearfix">
-                    <!--<li>-->
-                        <!--<span class="one">432</span>-->
-                        <!--<span>流量(今日)</span>-->
-                    <!--</li>-->
                     <li class="sales">
-                        <span class="one">@soldNum</span>
-                        <span>销售量(今日)</span>
+                        <span class="one">@returnMap.get("todayOrderCount")</span>
+                        <span>今日订单数</span>
                     </li>
                     <li class="order">
-                        <span class="one">@orderNum</span>
-                        <span>新订单(今日)</span>
+                        <span class="one">@returnMap.get("todayPayOrdersCount")</span>
+                        <span>今日付款订单数</span>
                     </li>
                     <li class="user">
-                        <span class="one">@userNum</span>
-                        <span>新用户(今日)</span>
+                        <span class="one">@returnMap.get("todayIncome")</span>
+                        <span>今日销售额</span>
                     </li>
                 </ul>
             </div>
@@ -37,46 +33,43 @@
             <div class="box-left clearfix">
                 <!-- 今日订单 -->
                 <div class="box-t ">
-                    <!--<div class="icon">-->
-                        <!--<i class="icon-s"></i>-->
-                        <!--<i class="icon-x"></i>-->
-                    <!--</div>-->
                     <h4 class="h4-custom-hmm">今日订单:</h4>
                     <ul>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">订单数(<i class="f6">12</i>)</span>
+                                <span class="f7">订单数(<i class="f6">@returnMap.get("todayOrderCount")</i>)</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">付款订单数(<i class="f6">12</i>)</span>
+                                <span class="f7">付款订单数(<i class="f6">@returnMap.get("todayPayOrdersCount")</i>)</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">销售额(<i class="f6">12</i>)</span>
+                                <span class="f7">销售额(<i class="f6">￥@returnMap.get("todayIncome")</i>)</span>
                             </a>
                         </li>
                     </ul>
                 </div>
+
                 <!-- 今日普通商品 -->
                 <div class="box-t ">
                     <h4 class="h4-custom-hmm">今日普通商品:</h4>
                     <ul>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">订单数(<i class="f6">12</i>)</span>
+                                <span class="f7">订单数(<i class="f6">@returnMap.get("todaySkuOrdersCount")</i>)</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">付款订单数(<i class="f6">12</i>)</span>
+                                <span class="f7">付款订单数(<i class="f6">@returnMap.get("todayPaySkuOrdersCount")</i>)</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">销售额(<i class="f6">12</i>)</span>
+                                <span class="f7">销售额(<i class="f6">￥@returnMap.get("todaySkuIncome")</i>)</span>
                             </a>
                         </li>
                     </ul>
@@ -87,17 +80,17 @@
                     <ul>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">订单数(<i class="f6">12</i>)</span>
+                                <span class="f7">订单数(<i class="f6">@returnMap.get("todayPinOrdersCount")</i>)</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">付款订单数(<i class="f6">12</i>)</span>
+                                <span class="f7">付款订单数(<i class="f6">@returnMap.get("todayPayPinOrdersCount")</i>)</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">销售额(<i class="f6">12</i>)</span>
+                                <span class="f7">销售额(<i class="f6">￥@returnMap.get("todayPinIncome")</i>)</span>
                             </a>
                         </li>
                     </ul>
@@ -108,17 +101,17 @@
                     <ul>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">订单数(<i class="f6">12</i>)</span>
+                                <span class="f7">订单数(<i class="f6">@returnMap.get("yesOrderCount")</i>)</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">付款订单数(<i class="f6">12</i>)</span>
+                                <span class="f7">付款订单数(<i class="f6">@returnMap.get("yesPayOrdersCount")</i>)</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">销售额(<i class="f6">12</i>)</span>
+                                <span class="f7">销售额(<i class="f6">￥@returnMap.get("yesIncome")</i>)</span>
                             </a>
                         </li>
                     </ul>
@@ -129,17 +122,17 @@
                     <ul>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">订单数(<i class="f6">12</i>)</span>
+                                <span class="f7">订单数(<i class="f6">@returnMap.get("yesSkuOrdersCount")</i>)</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">付款订单数(<i class="f6">12</i>)</span>
+                                <span class="f7">付款订单数(<i class="f6">@returnMap.get("yesPaySkuOrdersCount")</i>)</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">销售额(<i class="f6">12</i>)</span>
+                                <span class="f7">销售额(<i class="f6">￥@returnMap.get("yesSkuIncome")</i>)</span>
                             </a>
                         </li>
                     </ul>
@@ -150,42 +143,85 @@
                     <ul>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">订单数(<i class="f6">12</i>)</span>
+                                <span class="f7">订单数(<i class="f6">@returnMap.get("yesPinOrdersCount")</i>)</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">付款订单数(<i class="f6">12</i>)</span>
+                                <span class="f7">付款订单数(<i class="f6">@returnMap.get("yesPayPinOrdersCount")</i>)</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">销售额(<i class="f6">12</i>)</span>
+                                <span class="f7">销售额(<i class="f6">￥@returnMap.get("yesPinIncome")</i>)</span>
                             </a>
                         </li>
                     </ul>
                 </div>
-                <!-- 2天前拼购成功 -->
+                <!-- 2天前订单 -->
                 <div class="box-t ">
-                    <h4 class="h4-custom-hmm">2天前拼购成功:</h4>
+                    <h4 class="h4-custom-hmm">2天前订单:</h4>
                     <ul>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">订单数(<i class="f6">12</i>)</span>
+                                <span class="f7">订单数(<i class="f6">@returnMap.get("formerOrdersCount")</i>)</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">付款订单数(<i class="f6">12</i>)</span>
+                                <span class="f7">付款订单数(<i class="f6">@returnMap.get("formerPayOrdersCount")</i>)</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="box-t-left">
-                                <span class="f7">销售额(<i class="f6">12</i>)</span>
+                                <span class="f7">销售额(<i class="f6">￥@returnMap.get("formerIncome")</i>)</span>
                             </a>
                         </li>
                     </ul>
                 </div>
+                <!-- 2天前普通商品 -->
+                <div class="box-t ">
+                    <h4 class="h4-custom-hmm">2天前普通商品:</h4>
+                    <ul>
+                        <li>
+                            <a href="javascript:;" class="box-t-left">
+                                <span class="f7">订单数(<i class="f6">@returnMap.get("formerSkuOrdersCount")</i>)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="box-t-left">
+                                <span class="f7">付款订单数(<i class="f6">@returnMap.get("formerPaySkuOrdersCount")</i>)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="box-t-left">
+                                <span class="f7">销售额(<i class="f6">￥@returnMap.get("formerSkuIncome")</i>)</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 2天前拼购商品 -->
+                <div class="box-t ">
+                    <h4 class="h4-custom-hmm">2天前拼购商品:</h4>
+                    <ul>
+                        <li>
+                            <a href="javascript:;" class="box-t-left">
+                                <span class="f7">订单数(<i class="f6">@returnMap.get("formerPinOrdersCount")</i>)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="box-t-left">
+                                <span class="f7">付款订单数(<i class="f6">@returnMap.get("formerPayPinOrdersCount")</i>)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="box-t-left">
+                                <span class="f7">销售额(<i class="f6">￥@returnMap.get("formerPinIncome")</i>)</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>

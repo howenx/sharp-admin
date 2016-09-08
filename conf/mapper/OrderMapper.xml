@@ -191,6 +191,9 @@
         <if test="orderStatus != null">
             and t.order_status = #{orderStatus}
         </if>
+        <if test="orderType != null">
+            and t.order_type = #{orderType}
+        </if>
     </select>
 
     <!--销售收入统计 成功付款订单 成功退款订单查询          Add By Sunny.Wu 2016.06.16-->
@@ -279,6 +282,24 @@
         </if>
         <if test="pageSize >= 1 and offset >= 0">
             LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+    <!--查询某个日期以前的订单       Added By Sunny Wu 2016.09.08-->
+    <select id="getFormerOrder" parameterType="domain.order.Order" resultType="domain.order.Order">
+        select
+        <include refid="orderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_order t where 1=1
+        <if test="orderCreateAt != null">
+            and to_char(t.order_create_at,'YYYYMMDD')  &lt;  to_char(#{orderCreateAt}::timestamp,'YYYYMMDD')
+        </if>
+        <if test="orderStatus != null">
+            and t.order_status = #{orderStatus}
+        </if>
+        <if test="orderType != null">
+            and t.order_type = #{orderType}
         </if>
     </select>
 

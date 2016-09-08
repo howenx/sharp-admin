@@ -103,4 +103,11 @@ public interface OrderService {
      */
     List<Order> getOrder(Order order);
 
+    /**
+     * 查询某个日期以前的订单       Added By Sunny Wu 2016.09.08
+     * @param order
+     * @return
+     */
+    List<Order> getFormerOrder(Order order);
+
 }

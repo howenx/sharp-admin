@@ -88,7 +88,9 @@ public class ItemMiddle {
             if (jsonItem.has("id")) {
                 Item originItem = itemService.getItem(item.getId());
                 item.setOrDestroy(originItem.getOrDestroy());
+                Logger.error("要修改的的商品数据:"+item);////////////////
                 itemService.itemUpdate(item);
+                Logger.error("修改后的的商品数据:"+item);////////////////
                 //数据录入data_log表
                 Long itemId = item.getId();
                 dataLog.setOperateType("修改商品");
@@ -109,7 +111,9 @@ public class ItemMiddle {
             }
             //录入商品信息
             else {
+                Logger.error("要录入的商品数据:"+item);////////////////
                 itemService.itemInsert(item);
+                Logger.error("录入后的商品数据:"+item);////////////////
                 //数据录入data_log表
                 dataLog.setOperateType("新增商品");
                 dataLog.setLogContent("新增商品"+item.getId());

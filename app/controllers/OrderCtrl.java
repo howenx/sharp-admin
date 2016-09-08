@@ -37,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by tiffany on 16/1/8.
  */
+@SuppressWarnings("unchecked")
 public class OrderCtrl extends Controller {
 
     @Inject

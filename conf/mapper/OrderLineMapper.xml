@@ -15,7 +15,10 @@
         ${alias}.sku_img,
         ${alias}.split_id,
         ${alias}.sku_size,
-        ${alias}.sku_color
+        ${alias}.sku_color,
+        ${alias}.sku_type,
+        ${alias}.sku_type_id,
+        ${alias}.pin_tiered_price_id
     </sql>
     <select id="getLineBySplitId" resultType="domain.order.OrderLine" parameterType="java.lang.Long">
         select
