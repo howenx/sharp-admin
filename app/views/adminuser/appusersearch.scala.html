@@ -54,18 +54,29 @@
             <!--手机号-->
             <label class="col-sm-2 control-label">手机号</label>
             <div class="col-sm-3">
-                <input id = "phoneum" type="number" min="10000" max="99999999" class="form-control"/>
+                <input id = "phoneNum" type="number" min="10000" max="99999999" class="form-control"/>
             </div>
-            <!--操作人员-->
+        </div>
+        <div class="form-group">
+            <!--用户名-->
             <label class="col-sm-2 control-label">用户名</label>
             <div class="col-sm-3">
                 <input id = "id-nickname" type="text" class="form-control"/>
+            </div>
+            <!--用户类型-->
+            <label class="col-sm-2 control-label">用户类型</label>
+            <div class="col-sm-3">
+                <select id="idType" class="form-control">
+                    <option value=""></option>
+                    <option value="N">普通手机用户</option>
+                    <option value="W">微信注册用户</option>
+                    <option value="Q">腾讯QQ用户</option>
+                </select>
             </div>
         </div>
         <div class="form-group">
             <!--开始-->
             <label class="col-sm-2 control-label">注册时间开始</label>
-
             <div class="col-sm-3">
                 <div id="datetimepicker-startAt" class="input-group date">
                     <input id = "id-form-starAt" class="form-control col-sm-2"  type="text">
@@ -81,7 +92,6 @@
                 </div>
             </div>
         </div>
-
         <div class="btn-s">
             <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
             <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>

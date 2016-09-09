@@ -64,6 +64,12 @@
         <if test="userId != null">
             and t.user_id = #{userId}
         </if>
+        <if test='phoneNum != null and phoneNum != "null" and phoneNum != "" '>
+            and t.phone_num like '%${phoneNum}%'
+        </if>
+        <if test='idType != null and idType != "null" and idType != "" '>
+            and t.id_type = #{idType}
+        </if>
         <if test='nickname != null and nickname != "null" and nickname != "" '>
             and t.nickname like '%${nickname}%'
         </if>

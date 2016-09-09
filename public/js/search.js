@@ -518,6 +518,9 @@ funcList.appuserlist_search = function appuserlist_search(pageIndex) {
     IDDto.nickname = $("#id-nickname").val();
     IDDto.startAt = $("#id-form-starAt").val();
     IDDto.endAt = $("#id-form-endAt").val();
+    IDDto.phoneNum = $("#phoneNum").val();
+    IDDto.idType = $("#idType").val();
+
     //起止时间如果为空
     if ($("#id-form-starAt").val() == '' || $("#id-form-starAt").val() == null) {
         IDDto.startAt = "0000-01-01 00:00:00";
