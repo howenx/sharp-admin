@@ -36,6 +36,7 @@ public class Order implements Serializable {
     private Integer clientType;         //支付订单客户端类型
     private Integer orderType;          //订单类型
     private Long pinActiveId;           //拼购活动ID
+    private String erpStatus;           //推送ERP状态
 
     //分页,每页多少条
     private Integer pageSize;
@@ -57,7 +58,7 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, BigDecimal shipFee, BigDecimal postalFee, Timestamp confirmReveiveAt, BigDecimal totalFee, Integer shipTime, Integer clientType, Integer orderType, Long pinActiveId, Integer pageSize, Integer offset, String sort, String order, Timestamp startTime, Timestamp endTime) {
+    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, BigDecimal shipFee, BigDecimal postalFee, Timestamp confirmReveiveAt, BigDecimal totalFee, Integer shipTime, Integer clientType, Integer orderType, Long pinActiveId, String erpStatus, Integer pageSize, Integer offset, String sort, String order, Timestamp startTime, Timestamp endTime) {
         this.orderId = orderId;
         this.userId = userId;
         this.payTotal = payTotal;
@@ -78,6 +79,7 @@ public class Order implements Serializable {
         this.clientType = clientType;
         this.orderType = orderType;
         this.pinActiveId = pinActiveId;
+        this.erpStatus = erpStatus;
         this.pageSize = pageSize;
         this.offset = offset;
         this.sort = sort;
@@ -109,6 +111,7 @@ public class Order implements Serializable {
                 ", clientType=" + clientType +
                 ", orderType=" + orderType +
                 ", pinActiveId=" + pinActiveId +
+                ", erpStatus='" + erpStatus + '\'' +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +
@@ -276,6 +279,14 @@ public class Order implements Serializable {
 
     public void setPinActiveId(Long pinActiveId) {
         this.pinActiveId = pinActiveId;
+    }
+
+    public String getErpStatus() {
+        return erpStatus;
+    }
+
+    public void setErpStatus(String erpStatus) {
+        this.erpStatus = erpStatus;
     }
 
     public Integer getPageSize() {

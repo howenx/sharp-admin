@@ -25,7 +25,8 @@
         ${alias}.ship_time,
         ${alias}.client_type,
         ${alias}.order_type,
-        ${alias}.pin_active_id
+        ${alias}.pin_active_id,
+        ${alias}.erp_status
     </sql>
     <select id="getOrdersAll" resultType="domain.order.Order">
         select
@@ -88,6 +89,9 @@
         </if>
         <if test="order.orderType != null and order.orderType != ''">
             and t.order_type = #{order.orderType}
+        </if>
+        <if test="order.erpStatus != null and order.erpStatus != ''">
+            and t.erp_status = #{order.erpStatus}
         </if>
         <if test="orderLineList != null and orderLineList.size > 0">
                 and t.order_id in
