@@ -138,6 +138,9 @@ GET         /comm/order/signedOrders                                            
 GET         /$lang<(cn|en|kr)>/comm/order/signedOrders                              controllers.OrderCtrl.signedOrderList(lang)
 POST        /comm/order/confirmReceive                                              controllers.OrderCtrl.orderConfirmReceive(lang ="cn")
 POST        /$lang<(cn|en|kr)>/comm/order/confirmReceive                            controllers.OrderCtrl.orderConfirmReceive(lang)
+POST        /comm/order/updSplitOrder                                               controllers.OrderCtrl.updSplitOrder(lang ="cn")
+POST        /$lang<(cn|en|kr)>/comm/order/updSplitOrder                             controllers.OrderCtrl.updSplitOrder(lang)
+
 
 
 

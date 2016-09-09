@@ -476,8 +476,7 @@ public class OrderCtrl extends Controller {
             userObject[1] = "";
         }
 
-        Logger.error("库存地:" + invArea);
-        return ok(views.html.order.orderdetail.render(lang, orderArray, orderShip, subOrdersAll, SysParCom.IMAGE_URL, userObject, invArea,(User) ctx().args.get("user")));
+        return ok(views.html.order.orderdetail.render(lang, orderArray, orderShip, subOrdersAll, SysParCom.IMAGE_URL, userObject, invArea,SysParCom.EXP_COMPANY_MAP,(User) ctx().args.get("user")));
     }
 
     /**
@@ -956,4 +955,18 @@ public class OrderCtrl extends Controller {
         return ok("success");
     }
 
+    @Security.Authenticated(UserAuth.class)
+    public Result updSplitOrder(String lang){
+        JsonNode json = request().body().asJson();
+        if (json.size() > 0){
+            OrderSplit orderSplit = Json.fromJson(json.get(0),OrderSplit.class);
+            orderSplit.setState("I");
+            Logger.error("子订单信息：" + orderSplit);
+            orderSplitService.updateSplitOrder(orderSplit);
+
+            return ok("success");
+        }else {
+            return ok("error");
+        }
+    }
 }

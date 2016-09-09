@@ -1,5 +1,6 @@
 package util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -12,7 +13,9 @@ import redis.clients.jedis.JedisPubSub;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentMap;
@@ -118,6 +121,12 @@ public class SysParCom {
     //WEB服务器
     public static String WEB_SERVER_URL;
 
+    //境内发货可用快递公司
+    public static Map<String,String> EXP_COMPANY_MAP = new HashMap<>();
+
+    //所有快递公司代码
+    public static Map<String,String> EXP_COMPANY_CODE = new HashMap<>();
+
 
     @Inject
     public SysParCom(Configuration configuration) {
@@ -193,7 +202,11 @@ public class SysParCom {
         //WEB服务器
         WEB_SERVER_URL = configuration.getString("web.server.url");
 
+        //境内发货可用快递公司
+        EXP_COMPANY_MAP = new ObjectMapper().convertValue(configuration.getObject("nationExpress"),HashMap.class);
 
+        //所有快递公司代码
+        EXP_COMPANY_CODE = new ObjectMapper().convertValue(configuration.getObject("expressCode"),HashMap.class);
 
     }
 

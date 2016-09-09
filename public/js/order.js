@@ -157,6 +157,60 @@ $(function(){
     })
 
 
+    //订单修改信息保存      Added by Tiffany Zhu 2016.09.09
+    $(document).on("click","#order-save",function(){
+        var isPost = true;
+        if($("#exp-id-editable").val() == ""){
+            isPost = false;
+             $('#js-userinfo-error').text('请添加快递单号').css('color', '#c00');
+             setTimeout("$('#js-userinfo-error').text('').css('color', '#2fa900')",3000);
+             return false;
+        }
+
+        var orderId = parseInt($("#orderId").val());       //订单编号
+        var subOrderId = parseInt($("#sub-order-num").val());     //子订单号
+        var expName = $("#order-form-expName").val();   //快递公司名称
+        var expCompanyCode = $("#order-form-expName option:selected").text();   //快递公司编号
+        var expNum = $("#exp-id-editable").val();       //快递编号
+
+        var data = [];
+        var orderSplit = new Object();
+        orderSplit.orderId = orderId;
+        orderSplit.expressNm = expName;
+        orderSplit.expressNum = expNum;
+        data.push(orderSplit);
+
+        if(isPost){
+           $.ajax({
+               type :  "POST",
+               url : "/comm/order/updSplitOrder",
+               contentType: "application/json; charset=utf-8",
+               data : JSON.stringify(data),
+               error : function(request) {
+                   if (window.lang = 'cn') {
+                        alert("保存失败!");
+                   } else {
+                       alert("Save error!");
+                   }
+               },
+               success: function(data) {
+                   if (window.lang = 'cn') {
+                       alert("保存成功!");
+                   } else {
+                       alert("Save Success!");
+                   }
+                   //返回详情页面
+                   setTimeout("location.href='/"+window.lang+"/comm/order/detail/"+ $("#orderId").val() +"'", 2000);
+
+               }
+           })
+        }
+    })
+
+
+
+
+
 
 //     $(document).on("click",".check-logistics",function(){
 //        var expId = $("#exp-id").val();

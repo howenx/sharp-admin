@@ -281,8 +281,12 @@ funcList.orderlist_data = function orderlist_data(data) {
         }
         //推送状态
         var erpStatus = "";
+        //复选框不可选设置
+        var selectDisabled = "";
+
         if(invArea == "境内发货"){
             erpStatus = "无";
+            selectDisabled = "disabled";
         }else{
             switch($(this)[11]){
                 case "N":
@@ -299,7 +303,7 @@ funcList.orderlist_data = function orderlist_data(data) {
 
         $('#tb-topic').find('tbody').append('' +
             '<tr class="tb-list-data">' +
-            '<td><input type="checkbox" name="selectOrder"></td>'+
+            '<td><input type="checkbox" name="selectOrder"'+ selectDisabled +'></td>'+
             '<td><a href="/' + window.lang +'/comm/order/detail/' + $(this)[0] + '">' + $(this)[0] + '</a></td>' +
             '<td>' + $(this)[7] + '</td>' +
             '<td><a href="/' + window.lang +'/pin/activity/geActivityById/' + $(this)[8] + '">' + $(this)[8] + '</a></td>' +
