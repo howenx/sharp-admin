@@ -169,15 +169,17 @@ $(function(){
 
         var orderId = parseInt($("#orderId").val());       //订单编号
         var subOrderId = parseInt($("#sub-order-num").val());     //子订单号
-        var expName = $("#order-form-expName").val();   //快递公司名称
-        var expCompanyCode = $("#order-form-expName option:selected").text();   //快递公司编号
+        var expCompanyCode  = $("#order-form-expName").val();   //快递公司编号
+        var expName = $("#order-form-expName option:selected").text();   //快递公司名称
         var expNum = $("#exp-id-editable").val();       //快递编号
 
         var data = [];
         var orderSplit = new Object();
+        orderSplit.splitId = subOrderId;
         orderSplit.orderId = orderId;
         orderSplit.expressNm = expName;
         orderSplit.expressNum = expNum;
+        orderSplit.expressCode = expCompanyCode;
         data.push(orderSplit);
 
         if(isPost){

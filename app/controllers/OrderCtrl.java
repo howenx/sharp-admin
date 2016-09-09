@@ -3,6 +3,7 @@ package controllers;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.util.Timeout;
+import ch.qos.logback.core.LogbackException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.*;
@@ -805,6 +806,8 @@ public class OrderCtrl extends Controller {
             userInfo = idService.getID(Integer.parseInt(refundTemp.getUserId().toString()));
         }
 
+
+
         //获取支付宝退款参数
         Map<String,String> alipayParams = new HashMap<String,String>();
         alipayParams = alipayCtrl.getRefundParams(refundTemp.getOrderId());
@@ -960,9 +963,8 @@ public class OrderCtrl extends Controller {
         JsonNode json = request().body().asJson();
         if (json.size() > 0){
             OrderSplit orderSplit = Json.fromJson(json.get(0),OrderSplit.class);
-            orderSplit.setState("I");
             Logger.error("子订单信息：" + orderSplit);
-            orderSplitService.updateSplitOrder(orderSplit);
+            orderSplitService.updateSplitById(orderSplit);
 
             return ok("success");
         }else {

@@ -40,4 +40,13 @@ public class OrderSplitServiceImpl implements OrderSplitService {
     public void updateSplitOrder(OrderSplit orderSplit) {
         orderSplitMapper.updateSplitOrder(orderSplit);
     }
+
+    /**
+     * 通过子订单ID 更新子订单信息 Added by Tiffany Zhu 2016.09.09
+     * @param orderSplit
+     */
+    @Override
+    public void updateSplitById(OrderSplit orderSplit) {
+        orderSplitMapper.updateSplitById(orderSplit);
+    }
 }

@@ -165,7 +165,7 @@
             <div class="col-sm-6">
                 <span>快递单号:</span>
                 @if(invArea == "NK" && orderDetail(6) == "成功"){
-                    <input type="text" id="exp-id-editable" value="" style="width: auto" >
+                    <input type="text" id="exp-id-editable" value="@part1Detail(4)" style="width: auto" >
                 }else{
                     <input type="text" id="exp-id" value="@part1Detail(4)" style="width: auto" disabled>
                 }

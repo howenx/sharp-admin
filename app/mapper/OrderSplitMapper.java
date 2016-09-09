@@ -27,4 +27,10 @@ public interface OrderSplitMapper {
      * @param orderSplit 子订单
      */
     void updateSplitOrder(OrderSplit orderSplit);
+
+    /**
+     * 通过子订单ID 更新子订单信息 Added by Tiffany Zhu 2016.09.09
+     * @param orderSplit
+     */
+    void updateSplitById(OrderSplit orderSplit);
 }

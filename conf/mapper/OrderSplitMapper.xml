@@ -46,4 +46,12 @@
         where order_id = #{orderId}
     </update>
 
+    <!--   修改子订单信息             Add By Tiffany Zhu 2016/09/09-->
+    <update id="updateSplitById" parameterType="domain.order.OrderSplit">
+        update order_split
+        set
+        express_num=#{expressNum},express_code=#{expressCode},express_nm=#{expressNm}
+        where split_id = #{splitId}
+    </update>
+
 </mapper>
