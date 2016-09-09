@@ -51,6 +51,11 @@
             <div class="col-sm-3">
                 <input id = "id-userId" type="number" min="10000" max="99999999" class="form-control"/>
             </div>
+            <!--手机号-->
+            <label class="col-sm-2 control-label">手机号</label>
+            <div class="col-sm-3">
+                <input id = "phoneum" type="number" min="10000" max="99999999" class="form-control"/>
+            </div>
             <!--操作人员-->
             <label class="col-sm-2 control-label">用户名</label>
             <div class="col-sm-3">
@@ -106,52 +111,7 @@
             <tbody>
             @for(id <- idList){
             <!--必须使用tb-list-data类名，公用-->
-            <tr class = "tb-list-data">
-                <td><a href="javascript:void(0)">@id.getUserId()</a></td>
-                <td>@id.getNickname()</td>
-                <td>
-                    <img class="main-img" src='@url@id.getPhotoUrl()' alt="" width="50">
-                </td>
-                <td>
-                    @if(id.getGender()=="F"){女}
-                    @if(id.getGender()=="M"){男}
-                </td>
-                <td>@id.getPhoneNum()</td>
-                <!--<td>-->
-                    <!--@if(id.getEmail()!=null && id.getEmail()!=""){@id.getEmail()}-->
-                <!--</td>-->
-                <td>@(id.getBirthday().toString().substring(0,10))</td>
-                <!--<td>-->
-                    <!--@if(id.getCardType()!=null && id.getCardType()!=""){@id.getCardType()}-->
-                <!--</td>-->
-                <!--<td>-->
-                    <!--@if(id.getCardNum()!=null && id.getCardNum()!=""){@id.getCardNum()}-->
-                <!--</td>-->
-                <!--<td>-->
-                    <!--@if(id.getRealName()!=null && id.getRealName()!=""){@id.getRealName()}-->
-                <!--</td>-->
-                <td>@(id.getRegDt().toString().substring(0,16))</td>
-                <td>@id.getRegIp()</td>
-                <td>
-                    @if(id.getIdType()=="N"){普通手机用户}
-                    @if(id.getIdType()=="W"){微信注册用户}
-                    @if(id.getIdType()=="Q"){腾讯QQ用户}
-                </td>
-                <!--<td>-->
-                    <!--@if(id.getOrActive()=="Y"){已激活}-->
-                    <!--@if(id.getOrActive()=="N"){未激活}-->
-                <!--</td>-->
-                <td>
-                    @if(id.getOrReal()=="Y"){已认证}
-                    @if(id.getOrReal()=="N"){未认证}
-                </td>
-                <td>
-                    @if(id.getStatus()=="Y"){正常}
-                    @if(id.getStatus()=="N"){阻止}
-                </td>
-                <td>@(id.getLastloginDt().toString().substring(0,16))</td>
-                <td>@id.getLastloginIp()</td>
-            </tr>
+
             }
             <tr id="nodata-td" style="display:none;"><td colspan="17">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>

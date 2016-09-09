@@ -523,8 +523,8 @@ funcList.appuserlist_data = function appuserlist_data(data) {
         var status = "";
         var gender = "";
         var idType = "";
-        if($(this)[0].gender=="F"){gender="男"}
-        if($(this)[0].gender=="M"){gender="女"}
+        if($(this)[0].gender=="F"){gender="女"}
+        if($(this)[0].gender=="M"){gender="男"}
 //                if($(this)[0].orActive=="Y"){orActive="已激活"}
 //                if($(this)[0].orActive=="N"){orActive="未激活"}
 //        if($(this)[0].orReal=="Y"){orReal="已认证"}
