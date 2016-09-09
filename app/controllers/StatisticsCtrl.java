@@ -274,7 +274,8 @@ public class StatisticsCtrl extends Controller {
             if (o.getOrderType()==1 && !"I".equals(o.getOrderStatus()) && !"C".equals(o.getOrderStatus()) && !"PI".equals(o.getOrderStatus())) {
                 formerPaySkuOrders.add(o);
             }
-            if (o.getOrderType()==1 && "S".equals(o.getOrderStatus())) {
+            //两天前的销售额包含的订单状态有  成功,收货,发货,拒收,删除
+            if (o.getOrderType()==1 && ("S".equals(o.getOrderStatus())||"R".equals(o.getOrderStatus())||"D".equals(o.getOrderStatus())||"J".equals(o.getOrderStatus())||"N".equals(o.getOrderStatus()))) {
                 BigDecimal payTotal = orderSplitService.getSplitByOrderId(o.getOrderId()).get(0).getTotalPayFee();//订单总支付费用
                 formerSkuIncome = formerSkuIncome.add(payTotal);
             }
@@ -293,7 +294,8 @@ public class StatisticsCtrl extends Controller {
             if (o.getOrderType()==2 && !"I".equals(o.getOrderStatus()) && !"C".equals(o.getOrderStatus()) && !"PI".equals(o.getOrderStatus())) {
                 formerPayPinOrders.add(o);
             }
-            if (o.getOrderType()==2 && "S".equals(o.getOrderStatus())) {
+            //两天前的销售额包含的订单状态有  成功,收货,发货,拒收,删除
+            if (o.getOrderType()==2 && ("S".equals(o.getOrderStatus())||"R".equals(o.getOrderStatus())||"D".equals(o.getOrderStatus())||"J".equals(o.getOrderStatus())||"N".equals(o.getOrderStatus()))) {
                 BigDecimal payTotal = orderSplitService.getSplitByOrderId(o.getOrderId()).get(0).getTotalPayFee();//订单总支付费用
                 formerPinIncome = formerPinIncome.add(payTotal);
             }
