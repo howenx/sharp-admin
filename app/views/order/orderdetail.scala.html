@@ -1,5 +1,5 @@
 @import play.i18n._
-@(lang:String="cn",orderDetail:Array[Object],orderShip:domain.order.OrderShip,subOrdersAll:List[List[List[Array[Object]]]],url:String,userObject:Array[Object],user:domain.User)
+@(lang:String="cn",orderDetail:Array[Object],orderShip:domain.order.OrderShip,subOrdersAll:List[List[List[Array[Object]]]],url:String,userObject:Array[Object],invArea:String,user:domain.User)
 @scripts = {
 <link rel="stylesheet" href="/assets/css/search.css">
 <link rel="stylesheet" href="/assets/css/slider.css">
@@ -136,8 +136,17 @@
                 <input type="text" value="@part1Detail(0)" disabled>
             </div>
             <div class="col-sm-6">
-                <span>物流公司:</span>
-                <input type="text" value="@part1Detail(3)" disabled>
+                <span style="margin-right: 10px">物流公司:</span>
+                @if(invArea == "NK"){
+                <select id="order-form-expName" class="form-control" style="width: 50%;margin: -5px 0 5px 0">
+                    <option value=""></option>
+                    <option value="I">京东</option>
+                    <option value="I">韵达</option>
+
+                </select>
+                }else{
+                    <input type="text" value="@part1Detail(3)" disabled>
+                }
             </div>
         </div>
         <div class="form-group">
@@ -147,7 +156,12 @@
             </div>
             <div class="col-sm-6">
                 <span>运单号:</span>
-                <input type="text" id="exp-id" value="@part1Detail(4)" style="width: auto" disabled>
+                @if(invArea == "NK"){
+                    <input type="text" id="exp-id-editable" value="" style="width: auto" >
+                }else{
+                    <input type="text" id="exp-id" value="@part1Detail(4)" style="width: auto" disabled>
+                }
+
                 <i class="glyphicon glyphicon-triangle-bottom check-logistics">
                     <div class="logistics-info">
                         @for(part3Detail <- subOrder(2)){

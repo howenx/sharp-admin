@@ -324,8 +324,7 @@ public class OrderCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result orderDetail(String lang, Long id) {
-
-
+        String invArea = "";
         //获取订单
         Order order = orderService.getOrderById(id);
         Object[] orderArray = new Object[9];
@@ -434,6 +433,11 @@ public class OrderCtrl extends Controller {
 
             //子订单的全部商品
             List<OrderLine> orderLineList = orderLineService.getLineBySplitId(orderSplit.getSplitId().longValue());
+
+            //获取订单库存地       Added by Tiffany Zhu 2016.09.09
+            Inventory inventory = inventoryService.getInventory(orderLineList.get(0).getSkuId());
+            invArea = inventory.getInvArea();
+
             //包含商品名的子订单商品
             List<Object[]> subOrderPart2 = new ArrayList<>();
             for (OrderLine orderLine : orderLineList) {
@@ -472,7 +476,8 @@ public class OrderCtrl extends Controller {
             userObject[1] = "";
         }
 
-        return ok(views.html.order.orderdetail.render(lang, orderArray, orderShip, subOrdersAll, SysParCom.IMAGE_URL, userObject, (User) ctx().args.get("user")));
+        Logger.error("库存地:" + invArea);
+        return ok(views.html.order.orderdetail.render(lang, orderArray, orderShip, subOrdersAll, SysParCom.IMAGE_URL, userObject, invArea,(User) ctx().args.get("user")));
     }
 
     /**

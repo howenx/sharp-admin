@@ -281,16 +281,20 @@ funcList.orderlist_data = function orderlist_data(data) {
         }
         //推送状态
         var erpStatus = "";
-        switch($(this)[11]){
-            case "N":
-            erpStatus = "未推送";
-            break;
-            case "Y":
-            erpStatus = "推送成功";
-            break;
-            case "F":
-            erpStatus = "推送失败";
-            break;
+        if(invArea == "境内发货"){
+            erpStatus = "无";
+        }else{
+            switch($(this)[11]){
+                case "N":
+                erpStatus = "未推送";
+                break;
+                case "Y":
+                erpStatus = "推送成功";
+                break;
+                case "F":
+                erpStatus = "推送失败";
+                break;
+             }
         }
 
         $('#tb-topic').find('tbody').append('' +
