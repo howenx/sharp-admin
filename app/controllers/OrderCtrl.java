@@ -264,7 +264,7 @@ public class OrderCtrl extends Controller {
 
             List<Object> resultList = new ArrayList<>();
             for (Order orderTemp : orderList) {
-                Object[] object = new Object[11];
+                Object[] object = new Object[12];
                 object[0] = orderTemp.getOrderId();
                 object[1] = orderTemp.getUserId();
                 DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -299,7 +299,7 @@ public class OrderCtrl extends Controller {
                 }else {
                     object[10] = "";
                 }
-
+                object[11] = orderTemp.getErpStatus();
                 resultList.add(object);
             }
             //组装返回数据

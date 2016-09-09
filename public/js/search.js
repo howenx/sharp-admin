@@ -196,6 +196,7 @@ funcList.orderlist_search = function orderlist_search(pageIndex) {
     order.orderCreateAt = $("#onShelvesAt").val();
     order.orderStatus = $("#order-form-status option:selected").val();
     order.orderType = parseInt($("#order-form-type").val());
+    order.erpStatus = $("#order-form-erpStatus").val();
     orderDto.order = order;
     orderDto.userPhone = $("#user_phone_num").val();
     orderDto.invArea = $("#order-form-invArea").val();
@@ -278,6 +279,19 @@ funcList.orderlist_data = function orderlist_data(data) {
                 invArea = areaName;
             }
         }
+        //推送状态
+        var erpStatus = "";
+        switch($(this)[11]){
+            case "N":
+            erpStatus = "未推送";
+            break;
+            case "Y":
+            erpStatus = "推送成功";
+            break;
+            case "F":
+            erpStatus = "推送失败";
+            break;
+        }
 
         $('#tb-topic').find('tbody').append('' +
             '<tr class="tb-list-data">' +
@@ -291,7 +305,8 @@ funcList.orderlist_data = function orderlist_data(data) {
             '<td>' + $(this)[3] + '</td>' +
             '<td>' + payMethod + '</td>' +
             '<td><input type="hidden" value="'+$(this)[5]+'">' + orderStatus + '</td>' +
-             '<td>' + invArea + '</td>' +
+            '<td>' + invArea + '</td>' +
+            '<td>' + erpStatus + '</td>' +
             '</tr>'
         );
     })
