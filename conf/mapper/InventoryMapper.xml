@@ -182,7 +182,14 @@
         from inventories t where  t.inv_area = #{invArea}
     </select>
 
-
+    <!--查询所有需要报关的商品信息       Added By Sunny Wu 2016.09.12-->
+    <select id="getAllCustomSku" parameterType="domain.Inventory" resultType="domain.Inventory">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where t.inv_area='K'
+    </select>
 
 
     <!--视图skus的操作-->

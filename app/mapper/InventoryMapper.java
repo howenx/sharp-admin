@@ -91,4 +91,9 @@ public interface InventoryMapper {
      */
     List<Inventory> getInventoryList(Inventory inventory);
 
+    /**
+     * 查询所有需要报关的商品信息       Added By Sunny Wu 2016.09.12
+     * @return
+     */
+    List<Inventory> getAllCustomSku();
 }
