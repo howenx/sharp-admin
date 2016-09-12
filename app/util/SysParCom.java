@@ -26,6 +26,7 @@ import java.util.concurrent.ExecutorService;
  * Created by hao on 16/2/28.
  */
 @Singleton
+@SuppressWarnings("unchecked")
 public class SysParCom {
 
 
