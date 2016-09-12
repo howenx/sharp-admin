@@ -80,7 +80,6 @@ a:hover{text-decoration:none;}
 
 .box-t a{
     display: inline-block;
-    width: 120px;
     text-align: center;
     color: #666;
     line-height: 34px;
@@ -95,7 +94,7 @@ a:hover{text-decoration:none;}
     /*color: #00a0e9;*/
 /*}*/
 .box-t .box-t-left{
-    padding:10px 0 0 0;
+    padding:10px 60px 0 0;
 }
 .box-t .box-t-right{
     float: right;
