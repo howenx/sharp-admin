@@ -963,8 +963,11 @@ public class OrderCtrl extends Controller {
         JsonNode json = request().body().asJson();
         if (json.size() > 0){
             OrderSplit orderSplit = Json.fromJson(json.get(0),OrderSplit.class);
-            Logger.error("子订单信息：" + orderSplit);
             orderSplitService.updateSplitById(orderSplit);
+            Order order = new Order();
+            order.setOrderId(orderSplit.getOrderId());
+            order.setOrderStatus("D");
+            orderService.updateOrder(order);
 
             return ok("success");
         }else {
