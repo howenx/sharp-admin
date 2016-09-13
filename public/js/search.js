@@ -292,7 +292,7 @@ funcList.orderlist_data = function orderlist_data(data) {
                 case "N":
                 erpStatus = "未推送";
                 break;
-                case "Y":
+                case "S":
                 erpStatus = "推送成功";
                 break;
                 case "F":
