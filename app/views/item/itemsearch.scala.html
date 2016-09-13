@@ -171,7 +171,8 @@
 	    <div class="btn-s">
 			<input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
 	        <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
-            <a id="item-export" href="javascript:void(0)" class="btn btn-primary btn-s-2">推送ERP</a>
+            <a id="item-push" href="javascript:void(0)" class="btn btn-primary btn-s-2">推送ERP</a>
+            <a id="item-export" href="javascript:void(0)" class="btn btn-primary btn-s-2">商品批量导出</a>
 	    </div>
 	</form>
 	<div class="table-content">
@@ -224,8 +225,8 @@
         $("input[name='selectItem']").prop('checked',$(this).prop("checked"));
     });
 
-    /** 导出商品 **/
-    $("#item-export").click(function(){
+    /** 商品推送到ERP **/
+    $("#item-push").click(function(){
         var reg = new RegExp(/^[0-9]\d+$/); //数字验证
         var isPost = true;
         if($("input[name='selectItem']:checked").length <= 0){
@@ -284,6 +285,21 @@
                 }
             });
         }
+    });
+
+    /** 导出商品数据 **/
+    $("#item-export").click(function(){
+        $.ajax({
+            type :  "GET",
+            url : "/item/export",
+            contentType: "application/json; charset=utf-8",
+            error : function(request) {
+                alert("导出失败");
+            },
+            success: function(data) {
+                alert(data+" 导出成功");
+            }
+        });
     });
 
 </script>

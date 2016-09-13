@@ -5,9 +5,16 @@ import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Throwables;
 import domain.*;
+import domain.order.Order;
 import filters.UserAuth;
 import middle.ItemMiddle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import play.Configuration;
 import play.Logger;
 import play.data.DynamicForm;
@@ -24,6 +31,8 @@ import util.Regex;
 import util.SysParCom;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -735,6 +744,58 @@ public class ItemCtrl extends Controller {
     public Result operateAllGoods() {
         itemMiddle.operateAllGoods();
         return ok("处理为预售完成");
+    }
+
+    /**
+     * 批量导出商品数据     Added By Sunny.Wu 2016.09.12
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result itemExport() {
+        //所有需要报关的商品信息
+        List<Inventory> inventoryList = inventoryService.getAllCustomSku();
+        //导出excel
+        XSSFWorkbook wb = new XSSFWorkbook();//创建HSSFWorkbook对象(excel的文档对象)
+        //输出Excel文件
+        FileOutputStream output = null;
+        String fileName = "KakaoGift报关商品信息表.xlsx";   //文件名
+        Sheet sheet = wb.createSheet("需报关的商品信息");//建立新的sheet对象（excel的表单）
+        Row row1 = sheet.createRow(0);//在sheet里创建第一行
+        //创建单元格并设置单元格内容
+        row1.createCell(0).setCellValue("商品ID");
+        row1.createCell(1).setCellValue("SKU ID");
+        row1.createCell(2).setCellValue("SKU编码");
+        row1.createCell(3).setCellValue("商品标题");
+        row1.createCell(4).setCellValue("规格");
+        //在sheet里从第二行开始创建数据
+        int r = 1;
+        for(Inventory inv : inventoryList) {
+            Row row = sheet.createRow(r);
+            row.createCell(0).setCellValue(inv.getItemId());
+            row.createCell(1).setCellValue(inv.getId());
+            row.createCell(2).setCellValue(inv.getInvCode());
+            row.createCell(3).setCellValue(inv.getInvTitle());
+            row.createCell(4).setCellValue(inv.getItemColor() + " " +inv.getItemSize());
+            r += 1;
+        }
+        try {
+
+            File file = new File(fileName);
+            output = new FileOutputStream(file);
+            wb.write(output);
+            output.close();
+
+            // 设置response的Header
+            response().setHeader("Content-Disposition", "attachment;filename="
+                    + new String(fileName.getBytes()));
+//            response().setHeader("Content-Length", "" + file.length());
+
+            return ok(file.getName());
+        } catch (Exception e) {
+            Logger.error(Throwables.getStackTraceAsString(e));
+            return badRequest();
+        }
+//        return ok("导出成功");
     }
 
 }

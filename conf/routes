@@ -83,6 +83,7 @@ GET         /$lang<(cn|en|kr)>/comm/findById/:id                                
 GET         /comm/updateById/:id                                                    controllers.ItemCtrl.updateItemById(lang = "cn",id:Long)
 GET         /$lang<(cn|en|kr)>/comm/updateById/:id                                  controllers.ItemCtrl.updateItemById(lang,id:Long)
 GET         /comm/poup                                                              controllers.ItemCtrl.goodsPop()
+GET         /item/export                                                            controllers.ItemCtrl.itemExport()
 
 
 
