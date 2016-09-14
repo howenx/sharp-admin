@@ -65,14 +65,14 @@
             sharedObject.index = index;
         }
         if (window.showModalDialog) {
-            var retValue = showModalDialog("/comm/pop", sharedObject, "dialogWidth:1300px; dialogHeight:8900px; dialogLeft:300px;");
+            var retValue = showModalDialog("/comm/pop", sharedObject, "dialogWidth:1200px; dialogHeight:8900px; dialogLeft:300px;");
             if (retValue) {
                 UpdateFields(retValue);
             }
         }
         else {
             // for similar functionality in Opera, but it's not modal!
-            var modal = window.open ("/comm/pop", null, "width=1300,height=900,left=300,modal=yes,alwaysRaised=yes", null);
+            var modal = window.open ("/comm/pop", null, "width=1200,height=900,left=300,modal=yes,alwaysRaised=yes", null);
             modal.dialogArguments = sharedObject;
         }
     }

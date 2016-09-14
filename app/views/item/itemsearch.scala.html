@@ -308,20 +308,6 @@
     });
 
     /** 导入商品数据 **/
-    $("#item-import").click(function(){
-        $.ajax({
-            type :  "GET",
-            url : "/item/import",
-            contentType: "application/json; charset=utf-8",
-            error : function(request) {
-                alert("导入失败");
-            },
-            success: function(data) {
-                alert(data+" 导入成功");
-            }
-        });
-    });
-
     $("#itemExcelBtn").click(function(){
         var itemPath=$("#itemPath").val();
         if(null==itemPath||""==itemPath){

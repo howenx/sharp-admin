@@ -832,7 +832,7 @@ public class ItemCtrl extends Controller {
              * 8-->消费税(postalTaxRate)--> 0%
              */
             String[] data = null;
-            for(int i=1; i<2;i++) {
+            for(int i=1; i<list.size();i++) {
                 data = list.get(i).split(";");
                 Inventory inventory = new Inventory();
 //                inventory = inventoryService.getInventory(112305L);

@@ -696,7 +696,7 @@ $(function(){
 //        }
 //    });
 
-    //海外直邮模式(K需要报关)
+    //(K需要报关)
     $(document).on('change','#invArea',function() {
         if ($("#invArea").val()=="K")
             $(".K").css('display','block');
