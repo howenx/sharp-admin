@@ -58,7 +58,7 @@
             </label>
         </div>
     </div>
-    <form class="form-horizontal">
+    <form class="form-horizontal" id="itemForm" action="/item/import" method="post" enctype="multipart/form-data">
         <div style="border: 2px dotted #ccc;padding: 10px 8px 6px 8px" id="sku-search">
             <div class="form-group">
                 <!--商品 id-->
@@ -173,6 +173,11 @@
 	        <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
             <a id="item-push" href="javascript:void(0)" class="btn btn-primary btn-s-2">推送ERP</a>
             <a id="item-export" href="javascript:void(0)" class="btn btn-primary btn-s-2">商品批量导出</a>
+            <a id="itemExcelBtn" href="javascript:void(0)" class="btn btn-primary btn-s-2">商品批量导入</a>
+            <div style="margin-top:-20px; margin-left:850px;">
+                <input type="hidden" class="form-control" id="itemPath" name="itemPath"/>
+                <input type="file" name="itemFile" onchange="document.getElementById('itemPath').value=this.value" />
+            </div>
 	    </div>
 	</form>
 	<div class="table-content">
@@ -301,5 +306,31 @@
             }
         });
     });
+
+    /** 导入商品数据 **/
+    $("#item-import").click(function(){
+        $.ajax({
+            type :  "GET",
+            url : "/item/import",
+            contentType: "application/json; charset=utf-8",
+            error : function(request) {
+                alert("导入失败");
+            },
+            success: function(data) {
+                alert(data+" 导入成功");
+            }
+        });
+    });
+
+    $("#itemExcelBtn").click(function(){
+        var itemPath=$("#itemPath").val();
+        if(null==itemPath||""==itemPath){
+            alert("请导入商品excel");
+            return;
+        }
+        //提交表单
+        $("#itemForm").submit();
+     });
+
 
 </script>

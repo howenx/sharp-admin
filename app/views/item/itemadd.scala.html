@@ -44,34 +44,35 @@
                 if (count==9) skuObj.restrictAmount = $(this).text();
                 if (count==10) skuObj.restAmount = $(this).text();
                 if (count==11) skuObj.invWeight = $(this).text();
-                if (count==12) skuObj.postalTaxCode = $(this).text();
                 var invArea = "";
-                if (count==13) {
+                if (count==12) {
                     skuObj.invArea = $(this).text();
                     invArea = skuObj.invArea;
                 }
-                if (invArea.indexOf("K")<0) {
-                    if (count==14) skuObj.invCustoms = $(this).text();
-                    if (count==15) skuObj.recordCode = $(this).text();
+                if (invArea=="K") {
+                    if (count==13) skuObj.invCustoms = $(this).text();
+                    if (count==14) skuObj.postalTaxCode = $(this).text();
+                    if (count==15) skuObj.postalTaxRate = $(this).text();
+                    if (count==16) skuObj.recordCode = $(this).text();
                 }
-                if (count==16) skuObj.invImg = $(this).text();
-                if (count==17) skuObj.itemPreviewImgs = $(this).text();
-                if (count==18) skuObj.orVaryPrice = $(this).text();
-                if (count==19) skuObj.varyPrice = $(this).text();
+                if (count==17) skuObj.invImg = $(this).text();
+                if (count==18) skuObj.itemPreviewImgs = $(this).text();
+                if (count==19) skuObj.orVaryPrice = $(this).text();
+                if (count==20) skuObj.varyPrice = $(this).text();
                 count++;
             });
             sharedObject.skuObj = skuObj;
             sharedObject.index = index;
         }
         if (window.showModalDialog) {
-            var retValue = showModalDialog("/comm/pop", sharedObject, "dialogWidth:1200px; dialogHeight:8900px; dialogLeft:300px;");
+            var retValue = showModalDialog("/comm/pop", sharedObject, "dialogWidth:1300px; dialogHeight:8900px; dialogLeft:300px;");
             if (retValue) {
                 UpdateFields(retValue);
             }
         }
         else {
             // for similar functionality in Opera, but it's not modal!
-            var modal = window.open ("/comm/pop", null, "width=1200,height=900,left=300,modal=yes,alwaysRaised=yes", null);
+            var modal = window.open ("/comm/pop", null, "width=1300,height=900,left=300,modal=yes,alwaysRaised=yes", null);
             modal.dialogArguments = sharedObject;
         }
     }

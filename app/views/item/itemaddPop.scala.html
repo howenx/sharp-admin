@@ -196,18 +196,6 @@
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="invWeight" name="invWeight">
                 </div>
-                <!-- 商品海关编码 -->
-                <label class="col-sm-2 control-label"><div class="r thval">商品海关编码</div></label>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" id="postalTaxCode" name="postalTaxCode">
-                </div>
-            </div>
-            <div class="form-group">
-                <!-- 库存总量 -->
-                <!--<label class="col-sm-2 control-label thval"><div class="r" style="padding:3px;"> *</div><div class="r">库存总量</div></label>-->
-                <!--<div class="col-sm-2">-->
-                    <!--<input type="text" class="form-control" id="amount" name="amount">-->
-                <!--</div>-->
                 <!-- 库存区域 -->
                 <label class="col-sm-2 control-label"><div class="r start" style="padding:3px;"> *</div><div class="r thval">库存区域</div></label>
                 <div class="col-sm-2">
@@ -217,18 +205,34 @@
                         }
                     </select>
                 </div>
+                <div id="warn-cus" style="color:red; margin-top:5px;"></div>
+            </div>
+            <div class="form-group K">
+                <!-- 库存总量 -->
+                <!--<label class="col-sm-2 control-label thval"><div class="r" style="padding:3px;"> *</div><div class="r">库存总量</div></label>-->
+                <!--<div class="col-sm-2">-->
+                    <!--<input type="text" class="form-control" id="amount" name="amount">-->
+                <!--</div>-->
                 <!-- 报关单位 -->
-                <label class="col-sm-2 control-label K"><div class="r start" style="padding:3px;"> *</div><div class="r thval ">报关单位</div></label>
-                <div class="col-sm-2 K">
+                <label class="col-sm-2 control-label"><div class="r thval ">报关单位</div></label>
+                <div class="col-sm-2">
                     <select class="form-control" id="invCustoms" name="invCustoms">
                         @for(cus <- customs) {
                         <option value='@cus.toString.substring(1,cus.toString.length-1).split(",")(0)'>@cus.toString.substring(1,cus.toString.length-1).split(",")(1)</option>
                         }
                     </select>
                 </div>
-                <div id="warn-cus" style="color:red; margin-top:5px;"></div>
+                <!-- 商品海关编码 -->
+                <label class="col-sm-2 control-label"><div class="r thval">HSCODE</div></label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="postalTaxCode" name="postalTaxCode">
+                </div>
+                <!-- 税率 -->
+                <label class="col-sm-1 control-label thval" style="width:200px;margin-left:-80px;">税率(增值税,消费税)</label>
+                <div class="col-sm-2" style="margin-left:-20px;">
+                    <input type="text" class="form-control" id="postalTaxRate" name="postalTaxRate">
+                </div>
             </div>
-            <!--</div>-->
             <!--<div class="form-group K">-->
                 <!--&lt;!&ndash; 税率设置 &ndash;&gt;-->
                 <!--<label class="col-sm-2 control-label thval">税率设置</label>-->

@@ -84,15 +84,15 @@ function Init () {
         $("#restAmount").val(skuObj.restAmount);
 //        $("#amount").val(skuObj.amount);
         $("#invWeight").val((skuObj.invWeight)/1000.0);
-        $("#postalTaxCode").val(skuObj.postalTaxCode);
 //        $("#carriageModelCode").val(skuObj.carriageModelCode);
         $("#invArea").val(skuObj.invArea);
 //        $("#rateSet").val(skuObj.rateSet);
-        //海外直邮
-        if ($("#invArea").val().indexOf("K")>=0) {
+        //不需要报关
+        if ($("#invArea").val()!="K") {
             $(".K").css('display','none');
         }
-        if ($("#invArea").val().indexOf("K")<0) {
+        //需要报关
+        if ($("#invArea").val()=="K") {
 //            if (skuObj.rateSet == "F") {
 //                $("#postalTaxRate").val(0);
 //                $("#postalTaxCode").val("");
@@ -111,9 +111,9 @@ function Init () {
 //                $("#postalTaxRate").attr("readonly", false);
 //                $("#postalTaxCode").attr("readonly", true);
 //            }
-//            $("#postalTaxRate").val(skuObj.postalTaxRate);
-//            $("#postalTaxCode").val(skuObj.postalTaxCode);
             $("#invCustoms").val(skuObj.invCustoms);
+            $("#postalTaxCode").val(skuObj.postalTaxCode);
+            $("#postalTaxRate").val(skuObj.postalTaxRate);
 //            var recordCode = {};
             var recordCode = skuObj.recordCode;
 //            console.log(recordCode);
@@ -239,8 +239,8 @@ function saveCurr(saveFlag) {
     var invArea = $("#invArea").val();//库存区域
     var invCustoms = $("#invCustoms").val();//报关单位
 //    var rateSet = $("#rateSet").val();//税率设置
-//    var postalTaxRate = $("#postalTaxRate").val();//税率
-//    var postalTaxCode = $("#postalTaxCode").val();//行邮税号
+    var postalTaxCode = $("#postalTaxCode").val();//行邮税号
+    var postalTaxRate = $("#postalTaxRate").val();//税率
     var recordCode = {};//海关商品备案号
     $("#recordCode").find(".record-code").each(function() {
         var recordValue = $(this).val();
@@ -293,17 +293,27 @@ function saveCurr(saveFlag) {
         $("#warn-amount").text("请检查库存量或状态");
     } else $("#warn-amount").text("");
 
-    //海外直邮模式
-    if ($("#invArea").val().indexOf("K")>=0) {
+    //不报关
+    if ($("#invArea").val()!="K") {
         invCustoms = "0";
-//        postalTaxRate = "0";
+        postalTaxCode = "0";
+        postalTaxRate = "0";
         recordCode = 0;
     }
-    //跨境模式
-    if ($("#invArea").val().indexOf("K")<0) {
+    //报关
+    if ($("#invArea").val()=="K") {
         if (invCustoms=="" || invCustoms==null) {
             orSave = false;
             $("#warn-cus").text("请选择报关单位");
+        } else if (postalTaxCode=="" || postalTaxCode==null) {
+            orSave = false;
+            $("#warn-cus").text("请输入HSCODE");
+        } else if (postalTaxRate=="" || postalTaxRate==null) {
+            orSave = false;
+            $("#warn-cus").text("请输入税率");
+        } else if (JSON.stringify(recordCode).length<3) {
+            orSave = false;
+            $("#warn-cus").text("请输入海关商品备案号");
         } else $("#warn-cus").text("");
         //行邮税率设置 F免税:税率为0,行邮税号不设置; S标准税率:税率不设置,输入行邮税号(数字); D自定义税率:设置税率,行邮税号不设置
 //        if (rateSet == "") {
@@ -401,14 +411,13 @@ function saveCurr(saveFlag) {
     trdobj.restAmount = restAmount;
     if (invWeight=="") invWeight = 0;
     trdobj.invWeight = invWeight;
-    trdobj.postalTaxCode = postalTaxCode;
 //    trdobj.amount = amount;
 //    trdobj.carriageModelCode = carriageModelCode;
     trdobj.invArea = invArea;
     trdobj.invCustoms = invCustoms;
 //    trdobj.rateSet = rateSet;
-//    trdobj.postalTaxRate = postalTaxRate;
-//    trdobj.postalTaxCode = postalTaxCode;
+    trdobj.postalTaxCode = postalTaxCode;
+    trdobj.postalTaxRate = postalTaxRate;
     if (JSON.stringify(recordCode).length>2)
     trdobj.recordCode = JSON.stringify(recordCode);
     else trdobj.recordCode = 0;
@@ -687,12 +696,12 @@ $(function(){
 //        }
 //    });
 
-    //海外直邮模式
+    //海外直邮模式(K需要报关)
     $(document).on('change','#invArea',function() {
-        if ($("#invArea").val().indexOf("K")>=0)
-            $(".K").css('display','none');
-        else
+        if ($("#invArea").val()=="K")
             $(".K").css('display','block');
+        else
+            $(".K").css('display','none');
     });
 
     /*********切换显示/隐藏table 多样化价格*********/

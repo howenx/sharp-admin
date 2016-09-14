@@ -62,6 +62,7 @@
             var trData = $(obj).parent().parent();
             var count = 0;
             var skuObj = new Object();
+            var invArea = "";
             trData.find("td").each(function(){
                 if (count==1) skuObj.invId = $(this).text();
                 if (count==2) skuObj.itemSize = $(this).text();
@@ -74,20 +75,20 @@
                 if (count==9) skuObj.restrictAmount = $(this).text();
                 if (count==10) skuObj.restAmount = $(this).text();
                 if (count==11) skuObj.invWeight = $(this).text();
-                if (count==12) skuObj.postalTaxCode = $(this).text();
-                var invArea = "";
-                if (count==13) {
+                if (count==12) {
                     skuObj.invArea = $(this).text();
                     invArea = skuObj.invArea;
                 }
-                if (invArea.indexOf("K")<0) {
-                    if (count==14) skuObj.invCustoms = $(this).text();
-                    if (count==15) skuObj.recordCode = $(this).text();
+                if (invArea=="K") {
+                    if (count==13) skuObj.invCustoms = $(this).text();
+                    if (count==14) skuObj.postalTaxCode = $(this).text();
+                    if (count==15) skuObj.postalTaxRate = $(this).text();
+                    if (count==16) skuObj.recordCode = $(this).text();
                 }
-                if (count==16) skuObj.invImg = $(this).text();
-                if (count==17) skuObj.itemPreviewImgs = $(this).text();
-                if (count==18) skuObj.orVaryPrice = $(this).text();
-                if (count==19) skuObj.varyPrice = $(this).text();
+                if (count==17) skuObj.invImg = $(this).text();
+                if (count==18) skuObj.itemPreviewImgs = $(this).text();
+                if (count==19) skuObj.orVaryPrice = $(this).text();
+                if (count==20) skuObj.varyPrice = $(this).text();
                 count++;
             });
             sharedObject.skuObj = skuObj;
@@ -274,9 +275,10 @@
                                     <th style="display:none;">限购数量</th>
                                     <th>剩余库存</th>
                                     <th style="display:none;">重量(整数/小数:克)</th>
-                                    <th style="display:none;">商品海关编码</th>
                                     <th style="display:none;">库存区域</th>
                                     <th style="display:none;">报关单位</th>
+                                    <th style="display:none;">HSCODE</th>
+                                    <th style="display:none;">税率(增值税,消费税)</th>
                                     <th style="display:none;">海关商品备案号</th>
                                     <th style="display:none;">主图</th>
                                     <th style="display:none;">预览图</th>
@@ -318,9 +320,10 @@
                                     <td style="display:none;">@obj(12)</td>
                                     <td>@obj(14)</td>
                                     <td style="display:none;">@obj(11)</td>
-                                    <td style="display:none;">@obj(18)</td>
                                     <td style="display:none;">@obj(15)</td>
                                     <td style="display:none;">@obj(16)</td>
+                                    <td style="display:none;">@obj(18)</td>
+                                    <td style="display:none;">@obj(17)</td>
                                     <td style="display:none;">@obj(19)</td>
                                     <td style="display:none;">@obj(20)</td>
                                     <td style="display:none;">@obj(21)</td>
