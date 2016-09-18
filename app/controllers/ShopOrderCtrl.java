@@ -101,7 +101,7 @@ public class ShopOrderCtrl extends Controller {
     }
 
     /**
-     *  订单申报
+     *  订单申报    Added By Sunny Wu 2016.09.18
      * @return
      */
     public Result shopOrderDeclara() {
