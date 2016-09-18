@@ -91,7 +91,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class=" col-sm-offset-2 col-sm-1 control-label">ERP推送状态</label>
+            <label class="col-sm-offset-2 col-sm-1 control-label">ERP推送状态</label>
             <div class="col-sm-3">
                 <select id="order-form-erpStatus" class="form-control">
                     <option value=""></option>
@@ -100,12 +100,22 @@
                     <option value="F">推送失败</option>
                 </select>
             </div>
+            <label class="col-sm-1 control-label">订单申报状态</label>
+            <div class="col-sm-3">
+                <select id="order-form-declaraStatus" class="form-control">
+                    <option value=""></option>
+                    <option value="N">未申报</option>
+                    <option value="S">申报成功</option>
+                    <option value="F">申报失败</option>
+                </select>
+            </div>
         </div>
 
         <div class="btn-s">
             <input type="reset" class="btn btn-primary btn-s-2" value='@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.reset.bt")'/>
             <a id="topic-search-bt" href="javascript:void(0)" class="btn btn-primary btn-s-2">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.search.bt")</a>
             <a id="order-export" href="javascript:void(0)" class="btn btn-primary btn-s-2">推送ERP</a>
+            <a id="order-declara" href="javascript:void(0)" class="btn btn-primary btn-s-2">订单申报</a>
         </div>
     </form>
     <div class="table-content">
@@ -125,6 +135,7 @@
                 <th>订单状态</th>
                 <th>库存地</th>
                 <th>ERP推送状态</th>
+                <th>订单申报状态</th>
                 <!--<th>操作</th>-->
             </tr>
             </thead>
@@ -148,7 +159,7 @@
             </tr>
             }
             <!---公用模块,id不能改变,只需要改变合并行数-->
-            <tr id="nodata-td" style="display:none;"><td colspan="12">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
+            <tr id="nodata-td" style="display:none;"><td colspan="13">@Messages.get(new Lang(Lang.forCode(lang)),"themes.search.nodata")</td></tr>
             </tbody>
         </table>
         <!-- 公用分页模块,直接拷贝,传入相应的字段即可-->
@@ -176,7 +187,7 @@
         $("input[name='selectOrder']").prop('checked',$(this).prop("checked"));
     });
 
-    /** 导出订单 **/
+    /** 订单推送到ERP **/
     $("#order-export").click(function(){
         var reg = new RegExp(/^[0-9]\d+$/); //数字验证
         var isPost = true;
@@ -196,15 +207,16 @@
         $("input[name='selectOrder']:checked").each(function(){
             var orderId = $(this).parents("tr").find("td:eq(1)").find("a:eq(0)").text();
             var state = $(this).parents("tr").find("td:eq(9)").find("input:eq(0)").val();
-            //订单成功的才可以推送
-            if (state!="S") {
+            var erpStatus = $(this).parents("tr").find("td:eq(9)").find("input:eq(1)").val();
+            //订单成功且不是推送成功的订单的才可以推送
+            if (state!="S" || erpStatus=="S") {
                 isPost = false;
                 errOrders = errOrders + orderId + ", ";
             } else exportOrders.push(orderId);
         });
         if (!isPost) {
             errOrders = errOrders.substring(0, errOrders.length-2);
-            alert("请检查订单: "+errOrders+" 的状态");
+            alert("请检查订单: "+errOrders+" 的状态和推送状态");
         }
         console.log(JSON.stringify(exportOrders));
         if(isPost){
@@ -238,5 +250,55 @@
             });
         }
     });
+
+    /** 订单申报 **/
+    $("#order-declara").click(function(){
+        var reg = new RegExp(/^[0-9]\d+$/); //数字验证
+        var isPost = true;
+        if($("input[name='selectOrder']:checked").length <= 0){
+            isPost = false;
+            alert("请选择订单");
+            return false;
+        }
+        if(window.confirm("确定申报吗?")){
+        } else{
+            isPost = false;
+            return false;
+        }
+        //被选择订单的ID
+        var exportOrders = [];
+        var errOrders = "";
+        $("input[name='selectOrder']:checked").each(function(){
+            var orderId = $(this).parents("tr").find("td:eq(1)").find("a:eq(0)").text();
+            var state = $(this).parents("tr").find("td:eq(9)").find("input:eq(0)").val();
+            var declaraStatus = $(this).parents("tr").find("td:eq(9)").find("input:eq(2)").val();
+            //订单成功并且未申报成功的订单才可以申报
+            if (state!="S" || declaraStatus=="S") {
+                isPost = false;
+                errOrders = errOrders + orderId + ", ";
+            } else exportOrders.push(orderId);
+        });
+        if (!isPost) {
+            errOrders = errOrders.substring(0, errOrders.length-2);
+            alert("请检查订单: "+errOrders+" 的状态和申报状态");
+        }
+        console.log(JSON.stringify(exportOrders));
+        if(isPost){
+            var orResult = true;
+            $.ajax({
+                type :  "POST",
+                url : "/shopOrder/declara",
+                contentType: "application/json; charset=utf-8",
+                data : JSON.stringify(exportOrders),
+                error : function(request) {
+                    alert("申报失败");
+                },
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+        }
+    });
+
 
 </script>

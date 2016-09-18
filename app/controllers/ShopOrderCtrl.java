@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import com.iwilley.b1ec2.api.ApiException;
 import middle.ShopOrderMiddle;
 import modules.NewScheduler;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -97,5 +98,20 @@ public class ShopOrderCtrl extends Controller {
     public Result salesOrderQuery(Long shopOrderNo) throws ParseException, ApiException {
 
         return ok(Json.toJson(shopOrderMiddle.salesOrderQuery(shopOrderNo.toString())));
+    }
+
+    /**
+     *  订单申报
+     * @return
+     */
+    public Result shopOrderDeclara() {
+        JsonNode json = request().body().asJson();
+        for(int i=0;i<json.size();i++) {
+            Long orderId = (json.get(i)).asLong();
+            //调用订单申报Actor
+            Logger.error(orderId+ "订单申报。。。。");
+            system.actorSelection(SysParCom.ORDER_DECLARA).tell(orderId, ActorRef.noSender());
+        }
+        return ok();
     }
 }

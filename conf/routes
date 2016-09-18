@@ -99,6 +99,8 @@ POST        /comm/import                                                        
 POST        /shopOrder/push                                                         controllers.ShopOrderCtrl.shopOrderPush
 GET         /salesOrder/query/:orderNo                                              controllers.ShopOrderCtrl.salesOrderQuery(orderNo:Long)
 GET         /shop/query                                                             controllers.ShopItemCtrl.shopQuery()
+#订单申报
+POST        /shopOrder/declara                                                      controllers.ShopOrderCtrl.shopOrderDeclara
 
 
 #Carriage --> carr 运费模板设置

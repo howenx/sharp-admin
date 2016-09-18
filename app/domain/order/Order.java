@@ -38,6 +38,8 @@ public class Order implements Serializable {
     private Long pinActiveId;           //拼购活动ID
     private String erpStatus;           //推送ERP状态
 
+    private  String declaraStatus;      //申报状态
+
     //分页,每页多少条
     private Integer pageSize;
     //分页,从第几条开始
@@ -58,7 +60,7 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, BigDecimal shipFee, BigDecimal postalFee, Timestamp confirmReveiveAt, BigDecimal totalFee, Integer shipTime, Integer clientType, Integer orderType, Long pinActiveId, String erpStatus, Integer pageSize, Integer offset, String sort, String order, Timestamp startTime, Timestamp endTime) {
+    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, BigDecimal shipFee, BigDecimal postalFee, Timestamp confirmReveiveAt, BigDecimal totalFee, Integer shipTime, Integer clientType, Integer orderType, Long pinActiveId, String erpStatus, Integer pageSize, Integer offset, String sort, String order, Timestamp startTime, Timestamp endTime, String declaraStatus) {
         this.orderId = orderId;
         this.userId = userId;
         this.payTotal = payTotal;
@@ -86,6 +88,7 @@ public class Order implements Serializable {
         this.order = order;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.declaraStatus = declaraStatus;
     }
 
     @Override
@@ -118,6 +121,7 @@ public class Order implements Serializable {
                 ", order='" + order + '\'' +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
+                ", declaraStatus='" + declaraStatus + '\'' +
                 '}';
     }
 
@@ -335,5 +339,13 @@ public class Order implements Serializable {
 
     public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
+    }
+
+    public String getDeclaraStatus() {
+        return declaraStatus;
+    }
+
+    public void setDeclaraStatus(String declaraStatus) {
+        this.declaraStatus = declaraStatus;
     }
 }

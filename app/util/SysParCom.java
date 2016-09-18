@@ -65,6 +65,8 @@ public class SysParCom {
     public static String SECRET;
     //ERP推送订单
     public static String ERP_ORDER_PUSH;
+    //订单申报
+    public static String ORDER_DECLARA;
 
     public static ConcurrentMap<String, JedisPubSub> JEDIS_SUB;
     public static List<Jedis> JEDIS_COLLECT;
@@ -155,6 +157,8 @@ public class SysParCom {
         SECRET = configuration.getString("erp.secret");
 
         ERP_ORDER_PUSH = configuration.getString("erp.order.push");
+
+        ORDER_DECLARA = configuration.getString("order.declara");
 
         EXECUTOR_SERVICE = new ArrayList<>();
 
