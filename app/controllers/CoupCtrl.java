@@ -58,7 +58,7 @@ public class CoupCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result coupCreate(String lang) {
         List<CouponsCate> couponsCateList = couponsService.getSendCouponsCate();
-        return ok(views.html.coupon.coupadd.render(lang, couponsCateList, (User) ctx().args.get("user")));
+        return ok(views.html.coupon.coupadd.render("cn", couponsCateList, (User) ctx().args.get("user")));
     }
 
     /**
@@ -108,7 +108,7 @@ public class CoupCtrl extends Controller {
         if (countNum%PAGE_SIZE!=0) {
             pageCount = countNum/PAGE_SIZE+1;
         }
-        return ok(views.html.coupon.coupsearch.render(lang, PAGE_SIZE, countNum, pageCount, (User) ctx().args.get("user")));
+        return ok(views.html.coupon.coupsearch.render("cn", PAGE_SIZE, countNum, pageCount, (User) ctx().args.get("user")));
     }
 
     /**
@@ -165,7 +165,7 @@ public class CoupCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result coupCateCreate(String lang) {
-        return ok(views.html.coupon.coupcateadd.render(lang, (User) ctx().args.get("user")));
+        return ok(views.html.coupon.coupcateadd.render("cn", (User) ctx().args.get("user")));
     }
 
     /**
@@ -224,7 +224,7 @@ public class CoupCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result coupCateSearch(String lang) {
-        return ok(views.html.coupon.coupcatesearch.render(lang, couponsService.getAllCouponsCate(), (User) ctx().args.get("user")));
+        return ok(views.html.coupon.coupcatesearch.render("cn", couponsService.getAllCouponsCate(), (User) ctx().args.get("user")));
     }
 
     /**
@@ -275,7 +275,7 @@ public class CoupCtrl extends Controller {
 //        Logger.error("skusList:"+skusList.toString());
 //        Logger.error("catesList:"+catesList.toString());
 //        Logger.error("themeList:"+themeList.toString());
-        return ok(views.html.coupon.coupcateupdate.render(lang, couponsCate, itemList, skusList, catesList, themeList, assignType, SysParCom.IMAGE_URL, (User) ctx().args.get("user")));
+        return ok(views.html.coupon.coupcateupdate.render("cn", couponsCate, itemList, skusList, catesList, themeList, assignType, SysParCom.IMAGE_URL, (User) ctx().args.get("user")));
     }
 
 

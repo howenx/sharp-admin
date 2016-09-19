@@ -90,7 +90,7 @@ public class ThemeCtrl extends Controller {
             }
             slider.setImg(imgUrl+","+width+","+height);
         }
-        return ok(views.html.theme.slider.render(lang,sliderList, SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.slider.render("cn",sliderList, SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
 
@@ -114,7 +114,7 @@ public class ThemeCtrl extends Controller {
             }
             slider.setImg(imgUrl+","+width+","+height);
         }
-        return ok(views.html.theme.category.render(lang,sliderList, SysParCom.CATEGORYCOUNT,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.category.render("cn",sliderList, SysParCom.CATEGORYCOUNT,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
     /**
@@ -186,7 +186,7 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result thadd(String lang) {
 //        flash("success", session("username"));
-        return ok(views.html.theme.thadd.render(lang,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.thadd.render("cn",SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
 
@@ -268,7 +268,7 @@ public class ThemeCtrl extends Controller {
         }
         //Logger.error(resultList.toString());
 
-        return ok(views.html.theme.thsearch.render(lang,SysParCom.IMAGE_URL,PAGE_SIZE,countNum,pageCount,resultList,(User) ctx().args.get("user")));
+        return ok(views.html.theme.thsearch.render("cn",SysParCom.IMAGE_URL,PAGE_SIZE,countNum,pageCount,resultList,(User) ctx().args.get("user")));
     }
 
     /**
@@ -799,7 +799,7 @@ public class ThemeCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result themeTemplates(String lang){
         List<ThemeTemplate> templateList = service.getTemplatesAll();
-        return ok(views.html.theme.templates.render(lang,templateList,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.templates.render("cn",templateList,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
 
     }
 
@@ -957,12 +957,12 @@ public class ThemeCtrl extends Controller {
                         tagsList.add(object);
                     }
                     //主题生成器页面
-                    return ok(views.html.theme.h5BuilderUpd.render(lang,theme,themeImgObject,masterImgObject,idList,indexPage,pinPage,giftPage,tagsList,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+                    return ok(views.html.theme.h5BuilderUpd.render("cn",theme,themeImgObject,masterImgObject,idList,indexPage,pinPage,giftPage,tagsList,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
                 }
                 //H5主题更新页面     Modified by Tiffany Zhu 2016.09.02
                 else {
                     Logger.error("H5主题:" + theme);
-                    return ok(views.html.theme.H5ThemeUpd.render(lang,theme,themeImgObject,idList,indexPage,pinPage,giftPage,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+                    return ok(views.html.theme.H5ThemeUpd.render("cn",theme,themeImgObject,idList,indexPage,pinPage,giftPage,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
                 }
             }
             //主题的商品
@@ -1186,7 +1186,7 @@ public class ThemeCtrl extends Controller {
                 }
             }
 
-            return ok(views.html.theme.themeUpdate.render(lang,theme,itemList,themeImgObject,masterImgObject,tagList,idList,indexPage,pinPage,giftPage,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+            return ok(views.html.theme.themeUpdate.render("cn",theme,itemList,themeImgObject,masterImgObject,tagList,idList,indexPage,pinPage,giftPage,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
         }
         return null;
     }
@@ -1198,7 +1198,7 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result addH5Theme(String lang){
-        return ok(views.html.theme.H5ThemeAdd.render(lang,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.H5ThemeAdd.render("cn",SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
     /**
@@ -1349,7 +1349,7 @@ public class ThemeCtrl extends Controller {
             resultList.add(object);
         }
 
-        return ok(views.html.theme.themeSort.render(lang,resultList,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.themeSort.render("cn",resultList,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
     /**
@@ -1405,7 +1405,7 @@ public class ThemeCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result h5Builder(String lang) {
-        return ok(views.html.theme.h5Builder.render(lang,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
+        return ok(views.html.theme.h5Builder.render("cn",SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,(User) ctx().args.get("user")));
     }
 
     /**

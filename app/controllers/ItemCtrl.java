@@ -123,7 +123,7 @@ public class ItemCtrl extends Controller {
         List<Brands> brandsList = itemService.getAllBrands();
         List<Cates> catesList = itemService.getCatesAll();
         Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
-        return ok(views.html.item.itemsearch.render(lang, SysParCom.IMAGE_URL,PAGE_SIZE,countNum,pageCount,brandsList,catesList,(User) ctx().args.get("user"), area));
+        return ok(views.html.item.itemsearch.render("cn", SysParCom.IMAGE_URL,PAGE_SIZE,countNum,pageCount,brandsList,catesList,(User) ctx().args.get("user"), area));
     }
 
     /**
@@ -224,7 +224,7 @@ public class ItemCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result itemCreate(String lang) {
         List<AdminSupplier> adminSupplierList = adminSupplierService.getAllSuppliers();
-        return ok(views.html.item.itemadd.render(lang,itemService.getAllBrands(),itemService.getParentCates(),SysParCom.IMG_UPLOAD_URL,SysParCom.IMAGE_URL,(User) ctx().args.get("user"), adminSupplierList));
+        return ok(views.html.item.itemadd.render("cn",itemService.getAllBrands(),itemService.getParentCates(),SysParCom.IMG_UPLOAD_URL,SysParCom.IMAGE_URL,(User) ctx().args.get("user"), adminSupplierList));
     }
 
     /**
@@ -302,7 +302,7 @@ public class ItemCtrl extends Controller {
             }
             invList.add(object);
         }
-        return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,SysParCom.IMAGE_URL,lang,(User) ctx().args.get("user"),customs,area,adminSupplierList));
+        return ok(views.html.item.itemdetail.render(item,invList,cates,pCateNm,brands,SysParCom.IMAGE_URL,"cn",(User) ctx().args.get("user"),customs,area,adminSupplierList));
     }
 
     /**
@@ -374,7 +374,7 @@ public class ItemCtrl extends Controller {
             object[25] = inventory.getState();
             invList.add(object);
         }
-        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,lang,itemService.getAllBrands(),itemService.getParentCates(),(User) ctx().args.get("user"), adminSupplierList));
+        return ok(views.html.item.itemupdate.render(item,invList,cates,pCateNm,brands,SysParCom.IMAGE_URL,SysParCom.IMG_UPLOAD_URL,"cn",itemService.getAllBrands(),itemService.getParentCates(),(User) ctx().args.get("user"), adminSupplierList));
     }
 
     /**
@@ -475,7 +475,7 @@ public class ItemCtrl extends Controller {
     public Result carrCreate(String lang) {
         Map<String,String> storeArea = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
         Map<String,String> delivery = new ObjectMapper().convertValue(configuration.getObject("delivery"),HashMap.class);
-        return ok(views.html.carriage.carrmodelAdd.render(lang, (User) ctx().args.get("user"), storeArea, delivery));
+        return ok(views.html.carriage.carrmodelAdd.render("cn", (User) ctx().args.get("user"), storeArea, delivery));
     }
 
     /**
@@ -514,7 +514,7 @@ public class ItemCtrl extends Controller {
             c.setFirstNum(c.getFirstNum()/1000);
             c.setAddNum(c.getAddNum()/1000);
         }
-        return ok(views.html.carriage.carrmodelUpdate.render(lang,carrList,(User) ctx().args.get("user"), storeArea, delivery));
+        return ok(views.html.carriage.carrmodelUpdate.render("cn",carrList,(User) ctx().args.get("user"), storeArea, delivery));
     }
 
     /**
@@ -541,7 +541,7 @@ public class ItemCtrl extends Controller {
             c.setFirstNum(c.getFirstNum()/1000);
             c.setAddNum(c.getAddNum()/1000);
         }
-        return ok(views.html.carriage.carrmodelList.render(lang,modelList,carriageList,(User) ctx().args.get("user")));
+        return ok(views.html.carriage.carrmodelList.render("cn",modelList,carriageList,(User) ctx().args.get("user")));
     }
 
     @Security.Authenticated(UserAuth.class)
@@ -557,7 +557,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result brandList(String lang) {
-        return ok(views.html.item.brandsearch.render(lang,SysParCom.IMAGE_URL,itemService.getAllBrands(),(User) ctx().args.get("user")));
+        return ok(views.html.item.brandsearch.render("cn",SysParCom.IMAGE_URL,itemService.getAllBrands(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -567,7 +567,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result brandAdd(String lang) {
-        return ok(views.html.item.brandadd.render(lang,(User) ctx().args.get("user"),SysParCom.IMG_UPLOAD_URL,SysParCom.IMAGE_URL));
+        return ok(views.html.item.brandadd.render("cn",(User) ctx().args.get("user"),SysParCom.IMG_UPLOAD_URL,SysParCom.IMAGE_URL));
     }
 
     /**
@@ -585,7 +585,7 @@ public class ItemCtrl extends Controller {
             return badRequest();
         }
         itemService.insertBrands(json);
-        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
+        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode("cn")),"message.save.success")));
     }
 
     /**
@@ -613,7 +613,7 @@ public class ItemCtrl extends Controller {
             object[5] = cates.getCateCode();        //类别Code
             caList.add(object);
         }
-        return ok(views.html.item.catesearch.render(lang,caList,(User) ctx().args.get("user")));
+        return ok(views.html.item.catesearch.render("cn",caList,(User) ctx().args.get("user")));
     }
 
     /**
@@ -623,7 +623,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result cateAdd(String lang) {
-        return ok(views.html.item.cateadd.render(lang,itemService.getParentCates(),(User) ctx().args.get("user")));
+        return ok(views.html.item.cateadd.render("cn",itemService.getParentCates(),(User) ctx().args.get("user")));
     }
 
     /**
@@ -642,7 +642,7 @@ public class ItemCtrl extends Controller {
         }
         itemService.catesSave(json);
         Logger.error(json.toString());
-        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode(lang)),"message.save.success")));
+        return ok(Json.toJson(Messages.get(new Lang(Lang.forCode("cn")),"message.save.success")));
     }
 
     /**
@@ -675,7 +675,7 @@ public class ItemCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result msgPush(String lang) {
-        return ok(views.html.item.msgpush.render(lang, (User) ctx().args.get("user")));
+        return ok(views.html.item.msgpush.render("cn", (User) ctx().args.get("user")));
     }
 
     /**

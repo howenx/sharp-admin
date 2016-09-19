@@ -192,7 +192,7 @@ public class OrderCtrl extends Controller {
 
         }
         Map<String,String> area = new ObjectMapper().convertValue(configuration.getObject("area"),HashMap.class);
-        return ok(views.html.order.ordersearch.render(lang, ThemeCtrl.PAGE_SIZE, countNum, pageCount, orList,area, (User) ctx().args.get("user")));
+        return ok(views.html.order.ordersearch.render("cn", ThemeCtrl.PAGE_SIZE, countNum, pageCount, orList,area, (User) ctx().args.get("user")));
 
     }
 
@@ -478,7 +478,7 @@ public class OrderCtrl extends Controller {
             userObject[1] = "";
         }
 
-        return ok(views.html.order.orderdetail.render(lang, orderArray, orderShip, subOrdersAll, SysParCom.IMAGE_URL, userObject, invArea,SysParCom.EXP_COMPANY_MAP,(User) ctx().args.get("user")));
+        return ok(views.html.order.orderdetail.render("cn", orderArray, orderShip, subOrdersAll, SysParCom.IMAGE_URL, userObject, invArea,SysParCom.EXP_COMPANY_MAP,(User) ctx().args.get("user")));
     }
 
     /**
@@ -532,7 +532,7 @@ public class OrderCtrl extends Controller {
             orList.add(object);
 
         }
-        return ok(views.html.order.outTimeUnpaidOrders.render(lang, orList, (User) ctx().args.get("user")));
+        return ok(views.html.order.outTimeUnpaidOrders.render("cn", orList, (User) ctx().args.get("user")));
     }
 
     /**
@@ -607,7 +607,7 @@ public class OrderCtrl extends Controller {
             resultList.add(object);
         }
 
-        return ok(views.html.order.refund.render(lang, ThemeCtrl.PAGE_SIZE, countNum, pageCount, resultList, (User) ctx().args.get("user")));
+        return ok(views.html.order.refund.render("cn", ThemeCtrl.PAGE_SIZE, countNum, pageCount, resultList, (User) ctx().args.get("user")));
 
     }
 
@@ -812,7 +812,7 @@ public class OrderCtrl extends Controller {
         //获取支付宝退款参数
         Map<String,String> alipayParams = new HashMap<String,String>();
         alipayParams = alipayCtrl.getRefundParams(refundTemp.getOrderId());
-        return ok(views.html.order.refundDetail.render(lang, refundTemp, order, resultOrderLineList, userInfo, orderShip, SysParCom.IMAGE_URL, alipayParams,(User) ctx().args.get("user")));
+        return ok(views.html.order.refundDetail.render("cn", refundTemp, order, resultOrderLineList, userInfo, orderShip, SysParCom.IMAGE_URL, alipayParams,(User) ctx().args.get("user")));
     }
 
 
@@ -939,7 +939,7 @@ public class OrderCtrl extends Controller {
             }
             resultList.add(order);
         }
-        return ok(views.html.order.signedOrders.render(lang, resultList, (User) ctx().args.get("user")));
+        return ok(views.html.order.signedOrders.render("cn", resultList, (User) ctx().args.get("user")));
     }
 
     /**
