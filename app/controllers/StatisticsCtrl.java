@@ -364,6 +364,6 @@ public class StatisticsCtrl extends Controller {
         }
 
         //返回数据:   今日订单数, 今日付款订单数, 今日销售额, 昨日订单数, 昨日付款订单数, 昨日销售额,
-        return ok(views.html.summary.summary.render(lang,(User) ctx().args.get("user"),returnMap));
+        return ok(views.html.summary.summary.render("cn",(User) ctx().args.get("user"),returnMap));
     }
 }

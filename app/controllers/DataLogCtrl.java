@@ -44,7 +44,7 @@ public class DataLogCtrl extends Controller {
         }
         dataLog.setPageSize(PAGE_SIZE);
         dataLog.setOffset(0);
-        return ok(views.html.datalog.datalogserarch.render(lang, PAGE_SIZE, countNum, pageCount, dataLogService.getDataLogPage(dataLog), (User) ctx().args.get("user")));
+        return ok(views.html.datalog.datalogserarch.render("cn", PAGE_SIZE, countNum, pageCount, dataLogService.getDataLogPage(dataLog), (User) ctx().args.get("user")));
     }
 
     /**
@@ -88,7 +88,7 @@ public class DataLogCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result findDataLogById(String lang, Long id) {
         DataLog dataLog = dataLogService.getDataLog(id);
-        return ok(views.html.datalog.datalogdetail.render(lang, dataLog, (User) ctx().args.get("user")));
+        return ok(views.html.datalog.datalogdetail.render("cn", dataLog, (User) ctx().args.get("user")));
     }
 
 }

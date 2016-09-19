@@ -74,7 +74,7 @@ public class PingouCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result addPingou(String lang){
 
-        return ok(views.html.pingou.pingouAdd.render(lang, SysParCom.IMAGE_URL,(User) ctx().args.get("user")));
+        return ok(views.html.pingou.pingouAdd.render("cn", SysParCom.IMAGE_URL,(User) ctx().args.get("user")));
 
     }
 
@@ -318,7 +318,7 @@ public class PingouCtrl extends Controller {
 
             rtnPinSkuList.add(object);
         }
-        return ok(views.html.pingou.pingouSearch.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,rtnPinSkuList,SysParCom.IMAGE_URL,(User) ctx().args.get("user")));
+        return ok(views.html.pingou.pingouSearch.render("cn",ThemeCtrl.PAGE_SIZE,countNum,pageCount,rtnPinSkuList,SysParCom.IMAGE_URL,(User) ctx().args.get("user")));
 
 
     }
@@ -469,7 +469,7 @@ public class PingouCtrl extends Controller {
                 }
                 tieredList.add(object);
             }
-            return ok(views.html.pingou.pingouUpdate.render(lang,pinSku,img,tieredList,SkuEndDate,SysParCom.IMAGE_URL,(User) ctx().args.get("user")));
+            return ok(views.html.pingou.pingouUpdate.render("cn",pinSku,img,tieredList,SkuEndDate,SysParCom.IMAGE_URL,(User) ctx().args.get("user")));
         }
         return null;
     }
@@ -557,7 +557,7 @@ public class PingouCtrl extends Controller {
             }
             tieredList.add(object);
         }
-        return ok(views.html.pingou.activityManualAdd.render(lang,pinSku,tieredList,(User) ctx().args.get("user")));
+        return ok(views.html.pingou.activityManualAdd.render("cn",pinSku,tieredList,(User) ctx().args.get("user")));
     }
 
     /**
@@ -691,7 +691,7 @@ public class PingouCtrl extends Controller {
             }
             rtnPinActivityList.add(object);
         }
-        return ok(views.html.pingou.activitySearch.render(lang,ThemeCtrl.PAGE_SIZE,countNum,pageCount,rtnPinActivityList,(User) ctx().args.get("user")));
+        return ok(views.html.pingou.activitySearch.render("cn",ThemeCtrl.PAGE_SIZE,countNum,pageCount,rtnPinActivityList,(User) ctx().args.get("user")));
     }
 
     /**
@@ -846,7 +846,7 @@ public class PingouCtrl extends Controller {
                     }
                 }
             }
-            return ok(views.html.pingou.activityDetail.render(lang,pinActivity,pinCoupon,masterObject,memberObject,(User) ctx().args.get("user")));
+            return ok(views.html.pingou.activityDetail.render("cn",pinActivity,pinCoupon,masterObject,memberObject,(User) ctx().args.get("user")));
         }
        return null;
     }
@@ -982,6 +982,6 @@ public class PingouCtrl extends Controller {
             rtnActivityList.add(activity);
         }
         PinSku pinSku = pingouService.getPinSkuById(pinId);
-        return ok(views.html.pingou.pingouActivityList.render(lang,pinSku,rtnActivityList,(User) ctx().args.get("user")));
+        return ok(views.html.pingou.pingouActivityList.render("cn",pinSku,rtnActivityList,(User) ctx().args.get("user")));
     }
 }

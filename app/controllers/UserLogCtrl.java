@@ -42,7 +42,7 @@ public class UserLogCtrl extends Controller {
         }
         userLog.setPageSize(PAGE_SIZE);
         userLog.setOffset(0);
-        return ok(views.html.datalog.userlogsearch.render(lang, PAGE_SIZE, countNum, pageCount, userLogService.getUserLogPage(userLog), (User) ctx().args.get("user")));
+        return ok(views.html.datalog.userlogsearch.render("cn", PAGE_SIZE, countNum, pageCount, userLogService.getUserLogPage(userLog), (User) ctx().args.get("user")));
     }
 
     /**
@@ -87,6 +87,6 @@ public class UserLogCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result findUserLogById(String lang, Long id) {
         UserLog userLog = userLogService.getUserLog(id);
-        return ok(views.html.datalog.userlogdetail.render(lang, userLog, (User) ctx().args.get("user")));
+        return ok(views.html.datalog.userlogdetail.render("cn", userLog, (User) ctx().args.get("user")));
     }
 }

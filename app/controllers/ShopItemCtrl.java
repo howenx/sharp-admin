@@ -68,7 +68,7 @@ public class ShopItemCtrl extends Controller {
         int skuNum = skuInfoList.size();
         //共分几页
         int pageCount = (int) Math.ceil((double) countNum / pageSize);
-        return ok(views.html.item.erp_itemlist.render(lang,itemInfoList,skuInfoList,ThemeCtrl.PAGE_SIZE,countNum,pageCount, (User)ctx().args.get("user")));
+        return ok(views.html.item.erp_itemlist.render("cn",itemInfoList,skuInfoList,ThemeCtrl.PAGE_SIZE,countNum,pageCount, (User)ctx().args.get("user")));
     }
 
     /**

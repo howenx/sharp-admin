@@ -70,7 +70,7 @@ public class DataCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result systemParameterSearch(String lang){
-        return ok(views.html.data.sysparamsearch.render(lang, sysParamService.getParamAll(), (User) ctx().args.get("user")));
+        return ok(views.html.data.sysparamsearch.render("cn", sysParamService.getParamAll(), (User) ctx().args.get("user")));
     }
 
     /**
@@ -80,7 +80,7 @@ public class DataCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result systemParameterAdd(String lang){
-        return ok(views.html.data.sysparamadd.render(lang, (User) ctx().args.get("user")));
+        return ok(views.html.data.sysparamadd.render("cn", (User) ctx().args.get("user")));
     }
 
     /**
@@ -109,7 +109,7 @@ public class DataCtrl extends Controller {
     @Security.Authenticated(UserAuth.class)
     public Result smsSend(String lang) {
         Map<String,String> tempList = new ObjectMapper().convertValue(configuration.getObject("sms_template"),HashMap.class);
-        return ok(views.html.data.smsSend.render(lang, tempList, (User) ctx().args.get("user")));
+        return ok(views.html.data.smsSend.render("cn", tempList, (User) ctx().args.get("user")));
     }
 
     /**
@@ -171,7 +171,7 @@ public class DataCtrl extends Controller {
         if (countNum%PAGE_SIZE!=0) {
             pageCount = countNum/PAGE_SIZE+1;
         }
-        return ok(views.html.data.salesdata.render(lang, PAGE_SIZE, countNum, pageCount, (User) ctx().args.get("user")));
+        return ok(views.html.data.salesdata.render("cn", PAGE_SIZE, countNum, pageCount, (User) ctx().args.get("user")));
     }
 
     /**
@@ -433,7 +433,7 @@ public class DataCtrl extends Controller {
         if (countNum%PAGE_SIZE!=0) {
             pageCount = countNum/PAGE_SIZE+1;
         }
-        return ok(views.html.data.inventorydata.render(lang, PAGE_SIZE, countNum, pageCount,(User) ctx().args.get("user")));
+        return ok(views.html.data.inventorydata.render("cn", PAGE_SIZE, countNum, pageCount,(User) ctx().args.get("user")));
     }
 
     /**

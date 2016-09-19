@@ -82,7 +82,7 @@ public class AdminUserCtrl extends Controller {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
 //        Map<String,String> menus = new ObjectMapper().convertValue(configuration.getObject("menu"),HashMap.class);
-        return ok(views.html.adminuser.adduser.render(lang, userTypeList, (User) ctx().args.get("user")));
+        return ok(views.html.adminuser.adduser.render("cn", userTypeList, (User) ctx().args.get("user")));
     }
 
     /**
@@ -258,7 +258,7 @@ public class AdminUserCtrl extends Controller {
         for(Map.Entry<String, String> ut:userTypeList4.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
-        return ok(views.html.adminuser.userinfo.render(lang, userTypeList, (User) ctx().args.get("user")));
+        return ok(views.html.adminuser.userinfo.render("cn", userTypeList, (User) ctx().args.get("user")));
     }
 
     /**
@@ -321,7 +321,7 @@ public class AdminUserCtrl extends Controller {
         for(Map.Entry<String, String> ut:userTypeList4.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
-        return ok(views.html.adminuser.userdetail.render(adminUser, lang, userTypeList, (User) ctx().args.get("user")));
+        return ok(views.html.adminuser.userdetail.render(adminUser, "cn", userTypeList, (User) ctx().args.get("user")));
     }
 
     /**
@@ -331,7 +331,7 @@ public class AdminUserCtrl extends Controller {
      */
     @Security.Authenticated(UserAuth.class)
     public Result adminUserChgPwd(String lang) {
-        return ok(views.html.adminuser.userpwdchg.render(lang, (User) ctx().args.get("user")));
+        return ok(views.html.adminuser.userpwdchg.render("cn", (User) ctx().args.get("user")));
     }
 
     /**
@@ -386,7 +386,7 @@ public class AdminUserCtrl extends Controller {
         for(Map.Entry<String, String> ut:userTypeList4.entrySet()) {
             userTypeList.put(ut.getKey(),ut.getValue());
         }
-        return ok(views.html.adminuser.usersearch.render(lang, adminUserList, userTypeList, (User) ctx().args.get("user")));
+        return ok(views.html.adminuser.usersearch.render("cn", adminUserList, userTypeList, (User) ctx().args.get("user")));
     }
 
     /**
@@ -446,7 +446,7 @@ public class AdminUserCtrl extends Controller {
         }
         id.setPageSize(PAGE_SIZE);
         id.setOffset(0);
-        return ok(views.html.adminuser.appusersearch.render(lang, PAGE_SIZE, countNum, pageCount, idService.getIDPage(id),SysParCom.IMAGE_URL, (User) ctx().args.get("user")));
+        return ok(views.html.adminuser.appusersearch.render("cn", PAGE_SIZE, countNum, pageCount, idService.getIDPage(id),SysParCom.IMAGE_URL, (User) ctx().args.get("user")));
     }
 
     /**
