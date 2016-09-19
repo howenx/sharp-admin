@@ -132,13 +132,15 @@
                                 <th>已售数量</th>
                                 <th>限购数量</th>
                                 <th>重量(整数:毫克)</th>
-                                <th>商品海关编码</th>
                                 <!--<th>运费设置</th>-->
+
                                 <th>库存区域</th>
-                                <!--<th>税率</th>-->
-                                <!--<th>行邮税号</th>-->
                                 <th>报关单位</th>
+                                <th>HSCODE</th>
+                                <th>税率(增值税,消费税)</th>
+                                <!--<th>行邮税号</th>-->
                                 <th>海关商品备案号</th>
+
                                 <th>详情页预览图(最多6张)</th>
                                 <th>是否存在多样化价格</th>
                             </tr>
@@ -178,7 +180,7 @@
                                     <td>@obj(22)</td>
                                     <td>@obj(9)</td>
                                     <td>@obj(3)</td>
-                                    <td>@obj(11)</td>
+
                                     <td>
                                         @for(a <- area) {
                                         @if(obj(12)==a.toString.substring(1,a.toString.length-1).split(",")(0)) {
@@ -186,7 +188,7 @@
                                         }
                                         }
                                     </td>
-                                    @if(obj(12).toString().indexOf("K")<0) {
+                                    @if(obj(12).toString()=="K") {
                                         <td>
                                             @for(c <- customs) {
                                             @if(obj(13)==c.toString.substring(1,c.toString.length-1).split(",")(0)) {
@@ -194,19 +196,23 @@
                                             }
                                             }
                                         </td>
+                                        <td>@obj(11)</td>
+                                        <td>@obj(10)</td>
                                         <td>
                                             @if(obj(17)!="0") {
                                                 @for(recordCode <- obj(17).toString().substring(1,obj(17).toString().length-1).split(", ")) {
                                                 @for(c <- customs) {
                                                 @if(recordCode.substring(1,recordCode.indexOf(":")-1)==c.toString.substring(1,c.toString.length-1).split(",")(0)) {
-                                                <div class="record"><span>@c.toString.substring(1,c.toString.length-1).split(",")(1) <input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordHZ" style="width:70%;border:0px;"></span></div>
+                                                <div class="record"><span>@c.toString.substring(1,c.toString.length-1).split(",")(1) :<input type="text" value='@recordCode.substring(recordCode.indexOf(":")+3,recordCode.length-1)' name="recordHZ" style="width:70%;border:0px;"></span></div>
                                                 }
                                                 }
                                                 }
                                             }
                                         </td>
                                     }
-                                    @if(obj(12).toString().indexOf("K")>=0) {
+                                    @if(obj(12).toString()!="K") {
+                                        <td>无</td>
+                                        <td>无</td>
                                         <td>无</td>
                                         <td>无</td>
                                     }

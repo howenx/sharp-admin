@@ -84,7 +84,7 @@ GET         /comm/updateById/:id                                                
 GET         /$lang<(cn|en|kr)>/comm/updateById/:id                                  controllers.ItemCtrl.updateItemById(lang,id:Long)
 GET         /comm/poup                                                              controllers.ItemCtrl.goodsPop()
 GET         /item/export                                                            controllers.ItemCtrl.itemExport()
-
+POST        /item/import                                                            controllers.ItemCtrl.itemImport()
 
 
 
@@ -99,6 +99,8 @@ POST        /comm/import                                                        
 POST        /shopOrder/push                                                         controllers.ShopOrderCtrl.shopOrderPush
 GET         /salesOrder/query/:orderNo                                              controllers.ShopOrderCtrl.salesOrderQuery(orderNo:Long)
 GET         /shop/query                                                             controllers.ShopItemCtrl.shopQuery()
+#订单申报
+POST        /shopOrder/declara                                                      controllers.ShopOrderCtrl.shopOrderDeclara
 
 
 #Carriage --> carr 运费模板设置

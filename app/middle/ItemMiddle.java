@@ -127,7 +127,7 @@ public class ItemMiddle {
                     JsonNode jsonInv = jsonNode.findValue("inventory");
                     inventory = Json.fromJson(jsonInv, Inventory.class);
                     inventory.setItemId(item.getId());
-                    inventory.setPostalTaxRate("0");
+//                    inventory.setPostalTaxRate("0");
                     inventory.setItemDiscount(inventory.getItemPrice().divide(inventory.getItemSrcPrice(),2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(10)));
                     String startAt = inventory.getStartAt();//现上架时间
                     String endAt = inventory.getEndAt();//现下架时间

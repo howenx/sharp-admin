@@ -23,16 +23,19 @@ import play.i18n.Lang;
 import play.i18n.Messages;
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
 import scala.concurrent.duration.Duration;
 import service.*;
+import util.ExcelHelper;
 import util.Regex;
 import util.SysParCom;
 
 import javax.inject.Inject;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -266,7 +269,7 @@ public class ItemCtrl extends Controller {
 //            object[10] = inventory.getCarriageModelCode();
             //由库存表的carriageModelCode 得到 modelName
 //            object[11] = carriageService.getModelName(inventory.getCarriageModelCode());
-//            object[10] = inventory.getPostalTaxRate();
+            object[10] = inventory.getPostalTaxRate();
             object[11] = inventory.getPostalTaxCode();
             object[12] = inventory.getInvArea();
             object[13] = inventory.getInvCustoms();
@@ -348,7 +351,7 @@ public class ItemCtrl extends Controller {
 //            object[23] = carriageService.getModelName(inventory.getCarriageModelCode());
             object[15] = inventory.getInvArea();
             object[16] = inventory.getInvCustoms();
-//            object[17] = inventory.getPostalTaxRate();
+            object[17] = inventory.getPostalTaxRate();
             object[18] = inventory.getPostalTaxCode();
             object[19] = inventory.getRecordCode();
             object[20] = inventory.getInvImg();
@@ -779,23 +782,73 @@ public class ItemCtrl extends Controller {
             r += 1;
         }
         try {
-
             File file = new File(fileName);
             output = new FileOutputStream(file);
             wb.write(output);
             output.close();
-
             // 设置response的Header
             response().setHeader("Content-Disposition", "attachment;filename="
                     + new String(fileName.getBytes()));
-//            response().setHeader("Content-Length", "" + file.length());
-
             return ok(file.getName());
         } catch (Exception e) {
             Logger.error(Throwables.getStackTraceAsString(e));
             return badRequest();
         }
-//        return ok("导出成功");
+    }
+
+    /**
+     * 批量商品数据导入     Added By Sunny.Wu 2016.09.13
+     * @return
+     */
+    @Security.Authenticated(UserAuth.class)
+    public Result itemImport() {
+        Http.MultipartFormData body = request().body().asMultipartFormData();
+        Map<String, String[]> stringMap = body.asFormUrlEncoded();
+        Map<String, String> map = new HashMap<>();
+        stringMap.forEach((k,v) -> map.put(k, v[0]));
+        Http.MultipartFormData.FilePart filePart = body.getFile("itemFile");
+        File file = filePart.getFile();
+        List<String> list=null;
+        try {
+            list=ExcelHelper.exportListFromCsv(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (null!=list && list.size()>0) {
+            String[] str = list.get(0).split(";");
+            if (str.length < 9) {
+                Logger.error("导入表格的列数" + str.length + "不对");
+                return badRequest();
+            }
+            /**
+             * 0-->商品ID(itemId)--> 888015
+             * 1-->SKU ID(id)--> 111014
+             * 2-->SKU 编码--> 8805301000085
+             * 3-->商品标题(invTitle)--> W.DRESSROOM&SNP面膜贴欧巴面膜补水美白 10片/盒
+             * 4-->规格(itemColor + itemSize)--> 补水海盗款
+             * 5-->商品备案号(recordCode)--> WS8805301000085 -->{"shanghai":"WS8805301000085"}
+             * 6-->HSCODE(postalTaxCode)--> 3304990010
+             * 7-->增值税(postalTaxRate)--> 17%
+             * 8-->消费税(postalTaxRate)--> 0%
+             */
+            String[] data = null;
+            for(int i=1; i<list.size();i++) {
+                data = list.get(i).split(";");
+                Inventory inventory = new Inventory();
+//                inventory = inventoryService.getInventory(112305L);
+                inventory = inventoryService.getInventory(Long.valueOf(data[1]));
+                inventory.setRecordCode("{\"shanghai\":\"" + data[5] + "\"}");
+                inventory.setPostalTaxCode(data[6]);
+                inventory.setPostalTaxRate(data[7].replace("%","") + "," + data[8].replace("%",""));
+                inventoryService.updateInventory(inventory);
+                Logger.error("SKU数据更新后:"+inventory.toString());
+                Logger.info("<br/>"+"第"+(i)+"行成功,SKU ID="+inventory.getId());
+            }
+        }
+        //释放
+        assert list != null;
+        list.clear();
+        return ok();
     }
 
 }

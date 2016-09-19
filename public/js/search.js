@@ -197,6 +197,7 @@ funcList.orderlist_search = function orderlist_search(pageIndex) {
     order.orderStatus = $("#order-form-status option:selected").val();
     order.orderType = parseInt($("#order-form-type").val());
     order.erpStatus = $("#order-form-erpStatus").val();
+    order.declaraStatus = $("#order-form-declaraStatus").val();
     orderDto.order = order;
     orderDto.userPhone = $("#user_phone_num").val();
     orderDto.invArea = $("#order-form-invArea").val();
@@ -300,6 +301,23 @@ funcList.orderlist_data = function orderlist_data(data) {
                 break;
              }
         }
+        //申报状态
+        var declaraStatus = "";
+        if(invArea == "境内发货"){
+            declaraStatus = "无";
+        }else{
+            switch($(this)[12]){
+                case "N":
+                declaraStatus = "未申报";
+                break;
+                case "S":
+                declaraStatus = "申报成功";
+                break;
+                case "F":
+                declaraStatus = "申报失败";
+                break;
+             }
+        }
 
         $('#tb-topic').find('tbody').append('' +
             '<tr class="tb-list-data">' +
@@ -312,9 +330,10 @@ funcList.orderlist_data = function orderlist_data(data) {
             '<td>' + ($(this)[2] != null && $(this)[2] != '' ? $(this)[2].substr(0, 16) : '') + '</td>}' +
             '<td>' + $(this)[3] + '</td>' +
             '<td>' + payMethod + '</td>' +
-            '<td><input type="hidden" value="'+$(this)[5]+'">' + orderStatus + '</td>' +
+            '<td><input type="hidden" name="orderStatus" value="'+$(this)[5]+'"><input type="hidden" name="erpStatus" value="'+$(this)[11]+'"><input type="hidden" name="declaraStatus" value="'+$(this)[12]+'">' + orderStatus + '</td>' +
             '<td>' + invArea + '</td>' +
             '<td>' + erpStatus + '</td>' +
+            '<td>' + declaraStatus + '</td>' +
             '</tr>'
         );
     })
