@@ -1,6 +1,7 @@
 package mapper;
 
 import domain.order.Order;
+import domain.order.OrderCustoms;
 import domain.order.OrderLine;
 
 import java.util.List;
@@ -113,5 +114,18 @@ public interface OrderMapper {
      * @return
      */
     List<Order> getFormerOrder(Order order);
+
+    /**
+     * 更新订单申报数据    Added By Sunny Wu 2016.09.19
+     * @param orderCustoms 订单申报
+     */
+    void updateOrderCustoms(OrderCustoms orderCustoms);
+
+    /**
+     * 根据订单ID获取一条订单申报信息    Added By Sunny Wu 2016.09.19
+     * @param orderId 订单号
+     * @return OrderCustoms
+     */
+    OrderCustoms getOrderCustomsById(Long orderId);
 
 }
