@@ -1,0 +1,84 @@
+@import play.i18n._
+@(lang:String="cn",url:String,uploadUrl:String,user:domain.User)
+@scripts = {
+<link rel="stylesheet" href="/assets/css/jquery-ui.css">
+<link rel="stylesheet" href="/assets/css/slider.css">
+<link rel="stylesheet" href="/assets/css/screenshot.css">
+<link rel="stylesheet" href="/assets/css/upload.css">
+<link rel="stylesheet" href="/assets/css/button.css">
+<link rel="stylesheet" href="/assets/css/font-face.css">
+<link rel="stylesheet" href="/assets/css/search.css">
+<link href="/assets/css/bootstrap-datetimepicker1.css" rel="stylesheet">
+
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/jquery-ui.min.js"></script>
+<script src="/assets/js/Math.uuid.js"></script>
+<script src="/assets/js/upload.style.js"></script>
+<script src="/assets/js/shot.style.js"></script>
+<script src="/assets/js/slider.js"></script>
+<script src="/assets/js/search.js"></script>
+<script src="/assets/js/moment-with-locales.js"></script>
+<script src="/assets/js/bootstrap-datetimepicker1.js"></script>
+<script src="/assets/js/rili.js"></script>
+<script src="/assets/js/theme.js"></script>
+<script src="/assets/js/add-guige.js"></script>
+<script>window.url = "@url"</script>
+<script>window.uploadUrl = "@uploadUrl" + "/upload"</script>
+<script>
+    $(function(){
+        pageEditStatus = true;
+
+    })
+
+</script>
+
+
+}
+
+@import java.lang.String; val title=Messages.get(new Lang(Lang.forCode(lang)),"MMS商品录入")
+
+@layout(lang=lang,title=title,user=user)(scripts) {
+
+<div style="width: 50%;margin: 10px auto;display:none;" class="alert alert-success" role="alert">
+    <strong>Well done!</strong>
+    @if(flash.containsKey("success")) {
+    @flash.get("success")
+    }
+    <span class="close" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+</div>
+
+<div class="mbread">
+    <div class="bread-path">
+        <span class="index">@Messages.get(new Lang(Lang.forCode(lang)),"page.head.path.title")</span>
+        <a href="/@lang/summary"><span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"nav.home")</span></a>
+        <span class="icon-path">&gt;</span>
+        <span class="current">@Messages.get(new Lang(Lang.forCode(lang)),"MMS管理")</span>
+        <span class="icon-path">&gt;</span>
+        <span>@Messages.get(new Lang(Lang.forCode(lang)),"MMS商品录入")</span>
+    </div>
+</div>
+<div class="wrap-slider">
+    <div class="page-title">
+        <span class="title-name">@Messages.get(new Lang(Lang.forCode(lang)),"MMS商品录入")</span>
+    </div>
+    <div class="usercenter-option">
+        <div id="js-usercenter-submit" class="btn-blue btn-form fr ml15">@Messages.get(new
+            Lang(Lang.forCode(lang)),"themes.slider.save")
+        </div>
+        <div id="js-usercenter-cancel" class="btn-white btn-form fr ml20">@Messages.get(new
+            Lang(Lang.forCode(lang)),"themes.slider.cancel")
+        </div>
+        <span id="js-userinfo-error" class="mt20 alt fr"></span>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="form-horizontal">
+
+            </form>
+        </div>
+    </div>
+</div>
+
+}
+

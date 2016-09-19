@@ -398,6 +398,12 @@ GET         /$lang<(cn|en|kr)>/msg/push                                         
 POST        /msg/pushSave                                                           controllers.ItemCtrl.msgPushSave()
 
 
+#MMS管理  merchandise -> merch
+GET         /merch/add                                                              controllers.MMSCtrl.addMerchandise(lang = "cn")
+GET         /$lang<(cn|en|kr)>/merch/add                                            controllers.MMSCtrl.addMerchandise(lang)
+
+
+
 
 
 
